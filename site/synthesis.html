@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Synthesis &amp; self-test · From Graphs to Hubs</title>
+<meta name="description" content="Random networks, scale-free networks and the book's real networks side by side, the key messages of Chapters 2–4, and a self-test.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,85 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/synthesis.js"></script>
 </head>
 <body data-page="synthesis">
 <main><div class="content">
+
+<h1>Synthesis &amp; self-test</h1>
+<p class="lead">Chapters 2–4 in one table: what the random network predicts, what the scale-free model predicts, and what the book's networks actually show (notebook Part IV, corrected).</p>
+
+<table class="simple">
+  <thead><tr><th>Property</th><th>Random network (Ch 3)</th><th>Scale-free network (Ch 4)</th><th>What the data show</th></tr></thead>
+  <tbody>
+    <tr><td>Degree distribution</td><td>Poisson, narrow</td><td>power law, heavy-tailed</td><td>heavy-tailed, except the power grid; a strict power law is plausible for only half of the networks</td></tr>
+    <tr><td>Largest hub</td><td>Poisson: slower than $\ln N$</td><td>$\sim k_{\min} N^{1/(\gamma-1)}$</td><td>hundreds to thousands of links, below the natural cutoff for most networks</td></tr>
+    <tr><td>$\langle k^2\rangle$</td><td>$\langle k\rangle(\langle k\rangle + 1)$</td><td>grows with $N$ for $\gamma < 3$</td><td>$\sigma_k \gg \sqrt{\langle k\rangle}$, except the power grid and (mildly) phone calls</td></tr>
+    <tr><td>Distances</td><td>$\ln N/\ln\langle k\rangle$</td><td>$\ln\ln N$ for $2 < \gamma < 3$</td><td>small worlds, except the power grid</td></tr>
+    <tr><td>Clustering</td><td>$\langle k\rangle/N$, flat in $k$</td><td>configuration model: low unless $\langle k^2\rangle$ is very large</td><td>40 to 10,000 times the random value; $C(k)$ decreases with $k$</td></tr>
+    <tr><td>Giant component</td><td>for $\langle k\rangle > 1$</td><td>configuration model: for $\langle k^2\rangle > 2\langle k\rangle$, i.e. almost always when $\gamma < 3$</td><td>all eight are supercritical</td></tr>
+  </tbody>
+</table>
+<div class="callout fix" data-errata="N20"></div>
+<div class="callout fix" data-errata="N13"></div>
+
+<h2>The eight networks at a glance</h2>
+<div id="tbl-measured"></div>
+
+<h2>Key messages</h2>
+<ol>
+  <li>Random networks are the <strong>null model</strong>. They get the existence of a giant component and the small-world property right, and fail on hubs and clustering.</li>
+  <li>Real degree distributions are <strong>heavy-tailed</strong>. Plot them with log-binning or the CCDF, and fit them by maximum likelihood with a goodness-of-fit test, never by least squares on a raw histogram.</li>
+  <li>Heavy tails mean a large $\langle k^2\rangle$ and <strong>no characteristic scale</strong>. This, rather than the exact functional form of the tail, drives robustness (Ch 8) and spreading (Ch 10).</li>
+  <li><strong>Degree-preserving randomization</strong> separates what the degree sequence explains from what it does not.</li>
+  <li><strong>Check everything</strong>: software defaults (powerlaw's $\gamma \le 3$), approximations (the closed-form MLE, the rounding sampler, the continuous CCDF), and generalisations from a single network.</li>
+</ol>
+
+<h2>Self-test</h2>
+<div class="quiz" data-answer="3">
+  <p>A network has $N = 10^4$ and $\langle k\rangle = 2$. Without further information, which statement is most likely true if it were a random network?</p>
+  <ol><li>It has no giant component</li><li>It is connected</li><li>It has a giant component holding about 80% of the nodes</li><li>It has a hub with about 100 links</li></ol>
+  <div class="explain">$\langle k\rangle = 2 > 1$: supercritical. $S = 1 - e^{-2S}$ gives $S \approx 0.80$. It is not connected, since $\langle k\rangle < \ln N \approx 9.2$, and its largest degree would be about 9.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>On a log-log plot of the linearly binned $p_k$, the tail flattens into a horizontal line. What is the best explanation?</p>
+  <ol><li>The degree distribution has a cutoff</li><li>Degrees in the tail are held by single nodes, so $p_k = 1/N$ for each of them</li><li>The network is assortative</li><li>The exponent is close to 2</li></ol>
+  <div class="explain">It is sampling noise. Log-binning or the CCDF removes it.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>A fit gives $\hat\gamma = 2.95$ with $k_{\min} = 36$ when $\gamma$ is restricted to $\le 3$, and $\hat\gamma = 3.40$ with $k_{\min} = 70$ without the restriction. Which is the result to report?</p>
+  <ol><li>2.95, because scale-free networks have $\gamma < 3$</li><li>The average, 3.18</li><li>Neither; least squares should be used instead</li><li>3.40: the restriction excluded the best-fitting exponents</li></ol>
+  <div class="explain">A fitting range is an assumption, not a result. The unrestricted fit has a smaller KS distance; the restricted one only reports the best fit among the exponents it was allowed to try.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>After degree-preserving randomization, a network's average clustering drops from 0.6 to 0.002 while its average distance drops from 5.3 to 4.4. What do you conclude?</p>
+  <ol><li>Clustering is not explained by the degrees; the real network's triangles make paths longer</li><li>The randomization was not degree-preserving</li><li>The network is a random network</li><li>Distances are explained by clustering alone</li></ol>
+  <div class="explain">Whatever disappears under degree-preserving randomization is not a consequence of the degree sequence. The randomized network is smaller because links that formed triangles now act as shortcuts.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Which network is most robust to the random failure of 50% of its nodes?</p>
+  <ol><li>A random network with $\langle k\rangle = 1.5$</li><li>A square lattice</li><li>A scale-free network with $\gamma = 2.3$ and the same $\langle k\rangle$ as the others</li><li>A ring</li></ol>
+  <div class="explain">Its $\langle k^2\rangle$ is large, so the Molloy–Reed threshold $f_c = 1 - 1/(\kappa - 1)$ is close to 1. A random network with $\langle k\rangle = 1.5$ breaks at $f_c = 1/3$.</div>
+</div>
+
+<h2>Closing discussion (notebook Part IV)</h2>
+<div class="callout discuss">
+  <ol>
+    <li>The power grid is not scale-free. What constraints prevent hubs in it?</li>
+    <li>If you had to vaccinate 1% of a population against an epidemic spreading on a scale-free contact network, whom would you choose, and why does $\langle k^2\rangle$ matter? (See <a href="epidemics.html">Spreading</a>.)</li>
+    <li>The power-law fit for the collaboration network covers only part of the nodes, and the bootstrap rejects it. Is the network "scale-free"? Does the answer change anything in practice?</li>
+  </ol>
+</div>
+
+<h2>Further reading</h2>
+<ul>
+  <li>A.-L. Barabási, <a href="https://networksciencebook.com/"><em>Network Science</em></a>, Chapters 2–4 and Advanced Topics 3.A–3.G, 4.A–4.C.</li>
+  <li>A. Clauset, C. R. Shalizi, M. E. J. Newman, "Power-law distributions in empirical data", <em>SIAM Review</em> 51, 661 (2009).</li>
+  <li>J. Alstott, E. Bullmore, D. Plenz, "powerlaw: a Python package for analysis of heavy-tailed distributions", <em>PLoS ONE</em> 9, e85777 (2014). See this site's <a href="ch4-fitting.html">bug notes</a> for version 2.0.0.</li>
+  <li>A. D. Broido, A. Clauset, "Scale-free networks are rare", <em>Nat. Commun.</em> 10, 1017 (2019); P. Holme, "Rare and everywhere", <em>Nat. Commun.</em> 10, 1016 (2019).</li>
+  <li>M. E. J. Newman, <em>Networks</em>, 2nd ed., Oxford University Press (2018).</li>
+</ul>
+
 </div></main>
 </body>
 </html>
