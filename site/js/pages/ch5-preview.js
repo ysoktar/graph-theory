@@ -71,7 +71,9 @@ const baSf = (k, m) => (m * (m + 1)) / (k * (k + 1)); // P(K ≥ k)
   let m = 2, job = null;
   const f = figure("#fig-pk", { title: "Degree distribution of a large network", sub: "N = 100,000 nodes, built in a background thread.", cols: "cols-2" });
   const pa = f.panel("P(K ≥ k)"), pb = f.panel("Degree of three nodes as the network grows");
-  const t = stats(f.controls, [{ key: "g", label: "fitted γ̂ (preferential)" }, { key: "kmax", label: "largest degree" }]);
+  const t = stats(f.body, [{ key: "g", label: "fitted γ̂ (preferential)" }, { key: "kmax", label: "largest degree" }]);
+  t.el.style.gridColumn = "1 / -1";
+  f.body.prepend(t.el);
   const status = h("div", { class: "status-line" });
   f.controls.append(status);
   const A = new Plot(pa, { height: 260, x: { type: "log", label: "degree k" }, y: { type: "log", label: "P(K ≥ k)" } });
