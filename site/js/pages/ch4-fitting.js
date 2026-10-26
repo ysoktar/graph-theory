@@ -119,7 +119,7 @@ const ORDER = Object.keys(NAMES);
   let name = "internet", maxGamma = 10;
   const f = figure("#fig-scan", { title: "Choosing k_min: the Clauset–Shalizi–Newman scan", sub: "For every candidate k_min: fit γ by MLE on k ≥ k_min and measure the KS distance D. The best k_min minimises D.", cols: "cols-2" });
   const t = stats(f.body, [
-    { key: "kmin", label: "best k_min" }, { key: "g", label: "γ̂ ± σ" }, { key: "tail", label: "nodes in the tail" }, { key: "py", label: "powerlaw (Python) for comparison" },
+    { key: "kmin", label: "best k_min" }, { key: "g", label: "γ̂ (± σ)" }, { key: "tail", label: "nodes in the tail" }, { key: "py", label: "γ̂ from powerlaw (Python)" },
   ]);
   t.el.style.gridColumn = "1 / -1";
   const pa = f.panel("KS distance D between the data and the fit"), pb = f.panel("Estimated γ̂ for each k_min");
@@ -131,16 +131,16 @@ const ORDER = Object.keys(NAMES);
     fit = fitPowerLaw(d.degreeHist, { maxGamma, maxCandidates: 200, excludeAtBound: true });
     const scan = fit.scan.filter((r) => r.ntail >= 10);
     t.set("kmin", fmt.int(fit.kmin), `D = ${fit.D.toFixed(4)}`);
-    t.set("g", `${fit.gamma.toFixed(2)} ± ${fit.sigma.toFixed(2)}`, maxGamma === 3 ? `${scan.filter((r) => r.atBound).length} candidates discarded (γ̂ would exceed 3)` : "γ allowed up to 10");
+    t.set("g", fit.gamma.toFixed(2), `± ${fit.sigma.toFixed(2)}; ` + maxGamma === 3 ? `${scan.filter((r) => r.atBound).length} candidates discarded (γ̂ would exceed 3)` : "γ allowed up to 10");
     t.set("tail", fmt.int(fit.ntail), `${fmt.pct(fit.tailShare, 1)} of all nodes`);
     const py = maxGamma === 3 && d.powerlaw.defaultRange ? d.powerlaw.defaultRange : d.powerlaw;
-    t.set("py", `k_min = ${py.kmin}, γ̂ = ${py.gamma.toFixed(2)}`, maxGamma === 3 ? "powerlaw 2.0 with its default range" : "powerlaw 2.0, range widened");
+    t.set("py", py.gamma.toFixed(2), `k_min = ${py.kmin}; ` + (maxGamma === 3 ? "powerlaw 2.0, default range" : "powerlaw 2.0, range widened"));
     const rules = [{ x: fit.kmin, label: `k_min = ${fit.kmin}`, color: "theory" }];
-    A.update({ series: [{ type: "line", markers: true, r: 2.5, data: scan.map((r) => [r.kmin, r.D]), color: 1, label: "D" }], rules, xName: "k_min", yFormat: (v) => fmt.fix(v, 4) });
+    A.update({ series: [{ type: "line", data: scan.map((r) => [r.kmin, r.D]), color: 1, label: "D" }], rules, xName: "k_min", yFormat: (v) => fmt.fix(v, 4) });
     B.update({
       series: [
         { type: "range", data: scan.map((r) => [r.kmin, r.gamma - r.sigma, r.gamma + r.sigma]), color: 1, label: "±σ", tooltip: false },
-        { type: "line", markers: true, r: 2.5, data: scan.map((r) => [r.kmin, r.gamma]), color: 1, label: "γ̂" },
+        { type: "line", data: scan.map((r) => [r.kmin, r.gamma]), color: 1, label: "γ̂" },
       ],
       rules: [...rules, ...(maxGamma === 3 ? [{ y: 3, label: "upper bound γ = 3", dashed: true, color: "s8", align: "left" }] : [])],
       y: { min: 1, max: Math.min(10, Math.max(4, ...scan.map((r) => r.gamma)) + 0.3) }, xName: "k_min", yFormat: (v) => fmt.fix(v, 3),
@@ -162,8 +162,8 @@ const ORDER = Object.keys(NAMES);
     altPlot.update({
       series: [
         { type: "scatter", data: c.x.map((x, i) => [x, c.data[i]]), color: 1, label: `${d.description}, k ≥ ${d.powerlaw.kmin}`, r: 3 },
-        ser("power_law", "theory", `power law, γ̂ = ${d.powerlaw.gamma.toFixed(2)}`, true),
         ser("lognormal", 2, "log-normal"), ser("exponential", 3, "exponential"), ser("truncated_power_law", 7, "power law with exponential cutoff"),
+        ser("power_law", "theory", `power law, γ̂ = ${d.powerlaw.gamma.toFixed(2)}`, true),
       ],
       y: { min: Math.min(...c.data) / 2, max: 1.2 }, xName: "k", yFormat: (v) => fmt.sig(v, 3),
     });

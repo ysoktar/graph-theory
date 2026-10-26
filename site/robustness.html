@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robustness &amp; attacks · From Graphs to Hubs</title>
+<meta name="description" content="Random failures against targeted attacks: percolation, the Molloy–Reed criterion, why scale-free networks are robust and fragile at once, tested on the book's networks.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,49 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/robustness.js"></script>
 </head>
 <body data-page="robustness">
 <main><div class="content">
+
+<h1>Robustness &amp; attacks</h1>
+<p class="lead">Routers fail, proteins are knocked out, power stations go offline. How many nodes can a network lose before it falls apart? The answer depends on which nodes are lost, and scale-free networks give two opposite answers (Chapter 8).</p>
+
+<div data-fig id="fig-break"></div>
+
+<h2>Percolation and the Molloy–Reed criterion</h2>
+<p>Removing a random fraction $f$ of the nodes is a percolation problem: above a critical fraction $f_c$ the giant component disappears. A randomly wired network has a giant component when a node reached by following a link has, on average, at least one further link to follow:</p>
+<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 \qquad \text{(Molloy–Reed criterion)}.$$</div>
+<p>Removing nodes at random lowers $\kappa$, and the giant component vanishes at</p>
+<div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}.$$</div>
+<p>For a random network $\kappa = \langle k\rangle + 1$ and $f_c = 1 - 1/\langle k\rangle$. For a scale-free network with $\gamma < 3$, $\langle k^2\rangle$ diverges with $N$, so $f_c \to 1$: an infinite scale-free network cannot be broken by random failures.</p>
+<div id="tbl-fc"></div>
+
+<h2>The book's networks</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <ul>
+    <li>Under random failures, heavy-tailed networks shrink slowly and keep a giant component far beyond the random network's threshold.</li>
+    <li>Under attack the same networks collapse after a few per cent of their nodes are removed, far earlier than a random network of the same size. Their robustness and their fragility have the same cause: the hubs.</li>
+    <li>The power grid has no hubs: random failures and attacks do similar damage, and it is fragile to both.</li>
+  </ul>
+</div>
+
+<div class="callout key">
+  <p>Scale-free networks are <em>robust yet fragile</em>: robust to random failures, because a random node is almost never a hub, and fragile to targeted attacks, because removing the few hubs disconnects everything they held together. The same $\langle k^2\rangle$ that makes them robust appears in the epidemic threshold (<a href="epidemics.html">Spreading</a>).</p>
+</div>
+
+<div class="callout discuss">
+  <p>A network operator can add a few links but not remove hubs. How would you make a scale-free network more resistant to attacks without making it much more fragile to random failures?</p>
+  <div class="hint">Section 8.7 discusses optimal designs: networks with a bimodal degree distribution (a few hubs plus many nodes of equal degree) maximise the combined threshold for failures and attacks. In practice, adding links between medium-degree nodes creates alternative paths that do not run through the hubs, and protecting the hubs themselves is cheaper than protecting everything.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>A random network has $\langle k\rangle = 4$. What fraction of randomly chosen nodes must be removed to destroy its giant component?</p>
+  <ol><li>25%</li><li>50%</li><li>75%</li><li>100%</li></ol>
+  <div class="explain">$f_c = 1 - 1/\langle k\rangle = 1 - 1/4 = 75\%$. The remaining network then has $\langle k\rangle = 1$, the critical point of the random network.</div>
+</div>
+
 </div></main>
 </body>
 </html>

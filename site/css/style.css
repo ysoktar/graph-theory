@@ -426,3 +426,19 @@ a.card:hover { border-color: var(--border-strong); transform: translateY(-1px); 
 @media (max-width: 700px) {
   table.simple { display: block; overflow-x: auto; }
 }
+
+/* ---------- formula sheet ---------- */
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)); gap: 10px; }
+.formula { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 10px 14px; min-width: 0; }
+.formula .eq { margin: 0.4rem 0; font-size: 0.92rem; }
+.formula-name { font-weight: 600; font-size: 0.9rem; }
+.gloss dt { font-weight: 600; margin-top: 0.6rem; }
+.gloss dd { margin: 0.1rem 0 0 0; color: var(--text-2); }
+
+/* ---------- narrow screens: nothing may widen the page ---------- */
+.ctl { max-width: 100%; }
+.ctl select { max-width: 100%; }
+.callout-label { flex-wrap: wrap; }
+.callout-label span { min-width: 0; overflow-wrap: anywhere; }
+/* KaTeX's hidden MathML copy can stick out past the right edge in Chromium; clip it at the article */
+main { overflow-x: clip; }

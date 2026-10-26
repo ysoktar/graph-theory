@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>No typical degree · From Graphs to Hubs</title>
+<meta name="description" content="Why ⟨k²⟩ diverges in scale-free networks with 2 < γ < 3, simulated sample moments, and how far the book's networks are from having a typical degree.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,45 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/ch4-moments.js"></script>
 </head>
 <body data-page="ch4-moments">
 <main><div class="content">
+
+<h1>No typical degree: what "scale-free" means</h1>
+<p class="lead">In a random network the average degree is a natural scale: almost every node has about $\langle k\rangle$ links. A power law has no such scale, because its second moment grows without bound (Section 4.4).</p>
+
+<h2>Moments of a power law</h2>
+<p>The $n$-th moment of the degree distribution is $\langle k^n\rangle = \sum_k k^n p_k$. For a continuous power law between $k_{\min}$ and $k_{\max}$,</p>
+<div class="eq">$$\langle k^n\rangle = \int_{k_{\min}}^{k_{\max}} k^n p(k)\, dk = \frac{\gamma - 1}{n - \gamma + 1}\, k_{\min}^{\gamma - 1}\left(k_{\max}^{\,n - \gamma + 1} - k_{\min}^{\,n - \gamma + 1}\right).$$</div>
+<p>As the network grows, $k_{\max}$ grows with it (<a href="ch4-hubs.html">previous page</a>). If $n - \gamma + 1 < 0$ the $k_{\max}$ term vanishes and the moment converges; if $n - \gamma + 1 > 0$ it grows without bound. For the typical range $2 < \gamma < 3$:</p>
+<ul>
+  <li>the first moment $\langle k\rangle$ is finite;</li>
+  <li>the second moment $\langle k^2\rangle$, and with it the variance $\sigma_k^2 = \langle k^2\rangle - \langle k\rangle^2$, <strong>diverges</strong> as $N \to \infty$.</li>
+</ul>
+<div data-fig id="fig-theory"></div>
+<div data-fig id="fig-sim"></div>
+<div class="callout look">
+  <p>The power law's sample mean settles quickly, but its $\langle k^2\rangle$ keeps climbing with $N$ along the predicted slope, while the Poisson value stays put. With $\gamma > 3$ (try 3.5) both moments converge, and a large network is hard to tell apart from a random one by its moments alone.</p>
+</div>
+
+<h2>The book's networks</h2>
+<p>For a random network $\sigma_k = \sqrt{\langle k\rangle}$: with $\langle k\rangle = 9$, 99.7% of the nodes have between 0 and 18 links. If a network has $\sigma_k \gg \sqrt{\langle k\rangle}$, a randomly chosen node can have one link or a thousand, and $\langle k\rangle$ tells us little about it.</p>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>In six of the eight networks $\sigma_k$ is 3 to 20 times the random value, and in five it exceeds $\langle k\rangle$ itself (11 times for email). The power grid ($\sigma_k = 1.79$ against 1.63) behaves like a random network, and the phone-call network is only mildly broader (1.57 times). "No typical degree" describes most, but not all, real networks.</p>
+</div>
+
+<div class="callout key">
+  <p>$\langle k^2\rangle$ is the quantity that matters in the chapters ahead. It sets the threshold of the giant component in the configuration model ($\langle k^2\rangle > 2\langle k\rangle$, the Molloy–Reed criterion), the robustness of a network to random failures (Ch 8) and the epidemic threshold (Ch 10). A network with a divergent $\langle k^2\rangle$ has a giant component that is very hard to destroy by removing random nodes.</p>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>For which values of $\gamma$ does $\langle k^3\rangle$ stay finite as $N \to \infty$?</p>
+  <ol><li>$\gamma > 4$</li><li>$\gamma > 3$</li><li>$\gamma > 2$</li><li>Never</li></ol>
+  <div class="explain">$\langle k^n\rangle$ converges when $n - \gamma + 1 < 0$, that is $\gamma > n + 1$. For $n = 3$ that is $\gamma > 4$.</div>
+</div>
+
 </div></main>
 </body>
 </html>

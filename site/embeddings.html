@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graph ML &amp; node embeddings · From Graphs to Hubs</title>
+<meta name="description" content="Spectral and DeepWalk embeddings of the karate club, random walks as sentences, message passing in graph neural networks, and link prediction on the book's networks.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/embeddings.js"></script>
+</head>
+<body data-page="embeddings">
+<main><div class="content">
+
+<h1>Graph machine learning &amp; node embeddings</h1>
+<p class="lead">Machine-learning models expect vectors, not networks. A <strong>node embedding</strong> maps each node to a vector so that nodes close in the network are close in space. The vectors can then be used to classify nodes, find communities or predict missing links.</p>
+
+<h2>Spectral embedding</h2>
+<p>The oldest embedding uses eigenvectors of the graph Laplacian. For the normalised Laplacian $\mathcal L = I - D^{-1/2} A D^{-1/2}$, the eigenvector of the second-smallest eigenvalue (the <em>Fiedler vector</em>) solves a relaxed version of the problem "cut the network into two groups with as few links between them as possible". Its sign splits the network in two; the next eigenvectors add further coordinates.</p>
+
+<h2>Random-walk embeddings</h2>
+<p>DeepWalk (Perozzi, Al-Rfou and Skiena, 2014) and node2vec (Grover and Leskovec, 2016) borrow from language models: nodes that appear near each other in short random walks should get similar vectors, just as word2vec gives similar vectors to words that appear in similar contexts. node2vec biases the walks with two parameters to interpolate between breadth-first (local) and depth-first (exploratory) neighbourhoods.</p>
+<div data-fig id="fig-embed"></div>
+<div class="callout look">
+  <p>The karate club split into two factions after a dispute between the instructor (Mr. Hi, node 0) and the club's officer (node 33). Both embeddings recover the split from the links alone: the sign of a single coordinate assigns nearly every member to the faction they joined. The few exceptions sit between the two groups in the network too.</p>
+</div>
+<div data-fig id="fig-walk"></div>
+
+<h2>Graph neural networks</h2>
+<p>Instead of computing an embedding once, a <strong>graph neural network</strong> learns it for a task. Its building block is <em>message passing</em>: in each layer every node combines its own vector with its neighbours' vectors, typically $h_v^{(l+1)} = \sigma\big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\big)$ (a graph convolutional network, Kipf and Welling 2017). With $l$ layers a node sees its neighbourhood up to distance $l$. The figure leaves out the learned weights $W$ and the non-linearity $\sigma$ to show what the averaging alone does.</p>
+<div data-fig id="fig-gnn"></div>
+
+<h2>Link prediction</h2>
+<p>Many networks are measured incompletely: protein interactions not yet tested, friendships not yet declared. Link prediction ranks the missing pairs by how likely they are to be linked. Classic scores use the neighbourhoods of the two nodes $u$ and $v$:</p>
+<ul>
+  <li><strong>common neighbours</strong> $|N(u) \cap N(v)|$, and its normalised form, the <strong>Jaccard</strong> index $|N(u) \cap N(v)|/|N(u) \cup N(v)|$;</li>
+  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$, which gives more weight to shared neighbours that have few links;</li>
+  <li><strong>preferential attachment</strong> $k_u k_v$, the score suggested by the Barabási–Albert model.</li>
+</ul>
+<div data-fig id="fig-links"></div>
+
+<div class="callout discuss">
+  <p>Common-neighbour scores assume triadic closure (friends of friends become friends). For which of the book's networks would you expect that to fail, and why?</p>
+  <div class="hint">Triadic closure is a social mechanism; it works for collaboration and phone calls, which have high clustering. Protein interaction networks are known to be poorly predicted by common neighbours, because two proteins that bind the same partner often compete for the same binding site and therefore do not bind each other; Kovács et al. (Nat. Commun. 2019) proposed counting paths of length three instead. The power grid has almost no triangles at all.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>After many message-passing layers with plain averaging, every node of a connected network ends up with almost the same value. What is this effect called?</p>
+  <ol><li>Overfitting</li><li>Over-smoothing</li><li>Percolation</li><li>Assortativity</li></ol>
+  <div class="explain">Repeated averaging is a random walk that converges to its stationary distribution, which carries no information about the starting labels. Deep GNNs counter it with residual connections, normalisation or attention.</div>
+</div>
+
+</div></main>
+</body>
+</html>

@@ -342,4 +342,40 @@ export function* nullClustering({ N, L, hist, seed = 2026 }) {
   };
 }
 
-export const TASKS = { nullClustering, powerLawGoF,  distanceVsN, kmaxVsN, momentsVsN, estimatorTrials, giantVsK, giantScaling, wattsStrogatzSweep, randomize, sirSweep, baDegrees, multiLinkFraction };
+/**
+ * Bianconi–Barabási fitness model (Ch 6): node i attracts links with probability ∝ ηᵢ kᵢ.
+ * Sampling uses a Fenwick tree over the weights ηᵢ kᵢ. `planted` fixes the fitness of chosen nodes
+ * ({t, eta}), so a page can follow an early, unfit node against a late, fit one.
+ */
+export function* fitnessGrowth({ N, m = 2, fitness = "uniform", planted = [], seed = 2026 }) {
+  const rng = new RNG(seed);
+  const tree = new Float64Array(N + 1), w = new Float64Array(N), eta = new Float64Array(N), deg = new Int32Array(N);
+  const add = (i, d) => { w[i] += d; for (let x = i + 1; x <= N; x += x & -x) tree[x] += d; };
+  let total = 0;
+  const find = (r) => { // smallest i with prefix sum > r
+    let pos = 0, step = 1 << Math.floor(Math.log2(N));
+    for (; step; step >>= 1) if (pos + step <= N && tree[pos + step] <= r) { pos += step; r -= tree[pos]; }
+    return pos;
+  };
+  const plantedAt = new Map(planted.map((p) => [p.t, p.eta]));
+  const draw = (i) => (plantedAt.has(i) ? plantedAt.get(i) : fitness === "equal" ? 1 : rng.random());
+  const m0 = m + 1;
+  for (let i = 0; i < m0; i++) { eta[i] = draw(i); deg[i] = m0 - 1; }
+  for (let i = 0; i < m0; i++) { add(i, eta[i] * deg[i]); total += eta[i] * deg[i]; }
+  const traj = planted.map(() => []);
+  const every = Math.max(1, Math.floor(N / 300));
+  for (let v = m0; v < N; v++) {
+    eta[v] = draw(v);
+    const targets = new Set();
+    while (targets.size < Math.min(m, v)) targets.add(find(rng.random() * total));
+    for (const u of targets) { deg[u]++; add(u, eta[u]); total += eta[u]; }
+    deg[v] = targets.size; add(v, eta[v] * deg[v]); total += eta[v] * deg[v];
+    if (v % every === 0) planted.forEach((p, j) => { if (p.t < v) traj[j].push([v, deg[p.t]]); });
+  }
+  yield { phase: "built" };
+  let kmax = 0, who = 0;
+  for (let i = 0; i < N; i++) if (deg[i] > kmax) { kmax = deg[i]; who = i; }
+  return { hist: S.histogram(deg), traj, kmax, who, whoEta: eta[who] };
+}
+
+export const TASKS = { fitnessGrowth, nullClustering, powerLawGoF,  distanceVsN, kmaxVsN, momentsVsN, estimatorTrials, giantVsK, giantScaling, wattsStrogatzSweep, randomize, sirSweep, baDegrees, multiLinkFraction };

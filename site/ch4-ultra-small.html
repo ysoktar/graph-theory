@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ultra-small worlds · From Graphs to Hubs</title>
+<meta name="description" content="How hubs shorten distances in scale-free networks: ⟨d⟩ ~ ln ln N for 2 &lt; γ &lt; 3, simulated against random networks of the same density.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,40 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/ch4-ultra-small.js"></script>
 </head>
 <body data-page="ch4-ultra-small">
 <main><div class="content">
+
+<h1>Ultra-small worlds</h1>
+<p class="lead">Random networks are small worlds: $\langle d\rangle \sim \ln N$. Hubs make scale-free networks smaller still, because most short paths can pass through a few very well-connected nodes (Section 4.6).</p>
+
+<h2>Four regimes</h2>
+<div class="eq">$$\langle d\rangle \sim \begin{cases} \text{const} & \gamma = 2 \\ \ln\ln N & 2 < \gamma < 3 \\ \dfrac{\ln N}{\ln\ln N} & \gamma = 3 \\ \ln N & \gamma > 3 \end{cases}$$</div>
+<p>For $\gamma = 2$ the largest hub grows linearly with $N$ and is linked to a finite share of all nodes, so distances stay constant. For $2 < \gamma < 3$ hubs of decreasing size form a hierarchy through which any two nodes connect in $\sim\ln\ln N$ steps (Cohen and Havlin, 2003). Above $\gamma = 3$ the hubs are too small to matter and the network behaves like a random one.</p>
+
+<div data-fig id="fig-dn"></div>
+<div class="callout fix" data-errata="N17"></div>
+<div class="callout look">
+  <p>Even with a fair baseline, the network with $\gamma = 2.1$ has the shortest distances and they grow most slowly. The difference between $\ln N$ and $\ln\ln N$ is hard to see over two decades of $N$, though: $\ln\ln N$ changes from 1.5 to 2.3 between $N = 100$ and $30{,}000$. The regimes are asymptotic statements.</p>
+</div>
+<div class="callout note">
+  <p>The degree sequences here are drawn with an exact discrete power-law sampler. The notebook's helper uses a rounding shortcut that over-represents degree 2 at $k_{\min} = 2$ (see <a href="notebook-check.html#N3">N3</a>), which makes its networks slightly sparser.</p>
+</div>
+
+<h2>The book's networks</h2>
+<p>Wiring each network's own degree sequence at random (configuration model) shows what the degrees alone do to distances:</p>
+<div id="tbl-real"></div>
+<div class="callout look">
+  <p>With the same degrees but random wiring, every network except the power grid becomes smaller than its $G(N, L)$ counterpart, by 14% (collaboration) to 56% (email); highlighted rows are more than 20% smaller. The heterogeneous degrees alone shorten paths. Six of the eight real networks are <em>longer</em> than their randomly wired versions: communities and geography use up links locally that would otherwise serve as shortcuts.</p>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>A network with $\gamma = 2.5$ grows from $10^4$ to $10^8$ nodes. Roughly how does $\ln\ln N$ change?</p>
+  <ol><li>It doubles</li><li>From about 2.2 to about 2.9</li><li>It grows tenfold</li><li>It does not change</li></ol>
+  <div class="explain">$\ln\ln 10^4 = \ln 9.2 \approx 2.2$ and $\ln\ln 10^8 = \ln 18.4 \approx 2.9$. Ten thousand times more nodes, about a third longer paths.</div>
+</div>
+
 </div></main>
 </body>
 </html>

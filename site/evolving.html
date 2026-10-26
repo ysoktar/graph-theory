@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evolving networks: fitness · From Graphs to Hubs</title>
+<meta name="description" content="The Bianconi–Barabási fitness model: how a late node with high fitness overtakes older hubs, and how fitness changes the degree exponent.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/evolving.js"></script>
+</head>
+<body data-page="evolving">
+<main><div class="content">
+
+<h1>Evolving networks: fitness</h1>
+<p class="lead">In the Barabási–Albert model the oldest node is always the richest. Real networks have latecomers that win: Google arrived after AltaVista and Yahoo. Chapter 6 adds the missing ingredient, fitness.</p>
+
+<h2>The Bianconi–Barabási model (Section 6.2)</h2>
+<p>Every node $i$ receives a <strong>fitness</strong> $\eta_i$, drawn once from a distribution $\rho(\eta)$, that measures how attractive it is regardless of its degree. New nodes link with probability</p>
+<div class="eq">$$\Pi_i = \frac{\eta_i k_i}{\sum_j \eta_j k_j}.$$</div>
+<p>In the continuum approximation each node's degree still grows as a power of time, but with its own exponent:</p>
+<div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{\beta(\eta_i)}, \qquad \beta(\eta) = \frac{\eta}{C}.$$</div>
+<p>$C$ is fixed by the fitness distribution; for $\eta$ uniform on $[0, 1]$, $C \approx 1.255$. A node with larger $\eta$ grows faster, and over a long enough time it catches up with any older, less fit node. The degree distribution becomes a mixture of power laws, $p_k \sim k^{-(1+C)}/\ln k$, heavier-tailed than BA's $k^{-3}$.</p>
+
+<div data-fig id="fig-race"></div>
+
+<div class="callout key">
+  <p>Fitness separates two reasons a node can be a hub: it came early (BA) or it is attractive (fitness). Measuring how fast nodes acquire links, as the book does for citation and web data, lets us estimate fitness from data (Section 6.3).</p>
+</div>
+
+<h2>Bose–Einstein condensation (Section 6.4)</h2>
+<p>The fitness model maps exactly onto a Bose gas: each node is an energy level $\varepsilon_i = -\frac{1}{\beta}\ln\eta_i$ and each link a particle. For most fitness distributions the network is <em>fit-get-rich</em>: the fittest nodes become hubs, but every hub holds a vanishing share of all links. For some distributions, though, the analogue of Bose–Einstein condensation occurs: a single node grabs a finite fraction of all links, and the network becomes a star-like <em>winner-takes-all</em> network. The book points to the operating-system market as an example.</p>
+
+<div class="callout discuss">
+  <p>Preferential attachment alone predicts that the oldest pages on the web should have the most links. Why is that wrong, and what other ingredients of Chapter 6 might matter?</p>
+  <div class="hint">Pages differ in quality and usefulness (fitness), links and pages disappear (node and link deletion), new links appear between old pages (internal links), and attractiveness fades with age (aging). Each modifies the exponent, and some, like strong aging, can destroy the power law altogether.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>In the fitness model with uniform fitness, a node with $\eta = 1$ arrives at $t = 1{,}000$. How does its degree grow?</p>
+  <ol><li>About as $(t/1000)^{0.8}$</li><li>About as $(t/1000)^{0.5}$, like every node in the BA model</li><li>Linearly in $t$</li><li>It does not grow</li></ol>
+  <div class="explain">$\beta = \eta/C = 1/1.255 \approx 0.8$, faster than BA's 0.5. A node with $\eta = 0.3$ grows only with exponent 0.24.</div>
+</div>
+
+</div></main>
+</body>
+</html>

@@ -43,13 +43,17 @@ export const NAV = [
     { id: "ch4-exponent", title: "The role of γ", book: "4.7", nb: "III.8", desc: "Anomalous, scale-free and random-like regimes." },
     { id: "ch4-generating", title: "Generating networks", book: "4.8", nb: "III.9", desc: "Configuration model and degree-preserving randomization." },
   ] },
-  { part: "Part IV · Synthesis & beyond", items: [
+  { part: "Part IV · Synthesis", items: [
     { id: "synthesis", title: "Synthesis & self-test", nb: "IV", desc: "Random vs. scale-free vs. real, key messages and a quiz." },
-    { id: "ch5-preview", title: "Why hubs? Preferential attachment", book: "Ch 5", desc: "Growth + preferential attachment gives γ = 3." },
+  ] },
+  { part: "Part V · The rest of the course", short: "Ch 5–8", items: [
+    { id: "ch5-preview", title: "The Barabási–Albert model", book: "Ch 5", desc: "Growth + preferential attachment gives γ = 3." },
+    { id: "evolving", title: "Evolving networks: fitness", book: "Ch 6", desc: "Latecomers can win: the Bianconi–Barabási model." },
     { id: "correlations", title: "Degree correlations", book: "Ch 7", desc: "Assortativity r and k_nn(k): who links to whom." },
     { id: "robustness", title: "Robustness & attacks", book: "Ch 8", desc: "Random failures vs. targeted attacks on hubs." },
-    { id: "epidemics", title: "Spreading & vaccination", book: "Ch 10", desc: "Why ⟨k²⟩ sets the epidemic threshold." },
+    { id: "embeddings", title: "Graph ML & node embeddings", desc: "Spectral and random-walk embeddings, link prediction." },
     { id: "communities", title: "Communities", book: "Ch 9", desc: "The karate club split, modularity and label propagation." },
+    { id: "epidemics", title: "Spreading & vaccination", book: "Ch 10", desc: "Why ⟨k²⟩ sets the epidemic threshold." },
   ] },
   { part: "Tools", items: [
     { id: "lab", title: "Network lab", desc: "Generate, load or paste a network and measure everything." },

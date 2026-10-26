@@ -167,3 +167,16 @@ test("real networks: CSR loading reproduces the precomputed summaries", () => {
     close(G.assortativity(g), meta.assortativity, 1e-5, `${name} r`);
   }
 });
+
+test("Louvain finds planted communities and beats the karate club's observed split", async () => {
+  const { louvain, modularity, Graph: Gr } = await import("../site/js/lib/graph.js");
+  const { RNG: R } = await import("../site/js/lib/rng.js");
+  // four cliques of 6 joined in a ring by single links
+  const edges = [];
+  for (let c = 0; c < 4; c++) { for (let i = 0; i < 6; i++) for (let j = i + 1; j < 6; j++) edges.push([6 * c + i, 6 * c + j]); edges.push([6 * c, (6 * c + 6) % 24]); }
+  const g = Gr.fromEdges(24, edges);
+  const lab = louvain(g, new R(1));
+  assert.equal(new Set(lab).size, 4);
+  for (let c = 0; c < 4; c++) for (let i = 1; i < 6; i++) assert.equal(lab[6 * c + i], lab[6 * c]);
+  assert.ok(modularity(g, lab) > 0.6);
+});
