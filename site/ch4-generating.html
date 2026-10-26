@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Generating networks · From Graphs to Hubs</title>
+<meta name="description" content="The configuration model stub by stub, degree-preserving randomization, what a degree sequence explains in the book's networks, and how to draw power-law degrees correctly.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,54 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/ch4-generating.js"></script>
 </head>
 <body data-page="ch4-generating">
 <main><div class="content">
+
+<h1>Generating networks with a given degree distribution</h1>
+<p class="lead">To ask which properties of a real network follow from its degrees alone, we need random networks that share those degrees and nothing else. Section 4.8 gives two ways to build them.</p>
+
+<h2>The configuration model</h2>
+<p>Give node $i$ exactly $k_i$ <em>stubs</em> (half-links), then pair all stubs uniformly at random. Every network with the given degree sequence is then equally likely, but the procedure can create self-loops and repeated links. The probability that nodes $i$ and $j$ are linked is approximately</p>
+<div class="eq">$$p_{ij} \approx \frac{k_i k_j}{2L}.$$</div>
+<div data-fig id="fig-stubs"></div>
+
+<h2>Degree-preserving randomization</h2>
+<p>Start from the real network and repeatedly swap the ends of two random links. Every swap keeps all degrees exactly, and after enough swaps all other structure is scrambled. Unlike the configuration model, no link is ever lost.</p>
+<div data-fig id="fig-swap"></div>
+
+<h2>What the degree sequence explains</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <ul>
+    <li>By construction, the degree sequence reproduces $k_{\max}$ and $\langle k^2\rangle$, which $G(N, L)$ gets badly wrong.</li>
+    <li>The randomized networks are usually <em>smaller</em> than both the real network and $G(N, L)$: hubs act as shortcuts, while in the real network many links are spent inside tightly knit groups.</li>
+    <li>For the collaboration network $\langle C\rangle$ collapses by more than two orders of magnitude and the positive assortativity disappears. Triangles and degree correlations come from other mechanisms: teams of co-authors, communities (Ch 9), homophily (Ch 7).</li>
+  </ul>
+</div>
+<p>The notebook draws a general conclusion from the collaboration network: degrees alone create few triangles. The precomputed configuration-model counterparts of all eight networks tell a more varied story:</p>
+<div id="tbl-cfg"></div>
+<div class="callout fix" data-errata="N19"></div>
+<div class="callout look">
+  <p>For metabolism and email, random wiring of the same degrees recovers more than 40% of the real clustering (highlighted rows). When $\langle k^2\rangle$ is large, hubs share many neighbours by chance. The estimate $(\langle k^2\rangle - \langle k\rangle)^2/(\langle k\rangle^3 N)$ tracks the trend but breaks down above about 0.1 (it even exceeds 1, shown capped). That formula assumes $k_{\max} \ll \sqrt{\langle k\rangle N}$, which these two networks violate.</p>
+</div>
+
+<h2>Drawing power-law degree sequences</h2>
+<p>A configuration model with a power-law degree distribution first needs power-law degrees. The notebook's helper uses a quick rounding formula; the site uses an exact sampler.</p>
+<div data-fig id="fig-sampler"></div>
+<div class="callout fix" data-errata="N3"></div>
+
+<div class="callout key">
+  <p>Comparing a network with its degree-preserving randomization is one of the most useful habits in network science: whatever survives randomization is explained by the degrees; whatever disappears needs another explanation.</p>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>After degree-preserving randomization, the assortativity of the collaboration network drops from 0.13 to about 0. What does that show?</p>
+  <ol><li>The degree sequence was changed by the swaps</li><li>Assortativity cannot be measured in random networks</li><li>The positive correlation between the degrees of linked scientists is not a consequence of the degree sequence</li><li>The real network is not connected</li></ol>
+  <div class="explain">The swaps keep every degree, so anything they destroy was not implied by the degrees. Hubs collaborating with hubs is a property of how the links are arranged.</div>
+</div>
+
 </div></main>
 </body>
 </html>
