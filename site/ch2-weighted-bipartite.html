@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weighted &amp; bipartite networks · From Graphs to Hubs</title>
+<meta name="description" content="Link weights, node strength and thresholding in the karate club; bipartite networks and their projections in Davis' Southern Women data.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-weighted-bipartite.js"></script>
+</head>
+<body data-page="ch2-weighted-bipartite">
+<main><div class="content">
+
+<h1>Weighted and bipartite networks</h1>
+<p class="lead">So far every link was the same: present or absent. Real links have strengths, and many networks connect two different kinds of node.</p>
+
+<h2>Weighted networks (Section 2.6)</h2>
+<p>In a <strong>weighted network</strong> each link $(i,j)$ carries a weight $w_{ij}$: minutes on the phone, current on a power line, papers two scientists wrote together. The adjacency matrix then stores the weights, $A_{ij} = w_{ij}$, and the weighted counterpart of the degree is the <strong>strength</strong></p>
+<div class="eq">$$s_i = \sum_{j} w_{ij}.$$</div>
+<p>Zachary recorded, for each linked pair of members, in how many different contexts they interacted (in class, at the bar near the campus, at tournaments, and so on). These counts, from 1 to 7, are the link weights of the karate club.</p>
+<div data-fig id="fig-weighted"></div>
+<div class="callout look">
+  <ul>
+    <li>Strength grows with degree, but not proportionally: some members have few links that are all strong.</li>
+    <li>Raise the threshold and keep only links of at least that weight. Links across the factions are weak: 11 of the 78 links cross, 4 of the 48 links with $w \ge 3$ do, and none with $w \ge 5$. Thresholding a weighted network is a common simplification, but a risky one, because the resulting network depends on an arbitrary cut-off.</li>
+  </ul>
+</div>
+
+<h2>Bipartite networks (Section 2.7)</h2>
+<p>A <strong>bipartite network</strong> has two kinds of nodes, $U$ and $V$, and links run only between the kinds: actors and the films they appeared in, genes and the diseases they are implicated in, people and the events they attended. Its structure is captured by the $|U|\times|V|$ <strong>biadjacency matrix</strong> $B$, with $B_{ue} = 1$ if node $u$ is linked to node $e$.</p>
+<p>A bipartite network can be <strong>projected</strong> onto either side. Two $U$-nodes are linked if they share at least one $V$-neighbour, and the weight counts how many they share:</p>
+<div class="eq">$$W = B\,B^{\mathsf T}, \qquad W_{uv} = \sum_{e} B_{ue}B_{ve} = \#\text{shared neighbours}, \qquad W_{uu} = \text{degree of } u.$$</div>
+<p>Davis, Gardner and Gardner's <em>Southern Women</em> study (1941) recorded which of 14 social events each of 18 women attended in a town in the American South.</p>
+<div data-fig id="fig-bipartite"></div>
+<div class="callout look">
+  <ul>
+    <li>The bipartite network has 89 links. Its projection onto the women has 139 links among 18 nodes, a density of 0.91: almost everyone is linked to almost everyone, because a single shared event is enough.</li>
+    <li>The weights carry the information the unweighted projection hides. Keep only pairs who shared at least 4 events and two separate groups appear, women 1–7 and 9 on one side and 10–15 on the other, while the more peripheral women drop out. This is close to the two cliques described in the original study.</li>
+  </ul>
+</div>
+<div data-fig id="fig-biadj"></div>
+
+<div class="quiz" data-answer="2">
+  <p>Can a bipartite network contain a triangle?</p>
+  <ol><li>Yes, if both kinds of nodes are involved</li><li>No: every cycle alternates between the two kinds, so its length is even</li><li>Only if the network is weighted</li><li>Only in its projection's adjacency matrix</li></ol>
+  <div class="explain">A cycle in a bipartite network goes $U \to V \to U \to \dots$ and can only close after an even number of steps. Its projections, however, are full of triangles: three women at one event are all linked to each other.</div>
+</div>
+
+<div class="callout discuss">
+  <p>The Hollywood actor network in the book is the projection of an actor–film bipartite network. Which of its properties are produced by the projection itself, rather than by how actors choose to work together?</p>
+  <div class="hint">Every film with $n$ actors becomes a complete subgraph of $n$ nodes in the projection, so the projection is full of triangles (high clustering) and of large cliques. Actor degrees are inflated by large casts. A null model for a projected network should be a randomised <em>bipartite</em> network, projected the same way.</div>
+</div>
+
+</div></main>
+</body>
+</html>

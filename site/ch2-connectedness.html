@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connectedness · From Graphs to Hubs</title>
+<meta name="description" content="Cut links and watch a network fall into components; bridges, articulation points, block-diagonal matrices, and the giant component of real networks.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-connectedness.js"></script>
+</head>
+<body data-page="ch2-connectedness">
+<main><div class="content">
+
+<h1>Connectedness</h1>
+<p class="lead">A phone is useless if there is no path from it to the phone it calls. Whether a network holds together is a question about paths.</p>
+
+<p>A network is <strong>connected</strong> if there is a path between every pair of nodes. Otherwise it splits into <strong>components</strong>: maximal sets of nodes joined by paths, with no path between different components. A link whose removal disconnects the network is a <strong>bridge</strong>, and a node whose removal does so is an <strong>articulation point</strong> (or cut vertex). If the nodes are numbered component by component, the adjacency matrix becomes <em>block diagonal</em>: all non-zero entries fall in square blocks along the diagonal.</p>
+
+<h2>Cut it apart</h2>
+<div data-fig id="fig-cut"></div>
+<div class="callout look">
+  <ul>
+    <li>Cutting a bridge (thick dark line) splits a component in two. Cutting any other link leaves the components as they are, because an alternative path exists.</li>
+    <li>The articulation points (ringed) are the single points of failure: every path between the two clusters runs through them.</li>
+    <li>The matrix, ordered by component, is block diagonal: no link joins two blocks.</li>
+  </ul>
+</div>
+
+<h2>The giant component</h2>
+<p>Large real networks are rarely connected, but they are far from shattered. One component, the <strong>giant component</strong>, contains most nodes. The rest form a "dust" of small components.</p>
+<div data-fig id="fig-sizes"></div>
+<div class="callout look">
+  <p>One giant component and a dust of tiny ones, with nothing in between: in the collaboration network the second-largest component has only 21 scientists. <a href="ch3-evolution.html">Chapter 3</a> shows that this is exactly what a random network with $\langle k\rangle > 1$ looks like.</p>
+</div>
+
+<h2>How much damage does it take?</h2>
+<p>Remove links at random from a real network and track the largest component. This anticipates the robustness analysis of <a href="robustness.html">Chapter 8</a>.</p>
+<div data-fig id="fig-percolation"></div>
+<div class="callout look">
+  <p>The collaboration network shrugs off the loss of most links: with only 20% of the collaborations kept, its largest component still holds about half of all scientists. The power grid is far more fragile. With half of its lines removed at random, its largest piece holds only a few percent of the nodes. It fragments well above $p_c \approx 0.35$, the threshold of a random network with the same degrees, because a lattice-like spatial network has few alternative routes. The dashed lines mark that threshold, $p_c = \langle k\rangle / (\langle k^2\rangle - \langle k\rangle)$ (the Molloy–Reed criterion): the more heterogeneous the degrees, the smaller $p_c$.</p>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>A network has $N = 100$ nodes in a single component, and every node has degree 2. Which statement is certainly true?</p>
+  <ol><li>It has a bridge</li><li>It is a tree</li><li>It has $L = 200$ links</li><li>It is a single cycle, so removing any one link leaves it connected</li></ol>
+  <div class="explain">Degree 2 everywhere with one component means a ring of 100 nodes and $L = N\langle k\rangle/2 = 100$ links. No link is a bridge; it takes two cuts to split it.</div>
+</div>
+
+</div></main>
+</body>
+</html>

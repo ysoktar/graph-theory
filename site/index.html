@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Graphs to Hubs · Network Science, interactively</title>
+<meta name="description" content="An interactive companion to chapters 2–4 of Barabási's Network Science: graph theory, random networks and the scale-free property, explored on the book's own data.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/index.js"></script>
+</head>
+<body data-page="index">
+<main><div class="content">
+
+<section class="hero">
+  <div>
+    <div class="kicker"><span>An interactive companion to <a href="https://networksciencebook.com/">Network Science</a>, chapters 2–4</span></div>
+    <h1>From Graphs to Hubs</h1>
+    <p class="question">How does a real network differ from a random one, and why does it matter?</p>
+    <p class="lead">Build networks, run the models and fit the data yourself. Every figure on this site is live, and every number is computed in your browser, much of it from the book's own reference networks.</p>
+    <div class="btn-row" style="margin-top:1rem">
+      <a class="btn primary" href="ch2-konigsberg.html">Start with Part I →</a>
+      <a class="btn" href="data.html">Meet the data</a>
+      <a class="btn" id="nb-link" href="#" target="_blank" rel="noopener">Open the notebook in Colab</a>
+    </div>
+  </div>
+  <div class="hero-viz" id="hero"></div>
+</section>
+
+<h2>The plan</h2>
+<p>The site follows the class notebook <em>From Graphs to Hubs</em> section by section, and goes further wherever an interactive picture helps. Each part answers one question.</p>
+<div class="cards" id="parts"></div>
+
+<h2>How to read the figures</h2>
+<p>The colour conventions are the notebook's, used the same way throughout:</p>
+<div class="legend" style="font-size:.92rem;gap:8px 22px;margin-bottom:1rem">
+  <span class="legend-item"><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="var(--s1)"/></svg>real data (other series: orange, then aqua)</span>
+  <span class="legend-item"><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="var(--random)"/></svg>random network</span>
+  <span class="legend-item"><svg width="18" height="10"><line x1="1" x2="17" y1="5" y2="5" stroke="var(--theory)" stroke-width="2" stroke-dasharray="4 3"/></svg>theory, a formula</span>
+</div>
+<ul>
+  <li><strong>Hover</strong> any chart for exact values; every chart also has a <em>Data table</em> underneath.</li>
+  <li><strong>Network views</strong> can be dragged, panned and zoomed (click inside first, then scroll or pinch). <em>Re-layout</em> shakes the layout and <em>Fit</em> zooms back to the whole network.</li>
+  <li>Boxes marked <strong>Look for</strong> say what a figure should show you. <strong>Discuss</strong> boxes are the notebook's discussion questions, with hints. <strong>Check yourself</strong> questions give instant feedback.</li>
+  <li>Heavier simulations run in a background thread. Their figures fill in as results arrive.</li>
+</ul>
+
+<div class="callout key">
+  <p><strong>Everything runs on your machine.</strong> This is a static website. Simulations, fits and graph algorithms run as JavaScript in your browser, and nothing is sent anywhere. The real-network data are compact summaries (degree histograms, fits, clustering, distances) precomputed once from the book's edge lists. For six of the eight networks the full edge lists are included, so the site can also analyse those networks live.</p>
+</div>
+
+<div class="callout note" data-label="About the notebook">
+  <p>The class notebook was re-checked number by number while this site was built. Nearly everything holds up. The few statements that needed a correction or a caveat are listed on the <a href="notebook-check.html">Notebook check</a> page and discussed where they come up.</p>
+</div>
+
+</div></main>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Königsberg &amp; Euler · From Graphs to Hubs</title>
+<meta name="description" content="Try to cross each of Königsberg's seven bridges exactly once, then see why Euler's odd-degree argument proves it impossible.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-konigsberg.js"></script>
+</head>
+<body data-page="ch2-konigsberg">
+<main><div class="content">
+
+<h1>Königsberg and the birth of graph theory</h1>
+<p class="lead">In 18th-century Königsberg, seven bridges joined the two banks of the river Pregel, an island and a peninsula. Residents wondered whether one could take a walk that crosses every bridge exactly once. Nobody managed it. In 1736 Leonhard Euler proved that nobody ever would, and graph theory was born.</p>
+
+<h2>Take the walk</h2>
+<p>Click a piece of land to start, then click bridges to cross them. You can click either the map or its graph, the abstraction Euler used: each piece of land becomes a node and each bridge a link.</p>
+<div data-fig id="fig-walk"></div>
+
+<div class="callout look">
+  <ul>
+    <li>However you start, you get stuck with bridges left over.</li>
+    <li>Look at the degrees in the graph: every land mass has an <em>odd</em> number of bridges (5, 3, 3, 3).</li>
+    <li>Switch to <em>Edit bridges</em> and add or remove a single bridge. Suddenly a walk exists, but only if it starts and ends at the two land masses that still have an odd number of bridges.</li>
+  </ul>
+</div>
+
+<h2>Euler's argument</h2>
+<p>Euler's insight was to throw away everything except <em>which land connects to which</em>. Distances, shapes and positions are irrelevant; only the network matters. Then the argument is almost a one-liner. On a walk that crosses every bridge once, each time you enter a land mass by one bridge you must leave it by another. Bridges at every node you merely pass through therefore come in pairs, so those nodes have <strong>even degree</strong>. Only the start and end of the walk can have odd degree.</p>
+<div class="callout key">
+  <p>A connected network has a walk that uses every link exactly once (an <strong>Euler path</strong>) if and only if it has either no odd-degree nodes (then the walk can return to its start) or exactly two (then the walk must run from one to the other). Königsberg's graph has four odd-degree nodes, so the walk is impossible.</p>
+</div>
+<p>This was the first proof in graph theory. It also carries the lesson that runs through this whole course: some properties of a system are determined by its network alone. Here no amount of clever walking helps; the topology forbids it.</p>
+
+<div class="quiz" data-answer="3">
+  <p>A connected network has nodes with degrees 2, 3, 4, 3, 2, 2. Does it have an Euler path?</p>
+  <ol><li>No: it has odd-degree nodes</li><li>Yes, and it can start and end anywhere</li><li>Yes, starting at one degree-3 node and ending at the other</li><li>We cannot tell without seeing the network</li></ol>
+  <div class="explain">Exactly two nodes have odd degree, so an Euler path exists and must run between them. For a <em>connected</em> network, the degrees alone decide.</div>
+</div>
+
+<h2>Networks and graphs (Section 2.2)</h2>
+<p>A network is a catalogue of a system's components, the <strong>nodes</strong> (or vertices), and of the direct interactions between them, the <strong>links</strong> (or edges). Two numbers describe its size: the number of nodes $N$ and the number of links $L$. Network scientists tend to say <em>network</em>, <em>node</em> and <em>link</em> for real systems, and <em>graph</em>, <em>vertex</em> and <em>edge</em> for the mathematical object, but the terms are used interchangeably.</p>
+<p>Links can be <strong>undirected</strong> (a collaboration, a power line) or <strong>directed</strong> (a hyperlink, an email, a phone call). The eight reference networks used throughout this site, all from the book's Table 2.1:</p>
+<div id="tbl-networks"></div>
+<div class="callout note">
+  <p>Every network on this site is analysed as <strong>undirected and simple</strong>: link directions, self-loops and repeated links are dropped, exactly as in the class notebook. For the directed networks this merges $u\to v$ and $v\to u$ into a single link, so their $L$ and $\langle k\rangle$ are smaller than the book's directed values.</p>
+</div>
+
+<div class="callout discuss">
+  <p>The same 23,133 scientists could be connected by co-authorship, by citations, by sharing an institution, or by email. Would these networks have the same structure? Which one would you study to understand how ideas spread?</p>
+  <div class="hint">The choice of links defines the network, and different link definitions give very different networks on the same nodes. Co-authorship captures close collaboration (and creates many triangles, because a paper with three authors is a triangle). Citations are directed and reach far more widely. Always ask what a link means before interpreting a network's structure.</div>
+</div>
+
+</div></main>
+</body>
+</html>

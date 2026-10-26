@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notebook check · From Graphs to Hubs</title>
+<meta name="description" content="Every statement of the class notebook re-checked: errors, methodological gaps and imprecise claims, each with its cell location, the evidence and the correction.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/notebook-check.js"></script>
+</head>
+<body data-page="notebook-check">
+<main><div class="content">
+
+<h1>Notebook check</h1>
+<p class="lead">This site was built from the class notebook <em>From Graphs to Hubs</em> (<code>Ch2_4_Applied_Tutorial.ipynb</code>). Its code and its claims were re-checked one by one. This page lists everything that needed a correction or a caveat, with its exact location in the notebook.</p>
+
+<h2>How it was checked</h2>
+<ol>
+  <li><strong>Re-execution.</strong> Every code cell was run again, in order, on the book's data, and each printed number and table was compared with the output saved in the notebook. All of them are reproduced exactly; the code does what it says.</li>
+  <li><strong>Independent recomputation.</strong> Every quantity was recomputed with this site's own JavaScript graph and statistics library, which is tested against NetworkX, igraph, SciPy and powerlaw.</li>
+  <li><strong>Review of the reasoning.</strong> Each statement was checked against a derivation, a simulation or the data. Comparisons with the book (Chapters 2–5 of <a href="https://networksciencebook.com/">Network Science</a>) and with the standard methodology (Clauset, Shalizi &amp; Newman 2009) were used as cross-checks, not as proof. The book has errors of its own, listed below.</li>
+</ol>
+<p>The verdict: the computations are right, and most of the text is too. The problems are a sampling shortcut that is biased at small $k_{\min}$, a missing goodness-of-fit step in the power-law analysis, one confounded experiment, and a number of statements that generalise from one network or need a qualification. The site's pages present the corrected versions, each marked with a <em>Correction to the notebook</em> box.</p>
+
+<p><strong>Locations:</strong> <em>cell</em> counts cells from the top of the notebook (cell 1 is the title). <em>In [n]</em> is the execution count saved with a code cell.</p>
+<div id="summary"></div>
+
+<h2>The list</h2>
+<div id="filters" class="btn-row" style="margin-bottom:1rem"></div>
+<div id="errata"></div>
+
+<h2>Problems found in the book</h2>
+<p>The book was not taken as ground truth either. Its results were re-derived or simulated, and its tables recomputed from the data files it distributes. These are the places where it is wrong, inconsistent, or does not match its own data.</p>
+<div id="book"></div>
+
+<h2>Problems found in the software</h2>
+<p>The notebook relies on the Python package <code>powerlaw</code> (version 2.0.0). Cross-checking this site's goodness-of-fit test turned up two defects in its discrete random generators. They do not change any of the notebook's outputs, but they do bias the bootstrap test, which the notebook omits (N14), for anyone who adds it with powerlaw's own generator.</p>
+<div id="software"></div>
+
+<h2>Checked and found correct</h2>
+<ul id="verified"></ul>
+
+<p class="small muted">This list is also in the repository as <a id="md-link" href="#">notebook/ERRATA.md</a>, generated from the same source.</p>
+
+</div></main>
+</body>
+</html>

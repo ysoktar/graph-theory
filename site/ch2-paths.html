@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paths &amp; distances · From Graphs to Hubs</title>
+<meta name="description" content="Step through breadth-first search, find every shortest path between two members of the karate club, and compare distance distributions of real networks.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-paths.js"></script>
+</head>
+<body data-page="ch2-paths">
+<main><div class="content">
+
+<h1>Paths and distances</h1>
+<p class="lead">Physical distance is often irrelevant in a network. What matters is how many links separate two nodes.</p>
+
+<p>A <strong>path</strong> is a sequence of nodes in which each node is linked to the next; its <strong>length</strong> is the number of links it uses. The <strong>shortest path</strong> between $i$ and $j$ is a path with the fewest links, and its length is the <strong>distance</strong> $d_{ij}$. There can be several shortest paths of the same length. Two summaries describe a whole network:</p>
+<div class="eq">$$d_{\max} = \max_{i,j} d_{ij} \;\;(\text{the diameter}), \qquad \langle d\rangle = \frac{1}{N(N-1)}\sum_{i \ne j} d_{ij} \;\;(\text{the average distance}).$$</div>
+<p>(For a network with several components, $d_{ij} = \infty$ between components, so both are computed within the giant component.)</p>
+
+<h2>Breadth-first search</h2>
+<p>Distances are found with <strong>breadth-first search</strong> (BFS, the book's Box 2.5). Start at a node $s$ and label it 0. Its neighbours get label 1; their unlabelled neighbours get label 2; and so on. Each node is labelled when it is first reached, and its label is its distance from $s$. The search visits every node and link once, so it takes time proportional to $N + L$.</p>
+<div data-fig id="fig-bfs"></div>
+
+<h2>Shortest paths between two nodes</h2>
+<div data-fig id="fig-sp"></div>
+<div class="callout look">
+  <p>Between members 14 and 16, the two furthest apart in the club, there are 14 different shortest paths of length 5, all running through the instructor, node 0. The number of shortest paths that pass through a node is the idea behind <em>betweenness centrality</em> (see the <a href="lab.html">Network lab</a>).</p>
+</div>
+
+<h2>All distances at once</h2>
+<div data-fig id="fig-dmatrix"></div>
+
+<h2>Distances in real networks</h2>
+<p>For large networks, computing all $N(N-1)/2$ distances is expensive, so the notebook runs BFS from a random sample of 300 source nodes in the giant component. Each search measures the distance from its source to every other node, so 300 searches in the collaboration network already sample more than six million distances.</p>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>Most pairs of scientists are 4 to 6 steps apart, and 84% of pairs are within six steps, yet the network has 23,133 nodes. The power grid is the exception, at about 19 steps on average. A spatial network built to connect neighbouring places cannot have shortcuts across the continent. <a href="ch3-small-world.html">Chapter 3</a> explains why distances are short in most networks.</p>
+</div>
+<div class="callout fix" data-errata="N5"></div>
+
+<div class="quiz" data-answer="3">
+  <p>A network has diameter $d_{\max} = 10$. What can you say about its average distance?</p>
+  <ol><li>$\langle d\rangle = 5$</li><li>$\langle d\rangle = 10$</li><li>$1 \le \langle d\rangle \le 10$, and usually much closer to the typical than to the maximal distance</li><li>$\langle d\rangle > 10$ is possible</li></ol>
+  <div class="explain">The diameter is the single largest distance, often set by a few peripheral nodes; the average is dominated by typical pairs. In the karate club $d_{\max} = 5$ but $\langle d\rangle = 2.41$.</div>
+</div>
+
+</div></main>
+</body>
+</html>
