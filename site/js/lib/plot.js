@@ -213,11 +213,12 @@ export class Plot {
         const gg = plotArea.append("g");
         for (const d of data) {
           const cx = x(d[0]) + (s.offset || 0) * bw, top = y(d[1]);
-          const hgt = Math.max(0, base - top);
+          const hgt = Math.abs(base - top);
           if (hgt <= 0) continue;
+          // negative values hang below the baseline (square ends; only data-ends away from it are rounded)
+          const path = top <= base ? roundedTop(cx - bw / 2, top, bw, hgt, Math.min(rad, hgt)) : `M${cx - bw / 2},${base}h${bw}v${hgt}h${-bw}Z`;
           gg.append("path").attr("class", "series-bar").attr("fill", d[2]?.color ? cssColor(d[2].color) : col)
-            .attr("opacity", s.opacity ?? null)
-            .attr("d", roundedTop(cx - bw / 2, top, bw, hgt, Math.min(rad, hgt)));
+            .attr("opacity", s.opacity ?? null).attr("d", path);
         }
       } else if (s.type === "line" || s.type === "step") {
         const line = D3.line().x((d) => x(d[0])).y((d) => y(d[1])).defined(valid);
