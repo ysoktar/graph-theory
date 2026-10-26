@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estimating the exponent · From Graphs to Hubs</title>
+<meta name="description" content="Least squares against maximum likelihood on samples with a known exponent, the Clauset–Shalizi–Newman k_min scan on real networks, likelihood-ratio tests, a live bootstrap goodness-of-fit test, and three bugs in the powerlaw package.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch4-fitting.js"></script>
+</head>
+<body data-page="ch4-fitting">
+<main><div class="content">
+
+<h1>Estimating the degree exponent</h1>
+<p class="lead">Fitting a straight line to a log-log plot is the most common way to estimate $\gamma$, and one of the least reliable. This page tests five estimators on data whose exponent we know, then applies the statistically sound recipe to the book's networks.</p>
+
+<h2>A controlled experiment</h2>
+<p>To judge an estimator we need data with a known answer. We draw $n$ degrees from a discrete power law with exponent $\gamma$ and $k_{\min} = 1$, and estimate $\gamma$ five ways (notebook III.3):</p>
+<ol>
+  <li>least squares on the linearly binned histogram, slope $= -\gamma$;</li>
+  <li>least squares on the log-binned histogram, slope $= -\gamma$;</li>
+  <li>least squares on the cumulative distribution, slope $= -(\gamma - 1)$;</li>
+  <li>the closed-form maximum-likelihood approximation of Advanced Topic 4.C, applied to the tail $k \ge 6$;</li>
+  <li>the exact discrete maximum-likelihood estimate, found numerically.</li>
+</ol>
+<div data-fig id="fig-experiment"></div>
+<div data-fig id="fig-trials"></div>
+<div class="callout look">
+  <p>Least squares on linear bins (1) is biased far below the true value in every sample. Log bins (2) and the cumulative distribution (3) are better on average but their error depends on choices (bins, fitting range), and the method gives no trustworthy error bar. Maximum likelihood (5) is centred on the truth with the smallest spread.</p>
+</div>
+
+<h2>Maximum likelihood (Advanced Topic 4.C)</h2>
+<p>For the tail $k_i \ge k_{\min}$ ($i = 1, \dots, n$) of a discrete power law, the log-likelihood of an exponent $\gamma$ is</p>
+<div class="eq">$$\ln \mathcal L(\gamma) = \sum_{i=1}^{n} \ln p_{k_i} = -n \ln \zeta(\gamma, k_{\min}) - \gamma \sum_{i=1}^{n} \ln k_i .$$</div>
+<p>The estimate $\hat\gamma$ maximises it. There is no closed formula, but the function has a single maximum and is easy to search numerically. Its standard error is approximately $\sigma = (\hat\gamma - 1)/\sqrt{n}$. Treating the degrees as continuous gives the closed-form approximation used in the book,</p>
+<div class="eq">$$\hat\gamma \approx 1 + n \left[\sum_{i=1}^{n} \ln \frac{k_i}{k_{\min} - \tfrac12}\right]^{-1},$$</div>
+<p>which is accurate only for $k_{\min} \gtrsim 6$. Applied to all data with $k_{\min} = 1$ it gives about 2.0 for a sample with $\gamma = 2.5$ (Clauset, Shalizi and Newman 2009).</p>
+<div data-fig id="fig-lik"></div>
+
+<h2>Real data: the Clauset–Shalizi–Newman method</h2>
+<p>A real degree distribution is rarely a power law from $k = 1$. At best its tail is, above some unknown $k_{\min}$. Clauset, Shalizi and Newman (<em>SIAM Review</em> 51, 661, 2009) proposed a three-step recipe:</p>
+<ol>
+  <li><strong>Fit.</strong> For every candidate $k_{\min}$, estimate $\gamma$ by maximum likelihood on $k \ge k_{\min}$ and compute the Kolmogorov–Smirnov distance $D$ between the tail and the fitted law. Keep the $k_{\min}$ with the smallest $D$.</li>
+  <li><strong>Test.</strong> Generate synthetic data sets from the fitted model, refit each one, and compute $p$, the share whose $D$ is at least as large as the observed one. If $p < 0.1$, the power law is ruled out.</li>
+  <li><strong>Compare.</strong> Use likelihood-ratio tests to compare the power law with alternatives such as the log-normal or the exponential.</li>
+</ol>
+<div data-fig id="fig-scan"></div>
+<div class="callout gotcha">
+  <p><strong>Check the defaults of a fitting routine.</strong> Version 2.0 of the Python <code>powerlaw</code> package restricts the exponent to $\gamma \le 3$ unless told otherwise. Any $k_{\min}$ whose best exponent exceeds 3 is silently discarded. For the Internet this moves the result from $k_{\min} = 70$, $\hat\gamma = 3.40$ to $k_{\min} = 36$, $\hat\gamma = 2.94$: the "scale-free regime" is produced by the default, not by the data. Try it with the toggle above.</p>
+</div>
+
+<div data-fig id="fig-alt"></div>
+<div data-fig id="fig-gof"></div>
+<div class="callout fix" data-errata="N14"></div>
+
+<h2>Three bugs in the powerlaw package</h2>
+<p>Checking the bootstrap of step 2 against Python turned up three defects in the random-number generators of <code>powerlaw</code> 2.0.0, which any bootstrap built on <code>generate_random()</code> inherits. The notebook itself is not affected: its only call uses $k_{\min} = 1$, where the generator happens to be exact. Reproductions, a proposed fix and validation scripts are in <a href="https://github.com/ysoktar/graph-theory/tree/main/research/powerlaw-discrete-generator">research/powerlaw-discrete-generator</a>.</p>
+<div class="callout fix" data-software="S1"></div>
+<div class="callout fix" data-software="S2"></div>
+<div class="callout fix" data-software="S3"></div>
+
+<h2>Is the Internet scale-free?</h2>
+<div class="callout discuss">
+  <p>By the CSN criterion, the power law is ruled out for three of the eight networks and borderline for the Internet, and where it is plausible it often covers only a few per cent of the nodes. Are these networks "scale-free"? Does the answer matter?</p>
+  <div class="hint">The question started a lively debate. Broido and Clauset (<em>Nat. Commun.</em> 10, 1017, 2019) applied the method to almost 1,000 networks and concluded that "scale-free networks are rare". Holme (<em>Nat. Commun.</em> 10, 1016, 2019) and Voitalov, van der Hoorn, van der Hofstad and Krioukov (<em>Phys. Rev. Research</em> 1, 033034, 2019) replied that strict power-law tests are the wrong standard: what matters for hubs, distances, robustness and spreading is whether the tail is heavy, that is whether $\langle k^2\rangle$ is much larger than $\langle k\rangle^2$. On that criterion all eight networks except the power grid qualify. Both sides agree that a straight line on a log-log plot proves nothing.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>The bootstrap test of a power-law fit returns $p = 0.45$. What can you conclude?</p>
+  <ol><li>The degree distribution is a power law with probability 0.45</li><li>The power law is ruled out</li><li>The power law is a plausible description of the tail; the data cannot reject it</li><li>The power law fits better than a log-normal</li></ol>
+  <div class="explain">A large $p$ only means that the data are consistent with the fitted power law: deviations as large as the observed one are common in samples drawn from it. It does not prove the power law, and it says nothing about alternatives such as the log-normal, which may be equally plausible. That is what step 3 (likelihood ratios) is for.</div>
+</div>
+
+</div></main>
+</body>
+</html>

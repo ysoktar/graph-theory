@@ -1,7 +1,7 @@
 // Site chrome shared by every page: header, navigation, pager, footer, theme, callouts, quizzes, maths.
 // Each page's module imports this first; the page itself only contains its article.
 import { h, $, $$, renderMath, emitThemeChange, CALLOUT_ICONS } from "./lib/ui.js";
-import { ERRATA, BOOK as BOOK_ERRATA } from "./errata.js";
+import { ERRATA, BOOK as BOOK_ERRATA, SOFTWARE } from "./errata.js";
 
 export const REPO = "https://github.com/ysoktar/graph-theory";
 export const NOTEBOOK_URL = "https://colab.research.google.com/github/ysoktar/graph-theory/blob/main/notebook/Ch2_4_Applied_Tutorial.ipynb";
@@ -149,13 +149,15 @@ function buildFooter() {
 function enhanceCallouts(root) {
   const LABELS = { look: "Look for", discuss: "Discuss", key: "Key idea", gotcha: "Gotcha", try: "Try it", note: "Note", fix: "Correction to the notebook" };
   // correction boxes are filled from the errata list, so the site and notebook/ERRATA.md always agree
-  for (const c of $$(".callout.fix[data-errata], .callout.fix[data-book]", root)) {
-    const isBook = !!c.dataset.book;
-    const e = isBook ? BOOK_ERRATA.find((x) => x.id === c.dataset.book) : ERRATA.find((x) => x.id === c.dataset.errata);
+  for (const c of $$(".callout.fix[data-errata], .callout.fix[data-book], .callout.fix[data-software]", root)) {
+    // notebook entries are located by cell; book and software entries by their own location text
+    const kind = c.dataset.book ? "book" : c.dataset.software ? "software" : "notebook";
+    const list = kind === "book" ? BOOK_ERRATA : kind === "software" ? SOFTWARE : ERRATA;
+    const e = list.find((x) => x.id === (c.dataset.book || c.dataset.software || c.dataset.errata));
     if (!e) continue;
     const lab = h("div", { class: "callout-label" });
-    lab.innerHTML = CALLOUT_ICONS.fix + `<span>${isBook ? "Correction to the book" : "Correction to the notebook"}</span>`;
-    lab.append(h("span", { class: "fix-loc" }, isBook ? `· ${e.id} · ${e.location}` : `· ${e.id} · cell ${e.cell}${e.run ? `, In [${e.run}]` : ""} · ${e.section}`));
+    lab.innerHTML = CALLOUT_ICONS.fix + `<span>${kind === "book" ? "Correction to the book" : kind === "software" ? "Bug in the powerlaw package" : "Correction to the notebook"}</span>`;
+    lab.append(h("span", { class: "fix-loc" }, kind === "notebook" ? `· ${e.id} · cell ${e.cell}${e.run ? `, In [${e.run}]` : ""} · ${e.section}` : `· ${e.id} · ${e.location}`));
     const extra = c.innerHTML.trim();
     c.replaceChildren(lab,
       h("div", { class: "fix-quote" }, "“" + e.quote.replace(/\n/g, " ") + "”"),

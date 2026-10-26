@@ -301,9 +301,10 @@ export const powerLawCcdf = (x, gamma, kmin) => hurwitzZeta(gamma, x) / hurwitzZ
 /**
  * Clauset–Shalizi–Newman fit: for each candidate kmin (every distinct degree but the largest), fit γ by
  * MLE on k ≥ kmin and compute the KS distance D; pick the kmin with the smallest D.
- * Returns the best fit plus the whole scan.
+ * Returns the best fit plus the whole scan. With excludeAtBound, candidates whose γ̂ sits at maxGamma
+ * cannot win (as in powerlaw, where such fits are out of range).
  */
-export function fitPowerLaw(h, { maxGamma = 10, kmin: fixedKmin = null, maxCandidates = Infinity, minTail = 2, minTailCount = 0 } = {}) {
+export function fitPowerLaw(h, { maxGamma = 10, kmin: fixedKmin = null, maxCandidates = Infinity, minTail = 2, minTailCount = 0, excludeAtBound = false } = {}) {
   const k = [], c = [];
   for (let i = 0; i < h.k.length; i++) if (h.k[i] > 0) { k.push(h.k[i]); c.push(h.count[i]); }
   const total = c.reduce((a, b) => a + b, 0);
@@ -321,6 +322,8 @@ export function fitPowerLaw(h, { maxGamma = 10, kmin: fixedKmin = null, maxCandi
     const D = powerLawKS(tail, kmin, fit.gamma);
     const row = { kmin, gamma: fit.gamma, sigma: fit.sigma, D, ntail, tailShare: ntail / total, atBound: maxGamma - fit.gamma < 1e-4 };
     scan.push(row);
+    // excludeAtBound mimics powerlaw, which discards a k_min whose MLE falls outside the allowed range
+    if (excludeAtBound && row.atBound) continue;
     if (!best || D < best.D) best = row;
   }
   return { ...best, scan };

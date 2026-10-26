@@ -5,7 +5,7 @@ import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname, normalize } from "node:path";
 import { root } from "./helpers.mjs";
 import { renderErrata } from "../scripts/errata.mjs";
-import { ERRATA } from "../site/js/errata.js";
+import { ERRATA, BOOK, SOFTWARE } from "../site/js/errata.js";
 
 const site = join(root, "site");
 const navSrc = readFileSync(join(site, "js", "layout.js"), "utf8");
@@ -52,4 +52,14 @@ test("notebook/ERRATA.md is up to date with site/js/errata.js (run npm run errat
   const ids2 = ERRATA.map((e) => e.id);
   assert.equal(new Set(ids2).size, ids2.length, "unique ids");
   for (const e of ERRATA) if (e.page) assert.ok(ids.includes(e.page.replace(".html", "")), `${e.id}: ${e.page} is a site page`);
+});
+
+test("every correction box on a page refers to an existing erratum", () => {
+  const known = { errata: ERRATA, book: BOOK, software: SOFTWARE };
+  for (const f of readdirSync(site).filter((x) => x.endsWith(".html"))) {
+    const html = readFileSync(join(site, f), "utf8");
+    for (const [, kind, id] of html.matchAll(/data-(errata|book|software)="([^"]+)"/g)) {
+      assert.ok(known[kind].some((e) => e.id === id), `${f}: data-${kind}="${id}"`);
+    }
+  }
 });
