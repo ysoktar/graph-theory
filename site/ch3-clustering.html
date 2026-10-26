@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clustering in random networks · From Graphs to Hubs</title>
+<meta name="description" content="Why a random network has C = ⟨k⟩/N, how that vanishes as networks grow, and how far real networks, and their C(k), are from it.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch3-clustering.js"></script>
+</head>
+<body data-page="ch3-clustering">
+<main><div class="content">
+
+<h1>Clustering in random networks</h1>
+<p class="lead">Your friends tend to know each other. In a random network they almost never do. Clustering is the second property, after the degree distribution, on which the random network model fails badly.</p>
+
+<h2>The prediction (Section 3.9)</h2>
+<p>The local clustering coefficient of node $i$ is $C_i = 2L_i/[k_i(k_i-1)]$, where $L_i$ is the number of links among its $k_i$ neighbours (<a href="ch2-clustering.html">Section 2.10</a>). In a random network every pair of nodes is linked with the same probability $p$, including pairs of neighbours of $i$. So the expected number of links among them is $\langle L_i\rangle = p\,k_i(k_i-1)/2$ and</p>
+<div class="eq">$$\langle C_i\rangle = p = \frac{\langle k\rangle}{N-1} \approx \frac{\langle k\rangle}{N}.$$</div>
+<p>This has two consequences:</p>
+<ul>
+  <li>at fixed $\langle k\rangle$, clustering <strong>vanishes as the network grows</strong>, like $1/N$;</li>
+  <li>$C_i$ is <strong>independent of the degree</strong>: hubs and small nodes have the same expected clustering.</li>
+</ul>
+<div data-fig id="fig-why"></div>
+<div data-fig id="fig-cn"></div>
+
+<h2>Real networks</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>Every real network is far more clustered than its random counterpart, and the gap grows with $N$. For the collaboration network the random model predicts $\langle C\rangle \approx 3.5\times10^{-4}$; the real value is 0.633. Co-authors of a paper with three or more authors are all linked to each other, which creates triangles wholesale.</p>
+</div>
+
+<h2>Clustering depends on the degree</h2>
+<div data-fig id="fig-ck"></div>
+<div class="callout look">
+  <ul>
+    <li>Real $C(k)$ decreases with $k$, in several networks roughly like $1/k$. Small nodes sit in tight groups; hubs connect many groups that are not linked to each other. Chapter 9 calls this <em>hierarchical modularity</em>.</li>
+    <li>Wiring the same degree sequence at random (orange triangles) restores some clustering in networks with big hubs. For E. coli metabolism it reaches nearly half the real value, because hubs that share many neighbours create triangles by chance. For the collaboration network it stays tiny. The <a href="ch4-generating.html">Generating networks</a> page returns to this.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>The random network predicts $\langle C\rangle \to 0$ for large $N$ at fixed $\langle k\rangle$. Why would real social networks not behave like that, even when they grow very large?</p>
+  <div class="hint">Social ties form locally: through shared workplaces, families, classes, friends introducing friends (<em>triadic closure</em>). Whether two of your friends know each other depends on your shared context, not on how many people live on the planet. So $C$ stays roughly constant while $N$ grows. The Watts–Strogatz model on the <a href="ch3-small-world.html">previous page</a> builds exactly this in.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>A random network has $N = 10^5$ nodes and $\langle k\rangle = 20$. What is the expected clustering coefficient of a node with $k = 200$?</p>
+  <ol><li>About $2\times10^{-4}$</li><li>About $2\times10^{-3}$</li><li>About $1/200$</li><li>About $0.1$</li></ol>
+  <div class="explain">$C = p \approx \langle k\rangle/N = 20/10^5 = 2\times10^{-4}$, the same for every node. The degree of the node does not matter.</div>
+</div>
+
+</div></main>
+</body>
+</html>

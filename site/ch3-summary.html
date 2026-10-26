@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real networks are not random · From Graphs to Hubs</title>
+<meta name="description" content="A scorecard of the random network model against the book's eight networks: what it gets right, what it gets wrong, and by how much.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch3-summary.js"></script>
+</head>
+<body data-page="ch3-summary">
+<main><div class="content">
+
+<h1>Real networks are not random</h1>
+<p class="lead">Chapter 3 built the random network as a null model. Now we hold it against the data, property by property. The verdict decides where Chapter 4 goes next.</p>
+
+<p>Erdős and Rényi never claimed that real networks are random; the model is a baseline. A property that the random network reproduces needs no special explanation. A property it misses tells us that some non-random process shaped the network.</p>
+
+<h2>One network at a time</h2>
+<p>The notebook (cell 45) builds this table for the collaboration network. Here it is for any of the eight, with the theoretical prediction next to the simulated counterpart.</p>
+<div data-fig id="fig-score"></div>
+<div class="callout fix" data-errata="N12"></div>
+
+<h2>All eight networks</h2>
+<div data-fig id="fig-heat"></div>
+
+<h2>The verdict (Section 3.10)</h2>
+<table class="simple">
+  <thead><tr><th>Property</th><th>Random network</th><th>Real networks</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td>Degree distribution</td><td>Poisson, narrow: $\sigma_k = \sqrt{\langle k\rangle}$</td><td>broad, with hubs; $k_{\max}$ and $\langle k^2\rangle$ far larger</td><td><span class="verdict no">wrong</span></td></tr>
+    <tr><td>Giant component</td><td>exists for $\langle k\rangle > 1$</td><td>all eight have one</td><td><span class="verdict ok">right that it exists</span>; its size is often off</td></tr>
+    <tr><td>Connectedness</td><td>only for $\langle k\rangle > \ln N$</td><td>the power grid and the WWW are connected although $\langle k\rangle < \ln N$; most others leave more nodes outside than predicted</td><td><span class="verdict meh">mixed</span></td></tr>
+    <tr><td>Average distance</td><td>$\sim \ln N/\ln\langle k\rangle$</td><td>small worlds (except the power grid); the networks with big hubs are even smaller</td><td><span class="verdict ok">roughly right</span></td></tr>
+    <tr><td>Clustering</td><td>$\langle k\rangle/N$, independent of $k$</td><td>orders of magnitude larger; $C(k)$ decreases with $k$</td><td><span class="verdict no">wrong</span></td></tr>
+  </tbody>
+</table>
+<div class="callout key">
+  <p>The random network model fails on the two most local features of real networks: how many links a node has (hubs) and whether neighbours are linked (triangles). Chapter 4 takes up the first failure and replaces the Poisson distribution with a power law. Clustering returns in Chapter 9.</p>
+</div>
+
+<div class="callout discuss">
+  <p>The random model gets distances roughly right for six of the eight networks. Does that make it a good model of how those networks are wired?</p>
+  <div class="hint">No. Short distances are generic: almost any network with a few random-looking long-range links is a small world (see the Watts–Strogatz model). Agreement on a property that nearly every model reproduces is weak evidence. The properties that discriminate between models, here the degree distribution and clustering, are the ones the random network gets wrong.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Which observation about the collaboration network could a random network with the same $N$ and $L$ explain?</p>
+  <ol><li>A scientist with 279 collaborators</li><li>$\langle C\rangle = 0.63$</li><li>Most scientists are connected to each other through about five intermediaries</li><li>1,770 scientists outside the giant component</li></ol>
+  <div class="explain">A random network with these parameters has $\langle d\rangle \approx 5.1$, close to the observed 5.3. It would have $k_{\max} \approx 22$, $\langle C\rangle \approx 3\times10^{-4}$, and only about 4 to 7 nodes outside the giant component.</div>
+</div>
+
+</div></main>
+</body>
+</html>

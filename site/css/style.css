@@ -206,6 +206,7 @@ details.disclosure > .disclosure-body { padding: 0 16px 12px; }
 .fig-controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 22px; padding: 10px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
 .fig-controls:empty { display: none; }
 .fig-body { display: grid; gap: 16px; }
+.fig-body > * { min-width: 0; }
 .fig-body.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .fig-body.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .fig-body.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -419,4 +420,9 @@ a.card:hover { border-color: var(--border-strong); transform: translateY(-1px); 
   .site-header, .sidebar, .pager, .fig-controls, .nv-toolbar { display: none !important; }
   .layout { display: block; }
   .fig { box-shadow: none; break-inside: avoid; }
+}
+
+/* wide prose tables scroll sideways on phones instead of widening the page */
+@media (max-width: 700px) {
+  table.simple { display: block; overflow-x: auto; }
 }

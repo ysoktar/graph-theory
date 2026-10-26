@@ -11,6 +11,11 @@ function buildModel(model, N, rng, memo) {
     const k = model.matchTo ? memo.get(model.matchTo + "|" + N) : model.avgk;
     return G.gnpCSR(N, Math.min(1, k / (N - 1)), rng);
   }
+  if (model.kind === "grid") {
+    // square lattice of side ⌈√N⌉ (open boundaries), ⟨k⟩ → 4: a network without shortcuts
+    const side = Math.round(Math.sqrt(N));
+    return G.grid2d(side, side);
+  }
   if (model.kind === "pl") {
     const seq = G.powerlawSequence(N, model.gamma, model.kmin, rng);
     return G.configurationCSR(seq, rng);
@@ -320,4 +325,21 @@ export function* powerLawGoF({ hist, fit, reps = 200, seed = 2026, maxGamma = 10
   return { ...step.value, fit: { kmin: best.kmin, gamma: best.gamma, D: best.D, ntail: best.ntail } };
 }
 
-export const TASKS = { powerLawGoF,  distanceVsN, kmaxVsN, momentsVsN, estimatorTrials, giantVsK, giantScaling, wattsStrogatzSweep, randomize, sirSweep, baDegrees, multiLinkFraction };
+/** C(k) of a network's two null models: G(N, L) and the configuration model with its degree sequence. */
+export function* nullClustering({ N, L, hist, seed = 2026 }) {
+  const rng = new RNG(seed);
+  const er = G.CSRGraph.fromPairs(N, Int32Array.from(G.gnmPairs(N, L, rng)));
+  const ce = G.clusteringSummary(er);
+  yield { phase: "er" };
+  const seq = Array.from(S.histExpand(hist));
+  for (let i = seq.length - 1; i > 0; i--) { const j = rng.int(i + 1); [seq[i], seq[j]] = [seq[j], seq[i]]; }
+  while (seq.length < N) seq.push(0);
+  const cfg = G.configurationCSR(seq, rng);
+  const cc = G.clusteringSummary(cfg);
+  return {
+    er: { C: ce.avg, transitivity: ce.transitivity, Ck: G.clusteringByDegree(er, ce.local) },
+    configuration: { C: cc.avg, transitivity: cc.transitivity, Ck: G.clusteringByDegree(cfg, cc.local), L: cfg.m },
+  };
+}
+
+export const TASKS = { nullClustering, powerLawGoF,  distanceVsN, kmaxVsN, momentsVsN, estimatorTrials, giantVsK, giantScaling, wattsStrogatzSweep, randomize, sirSweep, baDegrees, multiLinkFraction };
