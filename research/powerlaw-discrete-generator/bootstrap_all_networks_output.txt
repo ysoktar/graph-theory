@@ -1,0 +1,8 @@
+metabolic {"p":0.106,"reps":1000,"kmin":5,"gamma":2.7138,"D":0.02589} 2.5s
+protein {"p":0.902,"reps":1000,"kmin":7,"gamma":2.7826,"D":0.0209} 1.3s
+powergrid {"p":0.76,"reps":1000,"kmin":10,"gamma":7.6294,"D":0.02861} 0.7s
+collaboration {"p":0,"reps":1000,"kmin":27,"gamma":3.4257,"D":0.02947} 11.0s
+phonecalls {"p":0.885,"reps":1000,"kmin":11,"gamma":4.7555,"D":0.00983} 3.5s
+email {"p":0,"reps":1000,"kmin":3,"gamma":1.9083,"D":0.02628} 41.5s
+internet {"p":0.064,"reps":1000,"kmin":70,"gamma":3.4027,"D":0.02113} 49.5s
+www {"p":0,"reps":1000,"kmin":6,"gamma":2.1555,"D":0.02803} 292.9s

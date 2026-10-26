@@ -21,7 +21,11 @@ bisection. It is generic (it only uses ccdf at integers), so it also fixes the o
 distributions that go through this path (truncated power law, exponential, lognormal, ...).
 The fix for (2) is to use np.floor.
 
-Run:  python proposed_fix.py            (needs numpy, scipy, powerlaw)
+A third, related defect: for parameters outside `parameter_ranges` (e.g. alpha > 3 with the default
+range [0, 3]) `in_range()` is False, `cdf()` returns ~0 and `ccdf()` returns 1 for every x, so the
+search never terminates and generate_random() hangs. The fix raises a ValueError instead.
+
+Run:  python proposed_fix.py            (needs numpy, scipy, powerlaw; set M=2000 for a quicker run)
 """
 import warnings
 import numpy as np
@@ -38,6 +42,10 @@ _original_estimate = Power_Law._generate_random_discrete_estimate
 def _double_search_discrete_fixed(self, r):
     """Largest integer k >= xmin with P(X >= k) >= 1 - r (exact discrete inverse transform)."""
     assert 0 <= r <= 1, f"Invalid r value provided to search for: {r}"
+    # 2.0.0 silently returns ccdf == 1 for out-of-range parameters, which makes any search loop forever
+    if not self.in_range():
+        raise ValueError(f"{self.name} parameters {self.parameters1} are outside parameter_ranges; "
+                         "widen parameter_ranges before generating random numbers")
     target = 1 - r
     lo = int(np.ceil(self.xmin))           # invariant: ccdf(lo) >= target  (ccdf(xmin) = 1)
     xmax = int(np.floor(self.xmax)) if self.xmax else None
@@ -53,6 +61,8 @@ def _double_search_discrete_fixed(self, r):
         lo = hi
         hi = lo + step
         step *= 2
+        if step > 2 ** 62:
+            raise RuntimeError("ccdf does not decay below 1 - r; cannot invert")
     # integer bisection, keeping ccdf(lo) >= target > ccdf(hi)
     while hi - lo > 1:
         mid = (lo + hi) // 2
@@ -92,12 +102,13 @@ def report(label, p_gen, p_exact, xmin, M):
 
 
 if __name__ == "__main__":
-    M = 4000  # quantile grid; an exact inverse gives max|ΔCDF| <= 1/M = 0.00025
+    M = int(__import__("os").environ.get("M", 4000))  # quantile grid; an exact inverse gives max|ΔCDF| <= 1/M = 0.00025
     print(f"powerlaw {powerlaw.__version__}; deterministic grid of M = {M} quantiles\n")
     print("Power law, exact-search path (estimate_discrete=False):")
     for alpha in (1.8, 2.5, 3.5):
         for xmin in (1, 2, 3, 5, 6, 10, 20):
-            d = powerlaw.Power_Law(xmin=xmin, parameters=[alpha], discrete=True, estimate_discrete=False)
+            d = powerlaw.Power_Law(xmin=xmin, parameters=[alpha], discrete=True, estimate_discrete=False,
+                                   parameter_ranges={"alpha": [1, 10]})  # default range [0, 3] would hang at alpha = 3.5
             kmax = 4000
             pe = exact_powerlaw_pmf(alpha, xmin, kmax)
             p_old, _ = pmf_from_generator(lambda r: _original_search(d, r), M, kmax)

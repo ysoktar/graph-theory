@@ -1,0 +1,9 @@
+NULL (true power-law tail): 200 data sets × 100 bootstrap replicates, 43 s
+  share p < 0.05: 0.010  (expected 0.05)
+  share p < 0.10: 0.045  (expected 0.10)
+  share p < 0.50: 0.405  (expected 0.50)
+  mean p: 0.549  (expected 0.5);  KS distance from uniform: 0.105 (5% critical value ≈ 0.096)
+POWER (cutoff κ = 200, n = 1039): rejected (p < 0.1) in 0.05 of 40 data sets
+POWER (cutoff κ = 200, n = 10000): rejected (p < 0.1) in 0.20 of 40 data sets
+POWER (cutoff κ = 50, n = 1039): rejected (p < 0.1) in 0.17 of 40 data sets
+POWER (cutoff κ = 50, n = 10000): rejected (p < 0.1) in 0.82 of 40 data sets

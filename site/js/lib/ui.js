@@ -183,7 +183,7 @@ export function figure(host, { title, sub, cols, caption, id } = {}) {
   return { el, head, controls, body, caption: cap, setCaption, panel: (title2, cls = "") => panel(body, title2, cls) };
 }
 export function panel(parent, title, cls = "") {
-  const p = h("div", { class: "panel " + cls }, title ? h("div", { class: "panel-title" }, title) : null);
+  const p = h("div", { class: "panel " + cls }, title != null ? h("div", { class: "panel-title" }, title) : null);
   parent.append(p);
   return p;
 }

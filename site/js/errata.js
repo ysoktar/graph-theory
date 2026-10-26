@@ -222,7 +222,7 @@ export const SOFTWARE = [
     quote: "x = bisect_map(mn=x1, mx=x2, function=func, target=1-r, tol=0.5)\nreturn int(x)",
     issue: "The exact discrete random generator bisects a continuous interpolation of the CCDF with tolerance 0.5 inside a bracket [k_min·2^j, k_min·2^(j+1)] and truncates the result. The final bracket lines up with the integers only when k_min is a power of two. For k_min = 3, 5, 6, 10 or 20 the generated CDF is off by 0.017–0.070, and P(k) can even increase with k (α = 2.5, k_min = 5: P(6) = 0.099, P(7) = 0.141; exact 0.164 and 0.111). Any bootstrap built on generate_random() inherits the error: for the E. coli metabolic network it gives p = 0.96 instead of the correct 0.11.",
     correction: "Search over integers: return the largest integer k with ccdf(k) ≥ 1 − r (exponential search, then integer bisection). A tested patch, the reproduction and the validation scripts are in research/powerlaw-discrete-generator/ in the repository.",
-    evidence: "Deterministic quantile-grid comparison with the exact CDF across α ∈ {1.8, 2.5, 3.5} and k_min ∈ {1, …, 20}; exact at k_min = 1, 2, 4, 8, 16. The notebook is not affected: its only call (cell 54) uses k_min = 1, where the generator happens to be exact.",
+    evidence: "Deterministic quantile-grid comparison with the exact CDF across α ∈ {1.8, 2.5} and k_min ∈ {1, …, 20} (α > 3 needs widened parameter_ranges, see S3); exact at k_min = 1, 2, 4, 8, 16. The notebook is not affected: its only call (cell 54) uses k_min = 1, where the generator happens to be exact.",
     page: "ch4-fitting.html",
   },
   {
@@ -231,6 +231,14 @@ export const SOFTWARE = [
     issue: "Clauset et al. (2009, eq. D.6) floor the shifted value, x = ⌊(x_min − ½)(1 − r)^{−1/(α−1)} + ½⌋. Rounding a value that already includes the +½ pushes samples up by half a unit on average, and P(K = k_min) is roughly halved: 0.074 instead of 0.139 for α = 2.5 and k_min = 10.",
     correction: "Use np.floor.",
     evidence: "2,000-point quantile grid: P(K = k_min) = 0.0740 / 0.0375 / 0.0150 (powerlaw) against 0.1391 / 0.0722 / 0.0296 (exact) for k_min = 10 / 20 / 50; with floor 0.1395 / 0.0725 / 0.0295.",
+    page: "ch4-fitting.html",
+  },
+  {
+    id: "S3", severity: "error", location: "powerlaw 2.0.0, distributions.py: Distribution.generate_random with a discrete distribution whose parameters are outside parameter_ranges",
+    quote: "# in Distribution.cdf() and pdf()\nif not self.in_range():\n    return np.tile(10**sys.float_info.min_10_exp, n)",
+    issue: "parameter_ranges are fitting constraints (default α ∈ [0, 3] since powerlaw 2.0), but they also gate the distribution's own functions. A Power_Law(xmin=…, parameters=[3.5], discrete=True) built by hand is 'out of range', so its cdf and pdf return a constant 10⁻³⁰⁷, its ccdf is 1 for every k, and the search in generate_random() never finds a k with ccdf(k) < 1 − r. The call loops forever without an error.",
+    correction: "Either raise an error when in_range() is False, or pass parameter_ranges wide enough to contain the parameters (for example parameter_ranges={'alpha': [1, 10]}) before generating random numbers.",
+    evidence: "repro_hang_out_of_range.py: for α = 3.5, k_min = 1, in_range() is False and ccdf(2) = ccdf(100) = 1 (exact: 0.112 and 3.6×10⁻⁶); generate_random(5) is still running when a 20 s timeout kills it. The continuous version, and the discrete one with parameter_ranges={'alpha': [1, 10]}, return immediately.",
     page: "ch4-fitting.html",
   },
 ];

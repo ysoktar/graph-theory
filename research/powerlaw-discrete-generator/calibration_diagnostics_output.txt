@@ -1,0 +1,4 @@
+A full CSN, all kmin candidates [300×100, 71s]: P(p<0.05)=0.030 P(p<0.1)=0.063 P(p<0.5)=0.363 mean=0.583 KS=0.147 (crit 0.079)
+B full CSN, candidates with ≥10 tail points [300×100, 64s]: P(p<0.05)=0.027 P(p<0.1)=0.053 P(p<0.5)=0.467 mean=0.538 KS=0.077 (crit 0.079)
+C kmin known (= 5), gamma refitted [300×100, 5s]: P(p<0.05)=0.070 P(p<0.1)=0.123 P(p<0.5)=0.497 mean=0.488 KS=0.040 (crit 0.079)
+D pure power law, kmin = 1 known [300×100, 4s]: P(p<0.05)=0.050 P(p<0.1)=0.107 P(p<0.5)=0.457 mean=0.511 KS=0.060 (crit 0.079)
