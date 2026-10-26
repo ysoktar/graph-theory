@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Spreading &amp; vaccination · From Graphs to Hubs</title>
+<meta name="description" content="SIR outbreaks on random and scale-free networks, why ⟨k²⟩ sets the epidemic threshold, and how random, targeted and acquaintance vaccination compare.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,35 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/epidemics.js"></script>
 </head>
 <body data-page="epidemics">
 <main><div class="content">
+
+<h1>Spreading &amp; vaccination</h1>
+<p class="lead">Viruses, rumours and computer worms spread along links. On a scale-free network the hubs that hold it together also carry outbreaks everywhere, which changes how epidemics behave and how to stop them (Chapter 10).</p>
+
+<h2>The epidemic threshold</h2>
+<p>In the SIR model a node is susceptible, infected or recovered. Here each infected node passes the infection to each susceptible neighbour with probability $T$ (the transmissibility) and then recovers. An outbreak can reach a finite share of the network only if an infected node, reached through a link, infects on average more than one further node. That gives the threshold</p>
+<div class="eq">$$T_c = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}.$$</div>
+<p>For a random network $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$ and $T_c = 1/\langle k\rangle$. For a scale-free network with $\gamma < 3$, $\langle k^2\rangle$ diverges with $N$ and $T_c \to 0$: even a barely contagious disease can spread (Pastor-Satorras and Vespignani 2001).</p>
+<div data-fig id="fig-outbreak"></div>
+<div data-fig id="fig-vacc"></div>
+<div class="callout key">
+  <p>The same $\langle k^2\rangle$ that makes heavy-tailed networks robust to random failures (<a href="robustness.html">Ch 8</a>) makes them vulnerable to epidemics, and the remedy mirrors the attack: remove the hubs, here by vaccinating them.</p>
+</div>
+
+<div class="callout discuss">
+  <p>Back to the notebook's closing question: if you could vaccinate 1% of a population whose contact network is scale-free, whom would you choose, and why does $\langle k^2\rangle$ matter?</p>
+  <div class="hint">The hubs, if you know who they are: removing them cuts $\langle k^2\rangle$ much more than $\langle k\rangle$ and raises $T_c$. If you do not know the network, acquaintance vaccination finds hubs with high probability, because a random contact of a random person has on average $\langle k^2\rangle/\langle k\rangle$ contacts, more than the average person's $\langle k\rangle$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>A contact network has $\langle k\rangle = 4$ and $\langle k^2\rangle = 84$. What is the epidemic threshold $T_c$?</p>
+  <ol><li>0.25</li><li>0.05</li><li>0.5</li><li>0.012</li></ol>
+  <div class="explain">$T_c = \langle k\rangle/(\langle k^2\rangle - \langle k\rangle) = 4/80 = 0.05$. A random network with the same $\langle k\rangle$ would have $T_c = 1/4 = 0.25$, five times higher.</div>
+</div>
+
 </div></main>
 </body>
 </html>
