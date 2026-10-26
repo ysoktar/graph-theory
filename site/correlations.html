@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Degree correlations · From Graphs to Hubs</title>
+<meta name="description" content="Assortative and disassortative networks: the degree correlation function k_nn(k), the assortativity coefficient r, structural cutoffs, and the book's eight networks.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,48 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/correlations.js"></script>
 </head>
 <body data-page="correlations">
 <main><div class="content">
+
+<h1>Degree correlations</h1>
+<p class="lead">Do hubs link to hubs, or to small nodes? Two networks with exactly the same degree sequence can answer this question in opposite ways (Chapter 7).</p>
+
+<h2>Measuring correlations</h2>
+<p>The <strong>degree correlation function</strong> is the average degree of the neighbours of the nodes with degree $k$:</p>
+<div class="eq">$$k_{nn}(k) = \sum_{k'} k'\, P(k' \mid k).$$</div>
+<p>If links ignore degrees (a <em>neutral</em> network), a link ends at a node of degree $k'$ with probability $k' p_{k'}/\langle k\rangle$, and $k_{nn}(k) = \langle k^2\rangle/\langle k\rangle$ for every $k$. In an <strong>assortative</strong> network $k_{nn}(k)$ increases with $k$ (hubs link to hubs); in a <strong>disassortative</strong> network it decreases (hubs link to small nodes). The book often fits $k_{nn}(k) \approx a k^{\mu}$, with $\mu > 0$ assortative and $\mu < 0$ disassortative.</p>
+<p>A single number summarises the same information: the <strong>assortativity coefficient</strong> $r$ (Newman 2002), the Pearson correlation between the degrees at the two ends of a link, $-1 \le r \le 1$.</p>
+<div data-fig id="fig-rewire"></div>
+
+<h2>The book's networks</h2>
+<div data-fig id="fig-knn"></div>
+<div id="tbl-r"></div>
+<div class="callout look">
+  <ul>
+    <li>The social networks are assortative: collaboration ($r = 0.13$) and phone calls ($r = 0.21$). Well-connected scientists write with well-connected scientists.</li>
+    <li>The biological networks are disassortative: metabolism ($r = -0.25$) and protein interactions ($-0.08$), as are email and the WWW sample. The power grid and the Internet are close to neutral.</li>
+    <li>Wiring the same degrees at random leaves the social networks neutral but metabolism still strongly disassortative ($-0.17$). That part is <em>structural</em>, explained next.</li>
+  </ul>
+</div>
+
+<h2>Structural disassortativity (Section 7.4)</h2>
+<p>In a simple network two hubs can share at most one link. When the expected number of links between the largest hubs, $k k'/(\langle k\rangle N)$, exceeds 1, the configuration model would need repeated links between them; forbidding those pushes hubs to link to small nodes instead. This happens above the <strong>structural cutoff</strong></p>
+<div class="eq">$$k_s \approx \sqrt{\langle k\rangle N}.$$</div>
+<p>Metabolism ($k_{\max} = 638$ against $k_s \approx 97$), email and the WWW all have hubs far above it, so part of their disassortativity is forced by the degree sequence. Only correlations that survive degree-preserving randomization, like those of the collaboration network, say something about how the network was built.</p>
+
+<div class="callout discuss">
+  <p>Why might social networks be assortative while technological and biological ones are disassortative?</p>
+  <div class="hint">Social ties form by homophily: people link to similar people, including people of similar popularity, and groups (co-author teams, clubs) link everyone in them to each other. In technological networks hubs are expensive, specialised nodes (routers, hub airports, central metabolites) whose job is to serve many small nodes, and the structural cutoff adds disassortativity whenever hubs are very large.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>In a network $k_{nn}(k)$ is flat and equal to $\langle k^2\rangle/\langle k\rangle = 25$. What is $r$ approximately?</p>
+  <ol><li>$1$</li><li>$0$</li><li>$-1$</li><li>$25$</li></ol>
+  <div class="explain">A flat $k_{nn}(k)$ at the neutral value means the degree at one end of a link says nothing about the degree at the other end: no correlation, $r \approx 0$.</div>
+</div>
+
 </div></main>
 </body>
 </html>
