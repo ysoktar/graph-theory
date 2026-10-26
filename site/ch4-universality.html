@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Universality · From Graphs to Hubs</title>
+<meta name="description" content="The same Clauset–Shalizi–Newman procedure applied to all eight of the book's networks: their tails, exponents, goodness-of-fit tests and comparisons with alternatives.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,39 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/ch4-universality.js"></script>
 </head>
 <body data-page="ch4-universality">
 <main><div class="content">
+
+<h1>Universality</h1>
+<p class="lead">Cells, power grids, scientists, phones, email, routers and web pages: do networks this different share a degree distribution? Section 4.5 argues that heavy tails are universal. Here is the same test applied to all eight networks.</p>
+
+<div data-fig id="fig-multiples"></div>
+<div class="callout fix" data-errata="N15"></div>
+
+<h2>The fits</h2>
+<p>Each network was fitted with the Clauset–Shalizi–Newman method (<a href="ch4-fitting.html">Estimating the exponent</a>): $k_{\min}$ by minimum KS distance, $\gamma$ by maximum likelihood, a bootstrap goodness-of-fit test with 1,000 synthetic data sets, and likelihood-ratio tests ($R > 0$ favours the power law; the sign is significant when $p < 0.1$).</p>
+<div id="tbl-fits"></div>
+<div class="callout look">
+  <ul>
+    <li><strong>Heavy tails are nearly universal.</strong> In seven of the eight networks the power law beats the exponential decisively. Every network except the power grid is far from Poisson.</li>
+    <li><strong>Strict power laws are not.</strong> The bootstrap rules the power law out for collaboration, email and the WWW (and narrowly for the Internet), and in those three the log-normal fits the tail significantly better. Where the power law is plausible, it often describes a small share of the nodes: 0.7% for the Internet, 2% for phone calls.</li>
+    <li><strong>The power grid</strong> is the exception. Its best "power law" has $\hat\gamma \approx 7.6$, covers 1% of the nodes and cannot be told apart from an exponential tail. A network built under geographic and engineering constraints has no hubs.</li>
+    <li><strong>Exponents vary</strong> from 1.9 (email) to 4.8 (phone calls). Only metabolism, protein interactions and the WWW fall inside $2 < \gamma < 3$ (see <a href="ch4-exponent.html">The role of γ</a>).</li>
+  </ul>
+</div>
+<div class="callout fix" data-errata="N16"></div>
+
+<div class="callout note">
+  <p>The book fits the in- and out-degrees of directed networks (WWW, email, metabolism, phone calls) separately and reports them in its Table 4.1. This site, like the notebook, treats every network as undirected, so its exponents describe the total number of distinct neighbours and are not directly comparable for those four. For the undirected networks the agreement is close: the Internet comes out at 3.40 against the book's 3.42.</p>
+</div>
+
+<div class="callout discuss">
+  <p>If the log-normal often fits as well as or better than a power law, why does it matter which one we choose?</p>
+  <div class="hint">For many consequences it does not: hubs, short distances, robustness and fast spreading all follow from a large $\langle k^2\rangle$, and both distributions can produce one. It matters for <em>mechanism</em> and <em>extrapolation</em>. Preferential attachment (Chapter 5) predicts a power law; multiplicative random growth tends to produce a log-normal. And a power law with $\gamma < 3$ predicts that $\langle k^2\rangle$ keeps growing with the network's size, while a log-normal does not.</div>
+</div>
+
 </div></main>
 </body>
 </html>

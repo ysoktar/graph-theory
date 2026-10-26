@@ -241,7 +241,8 @@ export class Plot {
         const sel = plotArea.append("g").selectAll("path").data(data).join("path").attr("class", "series-dot")
           .attr("transform", (d) => `translate(${x(d[0])},${y(d[1])})`)
           .attr("d", D3.symbol(s.symbol === "square" ? D3.symbolSquare : s.symbol === "triangle" ? D3.symbolTriangle : s.symbol === "diamond" ? D3.symbolDiamond : D3.symbolCircle, Math.PI * r * r * (s.symbol === "square" ? 0.8 : 1)))
-          .style("fill", col).style("opacity", s.opacity ?? null);
+          .style("fill", col).style("opacity", s.opacity ?? null)
+          .style("stroke-width", r < 3 ? 0.5 : null); // a thin ring keeps small dots from washing out
         if (s.hollow) sel.style("fill", "var(--surface)").style("stroke", col).style("stroke-width", 1.5);
       }
     }
