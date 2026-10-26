@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Network lab · From Graphs to Hubs</title>
+<meta name="description" content="Generate a model network, load a real one or paste your own edge list, and measure its degrees, distances, clustering, correlations, power-law fit and centralities in your browser.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,27 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/lab.js"></script>
 </head>
 <body data-page="lab">
-<main><div class="content">
+<main><div class="content wide">
+
+<h1>Network lab</h1>
+<p class="lead">A workbench for everything on this site: build or load a network and measure it. Nothing is uploaded; pasted data stays in your browser.</p>
+
+<div data-fig id="fig-source"></div>
+<div data-fig id="fig-analysis"></div>
+
+<div class="callout try">
+  <ul>
+    <li>Generate a Barabási–Albert network and a random network with the same $N$ and $\langle k\rangle$: compare $k_{\max}$, $\langle k^2\rangle$ and $\langle d\rangle$.</li>
+    <li>Watts–Strogatz with $p = 0$, $0.01$ and $1$: watch $\langle C\rangle$ and $\langle d\rangle$.</li>
+    <li>Holme–Kim adds triangles to preferential attachment: how much does $\langle C\rangle$ rise as the triad probability goes from 0 to 1?</li>
+    <li>A configuration model with $\gamma = 2.1$: is its power-law fit close to 2.1? What does the largest component look like?</li>
+    <li>Load the Florentine families: which family has the highest betweenness? (Padgett and Ansell used this network to explain the rise of the Medici.)</li>
+  </ul>
+</div>
+
 </div></main>
 </body>
 </html>
