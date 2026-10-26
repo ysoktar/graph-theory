@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real networks are sparse · From Graphs to Hubs</title>
+<meta name="description" content="Real networks use a vanishing fraction of their possible links. See it in the book's eight networks, in the collaboration network's adjacency matrix, and in what it costs to store a network.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-sparsity.js"></script>
+</head>
+<body data-page="ch2-sparsity">
+<main><div class="content">
+
+<h1>Real networks are sparse</h1>
+<p class="lead">In a network of $N$ nodes every pair could be linked, giving at most $L_{\max} = N(N-1)/2$ links. Real networks use only a tiny fraction of them, and the fraction shrinks as networks grow.</p>
+<div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}, \qquad \text{density} = \frac{L}{L_{\max}} = \frac{\langle k\rangle}{N-1}.$$</div>
+<p>A network with $L \approx L_{\max}$ is <em>dense</em> (in the extreme, a complete graph, $\langle k\rangle = N - 1$). A network with $L \ll L_{\max}$ is <em>sparse</em>. Every network in the book is sparse. Their average degree stays small, between about 3 and 10 in our data, while $N$ ranges over more than two orders of magnitude.</p>
+
+<h2>The eight reference networks</h2>
+<div data-fig id="fig-lvn"></div>
+<div class="callout look">
+  <p>The real networks lie four to five orders of magnitude below the $L_{\max}$ line. Along the dashed line every pair of nodes is linked; the real networks run parallel to the grey lines of constant $\langle k\rangle$ instead, so $L$ grows like $N$, not like $N^2$.</p>
+</div>
+
+<h2>What sparsity looks like</h2>
+<p>The adjacency matrix of the science collaboration network has $23{,}133^2 \approx 5.35\times 10^8$ entries, of which only $2L = 186{,}878$ are non-zero (0.035%).</p>
+<div data-fig id="fig-spy"></div>
+
+<h2>Why it matters: storing a network</h2>
+<p>A dense matrix needs $N^2$ entries, sparse or not. An <strong>edge list</strong> or a <strong>sparse matrix</strong> (compressed rows: an index array of $N+1$ offsets and the $2L$ neighbour lists) needs memory proportional to $L$.</p>
+<div data-fig id="fig-memory"></div>
+
+<div class="callout discuss">
+  <p>Why do we store networks as <strong>edge lists</strong> or <strong>sparse matrices</strong>? How much memory would a dense matrix need for the WWW sample ($N \approx 3\times10^5$), or for Facebook ($N \approx 3\times10^9$)? <span class="muted">(Notebook I.3.)</span></p>
+  <div class="hint">For the WWW sample, $N^2 \approx 1.1\times10^{11}$ entries: about 13 GB even at one bit per entry, and 106 GB at one byte. Its 1.1 million links fit in an edge list of about 9 MB. For $N = 3\times10^9$, $N^2 = 9\times10^{18}$ entries is about an exabyte at one bit each, more than any computer holds, while an edge list with $\langle k\rangle \approx 200$ needs a few terabytes. Use the calculator above with the presets.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>A network keeps growing while its average degree stays at $\langle k\rangle = 10$. What happens to its density as $N$ grows from $10^3$ to $10^6$?</p>
+  <ol><li>It stays the same</li><li>It drops by a factor of about 1,000</li><li>It grows by a factor of 1,000</li><li>It drops by a factor of $10^6$</li></ol>
+  <div class="explain">Density $= \langle k\rangle/(N-1)$: with $\langle k\rangle$ fixed it falls like $1/N$, here from about $10^{-2}$ to $10^{-5}$.</div>
+</div>
+
+</div></main>
+</body>
+</html>

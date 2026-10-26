@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binomial → Poisson degrees · From Graphs to Hubs</title>
+<meta name="description" content="The degree distribution of a random network: binomial, Poisson in the sparse limit, and independent of the network size.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch3-degree.js"></script>
+</head>
+<body data-page="ch3-degree">
+<main><div class="content">
+
+<h1>Degree distribution: binomial → Poisson</h1>
+<p class="lead">In a random network every node has the same chances, so its degree distribution can be written down exactly. Its shape is the yardstick against which real networks will be measured.</p>
+
+<p>A node has $N-1$ potential partners and links to each independently with probability $p$. Its degree is therefore binomially distributed:</p>
+<div class="eq">$$p_k = \binom{N-1}{k}\, p^k (1-p)^{N-1-k}.$$</div>
+<p>Real networks are sparse ($\langle k\rangle \ll N$). In that limit, with $\langle k\rangle = p(N-1)$ held fixed, the binomial becomes the <strong>Poisson distribution</strong> (book, Advanced Topic 3.A):</p>
+<div class="eq">$$p_k = e^{-\langle k\rangle}\,\frac{\langle k\rangle^k}{k!}, \qquad \sigma_k = \sqrt{\langle k\rangle}.$$</div>
+<p>The Poisson form depends on a single parameter, $\langle k\rangle$. Networks of very different size but the same average degree have the same degree distribution.</p>
+
+<h2>Simulated random networks</h2>
+<div data-fig id="fig-sim"></div>
+<div class="callout look">
+  <ul>
+    <li>Points for $N = 500$, $5{,}000$ and $50{,}000$ fall on the same Poisson curve: $p_k$ depends only on $\langle k\rangle$.</li>
+    <li>Switch to a logarithmic vertical axis: the probabilities fall off faster than exponentially beyond the peak (as $\langle k\rangle^k/k!$). For $\langle k\rangle = 10$, a node with twice the average degree is already rare ($P(k \ge 20) = 0.35\%$), and one with ten times the average essentially never occurs ($P(k \ge 100) \approx 5\times10^{-63}$).</li>
+  </ul>
+</div>
+
+<h2>When is Poisson a good approximation?</h2>
+<div data-fig id="fig-binpoi"></div>
+<div class="callout look">
+  <p>For small networks the binomial is visibly narrower than the Poisson curve, because a node cannot have more than $N-1$ neighbours: its variance is $\langle k\rangle(1-p)$ instead of $\langle k\rangle$. Once $N$ is a few dozen times $\langle k\rangle$ the two are indistinguishable. In every real network of the book $N$ is more than 100 times $\langle k\rangle$ (the closest is E. coli metabolism, with $N/\langle k\rangle \approx 114$).</p>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>In a random network with $\langle k\rangle = 100$, between which degrees do almost all nodes lie (within three standard deviations)?</p>
+  <ol><li>0 and 200</li><li>70 and 130</li><li>97 and 103</li><li>90 and 110</li></ol>
+  <div class="explain">$\sigma_k = \sqrt{100} = 10$, so $\langle k\rangle \pm 3\sigma_k = 70 \dots 130$. In a random network the average degree is a good description of every node.</div>
+</div>
+
+</div></main>
+</body>
+</html>

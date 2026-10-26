@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The data: eight real networks · From Graphs to Hubs</title>
+<meta name="description" content="The eight reference networks from Barabási's Network Science used throughout the site: what they are, how they were processed, and their key statistics.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/data.js"></script>
+</head>
+<body data-page="data">
+<main><div class="content">
+
+<h1>The data: eight real networks</h1>
+<p class="lead">Throughout the book, ten "reference networks" serve as test cases (Table 2.1). The class notebook, and this site, use eight of them, spanning biology, technology, society and information. The other two, the actor and citation networks, are too large for a classroom.</p>
+
+<h2>Explore a network</h2>
+<div data-fig id="fig-explore"></div>
+<div class="callout look">
+  <p>Compare the power grid with the WWW or the email network. The grid is a sparse, almost lattice-like web with no node above 19 links. The WWW and email samples are dominated by a few hubs. The degree distributions tell the same story: close to the Poisson curve for the grid, orders of magnitude above it in the tail for the others. Explaining that difference is the job of Chapters 3 and 4.</p>
+</div>
+
+<h2>All eight at a glance</h2>
+<div id="tbl-all"></div>
+<p class="small muted">⟨d⟩: mean distance within the giant component, estimated from breadth-first searches from 300 random sources (as in the notebook). γ̂ and k_min: Clauset–Shalizi–Newman fit of the degree distribution. p: bootstrap goodness-of-fit p-value (1,000 replicates); a power law is plausible if p ≥ 0.1. See <a href="ch4-fitting.html">Estimating the exponent</a>.</p>
+
+<h2>How the data were prepared</h2>
+<ol>
+  <li>The edge lists come from the book's website (<code>networks.zip</code>, 141 MB).</li>
+  <li>Each network is made <strong>undirected and simple</strong>, as in the notebook: link directions are ignored, and self-loops and repeated links are removed. Nodes are relabelled 0…N−1.</li>
+  <li>The script <code>tools/preprocess.py</code> (in the repository) computes degree histograms, components, clustering, distances, assortativity, power-law fits and null-model counterparts, and writes them as small JSON files. The six smaller networks also ship as full edge lists, about 1 MB in total, so pages can analyse them live in your browser. The Internet and the WWW, with 0.6 and 1.1 million links, ship as summaries only.</li>
+</ol>
+<div class="callout fix" data-errata="N2"></div>
+<div class="callout fix" data-book="B4"></div>
+<div class="callout fix" data-book="B3"></div>
+
+<div class="callout discuss">
+  <p>Five of the eight networks are directed in reality. What information is lost when we treat an email network as undirected? Which questions could no longer be answered?</p>
+  <div class="hint">Direction tells who initiates contact. Spammers and mailing lists send far more than they receive; popular addresses receive far more than they send. An undirected network merges both into one degree, so it cannot tell broadcasters from receivers, and reciprocated pairs collapse into a single link. Questions about information flow, reachability ("can a message get from A to B?") or the in- and out-degree exponents reported in the book need the directed network.</div>
+</div>
+
+</div></main>
+</body>
+</html>

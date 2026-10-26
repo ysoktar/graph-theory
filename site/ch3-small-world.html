@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Small worlds · From Graphs to Hubs</title>
+<meta name="description" content="Six degrees of separation: why distances in random networks grow only like ln N, how the book's networks compare with their random counterparts, and the Watts–Strogatz model.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch3-small-world.js"></script>
+</head>
+<body data-page="ch3-small-world">
+<main><div class="content">
+
+<h1>Small worlds</h1>
+<p class="lead">Any two people on Earth are linked by a short chain of acquaintances, about six handshakes long. Random networks explain why such short chains must exist, and real networks mostly confirm it, with one instructive exception.</p>
+
+<p>The idea is old. Frigyes Karinthy's 1929 short story <em>Láncszemek</em> ("Chains") already bets that any two people are at most five acquaintances apart. Stanley Milgram tested it in 1967: people in Nebraska and Kansas were asked to forward a letter towards a stranger in Boston, only through people they knew by first name. The chains that arrived had about five intermediaries, which became the phrase "six degrees of separation".</p>
+
+<h2>Why distances are short (Section 3.8)</h2>
+<p>In a random network a node has on average $\langle k\rangle$ neighbours, about $\langle k\rangle^2$ nodes at distance two, $\langle k\rangle^3$ at distance three, and so on. The number of nodes within distance $d$ is</p>
+<div class="eq">$$N(d) \approx 1 + \langle k\rangle + \langle k\rangle^2 + \dots + \langle k\rangle^d = \frac{\langle k\rangle^{d+1} - 1}{\langle k\rangle - 1}.$$</div>
+<p>It cannot exceed $N$. Setting $N(d_{\max}) \approx N$ gives the <strong>small-world property</strong>:</p>
+<div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln \langle k\rangle}.$$</div>
+<p>The distance grows only <em>logarithmically</em> with the size of the network: making the network ten times larger adds a constant number of steps, $\ln 10/\ln\langle k\rangle$.</p>
+<div data-fig id="fig-ball"></div>
+
+<div data-fig id="fig-bfs"></div>
+<div class="callout look">
+  <p>Move the slider to $d = 4$: the random network has reached most of its nodes, the lattice only a small diamond around the source. Distances in a $D$-dimensional lattice grow like $N^{1/D}$, a power of $N$, not like $\ln N$.</p>
+</div>
+
+<h2>How good is the formula?</h2>
+<p>The estimate $\ln N/\ln\langle k\rangle$ assumes that the neighbourhood of a node is a tree, so that no node is counted twice. Advanced Topic 3.G gives a more precise result for random networks (Fronczak, Fronczak and Hołyst, 2004), with Euler's constant $\gamma_E \approx 0.5772$:</p>
+<div class="eq">$$\langle d\rangle \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12.$$</div>
+<div data-fig id="fig-dn"></div>
+
+<h2>Real networks (Section 3.8)</h2>
+<p>The notebook compares a single network, the collaboration network, with the formula $\ln N/\ln\langle k\rangle$. A fairer test compares every network with a simulated random network of the same size.</p>
+<div data-fig id="fig-real"></div>
+<div class="callout fix" data-errata="N11"></div>
+<div data-fig id="fig-dist"></div>
+
+<div class="callout discuss">
+  <p>Email and metabolism have much <em>shorter</em> distances than their random counterparts, and the power grid has much <em>longer</em> ones. What feature of each network could explain this?</p>
+  <div class="hint">Short distances: these networks have hubs (one email address has 6,553 contacts, one metabolite takes part in reactions with 638 others). A hub is a shortcut that most paths can use. Chapter 4 shows that in scale-free networks distances can grow even slower than $\ln N$ (<a href="ch4-ultra-small.html">ultra-small worlds</a>). Long distances: the power grid is embedded in space, and long power lines are expensive, so almost all links join nearby stations. Without long-range shortcuts it behaves like a lattice.</div>
+</div>
+
+<h2>Small worlds with clustering: the Watts–Strogatz model</h2>
+<p>Random networks have short distances but almost no triangles (<a href="ch3-clustering.html">next page</a>). Regular lattices have plenty of triangles but long distances. Real social networks have both. Duncan Watts and Steven Strogatz (1998) showed how little it takes to combine them: rewire a small fraction of a lattice's links at random.</p>
+<div data-fig id="fig-ws"></div>
+<div data-fig id="fig-ws-sweep"></div>
+<div class="callout key">
+  <p>A small world needs only a few long-range shortcuts. Because each shortcut shortens the paths of many pairs at once, distances fall quickly as $p$ grows, while clustering, which is a local property, hardly notices. The Watts–Strogatz model explains clustering and short paths together, but its degree distribution is still narrow, close to that of a random network. It has no hubs.</p>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>A random network has $\langle k\rangle = 10$. If $N$ grows from $10^4$ to $10^6$ nodes, by roughly how much does $\langle d\rangle$ grow?</p>
+  <ol><li>It does not change</li><li>By about 2 steps</li><li>By a factor of 10</li><li>By a factor of 100</li></ol>
+  <div class="explain">$\Delta\langle d\rangle \approx \ln(10^6/10^4)/\ln 10 = 2$. A hundred times more nodes adds only two steps: from about 4 to about 6.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Which network is <em>not</em> a small world in the sense of $\langle d\rangle \sim \ln N$?</p>
+  <ol><li>A random network with $\langle k\rangle = 3$</li><li>A Watts–Strogatz network with $p = 0.05$</li><li>A square lattice</li><li>The email network</li></ol>
+  <div class="explain">In a square lattice $\langle d\rangle \approx \frac23\sqrt N$. The other three all have distances that grow at most logarithmically.</div>
+</div>
+
+</div></main>
+</body>
+</html>

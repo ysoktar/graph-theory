@@ -1,0 +1,4 @@
+sampler check p(5): 0.2893 vs exact 0.2888
+sampler check p(6): 0.1764 vs exact 0.1761
+sampler check p(7): 0.1157 vs exact 0.1159
+metabolic: Python bootstrap (powerlaw fits, exact sampler) p = 0.113 over 400 replicates (kmin=5, gamma=2.714, D=0.0259)

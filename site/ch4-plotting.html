@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How (not) to plot pₖ · From Graphs to Hubs</title>
+<meta name="description" content="Linear bins, logarithmic bins and the cumulative distribution, side by side on the book's networks and on synthetic power laws: why the tail of a raw histogram is noise.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch4-plotting.js"></script>
+</head>
+<body data-page="ch4-plotting">
+<main><div class="content">
+
+<h1>How (not) to plot a degree distribution</h1>
+<p class="lead">A power law looks like a straight line on log-log axes, so it is tempting to plot the raw histogram and fit a line. The raw histogram, however, hides the tail behind sampling noise. Advanced Topic 4.B gives two remedies.</p>
+
+<h2>Four plots, one distribution</h2>
+<div data-fig id="fig-four"></div>
+<div class="callout look">
+  <ul>
+    <li><strong>(a)</strong> On linear axes the tail is invisible: everything beyond a few dozen links is squashed onto the axis.</li>
+    <li><strong>(b)</strong> On log-log axes with one bin per degree, the tail flattens into a <em>plateau</em> at $p_k = 1/N$. Each of those degrees is held by a single node, or by none (and then it cannot be plotted at all). This is <em>noise, not physics</em>.</li>
+    <li><strong>(c)</strong> Logarithmic bins grow wider with $k$, so each bin collects enough nodes. Dividing the count by $N$ and by the bin width gives an estimate of $p_k$ that follows the straight line far into the tail.</li>
+    <li><strong>(d)</strong> The complementary cumulative distribution $P(K \ge k)$ needs no binning at all. For a power law it is again a straight line, with slope $-(\gamma - 1)$.</li>
+  </ul>
+</div>
+
+<h2>Logarithmic binning</h2>
+<p>With $b$ bins per decade, the bin edges are $k_n \approx 10^{n/b}$, so that each bin is a constant factor $10^{1/b}$ wider than the previous one. The estimate in bin $n$ is</p>
+<div class="eq">$$p_{k_n} = \frac{N_n}{N\,(k_{n+1} - k_n)},$$</div>
+<p>where $N_n$ is the number of nodes with degrees in the bin, and the point is drawn at the geometric centre of the bin. Change the number of bins per decade in the figure: with too few bins the curve is coarse, with too many the noise returns.</p>
+
+<h2>The cumulative distribution</h2>
+<p>The complementary cumulative distribution function (CCDF) is the share of nodes with at least $k$ links,</p>
+<div class="eq">$$P_k = P(K \ge k) = \sum_{q \ge k} p_q \sim k^{-(\gamma - 1)}.$$</div>
+<p>Every node contributes to it, there is no binning choice to make, and it decreases smoothly even where individual degrees are absent. Its points are not independent, though, so a least-squares fit to it still gives no reliable error bars.</p>
+<div class="callout fix" data-errata="N8"></div>
+
+<h2>Where the plateau comes from</h2>
+<div data-fig id="fig-plateau"></div>
+
+<div class="callout gotcha">
+  <p><strong>Never fit a straight line to a linearly binned log-log histogram.</strong> The plateau of single-node degrees pulls the fitted slope towards zero, and the result depends on how far into the tail the fit reaches. On the <a href="ch4-fitting.html">next page</a> this estimator gives $\hat\gamma \approx 1.6$ for a sample with $\gamma = 2.5$.</p>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>A logarithmic bin covers the degrees 100 to 199 and contains 50 of the network's $N = 10^5$ nodes. What is the estimate of $p_k$ in that bin?</p>
+  <ol><li>$5\times10^{-4}$</li><li>$0.5$</li><li>$5\times10^{-6}$</li><li>$50$</li></ol>
+  <div class="explain">$p_k \approx N_n / (N \cdot \text{width}) = 50 / (10^5 \times 100) = 5\times10^{-6}$. Forgetting to divide by the width gives $5\times10^{-4}$, the probability of landing anywhere in the bin.</div>
+</div>
+
+</div></main>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The adjacency matrix · From Graphs to Hubs</title>
+<meta name="description" content="Edit a network through its adjacency matrix, see the karate club's communities as blocks, and count walks and triangles with matrix powers.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-adjacency.js"></script>
+</head>
+<body data-page="ch2-adjacency">
+<main><div class="content">
+
+<h1>The adjacency matrix</h1>
+<p class="lead">A complete description of a network has to record which pairs of nodes are linked. One way is a list of links; for mathematics the natural object is the <strong>adjacency matrix</strong>.</p>
+
+<p>For a network of $N$ nodes, $A$ has $N$ rows and $N$ columns, with</p>
+<div class="eq">$$A_{ij} = \begin{cases} 1 & \text{if nodes } i \text{ and } j \text{ are linked,}\\ 0 & \text{otherwise.}\end{cases}$$</div>
+<p>In an undirected network each link appears twice ($A_{ij} = A_{ji} = 1$), so $A$ is symmetric and has $2L$ non-zero entries. The degrees and the number of links follow directly from it:</p>
+<div class="eq">$$k_i = \sum_{j=1}^{N} A_{ij}, \qquad L = \frac{1}{2}\sum_{i,j=1}^{N} A_{ij}.$$</div>
+<p>For a <strong>directed</strong> network the book's convention is $A_{ij} = 1$ if a link points <em>from $j$ to $i$</em>. Then row sums give in-degrees and column sums give out-degrees, $k_i^{\text{in}} = \sum_j A_{ij}$ and $k_j^{\text{out}} = \sum_i A_{ij}$, and $A$ is generally not symmetric.</p>
+
+<h2>Edit a network through its matrix</h2>
+<div data-fig id="fig-edit"></div>
+<div class="callout look">
+  <ul>
+    <li>In undirected mode, clicking $A_{ij}$ also sets $A_{ji}$: the matrix stays symmetric, the diagonal stays empty (no self-loops), and each row sum is the node's degree.</li>
+    <li>In directed mode a single entry is one arrow. Row sums become in-degrees and column sums out-degrees, and both add up to $L$.</li>
+  </ul>
+</div>
+
+<h2>The karate club as a matrix</h2>
+<p>The same 34 members and 78 links as before, now as a $34\times 34$ matrix. The order of the rows is arbitrary (any relabelling of the nodes is the same network), yet a good order can reveal structure.</p>
+<div data-fig id="fig-karate"></div>
+<div class="callout look">
+  <p>Sorted by faction, two dense blocks appear on the diagonal: most links stay within a faction. This is a first glimpse of <em>community structure</em> (<a href="communities.html">Chapter 9</a>), visible directly in $A$. In random order the same matrix looks like noise.</p>
+</div>
+
+<h2>Linear algebra on $A$: walks and triangles</h2>
+<p>Multiplying the matrix by itself counts <em>walks</em>. $(A^2)_{ij} = \sum_k A_{ik}A_{kj}$ adds 1 for every node $k$ linked to both $i$ and $j$. For $i \ne j$ that is the number of common neighbours: walks $i \to k \to j$. In general</p>
+<div class="eq">$$(A^n)_{ij} = \text{number of walks of length } n \text{ from } i \text{ to } j,$$</div>
+<p>and the distance $d_{ij}$ is the smallest $n$ with $(A^n)_{ij} > 0$. A triangle $i \to j \to k \to i$ is a closed walk of length 3. Each triangle is counted six times in the trace (three starting nodes, two directions), so</p>
+<div class="eq">$$\#\text{triangles} = \frac{1}{6}\,\mathrm{Tr}\, A^3, \qquad \bigl(A^3\bigr)_{ii} = 2\times(\text{triangles through } i).$$</div>
+<div data-fig id="fig-powers"></div>
+
+<div class="callout fix" data-errata="N4"></div>
+
+<div class="quiz" data-answer="1">
+  <p>In an undirected network, what is $(A^2)_{ii}$?</p>
+  <ol><li>The degree $k_i$</li><li>Zero, because there are no self-loops</li><li>The number of triangles through $i$</li><li>Twice the degree</li></ol>
+  <div class="explain">$(A^2)_{ii} = \sum_k A_{ik}A_{ki} = \sum_k A_{ik} = k_i$: one walk $i \to k \to i$ for each neighbour $k$.</div>
+</div>
+
+<div class="callout discuss">
+  <p>The adjacency matrix of the karate club has $34^2 = 1{,}156$ entries, of which 156 are non-zero. What fraction would be non-zero for the collaboration network with $N = 23{,}133$ and $L = 93{,}439$? What does that suggest about how to store large networks?</p>
+  <div class="hint">$2L/N^2 = 186{,}878 / 535{,}135{,}689 \approx 0.035\%$. Almost the whole matrix is zeros, which is why real networks are stored as edge lists or sparse matrices. That is the topic of the <a href="ch2-sparsity.html">next page</a>.</div>
+</div>
+
+</div></main>
+</body>
+</html>

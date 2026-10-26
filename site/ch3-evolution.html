@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evolution &amp; the giant component · From Graphs to Hubs</title>
+<meta name="description" content="Add random links one at a time and watch a giant component appear in a phase transition at ⟨k⟩ = 1; the four regimes, finite-size effects, and where real networks sit.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch3-evolution.js"></script>
+</head>
+<body data-page="ch3-evolution">
+<main><div class="content">
+
+<h1>The evolution of a random network</h1>
+<p class="lead">Start with $N$ isolated nodes and add random links one at a time. For a while nothing much happens. Then, abruptly, a single component swallows most of the network. This is a phase transition, and it happens at exactly one link per node.</p>
+
+<h2>Watch it happen</h2>
+<div data-fig id="fig-evolve"></div>
+<div class="callout look">
+  <ul>
+    <li>Below $\langle k\rangle = 1$ the network is a dust of small trees; the largest piece holds a vanishing fraction of the nodes.</li>
+    <li>Just above $\langle k\rangle = 1$ a <strong>giant component</strong> emerges and grows quickly: at $\langle k\rangle = 2$ it already holds 80% of the nodes. The transition is <em>continuous but abrupt</em>.</li>
+    <li>The isolated nodes are the last to join. The network becomes connected only around $\langle k\rangle \approx \ln N$.</li>
+  </ul>
+</div>
+
+<h2>Four regimes (Section 3.6)</h2>
+<table class="simple">
+  <thead><tr><th>Regime</th><th>Condition</th><th>Largest component $N_G$</th></tr></thead>
+  <tbody>
+    <tr><td>Subcritical</td><td>$\langle k\rangle < 1$</td><td>no giant component; $N_G \sim \ln N$, small isolated trees</td></tr>
+    <tr><td>Critical</td><td>$\langle k\rangle = 1$</td><td>$N_G \sim N^{2/3}$: large, but a vanishing fraction of $N$</td></tr>
+    <tr><td>Supercritical</td><td>$1 < \langle k\rangle < \ln N$</td><td>a giant component with $N_G \approx S N$, coexisting with many small components</td></tr>
+    <tr><td>Connected</td><td>$\langle k\rangle > \ln N$</td><td>one component holding all nodes</td></tr>
+  </tbody>
+</table>
+<div class="callout fix" data-errata="N7"></div>
+<div data-fig id="fig-snapshots"></div>
+
+<h2>The size of the giant component</h2>
+<p>A node is <em>outside</em> the giant component if none of its links leads into it. With probability $u = 1 - S$ a random neighbour is outside, and averaging over the Poisson-distributed degree gives $u = e^{-\langle k\rangle(1-u)}$ (book, Advanced Topic 3.C). In terms of $S$:</p>
+<div class="eq">$$S = 1 - e^{-\langle k\rangle S}.$$</div>
+<p>$S = 0$ is always a solution. A second, non-zero solution exists only when the curve $1 - e^{-\langle k\rangle S}$ starts out steeper than the diagonal. Its slope at $S = 0$ is $\langle k\rangle$, so a giant component exists if and only if $\langle k\rangle > 1$.</p>
+<div data-fig id="fig-fixed"></div>
+
+<h2>Finite networks</h2>
+<p>The theory is exact for $N \to \infty$. In a finite network the transition is smeared out. The size of the <em>second</em>-largest component is a good detector of it: it is tiny on both sides and largest near the critical point, where the giant component is still assembling.</p>
+<div data-fig id="fig-finite"></div>
+<div class="callout fix" data-errata="N9"></div>
+<div data-fig id="fig-scaling"></div>
+<div class="callout look">
+  <p>On log-log axes the three regimes separate cleanly. At $\langle k\rangle = 2$, $N_G$ is proportional to $N$ (slope 1). At $\langle k\rangle = 1$ it grows like $N^{2/3}$. At $\langle k\rangle = 0.5$ it barely grows at all, like $\ln N$.</p>
+</div>
+
+<h2>Real networks are supercritical (Section 3.7)</h2>
+<p>Where do the book's networks sit on this phase diagram? If they were random networks with their own $N$ and $\langle k\rangle$:</p>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>Every network has $\langle k\rangle > 1$, so all are supercritical, and seven of the eight have $\langle k\rangle < \ln N$. Random networks with these parameters would therefore not be connected: they would leave about $N e^{-\langle k\rangle}$ isolated nodes. That is a large share only for the sparse networks (power grid and protein, about 9% outside the giant component), and a tiny one for the denser ones (Internet 0.2%, collaboration 0.03%).</p>
+</div>
+<div class="callout fix" data-errata="N10"></div>
+<div class="callout discuss">
+  <p>Why might a power grid be fully connected even though $\langle k\rangle < \ln N$? <span class="muted">(Notebook II.5.)</span></p>
+  <div class="hint">A random network with the grid's $\langle k\rangle = 2.67$ would leave about 9% of its nodes outside the giant component. A power grid that left 9% of its substations unconnected would be useless, so it was designed to be connected. Real networks are built or grown under constraints and incentives; they are not wired at random. The protein network, at the same density, does leave 18% of its nodes outside the giant component. Partly this reflects incomplete measurement (undiscovered interactions), not only biology.</div>
+</div>
+
+</div></main>
+</body>
+</html>

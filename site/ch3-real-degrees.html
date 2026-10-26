@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real networks are not Poisson · From Graphs to Hubs</title>
+<meta name="description" content="Compare the degree distributions of the book's networks with Poisson distributions of the same average degree, and count the hubs a random network could never produce.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch3-real-degrees.js"></script>
+</head>
+<body data-page="ch3-real-degrees">
+<main><div class="content">
+
+<h1>Real networks are not Poisson</h1>
+<p class="lead">If real networks were wired at random, their degrees would cluster tightly around the average. They do not, and the difference is not small: it is a matter of hundreds of orders of magnitude.</p>
+
+<p>In a random network the largest degree $k_{\max}$ is set by requiring that at most one node, on average, has a degree above it (book, Advanced Topic 3.B):</p>
+<div class="eq">$$N\,P(K > k_{\max}) \approx 1, \qquad\text{and similarly}\qquad N\,P(K < k_{\min}) \approx 1.$$</div>
+
+<h2>A random society</h2>
+<p>A person knows roughly $\langle k\rangle \approx 1{,}000$ people. If society were a random network, how popular would the most popular person be?</p>
+<div data-fig id="fig-society"></div>
+<div class="callout look">
+  <p>In a random society of seven billion people the most connected person would know only about 1,200 people, and the least connected about 800. About two thirds of people would know between 968 and 1,032 others ($\langle k\rangle \pm \sigma_k$), and 99.7% between 905 and 1,095 ($\pm 3\sigma_k$). There would be no celebrities, no hubs and no hermits. Real social networks are nothing like this.</p>
+</div>
+<div class="callout fix" data-book="B5"></div>
+
+<h2>The book's networks against Poisson</h2>
+<div data-fig id="fig-compare"></div>
+<div class="callout look">
+  <p>For the collaboration network, a random network with the same $\langle k\rangle$ would have its largest node at $k \approx 21$. The data contain 244 scientists with 50 or more collaborators, where the Poisson distribution expects $6.5\times10^{-19}$ of them. The expected number of nodes with the observed $k_{\max} = 279$ is $10^{-309}$.</p>
+</div>
+<div class="callout fix" data-errata="N8"></div>
+<div id="tbl-kmax"></div>
+
+<div class="callout discuss">
+  <p>A random-network model predicts no node with more than about 20 collaborators, yet the data contain dozens of scientists with more than 100. Which processes could produce these hubs? <span class="muted">(Notebook II.3; keep the question in mind for Chapter 5.)</span></p>
+  <div class="hint">Some ideas, all studied later in the book. <em>Growth with preferential attachment</em>: well-connected scientists attract new collaborators because they are visible and productive ("the rich get richer", Chapter 5). <em>Fitness</em>: some nodes are intrinsically more attractive (Chapter 6). <em>Longevity</em>: nodes that joined early have had more time to accumulate links. <em>Team size</em>: a few papers with hundreds of authors give each author hundreds of links at once. That last one is an artefact of the bipartite projection.</div>
+</div>
+
+</div></main>
+</body>
+</html>

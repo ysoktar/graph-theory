@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The random network model · From Graphs to Hubs</title>
+<meta name="description" content="Build a random network pair by pair, compare realisations, and see that the number of links follows a binomial distribution.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch3-model.js"></script>
+</head>
+<body data-page="ch3-model">
+<main><div class="content">
+
+<h1>The random network model</h1>
+<p class="lead">To know which features of a real network are surprising, we need a baseline: a network in which links are placed completely at random. This <strong>null model</strong> is the subject of Chapter 3.</p>
+
+<p>There are two closely related definitions:</p>
+<ul>
+  <li><strong>$G(N, L)$</strong>: $N$ labelled nodes are connected by exactly $L$ links placed at random. This is the definition Paul Erdős and Alfréd Rényi used in their 1959–1968 papers.</li>
+  <li><strong>$G(N, p)$</strong>: each of the $N(N-1)/2$ pairs of nodes is linked independently with probability $p$. This version was introduced by Edgar Gilbert, also in 1959.</li>
+</ul>
+<p>Both are commonly called "Erdős–Rényi networks". $G(N,p)$ is easier to calculate with, and it is the one the book (and this site) uses. Its number of links is not fixed but random.</p>
+<div class="callout fix" data-errata="N6"></div>
+
+<h2>Building one, pair by pair</h2>
+<div data-fig id="fig-build"></div>
+
+<h2>Every realisation is different</h2>
+<p>Run the procedure again with the same $N$ and $p$ and you get a different network, with a different number of links. A random network model does not describe one network but an <em>ensemble</em> of them, each with a probability.</p>
+<div data-fig id="fig-three"></div>
+
+<h2>The number of links is a random variable (Section 3.3)</h2>
+<p>Each of the $L_{\max} = N(N-1)/2$ pairs is a coin flip that comes up "link" with probability $p$, so $L$ follows a binomial distribution:</p>
+<div class="eq">$$P(L) = \binom{L_{\max}}{L}\, p^{L} (1-p)^{L_{\max}-L}, \qquad \langle L\rangle = p\,\frac{N(N-1)}{2}, \qquad \sigma_L = \sqrt{L_{\max}\,p\,(1-p)}.$$</div>
+<p>The average degree follows: $\langle k\rangle = 2\langle L\rangle/N = p(N-1)$.</p>
+<div data-fig id="fig-ldist"></div>
+<div class="callout look">
+  <p>The simulated histogram follows the binomial curve. Its width $\sigma_L$ grows only like $\sqrt{L_{\max}}$, so relative to $\langle L\rangle$ the fluctuations shrink as the network grows ($\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$ for small $p$). Large random networks of the same $N$ and $p$ are all nearly alike.</p>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>A random network has $N = 1{,}000$ nodes and $p = 0.01$. What is its average degree?</p>
+  <ol><li>0.01</li><li>1</li><li>about 10</li><li>about 5,000</li></ol>
+  <div class="explain">$\langle k\rangle = p(N-1) = 0.01 \times 999 \approx 10$. Its expected number of links is $p\,N(N-1)/2 \approx 4{,}995$.</div>
+</div>
+
+</div></main>
+</body>
+</html>

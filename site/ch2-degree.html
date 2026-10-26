@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Degree &amp; degree distribution · From Graphs to Hubs</title>
+<meta name="description" content="Build a network and watch the degrees, the average degree 2L/N and the degree distribution update; then look at Zachary's karate club and the science collaboration network.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-degree.js"></script>
+</head>
+<body data-page="ch2-degree">
+<main><div class="content">
+
+<h1>Degree, average degree and degree distribution</h1>
+<p class="lead">The single most important property of a node is its <strong>degree</strong> $k_i$, the number of links it has to other nodes. Almost everything in chapters 3 and 4 is about how degrees are distributed.</p>
+
+<p>A network has $N$ nodes and $L$ links. Each link has two ends, so adding up all the degrees counts every link twice:</p>
+<div class="eq">$$L = \frac{1}{2}\sum_{i=1}^{N} k_i, \qquad \langle k\rangle = \frac{1}{N}\sum_{i=1}^{N} k_i = \frac{2L}{N}.$$</div>
+<p>In a <strong>directed</strong> network (the WWW, email, phone calls) a link points from one node to another, and each node has an incoming degree $k_i^{\text{in}}$ and an outgoing degree $k_i^{\text{out}}$, with $k_i = k_i^{\text{in}} + k_i^{\text{out}}$. Every link leaves one node and enters another, so</p>
+<div class="eq">$$L = \sum_{i} k_i^{\text{in}} = \sum_{i} k_i^{\text{out}}, \qquad \langle k^{\text{in}}\rangle = \langle k^{\text{out}}\rangle = \frac{L}{N}.$$</div>
+<p>The <strong>degree distribution</strong> $p_k$ is the probability that a randomly chosen node has degree $k$. If $N_k$ nodes have degree $k$, then $p_k = N_k/N$, with $\sum_k p_k = 1$ and $\langle k\rangle = \sum_k k\,p_k$.</p>
+
+<h2>Build a network</h2>
+<div data-fig id="fig-editor"></div>
+
+<div class="callout look">
+  <ul>
+    <li>Each new link raises two degrees by one, so $\sum_i k_i$ is always even (the <em>handshaking lemma</em>). As a result, the number of odd-degree nodes is always even. Try to break this.</li>
+    <li>Switch to <em>directed</em>: now $\sum k^{\text{in}} = \sum k^{\text{out}} = L$, and the average in-degree equals the average out-degree, even when individual nodes are very unbalanced.</li>
+    <li>The <em>star</em> preset: one node with $k = N-1$ and everyone else with $k = 1$. Its average degree is below 2, yet the hub has $N-1$ links. Averages hide hubs.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>A network has $N = 10$ nodes and $L = 15$ links. What is its average degree?</p>
+  <ol><li>1.5</li><li>3</li><li>6</li><li>15</li></ol>
+  <div class="explain">$\langle k\rangle = 2L/N = 30/10 = 3$. Forgetting the factor 2 (each link has two ends) gives 1.5.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Which degree sequence can <em>no</em> network have?</p>
+  <ol><li>2, 2, 2</li><li>3, 1, 1, 1</li><li>2, 2, 1</li><li>1, 1, 1, 1</li></ol>
+  <div class="explain">The degrees must add up to $2L$, an even number; $2+2+1 = 5$ is odd. (The others are a triangle, a star and two separate links.) An even sum is necessary but not sufficient: no simple graph has degrees 3, 3, 3, 1.</div>
+</div>
+
+<h2>A first real network: Zachary's karate club</h2>
+<p>Wayne Zachary followed the 34 members of a university karate club for two years (1970–72). A link means that two members regularly interacted outside the club. During the study a conflict split the club in two, one group following the instructor ("Mr. Hi", node 0), the other the club's president (node 33). The colours show which side each member ended up on.</p>
+<div data-fig id="fig-karate"></div>
+<div class="callout look">
+  <p>The two leaders are the two best-connected members ($k_{33} = 17$, $k_0 = 16$), while most members have only a handful of ties ($k_{\min} = 1$). Even in a network of 34 people the degrees are very uneven.</p>
+</div>
+
+<h2>A large network: scientific collaboration</h2>
+<p>Our main real network for Parts I and II is the <strong>science collaboration network</strong> from the book's Table 4.1: $N = 23{,}133$ scientists, linked when they co-authored a paper. Its degree distribution, plotted the simplest possible way (linear axes, one bar per degree):</p>
+<div data-fig id="fig-collab"></div>
+<div class="callout look">
+  <p>On linear axes the distribution seems to end around $k \approx 50$, yet the best-connected scientist has $k_{\max} = 279$ co-authors. Those rare, highly connected nodes are invisible here: each is a single node out of 23,133. Switch the vertical axis to <em>log</em> to see them. <a href="ch4-plotting.html">Part III</a> shows how to plot such distributions properly.</p>
+</div>
+
+<div class="callout discuss">
+  <p>The median scientist has 5 collaborators, the average has 8.1, and the maximum is 279. Which of these numbers would you report as "the typical number of collaborators", and why?</p>
+  <div class="hint">In a skewed distribution the mean is pulled up by a few very large values. The median (5) describes a typical node better. Chapter 4 shows that in many real networks the spread $\sigma_k$ is even larger than $\langle k\rangle$, so no single number is "typical". This is the idea behind the name <em>scale-free</em>.</div>
+</div>
+
+</div></main>
+</body>
+</html>

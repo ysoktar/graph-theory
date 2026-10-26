@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clustering · From Graphs to Hubs</title>
+<meta name="description" content="Local clustering, the average clustering coefficient and the global clustering coefficient, explored on small examples, the karate club and the book's eight networks.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch2-clustering.js"></script>
+</head>
+<body data-page="ch2-clustering">
+<main><div class="content">
+
+<h1>Clustering</h1>
+<p class="lead">Your friends tend to know each other. The clustering coefficient measures how much.</p>
+
+<p>For a node $i$ with $k_i$ neighbours, at most $k_i(k_i-1)/2$ links can exist among those neighbours. If $L_i$ of them do, the <strong>local clustering coefficient</strong> is the fraction present:</p>
+<div class="eq">$$C_i = \frac{2L_i}{k_i(k_i-1)}.$$</div>
+<p>$C_i = 0$ if no two neighbours are linked and $C_i = 1$ if they all are; $C_i$ is the probability that two neighbours of $i$ are themselves linked. (For $k_i \le 1$ the formula is undefined; the book, the notebook and NetworkX all set $C_i = 0$.) Two network-wide summaries are in use:</p>
+<div class="eq">$$\langle C\rangle = \frac{1}{N}\sum_{i=1}^{N} C_i \qquad\text{and}\qquad C_\Delta = \frac{3\times \#\text{triangles}}{\#\text{connected triples}}.$$</div>
+<p>A connected triple is a node together with two of its neighbours. $C_\Delta$, the <em>global</em> clustering coefficient (book, Advanced Topic 2.A; <code>nx.transitivity</code>), is the fraction of those triples that are closed into triangles.</p>
+
+<h2>One node, four neighbours</h2>
+<div data-fig id="fig-node"></div>
+
+<h2>Clustering in the karate club</h2>
+<div data-fig id="fig-karate"></div>
+<div class="callout look">
+  <p>The two leaders have <em>low</em> clustering ($C_0 = 0.150$, $C_{33} = 0.110$), while many low-degree members sit in closed triangles. A hub's neighbours come from different circles that do not know each other. We return to this decreasing $C(k)$ in <a href="ch3-clustering.html">Part II</a>.</p>
+</div>
+
+<h2>Average or global clustering?</h2>
+<p>The two summaries answer different questions and can disagree wildly. $\langle C\rangle$ weights every node equally. $C_\Delta$ weights each node by its number of triples, $k_i(k_i-1)/2$, so hubs dominate it. The <em>friendship (windmill) graph</em>, $t$ triangles sharing one node, shows the difference in its purest form.</p>
+<div data-fig id="fig-windmill"></div>
+
+<h2>The book's eight networks</h2>
+<div data-fig id="fig-real"></div>
+
+<div class="callout discuss">
+  <p>Why is $\langle C\rangle$ larger than $C_\Delta$ in the collaboration network ($0.633$ against $0.264$)? <span class="muted">(Notebook I.7.)</span></p>
+  <div class="hint">$\langle C\rangle$ counts every scientist equally, and most scientists have few co-authors, often from a single paper, which closes all their triangles ($C_i$ close to 1). $C_\Delta$ counts triples, and a scientist with $k$ co-authors contributes $k(k-1)/2$ of them, so the few prolific authors, whose many co-authors mostly do not know each other, dominate it. The windmill graph above is the extreme case: every leaf has $C_i = 1$, the centre has $C_i \approx 0$, and the centre holds almost all the triples.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>A node has 5 neighbours, and 4 links exist among them. What is $C_i$?</p>
+  <ol><li>0.8</li><li>0.4</li><li>0.2</li><li>4/25</li></ol>
+  <div class="explain">At most $5\cdot4/2 = 10$ links can exist among 5 neighbours; 4 of 10 are present, so $C_i = 0.4$.</div>
+</div>
+
+</div></main>
+</body>
+</html>

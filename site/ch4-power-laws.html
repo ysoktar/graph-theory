@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Power laws &amp; hubs · From Graphs to Hubs</title>
+<meta name="description" content="What a power-law degree distribution is, how it differs from a Poisson distribution with the same average, and where the hubs come from.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch4-power-laws.js"></script>
+</head>
+<body data-page="ch4-power-laws">
+<main><div class="content">
+
+<h1>Power laws &amp; hubs</h1>
+<p class="lead">The random network model failed most clearly on the degree distribution: real networks have hubs, nodes with far more links than the Poisson distribution allows. Chapter 4 replaces the Poisson distribution with a power law.</p>
+
+<h2>Scale-free networks (Section 4.2)</h2>
+<p>A network is called <strong>scale-free</strong> if its degree distribution follows a power law,</p>
+<div class="eq">$$p_k \sim k^{-\gamma},$$</div>
+<p>where $\gamma$ is the <strong>degree exponent</strong>. Taking logarithms gives $\log p_k \approx -\gamma \log k + \text{const}$, so a power law is a straight line of slope $-\gamma$ on log-log axes.</p>
+<p>Degrees are integers, so the exact form is the <em>discrete</em> power law. For $k \ge k_{\min}$,</p>
+<div class="eq">$$p_k = \frac{k^{-\gamma}}{\zeta(\gamma, k_{\min})}, \qquad \zeta(\gamma, k_{\min}) = \sum_{k = k_{\min}}^{\infty} k^{-\gamma},$$</div>
+<p>where $\zeta(\gamma, k_{\min})$ is the Hurwitz zeta function, which ensures that the probabilities add up to 1 (for $k_{\min} = 1$ it is the Riemann zeta function $\zeta(\gamma)$). It is often easier to calculate with the <em>continuous</em> approximation, in which $k$ is any positive real number:</p>
+<div class="eq">$$p(k) = (\gamma - 1)\, k_{\min}^{\gamma - 1}\, k^{-\gamma}, \qquad P(K \ge k) = \left(\frac{k}{k_{\min}}\right)^{-(\gamma - 1)}.$$</div>
+<p>The two agree in the tail, but they can differ noticeably at small $k$. That matters when a fit is drawn or simulated (see <a href="ch4-universality.html">Universality</a>).</p>
+
+<h2>Where the hubs live</h2>
+<div data-fig id="fig-compare"></div>
+<div class="callout look">
+  <p>Compared with the Poisson distribution, the power law has <strong>more</strong> small-degree nodes, <strong>fewer</strong> nodes near the average, and <strong>vastly more</strong> high-degree nodes. With $\gamma = 2.5$ and $k_{\min} = 2$, a network of a million nodes should contain about 2,000 nodes with $k \ge 100$. The Poisson distribution expects about $10^{-87}$ of them.</p>
+</div>
+
+<h2>Real data: the Internet</h2>
+<div data-fig id="fig-internet"></div>
+<div class="callout look">
+  <p>On linear axes the two distributions look similar: both are bumps at small $k$. On log-log axes the difference is enormous. The Internet has 2,273 routers with more than 50 links; a random network of the same size and density would almost certainly not have a single one.</p>
+</div>
+
+<div data-fig id="fig-look"></div>
+
+<div class="callout discuss">
+  <p>In a random network $\langle k\rangle$ is a "typical" degree: most nodes have about that many links. Is that true for a power law with $\gamma = 2.5$?</p>
+  <div class="hint">No. Most nodes have fewer links than the average (with $k_{\min} = 1$, about 74% have $k = 1$, while $\langle k\rangle \approx 1.95$), and a few have vastly more. The average is pulled up by the hubs and describes almost nobody. Because no degree is typical, the distribution has no characteristic <em>scale</em>, hence "scale-free". The <a href="ch4-moments.html">No typical degree</a> page makes this precise.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>On log-log axes, $p_k$ of a network falls on a straight line with slope $-2.3$. What is $\gamma$, and what is the slope of $P(K \ge k)$?</p>
+  <ol><li>$\gamma = -2.3$; slope $-2.3$</li><li>$\gamma = 2.3$; slope $-1.3$</li><li>$\gamma = 2.3$; slope $-3.3$</li><li>$\gamma = 1.3$; slope $-2.3$</li></ol>
+  <div class="explain">$p_k \sim k^{-2.3}$ means $\gamma = 2.3$. Summing (or integrating) over all degrees at least $k$ raises the exponent by one: $P(K\ge k) \sim k^{-(\gamma-1)} = k^{-1.3}$.</div>
+</div>
+
+</div></main>
+</body>
+</html>
