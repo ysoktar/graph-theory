@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The role of γ · From Graphs to Hubs</title>
+<meta name="description" content="Anomalous, scale-free and random-like regimes of the degree exponent: what γ does to hubs, moments and distances, why γ &lt; 2 is hard to realise, and where the book's networks fall.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,42 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/ch4-exponent.js"></script>
 </head>
 <body data-page="ch4-exponent">
 <main><div class="content">
+
+<h1>The role of the degree exponent</h1>
+<p class="lead">Most properties of a scale-free network depend on $\gamma$, and they change qualitatively at $\gamma = 2$ and $\gamma = 3$ (Section 4.7).</p>
+
+<table class="simple">
+  <thead><tr><th>Regime</th><th>$\langle k\rangle$</th><th>$\langle k^2\rangle$</th><th>$k_{\max}$</th><th>$\langle d\rangle$</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Anomalous, $\gamma < 2$</td><td>diverges</td><td>diverges</td><td>would exceed $N$</td><td>constant</td><td>a large simple network cannot keep $\gamma < 2$ up to its largest degrees</td></tr>
+    <tr><td>Scale-free, $2 < \gamma < 3$</td><td>finite</td><td><strong>diverges</strong></td><td>$\sim N^{1/(\gamma-1)}$</td><td>$\ln\ln N$</td><td>hubs dominate; ultra-small</td></tr>
+    <tr><td>Random-like, $\gamma > 3$</td><td>finite</td><td>finite</td><td>$\sim N^{1/(\gamma-1)}$, small</td><td>$\ln N$</td><td>hard to tell from a random network unless $N$ is huge</td></tr>
+  </tbody>
+</table>
+
+<div data-fig id="fig-net"></div>
+<div data-fig id="fig-multi"></div>
+<div class="callout fix" data-errata="N16"></div>
+
+<h2>Real networks</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout fix" data-errata="N18"></div>
+
+<div class="callout discuss">
+  <p>To tell a power law with $\gamma > 3$ from a random network's degree distribution you need a tail long enough to see the straight line. How large must $N$ be?</p>
+  <div class="hint">The tail must span at least two orders of magnitude, so $k_{\max}/k_{\min} = N^{1/(\gamma-1)} \gtrsim 100$, that is $N \gtrsim 100^{\gamma-1}$. For $\gamma = 3.5$ that is $N \gtrsim 10^5$; for $\gamma = 5$ already $N \gtrsim 10^8$. The book makes this argument in Section 4.7: for large $\gamma$ the scale-free property is practically invisible in networks of realistic size.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Which regime is the phone-call network in, given $\hat\gamma = 4.76 \pm 0.13$?</p>
+  <ol><li>Anomalous</li><li>Random-like: $\langle k^2\rangle$ stays finite as the network grows</li><li>Scale-free with divergent $\langle k^2\rangle$</li><li>It cannot be decided</li></ol>
+  <div class="explain">$\gamma > 3$, well outside the error bar, so both $\langle k\rangle$ and $\langle k^2\rangle$ converge. The data agree: its $\sigma_k$ is only 1.6 times the random value (<a href="ch4-moments.html">No typical degree</a>).</div>
+</div>
+
 </div></main>
 </body>
 </html>
