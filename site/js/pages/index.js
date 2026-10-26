@@ -12,7 +12,8 @@ const QUESTIONS = {
   "Part I · Graph theory": "How do we describe a network?",
   "Part II · Random networks": "What would a network look like if it were wired at random?",
   "Part III · Scale-free networks": "What do real networks have that random ones lack?",
-  "Part IV · Synthesis & beyond": "So what? Hubs, robustness, spreading.",
+  "Part IV · Synthesis": "What did we learn, and can you apply it?",
+  "Part V · The rest of the course": "Where do hubs come from, and what do they do?",
   "Tools": "Experiment freely.",
 };
 const parts = $("#parts");
