@@ -956,6 +956,58 @@ export function labelPropagation(g, rng, maxIter = 100) {
   return Int32Array.from(label, (l) => { if (!remap.has(l)) remap.set(l, remap.size); return remap.get(l); });
 }
 
+/**
+ * Louvain modularity optimisation (Blondel et al. 2008): move single nodes to the neighbouring community
+ * with the largest modularity gain until nothing improves, then merge communities into super-nodes and
+ * repeat. Returns community labels 0..C−1 for the original nodes.
+ */
+export function louvain(g, rng, { maxLevels = 10 } = {}) {
+  const { n, off, nbr } = g.csr();
+  // level graph: weighted adjacency lists plus self-loop weights; k = weighted degree (self-loops twice)
+  let adj = Array.from({ length: n }, (_, u) => { const a = []; for (let j = off[u]; j < off[u + 1]; j++) a.push([nbr[j], 1]); return a; });
+  let self = new Float64Array(n);
+  let member = Int32Array.from({ length: n }, (_, i) => i); // original node → level node
+  let m2 = off[n]; // 2m
+  for (let level = 0; level < maxLevels; level++) {
+    const N = adj.length;
+    const k = new Float64Array(N), comm = Int32Array.from({ length: N }, (_, i) => i), tot = new Float64Array(N);
+    for (let u = 0; u < N; u++) { k[u] = 2 * self[u]; for (const [, w] of adj[u]) k[u] += w; tot[u] = k[u]; }
+    const order = Array.from({ length: N }, (_, i) => i);
+    let moved = false, improved = true;
+    while (improved) {
+      improved = false;
+      rng.shuffle(order);
+      for (const u of order) {
+        const cu = comm[u], wTo = new Map();
+        for (const [v, w] of adj[u]) if (v !== u) wTo.set(comm[v], (wTo.get(comm[v]) || 0) + w);
+        tot[cu] -= k[u];
+        let best = cu, bestGain = (wTo.get(cu) || 0) - (tot[cu] * k[u]) / m2;
+        for (const [c, w] of wTo) { const gain = w - (tot[c] * k[u]) / m2; if (gain > bestGain + 1e-12) { bestGain = gain; best = c; } }
+        tot[best] += k[u];
+        if (best !== cu) { comm[u] = best; improved = moved = true; }
+      }
+    }
+    if (!moved) break;
+    // aggregate
+    const remap = new Map();
+    for (let u = 0; u < N; u++) if (!remap.has(comm[u])) remap.set(comm[u], remap.size);
+    const C = remap.size, nself = new Float64Array(C), w = Array.from({ length: C }, () => new Map());
+    for (let u = 0; u < N; u++) {
+      const cu = remap.get(comm[u]);
+      nself[cu] += self[u];
+      for (const [v, wt] of adj[u]) {
+        const cv = remap.get(comm[v]);
+        if (cu === cv) { if (u < v) nself[cu] += wt; } else w[cu].set(cv, (w[cu].get(cv) || 0) + wt);
+      }
+    }
+    member = member.map((x) => remap.get(comm[x]));
+    adj = w.map((mp) => [...mp.entries()]);
+    self = nself;
+  }
+  const out = new Map();
+  return Int32Array.from(member, (x) => { if (!out.has(x)) out.set(x, out.size); return out.get(x); });
+}
+
 /** Modularity Q of a partition (Ch 9). */
 export function modularity(g, labels) {
   const { n, off, nbr } = g.csr();

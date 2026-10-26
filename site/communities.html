@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Communities · From Graphs to Hubs</title>
+<meta name="description" content="Modularity, the karate club split, spectral bisection, label propagation and Louvain, and why random networks also have high modularity.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +12,41 @@
 <script defer src="vendor/d3.min.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/auto-render.min.js"></script>
-<script type="module" src="js/pages/stub.js"></script>
+<script type="module" src="js/pages/communities.js"></script>
 </head>
 <body data-page="communities">
 <main><div class="content">
+
+<h1>Communities</h1>
+<p class="lead">Real networks are made of groups that are densely linked inside and sparsely linked to each other: research fields, friend circles, functional modules of a cell. Finding them is the subject of Chapter 9.</p>
+
+<h2>Modularity (Section 9.4)</h2>
+<p>A partition is good if more links fall inside its groups than we would expect by chance. Modularity compares the two, using the configuration model as the chance baseline:</p>
+<div class="eq">$$Q = \sum_{c} \left[\frac{L_c}{L} - \left(\frac{k_c}{2L}\right)^2\right],$$</div>
+<p>where $L_c$ is the number of links inside community $c$ and $k_c$ the total degree of its nodes. $Q = 0$ for a single group containing everything; larger $Q$ means more links inside groups than chance predicts.</p>
+<div data-fig id="fig-karate"></div>
+<div class="callout look">
+  <p>Spectral bisection recovers the real split almost exactly, misplacing one or two members who are as connected to one side as to the other. Louvain splits the club into four groups with higher $Q$ than the real two-way split: maximising modularity answers a slightly different question than "where will the club break?".</p>
+</div>
+
+<h2>Algorithms</h2>
+<ul>
+  <li><strong>Spectral bisection:</strong> split by the sign of the Laplacian's Fiedler vector (see <a href="embeddings.html">embeddings</a>).</li>
+  <li><strong>Label propagation</strong> (Raghavan, Albert and Kumara 2007): start with a unique label per node; each node repeatedly adopts the label most common among its neighbours. Very fast, but random.</li>
+  <li><strong>Louvain</strong> (Blondel et al. 2008): greedily move single nodes to the neighbouring community with the largest gain in $Q$, merge each community into a super-node, and repeat. The standard method for large networks.</li>
+</ul>
+<div data-fig id="fig-real"></div>
+
+<div class="callout gotcha">
+  <p><strong>Modularity has a resolution limit</strong> (Fortunato and Barthélemy 2007): in a large network, maximising $Q$ merges communities smaller than about $\sqrt{L}$ into larger ones even when they are clearly separate. And a random network with no communities at all still reaches a high $Q$. Always compare with a null model.</p>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>A partition puts every node in its own community (singletons). What is its modularity?</p>
+  <ol><li>Slightly negative: no link falls inside a community, minus $\sum_c (k_c/2L)^2$</li><li>Exactly 1</li><li>Exactly 0</li><li>It is undefined</li></ol>
+  <div class="explain">With singletons $L_c = 0$ for every community, so $Q = -\sum_i (k_i/2L)^2 < 0$. Only the partition into one big group gives exactly $Q = 0$.</div>
+</div>
+
 </div></main>
 </body>
 </html>
