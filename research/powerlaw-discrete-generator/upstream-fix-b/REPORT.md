@@ -46,6 +46,13 @@ so a regression fails instead of hanging the suite.
 | `python -m pytest testing -q`, master | 57 passed, 0 failed (11 min 42 s) |
 | `python -m pytest testing -q`, branch | 64 passed, 0 failed (12 min 05 s) |
 
+## Combined with fix A
+
+Fix A rewrites `_double_search_discrete` as an integer search with its own termination guard, so the two patches
+conflict in that function. Resolution: keep fix A's loop, and drop this patch's 2^63 guard, which no longer applies
+there. Keep this patch's `in_range()` check in `generate_random`, which merges cleanly. With that one-hunk resolution
+all 18 new tests (fix A's 11 and this patch's 7) pass.
+
 ## Policy question for the maintainers
 
 Should `parameter_ranges` constrain only fitting, or also distributions built with explicit parameters? Since PR #115
