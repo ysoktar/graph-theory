@@ -51,7 +51,7 @@ so a regression fails instead of hanging the suite.
 Fix A rewrites `_double_search_discrete` as an integer search with its own termination guard, so the two patches
 conflict in that function. Resolution: keep fix A's loop, and drop this patch's 2^63 guard, which no longer applies
 there. Keep this patch's `in_range()` check in `generate_random`, which merges cleanly. With that one-hunk resolution
-all 18 new tests (fix A's 11 and this patch's 7) pass.
+all 18 new tests (fix A's 11 and this patch's 7) pass, and the full suite gives 75 passed and 0 failed.
 
 ## Policy question for the maintainers
 

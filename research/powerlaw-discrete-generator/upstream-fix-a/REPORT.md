@@ -89,7 +89,7 @@ means P(X ≥ k)):
 
 Both patches edit `_double_search_discrete`, so they conflict textually. In the combined code tested here, fix A's
 search replaces the loop, which already has its own guard, and fix B's `in_range()` check in `generate_random`
-applies unchanged. That combination passes all 18 new tests; see `../upstream-fix-b/REPORT.md`. Whichever PR is merged
+applies unchanged. That combination passes all 18 new tests, and the full suite gives 75 passed and 0 failed (57 + 11 + 7); see `../upstream-fix-b/REPORT.md`. Whichever PR is merged
 second needs this one-hunk rebase.
 
 ## Open points
