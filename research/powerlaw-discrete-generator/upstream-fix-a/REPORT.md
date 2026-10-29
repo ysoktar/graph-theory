@@ -17,7 +17,7 @@ Environment: Python 3.13.17, NumPy 2.5.4, SciPy 1.18.1, mpmath 1.4.1, editable p
    - At `xmin = 3` the generated masses for k = 3…10 start 0.319, 0.293, 0.076, 0.054, 0.071: not even monotone.
 2. **Approximate path.** `Power_Law._generate_random_discrete_estimate` returns
    `np.around((xmin − ½)(1 − r)^(−1/(α−1)) + ½)`. The +½ is already the shift of Clauset et al. (2009, Appendix D),
-   whose estimate rounds that value down. Rounding it again shifts every value by another half and roughly halves
+   whose Eq. (D.6) rounds that value down: x = ⌊y + ½⌋, the nearest integer to y. Rounding it again shifts every value by another half and roughly halves
    P(K = xmin): 0.074 instead of 0.139 at α = 2.5, `xmin = 10`.
 
 ## Change
@@ -95,7 +95,14 @@ second needs this one-hunk rebase.
 ## Open points
 
 - Open PR #110 ("fix cumulative_distribution_function") may change the CDF this search inverts.
-- The Appendix D citation has no equation number; check it against the paper before filing.
+- Citation checked against the paper (arXiv:0706.1062v2, Appendix D, pp. 39–40).
+  - The approximation is Eq. (D.6), x = ⌊(xmin − ½)(1 − r)^(−1/(α−1)) + ½⌋, with floor brackets. The text
+    explains it as rounding y to the nearest integer, x = ⌊y + ½⌋, and warns that truncating y instead
+    "give[s] substantially poorer results".
+  - The exact method is Eq. (D.5): doubling up, then binary search "until the value of x is narrowed down to
+    k ≤ x < k + 1", then discarding the non-integer part. The integer search in this patch does exactly that;
+    master instead stops the bisection at a tolerance of 0.5 on a continuous interpolation.
+  - The code comments now cite Eq. (D.5) and Eq. (D.6).
 - CI on Python 3.8–3.12, Windows and macOS has not run yet. It will run on the draft PR.
 
 ## Draft issue
@@ -123,8 +130,8 @@ Observed:
   at α = 2.5, because it rounds a value that already includes the +½ shift.
 - Anything built on `generate_random`, such as a bootstrap goodness-of-fit test, inherits the bias.
 
-Expected: exact inverse transform sampling of P(K = k) = k^−α / ζ(α, xmin), and the floor in the Clauset et al.
-approximation.
+Expected: exact inverse transform sampling of P(K = k) = k^−α / ζ(α, xmin), and the floor of Clauset et al. (2009),
+Eq. (D.6).
 
 Scope: the exact search and the approximate rounding. The out-of-range hang is a separate issue.
 

@@ -1,34 +1,34 @@
-From 3c260a82aa5333e13641ecbe0b97af86dd84bc26 Mon Sep 17 00:00:00 2001
+From 621b9419ededee3bc894bfe95b87add903b0441e Mon Sep 17 00:00:00 2001
 From: powerlaw contributor <contributor@example.invalid>
 Date: Thu, 29 Oct 2026 13:08:02 +0000
 Subject: [PATCH] Fix discrete random generation: exact integer inverse search,
  floor in the discrete estimate
 
 _double_search_discrete bisected a continuous x with tol=0.5 and truncated it,
-which is exact only when xmin is a power of two; for other xmin about 15% of
-quantiles landed on the wrong integer and the generated P(k) was not even
-monotone. It now searches over integers (doubling step, then integer
-bisection) for the largest k with ccdf(k) >= 1 - r, clipped at xmax. u = 0
-returns xmin (it raised a TypeError), a non-integer xmin raises a clear
-ValueError, and a ccdf that never falls raises a RuntimeError instead of
-looping forever.
+which is exact only when xmin is a power of two; for xmin = 3, 5, 6, 10 and 20
+(alpha = 1.8 and 2.5) 14-16% of quantiles landed on the wrong integer, and the
+generated P(k) was not even monotone. It now searches over integers (doubling
+step, then integer bisection) for the largest k with ccdf(k) >= 1 - r, clipped
+at xmax. u = 0 returns xmin (it raised a TypeError), a non-integer xmin raises
+a clear ValueError, and a ccdf that never falls raises a RuntimeError instead
+of looping forever.
 
 _generate_random_discrete_estimate rounded (xmin - 1/2)(1 - r)^(-1/(alpha-1))
-+ 1/2 instead of flooring it (Clauset et al. 2009, Appendix D), halving the
-probability of xmin (0.074 instead of 0.139 for alpha = 2.5, xmin = 10). The
-xmax bound of the approximate path now aims between the steps xmax - 1 and
-xmax, and values are clipped to stay under xmax.
++ 1/2 instead of flooring it (Clauset et al. 2009, Appendix D, Eq. (D.6)),
+halving the probability of xmin (0.074 instead of 0.139 for alpha = 2.5, xmin
+= 10). The xmax bound of the approximate path now aims between the steps xmax
+- 1 and xmax, and values are clipped to stay under xmax.
 
-Adds testing/test_discrete_generation.py: deterministic quantile grids
-against an independent mpmath Hurwitz-zeta oracle.
+Adds testing/test_discrete_generation.py: deterministic quantile grids against
+an independent mpmath Hurwitz-zeta oracle.
 ---
- powerlaw/distributions.py           | 101 +++++++++-----
+ powerlaw/distributions.py           | 104 +++++++++-----
  testing/test_discrete_generation.py | 205 ++++++++++++++++++++++++++++
- 2 files changed, 273 insertions(+), 33 deletions(-)
+ 2 files changed, 276 insertions(+), 33 deletions(-)
  create mode 100644 testing/test_discrete_generation.py
 
 diff --git a/powerlaw/distributions.py b/powerlaw/distributions.py
-index c7fd390..4adefb9 100644
+index c7fd390..83c06c0 100644
 --- a/powerlaw/distributions.py
 +++ b/powerlaw/distributions.py
 @@ -1648,9 +1648,13 @@ class Distribution(object):
@@ -74,7 +74,7 @@ index c7fd390..4adefb9 100644
  
          Parameters
          ----------
-@@ -1693,43 +1707,60 @@ class Distribution(object):
+@@ -1693,43 +1707,62 @@ class Distribution(object):
  
          Returns
          -------
@@ -146,9 +146,11 @@ index c7fd390..4adefb9 100644
 +                raise RuntimeError(f'The ccdf never falls below 1 - r = {target}, so it cannot be inverted '
 +                                   '(check that the parameters give a normalizable distribution).')
 +
-+        # Integer bisection keeping ccdf(lo) >= target > ccdf(hi). Searching
-+        # over integers (rather than bisecting a continuous x and truncating
-+        # it) returns the exact inverse for any xmin; see
++        # Integer bisection keeping ccdf(lo) >= target > ccdf(hi), ie. the
++        # "doubling up and binary search" of Clauset et al. (2009), Appendix D,
++        # Eq. (D.5), narrowed down to an integer k. Searching over integers
++        # (rather than bisecting a continuous x to a tolerance of 0.5 and
++        # truncating it) returns the exact inverse for any xmin; see
          # https://github.com/jeffalstott/powerlaw/pull/115#discussion_r2649110410
 -        #return int(np.around(x))
 -        return int(x)
@@ -164,14 +166,15 @@ index c7fd390..4adefb9 100644
  
  
  class Power_Law(Distribution):
-@@ -2079,8 +2110,12 @@ class Power_Law(Distribution):
+@@ -2079,8 +2112,13 @@ class Power_Law(Distribution):
          if self.alpha <= 1:
              raise ValueError('Discrete power law random generator estimation only works for alpha > 1! Use estimate_discrete=False.')
  
-+        # Clauset et al. (2009), Appendix D: the continuous variate on
-+        # [xmin - 1/2, inf), shifted by 1/2 and rounded *down*. Rounding to
-+        # the nearest integer here would shift every value by another half
-+        # and halve the probability of xmin.
++        # Clauset et al. (2009), Appendix D, Eq. (D.6): generate the continuous
++        # variate y on [xmin - 1/2, inf) and round it to the nearest integer as
++        # floor(y + 1/2). The 1/2 is already added here, so np.around would
++        # round a second time, shifting every value by another half and
++        # roughly halving the probability of xmin.
          x = (self.xmin - 0.5) * (1 - r) ** (-1/(self.alpha - 1)) + 0.5
 -        return np.around(x)
 +        return np.floor(x)
