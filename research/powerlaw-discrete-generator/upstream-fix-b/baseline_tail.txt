@@ -1,0 +1,5 @@
+    warnings.warn(f'bisect_map called with bounds that likely dont contain the target value: target={target}, min={mn}, max={mx}')
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+57 passed, 79 warnings in 702.70s (0:11:42)
+exit 0

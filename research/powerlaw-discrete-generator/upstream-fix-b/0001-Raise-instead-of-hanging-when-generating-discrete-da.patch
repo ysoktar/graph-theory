@@ -1,0 +1,245 @@
+From e48dc06110074dde6db801c20677529275a7bfdc Mon Sep 17 00:00:00 2001
+From: powerlaw contributor <contributor@example.invalid>
+Date: Thu, 29 Oct 2026 12:45:55 +0000
+Subject: [PATCH] Raise instead of hanging when generating discrete data
+ outside parameter_ranges
+
+Outside parameter_ranges, cdf() returns ~0 for every x, so the doubling
+search in _double_search_discrete never finds its target and
+generate_random() loops forever (with xmax it raises an unrelated
+TypeError). With the default Power_Law range (0, 3) this affects every
+hand-built discrete power law with alpha >= 3.
+
+- generate_random(): in the exact discrete branch, check in_range() once
+  and raise a ValueError naming the parameter, its value and its range.
+- _double_search_discrete(): stop the doubling with a RuntimeError once x
+  no longer fits in int64, where the ccdf could not be evaluated anyway.
+- testing/test_generation_out_of_range.py: hanging calls run in a
+  subprocess with a timeout, so a regression fails instead of hanging.
+---
+ powerlaw/distributions.py               |  35 ++++++
+ testing/test_generation_out_of_range.py | 152 ++++++++++++++++++++++++
+ 2 files changed, 187 insertions(+)
+ create mode 100644 testing/test_generation_out_of_range.py
+
+diff --git a/powerlaw/distributions.py b/powerlaw/distributions.py
+index c7fd390..6795561 100644
+--- a/powerlaw/distributions.py
++++ b/powerlaw/distributions.py
+@@ -1205,6 +1205,26 @@ class Distribution(object):
+         return False
+ 
+ 
++    def _out_of_range_message(self):
++        """
++        Explain which parameters lie outside ``self.parameter_ranges``, for
++        error messages.
++        """
++        outside = []
++        for p in self.parameter_names:
++            lo, hi = self.parameter_ranges[p]
++            value = getattr(self, p)
++            if (lo is not None and not value > lo) or (hi is not None and not value < hi):
++                outside.append(f'{p} = {value} (allowed range ({lo}, {hi}), bounds excluded)')
++
++        what = ', '.join(outside) if outside else f'parameters {self.parameters} (a parameter constraint is not satisfied)'
++        example = ', '.join(f"'{p}': [..]" for p in self.parameter_names)
++        return (f'Cannot generate discrete random numbers from {self.name}: {what}. '
++                f'Outside parameter_ranges the cdf() is not computed, so the exact '
++                f'discrete generator cannot be used. Pass parameter_ranges={{{example}}} '
++                f'that include these values when creating the distribution.')
++
++
+     def in_range(self):
+         """
+         Whether the current parameters (``self.parameters``) of the
+@@ -1663,6 +1683,13 @@ class Distribution(object):
+                 r = np.array(self._generate_random_discrete_estimate(uniform_r), dtype=np.int64)
+ 
+             else:
++                # The exact method searches the ccdf, which is (nearly)
++                # constant when the parameters are outside of
++                # parameter_ranges (see cdf()), so the search could never
++                # finish. Check once here instead of hanging.
++                if not self.in_range():
++                    raise ValueError(self._out_of_range_message())
++
+                 # For each of the uniform values (r), we do the
+                 # inverse search problem to find the specific value of x
+                 # where the ccdf is equal to that value of r. The x value
+@@ -1704,6 +1731,14 @@ class Distribution(object):
+             x1 = x2
+             x2 = 2*x1
+ 
++            # The ccdf of a proper distribution eventually falls below any
++            # 1 - r > 0. If it has not by the time x no longer fits in the
++            # int64 output (where the ccdf could not be evaluated anyway),
++            # stop instead of looping.
++            if x2 >= 2**63:
++                raise RuntimeError(f'Could not invert the ccdf of {self.name} with parameters '
++                                   f'{self.parameters} for r = {r}: ccdf(x) >= 1 - r up to x = {x1}.')
++
+             # Make sure to clip the bound by xmax
+             if self.xmax and x2 >= self.xmax:
+                 x2 = min(x2, self.xmax)
+diff --git a/testing/test_generation_out_of_range.py b/testing/test_generation_out_of_range.py
+new file mode 100644
+index 0000000..2b2daad
+--- /dev/null
++++ b/testing/test_generation_out_of_range.py
+@@ -0,0 +1,152 @@
++"""
++This test file checks that generating random numbers from a discrete
++distribution whose parameters lie outside ``parameter_ranges`` terminates.
++
++Outside its parameter ranges a distribution's ``cdf()`` returns (nearly)
++zero, so the inverse search in the exact discrete generator never finds
++its target. Generation must fail promptly with a clear error instead of
++looping forever.
++
++Each potentially hanging call runs in a separate interpreter with a
++timeout, so a regression shows up as a failed test rather than a hung
++test suite.
++"""
++
++import subprocess
++import sys
++import textwrap
++import unittest
++
++import pytest
++
++import powerlaw
++
++import numpy as np
++
++# Generous: a correct implementation answers in well under a second.
++TIMEOUT = 30
++
++
++def run_isolated(code):
++    """
++    Run ``code`` in a fresh Python interpreter and return
++    ``(returncode, stdout, stderr)``, or ``None`` if it did not finish
++    within ``TIMEOUT`` seconds.
++    """
++    source = "import warnings\nwarnings.filterwarnings('ignore')\nimport numpy as np\nimport powerlaw\nnp.random.seed(0)\n" + textwrap.dedent(code)
++    try:
++        p = subprocess.run([sys.executable, "-c", source], capture_output=True, text=True, timeout=TIMEOUT)
++    except subprocess.TimeoutExpired:
++        return None
++    return p.returncode, p.stdout, p.stderr
++
++
++class TestGenerationOutOfRange(unittest.TestCase):
++
++    def assert_raises_promptly(self, construction, exception="ValueError"):
++        """
++        ``construction`` builds a distribution ``d``; calling
++        ``d.generate_random(5)`` must raise ``exception`` (a name in the
++        builtins) instead of hanging.
++        """
++        code = construction + textwrap.dedent(f"""
++        try:
++            d.generate_random(5)
++        except {exception} as e:
++            print('RAISED', e)
++        else:
++            print('NO ERROR')
++        """)
++        result = run_isolated(code)
++        assert result is not None, f'generate_random did not return within {TIMEOUT} s for: {construction.strip()}'
++        returncode, stdout, stderr = result
++        assert returncode == 0, stderr
++        assert 'RAISED' in stdout, f'expected a {exception}, got: {stdout.strip()}'
++        return stdout
++
++
++    def test_power_law_alpha_above_default_range(self):
++        """
++        alpha = 3.5 is a valid power law, but outside the default fitting
++        range alpha in (0, 3).
++        """
++        out = self.assert_raises_promptly(
++            "d = powerlaw.Power_Law(xmin=1, parameters=[3.5], discrete=True, estimate_discrete=False)\n")
++        # The message should name the parameter and show how to fix it
++        assert 'alpha' in out and 'parameter_ranges' in out
++
++
++    def test_power_law_alpha_on_range_boundary(self):
++        """
++        in_range() uses strict inequalities, so alpha = 3 (the exponent of
++        the Barabasi-Albert model) is also outside the default range.
++        """
++        self.assert_raises_promptly(
++            "d = powerlaw.Power_Law(xmin=1, parameters=[3.0], discrete=True, estimate_discrete=False)\n")
++
++
++    def test_power_law_out_of_range_with_xmax(self):
++        self.assert_raises_promptly(
++            "d = powerlaw.Power_Law(xmin=1, xmax=1000, parameters=[3.5], discrete=True, estimate_discrete=False)\n")
++
++
++    def test_other_distributions_out_of_range(self):
++        """
++        The same search is used by every distribution without a discrete
++        approximation.
++        """
++        constructions = [
++            "d = powerlaw.Truncated_Power_Law(xmin=1, parameters=[3.5, 0.01], discrete=True)\n",
++            "d = powerlaw.Exponential(xmin=1, parameters=[-0.1], discrete=True)\n",
++            "d = powerlaw.Lognormal(xmin=1, parameters=[1, -1], discrete=True)\n",
++        ]
++        for c in constructions:
++            self.assert_raises_promptly(c)
++
++
++    def test_widened_range_generates_valid_integers(self):
++        """
++        Widening parameter_ranges to include the parameters makes the same
++        distribution usable.
++        """
++        dist = powerlaw.Power_Law(xmin=2, parameters=[3.5], discrete=True, estimate_discrete=False,
++                                  parameter_ranges={'alpha': [1, 10]})
++        assert dist.in_range()
++
++        np.random.seed(1)
++        data = dist.generate_random(200)
++
++        assert len(data) == 200
++        assert np.all(data >= 2)
++        assert np.all(data == np.round(data))
++
++
++    def test_in_range_generation_unchanged(self):
++        """
++        In-range distributions still generate data (smoke test for the new
++        check).
++        """
++        dist = powerlaw.Power_Law(xmin=1, parameters=[2.5], discrete=True, estimate_discrete=False)
++        np.random.seed(2)
++        data = dist.generate_random(100)
++
++        assert len(data) == 100
++        assert np.all(data >= 1)
++
++
++    def test_continuous_and_estimate_paths_unaffected(self):
++        """
++        The continuous generator and the discrete approximation do not use
++        cdf(), so they generate values even outside parameter_ranges. That
++        behaviour is not changed.
++        """
++        np.random.seed(3)
++        cont = powerlaw.Power_Law(xmin=1, parameters=[3.5], discrete=False).generate_random(50)
++        assert np.all(cont >= 1)
++
++        est = powerlaw.Power_Law(xmin=10, parameters=[3.5], discrete=True, estimate_discrete=True).generate_random(50)
++        assert np.all(est >= 10)
++
++
++if __name__ == '__main__':
++    unittest.main()
+-- 
+2.43.0
+
