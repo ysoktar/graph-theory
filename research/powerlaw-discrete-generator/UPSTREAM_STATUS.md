@@ -34,7 +34,8 @@ matches, so this means no report was found in these searches and pages.
 1. Issue A: incorrect discrete sampling probabilities (exact path and approximate path), one issue, two tests.
 2. Issue B: the out-of-range hang, a separate issue, because it needs an API decision from the maintainers:
    should `parameter_ranges` constrain fitting only, or also generation from explicit parameters?
-3. One PR per issue, each with failing tests first (RED on master), then the minimal fix (GREEN), the full suite,
+3. One PR with two commits, one per issue. Each commit has failing tests first (RED on master), then the minimal fix
+   (GREEN), the full suite, and before/after evidence. See `SUBMITTING_UPSTREAM.md`.
    and before/after evidence.
 
 Nothing has been filed upstream yet. Issues and PRs are opened only after the user has reviewed them.
