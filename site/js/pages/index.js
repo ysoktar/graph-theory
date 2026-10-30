@@ -1,6 +1,7 @@
 import { NAV, NOTEBOOK_URL } from "../layout.js";
 import { h, $, button, checkbox } from "../lib/ui.js";
 import { NetView } from "../lib/netview.js";
+import { t } from "../i18n.js";
 import { RNG } from "../lib/rng.js";
 import * as G from "../lib/graph.js";
 
@@ -20,7 +21,7 @@ const parts = $("#parts");
 for (const p of NAV) {
   const first = p.items[0];
   const card = h("div", { class: "card" },
-    h("div", { class: "card-kicker" }, p.part + (p.short ? ` · ${p.short}` : "")),
+    h("div", { class: "card-kicker" }, t(p.part) + (p.short ? ` · ${t(p.short)}` : "")),
     h("a", { class: "card-title", href: first.id === "index" ? "index.html" : first.id + ".html", style: { color: "var(--text)", textDecoration: "none" } }, QUESTIONS[p.part] || p.part),
     h("ol", {}, p.items.filter((it) => it.id !== "index").map((it) => h("li", {}, h("a", { href: it.id + ".html" }, it.title)))));
   parts.append(card);

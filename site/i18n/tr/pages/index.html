@@ -1,0 +1,102 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Çizgelerden Merkez Düğümlere · Etkileşimli ağ bilimi</title>
+<meta name="description" content="BIL489/589 Çizge Kuramı dersi için Barabási'nin Network Science kitabına etkileşimli bir eşlikçi: çizge kuramı, rastgele ve ölçekten bağımsız ağlar, Barabási–Albert modeli, derece korelasyonları, dayanıklılık ve düğüm gömmeleri, kitabın kendi verisiyle."></head><body>
+<div class="content">
+
+<section class="hero">
+  <div>
+    <div class="kicker"><span>BIL489/589 Çizge Kuramı dersi için <a href="https://networksciencebook.com/">Network Science</a> kitabına etkileşimli bir eşlikçi: 1–5. bölümler ayrıntılı, ardından 6–10. bölümler, çizge ML ve düğüm gömmeleri</span></div>
+    <h1>Çizgelerden Merkez Düğümlere</h1>
+    <p class="question">Gerçek bir ağ rastgele bir ağdan nasıl ayrılır ve bu neden önemlidir?</p>
+    <p class="lead">Ağları kendiniz kurun, modelleri çalıştırın ve veriye kendiniz uydurun. Bu sitedeki her şekil canlıdır ve her sayı tarayıcınızda hesaplanır; çoğu, kitabın kendi referans ağlarından.</p>
+    <div class="btn-row" style="margin-top:1rem">
+      <a class="btn primary" href="ch2-konigsberg.html">Kısım I ile başlayın →</a>
+      <a class="btn" href="data.html">Veriyi tanıyın</a>
+      <a class="btn" id="nb-link" href="#" target="_blank" rel="noopener">Not defterini Colab'da açın</a>
+    </div>
+  </div>
+  <div class="hero-viz" id="hero"></div>
+</section>
+
+<h2>Plan</h2>
+<p>Kısım I–IV, ders not defteri <em>From Graphs to Hubs</em>'ı bölüm bölüm izler ve etkileşimli bir şeklin yardımcı olduğu her yerde daha ileri gider. Kısım V, ders programının geri kalanını kapsar: Barabási–Albert modeli, evrilen ağlar, derece korelasyonları, dayanıklılık, çizge üzerinde makine öğrenmesi ve düğüm gömmeleri; ayrıca topluluklar ve yayılma. Her kısım tek bir soruyu yanıtlar.</p>
+<div class="cards" id="parts"></div>
+
+<h2>Konular nasıl bağlanıyor</h2>
+<p>Her kutu bir sayfadır; ok "şuna götürür" demektir. Kesikli oklar <strong>sıfır modellerini</strong> gösterir: verinin bazı özelliklerini sabit tutarak rastgele bağlanmış ağlar. Sıfır modeli yalnızca rastlantının ne üreteceğini gösterir; böylece veri onunla karşılaştırılabilir.</p>
+<div id="concept-map"></div>
+<ul>
+  <li><strong>Dereceler:</strong> rastgele model Poisson dereceleri öngörür, ama gerçek ağların ağır kuyrukları vardır. Bu kuyrukları kuvvet yasaları betimler ve merkez düğümleri (hub) onlar yaratır. Merkez düğümler de bir ağın ne kadar dayanıklı olduğunu ve üzerinde bir şeyin ne kadar hızlı yayıldığını belirler.</li>
+  <li><strong>Uzaklıklar:</strong> kısa yollar neredeyse her ağda görülür (küçük dünyalar). Merkez düğümler onları daha da kısaltır (ultra küçük dünyalar).</li>
+  <li><strong>Kümelenme:</strong> gerçek ağlarda rastgele ağlardakinden çok daha fazla üçgen vardır. Watts–Strogatz modeli yolları kısa tutarak bu üçgenleri ekler.</li>
+  <li><strong>Sıfır modelleri:</strong> G(N, L) yalnızca düğüm sayısı $N$'yi ve bağlantı sayısı $L$'yi korur. Konfigürasyon modeli her düğümün derecesini de korur. Dereceyi koruyan rastgeleleştirme de dereceleri korur, ama bunu gerçek bağlantıları yeniden bağlayarak yapar.</li>
+</ul>
+
+<h2>Şekiller nasıl okunur</h2>
+<p>Renkler ders not defterini izler ve her sayfada aynı anlama gelir:</p>
+<div class="legend" style="font-size:.92rem;gap:8px 22px;margin-bottom:1rem">
+  <span class="legend-item"><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="var(--s1)"/></svg>gerçek veri (diğer seriler: turuncu, sonra camgöbeği)</span>
+  <span class="legend-item"><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="var(--random)"/></svg>rastgele ağ</span>
+  <span class="legend-item"><svg width="18" height="10"><line x1="1" x2="17" y1="5" y2="5" stroke="var(--theory)" stroke-width="2" stroke-dasharray="4 3"/></svg>kuram, bir formül</span>
+</div>
+<ul>
+  <li>Tam değerleri görmek için herhangi bir grafiğin üzerine <strong>gelin</strong>. Her grafiğin altında ayrıca bir <em>Veri tablosu</em> vardır.</li>
+  <li><strong>Ağ çizimleri</strong> sürüklenebilir, kaydırılabilir ve yakınlaştırılabilir: önce içine tıklayın, sonra fare tekerleğini çevirin ya da iki parmakla yakınlaştırın. <em>Yeniden yerleştir</em> yerleşimi karıştırır, <em>Sığdır</em> tüm ağa geri uzaklaşır.</li>
+  <li>Ağır benzetimler arka planda çalışır. Şekilleri sonuçlar geldikçe dolar.</li>
+</ul>
+
+<h2 id="reading-guide">Açıklamalar nasıl okunur</h2>
+<p>Her sayfa aynı birkaç yapı taşını kullanır. Aşağıdaki her biri kendisinin canlı bir örneğidir.</p>
+
+<h3>Sözcükler ve simgeler</h3>
+<p><span class="term" tabindex="0" data-term="Noktalı alt çizgi" data-def="Tanımını görmek için altı çizili bir sözcüğün ya da simgenin üzerine gelin veya dokunun. Her terimin altı, sayfada ilk geçtiği yerde ve her testin içinde yeniden çizilir.">Noktalı alt çizgi</span> teknik bir sözcüğü ya da simgeyi işaretler: tek satırlık tanımı için üzerine gelin ya da dokunun. Tüm tanımlar <a href="formulas.html#glossary">sözlükte</a> toplanmıştır.</p>
+<p>Her denklemden sonra, her simgenin ne anlama geldiğini söyleyen bir <strong>"burada" listesi</strong> gelir:</p>
+<div class="eq">$$\langle k\rangle = \frac{2L}{N}$$</div>
+<dl class="symbols">
+  <dt>$\langle k\rangle$</dt><dd>ortalama derece: düğüm başına ortalama bağlantı sayısı</dd>
+  <dt>$L$</dt><dd>bağlantı sayısı; 2 çarpanı her bağlantının iki ucu olduğu için vardır</dd>
+  <dt>$N$</dt><dd>düğüm sayısı</dd>
+</dl>
+
+<h3>Kutular</h3>
+<div class="callout why"><p>Bir konunun neden gerekli olduğunu söyler: hangi sorunu çözdüğünü, neyi öngörmemizi ya da yapmamızı sağladığını.</p></div>
+<div class="callout connect"><p>Konunun diğerleriyle ilişkisini söyler: neyin üzerine kurulduğunu, neyi açıkladığını ve daha sonra neyin onun yerini aldığını ya da onu inceltiğini.</p></div>
+<div class="callout key"><p>Bir bölümden akılda tutulacak tek sonuç ya da kural.</p></div>
+<div class="callout example"><p>Bir formüle adım adım konmuş gerçek sayılar; böylece yöntemi elle denetleyebilirsiniz.</p></div>
+<div class="callout gotcha"><p>Sık yapılan bir hata ya da yanıltıcı bir kestirme ve bundan nasıl kaçınılacağı.</p></div>
+<div class="callout try"><p>Şekille yapılacak bir şey ya da sınav tipi bir problem; çözümü bir düğmeyle açılır.</p>
+  <div class="hint" data-label="Çözümü göster"><p>Çözümler numaralı adımlarla yazılmıştır; böylece kendi çözümünüzü satır satır karşılaştırabilirsiniz.</p></div></div>
+<div class="callout look"><p>Hemen üstteki ya da alttaki etkileşimli şekilde neye dikkat etmeniz gerektiği.</p></div>
+<div class="callout discuss"><p>Üzerinde düşünülecek açık uçlu bir soru (çoğu zaman not defterinden). İpucunu açmadan önce yanıtlamaya çalışın.</p>
+  <div class="hint"><p>İpuçları ve çözümler siz isteyene kadar gizli kalır.</p></div></div>
+<div class="callout fix" data-label="Düzeltme"><p>Kitapta, ders not defterinde ya da bir yazılım paketinde yanlış çıkan bir ifade; düzeltilmiş hâli ve kanıtıyla birlikte.</p></div>
+
+<h3>Ders kapsamı</h3>
+<p>Her sayfa başlığının üstündeki etiketler, sayfanın BIL489/589 dersiyle ilişkisini söyler:
+  <span class="chip scope slides"><span class="dot"></span>Slaytlarda var</span>
+  <span class="chip scope syllabus"><span class="dot"></span>Ders programında · slaytı henüz yok</span>
+  <span class="chip scope beyond"><span class="dot"></span>Ders kapsamı dışında</span>.
+  Yan menü son iki türden sayfaları "slayt yok" ve "ek" diye etiketler.</p>
+<p data-beyond="örn. kitabın İleri Konu 3.G'si">Bir sayfanın içinde mor bir rozet ve kesikli bir sol kenar, ders slaytlarında (kitabın 1–7. bölümleri) ve ders not defterinde olmayan malzemeyi işaretler; örneğin kitabın İleri Konular kutuları. Derinlik için okuyun; sınav konusu olma olasılığı düşüktür.</p>
+
+<h3>Sorular</h3>
+<p>Her sayfa bölümlerini <strong>Kendinizi sınayın</strong> sorularıyla bitirir. Yanlış bir seçim neden yanlış olduğunu söyler; doğru seçim yanıtı açıklar. <a href="exam-midterm.html">Ara sınav</a> ve <a href="exam-final.html">final</a> çalışma rehberlerinin kendi sınav tipi alıştırma soruları vardır ve tekrar için bu soruları da katabilirler.</p>
+<div class="quiz" data-answer="3">
+  <p>Bir ağın $N = 10$ düğümü ve $L = 15$ bağlantısı var. Ortalama derecesi $\langle k\rangle$ nedir?</p>
+  <ol>
+    <li data-why="Bu L/N'dir: her bağlantıyı bir kez sayar, oysa her bağlantı iki düğümün derecesine katkı yapar.">1.5</li>
+    <li data-why="Bu N/L'dir: formül ters çevrilmiş.">0.67</li>
+    <li>3</li>
+    <li data-why="Bu 2L'dir, yani tüm derecelerin toplamı; ortalamayı bulmak için N'ye bölün.">30</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 2L/N = 2 \cdot 15 / 10 = 3$.</div>
+</div>
+
+<div class="callout key">
+  <p><strong>Her şey sizin bilgisayarınızda çalışır.</strong> Bu statik bir web sitesidir. Benzetimler, uydurmalar ve çizge algoritmaları tarayıcınızda JavaScript olarak çalışır ve hiçbir şey bir yere gönderilmez. Gerçek ağ verileri, kitabın kenar listelerinden bir kez önceden hesaplanmış kısa özetlerdir (derece histogramları, uydurmalar, kümelenme, uzaklıklar). Sekiz ağın altısı için tam kenar listeleri de sitede bulunur; bu yüzden site o ağları canlı olarak da çözümleyebilir.</p>
+</div>
+
+<div class="callout note" data-label="Not defteri hakkında">
+  <p>Ders not defteri bu site hazırlanırken sayı sayı yeniden denetlendi. Neredeyse her şey doğru çıktı. Düzeltme ya da çekince gereken birkaç ifade <a href="notebook-check.html">Not defteri denetimi</a> sayfasında listelenir ve geçtikleri yerde tartışılır.</p>
+</div>
+
+</div></body></html>
