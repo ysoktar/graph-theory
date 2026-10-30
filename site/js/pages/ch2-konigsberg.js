@@ -2,6 +2,13 @@ import "../layout.js";
 import { h, figure, segmented, button, dataTable } from "../lib/ui.js";
 import { loadNetworks, NETWORK_ORDER } from "../lib/data.js";
 import { fmt } from "../lib/stats.js";
+import { LANG } from "../i18n.js";
+
+// the walk messages are assembled from land names and counts, so each has an English and a Turkish template
+const TR = LANG === "tr";
+const bridgeLabel = (b, order) => TR
+  ? `${b.u} ile ${b.v} arasındaki ${b.id} köprüsü${order >= 0 ? `, ${order + 1}. adımda geçildi` : ""}${b.present ? "" : ", yapılmamış"}`
+  : `bridge ${b.id} between ${b.u} and ${b.v}${order >= 0 ? `, crossed as step ${order + 1}` : ""}${b.present ? "" : ", not built"}`;
 
 const SVGNS = "http://www.w3.org/2000/svg";
 const s = (tag, attrs = {}, ...kids) => {
@@ -83,7 +90,7 @@ map.append(
 const LAND_PATH = { B: BANK_B, C: BANK_C, A: ISLAND_A, D: LAND_D };
 const landShapes = {};
 for (const L of LANDS) {
-  const g = s("g", { class: "kb-land", tabindex: 0, role: "button", "aria-label": `land ${L}` });
+  const g = s("g", { class: "kb-land", tabindex: 0, role: "button", "aria-label": TR ? `kara ${L}` : `land ${L}` });
   const shape = s("path", { d: LAND_PATH[L], fill: L === "A" || L === "D" ? "var(--kb-land)" : "transparent", stroke: L === "A" || L === "D" ? "var(--kb-shore)" : "none", "stroke-width": 1.5 });
   g.append(shape);
   if (L === "A" || L === "D") g.append(s("path", { d: LAND_PATH[L], fill: "url(#kb-streets)", "pointer-events": "none" }));
@@ -117,7 +124,7 @@ for (const L of LANDS) {
 // bridges: a deck with two rails and a letter badge; a wide invisible hit area for clicking
 const bridgeEls = {};
 for (const b of BRIDGES) {
-  const g = s("g", { class: "kb-bridge", tabindex: 0, role: "button", "aria-label": `bridge ${b.id} between ${b.u} and ${b.v}` });
+  const g = s("g", { class: "kb-bridge", tabindex: 0, role: "button", "aria-label": bridgeLabel(b, -1) });
   const [mx, my] = bridgeMid(b);
   let shadow, deck, rail1, rail2, hit;
   if (b.horizontal) {
@@ -200,8 +207,8 @@ function resetWalk() {
 }
 function clickLand(L) {
   if (state.mode !== "walk" || state.animating) return;
-  if (!state.used.length) { state.start = state.current = L; state.lands = [L]; state.message = `You start on ${L}. Now click a bridge to cross it.`; }
-  else state.message = "Finish (or restart) the current walk first.";
+  if (!state.used.length) { state.start = state.current = L; state.lands = [L]; state.message = TR ? `${L} üzerinden başlıyorsunuz. Şimdi geçmek için bir köprüye tıklayın.` : `You start on ${L}. Now click a bridge to cross it.`; }
+  else state.message = TR ? "Önce mevcut yürüyüşü bitirin (ya da yeniden başlatın)." : "Finish (or restart) the current walk first.";
   render();
 }
 function clickBridge(b) {
@@ -209,22 +216,22 @@ function clickBridge(b) {
   if (state.mode === "edit") {
     b.present = !b.present;
     resetWalk();
-    state.message = `${b.present ? "Added" : "Removed"} bridge ${b.id} (${b.u}–${b.v}).`;
+    state.message = TR ? `${b.id} köprüsü (${b.u}–${b.v}) ${b.present ? "eklendi" : "kaldırıldı"}.` : `${b.present ? "Added" : "Removed"} bridge ${b.id} (${b.u}–${b.v}).`;
     render();
     return;
   }
-  if (!b.present) { state.message = "That bridge is not built. Switch to Edit bridges to add it."; render(); return; }
-  if (!state.current) { state.message = "First click the land where you want to start."; render(); return; }
-  if (state.used.includes(b.id)) { state.message = `You already crossed bridge ${b.id}.`; render(); return; }
-  if (b.u !== state.current && b.v !== state.current) { state.message = `Bridge ${b.id} does not start on ${state.current}.`; render(); return; }
+  if (!b.present) { state.message = TR ? "Bu köprü yapılmamış. Eklemek için Köprüleri düzenle kipine geçin." : "That bridge is not built. Switch to Edit bridges to add it."; render(); return; }
+  if (!state.current) { state.message = TR ? "Önce başlamak istediğiniz kara parçasına tıklayın." : "First click the land where you want to start."; render(); return; }
+  if (state.used.includes(b.id)) { state.message = TR ? `${b.id} köprüsünü zaten geçtiniz.` : `You already crossed bridge ${b.id}.`; render(); return; }
+  if (b.u !== state.current && b.v !== state.current) { state.message = TR ? `${b.id} köprüsü ${state.current} üzerinden başlamıyor.` : `Bridge ${b.id} does not start on ${state.current}.`; render(); return; }
   state.used.push(b.id);
   state.current = b.u === state.current ? b.v : b.u;
   state.lands.push(state.current);
   const left = present().filter((x) => !state.used.includes(x.id));
   const options = left.filter((x) => x.u === state.current || x.v === state.current);
-  if (!left.length) state.message = `Done: every bridge crossed exactly once, from ${state.start} to ${state.current}.`;
-  else if (!options.length) state.message = `Stuck on ${state.current}: ${left.length} bridge${left.length > 1 ? "s" : ""} (${left.map((x) => x.id).join(", ")}) left, but none leaves ${state.current} unused.`;
-  else state.message = `You are on ${state.current}. ${left.length} bridge${left.length > 1 ? "s" : ""} to go.`;
+  if (!left.length) state.message = TR ? `Tamam: her köprü tam bir kez geçildi, ${state.start} noktasından ${state.current} noktasına.` : `Done: every bridge crossed exactly once, from ${state.start} to ${state.current}.`;
+  else if (!options.length) state.message = TR ? `${state.current} üzerinde takıldınız: ${left.length} köprü (${left.map((x) => x.id).join(", ")}) kaldı, ama hiçbiri ${state.current} üzerinden çıkmıyor.` : `Stuck on ${state.current}: ${left.length} bridge${left.length > 1 ? "s" : ""} (${left.map((x) => x.id).join(", ")}) left, but none leaves ${state.current} unused.`;
+  else state.message = TR ? `${state.current} üzerindesiniz. ${left.length} köprü kaldı.` : `You are on ${state.current}. ${left.length} bridge${left.length > 1 ? "s" : ""} to go.`;
   render();
 }
 
@@ -255,10 +262,10 @@ function animateSolution() {
   state.start = state.current = path[0].land;
   state.lands = [path[0].land];
   let i = 1;
-  state.message = `A solution starts on ${path[0].land}…`;
+  state.message = TR ? `Bir çözüm ${path[0].land} üzerinden başlar…` : `A solution starts on ${path[0].land}…`;
   render();
   state.animating = setInterval(() => {
-    if (i >= path.length) { clearInterval(state.animating); state.animating = null; state.message = `Done: every bridge crossed exactly once, from ${path[0].land} to ${path[path.length - 1].land}.`; render(); return; }
+    if (i >= path.length) { clearInterval(state.animating); state.animating = null; state.message = TR ? `Tamam: her köprü tam bir kez geçildi, ${path[0].land} noktasından ${path[path.length - 1].land} noktasına.` : `Done: every bridge crossed exactly once, from ${path[0].land} to ${path[path.length - 1].land}.`; render(); return; }
     state.used.push(path[i].via);
     state.current = path[i].land;
     state.lands.push(path[i].land);
@@ -279,7 +286,7 @@ function render() {
     el.g.classList.toggle("used", order >= 0);
     el.g.classList.toggle("next", nextIds.has(b.id));
     el.t.textContent = order >= 0 ? String(order + 1) : b.id;
-    el.g.setAttribute("aria-label", `bridge ${b.id} between ${b.u} and ${b.v}${order >= 0 ? `, crossed as step ${order + 1}` : ""}${b.present ? "" : ", not built"}`);
+    el.g.setAttribute("aria-label", bridgeLabel(b, order));
   }
   for (const L of LANDS) {
     landShapes[L].g.classList.toggle("startable", state.mode === "walk" && !state.used.length && !state.animating);
@@ -324,8 +331,12 @@ function render() {
   }
   // text
   status.textContent = state.message || (state.mode === "walk" ? "Click a piece of land to start." : "Click any bridge to build or remove it.");
-  walkLine.textContent = state.start ? "Walk: " + state.lands.map((L, i) => (i ? ` –${state.used[i - 1]}→ ${L}` : L)).join("") : "";
-  const verdict = odd.length === 0 ? "No land mass has an odd number of bridges: a closed walk crossing every bridge once exists, starting anywhere."
+  walkLine.textContent = state.start ? (TR ? "Yürüyüş: " : "Walk: ") + state.lands.map((L, i) => (i ? ` –${state.used[i - 1]}→ ${L}` : L)).join("") : "";
+    const verdict = TR
+    ? (odd.length === 0 ? "Hiçbir kara parçasının tek sayıda köprüsü yok: her köprüyü bir kez geçen kapalı bir yürüyüş, herhangi bir yerden başlayarak, vardır."
+      : odd.length === 2 ? `Tam iki kara parçasının (${odd.join(" ve ")}) tek sayıda köprüsü var: biri ile diğeri arasında bir yürüyüş vardır.`
+      : `${odd.length} kara parçasının (${odd.join(", ")}) tek sayıda köprüsü var: hiçbir yürüyüş her köprüyü tam bir kez geçemez.`)
+    : odd.length === 0 ? "No land mass has an odd number of bridges: a closed walk crossing every bridge once exists, starting anywhere."
     : odd.length === 2 ? `Exactly two land masses (${odd.join(" and ")}) have an odd number of bridges: a walk exists, from one of them to the other.`
     : `${odd.length} land masses (${odd.join(", ")}) have an odd number of bridges: no walk can cross every bridge exactly once.`;
   degreeBox.replaceChildren(h("p", { class: "small", style: { margin: "4px 0 0" } },

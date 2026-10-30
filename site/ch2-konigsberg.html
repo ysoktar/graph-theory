@@ -25,18 +25,18 @@
 <div data-fig id="fig-walk"></div>
 <div class="callout look">
   <ul>
-    <li>Every attempt gets stuck.</li>
-    <li>Every land mass has an <em>odd</em> number of bridges: 5, 3, 3, 3.</li>
-    <li>In <em>Edit bridges</em>, add or remove one bridge: now a walk exists, between the two land masses still odd.</li>
+    <li>Whatever route you try, you get stuck before you have used every bridge.</li>
+    <li>Every land mass has an <em>odd</em> number of bridges: 5, 3, 3 and 3.</li>
+    <li>Switch to <em>Edit bridges</em> and add or remove one bridge. Now a walk exists: it runs between the two land masses that still have an odd number of bridges.</li>
   </ul>
 </div>
 
 <h2>Step 1: keep only the connections</h2>
-<p>Shapes and distances cannot change the answer; only <em>which land is joined to which</em> can. Euler drew each land mass as a point and each bridge as a line. That is a <strong>graph</strong>:</p>
+<p>The shapes of the land and the lengths of the bridges cannot change the answer; only <em>which land is joined to which</em> can. Euler drew each land mass as a point and each bridge as a line. That is a <strong>graph</strong>:</p>
 <ul>
   <li><strong>node</strong>: a land mass (A, B, C, D);</li>
   <li><strong>link</strong>: a bridge (a–g);</li>
-  <li><strong>degree</strong> $k$: the number of links at a node; $k_A = 5$.</li>
+  <li><strong>degree</strong> $k$: the number of links at a node. Island A has five bridges, so $k_A = 5$.</li>
 </ul>
 <div class="callout why">
   <ul>
@@ -59,9 +59,9 @@
   </ul>
   <p>Königsberg has 4, so no walk exists.</p>
 </div>
-<p><strong>Connected</strong> means every node can be reached from every other (<a href="ch2-connectedness.html">Connectedness</a>). Euler showed that 4 odd nodes make the walk impossible; Hierholzer proved in 1873 that 0 or 2 always allow one. <em>Show a solution</em> uses his method.</p>
+<p>A graph is <strong>connected</strong> when every node can be reached from every other (<a href="ch2-connectedness.html">Connectedness</a>). Euler showed that four odd nodes make the walk impossible. Hierholzer proved in 1873 that 0 or 2 odd nodes always allow one; the <em>Show a solution</em> button uses his method.</p>
 <div class="callout example">
-  <p>Add bridge h (B–C): $k_B$ and $k_C$ become 4; A (5) and D (3) stay odd. Two odd nodes, so a walk exists from A to D.</p>
+  <p>Add a bridge h between B and C. Then $k_B$ and $k_C$ become 4, while A (5) and D (3) stay odd. With two odd nodes a walk exists, from A to D.</p>
 </div>
 <div class="callout fix" data-book="B1"></div>
 
@@ -75,70 +75,70 @@
   <dt>$L$</dt><dd>number of links</dd>
 </dl>
 <div class="callout example"><p>Königsberg: $5 + 3 + 3 + 3 = 14 = 2 \times 7$.</p></div>
-<p>$2L$ is even, so the number of odd degrees is even. Divided by $N$, this identity gives the average degree $\langle k\rangle = 2L/N$ (<a href="ch2-degree.html">next page</a>).</p>
+<p>Since $2L$ is even, the number of nodes with odd degree is always even. Dividing both sides by $N$ gives the average degree $\langle k\rangle = 2L/N$ (<a href="ch2-degree.html">next page</a>).</p>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Degree</strong> decided this problem; its distribution is the thread of the whole course (<a href="ch2-degree.html">Degree</a>).</li>
-    <li>Walks along links become <strong>paths and distances</strong> (<a href="ch2-paths.html">Paths</a>).</li>
-    <li>Structure decides what is possible: robustness (<a href="robustness.html">Ch 8</a>) and spreading (<a href="epidemics.html">Ch 10</a>) are also set largely by degrees.</li>
+    <li><strong>Degree</strong> decided this problem. How degrees are distributed is the thread of the whole course (<a href="ch2-degree.html">Degree</a>).</li>
+    <li>Walks along links lead to <strong>paths and distances</strong> (<a href="ch2-paths.html">Paths</a>).</li>
+    <li>Structure decides what is possible. Robustness (<a href="robustness.html">Ch 8</a>) and spreading (<a href="epidemics.html">Ch 10</a>) are also set largely by the degrees.</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="3">
   <p>A connected network has degrees 2, 3, 4, 3, 2, 2. Does it have an Euler path?</p>
   <ol>
-    <li data-why="Odd nodes are allowed if there are exactly two.">No: it has odd-degree nodes</li>
-    <li data-why="Starting anywhere needs zero odd nodes.">Yes, starting and ending anywhere</li>
-    <li>Yes, from one degree-3 node to the other</li>
-    <li data-why="For a connected network the degrees alone decide.">Cannot tell without the drawing</li>
+    <li data-why="Odd nodes are allowed if there are exactly two of them.">No, because it has nodes of odd degree.</li>
+    <li data-why="A walk that can start anywhere needs zero odd nodes.">Yes, and it can start and end anywhere.</li>
+    <li>Yes, running from one degree-3 node to the other.</li>
+    <li data-why="For a connected network the degrees alone decide.">It cannot be decided without a drawing.</li>
   </ol>
   <div class="explain">Exactly two odd nodes: the path exists and runs between them.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Four districts, each with exactly four bridges, all connected. Can a tourist cross every bridge once and return to the hotel?</p>
+  <p>A city has four districts, each with exactly four bridges, and every district can be reached from every other. Can a tourist cross every bridge once and return to the hotel?</p>
   <ol>
-    <li data-why="High degree is no obstacle; parity is what matters.">No, too many bridges</li>
-    <li>Yes, starting from any district</li>
-    <li data-why="That holds with two odd nodes; here there are none.">Only from one particular district</li>
-    <li data-why="The condition involves degrees, not counts of districts.">Only if there are more districts than bridges</li>
+    <li data-why="Many bridges are no obstacle; what matters is whether the counts are even.">No, there are too many bridges.</li>
+    <li>Yes, starting from any district.</li>
+    <li data-why="A fixed start and end is needed when two nodes are odd; here none are.">Only when starting from one particular district.</li>
+    <li data-why="The condition is about degrees, not about how many districts there are.">Only if there are more districts than bridges.</li>
   </ol>
-  <div class="explain">All degrees even and connected: an Euler circuit exists from any start.</div>
+  <div class="explain">All degrees are even and the city is connected, so an Euler circuit exists from any starting point.</div>
 </div>
 <div class="quiz" data-answer="4">
   <p>Which single change to the seven bridges makes the walk possible?</p>
   <ol>
-    <li data-why="A goes 5 → 3 and B 3 → 1: still four odd nodes.">Removing both A–B bridges</li>
-    <li data-why="A self-bridge adds 2 to A's degree (5 → 7): still odd.">A bridge from A back to A</li>
-    <li data-why="One bridge changes two degrees by one each; that can help.">None: no single change helps</li>
-    <li>Removing any one bridge</li>
+    <li data-why="A goes from 5 to 3 and B from 3 to 1, so there are still four odd nodes.">Removing both bridges between A and B.</li>
+    <li data-why="A bridge from A back to A adds 2 to A's degree (5 to 7), which is still odd.">Adding a bridge from A back to A.</li>
+    <li data-why="One bridge changes two degrees by one each, and that can help.">None: no single change helps.</li>
+    <li>Removing any one bridge.</li>
   </ol>
-  <div class="explain">Every bridge joins two odd land masses; removing it makes both even, leaving two odd nodes.</div>
+  <div class="explain">Every bridge joins two land masses of odd degree. Removing it makes both even and leaves exactly two odd nodes.</div>
 </div>
 <div class="quiz" data-answer="1">
   <p>Why may Euler ignore bridge lengths and land shapes?</p>
   <ol>
-    <li>The answer depends only on which land each bridge joins</li>
-    <li data-why="Even a perfect map gives the same answer.">The maps of 1736 were inaccurate</li>
-    <li data-why="Lengths do not affect which walks exist.">All bridges had the same length</li>
-    <li data-why="The argument is exact.">It is an approximation</li>
+    <li>The answer depends only on which land each bridge joins.</li>
+    <li data-why="Even a perfect map gives the same answer.">The maps of 1736 were inaccurate.</li>
+    <li data-why="Lengths do not affect which walks exist.">All bridges had the same length.</li>
+    <li data-why="The argument is exact, not approximate.">It is an approximation.</li>
   </ol>
   <div class="explain">Which walks exist is fixed by the connections alone. Keeping only connections is the founding idea of network science.</div>
 </div>
 
 <h2>Networks and graphs (Section 2.2)</h2>
-<p>A <strong>network</strong> lists a system's components (<strong>nodes</strong>) and their direct interactions (<strong>links</strong>). Its size: $N$ nodes, $L$ links. <em>Network/node/link</em> and <em>graph/vertex/edge</em> mean the same. Links are <strong>undirected</strong> (collaboration, power line) or <strong>directed</strong> (hyperlink, email, call). The eight reference networks used on this site (book Table 2.1):</p>
+<p>A <strong>network</strong> lists a system's components (<strong>nodes</strong>) and their direct interactions (<strong>links</strong>). Its size is given by the number of nodes $N$ and the number of links $L$. The words <em>network, node, link</em> and <em>graph, vertex, edge</em> mean the same things. A link is <strong>undirected</strong> when the relation goes both ways (a collaboration, a power line), and <strong>directed</strong> when it points from one node to another (a hyperlink, an email, a phone call). This site uses the book's eight reference networks (book Table 2.1):</p>
 <div id="tbl-networks"></div>
 <div class="callout note">
   <p>All networks here are treated as <strong>undirected and simple</strong> (no directions, self-loops or repeated links), as in the class notebook. For directed networks $u\to v$ and $v\to u$ merge into one link, so $L$ and $\langle k\rangle$ are smaller than the book's.</p>
 </div>
 <div class="callout discuss">
-  <p>The same 23,133 scientists can be linked by co-authorship, citation or email. Same structure? Which would you study to see how ideas spread?</p>
+  <p>The same 23,133 scientists can be linked by co-authorship, by citations or by emails. Would the three networks have the same structure? Which would you study to see how ideas spread?</p>
   <div class="hint">The link definition makes the network. Co-authorship is undirected and full of triangles (a three-author paper is a triangle); citations are directed and reach further. Always ask what a link means.</div>
 </div>
 <div class="callout why">
   <ul>
-    <li>Covering every street once (postman, snow plough) is the <em>Chinese postman problem</em>, built on Euler's condition.</li>
+    <li>Covering every street once, as a postman or a snow plough must, is the <em>Chinese postman problem</em>, which builds on Euler's condition.</li>
     <li>Genome sequencing reassembles DNA by finding an Euler path through overlapping fragments.</li>
     <li>Visiting every <em>node</em> once (a <em>Hamiltonian path</em>) looks similar but has no simple test and is computationally hard.</li>
   </ul>

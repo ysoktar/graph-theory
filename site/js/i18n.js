@@ -21,7 +21,8 @@ export function setLang(lang) {
   location.href = u.href;
 }
 
-const NUM = /\d+(?:[.,]\d+)*/g;
+// numbers in text, but not the {0} placeholders of a translation key
+const NUM = /(?<!\{)\d+(?:[.,]\d+)*(?!\})/g;
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 /** "N = 1,000 done" → ["N = {0} done", ["1,000"]] */
 export function keyOf(s) {
