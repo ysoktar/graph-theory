@@ -1,0 +1,195 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Neden ağlar? · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Kitabın 1. bölümü: karmaşık sistemler ağlardır; ağ bilimi neden 2000 civarında doğdu ve bize neler yapma olanağı verir."></head><body>
+<div class="content">
+
+<h1>Neden ağlar?</h1>
+<p class="lead">14 Ağustos 2003'te elektrik şebekesindeki yerel bir arıza, ABD'nin sekiz eyaletinde 45 milyon ve Ontario'da 10 milyon insan elektriksiz kalana kadar yayıldı. Arıza ağın bağlantıları boyunca ilerledi. 1. bölüm, bu tür sistemleri ardındaki ağları anlamadan anlayamayacağımızı savunur.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Birçok sistem yalnızca parçalarından öngörülemeyecek kadar karmaşıktır. Ne yaptıklarını çoğu zaman bağlantı yapıları belirler.</li>
+    <li>Aynı birkaç araç hücreler, beyinler, Web ve elektrik şebekeleri için işe yarar, çünkü ağları ortak yasalara uyar.</li>
+    <li>Bu bölümde formül yoktur. Dersin geri kalanının neden önemli olduğunu açıklar.</li>
+  </ul>
+</div>
+
+<h2>Bağlantılılıktan doğan kırılganlık (Bölüm 1.1)</h2>
+<p>2003 elektrik kesintisi bir <strong>zincirleme arızaydı</strong>. Böyle bir arıza üç adımda gelişir:</p>
+<ol>
+  <li>Bir bileşen arızalanır ve yükü komşularına geçer.</li>
+  <li>Ek yük küçükse komşular onu karşılar ve görünür bir şey olmaz.</li>
+  <li>Ek yük çok büyükse komşular da arızalanır ve yükü başkalarına aktarır. Arıza yayılmayı sürdürür: zincirleme budur.</li>
+</ol>
+<p>Zincirin ne kadar büyüyeceği, ilk arızaların <em>nerede</em> olduğuna ve her düğümün ne kadar yük taşıyabildiğine bağlıdır.</p>
+<ul>
+  <li><strong>İnternet</strong>: trafik bozuk yönlendiricilerin çevresinden dolaştırılır ve hâlâ çalışan yönlendiricileri aşırı yükleyip kullanılamaz hâle getirebilir (hizmet engelleme).</li>
+  <li><strong>Finans</strong>: 1997'de birkaç Pasifik ülkesinde getirilen kredi sınırları şirketleri temerrüde düşürdü ve borsalar dünya çapında çöktü. 2009–2011'de ABD kredi krizi küresel ekonomiyi felç etti.</li>
+  <li><strong>Bilerek</strong>: hükümetler terör örgütlerinin para kaynaklarını kurutmaya, kanser araştırmacıları ise kanser hücrelerini öldüren zincirleme süreçleri tetiklemeye çalışır.</li>
+</ul>
+<p>Kentlerin ayrı şebekelerini tek bir ağda birleştirmek elektriği ucuzlattı, ama yerel bir arızanın uzağa gitmesine de izin verdi. Bilgi, virüsler ve iş uygulamaları da ağlar boyunca aynı biçimde yayılır. Dolayısıyla ağlar hem yararlar hem riskler getirir.</p>
+<div class="callout key">
+  <p>Bir zincirleme süreci denetlemek için her biri bu dersin bir parçası olan üç şeyi anlamamız gerekir:</p>
+  <ol>
+    <li>ağın <strong>yapısı</strong> (2–7. bölümler);</li>
+    <li>üzerindeki <strong>dinamikler</strong>, örneğin elektrik akışı;</li>
+    <li>yapı ile dinamiğin birlikte <strong>dayanıklılığı</strong> nasıl belirlediği (<a href="robustness.html">8. bölüm</a>).</li>
+  </ol>
+</div>
+
+<h2>Her karmaşık sistemin ardında bir ağ (Bölüm 1.2)</h2>
+<p><strong>Karmaşık sistem</strong>, toplu davranışını parçalarına ilişkin bilgiden çıkarmanın zor olduğu bir sistemdir. Böyle her sistemin ardında bir ağ vardır: parçaları düğümler, etkileşimleri bağlantılardır.</p>
+<table class="simple">
+  <thead><tr><th>Sistem</th><th>Düğümler</th><th>Bağlantılar</th></tr></thead>
+  <tbody>
+    <tr><td>Hücre</td><td>genler, proteinler, metabolitler</td><td>bağlanma etkileşimleri, kimyasal tepkimeler</td></tr>
+    <tr><td>Beyin</td><td>nöronlar</td><td>nöronlar arasındaki bağlantılar</td></tr>
+    <tr><td>Toplum</td><td>insanlar</td><td>mesleki, arkadaşlık ve aile bağları</td></tr>
+    <tr><td>İletişim</td><td>telefonlar, bilgisayarlar, uydular</td><td>kablolu ya da kablosuz bağlantılar</td></tr>
+    <tr><td>Elektrik şebekesi</td><td>üreticiler, tüketiciler</td><td>iletim hatları</td></tr>
+    <tr><td>World Wide Web</td><td>web sayfaları</td><td>köprü bağlantıları (URL'ler)</td></tr>
+  </tbody>
+</table>
+<p>Bu sistemler boyut, yaş ve doğa bakımından farklıdır. Alanın sürprizi, düğümlerin ve bağlantıların <em>ne</em> olduğunu göz ardı ettiğimizde ağlarının farklı olmaktan çok birbirine benzemesidir.</p>
+
+<h2>Neden 2000 civarında? (Bölüm 1.3)</h2>
+<p>Ağların incelenmesi eskidir. Çizge kuramı Euler'e (<a href="ch2-konigsberg.html">Königsberg</a>), rastgele çizgeler Erdős ve Rényi'ye (1959), toplumsal ağ çözümlemesi sosyolojiye uzanır. Yine de bu klasiklere yapılan atıflar ancak 2000'den sonra patladı. İki etken onları yeni bir alana dönüştürdü:</p>
+<div class="callout key">
+  <ol>
+    <li><strong>Ağ haritaları.</strong> İnternet, veriyi saklamayı, paylaşmayı ve çözümlemeyi ucuzlattı. 2000 civarında ilk büyük haritalar ortaya çıktı: İnternet'in kendisinin haritaları (CAIDA ve DIMES projelerinden), insan hücrelerindeki protein etkileşimlerinin, Facebook, Twitter ve LinkedIn'deki arkadaşlıkların ve beyin bağlantılarının (Connectome projesi) haritaları.</li>
+    <li><strong>Evrensellik.</strong> Çok farklı alanlardan ağların aynı mimariyi paylaştığı ortaya çıktı; bu yüzden tek bir matematiksel araç takımı hepsi için işe yarar.</li>
+  </ol>
+</div>
+<p>İlk haritaların çoğu başka projelerin yan ürünleriydi. Biyokimyacılar 150 yıl boyunca kimyasal tepkimeleri tek tek bulmuştu, IMDb her filmin oyuncularını listeliyordu ve Web of Science her makalenin yazarlarını dizinliyordu. Ağ bilimciler bu listeleri ağlara dönüştürdü. Sitenin sekiz <a href="data.html">referans ağı</a> bu türden haritalardır.</p>
+
+<h2>Nasıl bir bilim (Bölüm 1.4)</h2>
+<ul>
+  <li><strong>Disiplinlerarası</strong>: farklı alanlara ortak bir dil verir. Aradalık merkeziliği (bir düğümden kaç en kısa yolun geçtiği) sosyolojiden geldi ve bugün yoğun İnternet yönlendiricilerini bulur. Çizge bölümleme bilgisayar biliminden geldi ve bugün hastalık genlerinin gruplarını bulur.</li>
+  <li><strong>Deneysel</strong>: çizge kuramından farklı olarak her aracı gerçek veride sınar ve neyi ortaya çıkardığına göre değerlendirir.</li>
+  <li><strong>Nicel</strong>: biçimselliğini çizge kuramından, rastlantı ve evrensel yasalarla ilgili yaklaşımını istatistiksel fizikten, başka araçlarını da mühendislik ve istatistikten alır.</li>
+  <li><strong>Hesaplamalı</strong>: milyonlarca düğümlü ağlar verimli algoritmalar ve yazılım gerektirir (bu ders NetworkX kullanır).</li>
+</ul>
+
+<h2>Bize neler yapma olanağı verir (Bölüm 1.5–1.6)</h2>
+<ul>
+  <li><strong>Ekonomi</strong>: Google'ın araması Web'in bağlantı yapısına dayanır; Facebook, LinkedIn ve Twitter ağ algoritmalarıyla arkadaş önerir.</li>
+  <li><strong>Sağlık</strong>: bir gen listesi yetmez, çünkü hastalıklar moleküler ağlar bozulduğunda ortaya çıkar. Ağ biyolojisi, ağ tıbbı ve ilaç tasarımı bu ağları inceler.</li>
+  <li><strong>Güvenlik</strong>: kurumlar terör ağlarını haritalar ve dağıtır. Aynı araçlar kitlesel gözetimi de mümkün kılmıştır; bu yüzden etik kullanım işin bir parçasıdır.</li>
+  <li><strong>Salgınlar</strong>: 2009'da H1N1 pandemisinin seyri, dünya çapındaki ulaşım ağından aylar önce öngörüldü. Modeller zirveyi Ocak–Şubat'ta değil Ekim'de öngördü; bu yüzden Kasım için planlanan aşılar geç kaldı.</li>
+  <li><strong>Beyin</strong>: tamamen haritalanmış tek sinir sistemi, 302 nöronlu <em>C. elegans</em> solucanınınkidir. ABD'nin Connectome projesi (2010) memeli beyinlerini haritalamayı amaçlar.</li>
+  <li><strong>Yönetim</strong>: kimin kime danıştığını gösteren resmî olmayan ağ, çoğu zaman resmî örgüt şemasından daha önemlidir.</li>
+  <li><strong>Bilim</strong>: Watts ve Strogatz'ın (1998, küçük dünyalar) ve Barabási ile Albert'in (1999, ölçekten bağımsız ağlar) makaleleri, karmaşıklık biliminin klasiklerinden daha hızlı atıf topladı.</li>
+</ul>
+<div class="callout example">
+  <p>Bir Macar şirketi her çalışanına danışmak için kime başvurduğunu sordu. En büyük merkez düğüm (en sık adı geçen kişi) bir direktör ya da üst düzey yönetici değil, her şantiyeyi ziyaret eden ve üst yönetim dışında herkesle konuşan iş güvenliği görevlisiydi. Şirket onu işten mi çıkarmalı, terfi mi ettirmeli? Kitap bunu size bırakır.</p>
+</div>
+<p>Evrim ve kuantum mekaniği gibi ağ bilimi de diğer alanların üzerine kurulduğu bir bilgi birikimi, yani bir <strong>olanak sağlayan platformdur</strong>.</p>
+
+<h2>Yol haritası: ders nasıl ilerler</h2>
+<p>Her adım, bir öncekinin açık bıraktığı bir soruyu yanıtlar.</p>
+<ol>
+  <li><strong>Çizge kuramı</strong> (<a href="ch2-konigsberg.html">Bölüm 2</a>) dili sağlar: düğümler, bağlantılar, derece, yollar ve kümelenme.</li>
+  <li><strong>Rastgele ağlar</strong> (<a href="ch3-model.html">Bölüm 3</a>) <em>sıfır modelidir</em>: salt rastlantının ne ürettiğini gösterir. Dev bileşenleri ve küçük dünyaları açıklarlar, ama merkez düğümleri yoktur.</li>
+  <li><strong>Ölçekten bağımsız ağlar</strong> (<a href="ch4-power-laws.html">Bölüm 4</a>): gerçek dereceler kuvvet yasalarına uyar. Merkez düğümler ortalama kare derece $\langle k^2\rangle$'yı çok büyük ve yolları ultra kısa yapar.</li>
+  <li><strong>Barabási–Albert modeli</strong> (<a href="ch5-preview.html">Bölüm 5</a>): büyüme artı tercihli bağlanma (yeni düğümlerin çok bağlantılı düğümleri yeğlemesi), kuvvet yasalarının <em>nereden</em> geldiğini açıklar.</li>
+  <li><strong>Evrilen ağlar</strong> (<a href="evolving.html">Bölüm 6</a>): her düğümün içsel çekiciliği olan uygunluk, Google gibi sonradan gelenlerin neden kazanabildiğini açıklar.</li>
+  <li><strong>Derece korelasyonları</strong> (<a href="correlations.html">Bölüm 7</a>) yalnızca her düğümün kaç bağlantısı olduğunu değil, kimin kime bağlandığını betimler.</li>
+  <li><strong>Dayanıklılık</strong> (<a href="robustness.html">Bölüm 8</a>) bizi elektrik kesintisine geri götürür. Merkez düğümler ağları kazayla kırılması zor, bilerek kırılması kolay hâle getirir.</li>
+  <li><strong>Çizge üzerinde makine öğrenmesi ve düğüm gömmeleri</strong> (<a href="embeddings.html">Çizge ML</a>) her düğümün konumunu bir vektöre dönüştürür; böylece makine öğrenmesi düğüm etiketlerini ve eksik bağlantıları öngörebilir.</li>
+</ol>
+
+<div class="callout connect">
+  <ul>
+    <li>Zincirleme arızalar <a href="robustness.html">Dayanıklılık</a> sayfasında (Bölüm 8.5), yayılma ise <a href="epidemics.html">Yayılma</a> sayfasında (Bölüm 10, ders kapsamı dışında) geri döner.</li>
+    <li><a href="ch4-universality.html">Evrensellik</a> sayfasında evrensellik iddiası sınanabilir bir soruya dönüşür: her ağın bir kuvvet yasası kuyruğu var mı?</li>
+    <li>Haritalar yan ürün olduğu için gerçek veri eksik ve gürültülüdür. <a href="embeddings.html">Bağlantı tahmini</a> boşlukları doldurmaya çalışır.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Kitabın ödevi (Bölüm 1.8) sizden üç gerçek ağ adlandırmanızı ve düğümleriyle bağlantılarının ne olduğunu söylemenizi ister. Sonra en çok önemsediğiniz ağı seçin. Ne kadar büyük ve haritalanabilir mi?</p>
+  <div class="hint">Önce tek bir bağlantının ne anlama geldiğine karar verin: tek bir e-posta mı, yoksa düzenli bir iletişim mi? Bir bağlantının yönü var mı (A, B'ye e-posta gönderir) ve bir gücü var mı (kaç e-posta)? Aynı insanların ortak yazarlık ve atıf gibi iki haritası çok farklı görünebilir. <a href="ch2-konigsberg.html">Ağlar ve çizgeler</a> ve <a href="ch2-weighted-bipartite.html">Ağırlıklı ve iki parçalı ağlar</a> sayfalarına bakın.</div>
+</div>
+
+<h2>Kendinizi sınayın</h2>
+<div class="quiz" data-answer="2">
+  <p>2003 elektrik kesintisini <em>zincirleme</em> bir arıza yapan neydi?</p>
+  <ol>
+    <li data-why="Bir fırtına birçok hattı aynı anda devre dışı bırakabilir; bu bir zincirleme süreç değildir.">Birçok hat aynı fırtınadan etkilendi</li>
+    <li>Her arıza yükü komşulara aktardı, onlar da sırayla arızalandı</li>
+    <li data-why="Talep olağandı; sorun, ilk arızalardan sonra yükün nasıl hareket ettiğiydi.">Talep birden şebekenin toplam kapasitesini aştı</li>
+    <li data-why="Kitap, zincirleme süreçlerin yinelenebilir yasalara uyduğunu vurgular.">Arızalar rastgele ve öngörülemezdi</li>
+  </ol>
+  <div class="explain">Zincirleme bir süreçte arıza bağlantılar boyunca yayılır: aşırı yüklenen komşular arızalanır ve yükü aktarır.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Kitaba göre ağ biliminin 2000 civarında doğmasını sağlayan iki etken hangileridir?</p>
+  <ol>
+    <li data-why="İkisi de 2000'den çok önce vardı; Erdős–Rényi 1959'dandır.">Çizge kuramı ve rastgele çizge kuramı</li>
+    <li data-why="Bilgisayarlar yardımcı olur, ama kitap veriyi ve ortak bir mimariyi adlandırır.">Daha hızlı bilgisayarlar ve daha iyi görselleştirme</li>
+    <li>Ayrıntılı ağ haritaları ve ağ özelliklerinin evrenselliği</li>
+    <li data-why="Sosyal medya verisi haritaların bir kaynağıdır; dersler alan doğduktan sonra geldi.">Sosyal medya şirketleri ve ağ dersleri</li>
+  </ol>
+  <div class="explain">Gerçek ağların haritaları kullanılabilir hâle geldi ve ortak özellikler paylaştıkları ortaya çıktı; bu yüzden ortak araçlar uygulanabilir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Bölüm 1.4'e göre ağ bilimini çizge kuramından ayıran nedir?</p>
+  <ol>
+    <li>Gerçek veriye odaklanması: her araç, gerçek sistemler hakkında neyi ortaya çıkardığına göre değerlendirilir</li>
+    <li data-why="Ağ bilimi çizge kuramının biçimselliğini doğrudan kullanır.">Çizgeleri kullanmaması</li>
+    <li data-why="İkisi de matematikseldir; ağ bilimi istatistiksel fizikten de ödünç alır.">Matematikten kaçınması</li>
+    <li data-why="Çizge kuramı büyük çizgeleri de inceler.">Yalnızca küçük ağları incelemesi</li>
+  </ol>
+  <div class="explain">Ağ bilimi deneyseldir: veriyi, işlevi ve yararlılığı önemser.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Ağ biliminde "evrensellik" ne demektir?</p>
+  <ol>
+    <li data-why="Düğümler çok farklıdır: moleküller, sayfalar ya da insanlar olabilirler.">Tüm ağlarda aynı tür düğümler vardır.</li>
+    <li data-why="Özellikler ortaktır, ama boyutlar mertebelerce farklıdır.">Tüm ağlar aynı boyuttadır.</li>
+    <li data-why="Evrensellik ortak yapıyla ilgilidir, her şeyi kapsayan tek bir ağla değil.">Tek bir ağ evrendeki tüm sistemleri birleştirir.</li>
+    <li>Farklı alanlardan ağlar bir mimariyi paylaşır; bu yüzden aynı araçlar hepsine uygulanır.</li>
+  </ol>
+  <div class="explain">Metabolizma, Web ve arkadaşlıklar çok farklı süreçlerle oluştu, yine de ağları benzerdir. 4. bölüm bunu dereceler için sınar.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Komşu kentlerin elektrik şebekelerini tek bir ağda birleştirmek ne yaptı?</p>
+  <ol>
+    <li data-why="Birleştirme yerel arızaların yayılmasına da izin verdi.">Yalnızca beslemeyi daha güvenilir yaptı.</li>
+    <li>Elektriği ucuzlattı ama yerel arızaların uzağa gitmesine izin verdi.</li>
+    <li data-why="Elektrik saklanamaz; birleştirmenin ekonomik nedeni üretimi paylaşmaktı.">Elektriği saklamak için gerekliydi.</li>
+    <li data-why="Kitabın vurgusu tersidir: yararlar getirdi.">Hiçbir yararı olmadı.</li>
+  </ol>
+  <div class="explain">Bağlantılılık yararları ve kırılganlığı aynı anda getirir, çünkü arızalar artık yerel kalmaz.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>2009'da H1N1 pandemisinin zirvesi aylar önce öngörüldü. Bunu mümkün kılan neydi?</p>
+  <ol>
+    <li data-why="2000'den önce modeller aynı gruptaki herkesin herkese bulaştırabileceğini varsayıyordu; değişen buydu.">Herkesin herkesle karşılaştığı bölmeli modeller</li>
+    <li data-why="Öngörü zirveden aylar önce yapıldı.">Zirvedeki vakaları saymak</li>
+    <li>Dünya çapındaki ulaşım ağı üzerine kurulan modeller</li>
+    <li data-why="Aşılar bir şey değiştiremeyecek kadar geç geldi; dolayısıyla öngörüye bilgi sağlayamazlardı.">Aşılama verisi</li>
+  </ol>
+  <div class="explain">Bir virüsün nereye ve ne zaman varacağını yolculuk bağlantıları belirler. Modeller Ekim'de bir zirve öngördü; bu yüzden Kasım aşıları geç kaldı.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Kitabın ilk ağ haritalarının çoğu (metabolik tepkimeler, Hollywood oyuncuları, bilimsel ortak yazarlar) nereden geldi?</p>
+  <ol>
+    <li>Başka amaçlarla kurulmuş veritabanlarının yan ürünleriydi.</li>
+    <li data-why="Çoğu var olan listelerden derlendi; özel haritalama projeleri sonra geldi.">Ağ bilimciler onları sıfırdan topladı.</li>
+    <li data-why="Eksik olsalar da gerçek veridirler.">Benzetimle üretildiler.</li>
+    <li data-why="Biyokimyacılar tepkimeleri 150 yıl boyunca tek tek buldu.">Hepsi 2010'dan sonra üretildi.</li>
+  </ol>
+  <div class="explain">Araştırmacılar var olan tepkime listelerinde, film kadrolarında ve makale yazarlarında ağları fark etti. Bugün haritalama projeleri kendi başlarına desteklenir.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Elektrik kesintisi "hangi arızalar tüm şebekeyi çökertir?" sorusunu doğurur. Bunu hangi bölüm yanıtlar?</p>
+  <ol>
+    <li data-why="3. bölüm rastgele sıfır modelini kurar.">Bölüm 3, rastgele ağlar</li>
+    <li data-why="5. bölüm merkez düğümlerin nereden geldiğini açıklar.">Bölüm 5, Barabási–Albert modeli</li>
+    <li data-why="7. bölüm kimin kime bağlandığıyla ilgilidir.">Bölüm 7, derece korelasyonları</li>
+    <li>Bölüm 8, ağ dayanıklılığı</li>
+  </ol>
+  <div class="explain">8. bölüm rastgele arızaları hedefli saldırılarla karşılaştırır, ağı kıran kaldırılan düğümlerin kritik oranı $f_c$'yi hesaplar ve zincirleme süreçleri modeller.</div>
+</div>
+
+</div></body></html>
