@@ -84,7 +84,7 @@ const ORDER = Object.keys(NAMES);
 
 // ------------------------------------------------------------------ 3. the likelihood
 {
-  let gamma = 2.5, n = 2000, seed = 4, tryG = 2.2;
+  let gamma = 2.5, n = 2000, seed = 4, tryG = 2.2, zoom = "wide";
   const f = figure("#fig-lik", { title: "Maximum likelihood: the exponent that makes the data most probable", sub: "Log-likelihood ln L(γ) = −n ln ζ(γ, k_min) − γ Σ ln kᵢ of one sample (k_min = 1)." });
   const t = stats(f.body, [{ key: "mle", label: "γ̂ (maximum)" }, { key: "sig", label: "standard error (γ̂ − 1)/√n" }, { key: "d", label: "ln L(γ̂) − ln L(γ) at your γ" }]);
   const plot = new Plot(f.body, { height: 260, x: { label: "candidate exponent γ", min: 1.6, max: 3.6 }, y: { label: "ln L(γ) − ln L(γ̂)" } });
@@ -99,18 +99,28 @@ const ORDER = Object.keys(NAMES);
     t.set("mle", fmt.fix(fit.gamma, 3), `true γ = ${gamma}`); t.set("sig", fmt.fix(fit.sigma, 3), `n = ${fmt.int(n)}`);
     const dl = L0 - powerLawLogLik(tryG, tail, 1);
     t.set("d", fmt.sig(dl, 3), `the data are e^${fmt.sig(dl, 2)} times more likely under γ̂`);
+    // "near the peak" zooms in on γ̂ ± 4σ, where the drop of ½ that marks ±1σ is visible
+    const near = zoom === "near";
+    const lo = near ? fit.gamma - 4 * fit.sigma : 1.6, hi = near ? fit.gamma + 4 * fit.sigma : 3.6;
     plot.update({
-      series: [fnSeries((g) => powerLawLogLik(g, tail, 1) - L0, 1.6, 3.6, 200, { color: 1, label: "ln L(γ) − ln L(γ̂)" })],
-      rules: [{ x: fit.gamma, label: `γ̂ = ${fit.gamma.toFixed(3)}` }, { x: tryG, label: `your γ = ${tryG.toFixed(2)}`, dashed: true, color: "s2", labelY: 26 }, { y: -0.5, label: "−½: about ±1σ", dashed: true, align: "left" }],
-      y: { min: Math.max(-60, powerLawLogLik(1.6, tail, 1) - L0, powerLawLogLik(3.6, tail, 1) - L0), max: 3 },
+      series: [fnSeries((g) => powerLawLogLik(g, tail, 1) - L0, lo, hi, 200, { color: 1, label: "ln L(γ) − ln L(γ̂)" })],
+      rules: [
+        { x: fit.gamma, label: `γ̂ = ${fit.gamma.toFixed(3)}` },
+        ...(tryG >= lo && tryG <= hi ? [{ x: tryG, label: `your γ = ${tryG.toFixed(2)}`, dashed: true, color: "s2", labelY: 26 }] : []),
+        { y: -0.5, label: "drop of ½", dashed: true, align: "left" },
+        ...(near ? [{ x: fit.gamma - fit.sigma, label: "−1σ", color: "theory", dashed: true, align: "left", labelY: 40 }, { x: fit.gamma + fit.sigma, label: "+1σ", color: "theory", dashed: true, labelY: 40 }] : []),
+      ],
+      x: { min: lo, max: hi },
+      y: near ? { min: -8, max: 1 } : { min: Math.max(-60, powerLawLogLik(1.6, tail, 1) - L0, powerLawLogLik(3.6, tail, 1) - L0), max: 3 },
       xName: "γ", yFormat: (v) => fmt.sig(v, 3),
     });
   }
   slider(f.controls, { label: "try an exponent", min: 1.6, max: 3.6, step: 0.01, value: tryG, format: (v) => v.toFixed(2), onInput: (v) => { tryG = v; draw(); }, wide: true });
   slider(f.controls, { label: "sample size n", min: 100, max: 100000, step: 100, log: true, value: n, format: fmt.int, onChange: (v) => { n = v; sample(); draw(); } });
   button(f.controls, { label: "New sample", icon: "dice", onClick: () => { seed++; sample(); draw(); } });
+  segmented(f.controls, { label: "View", value: zoom, options: [{ value: "wide", label: "wide (1.6 to 3.6)" }, { value: "near", label: "near the peak (γ̂ ± 4σ)" }], onChange: (v) => { zoom = v; draw(); } });
   sample(); draw();
-  f.setCaption("The curve is concave with a single maximum, so a simple one-dimensional search finds γ̂. The larger the sample, the narrower the peak: the width where the curve has dropped by ½ is the standard error.");
+  f.setCaption("The curve is concave with a single maximum, so a simple one-dimensional search finds γ̂. The larger the sample, the narrower the peak: the curve drops by ½ at about one standard error on either side of γ̂. Switch to <em>near the peak</em> to see it.");
 }
 
 // ------------------------------------------------------------------ 4. real data: the k_min scan, the gotcha, the alternatives, the bootstrap
@@ -179,6 +189,7 @@ const ORDER = Object.keys(NAMES);
   const q = figure("#fig-gof", { title: "Step 2: is a power law plausible at all?", sub: "Semi-parametric bootstrap (Clauset, Shalizi & Newman 2009). Synthetic data sets are drawn from the fitted model and refitted from scratch; p is the share whose KS distance is at least the observed one." });
   const qs = stats(q.body, [{ key: "p", label: "p-value" }, { key: "done", label: "synthetic data sets" }, { key: "verdict", label: "verdict (p ≥ 0.1: plausible)" }]);
   const hist = new Plot(q.body, { height: 230, x: { label: "KS distance D of the synthetic data sets", min: 0 }, y: { label: "data sets", min: 0 } });
+  hist.root.style.display = "none"; // shown once a bootstrap has run
   const gofTbl = h("div");
   q.body.append(gofTbl);
   let reps = 200, job = null;
@@ -200,6 +211,7 @@ const ORDER = Object.keys(NAMES);
       qs.set("verdict", res.p >= 0.1 ? "plausible" : "ruled out", res.p >= 0.1 ? "a power law cannot be rejected" : "the tail is not a power law");
       const bins = 30, mx = Math.max(fit.D, ...res.Ds) * 1.05, cnt = new Array(bins).fill(0);
       for (const D of res.Ds) cnt[Math.min(bins - 1, Math.floor((D / mx) * bins))]++;
+      hist.root.style.display = "";
       hist.update({ series: [{ type: "bar", data: cnt.map((c, i) => [((i + 0.5) * mx) / bins, c]), color: "random", label: "synthetic data sets" }], rules: [{ x: fit.D, label: `observed D = ${fit.D.toFixed(4)}`, color: "s1" }], xName: "D", yFormat: fmt.int });
     },
   });
@@ -207,6 +219,7 @@ const ORDER = Object.keys(NAMES);
   q.controls.append(h("span", { class: "status-line" }, "Uses the network and settings of the k_min scan above. Small networks take seconds; the WWW takes minutes."));
   function drawGofTable() {
     qs.set("p", "–", "press Run"); qs.set("done", "–"); qs.set("verdict", "–");
+    hist.root.style.display = "none"; // a histogram from another network or setting would be stale
     gofTbl.replaceChildren(dataTable([{ label: "Network", align: "left" }, { label: "k_min" }, { label: "γ̂" }, { label: "D" }, { label: "p (1,000 data sets)" }, { label: "power law", align: "left" }],
       NETWORK_ORDER.map((n) => { const r = gof[n]; return [networks[n].description, r.kmin, r.gamma.toFixed(2), r.D.toFixed(4), r.p.toFixed(3), h("span", { class: "verdict " + (r.p >= 0.1 ? "ok" : "no") }, r.p >= 0.1 ? "plausible" : "ruled out")]; }),
       { highlight: (r) => r[0] === networks[name].description }));

@@ -85,7 +85,7 @@ import { run } from "../lib/compute.js";
     const C = clusteringSummary(g).avg;
     t.set("s", fmt.int(total), `${(total / g.m).toFixed(2)} × L`); t.set("C", fmt.fix(C, 3), `real: ${fmt.fix(clusteringSummary(K0).avg, 3)}`); t.set("r", fmt.fix(assortativity(g), 3), `real: ${fmt.fix(assortativity(K0), 3)}`);
     t.set("deg", [...Array(g.n).keys()].every((v) => g.degree(v) === K0.degree(v)) ? "yes" : "NO");
-    plot.update({ series: [{ type: "line", markers: true, data: curve, color: 1, label: "⟨C⟩" }], xName: "swaps / L", yFormat: (v) => fmt.fix(v, 3) });
+    plot.update({ series: [{ type: "line", markers: true, data: curve, color: 1, label: "⟨C⟩" }], x: { min: 0, max: Math.max(2, curve[curve.length - 1][0]) }, xName: "swaps / L", yFormat: (v) => fmt.fix(v, 3) });
   }
   const swapN = (n) => { let done = 0, tries = 0; while (done < n && tries < 50 * n) { tries++; const s = trySwap(g, edgesList, rng); if (s) { done++; last = s; } } total += done; curve.push([total / g.m, clusteringSummary(g).avg]); show(); };
   const row = h("div", { class: "btn-row" });
@@ -158,7 +158,7 @@ import { run } from "../lib/compute.js";
 // ------------------------------------------------------------------ 4. sampling degrees: rounding versus exact (N3)
 {
   let gamma = 2.5, kmin = 1;
-  const f = figure("#fig-sampler", { title: "Drawing power-law degrees: exact versus rounding", sub: "P(K = k) of the exact discrete power law and of the rounding shortcut k = ⌊(k_min − ½)(1 − u)^{−1/(γ−1)} + ½⌋ used by the notebook's helper." });
+  const f = figure("#fig-sampler", { title: "Drawing power-law degrees: exact versus rounding", sub: "P(K = k) of the exact discrete power law and of the rounding shortcut k = ⌊(k_min − ½)(1 − u)^(−1/(γ−1)) + ½⌋ used by the notebook's helper." });
   const t = stats(f.body, [{ key: "e", label: "exact P(K = k_min)" }, { key: "r", label: "rounding P(K = k_min)" }, { key: "m", label: "MLE of an infinite rounded sample" }]);
   const plot = new Plot(f.body, { height: 260, x: { type: "log", label: "degree k" }, y: { type: "log", label: "P(K = k)" } });
   function draw() {

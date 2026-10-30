@@ -18,15 +18,23 @@
 <main><div class="content">
 
 <h1>The evolution of a random network</h1>
-<p class="lead">Start with $N$ isolated nodes and add random links one at a time. For a while nothing much happens. Then, abruptly, a single component swallows most of the network. This is a phase transition, and it happens at exactly one link per node.</p>
+<p class="lead">When does a random network hold together? Add random links to $N$ isolated nodes one at a time: for a while only small clusters form, then one component abruptly swallows most nodes. This phase transition happens at exactly one link per node.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Predicts <a href="ch2-connectedness.html">connectedness</a> (Part I) from $\langle k\rangle$ alone.</li>
+    <li>Explains why sparse networks can still be largely connected: $\langle k\rangle > 1$ suffices for a giant component.</li>
+    <li>Gives the template for later thresholds: <a href="robustness.html">robustness</a>, <a href="epidemics.html">epidemics</a>.</li>
+  </ul>
+</div>
 
 <h2>Watch it happen</h2>
 <div data-fig id="fig-evolve"></div>
 <div class="callout look">
   <ul>
-    <li>Below $\langle k\rangle = 1$ the network is a dust of small trees; the largest piece holds a vanishing fraction of the nodes.</li>
-    <li>Just above $\langle k\rangle = 1$ a <strong>giant component</strong> emerges and grows quickly: at $\langle k\rangle = 2$ it already holds 80% of the nodes. The transition is <em>continuous but abrupt</em>.</li>
-    <li>The isolated nodes are the last to join. The network becomes connected only around $\langle k\rangle \approx \ln N$.</li>
+    <li>$\langle k\rangle &lt; 1$: small trees only.</li>
+    <li>Just above 1 a <strong>giant component</strong> (a component holding a finite fraction of all nodes) appears; at $\langle k\rangle = 2$ it holds 80%.</li>
+    <li>Isolated nodes join last; full connection only near $\langle k\rangle \approx \ln N$.</li>
   </ul>
 </div>
 
@@ -34,40 +42,128 @@
 <table class="simple">
   <thead><tr><th>Regime</th><th>Condition</th><th>Largest component $N_G$</th></tr></thead>
   <tbody>
-    <tr><td>Subcritical</td><td>$\langle k\rangle < 1$</td><td>no giant component; $N_G \sim \ln N$, small isolated trees</td></tr>
-    <tr><td>Critical</td><td>$\langle k\rangle = 1$</td><td>$N_G \sim N^{2/3}$: large, but a vanishing fraction of $N$</td></tr>
-    <tr><td>Supercritical</td><td>$1 < \langle k\rangle < \ln N$</td><td>a giant component with $N_G \approx S N$, coexisting with many small components</td></tr>
+    <tr><td>Subcritical</td><td>$\langle k\rangle &lt; 1$</td><td>no giant component; $N_G \sim \ln N$</td></tr>
+    <tr><td>Critical</td><td>$\langle k\rangle = 1$</td><td>$N_G \sim N^{2/3}$: a vanishing fraction of $N$</td></tr>
+    <tr><td>Supercritical</td><td>$1 &lt; \langle k\rangle &lt; \ln N$</td><td>$N_G \approx S N$, plus many small components</td></tr>
     <tr><td>Connected</td><td>$\langle k\rangle > \ln N$</td><td>one component holding all nodes</td></tr>
   </tbody>
 </table>
+<p>$\sim$ means "grows like, up to a constant factor"; $\ln$ is the natural logarithm (base $e$).</p>
 <div class="callout fix" data-errata="N7"></div>
 <div data-fig id="fig-snapshots"></div>
 
-<h2>The size of the giant component</h2>
-<p>A node is <em>outside</em> the giant component if none of its links leads into it. With probability $u = 1 - S$ a random neighbour is outside, and averaging over the Poisson-distributed degree gives $u = e^{-\langle k\rangle(1-u)}$ (book, Advanced Topic 3.C). In terms of $S$:</p>
+<h2>Size of the giant component (Advanced Topic 3.C)</h2>
+<ol>
+  <li>Let $u$ = probability that a node is <em>not</em> reached through one given other node: either no link ($1-p$) or a link to a node outside the giant component ($p\,u$).</li>
+  <li>Outside ⇔ this holds for all $N-1$ others: $u = (1 - p + p\,u)^{N-1}$.</li>
+  <li>With $p = \langle k\rangle/(N-1)$ and $N \to \infty$: $u = e^{-\langle k\rangle(1-u)}$.</li>
+  <li>The fraction inside is $S = 1 - u$:</li>
+</ol>
 <div class="eq">$$S = 1 - e^{-\langle k\rangle S}.$$</div>
-<p>$S = 0$ is always a solution. A second, non-zero solution exists only when the curve $1 - e^{-\langle k\rangle S}$ starts out steeper than the diagonal. Its slope at $S = 0$ is $\langle k\rangle$, so a giant component exists if and only if $\langle k\rangle > 1$.</p>
+<dl class="symbols">
+  <dt>$S$</dt><dd>fraction of nodes in the giant component, $N_G/N$</dd>
+  <dt>$u = 1 - S$</dt><dd>probability of being outside it</dd>
+  <dt>$\langle k\rangle$</dt><dd>average degree</dd>
+  <dt>$e^{-\langle k\rangle S}$</dt><dd>probability that none of a node's links leads into the giant component</dd>
+</dl>
+<p>$S = 0$ always solves it. A non-zero solution needs the curve $1 - e^{-\langle k\rangle S}$ to start steeper than the diagonal; its slope at $S = 0$ is $\langle k\rangle$. So: <strong>giant component ⇔ $\langle k\rangle > 1$</strong>.</p>
+<div class="callout example">
+  <p>$S(1.5) = 0.583$, $S(2) = 0.797$, $S(3) = 0.941$, $S(5) = 0.993$; $S(0.8) = 0$.</p>
+</div>
 <div data-fig id="fig-fixed"></div>
 
+<h2>When is it connected?</h2>
+<ol>
+  <li>Expected isolated nodes: $N p_0 = N e^{-\langle k\rangle}$.</li>
+  <li>Fewer than one ⇔ $\langle k\rangle > \ln N$.</li>
+</ol>
+<div class="callout example">
+  <p>$N = 10^4$: $\ln N = 9.21$, i.e. $L \approx 46{,}050$ links. At $\langle k\rangle = 5$: $10^4 e^{-5} \approx 67$ isolated nodes.</p>
+</div>
+
 <h2>Finite networks</h2>
-<p>The theory is exact for $N \to \infty$. In a finite network the transition is smeared out. The size of the <em>second</em>-largest component is a good detector of it: it is tiny on both sides and largest near the critical point, where the giant component is still assembling.</p>
+<p>The theory is exact for $N \to \infty$; finite networks smear the transition. The <em>second</em>-largest component detects it: small on both sides, largest near the critical point.</p>
 <div data-fig id="fig-finite"></div>
 <div class="callout fix" data-errata="N9"></div>
 <div data-fig id="fig-scaling"></div>
 <div class="callout look">
-  <p>On log-log axes the three regimes separate cleanly. At $\langle k\rangle = 2$, $N_G$ is proportional to $N$ (slope 1). At $\langle k\rangle = 1$ it grows like $N^{2/3}$. At $\langle k\rangle = 0.5$ it barely grows at all, like $\ln N$.</p>
+  <p>On log-log axes a power law $N_G \propto N^a$ is a straight line of slope $a$: slope 1 at $\langle k\rangle = 2$, $2/3$ at $\langle k\rangle = 1$, nearly flat ($\ln N$) at $\langle k\rangle = 0.5$.</p>
 </div>
 
 <h2>Real networks are supercritical (Section 3.7)</h2>
-<p>Where do the book's networks sit on this phase diagram? If they were random networks with their own $N$ and $\langle k\rangle$:</p>
 <div data-fig id="fig-real"></div>
 <div class="callout look">
-  <p>Every network has $\langle k\rangle > 1$, so all are supercritical, and seven of the eight have $\langle k\rangle < \ln N$. Random networks with these parameters would therefore not be connected: they would leave about $N e^{-\langle k\rangle}$ isolated nodes. That is a large share only for the sparse networks (power grid and protein, about 9% outside the giant component), and a tiny one for the denser ones (Internet 0.2%, collaboration 0.03%).</p>
+  <p>All eight have $\langle k\rangle > 1$; seven have $\langle k\rangle &lt; \ln N$, so their random counterparts would not be connected. Expected share outside the giant component: about 9% for power grid and protein, 0.2% Internet, 0.03% collaboration.</p>
 </div>
 <div class="callout fix" data-errata="N10"></div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Builds on</strong> <a href="ch3-degree.html">Poisson $p_0 = e^{-\langle k\rangle}$</a> and Part I <a href="ch2-connectedness.html">components</a>.</li>
+    <li><strong>Special case of</strong> Molloy–Reed $\langle k^2\rangle/\langle k\rangle > 2$ (<a href="robustness.html">Robustness</a>): Poisson gives $1 + \langle k\rangle > 2$ ⇔ $\langle k\rangle > 1$.</li>
+    <li><strong>Contrast:</strong> for scale-free networks with $\gamma &lt; 3$, $\langle k^2\rangle$ diverges, so random node removal cannot break the giant component (Ch 8).</li>
+    <li><strong>Analogue:</strong> the <a href="epidemics.html">epidemic threshold</a> is also set by $\langle k\rangle$ and $\langle k^2\rangle$.</li>
+  </ul>
+</div>
+
 <div class="callout discuss">
-  <p>Why might a power grid be fully connected even though $\langle k\rangle < \ln N$? <span class="muted">(Notebook II.5.)</span></p>
-  <div class="hint">A random network with the grid's $\langle k\rangle = 2.67$ would leave about 9% of its nodes outside the giant component. A power grid that left 9% of its substations unconnected would be useless, so it was designed to be connected. Real networks are built or grown under constraints and incentives; they are not wired at random. The protein network, at the same density, does leave 18% of its nodes outside the giant component. Partly this reflects incomplete measurement (undiscovered interactions), not only biology.</div>
+  <p>Why might a power grid be fully connected although $\langle k\rangle &lt; \ln N$? <span class="muted">(Notebook II.5.)</span></p>
+  <div class="hint">Its random counterpart would leave about 9% of nodes outside the giant component; a grid like that would be useless, so it was designed to be connected. Real networks are built under constraints, not wired at random. The protein network, at the same density, does leave 18% outside, partly because of undiscovered interactions.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>$N = 10^6$, $\langle k\rangle = 0.8$. Giant component?</p>
+  <ol>
+    <li>No: only small components, the largest $\sim \ln N$</li>
+    <li data-why="Below ⟨k⟩ = 1, $S = 1 - e^{-0.8S}$ has only the solution $S = 0$.">Yes, about 80% of nodes</li>
+    <li data-why="Size does not rescue a subcritical network; the threshold is ⟨k⟩ = 1 at any N.">Yes, because N is large</li>
+    <li data-why="That needs ⟨k⟩ > ln N ≈ 13.8.">Fully connected</li>
+  </ol>
+  <div class="explain">$\langle k\rangle &lt; 1$: the slope of $1 - e^{-\langle k\rangle S}$ at 0 is below 1, so $S = 0$.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>$\langle k\rangle = 2$. Fraction of nodes in the giant component?</p>
+  <ol>
+    <li data-why="That ignores the abrupt growth just above ⟨k⟩ = 1.">about 20%</li>
+    <li data-why="Try $S = 0.5$: $1 - e^{-1} = 0.63 \ne 0.5$.">about 50%</li>
+    <li>about 80%</li>
+    <li data-why="That needs ⟨k⟩ > ln N.">100%</li>
+  </ol>
+  <div class="explain">$S = 1 - e^{-2S}$ gives $S = 0.797$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$N = 10^4$. About how many random links make the network connected?</p>
+  <ol>
+    <li data-why="5,000 links is ⟨k⟩ = 1: the giant component only starts there.">5,000</li>
+    <li>about 46,000</li>
+    <li data-why="10⁴ links is ⟨k⟩ = 2: S ≈ 80%, ~1,350 isolated nodes.">10,000</li>
+    <li data-why="That is the complete network, L_max ≈ 5 × 10⁷.">about 50,000,000</li>
+  </ol>
+  <div class="explain">Connected at $\langle k\rangle = \ln N = 9.21$, i.e. $L = N\langle k\rangle/2 \approx 46{,}050$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Power grid: $\langle k\rangle = 2.67$, $\ln N = 8.51$. Its random counterpart is …</p>
+  <ol>
+    <li data-why="⟨k⟩ > 1, so there is a giant component.">subcritical</li>
+    <li data-why="Critical means ⟨k⟩ = 1 exactly.">critical</li>
+    <li data-why="That needs ⟨k⟩ > ln N.">connected</li>
+    <li>supercritical: giant component of ~91%, ~340 isolated nodes</li>
+  </ol>
+  <div class="explain">$S(2.67) = 0.912$; $N e^{-\langle k\rangle} = 4{,}941\, e^{-2.67} \approx 342$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>In finite random networks, where is the second-largest component biggest?</p>
+  <ol>
+    <li data-why="At small ⟨k⟩ every component is tiny.">near ⟨k⟩ = 0</li>
+    <li>near ⟨k⟩ = 1, slightly above</li>
+    <li data-why="By then the giant component has absorbed most clusters.">near ⟨k⟩ = ln N</li>
+    <li data-why="It peaks at the transition, not at the end.">at the largest ⟨k⟩</li>
+  </ol>
+  <div class="explain">At the critical point clusters are large but not yet merged; above it the giant component absorbs them.</div>
 </div>
 
 </div></main>

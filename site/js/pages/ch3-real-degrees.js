@@ -25,6 +25,7 @@ function poissonPpf(q, lam) {
     { key: "max", label: "most connected person, k_max" }, { key: "min", label: "least connected, k_min" },
     { key: "sd", label: "σₖ = √⟨k⟩" }, { key: "lt", label: "k_max by the largest-term shortcut (N·pₖ = 1)" },
   ]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   const plot = new Plot(f.body, { height: 240, x: { label: "number of acquaintances k" }, y: { label: "people, N·pₖ", type: "log" } });
   function draw() {
     const kmax = poissonIsf(1 / N, k);
@@ -58,6 +59,7 @@ function poissonPpf(q, lam) {
     { key: "pk", label: "Poisson k_max (random network)" }, { key: "ok", label: "observed k_max" },
     { key: "obs", label: "nodes with k ≥ x: observed" }, { key: "exp", label: "nodes with k ≥ x: expected if random" },
   ]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const plot = new Plot(f.body, { height: 320, x: { type: "log", label: "degree k" }, y: { type: "log", label: "pₖ" } });
   const sx = slider(f.controls, { label: "threshold x", min: 2, max: 300, step: 1, log: true, value: x, onInput: (v) => { x = Math.round(v); draw(); }, wide: true });
   function draw() {

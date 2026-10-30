@@ -18,41 +18,109 @@
 <main><div class="content">
 
 <h1>How (not) to plot a degree distribution</h1>
-<p class="lead">A power law looks like a straight line on log-log axes, so it is tempting to plot the raw histogram and fit a line. The raw histogram, however, hides the tail behind sampling noise. Advanced Topic 4.B gives two remedies.</p>
+<p class="lead">A power law is a straight line on log-log axes, so it is tempting to plot the raw histogram and fit a line. The raw histogram hides the tail behind sampling noise. Advanced Topic 4.B gives two remedies: logarithmic bins and the cumulative distribution.</p>
 
 <h2>Four plots, one distribution</h2>
 <div data-fig id="fig-four"></div>
 <div class="callout look">
   <ul>
-    <li><strong>(a)</strong> On linear axes the tail is invisible: everything beyond a few dozen links is squashed onto the axis.</li>
-    <li><strong>(b)</strong> On log-log axes with one bin per degree, the tail flattens into a <em>plateau</em> at $p_k = 1/N$. Each of those degrees is held by a single node, or by none (and then it cannot be plotted at all). This is <em>noise, not physics</em>.</li>
-    <li><strong>(c)</strong> Logarithmic bins grow wider with $k$, so each bin collects enough nodes. Dividing the count by $N$ and by the bin width gives an estimate of $p_k$ that follows the straight line far into the tail.</li>
-    <li><strong>(d)</strong> The complementary cumulative distribution $P(K \ge k)$ needs no binning at all. For a power law it is again a straight line, with slope $-(\gamma - 1)$.</li>
+    <li><strong>(a)</strong> Linear axes: everything beyond a few dozen links is squashed onto the axis.</li>
+    <li><strong>(b)</strong> Log-log, one bin per degree: the tail flattens into a <em>plateau</em> at $p_k = 1/N$, where each degree is held by one node or none (then it cannot be plotted). <em>Noise, not physics.</em></li>
+    <li><strong>(c)</strong> Logarithmic bins grow with $k$, so each collects enough nodes; the estimate follows the line far into the tail.</li>
+    <li><strong>(d)</strong> The cumulative distribution needs no bins and is again a straight line, slope $-(\gamma - 1)$.</li>
   </ul>
 </div>
 
 <h2>Logarithmic binning</h2>
-<p>With $b$ bins per decade, the bin edges are $k_n \approx 10^{n/b}$, so that each bin is a constant factor $10^{1/b}$ wider than the previous one. The estimate in bin $n$ is</p>
-<div class="eq">$$p_{k_n} = \frac{N_n}{N\,(k_{n+1} - k_n)},$$</div>
-<p>where $N_n$ is the number of nodes with degrees in the bin, and the point is drawn at the geometric centre of the bin. Change the number of bins per decade in the figure: with too few bins the curve is coarse, with too many the noise returns.</p>
+<p>With $b$ bins per decade, bin $n$ starts at $k_n \approx 10^{n/b}$, so each bin is a factor $10^{1/b}$ wider than the one before. The estimate in bin $n$ is</p>
+<div class="eq">$$p_{k_n} = \frac{N_n}{N\,(k_{n+1} - k_n)}.$$</div>
+<dl class="symbols">
+  <dt>$b$</dt><dd>bins per decade (factor of 10 in $k$)</dd>
+  <dt>$k_n$</dt><dd>lower edge of bin $n$</dd>
+  <dt>$k_{n+1} - k_n$</dt><dd>bin width (number of integer degrees it covers)</dd>
+  <dt>$N_n$</dt><dd>number of nodes with degree in bin $n$</dd>
+  <dt>$N$</dt><dd>number of nodes</dd>
+</dl>
+<p>Each point is drawn at the geometric centre of its bin. Change $b$ in the figure: too few bins and the curve is coarse, too many and the noise returns.</p>
+<div class="callout example">
+  <p>Bin 100–199 holds 50 of $N = 10^5$ nodes: $p_k \approx 50/(10^5 \times 100) = 5\times10^{-6}$.</p>
+</div>
 
 <h2>The cumulative distribution</h2>
-<p>The complementary cumulative distribution function (CCDF) is the share of nodes with at least $k$ links,</p>
+<p>The complementary cumulative distribution function (CCDF) is the share of nodes with at least $k$ links:</p>
 <div class="eq">$$P_k = P(K \ge k) = \sum_{q \ge k} p_q \sim k^{-(\gamma - 1)}.$$</div>
-<p>Every node contributes to it, there is no binning choice to make, and it decreases smoothly even where individual degrees are absent. Its points are not independent, though, so a least-squares fit to it still gives no reliable error bars.</p>
+<dl class="symbols">
+  <dt>$P_k$</dt><dd>share of nodes with degree $\ge k$</dd>
+  <dt>$q$</dt><dd>summation index over degrees $k, k+1, \dots$</dd>
+  <dt>$\gamma - 1$</dt><dd>CCDF exponent, one less than the $p_k$ exponent</dd>
+</dl>
+<ul>
+  <li><strong>Pro:</strong> every node contributes, no binning choice, smooth even where degrees are missing.</li>
+  <li><strong>Con:</strong> neighbouring points share data, so a least-squares fit to it still gives no reliable error bars.</li>
+</ul>
 <div class="callout fix" data-errata="N8"></div>
 
 <h2>Where the plateau comes from</h2>
 <div data-fig id="fig-plateau"></div>
 
 <div class="callout gotcha">
-  <p><strong>Never fit a straight line to a linearly binned log-log histogram.</strong> The plateau of single-node degrees pulls the fitted slope towards zero, and the result depends on how far into the tail the fit reaches. On the <a href="ch4-fitting.html">next page</a> this estimator gives $\hat\gamma \approx 1.6$ for a sample with $\gamma = 2.5$.</p>
+  <p><strong>Never fit a straight line to a linearly binned log-log histogram.</strong> The plateau pulls the slope towards zero, and the result depends on how far into the tail the fit reaches. On the <a href="ch4-fitting.html">next page</a> it gives $\hat\gamma \approx 1.6$ for a sample with $\gamma = 2.5$.</p>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>A plot is the first test of whether a power law is plausible at all.</li>
+    <li>Log bins and the CCDF show the tail that the raw histogram hides.</li>
+    <li>Neither gives a reliable $\gamma$: that needs maximum likelihood (<a href="ch4-fitting.html">next page</a>).</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Tests</strong> the model of <a href="ch4-power-laws.html">Power laws &amp; hubs</a> visually.</li>
+    <li><strong>Same tools</strong> as the <a href="ch3-real-degrees.html">real-vs-Poisson comparison</a> of Chapter 3.</li>
+    <li><strong>Prepares</strong> <a href="ch4-fitting.html">estimating the exponent</a>.</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>A logarithmic bin covers the degrees 100 to 199 and contains 50 of the network's $N = 10^5$ nodes. What is the estimate of $p_k$ in that bin?</p>
-  <ol><li>$5\times10^{-4}$</li><li>$0.5$</li><li>$5\times10^{-6}$</li><li>$50$</li></ol>
-  <div class="explain">$p_k \approx N_n / (N \cdot \text{width}) = 50 / (10^5 \times 100) = 5\times10^{-6}$. Forgetting to divide by the width gives $5\times10^{-4}$, the probability of landing anywhere in the bin.</div>
+  <p>A log bin covers degrees 100 to 199 and holds 50 of $N = 10^5$ nodes. What is the estimate of $p_k$?</p>
+  <ol>
+    <li data-why="This forgets to divide by the bin width: it is the probability of landing anywhere in the bin.">$5\times10^{-4}$</li>
+    <li data-why="This divides by the bin width but not by N.">$0.5$</li>
+    <li>$5\times10^{-6}$</li>
+    <li data-why="This is the raw count, not a probability.">$50$</li>
+  </ol>
+  <div class="explain">$p_k \approx N_n / (N \cdot \text{width}) = 50 / (10^5 \times 100) = 5\times10^{-6}$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Why does a linearly binned log-log histogram of $N = 10^4$ nodes level off at $p_k = 10^{-4}$?</p>
+  <ol>
+    <li data-why="A power law keeps falling; the flat part is not in the distribution.">The power law has a minimum value of $1/N$</li>
+    <li>Each tail degree is held by at most one node, and $1/N$ is the smallest non-zero value</li>
+    <li data-why="Log axes change how the curve looks, not the counts; the floor is set by single nodes.">Log axes stretch small values upwards</li>
+    <li data-why="Hubs are few, not more frequent; the floor is one node per degree.">Hubs are more common than predicted</li>
+  </ol>
+  <div class="explain">With integer counts, a degree held by one node has $p_k = 1/N = 10^{-4}$; degrees held by none drop off the plot. The plateau is sampling noise.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>The CCDF of a network is a straight line of slope $-1.5$ on log-log axes. What is $\gamma$?</p>
+  <ol>
+    <li>2.5</li>
+    <li data-why="The CCDF exponent is γ − 1, not γ.">1.5</li>
+    <li data-why="That would subtract one instead of adding it.">0.5</li>
+    <li data-why="The slope only fixes γ − 1 = 1.5.">3.5</li>
+  </ol>
+  <div class="explain">$P(K\ge k) \sim k^{-(\gamma-1)}$, so $\gamma - 1 = 1.5$ and $\gamma = 2.5$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>A least-squares line through a linearly binned log-log histogram, true $\gamma = 2.5$. What do you expect?</p>
+  <ol>
+    <li data-why="The plateau biases the fit; it is not centred on the truth.">$\hat\gamma \approx 2.5$, with a reliable error bar</li>
+    <li data-why="The plateau is flat, so it makes the slope shallower, not steeper.">$\hat\gamma$ well above 2.5</li>
+    <li data-why="The bias is systematic and depends on the fitting range, not on luck.">$\hat\gamma$ random around 2.5</li>
+    <li>$\hat\gamma$ well below 2.5, depending on the fitting range</li>
+  </ol>
+  <div class="explain">The flat plateau pulls the slope towards zero: about 1.6 in the experiment on the <a href="ch4-fitting.html">next page</a>.</div>
 </div>
 
 </div></main>

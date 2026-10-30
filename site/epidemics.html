@@ -18,27 +18,134 @@
 <main><div class="content">
 
 <h1>Spreading &amp; vaccination</h1>
-<p class="lead">Viruses, rumours and computer worms spread along links. On a scale-free network the hubs that hold it together also carry outbreaks everywhere, which changes how epidemics behave and how to stop them (Chapter 10).</p>
+<p class="lead">Infections travel along links. On a scale-free network the hubs that hold it together also carry outbreaks everywhere, which changes how epidemics behave and how to stop them (Chapter 10).</p>
+
+<div class="callout why">
+  <ul>
+    <li>Classical epidemiology assumes everyone meets everyone; an epidemic needs $R_0 > 1$.</li>
+    <li>The network model replaces that with "you meet your neighbours".</li>
+    <li>It predicts what mixing models cannot: with hubs, even weak diseases spread and random vaccination barely helps.</li>
+    <li>It tells us whom to vaccinate instead.</li>
+  </ul>
+</div>
+
+<h2>SIR on a network</h2>
+<p>Nodes are <strong>S</strong>usceptible, <strong>I</strong>nfected or <strong>R</strong>ecovered. An infected node tries once to infect each susceptible neighbour, succeeding with probability $T$, then recovers.</p>
+<dl class="symbols">
+  <dt>$T$</dt><dd>transmissibility: chance of passing the infection along one link</dd>
+  <dt>$\beta, \mu$</dt><dd>infection and recovery rates; $T = \beta/(\beta+\mu)$</dd>
+</dl>
+<div data-fig id="fig-outbreak"></div>
 
 <h2>The epidemic threshold</h2>
-<p>In the SIR model a node is susceptible, infected or recovered. Here each infected node passes the infection to each susceptible neighbour with probability $T$ (the transmissibility) and then recovers. An outbreak can reach a finite share of the network only if an infected node, reached through a link, infects on average more than one further node. That gives the threshold</p>
-<div class="eq">$$T_c = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}.$$</div>
-<p>For a random network $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$ and $T_c = 1/\langle k\rangle$. For a scale-free network with $\gamma < 3$, $\langle k^2\rangle$ diverges with $N$ and $T_c \to 0$: even a barely contagious disease can spread (Pastor-Satorras and Vespignani 2001).</p>
-<div data-fig id="fig-outbreak"></div>
+<ol>
+  <li>Infection arrives along a link, so it reaches a degree-$k$ node with probability $k\,p_k/\langle k\rangle$.</li>
+  <li>One link leads back to the infector; $k-1$ remain. Average: $(\langle k^2\rangle - \langle k\rangle)/\langle k\rangle = \kappa - 1$.</li>
+  <li>Each transmits with probability $T$: new infections per case $R = T(\kappa - 1)$.</li>
+  <li>The outbreak grows if $R > 1$. Setting $R = 1$:</li>
+</ol>
+<div class="eq">$$T_c = \frac{1}{\kappa - 1} = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}.$$</div>
+<dl class="symbols">
+  <dt>$T_c$</dt><dd>critical transmissibility</dd>
+  <dt>$p_k$</dt><dd>degree distribution</dd>
+  <dt>$\langle k\rangle, \langle k^2\rangle$</dt><dd>mean degree, mean squared degree</dd>
+  <dt>$\kappa$</dt><dd>$\langle k^2\rangle/\langle k\rangle$, mean degree of a node reached along a link (as in <a href="robustness.html">Molloy–Reed</a>)</dd>
+  <dt>$R$</dt><dd>new infections caused by one case</dd>
+</dl>
+<ul>
+  <li>Random network: $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$, so $T_c = 1/\langle k\rangle$ — the mixing-model answer.</li>
+  <li>Scale-free, $\gamma < 3$: $\langle k^2\rangle \to \infty$, so $T_c \to 0$ (Pastor-Satorras and Vespignani 2001).</li>
+  <li>Mean-field SIS gives $\langle k\rangle/\langle k^2\rangle$: same behaviour.</li>
+</ul>
+<div class="callout example">
+  <p>Email network: $\langle k\rangle = 3.23$, $\langle k^2\rangle = 1269$ → $\kappa = 392.6$, $T_c = 1/391.6 = 0.0026$. Random network, same $\langle k\rangle$: $T_c = 0.31$.</p>
+</div>
+
 <div data-fig id="fig-vacc"></div>
+
+<h2>Whom to vaccinate?</h2>
+<p>A vaccinated node is, for the epidemic, a removed node: vaccination is <a href="robustness.html">robustness</a> in reverse.</p>
+<ul>
+  <li><strong>Random:</strong> a fraction $g$ cuts $R$ to $(1-g)\,T(\kappa-1)$, so $g_c = 1 - \dfrac{1}{T(\kappa - 1)}$ — near 1 when $\kappa$ is large.</li>
+  <li><strong>Hubs:</strong> cuts $\langle k^2\rangle$ far more than $\langle k\rangle$, raising $T_c$. Needs the whole network.</li>
+  <li><strong>Acquaintance</strong> (Cohen, Havlin and ben-Avraham 2003): vaccinate a random contact of a random person. Contacts average $\kappa$ links, so this finds hubs blindly.</li>
+</ul>
+<dl class="symbols"><dt>$g_c$</dt><dd>random-vaccination coverage that stops the epidemic</dd></dl>
+<div class="callout example">
+  <p>Internet, $\kappa = 37.9$, worm with $T = 0.1$: $R = 3.7$, $g_c = 1 - 1/3.7 = 73\%$. Random network, same $\langle k\rangle = 6.34$: $R = 0.63$, no outbreak.</p>
+</div>
+
 <div class="callout key">
-  <p>The same $\langle k^2\rangle$ that makes heavy-tailed networks robust to random failures (<a href="robustness.html">Ch 8</a>) makes them vulnerable to epidemics, and the remedy mirrors the attack: remove the hubs, here by vaccinating them.</p>
+  <p>The $\kappa$ that makes heavy-tailed networks robust to failures (<a href="robustness.html">Ch 8</a>) makes them vulnerable to epidemics; the remedy mirrors the attack: vaccinate the hubs.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Special case of percolation:</strong> keep each link with probability $T$; the outbreak is the starting node's cluster. $T_c = 1 - f_c$ (<a href="robustness.html">Robustness</a>).</li>
+    <li><strong>Explained by the friendship paradox:</strong> both infection and acquaintance vaccination find hubs (<a href="correlations.html">Correlations</a>).</li>
+    <li><strong>Builds on</strong> the divergent $\langle k^2\rangle$ (<a href="ch4-moments.html">Ch 4</a>), produced by <a href="ch5-preview.html">preferential attachment</a>.</li>
+    <li><strong>Slowed by</strong> <a href="communities.html">communities</a>: few links between groups.</li>
+  </ul>
 </div>
 
 <div class="callout discuss">
-  <p>Back to the notebook's closing question: if you could vaccinate 1% of a population whose contact network is scale-free, whom would you choose, and why does $\langle k^2\rangle$ matter?</p>
-  <div class="hint">The hubs, if you know who they are: removing them cuts $\langle k^2\rangle$ much more than $\langle k\rangle$ and raises $T_c$. If you do not know the network, acquaintance vaccination finds hubs with high probability, because a random contact of a random person has on average $\langle k^2\rangle/\langle k\rangle$ contacts, more than the average person's $\langle k\rangle$.</div>
+  <p>You can vaccinate 1% of a scale-free population. Whom, and why does $\langle k^2\rangle$ matter?</p>
+  <div class="hint">The hubs if known: removing them cuts $\langle k^2\rangle$ and raises $T_c$. Otherwise acquaintance vaccination, since a random contact has $\langle k^2\rangle/\langle k\rangle$ contacts on average.</div>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>A contact network has $\langle k\rangle = 4$ and $\langle k^2\rangle = 84$. What is the epidemic threshold $T_c$?</p>
-  <ol><li>0.25</li><li>0.05</li><li>0.5</li><li>0.012</li></ol>
-  <div class="explain">$T_c = \langle k\rangle/(\langle k^2\rangle - \langle k\rangle) = 4/80 = 0.05$. A random network with the same $\langle k\rangle$ would have $T_c = 1/4 = 0.25$, five times higher.</div>
+  <p>$\langle k\rangle = 4$, $\langle k^2\rangle = 84$. What is $T_c$?</p>
+  <ol>
+    <li data-why="That is 1/⟨k⟩, the random-network value.">0.25</li>
+    <li>0.05</li>
+    <li data-why="That needs ⟨k²⟩ − ⟨k⟩ = 8.">0.5</li>
+    <li data-why="That is 1/⟨k²⟩; divide ⟨k⟩ by ⟨k²⟩ − ⟨k⟩.">0.012</li>
+  </ol>
+  <div class="explain">$T_c = 4/(84 - 4) = 0.05$, five times below the random network's $1/4$.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Why can a newly infected node pass the infection on along only $k - 1$ links?</p>
+  <ol>
+    <li data-why="All links transmit with the same T.">One link is always too weak.</li>
+    <li data-why="It tries all its neighbours before recovering.">It recovers too early.</li>
+    <li>One link leads back to its infector.</li>
+    <li data-why="The −1 applies to every node.">Hubs lose a link.</li>
+  </ol>
+  <div class="explain">The infector is already infected. The same −1 appears in Molloy–Reed.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>The Internet loses its giant component after $f_c = 97.3\%$ random failures. What is a worm's $T_c$ there?</p>
+  <ol>
+    <li>$1 - f_c = 2.7\%$</li>
+    <li data-why="The two thresholds measure opposite things.">$f_c = 97.3\%$</li>
+    <li data-why="Both follow from the same κ.">Unrelated to $f_c$</li>
+    <li data-why="That is 1/⟨k⟩, the random-network value.">About 16%</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/(\kappa - 1)$ and $T_c = 1/(\kappa - 1)$, so $T_c = 1 - f_c$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$T = 0.1$, $\kappa = 21$. What fraction must be vaccinated at random?</p>
+  <ol>
+    <li data-why="R = 0.9 × 2 = 1.8, still above 1.">10%</li>
+    <li>50%</li>
+    <li data-why="That needs R = 10.">90%</li>
+    <li data-why="Only infinite κ needs everyone.">Everyone</li>
+  </ol>
+  <div class="explain">$R = 0.1 \times 20 = 2$, so $g_c = 1 - 1/2 = 50\%$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Why does vaccinating a named contact beat vaccinating the person asked?</p>
+  <ol>
+    <li data-why="It works through degree, not health.">Contacts are healthier.</li>
+    <li data-why="Doses are the same.">It uses fewer doses.</li>
+    <li data-why="It needs no network knowledge.">It needs the contact network.</li>
+    <li>A random contact has $\langle k^2\rangle/\langle k\rangle$ links on average.</li>
+  </ol>
+  <div class="explain">Hubs appear in many contact lists. Email network: a person has 3.2 contacts, a contact 393.</div>
 </div>
 
 </div></main>

@@ -135,7 +135,7 @@ import { fmt } from "../lib/stats.js";
   function draw() {
     for (const n of NAMES) {
       const pt = curves[n].reduce((best, p) => (Math.abs(p[0] - q) < Math.abs(best[0] - q) ? p : best));
-      tiles.set(n, fmt.pct(pt[1]), `p_c = ${pcs[n].toFixed(2)}`);
+      tiles.set(n, fmt.pct(pt[1]), `p_c = ${+pcs[n].toPrecision(2)}`);
     }
     plot.update({
       series: NAMES.map((n, i) => ({ id: n, type: "line", data: curves[n], color: i + 1, label: SHORT[n] })),

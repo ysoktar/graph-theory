@@ -9,7 +9,7 @@ import { loadNetworks, NETWORK_ORDER, SHORT } from "../lib/data.js";
 import { run } from "../lib/compute.js";
 
 const EULER = 0.5772156649;
-/** ⟨d⟩ of a random network: the book's Section 3.8 estimate and its correction (Advanced Topic 3.G, Fronczak et al. 2004). */
+/** ⟨d⟩ of a random network: the book's Section 3.8 estimate and the finer formula of Fronczak, Fronczak & Hołyst (2004), which is not in the book. */
 const dSimple = (N, k) => Math.log(N) / Math.log(k);
 const dCorrected = (N, k) => (Math.log(N) - EULER) / Math.log(k) + 0.5;
 const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
@@ -19,9 +19,10 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
   let N = 8e9, k = 1000;
   const f = figure("#fig-ball", { title: "How many people are within d handshakes?", sub: "In a random network each step multiplies the number of people reached by about ⟨k⟩, until everyone is reached." });
   const t = stats(f.body, [
-    { key: "d", label: "⟨d⟩ ≈ ln N / ln⟨k⟩" }, { key: "dc", label: "corrected (Advanced Topic 3.G)" },
+    { key: "d", label: "⟨d⟩ ≈ ln N / ln⟨k⟩" }, { key: "dc", label: "Fronczak et al. (2004)" },
     { key: "dmax", label: "steps until N(d) ≥ N" }, { key: "one", label: "reached in one step" },
   ]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   const plot = new Plot(f.body, { height: 280, x: { label: "distance d (handshakes)", integer: true, min: 0 }, y: { type: "log", label: "people within distance d, N(d)" } });
   function draw() {
     const data = [];
@@ -48,7 +49,7 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
   preset("Facebook 2011: 7.2×10⁸ users, ⟨k⟩ = 190", 7.21e8, 190);
   preset("Collaboration network", 23133, 8.08);
   draw();
-  f.setCaption("The tree estimate N(d) ignores that friends of friends are often already friends, so it overcounts. That is why it gives only a rough $\\langle d\\rangle$. For Facebook in 2011 it predicts 3.9 (corrected: 4.3), while the measured average distance among its 721 million active users was 4.74 (Backstrom et al. 2012).");
+  f.setCaption("The tree estimate N(d) ignores that friends of friends are often already friends, so it overcounts. That is why it gives only a rough $\\langle d\\rangle$. For Facebook in 2011 it predicts 3.9 (Fronczak et al.: 4.3), while the measured average distance among its 721 million active users was 4.74 (Backstrom et al. 2012).");
 }
 
 // ------------------------------------------------------------------ 2. BFS in a random network versus a lattice
@@ -63,6 +64,7 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
   const views = {};
   const dist = { R: null, L: null };
   const t = stats(f.body, [{ key: "R", label: "random network: share reached within d" }, { key: "L", label: "lattice: share reached within d" }]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   t.el.style.gridColumn = "1 / -1";
   const make = (key, g, title, positions) => {
     const p = f.panel(title);
@@ -118,14 +120,14 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
       y: yLog ? { type: "log", min: 1, max: 200 } : { type: "linear", min: 0, max: 12 }, xName: "N", yFormat: (v) => fmt.fix(v, 2),
     });
   }
-  segmented(f.controls, { label: "Theory line", value: theory, options: [{ value: "simple", label: "ln N / ln⟨k⟩ (Section 3.8)" }, { value: "corrected", label: "corrected (3.G)" }], onChange: (v) => { theory = v; draw(); } });
+  segmented(f.controls, { label: "Theory line", value: theory, options: [{ value: "simple", label: "ln N / ln⟨k⟩ (Section 3.8)" }, { value: "corrected", label: "Fronczak et al. 2004" }], onChange: (v) => { theory = v; draw(); } });
   segmented(f.controls, { label: "Vertical axis", value: "lin", options: [{ value: "lin", label: "linear (random networks)" }, { value: "log", label: "logarithmic (with the lattice)" }], onChange: (v) => { yLog = v === "log"; draw(); } });
   f.controls.append(status);
   draw();
   const models = [...ks.map((k) => ({ kind: "er", avgk: k, label: `k${k}` })), { kind: "grid", label: "grid" }];
   await run("distanceVsN", { models, Ns, reps: 2, sources: 60, seed: 8 }, (row) => { rows.push(row); status.textContent = `N = ${fmt.int(row.N)} done`; draw(); }).promise;
   status.textContent = "Done.";
-  f.setCaption("On a logarithmic N axis the random networks fall on straight lines: ⟨d⟩ grows like ln N. The corrected formula is accurate for ⟨k⟩ = 6 and 10. For ⟨k⟩ = 3 both formulas underestimate the distance in small networks, because the giant component is then noticeably smaller than N. Switch to the logarithmic axis to see the lattice, the opposite of a small world: its distances grow like a power of N, here √N, and reach 120 steps at N = 32,400.");
+  f.setCaption("On a logarithmic N axis the random networks fall on straight lines: ⟨d⟩ grows like ln N. The Fronczak et al. formula is accurate for ⟨k⟩ = 6 and 10. For ⟨k⟩ = 3 both formulas underestimate the distance in small networks, because the giant component is then noticeably smaller than N. Switch to the logarithmic axis to see the lattice, the opposite of a small world: its distances grow like a power of N, here √N, and reach 120 steps at N = 32,400.");
 })();
 
 // ------------------------------------------------------------------ 4. the book's networks against their random counterparts
@@ -150,7 +152,7 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
   f.body.append(dataTable([
     { label: "Network", align: "left" }, { label: "N", format: fmt.int }, { label: "⟨k⟩", format: (v) => v.toFixed(2) },
     { label: "observed ⟨d⟩", format: (v) => v.toFixed(2) }, { label: "G(N, L) simulated", format: (v) => v.toFixed(2) },
-    { label: "ln N / ln⟨k⟩", format: (v) => v.toFixed(2) }, { label: "corrected (3.G)", format: (v) => v.toFixed(2) }, { label: "observed / random", align: "left" },
+    { label: "ln N / ln⟨k⟩", format: (v) => v.toFixed(2) }, { label: "Fronczak et al. 2004", format: (v) => v.toFixed(2) }, { label: "observed / random", align: "left" },
   ], nets.map((d) => [d.description, d.N, d.avgk, d.distances.avg, d.nullModels.er.avgd, dSimple(d.N, d.avgk), dCorrected(d.N, d.avgk), verdict(d.distances.avg, d.nullModels.er.avgd)])));
   f.setCaption("Most networks sit on or below the diagonal: they are small worlds, and the ones with big hubs (email, metabolism, protein) are even smaller than random. The power grid is the exception. Its links are short power lines between neighbouring stations, so it behaves more like a lattice than like a random network.");
 
@@ -186,6 +188,7 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
     edgeColor: (u, v) => (rewired.has(key(u, v)) ? "s2" : "axis"), edgeWidth: (u, v) => (rewired.has(key(u, v)) ? 1.8 : 1.1),
   });
   const t = stats(pr, [{ key: "r", label: "rewired links" }, { key: "C", label: "⟨C⟩" }, { key: "d", label: "⟨d⟩" }, { key: "Cr", label: "C(p)/C(0)" }, { key: "dr", label: "⟨d⟩(p)/⟨d⟩(0)" }]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const base = ringLattice(N, K), C0 = clusteringSummary(base).avg, d0 = distanceStats(base).avg;
   const ringKeys = new Set(base.edges().map(([u, v]) => key(u, v)));
   function update() {

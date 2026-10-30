@@ -16,7 +16,7 @@ function moment(n, g, kmin, kmax) {
 {
   let gamma = 2.5, N = 1e6;
   const kmin = 1;
-  const f = figure("#fig-theory", { title: "Moments of a power law with its natural cutoff", sub: "Continuous power law on [k_min, k_max] with k_max = k_min N^{1/(γ−1)} and k_min = 1." });
+  const f = figure("#fig-theory", { title: "Moments of a power law with its natural cutoff", sub: "Continuous power law on [k_min, k_max] with k_max = k_min N^(1/(γ−1)) and k_min = 1." });
   const t = stats(f.body, [{ key: "k1", label: "⟨k⟩" }, { key: "k2", label: "⟨k²⟩" }, { key: "sd", label: "σₖ" }, { key: "ratio", label: "σₖ / √⟨k⟩ (Poisson: 1)" }]);
   const plot = new Plot(f.body, { height: 280, x: { type: "log", label: "network size N" }, y: { type: "log", label: "moment" } });
   function draw() {
@@ -36,7 +36,7 @@ function moment(n, g, kmin, kmax) {
   slider(f.controls, { label: "degree exponent γ", min: 1.8, max: 4.5, step: 0.01, value: gamma, format: (v) => v.toFixed(2), onInput: (v) => { gamma = v; draw(); }, wide: true });
   slider(f.controls, { label: "network size N", min: 10, max: 1e12, step: 1, log: true, value: N, format: (v) => fmt.exp(v, 0), onInput: (v) => { N = v; draw(); }, wide: true });
   draw();
-  f.setCaption("A moment ⟨kⁿ⟩ levels off as N grows only when n < γ − 1. For 2 < γ < 3 the average degree settles while ⟨k²⟩ keeps growing, like N^{(3−γ)/(γ−1)}.");
+  f.setCaption("A moment ⟨kⁿ⟩ levels off as N grows only when n < γ − 1. For 2 < γ < 3 the average degree settles while ⟨k²⟩ keeps growing, like N^((3−γ)/(γ−1)).");
 }
 
 // ------------------------------------------------------------------ 2. sample moments (worker, notebook cell 61)
@@ -60,7 +60,7 @@ function moment(n, g, kmin, kmax) {
         series: [
           { type: "line", markers: true, data: rows.map((x) => [x.N, x.m2pl]), color: 1, label: `power law, γ = ${gamma}` },
           { type: "line", markers: true, data: rows.map((x) => [x.N, x.m2po]), color: "random", label: "Poisson, same mean" },
-          gamma < 3 ? fnSeries((n) => rows[0].m2pl * Math.pow(n / 100, (3 - gamma) / (gamma - 1)), 100, 1e6, 20, { log: true, color: "theory", dashed: true, label: "∝ N^{(3−γ)/(γ−1)}", tooltip: false }) : null,
+          gamma < 3 ? fnSeries((n) => rows[0].m2pl * Math.pow(n / 100, (3 - gamma) / (gamma - 1)), 100, 1e6, 20, { log: true, color: "theory", dashed: true, label: "∝ N^((3−γ)/(γ−1))", tooltip: false }) : null,
         ],
         xName: "N", yFormat: (v) => fmt.sig(v, 3),
       });

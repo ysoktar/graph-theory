@@ -18,33 +18,118 @@
 <main><div class="content">
 
 <h1>Evolving networks: fitness</h1>
-<p class="lead">In the Barabási–Albert model the oldest node is always the richest. Real networks have latecomers that win: Google arrived after AltaVista and Yahoo. Chapter 6 adds the missing ingredient, fitness.</p>
+<p class="lead">In the BA model the oldest node is always the richest. Yet latecomers win: Google arrived after AltaVista and overtook it. The missing ingredient: some nodes are more attractive than others.</p>
+
+<div class="callout why">
+  <ul>
+    <li>BA ties success to age alone, so it predicts the oldest pages are most linked and $\gamma = 3$ always. Both are false.</li>
+    <li>Fitness adds one number per node, keeping growth and preferential attachment.</li>
+    <li>It explains late winners, exponents other than 3, and winner-takes-all networks.</li>
+  </ul>
+</div>
 
 <h2>The Bianconi–Barabási model (Section 6.2)</h2>
-<p>Every node $i$ receives a <strong>fitness</strong> $\eta_i$, drawn once from a distribution $\rho(\eta)$, that measures how attractive it is regardless of its degree. New nodes link with probability</p>
+<p>Each node gets a fixed <strong>fitness</strong> $\eta_i$ at birth, drawn from $\rho(\eta)$. A new link attaches to node $i$ with probability</p>
 <div class="eq">$$\Pi_i = \frac{\eta_i k_i}{\sum_j \eta_j k_j}.$$</div>
-<p>In the continuum approximation each node's degree still grows as a power of time, but with its own exponent:</p>
-<div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{\beta(\eta_i)}, \qquad \beta(\eta) = \frac{\eta}{C}.$$</div>
-<p>$C$ is fixed by the fitness distribution; for $\eta$ uniform on $[0, 1]$, $C \approx 1.255$. A node with larger $\eta$ grows faster, and over a long enough time it catches up with any older, less fit node. The degree distribution becomes a mixture of power laws, $p_k \sim k^{-(1+C)}/\ln k$, heavier-tailed than BA's $k^{-3}$.</p>
+<dl class="symbols">
+  <dt>$\eta_i$</dt><dd>fitness ("eta") of node $i$: intrinsic attractiveness, here in [0, 1]</dd>
+  <dt>$k_i$</dt><dd>degree of node $i$</dd>
+  <dt>$\sum_j \eta_j k_j$</dt><dd>total attractiveness (normalisation)</dd>
+  <dt>$\rho(\eta)$</dt><dd>fitness distribution (here uniform)</dd>
+</dl>
+<p>Equal fitnesses cancel and give back the BA model.</p>
+
+<h2>Each node grows at its own speed</h2>
+<p>The BA continuum calculation (<a href="ch5-preview.html">previous page</a>) now gives</p>
+<div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{\beta(\eta_i)}, \qquad \beta(\eta) = \frac{\eta}{C},$$</div>
+<p>with $C$ fixed by requiring the total degree to grow like $2mt$ (Eq. 6.7):</p>
+<div class="eq">$$\int \rho(\eta)\,\frac{\eta}{C - \eta}\,d\eta = 1 .$$</div>
+<dl class="symbols">
+  <dt>$t_i$</dt><dd>arrival time of node $i$</dd>
+  <dt>$\beta(\eta)$</dt><dd>dynamical exponent of fitness $\eta$ (BA: ½)</dd>
+  <dt>$C$</dt><dd>constant set by $\rho(\eta)$</dd>
+</dl>
+<div class="callout example">
+  <ul>
+    <li>Uniform fitness: $C \ln\frac{C}{C-1} = 2$ → $C = 1.255$; $\beta(1) = 0.80$, $\beta(0.3) = 0.24$.</li>
+    <li>Equal fitness $\eta = 1$: $\frac{1}{C-1} = 1$ → $C = 2$, $\beta = \frac12$ (BA).</li>
+    <li>A: $t_A = 10$, $\eta = 0.3$; B: $t_B = 1{,}000$, $\eta = 1$. Equal when $0.239\ln(t/10) = 0.797\ln(t/1000)$ → $t \approx 7{,}200$; then B leads.</li>
+  </ul>
+</div>
 
 <div data-fig id="fig-race"></div>
 
+<h2>The degree distribution</h2>
+<p>A mixture of power laws, one per fitness. For uniform fitness:</p>
+<div class="eq">$$p_k \sim \frac{k^{-(1+C)}}{\ln k} .$$</div>
+<dl class="symbols">
+  <dt>$1 + C$</dt><dd>degree exponent: 2.255 here, below BA's 3</dd>
+  <dt>$\ln k$</dt><dd>slow correction; fitted exponents come out higher</dd>
+</dl>
+
 <div class="callout key">
-  <p>Fitness separates two reasons a node can be a hub: it came early (BA) or it is attractive (fitness). Measuring how fast nodes acquire links, as the book does for citation and web data, lets us estimate fitness from data (Section 6.3).</p>
+  <p>A hub is either early (BA) or fit. The fitness distribution sets the exponent; growth rates measured from data estimate fitness (Section 6.3).</p>
 </div>
 
 <h2>Bose–Einstein condensation (Section 6.4)</h2>
-<p>The fitness model maps exactly onto a Bose gas: each node is an energy level $\varepsilon_i = -\frac{1}{\beta}\ln\eta_i$ and each link a particle. For most fitness distributions the network is <em>fit-get-rich</em>: the fittest nodes become hubs, but every hub holds a vanishing share of all links. For some distributions, though, the analogue of Bose–Einstein condensation occurs: a single node grabs a finite fraction of all links, and the network becomes a star-like <em>winner-takes-all</em> network. The book points to the operating-system market as an example.</p>
+<p>The model maps onto a Bose gas: node $i$ ↔ energy level $\varepsilon_i = -\frac{1}{\beta}\ln\eta_i$, link end ↔ particle. ($\beta$ here is inverse temperature, not the growth exponent.) Two regimes:</p>
+<ul>
+  <li><strong>Fit-get-rich:</strong> the fittest become the largest hubs, each with a vanishing share of links.</li>
+  <li><strong>Winner-takes-all</strong> (condensation, for some $\rho(\eta)$): one node keeps a finite share of all links as $N \to \infty$; the network becomes star-like.</li>
+</ul>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Generalizes</strong> the <a href="ch5-preview.html">BA model</a>: equal $\eta$ gives $\beta = \frac12$, $\gamma = 3$.</li>
+    <li><strong>Explains</strong> exponents other than 3 (<a href="ch4-universality.html">Universality</a>).</li>
+    <li><strong>Predicts</strong> the order of hubs: age and quality, not age alone.</li>
+  </ul>
+</div>
 
 <div class="callout discuss">
-  <p>Preferential attachment alone predicts that the oldest pages on the web should have the most links. Why is that wrong, and what other ingredients of Chapter 6 might matter?</p>
-  <div class="hint">Pages differ in quality and usefulness (fitness), links and pages disappear (node and link deletion), new links appear between old pages (internal links), and attractiveness fades with age (aging). Each modifies the exponent, and some, like strong aging, can destroy the power law altogether.</div>
+  <p>Why do the oldest web pages not have the most links? What else from Chapter 6 matters?</p>
+  <div class="hint">Fitness, node and link deletion, internal links between old nodes, ageing. Each shifts the exponent; strong ageing destroys the power law.</div>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>In the fitness model with uniform fitness, a node with $\eta = 1$ arrives at $t = 1{,}000$. How does its degree grow?</p>
-  <ol><li>About as $(t/1000)^{0.8}$</li><li>About as $(t/1000)^{0.5}$, like every node in the BA model</li><li>Linearly in $t$</li><li>It does not grow</li></ol>
-  <div class="explain">$\beta = \eta/C = 1/1.255 \approx 0.8$, faster than BA's 0.5. A node with $\eta = 0.3$ grows only with exponent 0.24.</div>
+  <p>Uniform fitness: a node with $\eta = 1$ arrives at $t = 1{,}000$. Its degree grows as</p>
+  <ol>
+    <li>$(t/1000)^{0.8}$</li>
+    <li data-why="½ holds only when all fitnesses are equal.">$(t/1000)^{0.5}$</li>
+    <li data-why="β = η/C &lt; 1 for every node.">Linearly</li>
+    <li data-why="Every node keeps receiving links.">Not at all</li>
+  </ol>
+  <div class="explain">$\beta = 1/1.255 \approx 0.8$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>All nodes have equal fitness. The prediction?</p>
+  <ol>
+    <li data-why="C = 1.255 is for uniform fitness.">$\gamma = 2.255$</li>
+    <li>The BA model: $\beta = \frac12$, $\gamma = 3$</li>
+    <li data-why="Degrees still matter.">Exponential $p_k$</li>
+    <li data-why="Nothing but age distinguishes nodes.">Winner-takes-all</li>
+  </ol>
+  <div class="explain">Equal $\eta$ cancel from $\Pi_i$; $C = 2$, so $\beta = \frac12$ and $\gamma = 1 + 1/\beta = 3$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A: $t = 10$, $\eta = 0.3$. B: $t = 1{,}000$, $\eta = 1$. Which is right?</p>
+  <ol>
+    <li data-why="True in BA only; here B grows faster.">A stays ahead</li>
+    <li data-why="B starts with only m links.">B leads at once</li>
+    <li>B overtakes A near $t \approx 7{,}000$</li>
+    <li data-why="Different growth rates: they meet once.">They converge</li>
+  </ol>
+  <div class="explain">$(t/10)^{0.239} = (t/1000)^{0.797}$ at $t \approx 7{,}200$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>In a winner-takes-all network of $10^6$ nodes:</p>
+  <ol>
+    <li data-why="That is fit-get-rich.">The top hub's share of links vanishes</li>
+    <li>One node keeps a finite share of all links</li>
+    <li data-why="It is about how links are shared, not who links to whom.">Hubs link only to hubs</li>
+    <li data-why="Condensation concentrates links.">Degrees are equal</li>
+  </ol>
+  <div class="explain">The analogue of Bose–Einstein condensation: a finite fraction of particles in the lowest level.</div>
 </div>
 
 </div></main>

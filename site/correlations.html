@@ -18,40 +18,133 @@
 <main><div class="content">
 
 <h1>Degree correlations</h1>
-<p class="lead">Do hubs link to hubs, or to small nodes? Two networks with exactly the same degree sequence can answer this question in opposite ways (Chapter 7).</p>
+<p class="lead">The degree distribution counts hubs; it does not say whom they link to. Do hubs link to hubs, or to small nodes? Networks with identical degrees can differ here, and behave differently (Chapter 7).</p>
 
-<h2>Measuring correlations</h2>
-<p>The <strong>degree correlation function</strong> is the average degree of the neighbours of the nodes with degree $k$:</p>
-<div class="eq">$$k_{nn}(k) = \sum_{k'} k'\, P(k' \mid k).$$</div>
-<p>If links ignore degrees (a <em>neutral</em> network), a link ends at a node of degree $k'$ with probability $k' p_{k'}/\langle k\rangle$, and $k_{nn}(k) = \langle k^2\rangle/\langle k\rangle$ for every $k$. In an <strong>assortative</strong> network $k_{nn}(k)$ increases with $k$ (hubs link to hubs); in a <strong>disassortative</strong> network it decreases (hubs link to small nodes). The book often fits $k_{nn}(k) \approx a k^{\mu}$, with $\mu > 0$ assortative and $\mu < 0$ disassortative.</p>
-<p>A single number summarises the same information: the <strong>assortativity coefficient</strong> $r$ (Newman 2002), the Pearson correlation between the degrees at the two ends of a link, $-1 \le r \le 1$.</p>
+<div class="callout why">
+  <ul>
+    <li>Earlier pages used only the degree sequence; correlations are the first property beyond it.</li>
+    <li>They reveal how a network was built: like joining like, or hubs serving many small nodes.</li>
+    <li>They affect robustness: assortative networks better survive hub removal (Newman 2002).</li>
+  </ul>
+</div>
+
+<h2>Three kinds of network</h2>
+<ul>
+  <li><strong>Assortative:</strong> hubs link to hubs.</li>
+  <li><strong>Disassortative:</strong> hubs link to small nodes.</li>
+  <li><strong>Neutral:</strong> random, given the degrees.</li>
+</ul>
 <div data-fig id="fig-rewire"></div>
+
+<h2>The degree correlation function</h2>
+<div class="eq">$$k_{nn}(k) = \sum_{k'} k'\, P(k' \mid k).$$</div>
+<dl class="symbols">
+  <dt>$k_{nn}(k)$</dt><dd>mean neighbour degree of degree-$k$ nodes</dd>
+  <dt>$P(k' \mid k)$</dt><dd>probability a neighbour of a degree-$k$ node has degree $k'$</dd>
+</dl>
+<p>Neutral network: a link reaches a degree-$k'$ node with probability $\propto k' p_{k'}$, independent of $k$, so</p>
+<div class="eq">$$k_{nn}(k) = \frac{\langle k^2\rangle}{\langle k\rangle}.$$</div>
+<dl class="symbols">
+  <dt>$\langle k\rangle, \langle k^2\rangle$</dt><dd>mean degree, mean squared degree</dd>
+</dl>
+<p>Rising $k_{nn}$: assortative; falling: disassortative; flat: neutral. Fits $k_{nn} \approx a k^{\mu}$ give the sign as $\mu$.</p>
+<div class="callout example">
+  <p>Collaboration: $178.2/8.08 = 22.1$. A scientist has 8 co-authors; a co-author has 22 — the <strong>friendship paradox</strong>, used by <a href="epidemics.html">acquaintance vaccination</a>.</p>
+</div>
+
+<h2>The assortativity coefficient $r$</h2>
+<p>$r$ is the Pearson correlation of the degrees at the two ends of each link (Newman 2002), in $[-1, 1]$: positive assortative, negative disassortative, zero neutral.</p>
+<div class="callout example">
+  <p>Star with four leaves: every link joins (4, 1), so $r = -1$. Disjoint triangles: all degrees 2, $r$ undefined.</p>
+</div>
 
 <h2>The book's networks</h2>
 <div data-fig id="fig-knn"></div>
 <div id="tbl-r"></div>
 <div class="callout look">
   <ul>
-    <li>The social networks are assortative: collaboration ($r = 0.13$) and phone calls ($r = 0.21$). Well-connected scientists write with well-connected scientists.</li>
-    <li>The biological networks are disassortative: metabolism ($r = -0.25$) and protein interactions ($-0.08$), as are email and the WWW sample. The power grid and the Internet are close to neutral.</li>
-    <li>Wiring the same degrees at random leaves the social networks neutral but metabolism still strongly disassortative ($-0.17$). That part is <em>structural</em>, explained next.</li>
+    <li>Social networks are assortative: collaboration $r = 0.13$, phone calls $0.21$.</li>
+    <li>Metabolism ($-0.25$), proteins ($-0.08$), email and WWW are disassortative; power grid and Internet near neutral.</li>
+    <li>Randomized, collaboration becomes neutral but metabolism stays at $-0.17$: that part is <em>structural</em>.</li>
   </ul>
 </div>
 
 <h2>Structural disassortativity (Section 7.4)</h2>
-<p>In a simple network two hubs can share at most one link. When the expected number of links between the largest hubs, $k k'/(\langle k\rangle N)$, exceeds 1, the configuration model would need repeated links between them; forbidding those pushes hubs to link to small nodes instead. This happens above the <strong>structural cutoff</strong></p>
+<p>Random wiring expects this many links between nodes of degrees $k$ and $k'$:</p>
+<div class="eq">$$\frac{k\,k'}{\langle k\rangle N}.$$</div>
+<dl class="symbols">
+  <dt>$\langle k\rangle N$</dt><dd>total link ends, $2L$</dd>
+</dl>
+<p>Above 1, hubs "should" share several links; a simple network allows one, so the excess goes to small nodes. Setting it to 1 for $k = k'$ gives the <strong>structural cutoff</strong></p>
 <div class="eq">$$k_s \approx \sqrt{\langle k\rangle N}.$$</div>
-<p>Metabolism ($k_{\max} = 638$ against $k_s \approx 97$), email and the WWW all have hubs far above it, so part of their disassortativity is forced by the degree sequence. Only correlations that survive degree-preserving randomization, like those of the collaboration network, say something about how the network was built.</p>
+<dl class="symbols"><dt>$k_s$</dt><dd>degree above which hubs cannot be linked as often as chance requires</dd></dl>
+<div class="callout example">
+  <p>Metabolism: $k_s = \sqrt{9.13 \times 1{,}039} \approx 97$. Top hubs, 638 and 460 links: expected $638 \times 460/9{,}486 \approx 31$ links between them; at most 1 allowed.</p>
+</div>
+<p>Only correlations that survive degree-preserving randomization, like collaboration's, say how a network was built.</p>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Null model:</strong> <a href="ch4-generating.html">degree-preserving randomization</a> keeps degrees, erases correlations.</li>
+    <li><strong>Same ratio</strong> $\langle k^2\rangle/\langle k\rangle$: neutral $k_{nn}$, Molloy–Reed $\kappa$ (<a href="robustness.html">Robustness</a>), epidemic threshold (<a href="epidemics.html">Spreading</a>).</li>
+    <li><strong>Models:</strong> random, configuration and large BA networks are neutral ($r \to 0$); assortativity needs extra ingredients such as <a href="communities.html">communities</a>.</li>
+  </ul>
+</div>
 
 <div class="callout discuss">
-  <p>Why might social networks be assortative while technological and biological ones are disassortative?</p>
-  <div class="hint">Social ties form by homophily: people link to similar people, including people of similar popularity, and groups (co-author teams, clubs) link everyone in them to each other. In technological networks hubs are expensive, specialised nodes (routers, hub airports, central metabolites) whose job is to serve many small nodes, and the structural cutoff adds disassortativity whenever hubs are very large.</div>
+  <p>Why are social networks assortative and technological or biological ones disassortative?</p>
+  <div class="hint">Homophily and group membership link similar people. Technological hubs (routers, airports, central metabolites) exist to serve many small nodes, and the structural cutoff adds disassortativity.</div>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>In a network $k_{nn}(k)$ is flat and equal to $\langle k^2\rangle/\langle k\rangle = 25$. What is $r$ approximately?</p>
-  <ol><li>$1$</li><li>$0$</li><li>$-1$</li><li>$25$</li></ol>
-  <div class="explain">A flat $k_{nn}(k)$ at the neutral value means the degree at one end of a link says nothing about the degree at the other end: no correlation, $r \approx 0$.</div>
+  <p>$k_{nn}(k)$ is flat at $\langle k^2\rangle/\langle k\rangle = 25$. $r \approx$?</p>
+  <ol>
+    <li data-why="That needs k_nn rising steeply.">$1$</li>
+    <li>$0$</li>
+    <li data-why="That needs k_nn falling.">$-1$</li>
+    <li data-why="r lies in [−1, 1].">$25$</li>
+  </ol>
+  <div class="explain">Flat at the neutral value: one end's degree says nothing about the other's.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>$r$ of a star with ten leaves?</p>
+  <ol>
+    <li data-why="High always meets low: that is a correlation.">$0$</li>
+    <li data-why="No similar degrees are linked.">$+1$</li>
+    <li>$-1$</li>
+    <li data-why="Both ends vary across the listed pairs, so r is defined.">Undefined</li>
+  </ol>
+  <div class="explain">Every link joins 10 to 1: perfectly negative correlation.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Collaboration has $r = 0.13$; randomized, $r \approx 0$. This shows</p>
+  <ol>
+    <li>The assortativity comes from how collaborators choose each other</li>
+    <li data-why="Swaps keep every degree.">Randomization changed $p_k$</li>
+    <li data-why="The cutoff causes disassortativity, and survives randomization.">It is structural</li>
+    <li data-why="Randomization removes it, so it is real.">The network is neutral</li>
+  </ol>
+  <div class="explain">What randomization destroys is not implied by the degrees. Metabolism's survives ($-0.25 \to -0.17$): largely structural.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>$N = 10{,}000$, $\langle k\rangle = 4$, two hubs of 1,000 links. Expected links between them?</p>
+  <ol>
+    <li data-why="That is the simple-network limit, not the expectation.">At most 1</li>
+    <li data-why="Divide by ⟨k⟩N, not N.">100</li>
+    <li data-why="⟨k⟩N already equals 2L.">12.5</li>
+    <li>25</li>
+  </ol>
+  <div class="explain">$10^6/(4 \times 10^4) = 25$; both hubs exceed $k_s = 200$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$\langle k\rangle = 3$, $\langle k^2\rangle = 30$. Mean degree of a random neighbour?</p>
+  <ol>
+    <li data-why="That is a random node; links favour hubs.">3</li>
+    <li>10</li>
+    <li data-why="Divide by ⟨k⟩.">30</li>
+    <li data-why="Neighbours are biased upward.">1</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle/\langle k\rangle = 10$: the friendship paradox.</div>
 </div>
 
 </div></main>

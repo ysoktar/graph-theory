@@ -18,35 +18,116 @@
 <main><div class="content">
 
 <h1>The Barabási–Albert model</h1>
-<p class="lead">The random network and the configuration model describe networks; neither explains why hubs exist. Chapter 5 proposes a mechanism with two ingredients, both absent from the random network model: networks <strong>grow</strong>, and new nodes prefer to link to <strong>well-connected</strong> nodes.</p>
+<p class="lead">Chapter 4 showed that real networks have hubs, but not <em>why</em>. The random network has none; the configuration model only reproduces the hubs we feed in. What process, repeated as a network grows, makes hubs on its own?</p>
 
-<h2>The model (Section 5.3)</h2>
-<ol>
-  <li><strong>Growth.</strong> Start with $m_0$ linked nodes. At every time step add one new node with $m \le m_0$ links.</li>
-  <li><strong>Preferential attachment.</strong> Each link of the new node connects to an existing node $i$ with probability
-    <span class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}.$$</span></li>
-</ol>
+<div class="callout why">
+  <ul>
+    <li>Random and configuration models are <strong>descriptive</strong>: what does such a network look like?</li>
+    <li>The BA model is <strong>mechanistic</strong>: how did it get that way?</li>
+    <li>A mechanism predicts growth, explains why unrelated systems share a pattern, and says which rule change removes it.</li>
+  </ul>
+</div>
+
+<h2>Growth and preferential attachment (Section 5.3)</h2>
+<ul>
+  <li><strong>Growth:</strong> nodes keep arriving (pages, papers, users).</li>
+  <li><strong>Preferential attachment:</strong> newcomers link to well-connected nodes more often.</li>
+</ul>
+<p>Start with $m_0$ linked nodes; each step, add one node with $m \le m_0$ links, each attaching to node $i$ with probability</p>
+<div class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}.$$</div>
+<dl class="symbols">
+  <dt>$\Pi(k_i)$</dt><dd>probability one new link lands on node $i$</dd>
+  <dt>$k_i$</dt><dd>degree of node $i$</dd>
+  <dt>$\sum_j k_j$</dt><dd>total degree, $\approx 2mt$ after $t$ steps</dd>
+  <dt>$m$</dt><dd>links per new node</dd>
+</dl>
+<div class="callout example">
+  <p>$t = 1{,}000$, $m = 2$: total degree $\approx 4{,}000$. A 40-link node: $\Pi = 1\%$; a 2-link node: $0.05\%$. Twenty times faster growth.</p>
+</div>
 <div data-fig id="fig-grow"></div>
 
-<h2>The degree distribution (Sections 5.4–5.5)</h2>
-<p>In the continuum approximation, node $i$ (arrived at time $t_i$) gains links at the rate $dk_i/dt = m\,\Pi(k_i) = k_i/(2t)$, so</p>
-<div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{1/2}, \qquad p_k \approx 2m^2 k^{-3}.$$</div>
-<p>The exact solution for large $t$ is $p_k = \dfrac{2m(m+1)}{k(k+1)(k+2)}$: a power law with $\gamma = 3$, independent of $m$. The largest hub grows like $k_{\max} \sim m N^{1/2}$, the natural cutoff for $\gamma = 3$.</p>
+<h2>Why a power law (Sections 5.4–5.5)</h2>
+<p>Treat $t$ and $k$ as continuous (the continuum approximation):</p>
+<ol>
+  <li>Growth rate: $\dfrac{dk_i}{dt} = m\,\Pi(k_i) = \dfrac{m\,k_i}{2mt} = \dfrac{k_i}{2t}$.</li>
+  <li>Node $i$ arrives at $t_i$ with $m$ links, so $k_i(t) = m\,(t/t_i)^{1/2}$.</li>
+  <li>$k_i &lt; k$ means $t_i > m^2 t/k^2$; nodes arrive uniformly, so $P(K &lt; k) = 1 - m^2/k^2$.</li>
+  <li>Differentiate: $p_k \approx 2m^2 k^{-3}$.</li>
+</ol>
+<dl class="symbols">
+  <dt>$t$</dt><dd>time = number of nodes added</dd>
+  <dt>$t_i$</dt><dd>arrival time of node $i$</dd>
+  <dt>$1/2$</dt><dd>dynamical exponent $\beta$: degrees grow like $\sqrt{t}$</dd>
+  <dt>$p_k$</dt><dd>fraction of nodes with degree $k$</dd>
+  <dt>$k^{-3}$</dt><dd>power law with $\gamma = 3$</dd>
+</dl>
+<p>Older nodes are further ahead: the <em>first-mover advantage</em>. The exact solution (Eq. 5.11, Section 5.5; derived in Advanced Topic 5.A) is</p>
+<div class="eq">$$p_k = \frac{2m(m+1)}{k(k+1)(k+2)} \qquad (k \ge m).$$</div>
+<ul>
+  <li>$\gamma = 3$ for every $m$ and starting network.</li>
+  <li>Largest hub: $k_{\max} \sim m N^{1/2}$, the natural cutoff for $\gamma = 3$ (<a href="ch4-hubs.html">The largest hub</a>).</li>
+</ul>
+<div class="callout example">
+  <p>$m = 2$: $p_2 = \frac{2\cdot2\cdot3}{2\cdot3\cdot4} = \frac12$ (generally $p_m = 2/(m+2)$). $p_{10} = 0.009$ exact vs $0.008$ continuum.</p>
+</div>
 <div data-fig id="fig-pk"></div>
 
 <div class="callout key">
-  <p>Both ingredients are needed (Section 5.6). Growth without preference (uniform attachment) gives an exponential degree distribution. Preference without growth (a fixed set of nodes that keep adding links preferentially) is not stationary: the network eventually fills up and becomes complete.</p>
+  <p>Both ingredients are needed (Section 5.6). Growth without preference gives an exponential $p_k$ ("uniform attachment" above). Preference without growth never settles: the network fills up until complete.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Explains</strong> the <a href="ch4-power-laws.html">power law</a> of Ch 4, with $\gamma = 3$: the border of the <a href="ch4-exponent.html">scale-free regime</a> ($\langle k^2\rangle \sim \ln N$).</li>
+    <li><strong>Generates</strong> what the <a href="ch4-generating.html">configuration model</a> takes as input; its old nodes are also wired non-randomly.</li>
+    <li><strong>Generalized by</strong> the <a href="evolving.html">fitness model</a>: nodes grow at different rates, so latecomers can win.</li>
+  </ul>
 </div>
 
 <div class="callout discuss">
-  <p>The BA model always gives $\gamma = 3$, yet the book's networks have exponents from 1.9 to 4.8. Its degree correlations and clustering are also far below the real values. What could the model be missing?</p>
-  <div class="hint">Nodes differ in intrinsic attractiveness (fitness, the topic of <a href="evolving.html">Chapter 6</a>), links can be added between existing nodes or removed, preferential attachment can be sub- or superlinear ($\Pi(k) \sim k^\alpha$ with $\alpha \ne 1$, which breaks the power law), and nodes may age. Each of these changes the exponent or the shape of the tail. The model's clustering vanishes as $\langle C\rangle \sim (\ln N)^2/N$, more slowly than a random network's $1/N$ but still to zero.</div>
+  <p>BA gives $\gamma = 3$, yet the book's networks have 1.9 to 4.8, and more clustering. What is missing?</p>
+  <div class="hint">Fitness (<a href="evolving.html">Ch 6</a>), links added or removed between existing nodes, nonlinear attachment $\Pi \sim k^\alpha$ ($\alpha \ne 1$ breaks the power law), ageing. BA clustering vanishes as $(\ln N)^2/N$.</div>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>In a BA network, node A arrived at $t = 100$ and node B at $t = 10{,}000$. At $t = 10^6$, about how many times more links does A have than B?</p>
-  <ol><li>100 times</li><li>10 times</li><li>2 times</li><li>The same number</li></ol>
-  <div class="explain">$k_i \propto (t/t_i)^{1/2}$, so $k_A/k_B = (t_B/t_A)^{1/2} = (100)^{1/2} = 10$, whatever $t$ is. In the BA model the head start never wears off.</div>
+  <p>A arrived at $t = 100$, B at $t = 10{,}000$. At $t = 10^6$, $k_A/k_B \approx$?</p>
+  <ol>
+    <li data-why="Degrees grow like the square root of time.">100</li>
+    <li>10</li>
+    <li data-why="The ratio is (t_B/t_A)^½.">2</li>
+    <li data-why="A stays ahead forever in BA.">1</li>
+  </ol>
+  <div class="explain">$k_A/k_B = (t_B/t_A)^{1/2} = 10$, for every $t$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A network has 5,000 links. Chance that one new link lands on a 50-link node?</p>
+  <ol>
+    <li data-why="Attachment favours high degree.">$1/N$</li>
+    <li data-why="Each link has two ends: total degree is 2L.">1%</li>
+    <li>0.5%</li>
+    <li data-why="That is for any of three links, not one.">1.5%</li>
+  </ol>
+  <div class="explain">$\Pi = 50/(2 \times 5{,}000) = 0.5\%$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Large BA network, $m = 2$. Share of nodes with exactly 2 links?</p>
+  <ol>
+    <li>About half</li>
+    <li data-why="A power law puts most mass at small k.">Almost none</li>
+    <li data-why="Then all degrees would be equal.">All</li>
+    <li data-why="Use p_2 = 2·2·3/(2·3·4).">About 1%</li>
+  </ol>
+  <div class="explain">$p_2 = 1/2$: most nodes stay small; a few early ones become hubs.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Why is $\gamma = 3$ for every $m$?</p>
+  <ol>
+    <li data-why="It is derived, not defined.">By definition</li>
+    <li data-why="The derivation never uses m₀.">The seed has three nodes</li>
+    <li data-why="Degrees grow without bound.">Degrees are capped at 3</li>
+    <li>$m$ cancels: $dk_i/dt = k_i/(2t)$</li>
+  </ol>
+  <div class="explain">More links per newcomer also means more total degree to compete with. So $\beta = 1/2$ and $\gamma = 1 + 1/\beta = 3$.</div>
 </div>
 
 </div></main>

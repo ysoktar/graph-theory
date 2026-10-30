@@ -206,5 +206,5 @@ function embed(g, method, T) {
   select(f.controls, { label: "Network", value: name, options: WITH_EDGES.map((n) => ({ value: n, label: networks[n].description })), onChange: (v) => { name = v; go(); } });
   f.controls.append(status);
   go();
-  f.setCaption("Scores built on shared neighbours work well in clustered networks such as collaboration, where triangles close. They fail in networks with few triangles (power grid, protein), where they give most pairs a score of zero. There the preferential-attachment score, which only uses degrees, can do better. Embeddings and graph neural networks learn such scores from the data instead of fixing them by hand.");
+  f.setCaption("Scores built on shared neighbours work well in clustered networks such as collaboration, where triangles close. They fail in networks with few triangles (power grid, protein), where most pairs score zero. In the protein network the degree-only preferential-attachment score does better; in the power grid no score does well. Embeddings and graph neural networks learn such scores from the data instead of fixing them by hand.");
 })();
