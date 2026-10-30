@@ -18,7 +18,11 @@
 <main><div class="content">
 
 <h1>Final study guide</h1>
-<p class="lead">The whole course, weighted to what came after the midterm: evolving networks and fitness (Ch 6), degree correlations (Ch 7), robustness (Ch 8), graph machine learning and node embeddings. Each topic has the must-know results, exam-style problems with worked solutions and common mistakes.</p>
+<p class="lead">The whole course, weighted to what came after the midterm: evolving networks and fitness (Ch 6), degree correlations (Ch 7), robustness (Ch 8), graph machine learning and node embeddings. Each topic has the formulas you will use, exam-style problems with worked solutions and common mistakes, and the guide ends with a practice set of new exam-style questions.</p>
+
+<div class="callout key">
+  <p><strong>What is tested is use, not memory.</strong> Exam-style questions give you the formulas. What you must be able to do is pick the right formula, put the numbers in, and say what the result means for the network: compare it with a model, predict what changes, or spot a flawed claim.</p>
+</div>
 
 <div class="callout gotcha">
   <p><strong>Scope is an assumption.</strong> The syllabus gives no exam scopes or dates. This guide assumes the final is cumulative, with most weight on Ch 6–8, GraphML and node embeddings. Confirm with the instructor.</p>
@@ -35,8 +39,8 @@
 <h2>How to study</h2>
 <ol>
   <li>Refresh Ch 1–5 with the <a href="#recap">recap</a>; use the <a href="exam-midterm.html">midterm guide</a> for any gap.</li>
-  <li>For Ch 6–8 and GraphML, read <strong>Must know</strong>; every symbol is explained under its formula.</li>
-  <li>Solve the <strong>exam-style problems</strong> on paper before opening the solutions.</li>
+  <li>For Ch 6–8 and GraphML, read <strong>Must know</strong>: the formulas you will be given, with every symbol explained. Learn when each applies, not the formula itself.</li>
+  <li>Solve the <strong>exam-style problems</strong> on paper before opening the solutions, and finish each with one sentence on what the number tells you.</li>
   <li>Take the <a href="#practice">practice set</a> until you score 80% or more on a fresh set.</li>
 </ol>
 
@@ -643,6 +647,403 @@
 
 <h2 id="practice">Practice set</h2>
 <div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview, evolving, correlations, robustness, embeddings, communities, epidemics" data-optional="data, communities, epidemics"></div>
+<p class="small muted">These questions are new: none repeats the midterm guide's or the chapter pages'. Each gives the formulas it needs and asks you to use them. Tick "Add review questions from the pages" to mix in the pages' own quizzes.</p>
+<template id="exam-questions">
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="3">
+  <p>A network has $N = 10{,}000$ nodes, average degree $\langle k\rangle = 4$ and degree standard deviation $\sigma_k = 20$. A random network with the same $\langle k\rangle$ has $\sigma_k = \sqrt{\langle k\rangle}$. Is the network closer to a random or to a scale-free network?</p>
+  <ol>
+    <li data-why="A random network would have σ_k = 2, ten times smaller.">Random: its average degree is ordinary.</li>
+    <li data-why="The average does not separate the two models; the spread does.">It cannot be decided without $L$.</li>
+    <li>Scale-free-like: its degrees are 10 times more spread out than random wiring allows, which signals hubs.</li>
+    <li data-why="A spread five times the mean is the opposite of regular.">Regular: all nodes have about 4 links.</li>
+  </ol>
+  <div class="explain">$\sqrt{4} = 2$ against a measured 20. A spread far above the mean is the signature of a heavy tail.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="1">
+  <p>Using $\langle d\rangle \approx \ln N / \ln\langle k\rangle$, compare two random networks with $\langle k\rangle = 10$: one with $N = 10^4$ nodes and one with $N = 10^8$.</p>
+  <ol>
+    <li>About 4 and 8 steps: a network 10,000 times larger is only twice as wide.</li>
+    <li data-why="Distances grow like ln N, not like N.">4 and 40,000 steps.</li>
+    <li data-why="ln N does grow; it only grows slowly.">The same distance in both.</li>
+    <li data-why="With ⟨k⟩ = 10, ln⟨k⟩ ≈ 2.3, so the values are 4 and 8.">9 and 18 steps.</li>
+  </ol>
+  <div class="explain">$\ln 10^4/\ln 10 = 4$ and $\ln 10^8/\ln 10 = 8$. Logarithmic growth is the small-world property.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="4">
+  <p>In a directed network every link leaves one node and enters another, so $\sum_i k_i^{\text{in}} = \sum_i k_i^{\text{out}} = L$. An email log records 1,000 emails among 200 people. What are the average in-degree and average out-degree?</p>
+  <ol>
+    <li data-why="That would count each email twice, as in an undirected network.">10 each.</li>
+    <li data-why="Every email has one sender and one receiver, so the two sums are equal.">5 in, 0 out.</li>
+    <li data-why="1,000/200 = 5; 2.5 halves it again.">2.5 each.</li>
+    <li>5 each: every email adds one to someone's out-degree and one to someone's in-degree.</li>
+  </ol>
+  <div class="explain">$\langle k^{\text{in}}\rangle = \langle k^{\text{out}}\rangle = L/N = 1{,}000/200 = 5$. The individual in- and out-degrees can differ a lot (a newsletter sender), but the averages cannot.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="2">
+  <p>The average degree of a node reached by following a random link is $\kappa = \langle k^2\rangle/\langle k\rangle$. For the Internet sample, $\langle k\rangle = 6.34$ and $\langle k^2\rangle = 240.1$. What does $\kappa$ say?</p>
+  <ol>
+    <li data-why="That is ⟨k⟩; following links favours high-degree nodes.">The router you reach along a link has about 6 links.</li>
+    <li>The router at the end of a random link has about 38 links, six times the average: links lead to hubs (the friendship paradox).</li>
+    <li data-why="240 is the second moment, not the neighbour's degree.">The router you reach has about 240 links.</li>
+    <li data-why="κ follows from the given moments.">Nothing without the full degree list.</li>
+  </ol>
+  <div class="explain">$240.1/6.34 \approx 37.9$. Because hubs own many link ends, anything that spreads along links meets hubs early.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="3">
+  <p>Degree-preserving randomization rewires links while keeping every node's degree. For the collaboration network, clustering falls from 0.63 to about 0.002 and the average distance from 5.3 to 4.4. What do you conclude?</p>
+  <ol>
+    <li data-why="The degrees are identical in both versions, so they cannot be the cause of the difference.">The degrees cause the high clustering.</li>
+    <li data-why="Randomization never changes the degrees.">The randomization changed the degree distribution.</li>
+    <li>The degrees explain distances roughly but not clustering: triangles come from how co-authors group into papers, not from who has many links.</li>
+    <li data-why="Both measures change, but clustering by a factor of 300 and distance by 20%.">Clustering and distance are equally unexplained.</li>
+  </ol>
+  <div class="explain">A null model keeps some features and randomizes the rest. Whatever survives randomization is explained by the kept features (here, the degrees); what disappears needs another mechanism.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="1">
+  <p>The natural cutoff $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$ gives the expected largest hub. For a power law with $\gamma = 2.5$, $k_{\min} = 2$ and $N = 10^6$, and for a Poisson network of the same size and $\langle k\rangle$ (whose largest degree is a few dozen), what is the contrast?</p>
+  <ol>
+    <li>About 20,000 links against a few dozen: the power law produces hubs hundreds of times larger.</li>
+    <li data-why="2·(10⁶)^{1/1.5} = 2·10⁴, not 2·10³.">About 2,000 against a few dozen.</li>
+    <li data-why="The exponent 1/(γ − 1) = 2/3 makes k_max grow with N.">Both are a few dozen links.</li>
+    <li data-why="k_max ≈ 20,000 is far below N − 1.">The hub is linked to every node.</li>
+  </ol>
+  <div class="explain">$2 \cdot (10^6)^{2/3} = 2\cdot10^4$. In a power law the largest hub grows as a power of $N$; in a Poisson network only very slowly.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="2">
+  <p>In the Bianconi–Barabási model a new link attaches to node $i$ with probability $\Pi_i = \eta_i k_i / \sum_j \eta_j k_j$, where $\eta_i$ is its fitness. Node A has fitness 1 and 100 links; node B has fitness 2 and 60 links. Which gains links faster now?</p>
+  <ol>
+    <li data-why="A has more links, but attraction is fitness times degree: 100 against 120.">A, because it has more links.</li>
+    <li>B: $\eta k = 120$ against 100, so fitness outweighs A's head start.</li>
+    <li data-why="The products differ, 100 against 120.">Both equally.</li>
+    <li data-why="Fitness and degree multiply; neither alone decides.">B, because fitness counts and degree does not.</li>
+  </ol>
+  <div class="explain">Attraction is $\eta_i k_i$: $1\cdot100 = 100$ for A and $2\cdot60 = 120$ for B. A fitter latecomer can out-grow an older hub, which the BA model forbids.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="4">
+  <p>In the fitness model each node's degree grows as $k_i(t) = m\,(t/t_i)^{\beta_i}$ with $\beta_i = \eta_i / C$; for uniformly distributed fitness $C \approx 1.255$. Node A ($\eta = 0.5$) arrived at $t = 1$; node B ($\eta = 1$) arrived at $t = 1{,}000$. What happens?</p>
+  <ol>
+    <li data-why="That is the BA model, where all nodes share β = 1/2.">A always stays ahead, as in the BA model.</li>
+    <li data-why="B's exponent is twice A's, so B catches up eventually.">They grow in parallel and never cross.</li>
+    <li data-why="B starts with m links, the same as A did; only its growth rate is higher.">B overtakes A immediately.</li>
+    <li>B's exponent is about 0.80 against A's 0.40, so B overtakes A, at around $t \approx 10^6$.</li>
+  </ol>
+  <div class="explain">$\beta_A = 0.5/1.255 \approx 0.40$, $\beta_B \approx 0.80$. Setting $t^{0.40} = (t/1000)^{0.80}$ gives $t \approx 10^6$. Fitness, not age, decides the long-run winner.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="1">
+  <p>In the fitness model, the relative growth rate $\beta_i = d\ln k_i / d\ln t$ is constant for each node and proportional to its fitness. Page A's degree grew from 10 to 40 while time went from 100 to 1,600; page B's grew from 10 to 20 over the same period. Compare their fitness.</p>
+  <ol>
+    <li>$\beta_A = \ln 4/\ln 16 = 0.5$ and $\beta_B = 0.25$: A is twice as fit as B.</li>
+    <li data-why="Fitness is measured by the growth exponent, not by the number of links gained: ln 4/ln 16 = 0.5 against ln 2/ln 16 = 0.25.">A is three times as fit as B, because it gained 30 links against 10.</li>
+    <li data-why="Both started at 10 links, but they grew at different rates.">They are equally fit, since both started at 10 links.</li>
+    <li data-why="The exponents are ln 4/ln 16 and ln 2/ln 16.">B is twice as fit as A.</li>
+  </ol>
+  <div class="explain">$\beta = \ln(k_2/k_1)/\ln(t_2/t_1)$: $\ln 4/\ln 16 = 0.5$ and $\ln 2/\ln 16 = 0.25$. This is how fitness is measured from data: on a log–log plot of $k_i(t)$, fitter nodes have steeper lines.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="3">
+  <p>In the fitness model's Bose–Einstein phase, the fittest node keeps a finite share of all links even as $N \to \infty$; in the "fit-get-rich" phase every hub's share shrinks to zero. A messaging service holds 70% of all user links and its share does not fall as the market grows. Which phase does this suggest?</p>
+  <ol>
+    <li data-why="In fit-get-rich, the largest hub's share vanishes as N grows.">Fit-get-rich: the fittest node is just a large hub.</li>
+    <li data-why="BA hubs also lose share as the network grows.">The BA model with first-mover advantage.</li>
+    <li>Bose–Einstein condensation: winner takes all.</li>
+    <li data-why="A random network has no hub with a finite share at all.">A random network.</li>
+  </ol>
+  <div class="explain">A share that stays finite as the network grows is the condensate. The phase depends on the shape of the fitness distribution, not on the time of arrival.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="2">
+  <p>With initial attractiveness, $\Pi(k) \propto A + k$ and the exponent becomes $\gamma = 3 + A/m$. A network grows with $m = 2$ links per new node and has $\gamma = 3.5$. What is $A$, and what does it do?</p>
+  <ol>
+    <li data-why="3.5 = 3 + A/2 gives A = 1, not 0.5.">$A = 0.5$: new nodes are ignored.</li>
+    <li>$A = 1$: even nodes with no links get some attention, which raises $\gamma$ and makes the network less hub-dominated.</li>
+    <li data-why="A > 0 makes γ larger, not smaller.">$A = 1$: it lowers $\gamma$ and creates more hubs.</li>
+    <li data-why="A is set by the exponent and m, which are given.">It cannot be found from $\gamma$.</li>
+  </ol>
+  <div class="explain">$3.5 = 3 + A/2 \Rightarrow A = 1$. Initial attractiveness weakens the rich-get-richer effect for small nodes.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="4">
+  <p>If, besides the $m$ links of each new node, $n$ links are also added between existing nodes, chosen preferentially at both ends, then $\gamma = 2 + m/(m + 2n)$. With $m = 1$ and $n = 2$, what is $\gamma$, and what does it say about the WWW's exponent near 2.2?</p>
+  <ol>
+    <li data-why="Internal preferential links lower γ below 3.">$\gamma = 3$: internal links change nothing.</li>
+    <li data-why="m/(m + 2n) = 1/5, so γ = 2.2.">$\gamma = 2.5$.</li>
+    <li data-why="γ stays above 2 for any finite n.">$\gamma = 2$ exactly.</li>
+    <li>$\gamma = 2.2$: many preferential links between existing nodes push the exponent towards 2, as observed for the WWW.</li>
+  </ol>
+  <div class="explain">$2 + 1/(1 + 4) = 2.2$. Internal links concentrate even more on hubs, which is one way real exponents fall below the BA value.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="1">
+  <p>With random node deletion at rate $r$ (nodes removed per node added, $r &lt; 1$), the exponent is $\gamma = 3 + 2r/(1 - r)$ (the book's Eq. 6.29, corrected). Removing one node for every five added gives what $\gamma$, and why?</p>
+  <ol>
+    <li>$\gamma = 3.5$: deletion removes links from hubs as well and makes the network more homogeneous.</li>
+    <li data-why="r = 0.2 gives 2·0.2/0.8 = 0.5, not 2.">$\gamma = 5$.</li>
+    <li data-why="Deletion raises γ; it does not lower it.">$\gamma = 2.5$.</li>
+    <li data-why="The network still grows, since r < 1, so it stays scale-free.">The power law disappears.</li>
+  </ol>
+  <div class="explain">$3 + 0.4/0.8 = 3.5$. At $r = 0$ the formula gives the BA value 3; as $r \to 1$ the network stops growing and $\gamma \to \infty$.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="3">
+  <p>With aging, attractiveness falls with a node's age: $\Pi \propto k\,(t - t_i)^{-\nu}$. In a network where it falls quickly (large $\nu$), what happens to the hubs?</p>
+  <ol>
+    <li data-why="Aging penalizes old nodes, which are the ones with many links.">They grow even larger, since they are old.</li>
+    <li data-why="Aging changes who gets new links, so it changes the degree distribution.">Nothing changes.</li>
+    <li>Old nodes stop collecting links before they become hubs; the power-law tail disappears.</li>
+    <li data-why="Young nodes start with few links and age quickly too; no node keeps attracting long enough.">The youngest node becomes a giant hub.</li>
+  </ol>
+  <div class="explain">Strong aging cuts off the rich-get-richer feedback. It fits systems where items lose relevance, such as news stories or old papers.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="2">
+  <p>The degree correlation function $k_{nn}(k)$ is the average degree of the neighbours of degree-$k$ nodes, and often $k_{nn}(k) \sim k^\mu$. In a co-authorship network, $k_{nn}(k)$ rises with $k$ ($\mu &gt; 0$). Interpret.</p>
+  <ol>
+    <li data-why="Falling k_nn(k) would mean hubs avoid hubs; rising means they seek them.">Hubs link mostly to small nodes.</li>
+    <li>The network is assortative: well-connected scientists tend to collaborate with other well-connected scientists.</li>
+    <li data-why="Neutral networks have a flat k_nn(k).">The network is neutral.</li>
+    <li data-why="k_nn(k) describes who links to whom, not the degree distribution.">The degree distribution is a power law.</li>
+  </ol>
+  <div class="explain">Rising $k_{nn}(k)$: hubs connect to hubs. Social networks are typically assortative; technological and biological ones typically disassortative.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="4">
+  <p>The degree correlation coefficient $r \in [-1, 1]$ is the correlation between the degrees at the two ends of a link. In a star with 10 leaves, every link joins the degree-10 hub to a degree-1 leaf. What is $r$, and what does it mean?</p>
+  <ol>
+    <li data-why="r = 0 means no relation; here the degrees at the two ends are perfectly opposed.">$r = 0$: the star is neutral.</li>
+    <li data-why="Positive r would mean big links to big; here big always links to small.">$r = 1$: perfectly assortative.</li>
+    <li data-why="r has a definite value here, the extreme one.">$r$ is undefined.</li>
+    <li>$r = -1$: perfectly disassortative, since the hub links only to the smallest nodes.</li>
+  </ol>
+  <div class="explain">Each link pairs the highest degree with the lowest, the most negative correlation possible.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="1">
+  <p>In a simple network, the number of links between two hubs cannot exceed one, which forces disassortativity above the structural cutoff $k_s \approx \sqrt{\langle k\rangle N}$. The WWW sample has $\langle k\rangle = 6.69$, $N = 325{,}729$ and a largest hub of 10,721 links. What follows?</p>
+  <ol>
+    <li>$k_s \approx 1{,}480$, far below its largest hubs, so some of its disassortativity may come from this structural limit rather than from a real preference.</li>
+    <li data-why="√(6.69·325,729) ≈ 1,476, not 476,000.">$k_s \approx 476{,}000$: no hub reaches it.</li>
+    <li data-why="The cutoff is a limit on simple networks; hubs above it are common.">The WWW cannot have hubs above $k_s$.</li>
+    <li data-why="k_s concerns links between hubs, not distances.">The WWW's distances must be long.</li>
+  </ol>
+  <div class="explain">$\sqrt{6.69 \cdot 325{,}729} \approx 1{,}476$. Above $k_s$ random wiring would expect several links between two hubs, but a simple network allows one, so hubs look as if they avoid each other.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="3">
+  <p>You measure $r = -0.25$ for a network, then apply degree-preserving randomization (which keeps every degree) to a simple version of it and get $r = -0.22$. What do you conclude?</p>
+  <ol>
+    <li data-why="If r survives randomization, the preference is not needed to explain it.">The nodes have a strong preference to avoid hubs.</li>
+    <li data-why="The randomization keeps every degree exactly.">The randomization changed the degrees.</li>
+    <li>Most of the disassortativity follows from the degrees themselves (structural), not from a preference in who links to whom.</li>
+    <li data-why="Both values are clearly negative.">The network is neutral.</li>
+  </ol>
+  <div class="explain">A null model that keeps the degrees tells you what the degrees alone imply. Only the difference ($-0.25$ against $-0.22$) needs another explanation.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="2">
+  <p>In a neutral network $k_{nn}(k) = \langle k^2\rangle/\langle k\rangle$ for every $k$. In a network with $\langle k^2\rangle/\langle k\rangle = 40$, nodes of degree 2 have $k_{nn} = 120$ and nodes of degree 500 have $k_{nn} = 8$. Which kind of network is it?</p>
+  <ol>
+    <li data-why="Assortative networks have k_nn rising with k; here it falls.">Assortative.</li>
+    <li>Disassortative: small nodes attach to hubs and hubs to small nodes, far from the neutral value 40.</li>
+    <li data-why="Neutral would give k_nn ≈ 40 for all degrees.">Neutral.</li>
+    <li data-why="k_nn(k) depends on the wiring, not on randomness alone.">Random.</li>
+  </ol>
+  <div class="explain">$k_{nn}$ falls from 120 to 8 as $k$ grows: hubs sit among small nodes. This is the typical pattern of the Internet and of protein networks.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="4">
+  <p>The book reports $r = 0.13$ for the collaboration network and $r = -0.04$ for the protein network. (Book errata B13: the book's sentence after Eq. 7.12 swaps the signs; the convention is $r &gt; 0$ assortative.) Interpret both values.</p>
+  <ol>
+    <li data-why="That uses the book's swapped sentence; its own examples contradict it.">Collaboration disassortative, proteins assortative.</li>
+    <li data-why="0.13 is weak but clearly positive.">Both are neutral.</li>
+    <li data-why="Positive and negative r cannot both be assortative.">Both are assortative.</li>
+    <li>Collaboration is assortative (prolific scientists co-author with each other); proteins are weakly disassortative (hub proteins bind mostly to small partners).</li>
+  </ol>
+  <div class="explain">The sign of $r$ gives the type, its size the strength. Both values are modest: degree correlations refine, rather than replace, the picture from the degree distribution.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="1">
+  <p>For a large BA network, $k_{nn}(k)$ is nearly flat. Real social networks show a rising $k_{nn}(k)$ and technological ones a falling one. What does this say about the BA model?</p>
+  <ol>
+    <li>It is essentially neutral, so it cannot explain the correlations of real networks; generating them needs extra rules.</li>
+    <li data-why="A flat curve is neutral, neither rising nor falling.">It is strongly assortative.</li>
+    <li data-why="BA has hubs; flat k_nn says only that they connect without preference.">It has no hubs.</li>
+    <li data-why="The degree distribution and the correlations are separate properties.">Its degree distribution is wrong.</li>
+  </ol>
+  <div class="explain">Matching the degree distribution is not enough: the same degrees can be wired with or without correlations. Models that tune correlations rewire links while keeping degrees.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="3">
+  <p>In an assortative network the hubs link to each other and form a core. Newman (2002) found that such networks keep a giant component more easily when high-degree nodes are removed. Why?</p>
+  <ol>
+    <li data-why="In a core of interlinked hubs, removing one hub leaves the others still connected.">Removing a hub always disconnects its neighbours.</li>
+    <li data-why="Assortativity concerns the wiring among the same degrees.">Assortative networks have no hubs.</li>
+    <li>The hubs are redundant with each other: removing some leaves the rest of the core connected, while in a disassortative network each hub holds its own set of small nodes.</li>
+    <li data-why="Degree correlations change robustness even at fixed degrees.">Degree correlations do not affect robustness.</li>
+  </ol>
+  <div class="explain">Correlations change robustness at fixed degree distribution, a link between Ch 7 and Ch 8.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="2">
+  <p>The Molloy–Reed criterion: a giant component exists if $\kappa = \langle k^2\rangle/\langle k\rangle &gt; 2$. A network has $\langle k\rangle = 1.5$ and $\langle k^2\rangle = 4$. Does it have a giant component?</p>
+  <ol>
+    <li data-why="⟨k⟩ alone is not the test; κ = 4/1.5 ≈ 2.67.">No, because $\langle k\rangle &lt; 2$.</li>
+    <li>Yes: $\kappa \approx 2.67 &gt; 2$; the spread of degrees lets nodes reach the rest even though the average is low.</li>
+    <li data-why="κ = 2.67, which is above 2.">Exactly at the threshold.</li>
+    <li data-why="The criterion needs only the two moments, which are given.">It cannot be decided without $N$.</li>
+  </ol>
+  <div class="explain">$4/1.5 \approx 2.67$. On average, a node reached along a link has more than one other link to continue, so the network percolates.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="4">
+  <p>Removing a random fraction $f$ of nodes destroys the giant component at $f_c = 1 - 1/(\kappa - 1)$. For a random network $\kappa = \langle k\rangle + 1$. Compare a random network with $\langle k\rangle = 4$ and the Internet sample with $\kappa \approx 37.9$.</p>
+  <ol>
+    <li data-why="κ = 5 for the random network gives f_c = 1 − 1/4 = 0.75.">Both break at $f_c \approx 0.5$.</li>
+    <li data-why="The Internet's large κ makes it harder, not easier, to break.">The Internet breaks first.</li>
+    <li data-why="f_c is defined for random removal; it depends on κ.">Both break at the same point.</li>
+    <li>The random network breaks after removing about 75% of nodes; the Internet only after about 97%.</li>
+  </ol>
+  <div class="explain">Random: $1 - 1/4 = 0.75$. Internet: $1 - 1/36.9 \approx 0.973$. The broader the degrees, the larger $\kappa$ and the more random failures a network survives.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="1">
+  <p>Two networks have the same $\langle k\rangle = 4$: one random ($\sigma_k = 2$), one heavy-tailed ($\sigma_k = 10$). Using $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2$ and $f_c = 1 - 1/(\kappa - 1)$, which survives the random removal of 80% of its nodes?</p>
+  <ol>
+    <li>Only the heavy-tailed one: its $f_c \approx 0.96$, while the random one breaks at 0.75.</li>
+    <li data-why="With the same ⟨k⟩, the random network has the smaller κ = 5 and breaks at 0.75.">Only the random one.</li>
+    <li data-why="80% exceeds the random network's f_c = 0.75.">Both survive.</li>
+    <li data-why="80% is below the heavy-tailed network's f_c ≈ 0.96.">Neither survives.</li>
+  </ol>
+  <div class="explain">Random: $\langle k^2\rangle = 20$, $\kappa = 5$, $f_c = 0.75$. Heavy-tailed: $\langle k^2\rangle = 116$, $\kappa = 29$, $f_c = 1 - 1/28 \approx 0.964$. Random failures mostly hit small nodes; the hubs keep the network together.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="3">
+  <p>The same formula gives the US power grid ($\langle k\rangle = 2.67$, $\langle k^2\rangle = 10.3$) $f_c \approx 0.65$. In simulations on the real grid, random failures break it at about 30–40% removal. Why the gap?</p>
+  <ol>
+    <li data-why="κ = 10.3/2.67 ≈ 3.86, so f_c ≈ 0.65 is computed correctly.">The arithmetic is wrong.</li>
+    <li data-why="The grid's degrees are narrow; it has no large hubs.">The grid's hubs are failing first.</li>
+    <li>The formula assumes the links are otherwise random; the grid is lattice-like and long-chained, so it falls apart earlier than a random network with the same degrees.</li>
+    <li data-why="The grid is fully connected before any removal.">The grid was disconnected to begin with.</li>
+  </ol>
+  <div class="explain">$\kappa = 10.3/2.67 \approx 3.86$ gives $f_c = 1 - 1/2.86 \approx 0.65$. Molloy–Reed uses only the degrees. Geometry and long chains, which it ignores, make real infrastructure more fragile.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="2">
+  <p>A scale-free network with $2 &lt; \gamma &lt; 3$ has a second moment $\langle k^2\rangle$ that keeps growing with $N$. What happens to its random-failure threshold $f_c = 1 - 1/(\kappa - 1)$ as the network grows from $10^3$ to $10^6$ nodes?</p>
+  <ol>
+    <li data-why="κ grows with N, so f_c rises, not falls.">It falls: larger networks are more fragile.</li>
+    <li>It approaches 1: in the limit of a large network almost all nodes must be removed at random to break it.</li>
+    <li data-why="f_c depends on κ, which changes with N.">It stays the same.</li>
+    <li data-why="f_c can only be between 0 and 1.">It exceeds 1.</li>
+  </ol>
+  <div class="explain">Growing $\langle k^2\rangle$ means growing $\kappa$, so $1/(\kappa - 1) \to 0$. This is the robustness of scale-free networks to random failures.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="4">
+  <p>A targeted attack removes nodes in order of decreasing degree. A scale-free network that survives 90% random failures falls apart after the removal of a few percent of its hubs. You must protect a scale-free communication network with a limited budget. What do you protect?</p>
+  <ol>
+    <li data-why="Random nodes are mostly small and matter little.">A random sample of nodes.</li>
+    <li data-why="The many small nodes are what random failures hit, and the network already tolerates that.">The nodes with the fewest links.</li>
+    <li data-why="Removing the hubs is exactly what breaks the network; adding links elsewhere does not stop that.">Add more small nodes.</li>
+    <li>The hubs: they hold the network together, and their loss is what fragments it.</li>
+  </ol>
+  <div class="explain">The same hubs that make scale-free networks robust to random failure make them fragile to attack: robust yet fragile.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="1">
+  <p>A network has $f_c = 0.95$ against random failures, yet one failure triggers a blackout across a third of it. How can both be true?</p>
+  <ol>
+    <li>$f_c$ assumes independent removals; in a cascading failure each failure overloads neighbours, so failures are correlated and spread along the links.</li>
+    <li data-why="f_c is a property of the wiring and does not depend on how many failures happen at once.">$f_c$ was computed wrongly.</li>
+    <li data-why="A single failure is far below 95%; the threshold is not the explanation.">One failure exceeds $f_c$.</li>
+    <li data-why="Cascades happen in many networks, robust or not.">Cascades happen only in random networks.</li>
+  </ol>
+  <div class="explain">Percolation describes static, independent damage. Cascades are dynamics on the network: loads, capacities and redistribution, and they need their own models.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="3">
+  <p>Removing a fraction $f$ of nodes at random from a network with $\kappa = \langle k^2\rangle/\langle k\rangle$ is like percolation. Two airline networks have the same number of airports and routes. In A, three hubs each serve 40% of the airports; in B, routes are spread evenly. Which disruption hurts which network most?</p>
+  <ol>
+    <li data-why="Random closures mostly hit small airports, which A tolerates well.">Random closures hurt A most.</li>
+    <li data-why="B has no hubs to target, so attacks on it are like random failures.">Closing the three busiest airports hurts B most.</li>
+    <li>Closing the three hubs devastates A; random closures barely affect A but hurt B more.</li>
+    <li data-why="Same N and L, but different degree spreads give different κ and different vulnerabilities.">Both react the same way, since they have the same number of routes.</li>
+  </ol>
+  <div class="explain">A has a large $\kappa$ (high $f_c$ to random failures) but depends on three nodes. B has a smaller $\kappa$ but no single point of failure.</div>
+</div>
+
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="2">
+  <p>In link prediction you hide some links and score all unlinked pairs. The AUC is the probability that a hidden (true) link scores higher than a random non-link. A method gets AUC = 0.5 on the power grid. What does that mean?</p>
+  <ol>
+    <li data-why="An AUC of 0.5 is what random guessing gives.">It predicts half the missing links correctly, which is good.</li>
+    <li>It is no better than guessing on this network.</li>
+    <li data-why="An AUC below 0.5 would be worse than random; 0.5 is exactly random.">It is worse than random guessing.</li>
+    <li data-why="AUC does not depend on how many links were hidden.">It depends on how many links were hidden.</li>
+  </ol>
+  <div class="explain">AUC 1 is a perfect ranking and 0.5 a random one. Always compare with simple baselines such as common neighbours.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="4">
+  <p>The common-neighbours score of a pair is $s_{ij} = |N(i) \cap N(j)|$, the number of neighbours they share. It predicts hidden links well in the collaboration network (AUC about 0.97) but poorly in the protein network (about 0.57). Why?</p>
+  <ol>
+    <li data-why="The protein network is not too small; it has thousands of links.">The protein network is too small.</li>
+    <li data-why="Both networks have hubs; the difference is in triangles.">Proteins have no hubs.</li>
+    <li data-why="AUC is comparable across networks of different sizes.">The two AUC values cannot be compared.</li>
+    <li>Collaboration is full of triangles (two co-authors of one person often co-author too); protein networks have few triangles, so shared neighbours say little.</li>
+  </ol>
+  <div class="explain">A link-prediction score works when the network's structure matches its assumption. For proteins, paths of length 3 work better than shared neighbours (Kovács et al. 2019).</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="1">
+  <p>The Jaccard score $J_{ij} = |N(i) \cap N(j)| / |N(i) \cup N(j)|$ normalizes shared neighbours. Node $i$ has neighbours {a, b, c} and node $j$ has {b, c, d, e, f}. What is $J_{ij}$, and why normalize at all?</p>
+  <ol>
+    <li>$J = 2/6 \approx 0.33$; without normalizing, hubs would share many neighbours with everyone just because they have many.</li>
+    <li data-why="The intersection {b, c} has 2 elements, the union {a…f} has 6.">$J = 2/8 = 0.25$.</li>
+    <li data-why="2 is the raw common-neighbour count, before dividing by the union.">$J = 2$.</li>
+    <li data-why="2/3 divides by i's degree only.">$J = 2/3$.</li>
+  </ol>
+  <div class="explain">Intersection {b, c}, union {a, b, c, d, e, f}. Normalizing by the union removes the advantage that high-degree nodes would otherwise have.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="3">
+  <p>A spectral embedding uses eigenvectors of the Laplacian $L = D - A$. The signs of the Fiedler vector (the second eigenvector) split the network in two. For six nodes it is $(-0.5, -0.4, -0.1, 0.2, 0.4, 0.4)$. What split does it suggest, and which nodes are borderline?</p>
+  <ol>
+    <li data-why="The split follows the signs, so node 3 (−0.1) is on the negative side.">{1, 2} and {3, 4, 5, 6}, with no borderline nodes.</li>
+    <li data-why="The Fiedler vector splits by sign, not by size alone.">{1, 6} and the rest.</li>
+    <li>{1, 2, 3} and {4, 5, 6}; nodes 3 and 4, closest to zero, sit near the boundary between the groups.</li>
+    <li data-why="The entries have both signs, so the vector does split the network.">No split: all values are small.</li>
+  </ol>
+  <div class="explain">The sign gives the side, the magnitude how firmly a node belongs. Nodes near zero are bridges between the two groups.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="2">
+  <p>DeepWalk runs short random walks and treats each walk as a sentence, then trains word2vec so that nodes appearing near each other in walks get similar vectors. Two nodes are never directly linked but often appear within two steps of each other on walks. What will their embeddings be like?</p>
+  <ol>
+    <li data-why="DeepWalk uses co-occurrence on walks, not only direct links.">Very different, because they are not linked.</li>
+    <li>Similar: they share a neighbourhood, which is what the walks capture.</li>
+    <li data-why="Walks are random, but the embedding learns from many walks and is not random.">Random, because the walks are random.</li>
+    <li data-why="Embeddings are learned from the walks, not from degree alone.">Identical to every other node of the same degree.</li>
+  </ol>
+  <div class="explain">Random-walk embeddings encode "who appears near whom", so nodes in the same region or community end up close in vector space.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="4">
+  <p>node2vec biases its walks with a parameter $q$: $q &lt; 1$ makes walks move outward (depth-first-like), which groups nodes of the same community; $q &gt; 1$ keeps walks local (breadth-first-like), which groups nodes with similar structural roles. You want to find nodes that act as bridges in different parts of a network. Which do you choose?</p>
+  <ol>
+    <li data-why="Outward walks group nodes by community, not by role.">$q &lt; 1$, to explore far.</li>
+    <li data-why="q = 1 does not favour structural roles.">$q = 1$, the unbiased walk.</li>
+    <li data-why="q does change what the embedding captures.">It makes no difference.</li>
+    <li>$q &gt; 1$: local, breadth-first-like walks capture each node's role in its neighbourhood, so bridges in different places look alike.</li>
+  </ol>
+  <div class="explain">The walk strategy decides what "similar" means: same community (homophily) or same role (structural equivalence).</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="1">
+  <p>A graph neural network layer updates each node from its neighbours: $h_i^{(l+1)} = \sigma\big(W \cdot \text{mean}_{j \in N(i)\cup\{i\}}\, h_j^{(l)}\big)$. After two layers, which nodes can influence node $i$'s vector?</p>
+  <ol>
+    <li>Nodes up to distance 2 from $i$.</li>
+    <li data-why="Each layer adds one step, so two layers reach two steps.">Only its direct neighbours.</li>
+    <li data-why="Information travels one step per layer, not to every node at once.">Every node in the network.</li>
+    <li data-why="The mean includes i itself, but also its neighbours and their neighbours.">Only node $i$ itself.</li>
+  </ol>
+  <div class="explain">Each layer passes messages one step. The number of layers sets how far a GNN can see; too many layers make all vectors alike (over-smoothing).</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="3">
+  <p>To test link prediction, you hide 10% of the links, but compute the node embeddings on the full network and only then score the hidden pairs. What is wrong?</p>
+  <ol>
+    <li data-why="10% is a standard test size; the problem is elsewhere.">10% is too few links to hide.</li>
+    <li data-why="Any embedding method has the same problem here.">The embedding method is the wrong one.</li>
+    <li>Information leaks: the embeddings were trained with the hidden links present, so the test score is too optimistic.</li>
+    <li data-why="The issue is in the procedure, not the network.">Nothing; this is the standard procedure.</li>
+  </ol>
+  <div class="explain">Train only on the visible links. The test set must be invisible to everything that is learned, or the reported accuracy is not a prediction.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="2">
+  <p>Standard machine-learning models (logistic regression, random forests) take a fixed-length vector of numbers per item. What do node embeddings add?</p>
+  <ol>
+    <li data-why="Embeddings do not change the network; they describe it.">They make the network smaller.</li>
+    <li>They turn each node's position in the network into a fixed-length vector, so standard models can classify nodes or predict links.</li>
+    <li data-why="Embeddings use the structure; they do not replace the need for data.">They replace the need for any network data.</li>
+    <li data-why="Degree is one number; embeddings capture much more than degree.">They are just the node degrees.</li>
+  </ol>
+  <div class="explain">Embeddings are the bridge from network science to machine learning: structure in, vectors out.</div>
+</div>
+</template>
 
 </div></main>
 </body>

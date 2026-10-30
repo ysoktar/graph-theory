@@ -92,10 +92,10 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; min-width: 0; }
 .brand svg { flex: none; }
-.brand-title { font-weight: 650; letter-spacing: -0.01em; white-space: nowrap; }
+.brand-title { font-weight: 650; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .brand-sub { color: var(--text-2); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .header-spacer { flex: 1; }
-.header-actions { display: flex; align-items: center; gap: 6px; }
+.header-actions { display: flex; align-items: center; gap: 6px; flex: none; }
 .icon-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 34px; min-width: 34px; padding: 0 10px;
   border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text-2);
@@ -557,3 +557,4 @@ section.is-beyond { border-left: 2px dashed var(--beyond); padding-left: 14px; m
 .term.sym { text-decoration: none; border-bottom: 1.5px dotted var(--muted); padding-bottom: 1px; }
 .term.sym:hover, .term.sym:focus-visible { border-bottom-color: var(--accent); }
 .lang-btn { font-weight: 700; font-size: 0.8rem; letter-spacing: 0.03em; min-width: 38px; justify-content: center; }
+@media (max-width: 420px) { .header-actions a.icon-btn[href*="github.com"] { display: none; } .site-header { gap: 8px; } }
