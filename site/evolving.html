@@ -132,6 +132,36 @@
   <div class="explain">The analogue of Bose–Einstein condensation: a finite fraction of particles in the lowest level.</div>
 </div>
 
+<div class="quiz" data-answer="4">
+  <p>Uniform fitness ($C = 1.255$). Growth exponent of a node with $\eta = 0.5$?</p>
+  <ol>
+    <li data-why="That is BA, where all fitnesses are equal.">0.5</li>
+    <li data-why="That is C/2, inverted.">0.63</li>
+    <li data-why="That uses C = 2, the equal-fitness value.">0.25</li>
+    <li>0.40</li>
+  </ol>
+  <div class="explain">$\beta = \eta/C = 0.5/1.255 = 0.40$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Uniform fitness gives $\gamma \approx 1 + C = 2.26$. Compared with BA, $\langle k^2\rangle$</p>
+  <ol>
+    <li>diverges as a power of $N$, since $\gamma &lt; 3$</li>
+    <li data-why="Finite ⟨k²⟩ needs γ &gt; 3.">stays finite</li>
+    <li data-why="That is the γ = 3 case.">grows like $\ln N$, as in BA</li>
+    <li data-why="⟨k²⟩ ≥ ⟨k⟩² &gt; 0 always.">vanishes</li>
+  </ol>
+  <div class="explain">$\gamma &lt; 3$ puts it in the scale-free regime: more robust to failures, lower epidemic threshold (<a href="robustness.html">Ch 8</a>).</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>In the fitness model, what decides which node becomes the largest hub?</p>
+  <ol>
+    <li data-why="That is the BA model.">Arrival time only</li>
+    <li data-why="A fit node that arrives very late may not catch up in time.">Fitness only</li>
+    <li>Arrival time and fitness together</li>
+    <li data-why="Every node arrives with m links.">Its degree on arrival</li>
+  </ol>
+  <div class="explain">$k_i = m(t/t_i)^{\eta_i/C}$ depends on both $t_i$ and $\eta_i$.</div>
+</div>
 </div></main>
 </body>
 </html>

@@ -130,6 +130,46 @@
   <div class="explain">More links per newcomer also means more total degree to compete with. So $\beta = 1/2$ and $\gamma = 1 + 1/\beta = 3$.</div>
 </div>
 
+<div class="quiz" data-answer="4">
+  <p>BA has $\gamma = 3$. How does its $\langle k^2\rangle$ grow with $N$?</p>
+  <ol>
+    <li data-why="Finite ⟨k²⟩ needs γ &gt; 3.">It stays finite</li>
+    <li data-why="That would need γ close to 2.">Like $N$</li>
+    <li data-why="That is how k_max grows, not ⟨k²⟩.">Like $N^{1/2}$</li>
+    <li>Like $\ln N$</li>
+  </ol>
+  <div class="explain">At $\gamma = 3$, $\langle k^2\rangle \sim \ln k_{\max} \sim \ln N$: the border case (<a href="ch4-exponent.html">The role of γ</a>).</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>BA network with $m = 3$. Fraction of nodes with exactly 3 links?</p>
+  <ol>
+    <li>40%</li>
+    <li data-why="That is the share with more than 3 links.">60%</li>
+    <li data-why="That is p_m for m = 2.">50%</li>
+    <li data-why="Most nodes keep their m links.">About $3/N$</li>
+  </ol>
+  <div class="explain">$p_m = 2/(m+2) = 2/5$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>New nodes arrive but attach to existing nodes uniformly at random. The degree distribution is</p>
+  <ol>
+    <li data-why="Growth alone does not create hubs.">a power law, $\gamma = 3$</li>
+    <li data-why="No preference, no power law.">a power law, $\gamma &lt; 3$</li>
+    <li>exponential</li>
+    <li data-why="That happens with preference but no growth.">a complete graph</li>
+  </ol>
+  <div class="explain">Without preference old nodes gain only from their head start; $p_k$ decays exponentially (Section 5.6).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>BA, $N = 10^6$, $m = 2$. Largest hub, roughly?</p>
+  <ol>
+    <li data-why="That is about ln N; Poisson-like networks have such hubs.">20 links</li>
+    <li>2,000 links</li>
+    <li data-why="No node links to everyone.">1,000,000 links</li>
+    <li data-why="That is the minimum degree.">2 links</li>
+  </ol>
+  <div class="explain">$k_{\max} \sim m N^{1/2} = 2 \times 1{,}000$.</div>
+</div>
 </div></main>
 </body>
 </html>

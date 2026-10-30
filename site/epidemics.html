@@ -33,7 +33,7 @@
 <p>Nodes are <strong>S</strong>usceptible, <strong>I</strong>nfected or <strong>R</strong>ecovered. An infected node tries once to infect each susceptible neighbour, succeeding with probability $T$, then recovers.</p>
 <dl class="symbols">
   <dt>$T$</dt><dd>transmissibility: chance of passing the infection along one link</dd>
-  <dt>$\beta, \mu$</dt><dd>infection and recovery rates; $T = \beta/(\beta+\mu)$</dd>
+  <dt>$\beta, \tau$</dt><dd>infection rate per link, recovery time; $T = 1 - e^{-\beta\tau}$ (Advanced Topic 10.D)</dd>
 </dl>
 <div data-fig id="fig-outbreak"></div>
 
@@ -148,6 +148,26 @@
   <div class="explain">Hubs appear in many contact lists. Email network: a person has 3.2 contacts, a contact 393.</div>
 </div>
 
+<div class="quiz" data-answer="1">
+  <p>Random network, $\langle k\rangle = 5$. $T_c$?</p>
+  <ol>
+    <li>0.2</li>
+    <li data-why="That is 1/(⟨k⟩ − 1); for Poisson degrees ⟨k²⟩ − ⟨k⟩ = ⟨k⟩².">0.25</li>
+    <li data-why="That is 1/⟨k⟩².">0.04</li>
+    <li data-why="A probability cannot exceed 1.">5</li>
+  </ol>
+  <div class="explain">$T_c = \langle k\rangle/\langle k\rangle^2 = 1/5$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A scale-free contact network ($\gamma = 2.5$) grows from $10^4$ to $10^7$ people. Its $T_c$</p>
+  <ol>
+    <li data-why="That holds for random networks with fixed ⟨k⟩.">stays fixed</li>
+    <li data-why="Bigger hubs make spreading easier.">rises</li>
+    <li>falls towards 0</li>
+    <li data-why="Hubs lower the threshold.">jumps to 1</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle$ grows with $N$ for $\gamma &lt; 3$, so $T_c = \langle k\rangle/(\langle k^2\rangle - \langle k\rangle) \to 0$.</div>
+</div>
 </div></main>
 </body>
 </html>
