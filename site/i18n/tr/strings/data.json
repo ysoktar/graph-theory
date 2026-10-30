@@ -1,0 +1,17 @@
+{
+  "A closer look": "Daha yakından",
+  "degree {0} in the full network ({1} within this sample)": "tam ağda derece {0} (bu örneklemde {1})",
+  "nodes N": "düğüm N",
+  "links L": "bağlantı L",
+  "largest degree": "en büyük derece",
+  "giant component": "dev bileşen",
+  "γ̂ (k ≥ k_min)": "γ̂ (k ≥ k_min)",
+  "degree k": "derece k",
+  "{0} components": "{0} bileşen",
+  "{0} component": "{0} bileşen",
+  "data (log-binned)": "veri (logaritmik gruplanmış)",
+  "Poisson, same ⟨k⟩ = {0}": "Poisson, aynı ⟨k⟩ = {0}",
+  "Network": "Ağ",
+  "giant comp.": "dev bileşen",
+  "p (power law)": "p (kuvvet yasası)"
+}

@@ -1,0 +1,99 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Veri: sekiz gerçek ağ · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Sitenin her yerinde kullanılan, Barabási'nin Network Science kitabındaki sekiz referans ağı: nedirler, nasıl işlendiler ve temel istatistikleri."></head><body>
+<div class="content">
+
+<h1>Veri: sekiz gerçek ağ</h1>
+<p class="lead">Kitap her fikri on "referans ağı" üzerinde sınar (Tablo 2.1). Not defteri ve bu site bunlardan biyoloji, teknoloji, toplum ve bilgi alanlarından sekizini kullanır; oyuncu ve atıf ağları bir derslik için fazla büyük oldukları için dışarıda bırakılmıştır. Aynı nicelikleri bu kadar farklı sistemlerde ölçmek, hangi özelliklerin genel olduğunu öğrenmemizin yoludur.</p>
+
+<h2>Bir ağı keşfedin</h2>
+<div data-fig id="fig-explore"></div>
+<div class="callout look">
+  <p>Elektrik şebekesini WWW ya da e-posta ile karşılaştırın. Şebeke seyrek ve neredeyse kafes gibidir: hiçbir düğümün 19'dan fazla bağlantısı yoktur ve derece dağılımı Poisson eğrisine yakındır. WWW ve e-posta ağlarına birkaç merkez düğüm hâkimdir ve kuyrukta Poisson eğrisinin mertebelerce üstündedirler. Farkı 3. ve 4. bölümler açıklar.</p>
+</div>
+
+<h2>Sekizi bir bakışta</h2>
+<div id="tbl-all"></div>
+<dl class="symbols">
+  <dt>$N$, $L$</dt><dd>düğüm ve bağlantı sayıları (yönsüz, basit ağlar olarak)</dd>
+  <dt>$\langle k\rangle$, $k_{\max}$</dt><dd>ortalama ve en büyük derece (<a href="ch2-degree.html">Derece</a>)</dd>
+  <dt>$\sigma_k/\langle k\rangle$</dt><dd>derecelerin ortalamalarına göre yayılımı; Poisson dağılımı için yaklaşık $1/\sqrt{\langle k\rangle}$</dd>
+  <dt>dev bileşen</dt><dd>en büyük bileşendeki düğümlerin payı (<a href="ch2-connectedness.html">Bağlantılılık</a>)</dd>
+  <dt>$\langle C\rangle$</dt><dd>ortalama kümelenme katsayısı (<a href="ch2-clustering.html">Kümelenme</a>)</dd>
+  <dt>$\langle d\rangle$</dt><dd>dev bileşendeki ortalama uzaklık; 300 rastgele kaynaktan BFS çalıştırmalarıyla (<a href="ch2-paths.html">Yollar</a>)</dd>
+  <dt>$r$</dt><dd>derece korelasyon katsayısı (asortatiflik) (<a href="correlations.html">Derece korelasyonları</a>)</dd>
+  <dt>$\hat\gamma$, $k_{\min}$</dt><dd>Clauset, Shalizi ve Newman yöntemiyle $k \ge k_{\min}$ derecelerine yapılan kuvvet yasası uydurmasının üsteli ve başlangıcı (<a href="ch4-fitting.html">Üsteli kestirmek</a>)</dd>
+  <dt>$p$</dt><dd data-beyond="Clauset ve ark. bootstrap testi; not defterinde yok">1,000 tekrarlı bir bootstrap uyum iyiliği testinin p-değeri; $p \ge 0.1$ ise bir kuvvet yasası makuldür</dd>
+</dl>
+
+<h2>Veri nasıl hazırlandı</h2>
+<ol>
+  <li>Kenar listeleri kitabın web sitesinden gelir (<code>networks.zip</code>, 141 MB).</li>
+  <li>Her ağ, not defterinde olduğu gibi <strong>yönsüz ve basit</strong> hâle getirilir: yönler göz ardı edilir, kendine döngüler ve yinelenen bağlantılar kaldırılır ve düğümler 0…N−1 olarak yeniden etiketlenir.</li>
+  <li><code>tools/preprocess.py</code> derece histogramlarını, bileşenleri, kümelenmeyi, uzaklıkları, asortatifliği, kuvvet yasası uydurmalarını ve sıfır modeli karşılıklarını hesaplar ve bunları küçük JSON dosyalarında saklar. Daha küçük altı ağ tam kenar listeleri olarak da gelir (yaklaşık 1 MB), böylece sayfalar onları canlı çözümleyebilir; İnternet ve WWW (0.6 ve 1.1 milyon bağlantı) yalnızca özet olarak gelir.</li>
+</ol>
+<div class="callout fix" data-errata="N2"></div>
+<div class="callout fix" data-book="B4"></div>
+<div class="callout fix" data-book="B3"></div>
+
+<div class="callout discuss">
+  <p>Sekiz ağın beşi gerçekte yönlüdür. Bir e-posta ağını yönsüz kabul ettiğimizde hangi bilgi kaybolur? Hangi sorular artık yanıtlanamaz?</p>
+  <div class="hint">Yön, iletişimi kimin başlattığını söyler: e-posta listeleri aldıklarından çok daha fazlasını gönderir, popüler adresler gönderdiklerinden çok daha fazlasını alır. Tek bir yönsüz derece ikisini birleştirir ve karşılıklı çiftler tek bağlantıya iner. Bilgi akışı, ulaşılabilirlik ("bir ileti A'dan B'ye ulaşabilir mi?") ya da kitabın ayrı giriş ve çıkış derecesi üstelleriyle ilgili sorular yönlü ağı gerektirir.</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Gerçek veri, her modelin geçmesi gereken sınavdır.</li>
+    <li>Aynı ölçümlerle sekiz alan, hangi özelliklerin ortak (seyreklik, kısa uzaklıklar, merkez düğümler) ve hangilerinin ortak olmadığını (şebeke) gösterir.</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Kısım I</strong> tablonun her sütununu tanımlar.</li>
+    <li><strong>Kısım II</strong> her sütunu aynı $N$ ve $L$'ye sahip rastgele bir ağla karşılaştırır (<a href="ch3-summary.html">Gerçek ağlar rastgele değildir</a>).</li>
+    <li><strong>Kısım III</strong> derece kuyruklarına kuvvet yasaları uydurur (<a href="ch4-fitting.html">Üsteli kestirmek</a>).</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Hangi ağda en büyük merkez düğüm tüm düğümlerin %10'undan fazlasına bağlıdır?</p>
+  <ol>
+    <li>E-posta ($k_{\max} = 6{,}553$, $N = 57{,}194$)</li>
+    <li data-why="325,729'da 10,721 yaklaşık %3'tür.">WWW ($k_{\max} = 10{,}721$, $N = 325{,}729$)</li>
+    <li data-why="23,133'te 279 yaklaşık %1'dir.">İş birliği ($k_{\max} = 279$, $N = 23{,}133$)</li>
+    <li data-why="4,941'de 19, %0.4'ün altındadır.">Elektrik şebekesi ($k_{\max} = 19$, $N = 4{,}941$)</li>
+  </ol>
+  <div class="explain">$6{,}553/57{,}194 \approx \%11$: bir adres, her dokuz düğümden biriyle iletişim içindedir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>E-posta ağında hem $u \to v$ hem de $v \to u$ bağlantısı vardır. Ağ yönsüz ve basit hâle getirildikten sonra bunlar neye dönüşür?</p>
+  <ol>
+    <li>Tek bir bağlantıya.</li>
+    <li data-why="Basit bir ağda yinelenen bağlantılar kaldırılır.">İki bağlantıya.</li>
+    <li data-why="Yalnızca kendine döngüler silinir; çift bağlı kalır.">Hiçbir şeye: ikisi de kaldırılır.</li>
+    <li data-why="Sitenin ağları ağırlıksızdır; sayı tutulmaz.">Ağırlığı 2 olan bir bağlantıya.</li>
+  </ol>
+  <div class="explain">Karşılıklı çiftler tek bir bağlantıda birleşir; $L$'nin kitabın yönlü sayılarından küçük olmasının nedeni budur.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Protein kenar listesinin 2,930 satırı vardır: bunların 225'i kendine döngüdür ve hiçbiri yinelenmez. Basit ağın kaç bağlantısı $L$ vardır?</p>
+  <ol>
+    <li data-why="Bu, kendine döngüleri hâlâ sayar.">2,930</li>
+    <li>2,705</li>
+    <li data-why="Kendine döngüler eklenmez, kaldırılır.">3,155</li>
+    <li data-why="2,018, protein sayısı N'dir.">2,018</li>
+  </ol>
+  <div class="explain">$2{,}930 - 225 = 2{,}705$ bağlantı; $\langle k\rangle = 2 \times 2{,}705/2{,}018 \approx 2.68$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>En büyük derecenin ortalama dereceye oranı $k_{\max}/\langle k\rangle$, elektrik şebekesi için yaklaşık 7'dir (19 / 2.67). WWW için ($k_{\max} = 10{,}721$, $\langle k\rangle = 6.69$) bu oran nedir?</p>
+  <ol>
+    <li data-why="100 kat yanlış.">16</li>
+    <li data-why="10 kat yanlış.">160</li>
+    <li data-why="On kat fazla büyük.">16,000</li>
+    <li>Yaklaşık 1,600</li>
+  </ol>
+  <div class="explain">$10{,}721/6.69 \approx 1{,}600$: WWW'nun en büyük merkez düğümünün bağlantısı 1,600 ortalama sayfanınki kadar, şebekeninki ise 7 ortalama düğümünki kadardır.</div>
+</div>
+
+</div></body></html>

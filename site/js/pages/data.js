@@ -1,5 +1,8 @@
 import "../layout.js";
 import { h, figure, select, stats, dataTable } from "../lib/ui.js";
+import { LANG, tr } from "../i18n.js";
+
+const TR = LANG === "tr";
 import { NetView } from "../lib/netview.js";
 import { Plot } from "../lib/plot.js";
 import { loadNetworks, loadJSON, sampleGraph, NETWORK_ORDER } from "../lib/data.js";
@@ -7,7 +10,7 @@ import { fmt, pkLogBinned, poissonPmf } from "../lib/stats.js";
 
 (async () => {
   const [{ networks }, gof] = await Promise.all([loadNetworks(), loadJSON("data/gof.json")]);
-  const CAT = { biological: "biological", technological: "technological", social: "social", information: "information" };
+  const CAT = TR ? { biological: "biyolojik", technological: "teknolojik", social: "toplumsal", information: "bilgi ağı" } : { biological: "biological", technological: "technological", social: "social", information: "information" };
 
   // ---------------------------------------------------------------- explorer
   const f = figure("#fig-explore", { title: "A closer look", cols: "split" });
@@ -33,7 +36,7 @@ import { fmt, pkLogBinned, poissonPmf } from "../lib/stats.js";
     const d = networks[name];
     sample = await sampleGraph(name);
     nv.setGraph(sample.graph, { keep: false });
-    note.textContent = `${d.description}: a random-walk sample of ${sample.graph.n} nodes (node size grows with the degree in the full network of ${fmt.int(d.N)} nodes). Originally ${d.originallyDirected ? "directed" : "undirected"}; ${CAT[d.category]}.`;
+    note.textContent = TR ? `${tr(d.description) ?? d.description}: ${sample.graph.n} düğümlük bir rastgele yürüyüş örneklemi (düğüm boyutu, ${fmt.int(d.N)} düğümlü tam ağdaki dereceyle büyür). Özgün veri ${d.originallyDirected ? "yönlü" : "yönsüz"}; ${CAT[d.category]}.` : `${d.description}: a random-walk sample of ${sample.graph.n} nodes (node size grows with the degree in the full network of ${fmt.int(d.N)} nodes). Originally ${d.originallyDirected ? "directed" : "undirected"}; ${CAT[d.category]}.`;
     tiles.set("N", fmt.int(d.N)); tiles.set("L", fmt.int(d.L)); tiles.set("k", fmt.fix(d.avgk, 2)); tiles.set("kmax", fmt.int(d.kmax));
     tiles.set("gc", fmt.pct(d.components.giantFraction), `${fmt.int(d.components.count)} component${d.components.count === 1 ? "" : "s"}`);
     tiles.set("C", fmt.fix(d.clustering.avg, 3)); tiles.set("d", fmt.fix(d.distances.avg, 2));
