@@ -497,3 +497,17 @@ main { overflow-x: clip; }
 .kb-dot.next { background: transparent; border: 3px solid var(--s4); }
 .kb-dot.used { background: var(--s2); border-radius: 3px; }
 @media (prefers-reduced-motion: reduce) { .kb-walker { transition: none; } }
+
+/* ---------- pedagogy: why / connect / example boxes, symbol lists ---------- */
+.callout.why { border-left-color: var(--s7); }
+.callout.why .callout-label svg { color: var(--s7); }
+.callout.connect { border-left-color: var(--s6); background: color-mix(in srgb, var(--s6) 5%, var(--surface-2)); }
+.callout.connect .callout-label svg { color: var(--s6); }
+.callout.example { border-left-color: var(--s4); background: var(--surface); border: 1px solid var(--border); border-left-width: 3px; }
+.callout.example .callout-label svg { color: var(--s4); }
+/* "where …" list under an equation: symbol on the left, plain-language meaning on the right */
+dl.symbols { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: -0.4rem 0 1.3rem; padding: 10px 14px; border-radius: 8px; background: var(--surface-2); font-size: 0.92rem; }
+dl.symbols::before { content: "where"; grid-column: 1 / -1; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+dl.symbols dt { font-weight: 600; text-align: right; white-space: nowrap; }
+dl.symbols dd { margin: 0; color: var(--text-2); }
+@media (max-width: 560px) { dl.symbols { grid-template-columns: 1fr; } dl.symbols dt { text-align: left; } }

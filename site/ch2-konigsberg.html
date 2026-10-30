@@ -18,36 +18,114 @@
 <main><div class="content">
 
 <h1>Königsberg and the birth of graph theory</h1>
-<p class="lead">In 18th-century Königsberg, seven bridges joined the two banks of the river Pregel, an island and a peninsula. Residents wondered whether one could take a walk that crosses every bridge exactly once. Nobody managed it. In 1736 Leonhard Euler proved that nobody ever would, and graph theory was born.</p>
+<p class="lead">In 18th-century Königsberg (today Kaliningrad), seven bridges joined the two banks of the river Pregel, an island and a piece of land between two arms of the river. Residents wondered whether one could take a walk that crosses every bridge exactly once. Nobody managed it. In 1736 Leonhard Euler explained why nobody ever would, and in doing so started graph theory.</p>
 
 <h2>Take the walk</h2>
-<p>Click a piece of land to start, then click bridges to cross them. You can click either the map or its graph, the abstraction Euler used: each piece of land becomes a node and each bridge a link.</p>
+<p>Try it yourself before reading on. Click a piece of land to start, then click bridges to cross them; you can use the map or the graph next to it. The highlighted bridges are the ones you can still take from where you stand.</p>
 <div data-fig id="fig-walk"></div>
 
 <div class="callout look">
   <ul>
     <li>However you start, you get stuck with bridges left over.</li>
-    <li>Look at the degrees in the graph: every land mass has an <em>odd</em> number of bridges (5, 3, 3, 3).</li>
-    <li>Switch to <em>Edit bridges</em> and add or remove a single bridge. Suddenly a walk exists, but only if it starts and ends at the two land masses that still have an odd number of bridges.</li>
+    <li>Look at the numbers next to the nodes of the graph: every land mass has an <em>odd</em> number of bridges (5, 3, 3, 3).</li>
+    <li>Switch to <em>Edit bridges</em> and add or remove one bridge. Suddenly a walk exists, but only if it starts and ends at the two land masses that still have an odd number of bridges.</li>
   </ul>
 </div>
 
-<h2>Euler's argument</h2>
-<p>Euler's insight was to throw away everything except <em>which land connects to which</em>. Distances, shapes and positions are irrelevant; only the network matters. Then the argument is almost a one-liner. On a walk that crosses every bridge once, each time you enter a land mass by one bridge you must leave it by another. Bridges at every node you merely pass through therefore come in pairs, so those nodes have <strong>even degree</strong>. Only the start and end of the walk can have odd degree.</p>
-<div class="callout key">
-  <p>A connected network has a walk that uses every link exactly once (an <strong>Euler path</strong>) if and only if it has either no odd-degree nodes (then the walk can return to its start) or exactly two (then the walk must run from one to the other). Königsberg's graph has four odd-degree nodes, so the walk is impossible.</p>
+<h2>Step 1: throw away the map</h2>
+<p>Euler's first insight was to keep only what matters for the question. The shape of the island, the length of the bridges and the layout of the streets cannot change whether the walk exists. What matters is <em>which piece of land is connected to which, and by how many bridges</em>. So he replaced each piece of land by a point and each bridge by a line between two points. That drawing is a <strong>graph</strong>:</p>
+<ul>
+  <li>the points are <strong>nodes</strong> (also called vertices): here the four land masses A, B, C, D;</li>
+  <li>the lines are <strong>links</strong> (also called edges): here the seven bridges a–g;</li>
+  <li>the number of links attached to a node is its <strong>degree</strong>, written $k$. Island A has five bridges, so $k_A = 5$.</li>
+</ul>
+<p>Two of the land-mass pairs are joined by two bridges each (A–B and A–C), so the Königsberg graph has repeated links. A graph that allows this is called a <em>multigraph</em>; most networks on this site are <em>simple</em> graphs, with at most one link between two nodes.</p>
+
+<div class="callout why">
+  <p>This step, replacing a messy real system by its pattern of connections, is the whole method of network science. Once the map is a graph, the same reasoning applies to anything with the same pattern: bridges, streets, power lines, friendships or chemical reactions. On the next pages the systems change, but the method does not.</p>
 </div>
-<p>This was the first proof in graph theory. It also carries the lesson that runs through this whole course: some properties of a system are determined by its network alone. Here no amount of clever walking helps; the topology forbids it.</p>
+
+<h2>Step 2: count the bridges at each node</h2>
+<p>Now follow a walk that crosses every bridge exactly once, and watch a single land mass that is neither the start nor the end. Every time the walk arrives there, it arrives over one bridge and must leave over a different one, because no bridge may be used twice. So the bridges at that land mass are used up <em>in pairs</em>: one in, one out. A land mass you only pass through must therefore have an <strong>even</strong> number of bridges.</p>
+<p>Only the start and the end are different: the walk leaves the start once without arriving first, and arrives at the end once without leaving. They are the only places where an odd number of bridges can be used up. So:</p>
+<div class="callout key">
+  <p>A connected graph has a walk that uses every link exactly once, an <strong>Euler path</strong>, if and only if it has</p>
+  <ul>
+    <li><strong>no</strong> node of odd degree: then the walk can start anywhere, and it ends where it started (an <em>Euler circuit</em>); or</li>
+    <li><strong>exactly two</strong> nodes of odd degree: then the walk must start at one of them and end at the other.</li>
+  </ul>
+  <p>Königsberg has <strong>four</strong> odd-degree nodes (degrees 5, 3, 3, 3), so the walk is impossible.</p>
+</div>
+<p>"Connected" means that every node can be reached from every other node along links. Without it, a graph could satisfy the degree condition and still be impossible to cover in one walk, simply because it comes in separate pieces (see <a href="ch2-connectedness.html">Connectedness</a>).</p>
+<p>Euler argued the "only if" part: four odd nodes make the walk impossible. That the condition is also <em>sufficient</em>, so that zero or two odd nodes always allow a walk, was proved by Carl Hierholzer in 1873. The <em>Show a solution</em> button uses Hierholzer's method.</p>
+
+<div class="callout example">
+  <p>Suppose a fifth bridge is built between B and C. Then $k_B$ goes from 3 to 4 and $k_C$ from 3 to 4, while A (5) and D (3) stay odd. Two odd nodes remain, so a walk now exists, and it must run between A and D. Try it: choose <em>Edit bridges</em>, add bridge h, and look for a walk from A to D.</p>
+</div>
+<div class="callout fix" data-book="B1"></div>
+
+<h2>Why the number of odd nodes is always even</h2>
+<p>You will never find a graph with exactly one (or three) odd-degree nodes. Every link has two ends, so adding up the degrees of all nodes counts every link twice:</p>
+<div class="eq">$$\sum_{i=1}^{N} k_i = 2L .$$</div>
+<dl class="symbols">
+  <dt>$\sum_{i=1}^{N} k_i$</dt><dd>the sum of the degrees of all $N$ nodes: $k_1 + k_2 + \dots + k_N$</dd>
+  <dt>$N$</dt><dd>the number of nodes</dd>
+  <dt>$L$</dt><dd>the number of links</dd>
+</dl>
+<p>For Königsberg: $5 + 3 + 3 + 3 = 14 = 2 \times 7$. The right-hand side is always even, so the odd degrees on the left must come in pairs. This little identity, the <em>handshaking lemma</em>, reappears on the next page as the formula for the average degree, $\langle k\rangle = 2L/N$.</p>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Degree</strong> decided this problem. It is the most important single property of a node, and its distribution over all nodes is the thread of this whole course (<a href="ch2-degree.html">next page</a>).</li>
+    <li><strong>Walks</strong> along links, here one that uses every link, become <em>paths</em> and <em>distances</em> in <a href="ch2-paths.html">Paths &amp; distances</a>.</li>
+    <li>The lesson that <em>the structure of connections can decide what is possible</em> returns in later chapters: how robust a network is to failures (<a href="robustness.html">Ch 8</a>) and how fast a disease spreads (<a href="epidemics.html">Ch 10</a>) are, like the bridge walk, decided largely by the degrees.</li>
+  </ul>
+</div>
 
 <div class="quiz" data-answer="3">
   <p>A connected network has nodes with degrees 2, 3, 4, 3, 2, 2. Does it have an Euler path?</p>
-  <ol><li>No: it has odd-degree nodes</li><li>Yes, and it can start and end anywhere</li><li>Yes, starting at one degree-3 node and ending at the other</li><li>We cannot tell without seeing the network</li></ol>
-  <div class="explain">Exactly two nodes have odd degree, so an Euler path exists and must run between them. For a <em>connected</em> network, the degrees alone decide.</div>
+  <ol>
+    <li data-why="Odd-degree nodes are allowed, as long as there are exactly two of them.">No: it has odd-degree nodes</li>
+    <li data-why="A walk can start and end anywhere only when no node has odd degree.">Yes, and it can start and end anywhere</li>
+    <li>Yes, starting at one degree-3 node and ending at the other</li>
+    <li data-why="For a connected network the degrees alone decide: Euler's condition needs nothing else.">We cannot tell without seeing the network</li>
+  </ol>
+  <div class="explain">Exactly two nodes have odd degree, so an Euler path exists and must run between them.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>A city has four districts joined by bridges, and every district has exactly four bridges. A tourist wants to cross every bridge once and end up back at the hotel. Is that possible?</p>
+  <ol>
+    <li data-why="With all degrees even, every arrival can be matched with a departure.">No, four bridges per district is too many</li>
+    <li>Yes, if the bridges connect all districts into one piece, and the tour can start at any hotel</li>
+    <li data-why="Two odd nodes would force the walk to end somewhere other than its start; here there are none.">Only if the tour starts in one specific district</li>
+    <li data-why="Euler's condition is about degrees, not about the number of districts.">Only if there are more districts than bridges</li>
+  </ol>
+  <div class="explain">All degrees are even and (assuming the bridges connect everything) the graph is connected, so an Euler <em>circuit</em> exists: a walk that uses every bridge once and returns to where it started, from any starting point.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Which change to the original seven bridges makes the walk possible?</p>
+  <ol>
+    <li data-why="Each removal lowers two degrees by one. Removing a and b takes A from 5 to 3 and B from 3 to 1: all four land masses are still odd.">Removing both bridges between A and B</li>
+    <li data-why="A bridge with both ends on A adds 2 to A's degree (5 becomes 7), so A stays odd and four odd nodes remain.">Adding a bridge from A back to A</li>
+    <li data-why="A single change can help: look at what one bridge does to the degrees of the two land masses it joins.">Nothing: no single change can help</li>
+    <li>Removing any one bridge</li>
+  </ol>
+  <div class="explain">Every bridge joins two odd-degree land masses. Removing it makes both of them even, leaving exactly two odd nodes. Then a walk exists, between those two. (Adding any one bridge between two different land masses works for the same reason.)</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Euler's argument ignores the lengths of the bridges and the shape of the land. Why is that allowed?</p>
+  <ol>
+    <li>Whether the walk exists depends only on which land masses each bridge joins</li>
+    <li data-why="Measurement accuracy has nothing to do with it: even a perfectly accurate map would not change the answer.">The maps of 1736 were not accurate enough to use</li>
+    <li data-why="Longer bridges do not change which walks are possible.">All the bridges happened to be the same length</li>
+    <li data-why="The argument is exact, not an approximation.">It is an approximation that works for small cities</li>
+  </ol>
+  <div class="explain">The question is about the order in which bridges can be used, and that is fixed by the connections alone. Keeping only the connections is what makes the problem solvable, and it is the founding idea of network science: many properties of a system depend on its <em>network</em> of connections rather than on the details of its parts.</div>
 </div>
 
 <h2>Networks and graphs (Section 2.2)</h2>
-<p>A network is a catalogue of a system's components, the <strong>nodes</strong> (or vertices), and of the direct interactions between them, the <strong>links</strong> (or edges). Two numbers describe its size: the number of nodes $N$ and the number of links $L$. Network scientists tend to say <em>network</em>, <em>node</em> and <em>link</em> for real systems, and <em>graph</em>, <em>vertex</em> and <em>edge</em> for the mathematical object, but the terms are used interchangeably.</p>
-<p>Links can be <strong>undirected</strong> (a collaboration, a power line) or <strong>directed</strong> (a hyperlink, an email, a phone call). The eight reference networks used throughout this site, all from the book's Table 2.1:</p>
+<p>A <strong>network</strong> is a catalogue of a system's components, the <strong>nodes</strong>, and of the direct interactions between them, the <strong>links</strong>. Two numbers describe its size: the number of nodes $N$ and the number of links $L$. Network scientists tend to say <em>network</em>, <em>node</em> and <em>link</em> for real systems, and <em>graph</em>, <em>vertex</em> and <em>edge</em> for the mathematical object, but the terms are used interchangeably.</p>
+<p>Links can be <strong>undirected</strong>, the same in both directions (a collaboration, a power line), or <strong>directed</strong>, with a direction (a hyperlink, an email, a phone call). The eight reference networks used throughout this site, all from the book's Table 2.1:</p>
 <div id="tbl-networks"></div>
 <div class="callout note">
   <p>Every network on this site is analysed as <strong>undirected and simple</strong>: link directions, self-loops and repeated links are dropped, exactly as in the class notebook. For the directed networks this merges $u\to v$ and $v\to u$ into a single link, so their $L$ and $\langle k\rangle$ are smaller than the book's directed values.</p>
@@ -56,6 +134,10 @@
 <div class="callout discuss">
   <p>The same 23,133 scientists could be connected by co-authorship, by citations, by sharing an institution, or by email. Would these networks have the same structure? Which one would you study to understand how ideas spread?</p>
   <div class="hint">The choice of links defines the network, and different link definitions give very different networks on the same nodes. Co-authorship captures close collaboration (and creates many triangles, because a paper with three authors is a triangle). Citations are directed and reach far more widely. Always ask what a link means before interpreting a network's structure.</div>
+</div>
+
+<div class="callout why">
+  <p>Euler paths are still in daily use. Planning a route that covers every street once (a postman, a snow plough, a street-cleaning truck) is the <em>Chinese postman problem</em>, built on Euler's condition. Modern genome sequencing reassembles DNA from millions of short fragments by finding an Euler path through a graph of overlapping fragments. By contrast, the similar-looking task of visiting every <em>node</em> exactly once (a <em>Hamiltonian path</em>) has no simple degree test and is computationally hard in general. A small change in the question makes a huge difference.</p>
 </div>
 
 </div></main>
