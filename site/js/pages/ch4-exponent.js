@@ -51,7 +51,7 @@ const regime = (g) => (g < 2 ? "anomalous (γ < 2)" : g < 3 ? "scale-free (2 < �
     plot.update({ series: [{ type: "line", markers: true, data: rows.map((x) => [x.gamma, x.fraction, x]), color: 1, label: "self-loops and multi-links", tooltip: (p) => [h("div", { class: "tt-title" }, `γ = ${p[0]}`), h("div", {}, `${fmt.pct(p[1], 2)} of stub pairs lost`), h("div", {}, `largest degree ≈ ${fmt.int(p[2].kmax)}`)] }], bands: [{ x0: 1.5, x1: 2, label: "anomalous" }, { x0: 3, x1: 3.5, label: "random-like", opacity: 0.04 }], xName: "γ", hover: "point" });
   }).promise;
   status.textContent = "Done.";
-  f.setCaption("For γ < 2 the largest hub would need more links than there are nodes (k_max ~ N^{1/(γ−1)} > N), so many of its stubs can only be paired with nodes it is already linked to. A large simple network cannot have γ < 2 all the way out to its largest degree.");
+  f.setCaption("For γ < 2 the largest hub would need more links than there are nodes (k_max ~ N^(1/(γ−1)) > N), so many of its stubs can only be paired with nodes it is already linked to. A large simple network cannot have γ < 2 all the way out to its largest degree.");
 })();
 
 // ------------------------------------------------------------------ 3. where the book's networks fall
@@ -61,14 +61,14 @@ const regime = (g) => (g < 2 ? "anomalous (γ < 2)" : g < 3 ? "scale-free (2 < �
   const f = figure("#fig-real", { title: "The book's networks on the γ axis", sub: "Fitted exponent ± 2σ (this site's undirected fits). Shading marks the three regimes." });
   const plot = new Plot(f.body, {
     height: 300, legend: false, x: { label: "fitted degree exponent γ̂", min: 1.5, max: 8.5 },
-    y: { min: -0.7, max: nets.length - 0.3, tickValues: nets.map((_, i) => i), format: (v) => SHORT[nets[v]?.name] || "", grid: false }, margin: { top: 16, right: 18, bottom: 42, left: 96 },
+    y: { min: -0.7, max: nets.length + 0.4, tickValues: nets.map((_, i) => i), format: (v) => SHORT[nets[v]?.name] || "", grid: false }, margin: { top: 16, right: 18, bottom: 42, left: 96 },
   });
   plot.update({
     series: [
       ...nets.map((d, i) => ({ type: "line", data: [[d.powerlaw.gamma - 2 * d.powerlaw.sigma, i], [d.powerlaw.gamma + 2 * d.powerlaw.sigma, i]], color: 1, width: 3, tooltip: false })),
       { type: "scatter", data: nets.map((d, i) => [d.powerlaw.gamma, i, d]), color: 1, r: 5, tooltip: (p) => [h("div", { class: "tt-title" }, p[2].description), h("div", {}, `γ̂ = ${p[2].powerlaw.gamma.toFixed(2)} ± ${p[2].powerlaw.sigma.toFixed(2)}, k_min = ${p[2].powerlaw.kmin}`), h("div", {}, regime(p[2].powerlaw.gamma))] },
     ],
-    bands: [{ x0: 1.5, x1: 2, label: "anomalous" }, { x0: 3, x1: 8.5, label: "random-like", opacity: 0.04 }],
+    bands: [{ x0: 1.5, x1: 2, label: "anomalous" }, { x0: 2, x1: 3, label: "scale-free", opacity: 0 }, { x0: 3, x1: 8.5, label: "random-like", opacity: 0.04 }],
     rules: [{ x: 2 }, { x: 3 }], xName: "γ̂", hover: "point",
   });
   f.setCaption("The power grid's interval (7.6 ± 1.8) runs off the chart. Three networks fall inside 2 < γ < 3, four in the random-like regime and one, email, just below 2.");

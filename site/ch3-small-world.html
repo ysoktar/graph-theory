@@ -18,56 +18,137 @@
 <main><div class="content">
 
 <h1>Small worlds</h1>
-<p class="lead">Any two people on Earth are linked by a short chain of acquaintances, about six handshakes long. Random networks explain why such short chains must exist, and real networks mostly confirm it, with one instructive exception.</p>
+<p class="lead">Why are any two people on Earth only about six handshakes apart? Random networks show that such short chains are unavoidable once links are random; real networks mostly confirm it, with one instructive exception.</p>
 
-<p>The idea is old. Frigyes Karinthy's 1929 short story <em>Láncszemek</em> ("Chains") already bets that any two people are at most five acquaintances apart. Stanley Milgram tested it in 1967: people in Nebraska and Kansas were asked to forward a letter towards a stranger in Boston, only through people they knew by first name. The chains that arrived had about five intermediaries, which became the phrase "six degrees of separation".</p>
+<div class="callout why">
+  <ul>
+    <li>Predicts <a href="ch2-paths.html">distances</a> (Part I) from $N$ and $\langle k\rangle$.</li>
+    <li>Explains "six degrees": distance grows like $\ln N$, not like a power of $N$.</li>
+    <li>Real networks shorter than predicted → hubs; longer → spatial constraints.</li>
+  </ul>
+</div>
+
+<p>Karinthy's 1929 story <em>Láncszemek</em> ("Chains") bet on five intermediaries. Milgram (1967) tested it: people in Nebraska and Kansas forwarded a letter, via first-name acquaintances only, to one of two targets in Massachusetts (in Boston and in Sharon). Completed chains had about five intermediaries: "six degrees of separation".</p>
+<div class="callout fix" data-book="B8"></div>
 
 <h2>Why distances are short (Section 3.8)</h2>
-<p>In a random network a node has on average $\langle k\rangle$ neighbours, about $\langle k\rangle^2$ nodes at distance two, $\langle k\rangle^3$ at distance three, and so on. The number of nodes within distance $d$ is</p>
+<ol>
+  <li>A node has about $\langle k\rangle$ neighbours, $\langle k\rangle^2$ nodes at distance 2, $\langle k\rangle^d$ at distance $d$ (assuming no node is counted twice).</li>
+  <li>Nodes within distance $d$:</li>
+</ol>
 <div class="eq">$$N(d) \approx 1 + \langle k\rangle + \langle k\rangle^2 + \dots + \langle k\rangle^d = \frac{\langle k\rangle^{d+1} - 1}{\langle k\rangle - 1}.$$</div>
-<p>It cannot exceed $N$. Setting $N(d_{\max}) \approx N$ gives the <strong>small-world property</strong>:</p>
+<ol start="3">
+  <li>$N(d)$ cannot exceed $N$: set $\langle k\rangle^{d} \approx N$, take logarithms, $d \ln\langle k\rangle \approx \ln N$:</li>
+</ol>
 <div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln \langle k\rangle}.$$</div>
-<p>The distance grows only <em>logarithmically</em> with the size of the network: making the network ten times larger adds a constant number of steps, $\ln 10/\ln\langle k\rangle$.</p>
+<dl class="symbols">
+  <dt>$N(d)$</dt><dd>number of nodes within $d$ steps of a node</dd>
+  <dt>$\langle d\rangle$</dt><dd>average distance (shortest-path length) between node pairs</dd>
+  <dt>$\ln$</dt><dd>natural logarithm: $\ln x = y$ ⇔ $e^y = x$</dd>
+  <dt>$\langle k\rangle$</dt><dd>average degree, the growth factor per step</dd>
+</dl>
+<p>This is the <strong>small-world property</strong>: $10\times$ more nodes adds only $\ln 10/\ln\langle k\rangle$ steps.</p>
+<div class="callout example">
+  <p>World, $N = 8\times10^9$, $\langle k\rangle = 1{,}000$: $\ln N/\ln\langle k\rangle = 22.8/6.91 = 3.3$. Facebook 2011, $N = 7.21\times10^8$, $\langle k\rangle \approx 189$: 3.9; measured 4.74.</p>
+</div>
+<div class="callout fix" data-book="B7"></div>
 <div data-fig id="fig-ball"></div>
 
 <div data-fig id="fig-bfs"></div>
 <div class="callout look">
-  <p>Move the slider to $d = 4$: the random network has reached most of its nodes, the lattice only a small diamond around the source. Distances in a $D$-dimensional lattice grow like $N^{1/D}$, a power of $N$, not like $\ln N$.</p>
+  <p>At $d = 4$ the random network reaches most nodes, the lattice only a small diamond. In a $D$-dimensional lattice distances grow like $N^{1/D}$, a power of $N$.</p>
 </div>
 
 <h2>How good is the formula?</h2>
-<p>The estimate $\ln N/\ln\langle k\rangle$ assumes that the neighbourhood of a node is a tree, so that no node is counted twice. Advanced Topic 3.G gives a more precise result for random networks (Fronczak, Fronczak and Hołyst, 2004), with Euler's constant $\gamma_E \approx 0.5772$:</p>
+<p>Step 1 assumes the neighbourhood is a tree. A finer formula for random networks, not in the book, is due to Fronczak, Fronczak and Hołyst (2004):</p>
 <div class="eq">$$\langle d\rangle \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12.$$</div>
+<dl class="symbols">
+  <dt>$\gamma_E$</dt><dd>Euler's constant, $0.5772\ldots$</dd>
+  <dt>$+\frac12$</dt><dd>offset that the tree estimate misses</dd>
+</dl>
+<div class="callout example">
+  <p>$N = 10^4$, $\langle k\rangle = 10$: tree estimate 4.0, Fronczak et al. 4.25. Facebook: 4.28.</p>
+</div>
+<div class="callout fix" data-book="B6"></div>
+<div class="callout fix" data-errata="N21"></div>
 <div data-fig id="fig-dn"></div>
 
 <h2>Real networks (Section 3.8)</h2>
-<p>The notebook compares a single network, the collaboration network, with the formula $\ln N/\ln\langle k\rangle$. A fairer test compares every network with a simulated random network of the same size.</p>
+<p>Each network vs a simulated $G(N, L)$ with the same $N$ and $L$ (the notebook tests only the collaboration network against the formula).</p>
 <div data-fig id="fig-real"></div>
 <div class="callout fix" data-errata="N11"></div>
 <div data-fig id="fig-dist"></div>
 
 <div class="callout discuss">
-  <p>Email and metabolism have much <em>shorter</em> distances than their random counterparts, and the power grid has much <em>longer</em> ones. What feature of each network could explain this?</p>
-  <div class="hint">Short distances: these networks have hubs (one email address has 6,553 contacts, one metabolite takes part in reactions with 638 others). A hub is a shortcut that most paths can use. Chapter 4 shows that in scale-free networks distances can grow even slower than $\ln N$ (<a href="ch4-ultra-small.html">ultra-small worlds</a>). Long distances: the power grid is embedded in space, and long power lines are expensive, so almost all links join nearby stations. Without long-range shortcuts it behaves like a lattice.</div>
+  <p>Email and metabolism are much <em>closer</em> than their random counterparts; the power grid is much <em>farther</em>. What could explain each?</p>
+  <div class="hint">Shorter: hubs (an email address with 6,553 contacts, a metabolite in reactions with 638 others) are shortcuts most paths use; scale-free networks can be <a href="ch4-ultra-small.html">ultra-small</a> (Ch 4). Longer: the grid is embedded in space and long lines are expensive, so links join nearby stations; without shortcuts it behaves like a lattice.</div>
 </div>
 
-<h2>Small worlds with clustering: the Watts–Strogatz model</h2>
-<p>Random networks have short distances but almost no triangles (<a href="ch3-clustering.html">next page</a>). Regular lattices have plenty of triangles but long distances. Real social networks have both. Duncan Watts and Steven Strogatz (1998) showed how little it takes to combine them: rewire a small fraction of a lattice's links at random.</p>
+<h2>Small worlds with clustering: Watts–Strogatz (1998)</h2>
+<p>Random networks: short distances, almost no triangles (<a href="ch3-clustering.html">next page</a>). Lattices: many triangles, long distances. Real social networks have both. Watts and Strogatz: rewire each link of a ring lattice with probability $p$.</p>
 <div data-fig id="fig-ws"></div>
 <div data-fig id="fig-ws-sweep"></div>
 <div class="callout key">
-  <p>A small world needs only a few long-range shortcuts. Because each shortcut shortens the paths of many pairs at once, distances fall quickly as $p$ grows, while clustering, which is a local property, hardly notices. The Watts–Strogatz model explains clustering and short paths together, but its degree distribution is still narrow, close to that of a random network. It has no hubs.</p>
+  <p>A few shortcuts suffice: each shortens many paths, so $\langle d\rangle$ falls fast with $p$, while clustering (local) barely changes. The degree distribution stays narrow: no hubs.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Builds on</strong> <a href="ch2-paths.html">distances and BFS</a> (Part I) and the <a href="ch3-evolution.html">giant component</a> (distances are measured inside it).</li>
+    <li><strong>Refined by</strong> <a href="ch4-ultra-small.html">ultra-small worlds</a>: scale-free with $2 &lt; \gamma &lt; 3$ gives $\langle d\rangle \sim \ln\ln N$ (Ch 4).</li>
+    <li><strong>Watts–Strogatz</strong> interpolates lattice ↔ random network; it explains short paths + <a href="ch3-clustering.html">clustering</a>, not hubs.</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>A random network has $\langle k\rangle = 10$. If $N$ grows from $10^4$ to $10^6$ nodes, by roughly how much does $\langle d\rangle$ grow?</p>
-  <ol><li>It does not change</li><li>By about 2 steps</li><li>By a factor of 10</li><li>By a factor of 100</li></ol>
-  <div class="explain">$\Delta\langle d\rangle \approx \ln(10^6/10^4)/\ln 10 = 2$. A hundred times more nodes adds only two steps: from about 4 to about 6.</div>
+  <p>$\langle k\rangle = 10$, $N$ grows from $10^4$ to $10^6$. $\langle d\rangle$ grows by …</p>
+  <ol>
+    <li data-why="ln N grows, so ⟨d⟩ does too.">nothing</li>
+    <li>about 2 steps</li>
+    <li data-why="That would be ⟨d⟩ ∝ √N, lattice behaviour.">a factor of 10</li>
+    <li data-why="That would be ⟨d⟩ ∝ N.">a factor of 100</li>
+  </ol>
+  <div class="explain">$\ln(10^6/10^4)/\ln 10 = 2$: from about 4 to about 6.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>Which network is <em>not</em> a small world in the sense of $\langle d\rangle \sim \ln N$?</p>
-  <ol><li>A random network with $\langle k\rangle = 3$</li><li>A Watts–Strogatz network with $p = 0.05$</li><li>A square lattice</li><li>The email network</li></ol>
-  <div class="explain">In a square lattice $\langle d\rangle \approx \frac23\sqrt N$. The other three all have distances that grow at most logarithmically.</div>
+  <p>Which is <em>not</em> a small world ($\langle d\rangle \sim \ln N$)?</p>
+  <ol>
+    <li data-why="Random networks are the reference small world.">A random network, $\langle k\rangle = 3$</li>
+    <li data-why="A few shortcuts already give logarithmic distances.">A Watts–Strogatz network, $p = 0.05$</li>
+    <li>A square lattice</li>
+    <li data-why="Its hubs make it even smaller than random (3.9 vs 9.4).">The email network</li>
+  </ol>
+  <div class="explain">Square lattice: $\langle d\rangle \approx \frac23\sqrt N$, a power of $N$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>World as a random network: $N = 8\times10^9$, $\langle k\rangle = 1{,}000$. $\ln N/\ln\langle k\rangle$ ≈ ?</p>
+  <ol>
+    <li data-why="Six is Milgram's chain length, not this estimate.">6</li>
+    <li>3.3</li>
+    <li data-why="⟨k⟩ is the number reached in one step, not the distance.">1,000</li>
+    <li data-why="N/⟨k⟩ ignores that reach multiplies by ⟨k⟩ each step.">8 × 10⁶</li>
+  </ol>
+  <div class="explain">$22.8/6.91 = 3.3$; real acquaintances overlap, so actual chains are longer.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Power grid: observed $\langle d\rangle = 18.8$, random counterpart 8.5. Why?</p>
+  <ol>
+    <li data-why="Its counterpart has the same ⟨k⟩ = 2.67.">Its ⟨k⟩ is too low</li>
+    <li data-why="Its N is matched in the counterpart.">It is too small</li>
+    <li data-why="Hubs shorten distances; the grid has none to speak of.">It has hubs</li>
+    <li>Links join nearby stations: no long-range shortcuts</li>
+  </ol>
+  <div class="explain">Spatial embedding makes it lattice-like; random links are what make distances logarithmic.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Watts–Strogatz ring, $p = 0.01$. Compared with the ring ($p = 0$) …</p>
+  <ol>
+    <li>⟨d⟩ is much smaller, ⟨C⟩ almost unchanged</li>
+    <li data-why="Clustering is local; 1% rewiring removes few triangles.">both are much smaller</li>
+    <li data-why="Each shortcut shortens many paths at once.">both are almost unchanged</li>
+    <li data-why="Random rewiring destroys triangles; it does not add them.">⟨C⟩ larger, ⟨d⟩ unchanged</li>
+  </ol>
+  <div class="explain">Distances collapse long before clustering does: the small-world regime.</div>
 </div>
 
 </div></main>

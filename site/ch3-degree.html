@@ -18,33 +18,138 @@
 <main><div class="content">
 
 <h1>Degree distribution: binomial → Poisson</h1>
-<p class="lead">In a random network every node has the same chances, so its degree distribution can be written down exactly. Its shape is the yardstick against which real networks will be measured.</p>
+<p class="lead">In a random network, how different can two nodes be? Every pair is treated alike, so the whole degree distribution can be computed exactly. It is the yardstick for every real degree distribution in the book.</p>
 
-<p>A node has $N-1$ potential partners and links to each independently with probability $p$. Its degree is therefore binomially distributed:</p>
+<div class="callout why">
+  <ul>
+    <li>Predicts the full $p_k$ (<a href="ch2-degree.html">Part I</a>), not just $\langle k\rangle$.</li>
+    <li>Tells us how improbable a real hub would be under chance wiring (<a href="ch3-real-degrees.html">next page</a>).</li>
+  </ul>
+</div>
+
+<h2>Exact answer: binomial</h2>
+<ol>
+  <li>A node has $N-1$ candidates, each linked with probability $p$.</li>
+  <li>A given set of $k$ neighbours (and no others): $p^k(1-p)^{N-1-k}$.</li>
+  <li>There are $\binom{N-1}{k}$ such sets:</li>
+</ol>
 <div class="eq">$$p_k = \binom{N-1}{k}\, p^k (1-p)^{N-1-k}.$$</div>
-<p>Real networks are sparse ($\langle k\rangle \ll N$). In that limit, with $\langle k\rangle = p(N-1)$ held fixed, the binomial becomes the <strong>Poisson distribution</strong> (book, Advanced Topic 3.A):</p>
+<dl class="symbols">
+  <dt>$p_k$</dt><dd>probability that a node has degree $k$</dd>
+  <dt>$N-1$</dt><dd>potential partners of a node</dd>
+  <dt>$\binom{N-1}{k}$</dt><dd>ways to choose $k$ neighbours</dd>
+  <dt>$p$</dt><dd>link probability per pair</dd>
+</dl>
+<p>Mean $\langle k\rangle = p(N-1)$, variance $\sigma_k^2 = p(1-p)(N-1)$.</p>
+<div class="callout example">
+  <p>$N = 1{,}000$, $p = 0.01$: $p_{10} = \binom{999}{10}\,0.01^{10}\,0.99^{989} \approx 0.1257$.</p>
+</div>
+
+<h2>Sparse limit: Poisson (Advanced Topic 3.A)</h2>
+<p>Real networks are <a href="ch2-sparsity.html">sparse</a> ($\langle k\rangle \ll N$). Fix $\langle k\rangle$, let $N \to \infty$ (so $p = \langle k\rangle/(N-1) \to 0$):</p>
+<ol>
+  <li>$\binom{N-1}{k} \approx (N-1)^k/k!$ for $k \ll N$; $k! = 1\cdot2\cdots k$.</li>
+  <li>$p^k = \langle k\rangle^k/(N-1)^k$; the $(N-1)^k$ cancels.</li>
+  <li>$(1-p)^{N-1-k} \approx (1 - \langle k\rangle/(N-1))^{N-1} \to e^{-\langle k\rangle}$, since $(1-x/n)^n \to e^{-x}$ ($e \approx 2.718$).</li>
+  <li>Multiply:</li>
+</ol>
 <div class="eq">$$p_k = e^{-\langle k\rangle}\,\frac{\langle k\rangle^k}{k!}, \qquad \sigma_k = \sqrt{\langle k\rangle}.$$</div>
-<p>The Poisson form depends on a single parameter, $\langle k\rangle$. Networks of very different size but the same average degree have the same degree distribution.</p>
+<dl class="symbols">
+  <dt>$p_k$</dt><dd><strong>Poisson distribution</strong>: count of rare independent events</dd>
+  <dt>$\langle k\rangle$</dt><dd>the only parameter; $N$ and $p$ have dropped out</dd>
+  <dt>$e^{-\langle k\rangle}$</dt><dd>$p_0$, fraction of isolated nodes</dd>
+  <dt>$\langle k\rangle^k/k!$</dt><dd>rises, then falls faster than any exponential</dd>
+  <dt>$\sigma_k$</dt><dd>standard deviation of $k$; variance = mean</dd>
+</dl>
+<div class="callout example">
+  <p>$\langle k\rangle = 9.99$: Poisson $p_{10} \approx 0.1251$ (exact 0.1257). $\langle k\rangle = 10$: $\sigma_k \approx 3.16$, 73% of nodes have 7–13 links, $p_0 = e^{-10} \approx 4.5\times10^{-5}$.</p>
+</div>
+<p>Consequence: same $\langle k\rangle$ → same $p_k$, whatever the size.</p>
 
 <h2>Simulated random networks</h2>
+<p>A <strong>logarithmic axis</strong> spaces 1, 0.1, 0.01, … equally, making tiny probabilities visible.</p>
 <div data-fig id="fig-sim"></div>
 <div class="callout look">
   <ul>
-    <li>Points for $N = 500$, $5{,}000$ and $50{,}000$ fall on the same Poisson curve: $p_k$ depends only on $\langle k\rangle$.</li>
-    <li>Switch to a logarithmic vertical axis: the probabilities fall off faster than exponentially beyond the peak (as $\langle k\rangle^k/k!$). For $\langle k\rangle = 10$, a node with twice the average degree is already rare ($P(k \ge 20) = 0.35\%$), and one with ten times the average essentially never occurs ($P(k \ge 100) \approx 5\times10^{-63}$).</li>
+    <li>$N = 500$, $5{,}000$ and $50{,}000$ fall on one Poisson curve.</li>
+    <li>Log axis, $\langle k\rangle = 10$: $P(k \ge 20) = 0.35\%$, $P(k \ge 100) \approx 5\times10^{-63}$.</li>
   </ul>
 </div>
 
 <h2>When is Poisson a good approximation?</h2>
 <div data-fig id="fig-binpoi"></div>
 <div class="callout look">
-  <p>For small networks the binomial is visibly narrower than the Poisson curve, because a node cannot have more than $N-1$ neighbours: its variance is $\langle k\rangle(1-p)$ instead of $\langle k\rangle$. Once $N$ is a few dozen times $\langle k\rangle$ the two are indistinguishable. In every real network of the book $N$ is more than 100 times $\langle k\rangle$ (the closest is E. coli metabolism, with $N/\langle k\rangle \approx 114$).</p>
+  <p>Small $N$: binomial variance $\langle k\rangle(1-p)$ is below $\langle k\rangle$ (degree ≤ $N-1$); $N = 20$, $\langle k\rangle = 10$: 4.7 vs 10. From a few dozen times $\langle k\rangle$ on they coincide. All book networks have $N > 100\langle k\rangle$ (closest: E. coli metabolism, 114).</p>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li><strong>Null-model prediction:</strong> degrees within about $\pm 3\sqrt{\langle k\rangle}$; a typical degree (characteristic scale) exists.</li>
+    <li><strong>Deviation means:</strong> degrees spanning orders of magnitude cannot come from chance wiring.</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Predicts</strong> the Part I <a href="ch2-degree.html">$p_k$</a>; <strong>tested</strong> on <a href="ch3-real-degrees.html">real data</a>, where it fails.</li>
+    <li><strong>Replaced by</strong> the <a href="ch4-power-laws.html">power law</a> $p_k \sim k^{-\gamma}$ (Ch 4): tail falls like a power, not like $1/k!$ → hubs.</li>
+    <li><strong>Second moment</strong> $\langle k^2\rangle = \langle k\rangle(1+\langle k\rangle)$ → Molloy–Reed $\kappa = 1 + \langle k\rangle > 2$ (<a href="robustness.html">Robustness</a>) ⇔ $\langle k\rangle > 1$, the <a href="ch3-evolution.html">giant-component threshold</a>. Diverges for power laws with $\gamma &lt; 3$ (<a href="ch4-moments.html">Moments</a>).</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>In a random network with $\langle k\rangle = 100$, between which degrees do almost all nodes lie (within three standard deviations)?</p>
-  <ol><li>0 and 200</li><li>70 and 130</li><li>97 and 103</li><li>90 and 110</li></ol>
-  <div class="explain">$\sigma_k = \sqrt{100} = 10$, so $\langle k\rangle \pm 3\sigma_k = 70 \dots 130$. In a random network the average degree is a good description of every node.</div>
+  <p>$\langle k\rangle = 100$. Almost all degrees ($\pm 3\sigma_k$) lie between …</p>
+  <ol>
+    <li data-why="That is ±100; σₖ = √100 = 10.">0 and 200</li>
+    <li>70 and 130</li>
+    <li data-why="σₖ = √⟨k⟩ = 10, not 1.">97 and 103</li>
+    <li data-why="That is ±1σₖ, about two thirds of nodes.">90 and 110</li>
+  </ol>
+  <div class="explain">$\sigma_k = \sqrt{100} = 10$, so $100 \pm 30$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Large random network, $\langle k\rangle = 3$. Fraction of isolated nodes?</p>
+  <ol>
+    <li data-why="Each pair is a separate coin toss; some nodes lose them all.">None</li>
+    <li>About 5%</li>
+    <li data-why="That would need p₀ = 1/3; Poisson gives $e^{-3}$.">About a third</li>
+    <li data-why="$e^{-3} \approx 0.05$ is 5%, not 0.05%.">About 0.05%</li>
+  </ol>
+  <div class="explain">$p_0 = e^{-3} \approx 0.050$. These nodes keep the network from being <a href="ch3-evolution.html">connected</a>.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Random networks with $\langle k\rangle = 5$, $N = 10^3$ and $N = 10^6$. Their degree distributions are …</p>
+  <ol>
+    <li data-why="σₖ = √⟨k⟩ does not involve N.">much wider for the larger one</li>
+    <li data-why="$p_0 = e^{-\langle k\rangle}$ depends only on ⟨k⟩.">richer in isolated nodes for the larger one</li>
+    <li>practically identical</li>
+    <li data-why="Node counts scale with N; fractions pₖ do not.">1,000 times higher for the larger one</li>
+  </ol>
+  <div class="explain">$p_k$ depends only on $\langle k\rangle$. Only $k_{\max}$ grows, slowly: 13 → 19.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>$N = 20$, $\langle k\rangle = 10$: why is the binomial much narrower than the Poisson?</p>
+  <ol>
+    <li>Degree ≤ 19; variance $\langle k\rangle(1-p) \approx 4.7$, not 10.</li>
+    <li data-why="The binomial is exact at any N; Poisson is the approximation.">The binomial needs large N</li>
+    <li data-why="Links stay independent at any size.">Small networks have correlated links</li>
+    <li data-why="Both have the same mean p(N − 1).">The binomial has a smaller mean</li>
+  </ol>
+  <div class="explain">$p = 10/19 \approx 0.53$; Poisson assumes $p \to 0$, i.e. $N \gg \langle k\rangle$.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Random network, $\langle k\rangle = 4$. $\langle k^2\rangle$, and is $\kappa = \langle k^2\rangle/\langle k\rangle > 2$?</p>
+  <ol>
+    <li data-why="⟨k⟩² omits the variance: ⟨k²⟩ = σₖ² + ⟨k⟩².">16, κ = 4</li>
+    <li data-why="4 is the variance alone.">4, κ = 1</li>
+    <li>20, κ = 5: giant component exists</li>
+    <li data-why="For Poisson ⟨k²⟩ = ⟨k⟩(1 + ⟨k⟩), not 2⟨k⟩.">8, κ = 2</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle = 4 + 16 = 20$, $\kappa = 1 + \langle k\rangle = 5$.</div>
 </div>
 
 </div></main>

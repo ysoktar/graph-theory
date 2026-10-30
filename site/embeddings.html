@@ -18,41 +18,119 @@
 <main><div class="content">
 
 <h1>Graph machine learning &amp; node embeddings</h1>
-<p class="lead">Machine-learning models expect vectors, not networks. A <strong>node embedding</strong> maps each node to a vector so that nodes close in the network are close in space. The vectors can then be used to classify nodes, find communities or predict missing links.</p>
+<p class="lead">Machine-learning models expect vectors, not networks. A <strong>node embedding</strong> maps each node to a vector so that nodes close in the network are close in space.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Earlier chapters describe networks with a few numbers ($\langle k\rangle$, $C$, $\gamma$); prediction needs a description of every node.</li>
+    <li>Embeddings feed standard classifiers: label nodes, find communities, predict missing links.</li>
+    <li>Graph neural networks learn the description for the task.</li>
+  </ul>
+</div>
 
 <h2>Spectral embedding</h2>
-<p>The oldest embedding uses eigenvectors of the graph Laplacian. For the normalised Laplacian $\mathcal L = I - D^{-1/2} A D^{-1/2}$, the eigenvector of the second-smallest eigenvalue (the <em>Fiedler vector</em>) solves a relaxed version of the problem "cut the network into two groups with as few links between them as possible". Its sign splits the network in two; the next eigenvectors add further coordinates.</p>
+<p>Use eigenvectors of the normalised Laplacian</p>
+<div class="eq">$$\mathcal L = I - D^{-1/2} A D^{-1/2}.$$</div>
+<dl class="symbols">
+  <dt>$A$</dt><dd>adjacency matrix (<a href="ch2-adjacency.html">Ch 2</a>)</dd>
+  <dt>$D$</dt><dd>diagonal matrix of degrees</dd>
+  <dt>$I$</dt><dd>identity matrix</dd>
+</dl>
+<p>Eigenvectors with small eigenvalues vary little across links. The second (the <em>Fiedler vector</em>) is the best two-group cut, relaxed to real values; its sign splits the network (<a href="communities.html">spectral bisection</a>). Further eigenvectors add coordinates.</p>
 
 <h2>Random-walk embeddings</h2>
-<p>DeepWalk (Perozzi, Al-Rfou and Skiena, 2014) and node2vec (Grover and Leskovec, 2016) borrow from language models: nodes that appear near each other in short random walks should get similar vectors, just as word2vec gives similar vectors to words that appear in similar contexts. node2vec biases the walks with two parameters to interpolate between breadth-first (local) and depth-first (exploratory) neighbourhoods.</p>
+<p>DeepWalk (Perozzi, Al-Rfou and Skiena 2014) and node2vec (Grover and Leskovec 2016) treat short random walks as sentences and nodes as words, then run word2vec: nodes that co-occur in walks get similar vectors. node2vec's two parameters tune walks between local (breadth-first) and exploratory (depth-first).</p>
 <div data-fig id="fig-embed"></div>
 <div class="callout look">
-  <p>The karate club split into two factions after a dispute between the instructor (Mr. Hi, node 0) and the club's officer (node 33). Both embeddings recover the split from the links alone: the sign of a single coordinate assigns nearly every member to the faction they joined. The few exceptions sit between the two groups in the network too.</p>
+  <p>The club split between Mr. Hi (node 0) and the officer (node 33). Both embeddings recover it from the links alone: one coordinate's sign places nearly everyone; the exceptions sit between the groups in the network too.</p>
 </div>
 <div data-fig id="fig-walk"></div>
 
 <h2>Graph neural networks</h2>
-<p>Instead of computing an embedding once, a <strong>graph neural network</strong> learns it for a task. Its building block is <em>message passing</em>: in each layer every node combines its own vector with its neighbours' vectors, typically $h_v^{(l+1)} = \sigma\big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\big)$ (a graph convolutional network, Kipf and Welling 2017). With $l$ layers a node sees its neighbourhood up to distance $l$. The figure leaves out the learned weights $W$ and the non-linearity $\sigma$ to show what the averaging alone does.</p>
+<p>A GNN layer passes <em>messages</em>: each node combines its vector with its neighbours' (graph convolutional network, Kipf and Welling 2017):</p>
+<div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\Big).$$</div>
+<dl class="symbols">
+  <dt>$h_v^{(l)}$</dt><dd>vector of node $v$ after layer $l$</dd>
+  <dt>$N(v)$</dt><dd>neighbours of $v$</dd>
+  <dt>$W^{(l)}$</dt><dd>learned weight matrix</dd>
+  <dt>$\sigma$</dt><dd>non-linearity (e.g. ReLU)</dd>
+</dl>
+<p>After $l$ layers a node sees nodes up to distance $l$. The figure drops $W$ and $\sigma$ to show the averaging alone.</p>
 <div data-fig id="fig-gnn"></div>
 
 <h2>Link prediction</h2>
-<p>Many networks are measured incompletely: protein interactions not yet tested, friendships not yet declared. Link prediction ranks the missing pairs by how likely they are to be linked. Classic scores use the neighbourhoods of the two nodes $u$ and $v$:</p>
+<p>Networks are measured incompletely (untested protein pairs, undeclared friendships). Rank unlinked pairs $u, v$ by a score:</p>
 <ul>
-  <li><strong>common neighbours</strong> $|N(u) \cap N(v)|$, and its normalised form, the <strong>Jaccard</strong> index $|N(u) \cap N(v)|/|N(u) \cup N(v)|$;</li>
-  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$, which gives more weight to shared neighbours that have few links;</li>
-  <li><strong>preferential attachment</strong> $k_u k_v$, the score suggested by the Barabási–Albert model.</li>
+  <li><strong>Common neighbours</strong> $|N(u) \cap N(v)|$; <strong>Jaccard</strong> divides by $|N(u) \cup N(v)|$.</li>
+  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$: shared low-degree neighbours count more.</li>
+  <li><strong>Preferential attachment</strong> $k_u k_v$, from the <a href="ch5-preview.html">BA model</a>.</li>
 </ul>
+<p>Evaluate by hiding links: <strong>AUC</strong> = probability that a hidden link outscores a random non-link (ties ½). 0.5 is guessing, 1 perfect.</p>
 <div data-fig id="fig-links"></div>
 
+<div class="callout connect">
+  <ul>
+    <li><strong>Generalizes</strong> <a href="communities.html">spectral bisection</a>: one eigenvector splits, several embed.</li>
+    <li><strong>Common neighbours rely on</strong> <a href="ch2-clustering.html">clustering</a>: they work only where triangles close.</li>
+    <li><strong>Preferential attachment score</strong> applies the <a href="ch5-preview.html">BA rule</a> to prediction.</li>
+    <li><strong>Over-smoothing is</strong> a random walk reaching equilibrium, the same walk DeepWalk samples.</li>
+  </ul>
+</div>
+
 <div class="callout discuss">
-  <p>Common-neighbour scores assume triadic closure (friends of friends become friends). For which of the book's networks would you expect that to fail, and why?</p>
-  <div class="hint">Triadic closure is a social mechanism; it works for collaboration and phone calls, which have high clustering. Protein interaction networks are known to be poorly predicted by common neighbours, because two proteins that bind the same partner often compete for the same binding site and therefore do not bind each other; Kovács et al. (Nat. Commun. 2019) proposed counting paths of length three instead. The power grid has almost no triangles at all.</div>
+  <p>Common-neighbour scores assume friends of friends become friends. Where should that fail?</p>
+  <div class="hint">It suits clustered social networks (collaboration, phone calls). Proteins sharing a partner often compete for the same binding site and do not bind each other; Kovács et al. (Nat. Commun. 2019) count paths of length three instead. The power grid has almost no triangles.</div>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>After many message-passing layers with plain averaging, every node of a connected network ends up with almost the same value. What is this effect called?</p>
-  <ol><li>Overfitting</li><li>Over-smoothing</li><li>Percolation</li><li>Assortativity</li></ol>
-  <div class="explain">Repeated averaging is a random walk that converges to its stationary distribution, which carries no information about the starting labels. Deep GNNs counter it with residual connections, normalisation or attention.</div>
+  <p>After many plain-averaging layers, every node has almost the same value. This is</p>
+  <ol>
+    <li data-why="Overfitting is about training data, not depth of averaging.">overfitting</li>
+    <li>over-smoothing</li>
+    <li data-why="Percolation concerns connectivity under removal.">percolation</li>
+    <li data-why="Assortativity is a degree correlation.">assortativity</li>
+  </ol>
+  <div class="explain">Repeated averaging converges to a constant; the starting labels are lost. Residual connections and attention counter it.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A link predictor has AUC = 0.5. It</p>
+  <ol>
+    <li data-why="Half right is not the meaning; AUC compares pairs.">finds half the hidden links</li>
+    <li data-why="That would be AUC = 1.">ranks perfectly</li>
+    <li>does no better than guessing</li>
+    <li data-why="That would be AUC near 0.">ranks backwards</li>
+  </ol>
+  <div class="explain">A hidden link outscores a non-link only half the time.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Two-layer GNN. Which nodes can affect node $v$'s output?</p>
+  <ol>
+    <li>Nodes within distance 2</li>
+    <li data-why="Each layer reaches one step further.">Only neighbours</li>
+    <li data-why="Two layers reach two steps.">All nodes</li>
+    <li data-why="Each layer mixes in neighbours.">Only $v$</li>
+  </ol>
+  <div class="explain">Each layer adds one hop of neighbourhood.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Adamic–Adar weights of a shared neighbour with degree 2 vs 100?</p>
+  <ol>
+    <li data-why="The weight falls with degree.">Equal</li>
+    <li data-why="1/ln k, not 1/k.">0.5 vs 0.01</li>
+    <li data-why="Hubs are down-weighted.">Hub weighs more</li>
+    <li>1.44 vs 0.22</li>
+  </ol>
+  <div class="explain">$1/\ln 2 = 1.44$, $1/\ln 100 = 0.22$: sharing a hub is weak evidence.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Common neighbours score AUC 0.96 on collaboration but about 0.56 on proteins. Why?</p>
+  <ol>
+    <li data-why="Both have edge lists of similar quality.">Protein data are wrong</li>
+    <li>Collaboration is highly clustered; proteins sharing a partner rarely bind</li>
+    <li data-why="Size does not set AUC.">Proteins form a smaller network</li>
+    <li data-why="Both are undirected here.">Proteins are directed</li>
+  </ol>
+  <div class="explain">Co-authors of one person often co-author together (triangles); proteins do not follow triadic closure.</div>
 </div>
 
 </div></main>

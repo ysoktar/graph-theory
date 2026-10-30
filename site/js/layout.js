@@ -151,7 +151,7 @@ function buildFooter() {
 
 /** "Look for", "Discuss", … boxes get their label and icon; hints and answers get a reveal button. */
 function enhanceCallouts(root) {
-  const LABELS = { look: "Look for", discuss: "Discuss", key: "Key idea", gotcha: "Gotcha", try: "Try it", note: "Note", fix: "Correction to the notebook" };
+  const LABELS = { look: "Look for", discuss: "Discuss", key: "Key idea", gotcha: "Gotcha", try: "Try it", note: "Note", fix: "Correction to the notebook", why: "Why it matters", connect: "How this connects", example: "Worked example" };
   // correction boxes are filled from the errata list, so the site and notebook/ERRATA.md always agree
   for (const c of $$(".callout.fix[data-errata], .callout.fix[data-book], .callout.fix[data-software]", root)) {
     // notebook entries are located by cell; book and software entries by their own location text
@@ -211,9 +211,11 @@ export function enhanceQuizzes(root = document) {
         for (const x of $$("button", opts)) x.classList.remove("correct", "wrong");
         b.classList.add(ok ? "correct" : "wrong");
         if (ok) for (const x of $$("button", opts)) x.disabled = true;
+        // a wrong option may carry its own explanation (<li data-why="…">) of why it is tempting but wrong
+        const why = li.dataset.why;
         fb.innerHTML = ok
-          ? `<span class="verdict ok">✓ Correct.</span>${explain ? explain.innerHTML : ""}`
-          : `<span class="verdict no">✗ Not quite.</span> Try another option.`;
+          ? `<span class="verdict ok">✓ Correct.</span> ${explain ? explain.innerHTML : ""}`
+          : `<span class="verdict no">✗ Not quite.</span> ${why ? why + " " : ""}Try another option.`;
         renderMath(fb);
       });
       opts.append(b);

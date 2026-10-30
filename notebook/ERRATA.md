@@ -16,7 +16,7 @@ count saved with a code cell. The section is the notebook's own heading.
 |---|---|---|
 | Error | a statement or computation that is wrong | 1 |
 | Method | a methodological gap or confound that can mislead | 4 |
-| Imprecise | true only with a qualification, or overgeneralised | 14 |
+| Imprecise | true only with a qualification, or overgeneralised | 16 |
 | Format | typo or markup | 1 |
 
 ## Summary
@@ -43,6 +43,8 @@ count saved with a code cell. The section is the notebook's own heading.
 | [N18](#n18) | Imprecise | cell 68 | III.8 The role of the degree exponent · table | The notebook's own fits (cell 65) contradict “most real networks”: only 3 of the 8 networks fall in (2, 3) (metabolism 2.71, protein 2.78, WWW 2.16). |
 | [N19](#n19) | Imprecise | cell 73 | Part IV · Synthesis table | This holds for the collaboration network (configuration model ⟨C⟩ = 0.0022 against 0.633) but not in general. |
 | [N20](#n20) | Imprecise | cell 73 | Part IV · Synthesis table, “measured” column | Both entries generalise beyond the data. σ_k ≫ √⟨k⟩ fails for the power grid (1.79 against 1.63) and is weak for phone calls (2.77 against 1.76). |
+| [N21](#n21) | Imprecise | cell 43 | II.6 Small worlds · Look for | Advanced Topic 3.G does not correct the offset of ⟨d⟩. |
+| [N22](#n22) | Imprecise | cell 61 | III.4 Hubs · Look for | True for the three networks of cell 60 (collaboration 1.7×, Internet 1.3×, WWW 9.5×), but not for real tails in general. |
 
 ## Details
 
@@ -325,6 +327,34 @@ count saved with a code cell. The section is the notebook's own heading.
 
 **On the website:** [synthesis](https://ysoktar.github.io/graph-theory/synthesis.html)
 
+### N21
+
+**Imprecise** · cell 43 · II.6 Small worlds · Look for
+
+> `the formula captures the ln N growth, but it is an approximation; the offset is corrected in Advanced Topic 3.G.`
+
+**Problem.** Advanced Topic 3.G does not correct the offset of ⟨d⟩. It corrects the diameter: it opens with “Equation (3.18) offers only an approximation to the network diameter” and gives the Fernholz–Ramachandran formula for d_max. The book has no corrected formula for the average distance. The usual one, ⟨d⟩ ≈ (ln N − γ_E)/ln⟨k⟩ + ½, is from Fronczak, Fronczak and Hołyst (2004), which the book does not cite.
+
+**Correction.** “…it is an approximation. Advanced Topic 3.G gives finite-size corrections for the diameter; for ⟨d⟩ see Fronczak, Fronczak and Hołyst, Phys. Rev. E 70, 056110 (2004).”
+
+**Evidence.** Book, Advanced Topic 3.G (online Section 3.18), Eq. (3.42) and reference [36].
+
+**On the website:** [ch3-small-world](https://ysoktar.github.io/graph-theory/ch3-small-world.html)
+
+### N22
+
+**Imprecise** · cell 61 · III.4 Hubs · Look for
+
+> `the observed hubs lie between the two predictions. … Extrapolating the fitted power law to its natural cutoff overshoots, by a factor of roughly 1.3 to 10: real tails usually bend down at the very highest degrees`
+
+**Problem.** True for the three networks of cell 60 (collaboration 1.7×, Internet 1.3×, WWW 9.5×), but not for real tails in general. With the same fits (cell 65) the largest hub exceeds the natural cutoff k_min·n_tail^{1/(γ−1)} for E. coli metabolism (638 against 218, 2.9×), phone calls (80 against 66) and the power grid (19 against 18). Email (0.12×) and protein (0.81×) overshoot as stated.
+
+**Correction.** “For these three networks the extrapolated cutoff overshoots by 1.3 to 10; in others (metabolism, phone calls) the largest hub is above it. The natural cutoff is an order-of-magnitude estimate, not a bound.”
+
+**Evidence.** Cell 60 and 65 fits; the Largest hub page computes the ratio for all eight networks.
+
+**On the website:** [ch4-hubs](https://ysoktar.github.io/graph-theory/ch4-hubs.html)
+
 ## Problems found in the book
 
 The book (online edition, networksciencebook.com) was not taken as ground truth either. These are the places where it is
@@ -337,6 +367,11 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 | [B3](#b3) | Imprecise | Chapter 2, Table 2.1 (Science collaboration) | The edge list the book distributes (collaboration.edgelist.txt) contains 93,439 distinct undirected links, with no self-loops and no repeated pairs, not 93,437. |
 | [B4](#b4) | Imprecise | Chapter 2, Table 2.1 and Chapter 4, Table 4.1 (Protein interactions; Email) | The protein edge list has 2,930 lines, 225 of which are self-loops (a protein binding a copy of itself). |
 | [B5](#b5) | Error | Chapter 3, Section 3.5 versus Advanced Topic 3.B | Advanced Topic 3.B computes these two numbers for N = 10⁹, not 7×10⁹, and gets k_max with a largest-term approximation (N·p_k ≈ 1). |
+| [B6](#b6) | Format | Chapter 3, Section 3.8 (Small worlds) | Advanced Topic 3.F is Phase Transitions. |
+| [B7](#b7) | Format | Chapter 3, caption of Figure 3.12 (Six degrees? From Milgram to Facebook) | Equation (3.19) predicts the average distance, not the average degree. |
+| [B8](#b8) | Imprecise | Chapter 3, Box 3.7 versus the caption of Figure 3.12 (Milgram's experiment) | The same number, 5.2, is called the median in the box and the mean in the figure caption. |
+| [B9](#b9) | Format | Chapter 4, caption of Table 4.1 (Degree fluctuations in real networks) | Advanced Topic 4.A is “Power Laws” (definitions and relatives of the power law). |
+| [B10](#b10) | Format | Chapter 8, Section 8.3, Eqs. (8.4) and (8.5) (Molloy–Reed criterion) | The denominator lacks its angle brackets: κ is the ratio of the second moment to the average degree ⟨k⟩, not to a degree k. |
 
 ### B1
 
@@ -408,6 +443,76 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **On the website:** [ch3-real-degrees](https://ysoktar.github.io/graph-theory/ch3-real-degrees.html)
 
+### B6
+
+**Format** · Chapter 3, Section 3.8 (Small worlds)
+
+> `In real networks there are systematic corrections to (3.19), rooted in the fact that the number of nodes at distance d > ⟨d⟩ drops rapidly (ADVANCED TOPICS 3.F).`
+
+**Problem.** Advanced Topic 3.F is Phase Transitions. The small-world corrections are Advanced Topic 3.G (“Small World Corrections”).
+
+**Correction.** (ADVANCED TOPICS 3.G).
+
+**Evidence.** Headings of the online Chapter 3: Section 3.17 = Advanced Topic 3.F Phase Transitions, Section 3.18 = Advanced Topic 3.G Small World Corrections.
+
+**On the website:** [ch3-small-world](https://ysoktar.github.io/graph-theory/ch3-small-world.html)
+
+### B7
+
+**Format** · Chapter 3, caption of Figure 3.12 (Six degrees? From Milgram to Facebook)
+
+> `Using Facebook's N and L (3.19) predicts the average degree to be approximately 3.90, not far from the reported four degrees.`
+
+**Problem.** Equation (3.19) predicts the average distance, not the average degree. Facebook's average degree is ⟨k⟩ = 2L/N ≈ 189; the 3.90 is ln N/ln⟨k⟩.
+
+**Correction.** “…predicts the average distance to be approximately 3.90…”
+
+**Evidence.** N = 7.21×10⁸, L = 6.8×10¹⁰ (Box 3.7): ⟨k⟩ = 188.6 and ln N/ln⟨k⟩ = 20.40/5.24 = 3.89.
+
+**On the website:** [ch3-small-world](https://ysoktar.github.io/graph-theory/ch3-small-world.html)
+
+### B8
+
+**Imprecise** · Chapter 3, Box 3.7 versus the caption of Figure 3.12 (Milgram's experiment)
+
+> `He found that the median number of intermediates was 5.2 …   /   The mean of the distribution was 5.2, indicating that on average six ‘handshakes’ were required`
+
+**Problem.** The same number, 5.2, is called the median in the box and the mean in the figure caption. Both cannot hold for the plotted distribution (integer chain lengths, 64 chains): a median of 64 integers is an integer or a half-integer, never 5.2.
+
+**Correction.** Use one statistic in both places. 5.2 can only be the mean.
+
+**Evidence.** The median of an even number of integers is k or k + ½. Not re-checked against Travers and Milgram (1969) itself.
+
+**On the website:** [ch3-small-world](https://ysoktar.github.io/graph-theory/ch3-small-world.html)
+
+### B9
+
+**Format** · Chapter 4, caption of Table 4.1 (Degree fluctuations in real networks)
+
+> `We also list the estimated degree exponent, γ, for each network, determined using the procedure discussed in ADVANCED TOPICS 4.A.`
+
+**Problem.** Advanced Topic 4.A is “Power Laws” (definitions and relatives of the power law). The fitting procedure behind the exponents is Advanced Topic 4.C, “Estimating the Degree Exponent”, which the chapter cites for exactly that purpose elsewhere (“The statistical tools available to estimate γ are discussed in ADVANCED TOPICS 4.C”).
+
+**Correction.** (ADVANCED TOPICS 4.C).
+
+**Evidence.** Headings of the online Chapter 4, Sections 4.11–4.13. (Online, these three advanced topics are labelled 3.A–3.C and Chapter 5's 4.A–4.C, while the text cites them as 4.A–4.C and 5.A–5.C; this site uses the numbers the text cites.)
+
+**On the website:** [ch4-universality](https://ysoktar.github.io/graph-theory/ch4-universality.html)
+
+### B10
+
+**Format** · Chapter 8, Section 8.3, Eqs. (8.4) and (8.5) (Molloy–Reed criterion)
+
+> `κ = ⟨k²⟩ / k > 2   (8.4)`
+
+**Problem.** The denominator lacks its angle brackets: κ is the ratio of the second moment to the average degree ⟨k⟩, not to a degree k. The same typo is in the first step of (8.5); later equations of the chapter (Advanced Topics 8.B–8.C) write ⟨k⟩ correctly.
+
+**Correction.** κ = ⟨k²⟩/⟨k⟩ > 2.
+
+**Evidence.** LaTeX source of the online Chapter 8: \frac{\langle k^2\rangle}{k} in (8.4) and (8.5), \frac{\langle k^2\rangle}{\langle k\rangle} elsewhere.
+
+**On the website:** [robustness](https://ysoktar.github.io/graph-theory/robustness.html)
+
 ## Problems found in the software
 
 The notebook relies on the Python package powerlaw (2.0.0). Two defects in its discrete random generators turned up
@@ -473,6 +578,7 @@ who adds the goodness-of-fit test with powerlaw's generator.
 - The closed-form MLE applied with k_min = 1 gives ≈ 2.0 for γ = 2.5 (2.02), as the note in cell 55 says.
 - Degree-preserving randomisation with 2L swaps (cell 71) is enough: ⟨C⟩ has already plateaued (0.0022 after 2L swaps, 0.0019–0.0024 after 4L–12L).
 - Clustering convention: the book also sets Cᵢ = 0 for kᵢ ≤ 1 (caption of its Figure 2.16), consistent with nx.average_clustering. Using it is a convention, not an error; the Clustering page shows how much it matters.
+- Book citations on this site, checked against the online chapters: the Section, Advanced Topic, Box, Table and Figure numbers; Facebook (May 2011, 721 million users, 68 billion links, ⟨d⟩ = 4.74); Milgram (64 of 296 letters); Karinthy 1929; the exact BA pₖ = 2m(m+1)/(k(k+1)(k+2)) (Eq. 5.11) and kᵢ ∝ (t/tᵢ)^{1/2}; C* = 1.255, β = η/C* and pₖ ∼ k^{−(1+C*)}/ln k (Eqs. 6.7–6.8); k_nn ∼ k^μ and k_s ∼ (⟨k⟩N)^{1/2} (Eqs. 7.10, 7.15); f_c = 1 − 1/(κ − 1) and the bimodal optimum (Eqs. 8.7, 8.17, Section 8.7); k ≤ √(2L) and the WWW example k_C ≲ 1,730 (Eq. 9.14); λ_c = ⟨k⟩/⟨k²⟩ (SIS) and 1/(κ − 1) (SIR) (Ch 10).
 - Book results used by the notebook, re-derived or simulated rather than trusted: natural cutoff k_max ≈ k_min N^{1/(γ−1)}, divergence of ⟨k²⟩ for γ < 3, ⟨d⟩ ≈ ln N/ln⟨k⟩, S = 1 − e^{−⟨k⟩S}, C = ⟨k⟩/N (simulations on the corresponding pages); Internet γ ≈ 3.4 (our fit 3.40 at k_min = 70, against the book's 3.42 at k_min = 72).
 
 ---

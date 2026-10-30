@@ -21,29 +21,84 @@
 <p class="lead">Random networks are small worlds: $\langle d\rangle \sim \ln N$. Hubs make scale-free networks smaller still, because most short paths can pass through a few very well-connected nodes (Section 4.6).</p>
 
 <h2>Four regimes</h2>
-<div class="eq">$$\langle d\rangle \sim \begin{cases} \text{const} & \gamma = 2 \\ \ln\ln N & 2 < \gamma < 3 \\ \dfrac{\ln N}{\ln\ln N} & \gamma = 3 \\ \ln N & \gamma > 3 \end{cases}$$</div>
-<p>For $\gamma = 2$ the largest hub grows linearly with $N$ and is linked to a finite share of all nodes, so distances stay constant. For $2 < \gamma < 3$ hubs of decreasing size form a hierarchy through which any two nodes connect in $\sim\ln\ln N$ steps (Cohen and Havlin, 2003). Above $\gamma = 3$ the hubs are too small to matter and the network behaves like a random one.</p>
+<div class="eq">$$\langle d\rangle \sim \begin{cases} \text{const} & \gamma = 2 \\ \ln\ln N & 2 &lt; \gamma &lt; 3 \\ \dfrac{\ln N}{\ln\ln N} & \gamma = 3 \\ \ln N & \gamma &gt; 3 \end{cases}$$</div>
+<dl class="symbols">
+  <dt>$\langle d\rangle$</dt><dd>average shortest-path distance</dd>
+  <dt>$N$</dt><dd>number of nodes</dd>
+  <dt>$\gamma$</dt><dd>degree exponent</dd>
+  <dt>$\ln\ln N$</dt><dd>logarithm of the logarithm: grows extremely slowly</dd>
+</dl>
+<ul>
+  <li><strong>$\gamma = 2$:</strong> the largest hub grows like $N$ and links a finite share of all nodes, so distances stay constant.</li>
+  <li><strong>$2 &lt; \gamma &lt; 3$:</strong> hubs of decreasing size form a hierarchy that connects any two nodes in $\sim\ln\ln N$ steps (Cohen and Havlin, 2003).</li>
+  <li><strong>$\gamma &gt; 3$:</strong> the hubs are too small to matter; the network behaves like a random one.</li>
+</ul>
+<div class="callout example">
+  <p>$N = 10^6$: $\ln N = 13.8$, $\ln\ln N = 2.6$.</p>
+</div>
 
 <div data-fig id="fig-dn"></div>
 <div class="callout fix" data-errata="N17"></div>
 <div class="callout look">
-  <p>Even with a fair baseline, the network with $\gamma = 2.1$ has the shortest distances and they grow most slowly. The difference between $\ln N$ and $\ln\ln N$ is hard to see over two decades of $N$, though: $\ln\ln N$ changes from 1.5 to 2.3 between $N = 100$ and $30{,}000$. The regimes are asymptotic statements.</p>
+  <p>Even with a fair baseline, $\gamma = 2.1$ gives the shortest distances, growing most slowly. But $\ln\ln N$ changes only from 1.5 to 2.3 between $N = 100$ and $30{,}000$: the regimes are asymptotic statements.</p>
 </div>
 <div class="callout note">
-  <p>The degree sequences here are drawn with an exact discrete power-law sampler. The notebook's helper uses a rounding shortcut that over-represents degree 2 at $k_{\min} = 2$ (see <a href="notebook-check.html#N3">N3</a>), which makes its networks slightly sparser.</p>
+  <p>The degree sequences here use an exact discrete power-law sampler. The notebook's helper uses a rounding shortcut that over-represents degree 2 at $k_{\min} = 2$ (see <a href="notebook-check.html#N3">N3</a>), which makes its networks slightly sparser.</p>
 </div>
 
 <h2>The book's networks</h2>
-<p>Wiring each network's own degree sequence at random (configuration model) shows what the degrees alone do to distances:</p>
+<p>Wiring each network's own degree sequence at random (<a href="ch4-generating.html">configuration model</a>) shows what the degrees alone do to distances:</p>
 <div id="tbl-real"></div>
 <div class="callout look">
-  <p>With the same degrees but random wiring, every network except the power grid becomes smaller than its $G(N, L)$ counterpart, by 14% (collaboration) to 56% (email); highlighted rows are more than 20% smaller. The heterogeneous degrees alone shorten paths. Six of the eight real networks are <em>longer</em> than their randomly wired versions: communities and geography use up links locally that would otherwise serve as shortcuts.</p>
+  <ul>
+    <li>Same degrees, random wiring: every network except the power grid is smaller than its $G(N, L)$ counterpart, by 14% (collaboration) to 56% (email); highlighted rows are more than 20% smaller.</li>
+    <li>Six of the eight real networks are <em>longer</em> than their randomly wired versions: communities and geography spend links locally that would otherwise be shortcuts.</li>
+  </ul>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Explains why real networks are even smaller than the random model predicts.</li>
+    <li>Separates the effect of the degrees (configuration model) from that of the wiring (real network).</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Extends</strong> the <a href="ch3-small-world.html">small-world</a> result $\ln N$ of the random network.</li>
+    <li><strong>Caused by</strong> the <a href="ch4-hubs.html">growing hubs</a>.</li>
+    <li><strong>Null model:</strong> the <a href="ch4-generating.html">configuration model</a> keeps the degrees and randomises the rest.</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="2">
   <p>A network with $\gamma = 2.5$ grows from $10^4$ to $10^8$ nodes. Roughly how does $\ln\ln N$ change?</p>
-  <ol><li>It doubles</li><li>From about 2.2 to about 2.9</li><li>It grows tenfold</li><li>It does not change</li></ol>
-  <div class="explain">$\ln\ln 10^4 = \ln 9.2 \approx 2.2$ and $\ln\ln 10^8 = \ln 18.4 \approx 2.9$. Ten thousand times more nodes, about a third longer paths.</div>
+  <ol>
+    <li data-why="ln N doubles (9.2 → 18.4); its logarithm grows far less.">It doubles</li>
+    <li>From about 2.2 to about 2.9</li>
+    <li data-why="That is closer to the growth of N^(1/4), not of ln ln N.">It grows tenfold</li>
+    <li data-why="ln ln N grows, only very slowly.">It does not change</li>
+  </ol>
+  <div class="explain">$\ln\ln 10^4 = \ln 9.2 \approx 2.2$, $\ln\ln 10^8 = \ln 18.4 \approx 2.9$: ten thousand times more nodes, about a third longer paths.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>For which $\gamma$ do distances grow like a random network's, $\ln N$?</p>
+  <ol>
+    <li data-why="At γ = 2 distances stay constant.">$\gamma = 2$</li>
+    <li data-why="That is the ultra-small regime, ln ln N.">$2 &lt; \gamma &lt; 3$</li>
+    <li>$\gamma &gt; 3$</li>
+    <li data-why="Distances depend on γ through the hubs.">For every $\gamma$</li>
+  </ol>
+  <div class="explain">Above $\gamma = 3$ the hubs are too small to shortcut paths, and the network behaves like a random one.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>The Internet's average distance is 6.91; with the same degrees but random wiring it is 4.93. What explains the difference?</p>
+  <ol>
+    <li>The real wiring is local (communities, geography), using links that random wiring turns into shortcuts</li>
+    <li data-why="Both networks have exactly the same degrees.">The real network has fewer hubs</li>
+    <li data-why="The configuration model keeps N and every degree.">The randomly wired network has more nodes</li>
+    <li data-why="A difference of 40% across 300 sources is not sampling noise.">Sampling noise</li>
+  </ol>
+  <div class="explain">Degrees fix how short paths could be; the wiring decides whether the links are used as shortcuts.</div>
 </div>
 
 </div></main>

@@ -26,33 +26,67 @@
   <li>least squares on the linearly binned histogram, slope $= -\gamma$;</li>
   <li>least squares on the log-binned histogram, slope $= -\gamma$;</li>
   <li>least squares on the cumulative distribution, slope $= -(\gamma - 1)$;</li>
-  <li>the closed-form maximum-likelihood approximation of Advanced Topic 4.C, applied to the tail $k \ge 6$;</li>
+  <li>the closed-form maximum-likelihood approximation of Advanced Topic 4.C, on the tail $k \ge 6$;</li>
   <li>the exact discrete maximum-likelihood estimate, found numerically.</li>
 </ol>
 <div data-fig id="fig-experiment"></div>
 <div data-fig id="fig-trials"></div>
 <div class="callout look">
-  <p>Least squares on linear bins (1) is biased far below the true value in every sample. Log bins (2) and the cumulative distribution (3) are better on average but their error depends on choices (bins, fitting range), and the method gives no trustworthy error bar. Maximum likelihood (5) is centred on the truth with the smallest spread.</p>
+  <p>Linear bins (1) are biased far low in every sample. Log bins (2) and the cumulative distribution (3) are better on average, but depend on bins and fitting range and give no trustworthy error bar. Exact maximum likelihood (5) is centred on the truth with the smallest spread.</p>
+</div>
+<div class="callout example">
+  <p>20 samples, $n = 10^4$, $\gamma = 2.5$: (1) 1.32–1.98, (2) 2.21–2.61, (3) 2.29–2.77, (5) 2.48–2.55.</p>
 </div>
 
 <h2>Maximum likelihood (Advanced Topic 4.C)</h2>
-<p>For the tail $k_i \ge k_{\min}$ ($i = 1, \dots, n$) of a discrete power law, the log-likelihood of an exponent $\gamma$ is</p>
+<p>The <strong>likelihood</strong> $\mathcal L(\gamma)$ is the probability of the observed degrees if the exponent were $\gamma$. For the tail of a discrete power law:</p>
 <div class="eq">$$\ln \mathcal L(\gamma) = \sum_{i=1}^{n} \ln p_{k_i} = -n \ln \zeta(\gamma, k_{\min}) - \gamma \sum_{i=1}^{n} \ln k_i .$$</div>
-<p>The estimate $\hat\gamma$ maximises it. There is no closed formula, but the function has a single maximum and is easy to search numerically. Its standard error is approximately $\sigma = (\hat\gamma - 1)/\sqrt{n}$. Treating the degrees as continuous gives the closed-form approximation used in the book,</p>
-<div class="eq">$$\hat\gamma \approx 1 + n \left[\sum_{i=1}^{n} \ln \frac{k_i}{k_{\min} - \tfrac12}\right]^{-1},$$</div>
-<p>which is accurate only for $k_{\min} \gtrsim 6$. Applied to all data with $k_{\min} = 1$ it gives about 2.0 for a sample with $\gamma = 2.5$ (Clauset, Shalizi and Newman 2009).</p>
+<dl class="symbols">
+  <dt>$k_i$</dt><dd>degree of node $i$ in the tail ($k_i \ge k_{\min}$)</dd>
+  <dt>$n$</dt><dd>number of nodes in the tail</dd>
+  <dt>$p_{k_i}$</dt><dd>power-law probability of degree $k_i$</dd>
+  <dt>$\zeta(\gamma, k_{\min})$</dt><dd>Hurwitz zeta function (normalisation)</dd>
+</dl>
+<p>Derivation, in three steps:</p>
+<ol>
+  <li>Independent degrees: $\mathcal L = \prod_i p_{k_i}$, so $\ln \mathcal L = \sum_i \ln p_{k_i}$.</li>
+  <li>Insert $p_k = k^{-\gamma}/\zeta(\gamma, k_{\min})$: $\ln p_{k_i} = -\gamma \ln k_i - \ln \zeta(\gamma, k_{\min})$.</li>
+  <li>Sum over the $n$ tail nodes.</li>
+</ol>
+<p>The estimate $\hat\gamma$ maximises $\ln\mathcal L$; there is no closed formula, but the curve has a single peak, easy to find numerically. Its standard error is approximately</p>
+<div class="eq">$$\sigma = \frac{\hat\gamma - 1}{\sqrt{n}}.$$</div>
+<dl class="symbols">
+  <dt>$\hat\gamma$</dt><dd>maximum-likelihood estimate of $\gamma$</dd>
+  <dt>$\sigma$</dt><dd>standard error of $\hat\gamma$</dd>
+</dl>
+<div class="callout example">
+  <p>Internet: $n = 1{,}286$ tail nodes, $\hat\gamma = 3.40$, so $\sigma = 2.40/\sqrt{1286} = 0.067$.</p>
+</div>
+<p>Treating degrees as continuous gives the closed-form approximation used in the book:</p>
+<div class="eq">$$\hat\gamma \approx 1 + n \left[\sum_{i=1}^{n} \ln \frac{k_i}{k_{\min} - \tfrac12}\right]^{-1}.$$</div>
+<dl class="symbols">
+  <dt>$k_{\min} - \tfrac12$</dt><dd>continuity correction for integer degrees</dd>
+</dl>
+<p>It is accurate only for $k_{\min} \gtrsim 6$. With $k_{\min} = 1$ it gives about 2.0 for $\gamma = 2.5$ (Clauset, Shalizi and Newman 2009).</p>
 <div data-fig id="fig-lik"></div>
 
 <h2>Real data: the Clauset–Shalizi–Newman method</h2>
-<p>A real degree distribution is rarely a power law from $k = 1$. At best its tail is, above some unknown $k_{\min}$. Clauset, Shalizi and Newman (<em>SIAM Review</em> 51, 661, 2009) proposed a three-step recipe:</p>
+<p>A real degree distribution is rarely a power law from $k = 1$; at best its tail is, above an unknown $k_{\min}$. Clauset, Shalizi and Newman (<em>SIAM Review</em> 51, 661, 2009) proposed three steps:</p>
 <ol>
-  <li><strong>Fit.</strong> For every candidate $k_{\min}$, estimate $\gamma$ by maximum likelihood on $k \ge k_{\min}$ and compute the Kolmogorov–Smirnov distance $D$ between the tail and the fitted law. Keep the $k_{\min}$ with the smallest $D$.</li>
-  <li><strong>Test.</strong> Generate synthetic data sets from the fitted model, refit each one, and compute $p$, the share whose $D$ is at least as large as the observed one. If $p < 0.1$, the power law is ruled out.</li>
-  <li><strong>Compare.</strong> Use likelihood-ratio tests to compare the power law with alternatives such as the log-normal or the exponential.</li>
+  <li><strong>Fit.</strong> For every candidate $k_{\min}$, fit $\gamma$ by maximum likelihood on $k \ge k_{\min}$ and compute the Kolmogorov–Smirnov distance $D$. Keep the $k_{\min}$ with the smallest $D$.</li>
+  <li><strong>Test.</strong> Draw synthetic data sets from the fitted model, refit each, and compute $p$, the share with $D$ at least the observed one. If $p &lt; 0.1$, the power law is ruled out.</li>
+  <li><strong>Compare.</strong> Likelihood-ratio tests against alternatives such as the log-normal or the exponential.</li>
 </ol>
+<div class="eq">$$D = \max_{k \ge k_{\min}} \bigl|S(k) - P(k)\bigr|$$</div>
+<dl class="symbols">
+  <dt>$D$</dt><dd>Kolmogorov–Smirnov distance: largest gap between data and model</dd>
+  <dt>$S(k)$</dt><dd>observed share of tail nodes with degree $\ge k$</dd>
+  <dt>$P(k)$</dt><dd>fitted power law's share with degree $\ge k$</dd>
+  <dt>$p$</dt><dd>goodness-of-fit $p$-value from the bootstrap</dd>
+</dl>
 <div data-fig id="fig-scan"></div>
 <div class="callout gotcha">
-  <p><strong>Check the defaults of a fitting routine.</strong> Version 2.0 of the Python <code>powerlaw</code> package restricts the exponent to $\gamma \le 3$ unless told otherwise. Any $k_{\min}$ whose best exponent exceeds 3 is silently discarded. For the Internet this moves the result from $k_{\min} = 70$, $\hat\gamma = 3.40$ to $k_{\min} = 36$, $\hat\gamma = 2.94$: the "scale-free regime" is produced by the default, not by the data. Try it with the toggle above.</p>
+  <p><strong>Check the defaults of a fitting routine.</strong> The Python <code>powerlaw</code> package (2.0) restricts the exponent to $\gamma \le 3$ unless told otherwise and silently discards any $k_{\min}$ whose best exponent exceeds 3. For the Internet this moves the result from $k_{\min} = 70$, $\hat\gamma = 3.40$ to $k_{\min} = 36$, $\hat\gamma = 2.94$: the "scale-free regime" comes from the default, not the data. Try the toggle above.</p>
 </div>
 
 <div data-fig id="fig-alt"></div>
@@ -60,21 +94,70 @@
 <div class="callout fix" data-errata="N14"></div>
 
 <h2>Three bugs in the powerlaw package</h2>
-<p>Checking the bootstrap of step 2 against Python turned up three defects in the random-number generators of <code>powerlaw</code> 2.0.0, which any bootstrap built on <code>generate_random()</code> inherits. The notebook itself is not affected: its only call uses $k_{\min} = 1$, where the generator happens to be exact. Reproductions, a proposed fix and validation scripts are in <a href="https://github.com/ysoktar/graph-theory/tree/main/research/powerlaw-discrete-generator">research/powerlaw-discrete-generator</a>.</p>
+<p>Checking the bootstrap of step 2 against Python turned up three defects in the random-number generators of <code>powerlaw</code> 2.0.0, which any bootstrap built on <code>generate_random()</code> inherits. The notebook is not affected: its only call uses $k_{\min} = 1$, where the generator happens to be exact. Reproductions, a proposed fix and validation scripts are in <a href="https://github.com/ysoktar/graph-theory/tree/main/research/powerlaw-discrete-generator">research/powerlaw-discrete-generator</a>.</p>
 <div class="callout fix" data-software="S1"></div>
 <div class="callout fix" data-software="S2"></div>
 <div class="callout fix" data-software="S3"></div>
 
 <h2>Is the Internet scale-free?</h2>
 <div class="callout discuss">
-  <p>By the CSN criterion, the power law is ruled out for three of the eight networks and borderline for the Internet, and where it is plausible it often covers only a few per cent of the nodes. Are these networks "scale-free"? Does the answer matter?</p>
-  <div class="hint">The question started a lively debate. Broido and Clauset (<em>Nat. Commun.</em> 10, 1017, 2019) applied the method to almost 1,000 networks and concluded that "scale-free networks are rare". Holme (<em>Nat. Commun.</em> 10, 1016, 2019) and Voitalov, van der Hoorn, van der Hofstad and Krioukov (<em>Phys. Rev. Research</em> 1, 033034, 2019) replied that strict power-law tests are the wrong standard: what matters for hubs, distances, robustness and spreading is whether the tail is heavy, that is whether $\langle k^2\rangle$ is much larger than $\langle k\rangle^2$. On that criterion all eight networks except the power grid qualify. Both sides agree that a straight line on a log-log plot proves nothing.</div>
+  <p>By the CSN criterion the power law is ruled out for three of the eight networks and borderline for the Internet, and where it is plausible it often covers only a few per cent of the nodes. Are these networks "scale-free"? Does it matter?</p>
+  <div class="hint">Broido and Clauset (<em>Nat. Commun.</em> 10, 1017, 2019) tested almost 1,000 networks and concluded that "scale-free networks are rare". Holme (<em>Nat. Commun.</em> 10, 1016, 2019) and Voitalov, van der Hoorn, van der Hofstad and Krioukov (<em>Phys. Rev. Research</em> 1, 033034, 2019) replied that what matters for hubs, distances, robustness and spreading is whether the tail is heavy, i.e. whether $\langle k^2\rangle \gg \langle k\rangle^2$. Here $\langle k^2\rangle/\langle k\rangle^2$ ranges from 1.45 (power grid) to 121 (email). Both sides agree that a straight line on a log-log plot proves nothing.</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>$\gamma$ drives every prediction of the scale-free model, so a biased $\hat\gamma$ gives wrong predictions.</li>
+    <li>Maximum likelihood gives an unbiased $\hat\gamma$ with an error bar.</li>
+    <li>The bootstrap test says whether a power law is plausible at all, which no fit can.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Builds on</strong> <a href="ch4-plotting.html">plotting</a>: the plot suggests, the fit decides.</li>
+    <li><strong>Feeds</strong> $\hat\gamma$ and $k_{\min}$ into <a href="ch4-hubs.html">hub sizes</a>, <a href="ch4-universality.html">universality</a> and <a href="ch4-exponent.html">the role of γ</a>.</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="3">
   <p>The bootstrap test of a power-law fit returns $p = 0.45$. What can you conclude?</p>
-  <ol><li>The degree distribution is a power law with probability 0.45</li><li>The power law is ruled out</li><li>The power law is a plausible description of the tail; the data cannot reject it</li><li>The power law fits better than a log-normal</li></ol>
-  <div class="explain">A large $p$ only means that the data are consistent with the fitted power law: deviations as large as the observed one are common in samples drawn from it. It does not prove the power law, and it says nothing about alternatives such as the log-normal, which may be equally plausible. That is what step 3 (likelihood ratios) is for.</div>
+  <ol>
+    <li data-why="p is the share of synthetic samples with a larger D, not the probability that the model is true.">The distribution is a power law with probability 0.45</li>
+    <li data-why="The power law is ruled out only when p &lt; 0.1.">The power law is ruled out</li>
+    <li>The power law is plausible; the data cannot reject it</li>
+    <li data-why="Comparing with a log-normal needs a likelihood-ratio test (step 3).">The power law fits better than a log-normal</li>
+  </ol>
+  <div class="explain">A large $p$ means deviations as large as the observed one are common in samples from the fitted law. It neither proves the power law nor rules out alternatives.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A tail of $n = 400$ nodes gives $\hat\gamma = 3$. What is the approximate standard error?</p>
+  <ol>
+    <li>0.1</li>
+    <li data-why="That divides by n instead of √n.">0.005</li>
+    <li data-why="That uses γ̂ instead of γ̂ − 1.">0.15</li>
+    <li data-why="That forgets the square root entirely and is far too large.">2</li>
+  </ol>
+  <div class="explain">$\sigma = (\hat\gamma - 1)/\sqrt n = 2/20 = 0.1$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Why is $k_{\min}$ chosen by minimising $D$ rather than set to 1?</p>
+  <ol>
+    <li data-why="Larger k_min means fewer tail nodes and a larger error, not a smaller one.">A larger $k_{\min}$ always reduces the standard error</li>
+    <li>Too small includes the non-power-law head (bias); too large wastes data (noise)</li>
+    <li data-why="The likelihood exists for any k_min ≥ 1.">The likelihood is undefined for $k_{\min} = 1$</li>
+    <li data-why="γ is not fixed by k_min; it is fitted for each candidate.">$\gamma$ is fixed once $k_{\min}$ is known</li>
+  </ol>
+  <div class="explain">Real distributions follow a power law only in the tail. The KS scan picks the $k_{\min}$ above which the fitted law matches the data best.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>A power law beats the exponential in a likelihood-ratio test ($R &gt; 0$, $p &lt; 0.001$). Is a power law therefore plausible?</p>
+  <ol>
+    <li data-why="R only ranks two candidates; both can be bad.">Yes, the test proves it</li>
+    <li data-why="R &gt; 0 favours the power law; it does not reject it.">No, $R &gt; 0$ rules it out</li>
+    <li data-why="Sample size does not change what the test compares.">Only if $n &gt; 1{,}000$</li>
+    <li>Not established: that needs the bootstrap goodness-of-fit test</li>
+  </ol>
+  <div class="explain">A likelihood ratio only says which of two models is less bad. Collaboration, email and the WWW beat the exponential yet fail the bootstrap test.</div>
 </div>
 
 </div></main>

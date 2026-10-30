@@ -27,6 +27,7 @@ import { binomPmf, fmt, mean, std, arrMin, arrMax } from "../lib/stats.js";
     },
   });
   const t = stats(pr, [{ key: "pairs", label: "pairs examined" }, { key: "L", label: "links so far" }, { key: "exp", label: "expected so far, p × pairs" }]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   const msg = h("p", { class: "small", style: { minHeight: "3em", marginTop: "10px" }, "aria-live": "polite" });
   pr.append(msg);
   function reset() {
@@ -96,6 +97,7 @@ import { binomPmf, fmt, mean, std, arrMin, arrMax } from "../lib/stats.js";
     { key: "mt", label: "⟨L⟩ theory: p·N(N−1)/2" }, { key: "ms", label: "⟨L⟩ simulated" },
     { key: "st", label: "σ_L theory: √(L_max p(1−p))" }, { key: "ss", label: "σ_L simulated" },
   ]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const plot = new Plot(f.body, { height: 280, x: { label: "number of links L" }, y: { label: "probability" } });
   function run() {
     const rng = new RNG(seed);

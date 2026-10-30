@@ -12,6 +12,7 @@ const tip = tooltip();
   const f = figure("#fig-lvn", { title: "Number of links versus number of nodes", sub: "The book's eight networks (as undirected, simple networks)." });
   const p = new Plot(f.body, { height: 340, x: { type: "log", label: "number of nodes N", min: 300, max: 2e6 }, y: { type: "log", label: "number of links L", min: 100, max: 1e12 } });
   const nets = NETWORK_ORDER.map((n) => networks[n]);
+  const LABEL_POS = { protein: { dx: 8, dy: 14 }, powergrid: { dx: 8, dy: -6 }, collaboration: { anchor: "end", dx: -8, dy: -8 }, phonecalls: { dx: 2, dy: 17 }, email: { dx: 6, dy: -9 } };
   const lines = [1, 10, 100].map((k) => fnSeries((N) => (k * N) / 2, 300, 2e6, 2, { log: true, color: "random", thin: true, label: `⟨k⟩ = ${k}`, legend: false, tooltip: false, table: false }));
   p.update({
     series: [
@@ -21,9 +22,10 @@ const tip = tooltip();
         tooltip: (d) => [h("div", { class: "tt-title" }, d[2].description), h("div", {}, `N = ${fmt.int(d[2].N)}, L = ${fmt.int(d[2].L)}`), h("div", {}, `⟨k⟩ = ${fmt.fix(d[2].avgk, 2)}, density = ${fmt.exp((2 * d[2].L) / (d[2].N * (d[2].N - 1)), 1)}`)] },
     ],
     annotations: [
-      ...nets.map((d) => ({ x: d.N, y: d.L, text: SHORT[d.name], dx: 8, dy: d.name === "protein" ? 14 : d.name === "powergrid" ? -6 : 4 })),
+      // Collaboration, phone calls and email sit close together: put one label above, one below, one to the right.
+      ...nets.map((d) => ({ x: d.N, y: d.L, text: SHORT[d.name], ...(LABEL_POS[d.name] || { dx: 8, dy: 4 }) })),
       ...[1, 10, 100].map((k) => ({ x: 1.6e6, y: (k * 1.6e6) / 2, text: `⟨k⟩ = ${k}`, anchor: "end", dy: -6 })),
-      { x: 2.2e3, y: (2.2e3 * 2.2e3) / 2, text: "L_max", dx: 4, dy: -6 },
+      { x: 2.2e3, y: (2.2e3 * 2.2e3) / 2, text: "L_max", anchor: "end", dx: -6, dy: -8 },
     ],
     xName: "N", yFormat: (v) => fmt.int(v),
   });
@@ -109,11 +111,11 @@ const tip = tooltip();
   const sk = slider(f.controls, { label: "average degree ⟨k⟩", min: 1, max: 1000, value: k, log: true, step: 0.01, format: (v) => fmt.sig(v, 3), onInput: (v) => { k = v; update(); }, wide: true });
   const t = stats(left, [
     { key: "L", label: "links L = N⟨k⟩/2" }, { key: "Lmax", label: "possible links L_max" }, { key: "dens", label: "density" },
-    { key: "bits", label: "dense matrix, 1 bit/entry" }, { key: "f64", label: "dense, 8 bytes/entry (NumPy default)" },
+    { key: "f64", label: "dense, 8 bytes/entry (NumPy default)" }, { key: "bits", label: "dense matrix, 1 bit/entry" },
     { key: "el", label: "edge list" }, { key: "csr", label: "sparse matrix (CSR)" },
   ]);
   const plot = new Plot(right, {
-    height: 280, legend: false, table: true,
+    height: 280, legend: false, table: true, margin: { top: 12, right: 18, bottom: 42, left: 74 },
     x: { label: "representation", tickValues: [1, 2, 3, 4], format: (v) => ["", "dense, 8 B", "dense, 1 bit", "edge list", "CSR"][v] || "", min: 0.4, max: 4.6, zero: false },
     y: { type: "log", label: "bytes", format: (v) => bytes(v) },
   });

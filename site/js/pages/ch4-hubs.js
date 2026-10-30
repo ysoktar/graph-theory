@@ -14,7 +14,7 @@ const expo = (N, g, kmin) => kmin + Math.log(N) * ((kmin * (g - 1)) / (g - 2) - 
   let gamma = 2.5, N = 1e6;
   const kmin = 1;
   const f = figure("#fig-theory", { title: "How large is the largest hub?", sub: "Natural cutoff of a power law against an exponential and a Poisson distribution with the same ⟨k⟩ (k_min = 1)." });
-  const t = stats(f.body, [{ key: "pl", label: "power law: k_min N^{1/(γ−1)}" }, { key: "ex", label: "exponential: k_min + ln N / λ" }, { key: "po", label: "Poisson: N·P(K > k_max) = 1" }, { key: "k", label: "⟨k⟩ of all three" }]);
+  const t = stats(f.body, [{ key: "pl", label: "power law: k_min N^(1/(γ−1))" }, { key: "ex", label: "exponential: k_min + ln N / λ" }, { key: "po", label: "Poisson: N·P(K > k_max) = 1" }, { key: "k", label: "⟨k⟩ of all three" }]);
   const plot = new Plot(f.body, { height: 300, x: { type: "log", label: "network size N" }, y: { type: "log", label: "largest degree k_max" } });
   function draw() {
     const mk = (kmin * (gamma - 1)) / (gamma - 2);
@@ -57,7 +57,7 @@ const expo = (N, g, kmin) => kmin + Math.log(N) * ((kmin * (g - 1)) / (g - 2) - 
           { type: "scatter", data: rows.map((x) => [x.N, x.pl]), color: 1, label: `power law, γ = ${gamma}`, r: 4.5 },
           { type: "scatter", data: rows.map((x) => [x.N, x.exp]), color: 2, label: "exponential, same ⟨k⟩", r: 4.5, symbol: "diamond" },
           { type: "scatter", data: rows.map((x) => [x.N, x.poisson]), color: "random", label: "Poisson, same ⟨k⟩", r: 4, symbol: "square" },
-          fnSeries((n) => natural(n, gamma, 1), 100, 1e6, 30, { log: true, color: "theory", dashed: true, label: "theory: k_min N^{1/(γ−1)} and k_min + ln N / λ", tooltip: false }),
+          fnSeries((n) => natural(n, gamma, 1), 100, 1e6, 30, { log: true, color: "theory", dashed: true, label: "theory: k_min N^(1/(γ−1)) and k_min + ln N / λ", tooltip: false }),
           fnSeries((n) => expo(n, gamma, 1), 100, 1e6, 30, { log: true, color: "theory", dashed: true, legend: false, tooltip: false }),
         ],
         xName: "N", yFormat: (v) => fmt.sig(v, 3),
@@ -68,7 +68,7 @@ const expo = (N, g, kmin) => kmin + Math.log(N) * ((kmin * (g - 1)) / (g - 2) - 
   slider(f.controls, { label: "γ", min: 2.1, max: 3.5, step: 0.1, value: gamma, format: (v) => v.toFixed(1), onChange: (v) => { gamma = v; go(); } });
   f.controls.append(status);
   go();
-  f.setCaption("The samples grow with the slopes the theory predicts. They sit slightly above the dashed lines because the median of the maximum solves P(max ≤ k) = ½, not N·P(K ≥ k) = 1: for the power law that is (N/ln 2)^{1/(γ−1)}, about 1.3 times the natural cutoff at γ = 2.5. The power-law maximum fluctuates strongly from sample to sample, which is why the median is shown. The Poisson value is its exact median, from P(max ≤ k) = F(k)^N.");
+  f.setCaption("The samples grow with the slopes the theory predicts. They sit slightly above the dashed lines because the median of the maximum solves P(max ≤ k) = ½, not N·P(K ≥ k) = 1: for the power law that is (N/ln 2)^(1/(γ−1)), about 1.3 times the natural cutoff at γ = 2.5. The power-law maximum fluctuates strongly from sample to sample, which is why the median is shown. The Poisson value is its exact median, from P(max ≤ k) = F(k)^N.");
 }
 
 // ------------------------------------------------------------------ 3. real networks (notebook cell 59)
@@ -81,7 +81,7 @@ const expo = (N, g, kmin) => kmin + Math.log(N) * ((kmin * (g - 1)) / (g - 2) - 
   });
   document.getElementById("tbl-real").append(dataTable([
     { label: "Network", align: "left" }, { label: "N", format: fmt.int }, { label: "observed k_max", format: fmt.int },
-    { label: "Poisson k_max", format: fmt.int }, { label: "natural cutoff k_min·n_tail^{1/(γ−1)}", format: fmt.int },
+    { label: "Poisson k_max", format: fmt.int }, { label: "natural cutoff k_min·n_tail^(1/(γ−1))", format: fmt.int },
     { label: "observed / cutoff", format: (v) => v.toFixed(2) }, { label: "k_min", format: fmt.int }, { label: "γ̂", format: (v) => v.toFixed(2) },
   ], rows, { highlight: (r) => r[5] > 1 }));
 })();

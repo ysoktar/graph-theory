@@ -442,3 +442,72 @@ a.card:hover { border-color: var(--border-strong); transform: translateY(-1px); 
 .callout-label span { min-width: 0; overflow-wrap: anywhere; }
 /* KaTeX's hidden MathML copy can stick out past the right edge in Chromium; clip it at the article */
 main { overflow-x: clip; }
+
+/* ---------- Königsberg map ---------- */
+:root {
+  --kb-land: #f1ede2; --kb-street: rgba(120, 104, 80, 0.10); --kb-water: #cfe0f3; --kb-wave: rgba(42, 120, 214, 0.28);
+  --kb-shore: #93b4dc; --kb-stone: #9b8e7b; --kb-stone-dark: #6f6352; --kb-rail: #5d5244;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --kb-land: #26241f; --kb-street: rgba(240, 230, 210, 0.06); --kb-water: #17283d; --kb-wave: rgba(109, 167, 236, 0.30);
+    --kb-shore: #2f4d73; --kb-stone: #8c8170; --kb-stone-dark: #4a4338; --kb-rail: #c9bda8;
+  }
+}
+:root[data-theme="dark"] {
+  --kb-land: #26241f; --kb-street: rgba(240, 230, 210, 0.06); --kb-water: #17283d; --kb-wave: rgba(109, 167, 236, 0.30);
+  --kb-shore: #2f4d73; --kb-stone: #8c8170; --kb-stone-dark: #4a4338; --kb-rail: #c9bda8;
+}
+.kb-map { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid var(--border); background: var(--kb-land); }
+.kb-land { cursor: default; outline: none; }
+.kb-land.startable { cursor: pointer; }
+.kb-land.startable:hover path:first-child, .kb-land.startable:focus-visible path:first-child { fill: color-mix(in srgb, var(--s4) 16%, var(--kb-land)); }
+.kb-land.here path:first-child { fill: color-mix(in srgb, var(--s2) 12%, var(--kb-land)); }
+.kb-river { font: italic 13px var(--font); fill: color-mix(in srgb, var(--s1) 70%, var(--text)); opacity: .85; pointer-events: none; }
+.kb-letter { font: 700 24px var(--font); fill: var(--text); }
+.kb-letter.here { fill: var(--s2); }
+.kb-name { font: 12px var(--font); fill: var(--text-2); }
+.kb-compass circle { fill: var(--surface); stroke: var(--border-strong); }
+.kb-compass path { fill: var(--text-2); }
+.kb-compass text { font: 700 10px var(--font); fill: var(--text-2); }
+.kb-bridge { cursor: pointer; outline: none; }
+.kb-bridge .kb-shadow { fill: rgba(0, 0, 0, .18); transform: translate(2px, 2px); }
+.kb-bridge .kb-deck { fill: var(--kb-stone); stroke: var(--kb-stone-dark); stroke-width: 1; transition: fill .2s; }
+.kb-bridge .kb-rail { stroke: var(--kb-rail); stroke-width: 2; stroke-linecap: round; }
+.kb-bridge .kb-badge { fill: var(--surface); stroke: var(--kb-stone-dark); stroke-width: 1.5; transition: fill .2s, stroke .2s; }
+.kb-bridge .kb-badge-text { font: 700 12px var(--font); fill: var(--text); pointer-events: none; }
+.kb-bridge:hover .kb-deck, .kb-bridge:focus-visible .kb-deck { fill: color-mix(in srgb, var(--kb-stone) 70%, var(--s4)); }
+.kb-bridge.next .kb-deck { fill: color-mix(in srgb, var(--kb-stone) 45%, var(--s4)); }
+.kb-bridge.next .kb-badge { stroke: var(--s4); stroke-width: 3; }
+.kb-bridge.used .kb-deck { fill: var(--s2); stroke: color-mix(in srgb, var(--s2) 70%, #000); }
+.kb-bridge.used .kb-badge { fill: var(--s2); stroke: var(--surface); }
+.kb-bridge.used .kb-badge-text { fill: #fff; }
+.kb-bridge.absent .kb-shadow, .kb-bridge.absent .kb-rail { display: none; }
+.kb-bridge.absent .kb-deck { fill: transparent; stroke: var(--text-2); stroke-dasharray: 5 4; }
+.kb-bridge.absent .kb-badge { stroke-dasharray: 3 3; }
+.kb-trail { fill: none; stroke: var(--s2); stroke-width: 3; stroke-dasharray: 7 6; stroke-linecap: round; stroke-linejoin: round; opacity: .75; pointer-events: none; }
+.kb-walker { pointer-events: none; transition: transform .45s ease; }
+.kb-walker circle:first-child { fill: var(--s2); stroke: var(--surface); stroke-width: 2.5; }
+.kb-walker-head { fill: #fff; }
+.kb-walker-body { fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; }
+.kb-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: .78rem; color: var(--text-2); margin-top: 6px; }
+.kb-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.kb-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.kb-dot.you { background: var(--s2); }
+.kb-dot.next { background: transparent; border: 3px solid var(--s4); }
+.kb-dot.used { background: var(--s2); border-radius: 3px; }
+@media (prefers-reduced-motion: reduce) { .kb-walker { transition: none; } }
+
+/* ---------- pedagogy: why / connect / example boxes, symbol lists ---------- */
+.callout.why { border-left-color: var(--s7); }
+.callout.why .callout-label svg { color: var(--s7); }
+.callout.connect { border-left-color: var(--s6); background: color-mix(in srgb, var(--s6) 5%, var(--surface-2)); }
+.callout.connect .callout-label svg { color: var(--s6); }
+.callout.example { border-left-color: var(--s4); background: var(--surface); border: 1px solid var(--border); border-left-width: 3px; }
+.callout.example .callout-label svg { color: var(--s4); }
+/* "where …" list under an equation: symbol on the left, plain-language meaning on the right */
+dl.symbols { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: -0.4rem 0 1.3rem; padding: 10px 14px; border-radius: 8px; background: var(--surface-2); font-size: 0.92rem; }
+dl.symbols::before { content: "where"; grid-column: 1 / -1; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+dl.symbols dt { font-weight: 600; text-align: right; white-space: nowrap; }
+dl.symbols dd { margin: 0; color: var(--text-2); }
+@media (max-width: 560px) { dl.symbols { grid-template-columns: 1fr; } dl.symbols dt { text-align: left; } }

@@ -7,7 +7,7 @@ import { Graph } from "../lib/graph.js";
 import { ccdf, fitPowerLaw, fmt } from "../lib/stats.js";
 import { run } from "../lib/compute.js";
 
-/** Exact BA degree distribution (book Section 5.4): p_k = 2m(m+1) / (k(k+1)(k+2)), k ≥ m. */
+/** Exact BA degree distribution (book Eq. 5.11, Section 5.5; derived in Advanced Topic 5.A): p_k = 2m(m+1) / (k(k+1)(k+2)), k ≥ m. */
 const baPk = (k, m) => (2 * m * (m + 1)) / (k * (k + 1) * (k + 2));
 const baSf = (k, m) => (m * (m + 1)) / (k * (k + 1)); // P(K ≥ k)
 

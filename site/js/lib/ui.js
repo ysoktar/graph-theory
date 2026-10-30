@@ -297,5 +297,8 @@ export const CALLOUT_ICONS = {
   gotcha: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2l6.5 11.5h-13z" stroke-linejoin="round"/><path d="M8 6.5v3.2M8 11.6v.1"/></svg>',
   try: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 8.5l2.5 2.5L12 5"/><rect x="1.8" y="1.8" width="12.4" height="12.4" rx="3"/></svg>',
   note: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.2"/><path d="M8 7v4.2M8 4.7v.1"/></svg>',
+  why: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.8a4.4 4.4 0 0 0-2.6 8v1.7h5.2V9.8A4.4 4.4 0 0 0 8 1.8z" stroke-linejoin="round"/><path d="M6 13.8h4"/></svg>',
+  connect: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="3.5" cy="8" r="2"/><circle cx="12.5" cy="3.5" r="2"/><circle cx="12.5" cy="12.5" r="2"/><path d="M5.3 7.1l5.4-2.7M5.3 8.9l5.4 2.7"/></svg>',
+  example: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="1.8" width="11" height="12.4" rx="1.6"/><path d="M5 5.5h6M5 8h6M5 10.5h3.5"/></svg>',
   fix: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10.5 2.5l3 3-7.5 7.5H3v-3z" stroke-linejoin="round"/><path d="M9 4l3 3"/></svg>',
 };

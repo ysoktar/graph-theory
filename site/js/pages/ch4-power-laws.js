@@ -52,7 +52,7 @@ const expected = (logP, N) => {
       ],
       x: lin ? { type: "linear", min: 0, max: kmaxShow, label: "degree k" } : { type: "log", min: 1, max: 1e4, label: "degree k" },
       y: lin ? { type: "linear", min: 0, label: "pₖ" } : { type: "log", min: 1e-14, max: 10, label: "pₖ" },
-      bands: k1 && k2 && !lin ? [{ x0: Math.max(1, kmin), x1: k1, label: "more small nodes" }, { x0: k2, x1: 1e4, label: "vastly more hubs", opacity: 0.05 }] : [],
+      bands: k1 && k2 && !lin ? [{ x0: Math.max(1, kmin), x1: k1, label: "more small nodes" }, { x0: k1, x1: k2, label: "fewer near ⟨k⟩", opacity: 0 }, { x0: k2, x1: 1e4, label: "vastly more hubs", opacity: 0.05 }] : [],
       rules: [{ x, label: `x = ${x}`, color: "theory" }],
       xName: "k", yFormat: (v) => fmt.sig(v, 3),
     });

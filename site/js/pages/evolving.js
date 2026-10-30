@@ -4,7 +4,7 @@ import { Plot, fnSeries } from "../lib/plot.js";
 import { ccdf, fitPowerLaw, fmt } from "../lib/stats.js";
 import { run } from "../lib/compute.js";
 
-const C = 1.255; // Bianconi–Barabási constant for uniform fitness on [0, 1] (book Section 6.3)
+const C = 1.255; // Bianconi–Barabási constant for uniform fitness on [0, 1] (book Eq. 6.7, Section 6.2)
 const PLANTED = [{ t: 10, eta: 0.3 }, { t: 100, eta: 0.6 }, { t: 1000, eta: 1 }];
 
 (async () => {

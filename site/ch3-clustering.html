@@ -18,43 +18,109 @@
 <main><div class="content">
 
 <h1>Clustering in random networks</h1>
-<p class="lead">Your friends tend to know each other. In a random network they almost never do. Clustering is the second property, after the degree distribution, on which the random network model fails badly.</p>
+<p class="lead">Your friends tend to know each other. Do they in a random network? Almost never: clustering is the second property, after the degree distribution, on which the random model fails badly.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Predicts <a href="ch2-clustering.html">clustering</a> (Part I) for chance wiring: a baseline for "a lot of triangles".</li>
+    <li>Real $C$ far above it → local mechanisms (shared contexts, triadic closure, teams).</li>
+  </ul>
+</div>
 
 <h2>The prediction (Section 3.9)</h2>
-<p>The local clustering coefficient of node $i$ is $C_i = 2L_i/[k_i(k_i-1)]$, where $L_i$ is the number of links among its $k_i$ neighbours (<a href="ch2-clustering.html">Section 2.10</a>). In a random network every pair of nodes is linked with the same probability $p$, including pairs of neighbours of $i$. So the expected number of links among them is $\langle L_i\rangle = p\,k_i(k_i-1)/2$ and</p>
+<ol>
+  <li>Local clustering: $C_i = 2L_i/[k_i(k_i-1)]$ (<a href="ch2-clustering.html">Section 2.10</a>).</li>
+  <li>Node $i$'s $k_i$ neighbours form $k_i(k_i-1)/2$ pairs; each is linked with probability $p$, like any pair.</li>
+  <li>So $\langle L_i\rangle = p\,k_i(k_i-1)/2$, and dividing:</li>
+</ol>
 <div class="eq">$$\langle C_i\rangle = p = \frac{\langle k\rangle}{N-1} \approx \frac{\langle k\rangle}{N}.$$</div>
-<p>This has two consequences:</p>
+<dl class="symbols">
+  <dt>$C_i$</dt><dd>fraction of pairs of $i$'s neighbours that are linked</dd>
+  <dt>$L_i$</dt><dd>links among $i$'s neighbours</dd>
+  <dt>$k_i$</dt><dd>degree of node $i$</dd>
+  <dt>$p$</dt><dd>link probability of any pair</dd>
+</dl>
 <ul>
-  <li>at fixed $\langle k\rangle$, clustering <strong>vanishes as the network grows</strong>, like $1/N$;</li>
-  <li>$C_i$ is <strong>independent of the degree</strong>: hubs and small nodes have the same expected clustering.</li>
+  <li>Fixed $\langle k\rangle$: $C$ <strong>vanishes like $1/N$</strong> as the network grows.</li>
+  <li>$C_i$ is <strong>independent of $k_i$</strong>: hubs and small nodes alike.</li>
 </ul>
+<div class="callout example">
+  <p>$\langle k\rangle = 10$: $C = 0.01$ at $N = 10^3$, $10^{-5}$ at $N = 10^6$. Collaboration: $8.08/23{,}133 = 3.5\times10^{-4}$.</p>
+</div>
 <div data-fig id="fig-why"></div>
 <div data-fig id="fig-cn"></div>
 
 <h2>Real networks</h2>
 <div data-fig id="fig-real"></div>
 <div class="callout look">
-  <p>Every real network is far more clustered than its random counterpart, and the gap grows with $N$. For the collaboration network the random model predicts $\langle C\rangle \approx 3.5\times10^{-4}$; the real value is 0.633. Co-authors of a paper with three or more authors are all linked to each other, which creates triangles wholesale.</p>
+  <p>Every real network is far more clustered than random, and the gap grows with $N$. Collaboration: 0.633 vs $3.5\times10^{-4}$ (1,800×). A paper with three or more authors links all of them, creating triangles wholesale.</p>
 </div>
 
 <h2>Clustering depends on the degree</h2>
 <div data-fig id="fig-ck"></div>
 <div class="callout look">
   <ul>
-    <li>Real $C(k)$ decreases with $k$, in several networks roughly like $1/k$. Small nodes sit in tight groups; hubs connect many groups that are not linked to each other. Chapter 9 calls this <em>hierarchical modularity</em>.</li>
-    <li>Wiring the same degree sequence at random (orange triangles) restores some clustering in networks with big hubs. For E. coli metabolism it reaches nearly half the real value, because hubs that share many neighbours create triangles by chance. For the collaboration network it stays tiny. The <a href="ch4-generating.html">Generating networks</a> page returns to this.</li>
+    <li>Real $C(k)$ (average $C_i$ over nodes of degree $k$) falls with $k$, in several networks roughly like $1/k$: small nodes sit in tight groups, hubs bridge groups (<em>hierarchical modularity</em>, Ch 9).</li>
+    <li>Random wiring of the same degrees (orange triangles) recovers some clustering where hubs are big (E. coli: nearly half), not for collaboration. See <a href="ch4-generating.html">Generating networks</a>.</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Builds on</strong> $C_i$ and $\langle C\rangle$ from <a href="ch2-clustering.html">Part I</a>; $p$ from <a href="ch3-model.html">the model</a>.</li>
+    <li><strong>Fixed by</strong> <a href="ch3-small-world.html">Watts–Strogatz</a>: high $C$ + short paths, but still no hubs.</li>
+    <li><strong>Better null model:</strong> the <a href="ch4-generating.html">configuration model</a> keeps degrees; excess $C$ over it is beyond what degrees explain.</li>
+    <li><strong>Leads to</strong> $C(k) \sim 1/k$ and <a href="communities.html">communities</a> (Ch 9).</li>
   </ul>
 </div>
 
 <div class="callout discuss">
-  <p>The random network predicts $\langle C\rangle \to 0$ for large $N$ at fixed $\langle k\rangle$. Why would real social networks not behave like that, even when they grow very large?</p>
-  <div class="hint">Social ties form locally: through shared workplaces, families, classes, friends introducing friends (<em>triadic closure</em>). Whether two of your friends know each other depends on your shared context, not on how many people live on the planet. So $C$ stays roughly constant while $N$ grows. The Watts–Strogatz model on the <a href="ch3-small-world.html">previous page</a> builds exactly this in.</div>
+  <p>Random networks predict $\langle C\rangle \to 0$ as $N$ grows. Why don't large social networks behave like that?</p>
+  <div class="hint">Ties form locally: workplaces, families, classes, friends introducing friends (<em>triadic closure</em>). Whether two of your friends know each other depends on shared context, not on world population, so $C$ stays roughly constant as $N$ grows. Watts–Strogatz builds this in.</div>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>A random network has $N = 10^5$ nodes and $\langle k\rangle = 20$. What is the expected clustering coefficient of a node with $k = 200$?</p>
-  <ol><li>About $2\times10^{-4}$</li><li>About $2\times10^{-3}$</li><li>About $1/200$</li><li>About $0.1$</li></ol>
-  <div class="explain">$C = p \approx \langle k\rangle/N = 20/10^5 = 2\times10^{-4}$, the same for every node. The degree of the node does not matter.</div>
+  <p>Random network, $N = 10^5$, $\langle k\rangle = 20$. Expected $C_i$ of a node with $k = 200$?</p>
+  <ol>
+    <li>About $2\times10^{-4}$</li>
+    <li data-why="That uses k = 200 instead of ⟨k⟩; C does not depend on the node's degree.">About $2\times10^{-3}$</li>
+    <li data-why="1/k is real networks' trend; the random model has none.">About $1/200$</li>
+    <li data-why="That is a real-network value, 500 times too high.">About $0.1$</li>
+  </ol>
+  <div class="explain">$C = p \approx 20/10^5 = 2\times10^{-4}$ for every node.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Keep $\langle k\rangle = 10$, grow a random network from $10^3$ to $10^6$ nodes. $\langle C\rangle$ …</p>
+  <ol>
+    <li data-why="C = ⟨k⟩/N depends on N.">stays at 0.01</li>
+    <li data-why="That is √1000 ≈ 32×, but C ∝ 1/N.">falls about 30×</li>
+    <li>falls 1,000×, to $10^{-5}$</li>
+    <li data-why="More nodes means more candidates per neighbour, so a pair is less likely linked.">grows</li>
+  </ol>
+  <div class="explain">$\langle C\rangle = \langle k\rangle/N$: $10/10^3 \to 10/10^6$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Collaboration: $\langle C\rangle = 0.633$, random 0.00035. Main cause?</p>
+  <ol>
+    <li data-why="The random counterpart has the same ⟨k⟩.">a higher average degree</li>
+    <li>multi-author papers link all their authors to each other</li>
+    <li data-why="Hubs alone recover little: random wiring with the same degrees stays tiny for this network.">its hubs</li>
+    <li data-why="Its size lowers the random value; it does not raise the real one.">its large N</li>
+  </ol>
+  <div class="explain">Each paper with $m$ authors adds a complete subgraph: all $m(m-1)/2$ pairs are linked.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Real $C(k) \sim 1/k$ means …</p>
+  <ol>
+    <li data-why="That is what a random network predicts: C independent of k.">all nodes are equally clustered</li>
+    <li data-why="It is the opposite: hubs have the lowest C.">hubs are the most clustered</li>
+    <li data-why="C(k) is measured on all nodes of each degree, not on a few.">clustering is a sampling artefact</li>
+    <li>small nodes sit in tight groups; hubs link groups that are not linked to each other</li>
+  </ol>
+  <div class="explain">A hub's neighbours belong to different groups, so few of its neighbour pairs are linked.</div>
 </div>
 
 </div></main>

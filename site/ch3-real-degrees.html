@@ -18,30 +18,101 @@
 <main><div class="content">
 
 <h1>Real networks are not Poisson</h1>
-<p class="lead">If real networks were wired at random, their degrees would cluster tightly around the average. They do not, and the difference is not small: it is a matter of hundreds of orders of magnitude.</p>
+<p class="lead">If real networks were wired at random, how large could their best-connected node be? The Poisson tail answers precisely, and real networks miss it by hundreds of orders of magnitude.</p>
 
-<p>In a random network the largest degree $k_{\max}$ is set by requiring that at most one node, on average, has a degree above it (book, Advanced Topic 3.B):</p>
-<div class="eq">$$N\,P(K > k_{\max}) \approx 1, \qquad\text{and similarly}\qquad N\,P(K < k_{\min}) \approx 1.$$</div>
+<div class="callout why">
+  <ul>
+    <li>Tests the <a href="ch3-degree.html">Poisson prediction</a> on data.</li>
+    <li>Nodes far above it → chance wiring is rejected; some mechanism concentrates links.</li>
+  </ul>
+</div>
+
+<h2>How large is the largest node? (Advanced Topic 3.B)</h2>
+<div class="eq">$$N\,P(K > k_{\max}) \approx 1, \qquad N\,P(K < k_{\min}) \approx 1.$$</div>
+<dl class="symbols">
+  <dt>$K$</dt><dd>degree of a randomly chosen node (a random variable)</dd>
+  <dt>$P(K > k)$</dt><dd>fraction of nodes with more than $k$ links, $\sum_{k' > k} p_{k'}$</dd>
+  <dt>$N\,P(K > k_{\max})$</dt><dd>expected number of such nodes; = 1 means "about one node"</dd>
+  <dt>$k_{\min}$</dt><dd>smallest degree, from the lower tail</dd>
+</dl>
+<div class="callout example">
+  <p>$\langle k\rangle = 10$: $k_{\max} \approx 21$ ($N = 10^3$), 28 ($10^6$), 34 ($10^9$). Power law, $\gamma = 2.5$: $k_{\max} \sim N^{2/3} = 10^6$ at $N = 10^9$.</p>
+</div>
 
 <h2>A random society</h2>
-<p>A person knows roughly $\langle k\rangle \approx 1{,}000$ people. If society were a random network, how popular would the most popular person be?</p>
+<p>A person knows about $\langle k\rangle \approx 1{,}000$ people. The figure plots $N p_k$, the expected number of people with $k$ acquaintances.</p>
 <div data-fig id="fig-society"></div>
 <div class="callout look">
-  <p>In a random society of seven billion people the most connected person would know only about 1,200 people, and the least connected about 800. About two thirds of people would know between 968 and 1,032 others ($\langle k\rangle \pm \sigma_k$), and 99.7% between 905 and 1,095 ($\pm 3\sigma_k$). There would be no celebrities, no hubs and no hermits. Real social networks are nothing like this.</p>
+  <p>$N = 7\times10^9$: most connected person ≈ 1,200 acquaintances, least ≈ 800. $\sigma_k \approx 32$: two thirds know 968–1,032 people, 99.7% know 905–1,095. No celebrities, no hermits.</p>
 </div>
 <div class="callout fix" data-book="B5"></div>
 
 <h2>The book's networks against Poisson</h2>
+<p>Each network vs the Poisson with its own $\langle k\rangle$. <strong>Log bins</strong> (widening with $k$) and the <strong>CCDF</strong> $P(K \ge k)$ show the tail; <strong>linear bins</strong> reproduce the notebook (see <a href="ch4-plotting.html">How (not) to plot $p_k$</a>).</p>
 <div data-fig id="fig-compare"></div>
 <div class="callout look">
-  <p>For the collaboration network, a random network with the same $\langle k\rangle$ would have its largest node at $k \approx 21$. The data contain 244 scientists with 50 or more collaborators, where the Poisson distribution expects $6.5\times10^{-19}$ of them. The expected number of nodes with the observed $k_{\max} = 279$ is $10^{-309}$.</p>
+  <p>Collaboration ($\langle k\rangle = 8.08$): Poisson $k_{\max} \approx 21$. Nodes with $k \ge 50$: 244 observed, $6.5\times10^{-19}$ expected. Expected nodes with $k = 279$: $10^{-309}$.</p>
 </div>
 <div class="callout fix" data-errata="N8"></div>
+<p>Every network exceeds its Poisson $k_{\max}$. Smallest gap: power grid (19 vs 10, an engineered network); largest: WWW (10,721 vs 21).</p>
 <div id="tbl-kmax"></div>
 
+<div class="callout connect">
+  <ul>
+    <li><strong>Builds on</strong> the Poisson tail of <a href="ch3-degree.html">Degree distribution</a>.</li>
+    <li><strong>Contrast:</strong> power-law <a href="ch4-hubs.html">natural cutoff</a> $k_{\max} \sim k_{\min} N^{1/(\gamma-1)}$ grows like a power of $N$ (Ch 4).</li>
+    <li><strong>Explained by</strong> growth + preferential attachment (<a href="ch5-preview.html">Barabási–Albert</a>, Ch 5).</li>
+    <li><strong>Better null model</strong> once hubs are accepted: the <a href="ch4-generating.html">configuration model</a> keeps every degree.</li>
+  </ul>
+</div>
+
 <div class="callout discuss">
-  <p>A random-network model predicts no node with more than about 20 collaborators, yet the data contain dozens of scientists with more than 100. Which processes could produce these hubs? <span class="muted">(Notebook II.3; keep the question in mind for Chapter 5.)</span></p>
-  <div class="hint">Some ideas, all studied later in the book. <em>Growth with preferential attachment</em>: well-connected scientists attract new collaborators because they are visible and productive ("the rich get richer", Chapter 5). <em>Fitness</em>: some nodes are intrinsically more attractive (Chapter 6). <em>Longevity</em>: nodes that joined early have had more time to accumulate links. <em>Team size</em>: a few papers with hundreds of authors give each author hundreds of links at once. That last one is an artefact of the bipartite projection.</div>
+  <p>Random wiring predicts no node above about 20 collaborators; the data have dozens above 100. Which processes could produce these hubs? <span class="muted">(Notebook II.3.)</span></p>
+  <div class="hint"><em>Preferential attachment</em>: visible scientists attract collaborators (Ch 5). <em>Fitness</em>: some nodes are intrinsically more attractive (Ch 6). <em>Longevity</em>: early nodes had more time. <em>Team size</em>: a paper with hundreds of authors gives each hundreds of links at once, an artefact of the bipartite projection.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Random network, $N = 10^6$, $\langle k\rangle = 10$. Largest degree?</p>
+  <ol>
+    <li data-why="10 is typical; a million nodes reach further into the tail.">10</li>
+    <li>about 28</li>
+    <li data-why="That is 300 σₖ above the mean.">about 1,000</li>
+    <li data-why="That is a power-law hub.">about 100,000</li>
+  </ol>
+  <div class="explain">$N\,P(K > k_{\max}) = 1$ with Poisson mean 10 gives 28.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$\langle k\rangle = 10$, $N$ grows from $10^3$ to $10^9$. $k_{\max}$ goes from 21 to …</p>
+  <ol>
+    <li data-why="A larger sample does reach further into the tail.">21</li>
+    <li>about 34</li>
+    <li data-why="Linear growth needs a power-law tail.">about 21,000,000</li>
+    <li data-why="√N growth is far too fast for a 1/k! tail.">about 21,000</li>
+  </ol>
+  <div class="explain">Each extra link costs a large factor in probability ($\langle k\rangle^k/k!$): a million-fold larger network gains 13 links.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Collaboration: $k_{\max} = 279$, random counterpart ≈ 21. Conclusion?</p>
+  <ol>
+    <li data-why="With 23,133 nodes the prediction is precise.">The network is too small</li>
+    <li data-why="The excess appears in all eight networks.">The data are wrong</li>
+    <li>Links are not formed independently at random</li>
+    <li data-why="The counterpart has the same ⟨k⟩ by construction.">The real ⟨k⟩ is higher</li>
+  </ol>
+  <div class="explain">Expected count $10^{-309}$ rejects the null model; a mechanism such as preferential attachment is needed.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Linear bins: the collaboration $p_k$ ends in a flat line at about $4\times10^{-5}$. What is it?</p>
+  <ol>
+    <li>$1/N$: each tail degree is held by one node</li>
+    <li data-why="Poisson is below 10⁻¹⁸ there.">The Poisson tail</li>
+    <li data-why="Most large degrees occur once or not at all.">A real plateau in pₖ</li>
+    <li data-why="p ≈ 3.5 × 10⁻⁴ is a link probability, not a pₖ.">The link probability p</li>
+  </ol>
+  <div class="explain">$1/23{,}133 \approx 4.3\times10^{-5}$: a sampling artefact. Log bins and the CCDF show the real decay.</div>
 </div>
 
 </div></main>

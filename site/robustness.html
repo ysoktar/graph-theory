@@ -18,41 +18,121 @@
 <main><div class="content">
 
 <h1>Robustness &amp; attacks</h1>
-<p class="lead">Routers fail, proteins are knocked out, power stations go offline. How many nodes can a network lose before it falls apart? The answer depends on which nodes are lost, and scale-free networks give two opposite answers (Chapter 8).</p>
+<p class="lead">How many nodes can a network lose before it falls apart? It depends on <em>which</em> nodes: scale-free networks are very hard to break by accident and very easy to break on purpose (Chapter 8).</p>
+
+<div class="callout why">
+  <ul>
+    <li>A network works only while its nodes can reach each other; we measure that by the <strong>giant component</strong> (<a href="ch3-evolution.html">Ch 3</a>).</li>
+    <li>The theory predicts the damage needed to destroy it from the degrees alone.</li>
+    <li>It tells engineers which designs survive failures and which nodes to protect.</li>
+  </ul>
+</div>
 
 <div data-fig id="fig-break"></div>
 
-<h2>Percolation and the Molloy–Reed criterion</h2>
-<p>Removing a random fraction $f$ of the nodes is a percolation problem: above a critical fraction $f_c$ the giant component disappears. A randomly wired network has a giant component when a node reached by following a link has, on average, at least one further link to follow:</p>
-<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 \qquad \text{(Molloy–Reed criterion)}.$$</div>
-<p>Removing nodes at random lowers $\kappa$, and the giant component vanishes at</p>
+<h2>Removing nodes is percolation</h2>
+<p>Remove a fraction $f$ of nodes; at a <strong>critical fraction</strong> $f_c$ the giant component breaks up. This threshold transition is <strong>percolation</strong>: the birth of the giant component run backwards.</p>
+<ul>
+  <li><strong>Random failures:</strong> every node equally likely.</li>
+  <li><strong>Targeted attacks:</strong> highest degree first.</li>
+</ul>
+
+<h2>The Molloy–Reed criterion</h2>
+<p>A node reached along a link must offer at least one <em>further</em> link, or paths die out. Such a node has mean degree $\langle k^2\rangle/\langle k\rangle$ (the <a href="correlations.html">friendship paradox</a>), so a giant component needs</p>
+<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 .$$</div>
+<dl class="symbols">
+  <dt>$\kappa$</dt><dd>mean degree of a node reached along a random link</dd>
+  <dt>$\langle k\rangle$</dt><dd>mean degree</dd>
+  <dt>$\langle k^2\rangle$</dt><dd>mean squared degree, large with hubs (<a href="ch4-moments.html">Ch 4</a>)</dd>
+  <dt>$2$</dt><dd>one link in, at least one out</dd>
+</dl>
+<p>Assumes random wiring given the degrees (configuration model).</p>
+<div class="callout fix" data-book="B10"></div>
+
+<h2>The critical fraction</h2>
+<ol>
+  <li>Remove $f$ at random: each link survives with probability $1 - f$.</li>
+  <li>The moments shrink so that $\kappa_f = (1-f)\,\kappa + f$.</li>
+  <li>Set $\kappa_f = 2$ and solve:</li>
+</ol>
 <div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}.$$</div>
-<p>For a random network $\kappa = \langle k\rangle + 1$ and $f_c = 1 - 1/\langle k\rangle$. For a scale-free network with $\gamma < 3$, $\langle k^2\rangle$ diverges with $N$, so $f_c \to 1$: an infinite scale-free network cannot be broken by random failures.</p>
+<dl class="symbols"><dt>$f_c$</dt><dd>fraction of random failures that destroys the giant component</dd></dl>
+<ul>
+  <li>Random network: $\kappa = \langle k\rangle + 1$, so $f_c = 1 - 1/\langle k\rangle$.</li>
+  <li>Scale-free, $\gamma &lt; 3$: $\kappa \to \infty$, so $f_c \to 1$.</li>
+</ul>
+<div class="callout example">
+  <p>Internet: $\kappa = 240.1/6.34 = 37.9$ → $f_c = 1 - 1/36.9 = 97.3\%$. Random network, same $\langle k\rangle$: $84.2\%$.</p>
+</div>
 <div id="tbl-fc"></div>
 
 <h2>The book's networks</h2>
 <div data-fig id="fig-real"></div>
 <div class="callout look">
   <ul>
-    <li>Under random failures, heavy-tailed networks shrink slowly and keep a giant component far beyond the random network's threshold.</li>
-    <li>Under attack the same networks collapse after a few per cent of their nodes are removed, far earlier than a random network of the same size. Their robustness and their fragility have the same cause: the hubs.</li>
-    <li>The power grid has no hubs: random failures and attacks do similar damage, and it is fragile to both.</li>
+    <li>Random failures: heavy-tailed networks keep a giant component far beyond the random network's threshold.</li>
+    <li>Attacks: the same networks collapse after a few per cent.</li>
+    <li>The power grid has no hubs and is fragile to both.</li>
   </ul>
 </div>
 
 <div class="callout key">
-  <p>Scale-free networks are <em>robust yet fragile</em>: robust to random failures, because a random node is almost never a hub, and fragile to targeted attacks, because removing the few hubs disconnects everything they held together. The same $\langle k^2\rangle$ that makes them robust appears in the epidemic threshold (<a href="epidemics.html">Spreading</a>).</p>
+  <p><em>Robust yet fragile</em>: a random failure almost never hits a hub; an attack removes the hubs that hold everything together.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Reverse of</strong> the <a href="ch3-evolution.html">giant-component transition</a>: for a random network $\kappa = 2$ is $\langle k\rangle = 1$.</li>
+    <li><strong>Builds on</strong> the <a href="ch4-moments.html">divergent $\langle k^2\rangle$</a> for $\gamma &lt; 3$.</li>
+    <li><strong>Same formula as</strong> the <a href="epidemics.html">epidemic threshold</a>: $T_c = 1 - f_c$.</li>
+    <li><strong>Modified by</strong> <a href="correlations.html">degree correlations</a>: linked hubs back each other up.</li>
+  </ul>
 </div>
 
 <div class="callout discuss">
-  <p>A network operator can add a few links but not remove hubs. How would you make a scale-free network more resistant to attacks without making it much more fragile to random failures?</p>
-  <div class="hint">Section 8.7 discusses optimal designs: networks with a bimodal degree distribution (a few hubs plus many nodes of equal degree) maximise the combined threshold for failures and attacks. In practice, adding links between medium-degree nodes creates alternative paths that do not run through the hubs, and protecting the hubs themselves is cheaper than protecting everything.</div>
+  <p>You can add links but not remove hubs. How would you resist attacks without becoming fragile to failures?</p>
+  <div class="hint">Section 8.7: a bimodal degree distribution (a few hubs, many equal nodes) maximises the combined threshold. Links between medium-degree nodes add paths that bypass hubs.</div>
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>A random network has $\langle k\rangle = 4$. What fraction of randomly chosen nodes must be removed to destroy its giant component?</p>
-  <ol><li>25%</li><li>50%</li><li>75%</li><li>100%</li></ol>
-  <div class="explain">$f_c = 1 - 1/\langle k\rangle = 1 - 1/4 = 75\%$. The remaining network then has $\langle k\rangle = 1$, the critical point of the random network.</div>
+  <p>Random network, $\langle k\rangle = 4$. What fraction of random failures destroys the giant component?</p>
+  <ol>
+    <li data-why="That leaves ⟨k⟩ = 3.">25%</li>
+    <li data-why="That leaves ⟨k⟩ = 2, still above 1.">50%</li>
+    <li>75%</li>
+    <li data-why="It breaks once ⟨k⟩ reaches 1.">100%</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/4 = 75\%$; the survivors have $\langle k\rangle = 1$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$\langle k\rangle = 5$, $\langle k^2\rangle = 255$, random wiring. $f_c$?</p>
+  <ol>
+    <li data-why="That is 1 − 1/⟨k⟩, ignoring hubs.">80%</li>
+    <li>98%</li>
+    <li data-why="κ = 51 is a ratio, not a percentage.">51%</li>
+    <li data-why="Large ⟨k²⟩ means robust.">2%</li>
+  </ol>
+  <div class="explain">$\kappa = 51$, $f_c = 1 - 1/50 = 98\%$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Why does removing the top 1% of hubs do far more damage than a random 1%?</p>
+  <ol>
+    <li data-why="Both remove the same number.">More nodes are removed</li>
+    <li data-why="Hubs are rare, so random failures miss them.">Hubs fail more often</li>
+    <li data-why="Small nodes contribute little to ⟨k²⟩.">Small nodes hold it together</li>
+    <li>Hubs dominate $\langle k^2\rangle$, so $\kappa$ collapses</li>
+  </ol>
+  <div class="explain">Removing hubs drives $\kappa$ to 2 within a few per cent; random removal barely changes it.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>The power grid ($\kappa = 3.9$) breaks well before the Molloy–Reed $f_c = 65\%$. Why?</p>
+  <ol>
+    <li>It is spatial, not randomly wired: long chains, few alternative paths</li>
+    <li data-why="The formula fits random networks of this size well.">It is too small</li>
+    <li data-why="It has no large hubs.">Its hubs fail first</li>
+    <li data-why="⟨k⟩ and ⟨k²⟩ are exact from the data.">Degrees are mismeasured</li>
+  </ol>
+  <div class="explain">Molloy–Reed assumes random wiring. The grid is stretched ($\langle d\rangle = 18.8$) and splits after about a third of its nodes fail.</div>
 </div>
 
 </div></main>

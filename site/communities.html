@@ -18,33 +18,122 @@
 <main><div class="content">
 
 <h1>Communities</h1>
-<p class="lead">Real networks are made of groups that are densely linked inside and sparsely linked to each other: research fields, friend circles, functional modules of a cell. Finding them is the subject of Chapter 9.</p>
+<p class="lead">Real networks consist of groups densely linked inside and sparsely linked to each other: research fields, friend circles, cell modules. Chapter 9 finds them from the links alone.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Degrees say how many links; communities say who links to whom at a larger scale.</li>
+    <li>They reveal function: proteins that work together, where a group may split.</li>
+    <li>The random models of Chapters 3–5 have none, so we need a test that separates real groups from chance clumps.</li>
+  </ul>
+</div>
 
 <h2>Modularity (Section 9.4)</h2>
-<p>A partition is good if more links fall inside its groups than we would expect by chance. Modularity compares the two, using the configuration model as the chance baseline:</p>
-<div class="eq">$$Q = \sum_{c} \left[\frac{L_c}{L} - \left(\frac{k_c}{2L}\right)^2\right],$$</div>
-<p>where $L_c$ is the number of links inside community $c$ and $k_c$ the total degree of its nodes. $Q = 0$ for a single group containing everything; larger $Q$ means more links inside groups than chance predicts.</p>
+<p>A community has more internal links than random wiring with the same degrees (the <a href="ch4-moments.html">configuration model</a>) would give it. Modularity scores a partition by that excess:</p>
+<div class="eq">$$Q = \sum_{c} \left[\frac{L_c}{L} - \left(\frac{k_c}{2L}\right)^2\right].$$</div>
+<dl class="symbols">
+  <dt>$c$</dt><dd>a community of the partition</dd>
+  <dt>$L$</dt><dd>total number of links</dd>
+  <dt>$L_c$</dt><dd>links inside $c$</dd>
+  <dt>$k_c$</dt><dd>total degree of the nodes in $c$</dd>
+  <dt>$(k_c/2L)^2$</dt><dd>expected fraction of links inside $c$ under random wiring (both ends land in $c$)</dd>
+</dl>
+<p>Observed minus expected: $Q = 0$ for one all-inclusive group, $Q &lt; 0$ for fewer internal links than chance, $Q &lt; 1$ always.</p>
+<div class="callout example">
+  <p>Karate club, $L = 78$: factions with $(L_c, k_c) = (35, 81)$ and $(32, 75)$. $Q = (0.449 - 0.270) + (0.410 - 0.231) = 0.358$.</p>
+</div>
+
 <div data-fig id="fig-karate"></div>
 <div class="callout look">
-  <p>Spectral bisection recovers the real split almost exactly, misplacing one or two members who are as connected to one side as to the other. Louvain splits the club into four groups with higher $Q$ than the real two-way split: maximising modularity answers a slightly different question than "where will the club break?".</p>
+  <p>Spectral bisection misplaces only members 2 and 8. Louvain finds four groups with $Q = 0.420$, above the real split: maximising $Q$ is not the same as predicting the split.</p>
 </div>
 
 <h2>Algorithms</h2>
 <ul>
-  <li><strong>Spectral bisection:</strong> split by the sign of the Laplacian's Fiedler vector (see <a href="embeddings.html">embeddings</a>).</li>
-  <li><strong>Label propagation</strong> (Raghavan, Albert and Kumara 2007): start with a unique label per node; each node repeatedly adopts the label most common among its neighbours. Very fast, but random.</li>
-  <li><strong>Louvain</strong> (Blondel et al. 2008): greedily move single nodes to the neighbouring community with the largest gain in $Q$, merge each community into a super-node, and repeat. The standard method for large networks.</li>
+  <li><strong>Spectral bisection:</strong> choose node values $x_i$ minimising $\sum_{\text{links}} (x_i - x_j)^2$; the solution is the Laplacian's Fiedler vector (<a href="embeddings.html">Embeddings</a>). Its sign splits the nodes.</li>
+  <li><strong>Label propagation</strong> (Raghavan, Albert and Kumara 2007): each node adopts its neighbours' most common label until stable. Fast; random.</li>
+  <li><strong>Louvain</strong> (Blondel et al. 2008): move nodes to raise $Q$, merge communities into super-nodes, repeat. The standard for large networks.</li>
 </ul>
 <div data-fig id="fig-real"></div>
 
+<h2>Limits of modularity</h2>
+<p><strong>Resolution limit</strong> (Fortunato and Barthélemy 2007). Merging communities $A$, $B$ joined by $l_{AB}$ links changes $Q$ by</p>
+<div class="eq">$$\Delta Q = \frac{l_{AB}}{L} - \frac{k_A\,k_B}{2L^2}.$$</div>
+<dl class="symbols">
+  <dt>$l_{AB}$</dt><dd>links between $A$ and $B$</dd>
+  <dt>$k_A, k_B$</dt><dd>their total degrees</dd>
+</dl>
+<p>With $l_{AB} = 1$, merging raises $Q$ whenever $k_A k_B &lt; 2L$, i.e. $k &lt; \sqrt{2L}$: small groups are merged however separate they are.</p>
+<div class="callout example">
+  <p>Collaboration network: $L = 93{,}439$, $\sqrt{2L} \approx 432$. A group of 40 scientists with 8 links each ($k = 320$) falls below it.</p>
+</div>
+<p><strong>Random networks score high too</strong> (Guimerà, Sales-Pardo and Amaral 2004): see the table above.</p>
 <div class="callout gotcha">
-  <p><strong>Modularity has a resolution limit</strong> (Fortunato and Barthélemy 2007): in a large network, maximising $Q$ merges communities smaller than about $\sqrt{L}$ into larger ones even when they are clearly separate. And a random network with no communities at all still reaches a high $Q$. Always compare with a null model.</p>
+  <p>A high $Q$ alone is no proof of communities. Compare with $Q$ of a random network of the same size and density.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Null model:</strong> the configuration model, as for <a href="correlations.html">degree correlations</a>.</li>
+    <li><strong>Explains</strong> high <a href="ch3-small-world.html">clustering</a>: your friends know each other because they share a group.</li>
+    <li><strong>Special case of</strong> a <a href="embeddings.html">spectral embedding</a>: bisection uses one eigenvector; more give coordinates.</li>
+    <li><strong>Slows</strong> <a href="epidemics.html">spreading</a>: few links cross between groups.</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>A partition puts every node in its own community (singletons). What is its modularity?</p>
-  <ol><li>Slightly negative: no link falls inside a community, minus $\sum_c (k_c/2L)^2$</li><li>Exactly 1</li><li>Exactly 0</li><li>It is undefined</li></ol>
-  <div class="explain">With singletons $L_c = 0$ for every community, so $Q = -\sum_i (k_i/2L)^2 < 0$. Only the partition into one big group gives exactly $Q = 0$.</div>
+  <p>Every node is its own community. What is $Q$?</p>
+  <ol>
+    <li>Slightly negative</li>
+    <li data-why="Singletons have no internal links.">Exactly 1</li>
+    <li data-why="That is the one-group value; singletons still subtract expected terms.">Exactly 0</li>
+    <li data-why="Every term is defined, with L_c = 0.">Undefined</li>
+  </ol>
+  <div class="explain">$L_c = 0$, so $Q = -\sum_i (k_i/2L)^2$; $-0.050$ for the karate club.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>$L = 10$, two groups, each with 4 internal links and total degree 10. What is $Q$?</p>
+  <ol>
+    <li data-why="That is 8/10 without the chance term.">0.8</li>
+    <li data-why="That is one group only.">0.15</li>
+    <li>0.3</li>
+    <li data-why="They have more internal links than chance.">0</li>
+  </ol>
+  <div class="explain">Each group: $0.4 - (10/20)^2 = 0.15$; $Q = 0.3$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Why subtract $(k_c/2L)^2$?</p>
+  <ol>
+    <li data-why="Q would be bounded without it.">To keep $Q$ in $[-1, 1]$.</li>
+    <li>Otherwise one big group would score best.</li>
+    <li data-why="Small groups get small penalties, not bonuses.">To favour small groups.</li>
+    <li data-why="It uses degrees, not triangles.">To count triangles.</li>
+  </ol>
+  <div class="explain">The internal fraction alone is 1 for the trivial partition. Subtracting the chance fraction rewards only surprising concentration.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>$L = 5{,}000$. Two separate groups, total degree 50 each, share one link. Does maximising $Q$ merge them?</p>
+  <ol>
+    <li data-why="The gain depends on size relative to the network.">No: one link is too few.</li>
+    <li data-why="Q is a definite number for each partition.">It cannot decide.</li>
+    <li data-why="The choice is merge or not.">It splits them into singletons.</li>
+    <li>Yes: $k_A k_B = 2{,}500 &lt; 2L$.</li>
+  </ol>
+  <div class="explain">$\Delta Q = 0.0002 - 0.00005 > 0$; both lie below $\sqrt{2L} = 100$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Louvain finds $Q = 0.3$. What to check before claiming communities?</p>
+  <ol>
+    <li data-why="Agreement between algorithms says nothing about chance.">A second algorithm's $Q$.</li>
+    <li>$Q$ of a random network with the same $N$ and $L$.</li>
+    <li data-why="Degrees are already in the null term.">That $p_k$ is a power law.</li>
+    <li data-why="There is no universal cut-off.">That $Q > 0.5$.</li>
+  </ol>
+  <div class="explain">Sparse random networks reach $Q \approx 0.3$ or more under optimisation; only a $Q$ well above that baseline is evidence.</div>
 </div>
 
 </div></main>

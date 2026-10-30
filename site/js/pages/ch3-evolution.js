@@ -28,6 +28,7 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
     { key: "k", label: "⟨k⟩ = 2L/N" }, { key: "L", label: "links L" }, { key: "S", label: "largest component N_G/N" },
     { key: "S2", label: "second largest" }, { key: "c", label: "components" }, { key: "r", label: "regime" },
   ]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   const plot = new Plot(pr, { height: 240, x: { label: "average degree ⟨k⟩", min: 0, max: kMax }, y: { label: "N_G / N", min: 0, max: 1 } });
   let traj = [];
   function ensureOrder(L) {
@@ -72,7 +73,7 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
         fnSeries(giantComponentFraction, 0, kMax, 300, { color: "theory", dashed: true, label: "theory: S = 1 − exp(−⟨k⟩S)" }),
         { id: "traj", type: "line", data: traj.filter((p) => p[0] <= k + 1e-9), color: 1, label: `this network (N = ${N})` },
       ],
-      bands: [{ x0: 0, x1: 1, label: "sub" }, { x0: lnN, x1: kMax, label: "connected", opacity: 0.04 }],
+      bands: [{ x0: 0, x1: 1 }, { x0: lnN, x1: kMax, label: "connected", opacity: 0.04 }],
       rules: [{ x: 1, label: "⟨k⟩ = 1" }, { x: lnN, label: "ln N", labelY: 26 }],
       annotations: [{ x: (2 * L) / N, y: Math.max(S, 0.002), text: "", dot: true, color: "s1" }],
       xName: "⟨k⟩", yFormat: (v) => fmt.pct(v),
@@ -120,6 +121,7 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
   let k = 1.8;
   const f = figure("#fig-fixed", { title: "Solving S = 1 − exp(−⟨k⟩S) graphically", sub: "The solution is where the curve crosses the diagonal. The staircase shows the iteration S ← 1 − exp(−⟨k⟩S) starting from S = 1." });
   const t = stats(f.body, [{ key: "S", label: "solution S" }, { key: "slope", label: "slope of the curve at S = 0" }, { key: "steps", label: "iterations to converge" }]);
+  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const plot = new Plot(f.body, { height: 320, x: { label: "S", min: 0, max: 1 }, y: { label: "1 − exp(−⟨k⟩S)", min: 0, max: 1 } });
   function draw() {
     const S = giantComponentFraction(k);
@@ -195,7 +197,7 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
     plot.update({
       series: [
         ...ks.map((k, i) => ({ type: "line", markers: true, data: rows.filter((r) => r.k === k).map((r) => [r.N, r.NG]), color: i + 1, label: `⟨k⟩ = ${k}` })),
-        fnSeries((N) => 0.9 * Math.pow(N, 2 / 3), 1000, 1e6, 20, { log: true, color: "theory", dashed: true, label: "∝ N^{2/3} and ∝ N (S(2) N)", tooltip: false }),
+        fnSeries((N) => 0.9 * Math.pow(N, 2 / 3), 1000, 1e6, 20, { log: true, color: "theory", dashed: true, label: "theory: 0.9·N^(2/3) at ⟨k⟩ = 1, S(2)·N at ⟨k⟩ = 2", tooltip: false }),
         fnSeries((N) => giantComponentFraction(2) * N, 1000, 1e6, 20, { log: true, color: "theory", dashed: true, legend: false, tooltip: false }),
       ],
       xName: "N", yFormat: (v) => fmt.int(v),
@@ -208,17 +210,17 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
 (async () => {
   const { networks } = await loadNetworks();
   const nets = NETWORK_ORDER.map((n) => networks[n]);
-  const f = figure("#fig-real", { title: "The book's networks on the random-network phase diagram", sub: "Horizontal: average degree. Vertical: ln N. Above the diagonal a random network would not be connected." });
+  const f = figure("#fig-real", { title: "The book's networks on the random-network phase diagram", sub: "Horizontal: average degree. Vertical: ln N. Left of the dashed curve ⟨k⟩ = ln N a random network would not be connected." });
   const plot = new Plot(f.body, { height: 320, x: { type: "log", label: "average degree ⟨k⟩", min: 0.5, max: 20 }, y: { label: "ln N", min: 5, max: 14 } });
   plot.update({
     series: [
-      fnSeries((k) => Math.log(Math.exp(k)), 0.5, 20, 100, { log: true, color: "theory", dashed: true, label: "⟨k⟩ = ln N (connected below this line)", tooltip: false }),
+      fnSeries((k) => Math.log(Math.exp(k)), 0.5, 20, 100, { log: true, color: "theory", dashed: true, label: "⟨k⟩ = ln N (connected to its right)", tooltip: false }),
       { type: "scatter", data: nets.map((d) => [d.avgk, Math.log(d.N), d]), color: 1, label: "real networks", r: 5,
         tooltip: (p) => [h("div", { class: "tt-title" }, p[2].description), h("div", {}, `⟨k⟩ = ${p[2].avgk.toFixed(2)}, ln N = ${Math.log(p[2].N).toFixed(2)}`), h("div", {}, `observed N_G/N = ${fmt.pct(p[2].components.giantFraction)}`)] },
     ],
     bands: [{ x0: 0.5, x1: 1, label: "subcritical" }],
     rules: [{ x: 1, label: "⟨k⟩ = 1" }],
-    annotations: nets.map((d) => ({ x: d.avgk, y: Math.log(d.N), text: SHORT[d.name], dx: 8, dy: d.name === "powergrid" ? 14 : d.name === "phonecalls" ? -6 : 4 })),
+    annotations: nets.map((d) => ({ x: d.avgk, y: Math.log(d.N), text: SHORT[d.name], dx: 8, dy: d.name === "powergrid" ? 14 : d.name === "phonecalls" ? 16 : d.name === "email" ? -6 : 4 })),
     xName: "⟨k⟩",
   });
   const rows = nets.map((d) => {
@@ -227,7 +229,7 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
   });
   f.body.append(dataTable([
     { label: "Network", align: "left" }, { label: "⟨k⟩", format: (v) => v.toFixed(2) }, { label: "ln N", format: (v) => v.toFixed(2) },
-    { label: "random-network regime", align: "left" }, { label: "random network: S(⟨k⟩)", format: (v) => fmt.pct(v, 2) },
-    { label: "expected isolated, N·e^−⟨k⟩", format: (v) => fmt.sig(v, 3) }, { label: "observed N_G/N", format: (v) => fmt.pct(v, 1) },
+    { label: "random regime", align: "left" }, { label: "random S(⟨k⟩)", format: (v) => fmt.pct(v, 2) },
+    { label: "random isolated, N·e^(−⟨k⟩)", format: (v) => fmt.sig(v, 3) }, { label: "observed N_G/N", format: (v) => fmt.pct(v, 1) },
   ], rows));
 })();

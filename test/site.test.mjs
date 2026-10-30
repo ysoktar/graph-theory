@@ -63,3 +63,13 @@ test("every correction box on a page refers to an existing erratum", () => {
     }
   }
 });
+
+test("every erratum is shown on the page it names", () => {
+  for (const [kind, list] of [["errata", ERRATA], ["book", BOOK], ["software", SOFTWARE]]) {
+    for (const e of list) {
+      if (!e.page) continue;
+      const html = readFileSync(join(site, e.page), "utf8");
+      assert.ok(html.includes(`data-${kind}="${e.id}"`), `${e.id} should have a correction box on ${e.page}`);
+    }
+  }
+});

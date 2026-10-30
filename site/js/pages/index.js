@@ -88,3 +88,54 @@ let seed = 7;
 checkbox(controls, { label: "Highlight the 5 largest hubs", checked: true, onChange: (v) => { showHubs = v; views.forEach((w) => w.redraw()); stat(); } });
 button(controls, { label: "New networks", icon: "dice", onClick: () => refresh(++seed) });
 refresh(seed);
+
+// ---- concept map: how the topics depend on each other (one narrow layout, readable on phones)
+{
+  const W = 400, BW = 180, BH = 44, A = 10, B = 210;
+  const PART = { I: "s1", II: "random", III: "s2", V: "s3", null: "theory" };
+  const box = (id, x, y, part, href, title, sub) => ({ id, x, y, part, href, title, sub });
+  const nodes = [
+    box("deg", A, 40, "I", "ch2-degree", "Degree kᵢ", "Part I"),
+    box("pk", A, 110, "I", "ch2-degree", "Degree distribution pₖ", "Part I"),
+    box("poi", A, 180, "II", "ch3-degree", "Poisson pₖ", "Part II · random model"),
+    box("tail", A, 250, "II", "ch3-real-degrees", "Heavy tails", "Part II · real data"),
+    box("pl", A, 320, "III", "ch4-power-laws", "Power laws", "Part III"),
+    box("hub", A, 390, "III", "ch4-hubs", "Hubs", "Part III"),
+    box("rob", A, 460, "V", "robustness", "Robustness", "Part V"),
+    box("epi", A, 530, "V", "epidemics", "Epidemics", "Part V"),
+    box("path", B, 40, "I", "ch2-paths", "Paths & distances", "Part I"),
+    box("sw", B, 110, "II", "ch3-small-world", "Small worlds", "Part II · ⟨d⟩ ~ ln N"),
+    box("usw", B, 180, "III", "ch4-ultra-small", "Ultra-small worlds", "Part III · via hubs"),
+    box("clu", B, 250, "I", "ch2-clustering", "Clustering", "Part I"),
+    box("ws", B, 320, "II", "ch3-small-world", "Watts–Strogatz", "Part II · adds clustering"),
+    box("gnl", B, 422, "null", "ch3-model", "Random G(N, L)", "keeps N and L"),
+    box("cm", B, 484, "null", "ch4-generating", "Configuration model", "keeps the degrees"),
+    box("dpr", B, 546, "null", "ch4-generating", "Degree-preserving", "randomization of real links"),
+  ];
+  const at = Object.fromEntries(nodes.map((n) => [n.id, n]));
+  const down = (a, b) => { const p = at[a], q = at[b]; return `M${p.x + BW / 2},${p.y + BH} V${q.y - 2}`; };
+  const edges = [
+    { d: down("deg", "pk") }, { d: down("pk", "poi") }, { d: down("poi", "tail"), label: "real data deviate" },
+    { d: down("tail", "pl") }, { d: down("pl", "hub") }, { d: down("hub", "rob") },
+    { d: `M${A},${412} H4 V${552} H${A - 2}` },                        // hubs → epidemics, along the left edge
+    { d: down("path", "sw") }, { d: down("sw", "usw") }, { d: down("clu", "ws") },
+    { d: `M${B + BW},${132} H396 V${342} H${B + BW + 2}` },              // small worlds → Watts–Strogatz, right edge
+    { d: `M${A + BW},${412} H196 V${214} H${B - 2}` }, // hubs → ultra-small
+    { d: `M${B},${444} H204 V${192} H${A + BW + 2}`, dashed: true },     // G(N, L) predicts Poisson
+    { d: down("gnl", "cm"), dashed: true }, { d: down("cm", "dpr"), dashed: true },
+  ];
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const svg = [
+    `<svg class="cmap" viewBox="0 0 ${W} 600" role="img" aria-labelledby="cmap-t"><title id="cmap-t">Concept map: degree leads to the degree distribution, Poisson, heavy tails, power laws, hubs, robustness and epidemics; paths lead to small and ultra-small worlds; clustering leads to the Watts–Strogatz model; null models are compared with all of them.</title>`,
+    `<style>.cmap{display:block;width:100%;max-width:520px;margin:0 auto 0.6rem;font-family:inherit}.cmap a rect{fill:var(--surface);stroke-width:1.6}.cmap a:hover rect,.cmap a:focus rect{fill:var(--surface-2)}.cmap .t{font-size:13.5px;font-weight:600;fill:var(--text)}.cmap .s{font-size:11.5px;fill:var(--muted)}.cmap .e{fill:none;stroke:var(--muted);stroke-width:1.4}.cmap .e.dash{stroke-dasharray:5 4}.cmap .el{font-size:11px;fill:var(--text-2)}.cmap .grp{fill:none;stroke:var(--theory);stroke-dasharray:3 3;stroke-width:1}</style>`,
+    `<defs><marker id="cmap-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>`,
+    `<text class="s" x="${A}" y="26">Degrees</text><text class="s" x="${B}" y="26">Distances and clustering</text>`,
+    `<rect class="grp" x="${B - 4}" y="392" width="${BW + 8}" height="${600 - 392 - 4}" rx="10"/><text class="s" x="${B + 4}" y="410">Null models (random baselines)</text>`,
+    ...edges.map((e) => `<path class="e${e.dashed ? " dash" : ""}" d="${e.d}" marker-end="url(#cmap-arrow)"/>` +
+      (e.label ? `<text class="el" x="${A + BW / 2 + 8}" y="241">${esc(e.label)}</text>` : "")),
+    ...nodes.map((n) => `<a href="${n.href}.html"><rect x="${n.x}" y="${n.y}" width="${BW}" height="${BH}" rx="8" style="stroke:var(--${PART[n.part]})"/>` +
+      `<text class="t" x="${n.x + 10}" y="${n.y + 19}">${esc(n.title)}</text><text class="s" x="${n.x + 10}" y="${n.y + 35}">${esc(n.sub)}</text></a>`),
+    `</svg>`,
+  ].join("");
+  $("#concept-map").innerHTML = svg;
+}

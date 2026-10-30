@@ -32,7 +32,7 @@ import { loadNetworks, loadJSON, NETWORK_ORDER } from "../lib/data.js";
       });
     }
   }
-  segmented(f.controls, { label: "Fitted tail drawn as", value: form, options: [{ value: "discrete", label: "discrete CCDF ζ(γ, k)/ζ(γ, k_min)" }, { value: "continuous", label: "continuous (k/k_min)^{1−γ}, as the notebook" }], onChange: (v) => { form = v; draw(); } });
+  segmented(f.controls, { label: "Fitted tail drawn as", value: form, options: [{ value: "discrete", label: "discrete CCDF ζ(γ, k)/ζ(γ, k_min)" }, { value: "continuous", label: "continuous (k/k_min)^(1−γ), as the notebook" }], onChange: (v) => { form = v; draw(); } });
   draw();
   f.setCaption("Switch to the continuous form and look at email and the WWW, whose tails start at small k_min: the dashed line lifts off the data just above k_min. The fit itself is discrete, so the discrete curve is the right one to draw.");
 
