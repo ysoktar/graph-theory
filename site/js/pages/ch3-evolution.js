@@ -229,7 +229,7 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
   });
   f.body.append(dataTable([
     { label: "Network", align: "left" }, { label: "⟨k⟩", format: (v) => v.toFixed(2) }, { label: "ln N", format: (v) => v.toFixed(2) },
-    { label: "random-network regime", align: "left" }, { label: "random network: S(⟨k⟩)", format: (v) => fmt.pct(v, 2) },
-    { label: "expected isolated, N·e^−⟨k⟩", format: (v) => fmt.sig(v, 3) }, { label: "observed N_G/N", format: (v) => fmt.pct(v, 1) },
+    { label: "random regime", align: "left" }, { label: "random S(⟨k⟩)", format: (v) => fmt.pct(v, 2) },
+    { label: "random isolated, N·e^(−⟨k⟩)", format: (v) => fmt.sig(v, 3) }, { label: "observed N_G/N", format: (v) => fmt.pct(v, 1) },
   ], rows));
 })();

@@ -24,25 +24,87 @@
 <div class="callout fix" data-errata="N15"></div>
 
 <h2>The fits</h2>
-<p>Each network was fitted with the Clauset–Shalizi–Newman method (<a href="ch4-fitting.html">Estimating the exponent</a>): $k_{\min}$ by minimum KS distance, $\gamma$ by maximum likelihood, a bootstrap goodness-of-fit test with 1,000 synthetic data sets, and likelihood-ratio tests ($R > 0$ favours the power law; the sign is significant when $p < 0.1$).</p>
+<p>Each network was fitted with the Clauset–Shalizi–Newman method (<a href="ch4-fitting.html">Estimating the exponent</a>): $k_{\min}$ by minimum KS distance, $\gamma$ by maximum likelihood, a bootstrap goodness-of-fit test with 1,000 synthetic data sets, and likelihood-ratio tests.</p>
+<dl class="symbols">
+  <dt>$k_{\min}$</dt><dd>start of the fitted tail</dd>
+  <dt>$\hat\gamma$</dt><dd>maximum-likelihood exponent</dd>
+  <dt>$p$</dt><dd>bootstrap goodness-of-fit; power law ruled out if $p &lt; 0.1$</dd>
+  <dt>$R$</dt><dd>log-likelihood ratio; $R &gt; 0$ favours the power law, significant when its $p &lt; 0.1$</dd>
+</dl>
 <div id="tbl-fits"></div>
+<div class="callout fix" data-book="B9"></div>
 <div class="callout look">
   <ul>
-    <li><strong>Heavy tails are nearly universal.</strong> In seven of the eight networks the power law beats the exponential decisively. Every network except the power grid is far from Poisson.</li>
-    <li><strong>Strict power laws are not.</strong> The bootstrap rules the power law out for collaboration, email and the WWW (and narrowly for the Internet), and in those three the log-normal fits the tail significantly better. Where the power law is plausible, it often describes a small share of the nodes: 0.7% for the Internet, 2% for phone calls.</li>
-    <li><strong>The power grid</strong> is the exception. Its best "power law" has $\hat\gamma \approx 7.6$, covers 1% of the nodes and cannot be told apart from an exponential tail. A network built under geographic and engineering constraints has no hubs.</li>
-    <li><strong>Exponents vary</strong> from 1.9 (email) to 4.8 (phone calls). Only metabolism, protein interactions and the WWW fall inside $2 < \gamma < 3$ (see <a href="ch4-exponent.html">The role of γ</a>).</li>
+    <li><strong>Heavy tails are nearly universal.</strong> In seven of the eight networks the power law beats the exponential decisively; all but the power grid are far from Poisson.</li>
+    <li><strong>Strict power laws are not.</strong> The bootstrap rules them out for collaboration, email and the WWW (narrowly also the Internet), where the log-normal fits significantly better. Where plausible, the power law often covers few nodes: 0.7% for the Internet, 2% for phone calls.</li>
+    <li><strong>The power grid</strong> is the exception: $\hat\gamma \approx 7.6$ on 1% of the nodes, indistinguishable from an exponential. Geographic and engineering constraints leave no hubs.</li>
+    <li><strong>Exponents vary</strong> from 1.9 (email) to 4.8 (phone calls), power grid aside. Only metabolism, protein interactions and the WWW fall inside $2 &lt; \gamma &lt; 3$ (see <a href="ch4-exponent.html">The role of γ</a>).</li>
   </ul>
 </div>
 <div class="callout fix" data-errata="N16"></div>
 
 <div class="callout note">
-  <p>The book fits the in- and out-degrees of directed networks (WWW, email, metabolism, phone calls) separately and reports them in its Table 4.1. This site, like the notebook, treats every network as undirected, so its exponents describe the total number of distinct neighbours and are not directly comparable for those four. For the undirected networks the agreement is close: the Internet comes out at 3.40 against the book's 3.42.</p>
+  <p>The book fits in- and out-degrees of directed networks (WWW, email, metabolism, phone calls) separately in its Table 4.1. This site, like the notebook, treats every network as undirected, so for those four its exponents are not directly comparable. For undirected networks the agreement is close: Internet 3.40 against the book's 3.42.</p>
 </div>
 
 <div class="callout discuss">
   <p>If the log-normal often fits as well as or better than a power law, why does it matter which one we choose?</p>
-  <div class="hint">For many consequences it does not: hubs, short distances, robustness and fast spreading all follow from a large $\langle k^2\rangle$, and both distributions can produce one. It matters for <em>mechanism</em> and <em>extrapolation</em>. Preferential attachment (Chapter 5) predicts a power law; multiplicative random growth tends to produce a log-normal. And a power law with $\gamma < 3$ predicts that $\langle k^2\rangle$ keeps growing with the network's size, while a log-normal does not.</div>
+  <div class="hint">For many consequences it does not: hubs, short distances, robustness and fast spreading follow from a large $\langle k^2\rangle$, which both can produce. It matters for <em>mechanism</em> (preferential attachment, Chapter 5, predicts a power law; multiplicative random growth tends to give a log-normal) and for <em>extrapolation</em> (with $\gamma &lt; 3$, $\langle k^2\rangle$ keeps growing with $N$; with a log-normal it does not).</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>A shared tail shape across unrelated systems suggests a shared mechanism.</li>
+    <li>Testing all eight networks with one method separates "heavy-tailed" from "strictly power-law".</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Applies</strong> the method of <a href="ch4-fitting.html">Estimating the exponent</a> to every network.</li>
+    <li><strong>Places</strong> each network in a regime of <a href="ch4-exponent.html">the role of γ</a>.</li>
+    <li><strong>Motivates</strong> a mechanism: <a href="ch5-preview.html">preferential attachment</a>.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Collaboration: the power law beats the exponential but its bootstrap $p &lt; 0.001$. What is the best summary?</p>
+  <ol>
+    <li data-why="Beating the exponential does not make the power law plausible.">A strict power law</li>
+    <li>Heavy-tailed, but not a strict power law</li>
+    <li data-why="Beating the exponential shows the tail is heavy, not light.">A light, exponential tail</li>
+    <li data-why="Its ⟨k⟩ = 8.1 and k_max = 279 are far from a Poisson network's.">Poisson, like a random network</li>
+  </ol>
+  <div class="explain">The likelihood ratio shows the tail is heavier than exponential; the bootstrap rejects the exact power-law shape.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Which network has no meaningful power-law tail?</p>
+  <ol>
+    <li data-why="Its power law beats the exponential and passes the bootstrap (p ≈ 0.9).">Protein interactions</li>
+    <li data-why="Its power law fails the bootstrap, but its tail is very heavy (γ̂ ≈ 1.9).">Email</li>
+    <li>Power grid</li>
+    <li data-why="Its tail is heavy (γ̂ = 3.40), the bootstrap verdict borderline.">Internet</li>
+  </ol>
+  <div class="explain">The power grid's "power law" has $\hat\gamma \approx 7.6$ on 1% of the nodes and cannot be told from an exponential.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>The Internet's power law passes the bootstrap only narrowly and covers 0.7% of its routers. What does the fit describe?</p>
+  <ol>
+    <li>Only the tail: the 1,286 routers with $k \ge 70$</li>
+    <li data-why="A fit with k_min = 70 says nothing about routers below 70.">All 192,244 routers</li>
+    <li data-why="The fit includes every router with k ≥ k_min, not only the largest one.">Only the largest hub</li>
+    <li data-why="γ̂ = 3.40 is finite and well estimated (σ = 0.07).">Nothing: $\gamma$ cannot be estimated</li>
+  </ol>
+  <div class="explain">A CSN fit describes $k \ge k_{\min}$ only. For the Internet that is 0.7% of the nodes.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Why are this site's exponents for the WWW and email not directly comparable with the book's Table 4.1?</p>
+  <ol>
+    <li data-why="Both use maximum-likelihood fits.">The book uses least squares</li>
+    <li data-why="The same data sets are used.">The networks are different</li>
+    <li data-why="Random seeds do not change the fitted exponent of a fixed data set.">The bootstrap used different seeds</li>
+    <li>The book fits in- and out-degrees separately; here they are merged</li>
+  </ol>
+  <div class="explain">Treating a directed network as undirected counts each distinct neighbour once, which changes the distribution being fitted.</div>
 </div>
 
 </div></main>

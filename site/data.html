@@ -18,23 +18,33 @@
 <main><div class="content">
 
 <h1>The data: eight real networks</h1>
-<p class="lead">Throughout the book, ten "reference networks" serve as test cases (Table 2.1). The class notebook, and this site, use eight of them, spanning biology, technology, society and information. The other two, the actor and citation networks, are too large for a classroom.</p>
+<p class="lead">The book tests every idea on ten "reference networks" (Table 2.1). The notebook and this site use eight of them, from biology, technology, society and information; the actor and citation networks are too large for a classroom. Measuring the same quantities across such different systems is how we learn which properties are general.</p>
 
 <h2>Explore a network</h2>
 <div data-fig id="fig-explore"></div>
 <div class="callout look">
-  <p>Compare the power grid with the WWW or the email network. The grid is a sparse, almost lattice-like web with no node above 19 links. The WWW and email samples are dominated by a few hubs. The degree distributions tell the same story: close to the Poisson curve for the grid, orders of magnitude above it in the tail for the others. Explaining that difference is the job of Chapters 3 and 4.</p>
+  <p>Compare the power grid with the WWW or email. The grid is sparse and almost lattice-like, no node above 19 links, and its degree distribution is close to the Poisson curve. WWW and email are dominated by a few hubs, orders of magnitude above Poisson in the tail. Chapters 3 and 4 explain the difference.</p>
 </div>
 
 <h2>All eight at a glance</h2>
 <div id="tbl-all"></div>
-<p class="small muted">⟨d⟩: mean distance within the giant component, estimated from breadth-first searches from 300 random sources (as in the notebook). γ̂ and k_min: Clauset–Shalizi–Newman fit of the degree distribution. p: bootstrap goodness-of-fit p-value (1,000 replicates); a power law is plausible if p ≥ 0.1. See <a href="ch4-fitting.html">Estimating the exponent</a>.</p>
+<dl class="symbols">
+  <dt>$N$, $L$</dt><dd>nodes, links (undirected, simple)</dd>
+  <dt>$\langle k\rangle$, $k_{\max}$</dt><dd>average, largest degree (<a href="ch2-degree.html">Degree</a>)</dd>
+  <dt>$\sigma_k/\langle k\rangle$</dt><dd>spread of degrees relative to the mean; about $1/\sqrt{\langle k\rangle}$ for Poisson</dd>
+  <dt>giant comp.</dt><dd>share of nodes in the largest component (<a href="ch2-connectedness.html">Connectedness</a>)</dd>
+  <dt>$\langle C\rangle$</dt><dd>average clustering (<a href="ch2-clustering.html">Clustering</a>)</dd>
+  <dt>$\langle d\rangle$</dt><dd>mean distance in the giant component, BFS from 300 random sources (<a href="ch2-paths.html">Paths</a>)</dd>
+  <dt>$r$</dt><dd>degree assortativity (<a href="correlations.html">Degree correlations</a>)</dd>
+  <dt>$\hat\gamma$, $k_{\min}$</dt><dd>Clauset–Shalizi–Newman power-law fit for $k \ge k_{\min}$ (<a href="ch4-fitting.html">Estimating the exponent</a>)</dd>
+  <dt>$p$</dt><dd>bootstrap goodness-of-fit (1,000 replicates); power law plausible if $p \ge 0.1$</dd>
+</dl>
 
 <h2>How the data were prepared</h2>
 <ol>
-  <li>The edge lists come from the book's website (<code>networks.zip</code>, 141 MB).</li>
-  <li>Each network is made <strong>undirected and simple</strong>, as in the notebook: link directions are ignored, and self-loops and repeated links are removed. Nodes are relabelled 0…N−1.</li>
-  <li>The script <code>tools/preprocess.py</code> (in the repository) computes degree histograms, components, clustering, distances, assortativity, power-law fits and null-model counterparts, and writes them as small JSON files. The six smaller networks also ship as full edge lists, about 1 MB in total, so pages can analyse them live in your browser. The Internet and the WWW, with 0.6 and 1.1 million links, ship as summaries only.</li>
+  <li>Edge lists from the book's website (<code>networks.zip</code>, 141 MB).</li>
+  <li>Each network made <strong>undirected and simple</strong>, as in the notebook: directions ignored, self-loops and repeated links removed, nodes relabelled 0…N−1.</li>
+  <li><code>tools/preprocess.py</code> computes degree histograms, components, clustering, distances, assortativity, power-law fits and null-model counterparts as small JSON files. The six smaller networks also ship as full edge lists (about 1 MB), so pages can analyse them live; the Internet and WWW (0.6 and 1.1 million links) ship as summaries only.</li>
 </ol>
 <div class="callout fix" data-errata="N2"></div>
 <div class="callout fix" data-book="B4"></div>
@@ -42,7 +52,53 @@
 
 <div class="callout discuss">
   <p>Five of the eight networks are directed in reality. What information is lost when we treat an email network as undirected? Which questions could no longer be answered?</p>
-  <div class="hint">Direction tells who initiates contact. Spammers and mailing lists send far more than they receive; popular addresses receive far more than they send. An undirected network merges both into one degree, so it cannot tell broadcasters from receivers, and reciprocated pairs collapse into a single link. Questions about information flow, reachability ("can a message get from A to B?") or the in- and out-degree exponents reported in the book need the directed network.</div>
+  <div class="hint">Direction tells who initiates contact: mailing lists send far more than they receive, popular addresses receive far more than they send. One undirected degree merges both, and reciprocated pairs collapse into one link. Questions about information flow, reachability ("can a message get from A to B?") or the book's separate in- and out-degree exponents need the directed network.</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Real data are the test every model must pass.</li>
+    <li>Eight domains with the same measurements show which properties are shared (sparsity, short distances, hubs) and which are not (the grid).</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Part I</strong> defines each column of the table.</li>
+    <li><strong>Part II</strong> compares every column with a random network of the same $N$ and $L$ (<a href="ch3-summary.html">Real networks are not random</a>).</li>
+    <li><strong>Part III</strong> fits the degree tails with power laws (<a href="ch4-fitting.html">Estimating the exponent</a>).</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>In which network is the largest hub linked to more than 10% of all nodes?</p>
+  <ol>
+    <li>Email ($k_{\max} = 6{,}553$, $N = 57{,}194$)</li>
+    <li data-why="10,721 of 325,729 is about 3%.">WWW ($k_{\max} = 10{,}721$, $N = 325{,}729$)</li>
+    <li data-why="279 of 23,133 is about 1%.">Collaboration ($k_{\max} = 279$, $N = 23{,}133$)</li>
+    <li data-why="19 of 4,941 is under 0.4%.">Power grid ($k_{\max} = 19$, $N = 4{,}941$)</li>
+  </ol>
+  <div class="explain">$6{,}553/57{,}194 \approx 11\%$: one address in contact with one node in nine.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Email links $u \to v$ and $v \to u$ both exist. After making the network undirected and simple, they become…</p>
+  <ol>
+    <li>one link</li>
+    <li data-why="Repeated links are removed in a simple network.">two links</li>
+    <li data-why="Only self-loops are deleted; the pair stays linked.">nothing</li>
+    <li data-why="The site's networks are unweighted; the count is not kept.">a link of weight 2</li>
+  </ol>
+  <div class="explain">Reciprocated pairs merge, which is why $L$ drops below the book's directed counts (box N2 above).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>The protein edge list has 2,930 lines, 225 of them self-loops and no repeats. What is $L$ of the simple network?</p>
+  <ol>
+    <li data-why="That still counts the self-loops.">2,930</li>
+    <li>2,705</li>
+    <li data-why="Self-loops are removed, not added.">3,155</li>
+    <li data-why="2,018 is the number of proteins, N.">2,018</li>
+  </ol>
+  <div class="explain">$2{,}930 - 225 = 2{,}705$ links; $\langle k\rangle = 2 \times 2{,}705/2{,}018 \approx 2.68$ (box B4).</div>
 </div>
 
 </div></main>

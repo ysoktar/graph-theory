@@ -18,31 +18,44 @@
 <main><div class="content">
 
 <h1>Generating networks with a given degree distribution</h1>
-<p class="lead">To ask which properties of a real network follow from its degrees alone, we need random networks that share those degrees and nothing else. Section 4.8 gives two ways to build them.</p>
+<p class="lead">To ask which properties of a real network follow from its degrees alone, we need random networks that share those degrees and nothing else: a <strong>null model</strong>. Section 4.8 gives two ways to build them.</p>
 
 <h2>The configuration model</h2>
-<p>Give node $i$ exactly $k_i$ <em>stubs</em> (half-links), then pair all stubs uniformly at random. Every network with the given degree sequence is then equally likely, but the procedure can create self-loops and repeated links. The probability that nodes $i$ and $j$ are linked is approximately</p>
+<p>Give node $i$ exactly $k_i$ <em>stubs</em> (half-links), then pair all stubs uniformly at random. Every network with the given degree sequence is then equally likely, but self-loops and repeated links can appear. The probability that $i$ and $j$ are linked is approximately</p>
 <div class="eq">$$p_{ij} \approx \frac{k_i k_j}{2L}.$$</div>
+<dl class="symbols">
+  <dt>$p_{ij}$</dt><dd>probability of a link between nodes $i$ and $j$</dd>
+  <dt>$k_i, k_j$</dt><dd>degrees of $i$ and $j$</dd>
+  <dt>$L$</dt><dd>number of links; $2L$ = number of stubs</dd>
+</dl>
+<ol>
+  <li>A stub of $i$ picks a partner among the other $\approx 2L$ stubs.</li>
+  <li>$k_j$ of them belong to $j$: chance $k_j/2L$.</li>
+  <li>$i$ has $k_i$ stubs: $p_{ij} \approx k_i k_j / 2L$.</li>
+</ol>
+<div class="callout example">
+  <p>$k_i = 100$, $k_j = 50$, $L = 10^4$: $p_{ij} = 5{,}000/20{,}000 = 0.25$. Two degree-2 nodes: $4/20{,}000 = 0.0002$.</p>
+</div>
 <div data-fig id="fig-stubs"></div>
 
 <h2>Degree-preserving randomization</h2>
-<p>Start from the real network and repeatedly swap the ends of two random links. Every swap keeps all degrees exactly, and after enough swaps all other structure is scrambled. Unlike the configuration model, no link is ever lost.</p>
+<p>Start from the real network and repeatedly swap the ends of two random links ($A$–$B$, $C$–$D$ → $A$–$D$, $C$–$B$). Every swap keeps all degrees exactly; after enough swaps all other structure is scrambled. Unlike the configuration model, no link is ever lost.</p>
 <div data-fig id="fig-swap"></div>
 
 <h2>What the degree sequence explains</h2>
 <div data-fig id="fig-real"></div>
 <div class="callout look">
   <ul>
-    <li>By construction, the degree sequence reproduces $k_{\max}$ and $\langle k^2\rangle$, which $G(N, L)$ gets badly wrong.</li>
-    <li>The randomized networks are usually <em>smaller</em> than both the real network and $G(N, L)$: hubs act as shortcuts, while in the real network many links are spent inside tightly knit groups.</li>
-    <li>For the collaboration network $\langle C\rangle$ collapses by more than two orders of magnitude and the positive assortativity disappears. Triangles and degree correlations come from other mechanisms: teams of co-authors, communities (Ch 9), homophily (Ch 7).</li>
+    <li>The degree sequence fixes $k_{\max}$ and $\langle k^2\rangle$, which $G(N, L)$ gets badly wrong.</li>
+    <li>Randomized networks are usually <em>smaller</em> than both the real network and $G(N, L)$: hubs act as shortcuts, while real networks spend many links inside tightly knit groups.</li>
+    <li>Collaboration: $\langle C\rangle$ falls from 0.63 to 0.002 and the assortativity from 0.13 to 0. Triangles and degree correlations come from other mechanisms: teams, communities (Ch 9), homophily (Ch 7).</li>
   </ul>
 </div>
-<p>The notebook draws a general conclusion from the collaboration network: degrees alone create few triangles. The precomputed configuration-model counterparts of all eight networks tell a more varied story:</p>
+<p>The notebook concludes from the collaboration network that degrees alone create few triangles. The configuration-model counterparts of all eight networks are more varied:</p>
 <div id="tbl-cfg"></div>
 <div class="callout fix" data-errata="N19"></div>
 <div class="callout look">
-  <p>For metabolism and email, random wiring of the same degrees recovers more than 40% of the real clustering (highlighted rows). When $\langle k^2\rangle$ is large, hubs share many neighbours by chance. The estimate $(\langle k^2\rangle - \langle k\rangle)^2/(\langle k\rangle^3 N)$ tracks the trend but breaks down above about 0.1 (it even exceeds 1, shown capped). That formula assumes $k_{\max} \ll \sqrt{\langle k\rangle N}$, which these two networks violate.</p>
+  <p>For metabolism (45%) and email (42%) random wiring recovers much of the real clustering (highlighted): with a large $\langle k^2\rangle$, hubs share many neighbours by chance. The estimate $(\langle k^2\rangle - \langle k\rangle)^2/(\langle k\rangle^3 N)$ tracks the trend but breaks down above about 0.1 (it even exceeds 1, shown capped): it assumes $k_{\max} \ll \sqrt{\langle k\rangle N}$, which these two violate.</p>
 </div>
 
 <h2>Drawing power-law degree sequences</h2>
@@ -51,13 +64,63 @@
 <div class="callout fix" data-errata="N3"></div>
 
 <div class="callout key">
-  <p>Comparing a network with its degree-preserving randomization is one of the most useful habits in network science: whatever survives randomization is explained by the degrees; whatever disappears needs another explanation.</p>
+  <p>Compare a network with its degree-preserving randomization: whatever survives is explained by the degrees; whatever disappears needs another explanation.</p>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>A null model tells whether a property is surprising given the degrees.</li>
+    <li>$G(N, L)$ is the wrong baseline for heavy-tailed networks: it destroys the hubs.</li>
+    <li>Lets us generate scale-free networks of any size to test the predictions of this chapter.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Generalises</strong> the <a href="ch3-model.html">random network</a>: $G(N, L)$ fixes only $L$, the configuration model every $k_i$.</li>
+    <li><strong>Null model for</strong> <a href="ch4-ultra-small.html">distances</a>, clustering and <a href="correlations.html">degree correlations</a>.</li>
+    <li><strong>Does not explain</strong> where the degrees come from: that is the job of <a href="ch5-preview.html">growth models</a>.</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>After degree-preserving randomization, the assortativity of the collaboration network drops from 0.13 to about 0. What does that show?</p>
-  <ol><li>The degree sequence was changed by the swaps</li><li>Assortativity cannot be measured in random networks</li><li>The positive correlation between the degrees of linked scientists is not a consequence of the degree sequence</li><li>The real network is not connected</li></ol>
-  <div class="explain">The swaps keep every degree, so anything they destroy was not implied by the degrees. Hubs collaborating with hubs is a property of how the links are arranged.</div>
+  <p>After degree-preserving randomization, the collaboration network's assortativity drops from 0.13 to about 0. What does that show?</p>
+  <ol>
+    <li data-why="Every swap keeps all degrees exactly.">The swaps changed the degree sequence</li>
+    <li data-why="Assortativity is well defined in any network; here it is simply ≈ 0.">Assortativity cannot be measured in random networks</li>
+    <li>The correlation between linked scientists' degrees is not implied by the degree sequence</li>
+    <li data-why="Connectivity is unrelated to the drop in assortativity.">The real network is not connected</li>
+  </ol>
+  <div class="explain">Anything the swaps destroy was not implied by the degrees. Hubs collaborating with hubs is a property of the wiring.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>In a configuration model with $L = 10^4$, what is $p_{ij}$ for $k_i = 100$, $k_j = 50$?</p>
+  <ol>
+    <li>0.25</li>
+    <li data-why="That divides by L instead of 2L.">0.5</li>
+    <li data-why="That uses k_i + k_j instead of k_i k_j.">0.0075</li>
+    <li data-why="That is the G(N, L) value, which ignores degrees.">The same as for any other pair</li>
+  </ol>
+  <div class="explain">$p_{ij} \approx k_i k_j/2L = 5{,}000/20{,}000 = 0.25$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>What does degree-preserving randomization guarantee that the configuration model does not?</p>
+  <ol>
+    <li data-why="Both keep the degree sequence (stub matching does so by construction).">The same degree sequence</li>
+    <li>No self-loops or repeated links, so no link is lost</li>
+    <li data-why="Both scramble clustering.">The same clustering</li>
+    <li data-why="Neither keeps the real wiring; that is the point of a null model.">The same communities</li>
+  </ol>
+  <div class="explain">Stub matching can pair a node with itself or a neighbour twice; discarding those loses links. Swaps that would create them can simply be rejected.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Random wiring of the metabolic network's degrees recovers 45% of its clustering. What follows?</p>
+  <ol>
+    <li data-why="45% is far from zero; a large share comes from the degrees.">Clustering in metabolism has nothing to do with degrees</li>
+    <li data-why="The remaining 55% still needs another explanation.">Degrees explain all of its clustering</li>
+    <li data-why="The configuration model keeps exactly the real degrees.">The configuration model changed the degrees</li>
+    <li>Much of it comes from hubs sharing neighbours by chance, the rest from other structure</li>
+  </ol>
+  <div class="explain">With a large $\langle k^2\rangle$ hubs overlap often even when wired at random; collaboration, by contrast, keeps 0.3%.</div>
 </div>
 
 </div></main>

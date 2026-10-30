@@ -21,35 +21,105 @@
 <p class="lead">How many links does the best-connected node have? In a random network the answer barely changes as the network grows. In a scale-free network it grows like a power of the network's size (Section 4.3).</p>
 
 <h2>The natural cutoff</h2>
-<p>The largest degree $k_{\max}$ of a network of $N$ nodes is roughly the degree above which we expect to find a single node:</p>
+<p>The largest degree $k_{\max}$ is roughly the degree above which we expect a single node:</p>
 <div class="eq">$$N \int_{k_{\max}}^{\infty} p(k)\, dk \approx 1 .$$</div>
-<p>For the continuous power law $p(k) = (\gamma-1)\,k_{\min}^{\gamma-1}k^{-\gamma}$ the integral is $(k_{\max}/k_{\min})^{-(\gamma-1)}$, which gives the <strong>natural cutoff</strong></p>
+<dl class="symbols">
+  <dt>$k_{\max}$</dt><dd>largest degree in the network</dd>
+  <dt>$N$</dt><dd>number of nodes</dd>
+  <dt>$p(k)$</dt><dd>degree density (continuous)</dd>
+  <dt>$\int_{k_{\max}}^{\infty} p(k)\,dk$</dt><dd>share of nodes with degree above $k_{\max}$</dd>
+</dl>
+<ol>
+  <li>Power law: $\int_{k_{\max}}^{\infty} (\gamma-1)\,k_{\min}^{\gamma-1}k^{-\gamma}\,dk = (k_{\max}/k_{\min})^{-(\gamma-1)}$.</li>
+  <li>Set $N\,(k_{\max}/k_{\min})^{-(\gamma-1)} = 1$.</li>
+  <li>Solve: $k_{\max}/k_{\min} = N^{1/(\gamma-1)}$.</li>
+</ol>
+<p>This is the <strong>natural cutoff</strong>:</p>
 <div class="eq">$$k_{\max} \approx k_{\min}\, N^{1/(\gamma-1)} .$$</div>
-<p>For an exponential distribution $p(k) = \lambda e^{-\lambda(k - k_{\min})}$ the same calculation gives $k_{\max} \approx k_{\min} + \ln N/\lambda$: logarithmic growth. A Poisson tail falls faster than an exponential one, so its maximum grows even more slowly, roughly like $\ln N/\ln\ln N$.</p>
+<dl class="symbols">
+  <dt>$k_{\min}$</dt><dd>smallest degree of the power law</dd>
+  <dt>$\gamma$</dt><dd>degree exponent</dd>
+  <dt>$1/(\gamma-1)$</dt><dd>growth exponent of the hub: $\tfrac23$ for $\gamma = 2.5$</dd>
+</dl>
+<p>For an exponential $p(k) = \lambda e^{-\lambda(k - k_{\min})}$ the same steps give $k_{\max} \approx k_{\min} + \ln N/\lambda$: logarithmic growth ($\lambda$ — decay rate, $1/\lambda$ — mean excess over $k_{\min}$). A Poisson tail falls faster still, so its maximum grows roughly like $\ln N/\ln\ln N$.</p>
+<div class="callout example">
+  <p>$N = 10^6$, $k_{\min} = 1$, $\langle k\rangle = 3$: power law ($\gamma = 2.5$) $10^{6 \cdot 2/3} = 10{,}000$; exponential $1 + 2\ln 10^6 \approx 29$; Poisson 14.</p>
+</div>
 <div data-fig id="fig-theory"></div>
 <div class="callout fix" data-errata="N13"></div>
 
 <h2>Simulation</h2>
 <div data-fig id="fig-sim"></div>
 <div class="callout look">
-  <p>At $N = 10^6$ the power law ($\gamma = 2.5$) produces a hub with about 10,000 links, the exponential distribution with the same average one with about 29, and the Poisson distribution one with about 14. Hubs are a direct consequence of the heavy tail, not of anything else in the network.</p>
+  <p>The sampled maxima grow with the slopes the theory predicts: a power of $N$ for the power law, barely at all for the exponential and Poisson. Hubs follow from the heavy tail alone.</p>
 </div>
 
 <h2>The book's networks</h2>
-<p>For a real network, the natural cutoff of its fitted tail is $k_{\min}\,n_{\text{tail}}^{1/(\gamma-1)}$, where $n_{\text{tail}}$ is the number of nodes with $k \ge k_{\min}$ (notebook cell 59, here for all eight networks).</p>
+<p>For a real network the natural cutoff of the fitted tail is $k_{\min}\,n_{\text{tail}}^{1/(\gamma-1)}$, with $n_{\text{tail}}$ the number of nodes with $k \ge k_{\min}$ (notebook cell 59, here for all eight networks).</p>
 <div id="tbl-real"></div>
 <div class="callout look">
   <ul>
-    <li>Every observed hub is far beyond what a random network allows: 7 to 510 times the Poisson value, except for the power grid (19 against 10).</li>
-    <li>Where the fitted exponent is close to 2 (email, WWW), the natural cutoff overshoots by a factor of 8 to 10: real tails bend down at the highest degrees, because a node cannot maintain unlimited links and the network is finite.</li>
-    <li>The notebook's three examples all overshoot, but that is not general: the metabolic hub (highlighted) is three times <em>larger</em> than its cutoff. Its fitted tail starts at $k_{\min} = 5$, and its few largest hubs lie above the fitted line.</li>
+    <li>Every observed hub is far beyond the Poisson value: about 7 to 510 times, except the power grid (19 against 10).</li>
+    <li>For $\hat\gamma$ near 2 (email, WWW) the cutoff overshoots by 8 to 10: real tails bend down at the highest degrees.</li>
+    <li>Not general: the metabolic hub (highlighted) is 2.9 times <em>above</em> its cutoff (638 against 218); phone calls and the power grid are slightly above too.</li>
+  </ul>
+</div>
+<div class="callout fix" data-errata="N22"></div>
+
+<div class="callout why">
+  <ul>
+    <li>Hub size is the clearest testable difference between the random and scale-free models.</li>
+    <li>The cutoff tells how large a hub to expect for a given $N$ and $\gamma$: an order-of-magnitude estimate, not a bound.</li>
+    <li>$k_{\max}$ also sets how far the moments can grow (<a href="ch4-moments.html">next page</a>).</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Predicted by</strong> the <a href="ch4-power-laws.html">power law</a> with the fitted <a href="ch4-fitting.html">$\hat\gamma$ and $k_{\min}$</a>.</li>
+    <li><strong>Contrasts with</strong> the slowly growing Poisson maximum of the <a href="ch3-degree.html">random network</a>.</li>
+    <li><strong>Feeds</strong> <a href="ch4-moments.html">divergent moments</a> and <a href="ch4-ultra-small.html">ultra-small distances</a>.</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>A scale-free network with $\gamma = 3$ and $k_{\min} = 2$ grows from $10^4$ to $10^6$ nodes. By roughly what factor does its largest hub grow?</p>
-  <ol><li>About 2</li><li>About 10</li><li>About 100</li><li>It does not grow</li></ol>
-  <div class="explain">$k_{\max} \propto N^{1/(\gamma-1)} = N^{1/2}$. A hundredfold larger network has a hub $\sqrt{100} = 10$ times larger: from about 200 to about 2,000 links.</div>
+  <p>A network with $\gamma = 3$, $k_{\min} = 2$ grows from $10^4$ to $10^6$ nodes. By roughly what factor does its largest hub grow?</p>
+  <ol>
+    <li data-why="That is logarithmic growth, as for an exponential tail.">About 2</li>
+    <li>About 10</li>
+    <li data-why="That would need k_max ∝ N, i.e. γ = 2.">About 100</li>
+    <li data-why="In a scale-free network the hub grows as a power of N.">It does not grow</li>
+  </ol>
+  <div class="explain">$k_{\max} \propto N^{1/(\gamma-1)} = N^{1/2}$: $\sqrt{100} = 10$, from about 200 to 2,000 links.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>What happens to the natural cutoff as $\gamma \to 2$ from above?</p>
+  <ol>
+    <li data-why="The exponent 1/(γ − 1) grows as γ falls.">It becomes independent of $N$</li>
+    <li data-why="Logarithmic growth belongs to exponential tails.">It grows like $\ln N$</li>
+    <li>It approaches $k_{\min} N$: the largest hub becomes comparable to the whole network</li>
+    <li data-why="A smaller γ means a heavier tail and bigger hubs.">It shrinks to $k_{\min}$</li>
+  </ol>
+  <div class="explain">$1/(\gamma-1) \to 1$, so $k_{\max} \propto N$. A node cannot have more than $N - 1$ links, which is why $\gamma = 2$ is a boundary (<a href="ch4-exponent.html">role of γ</a>).</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A random network has $N = 10^6$ and $\langle k\rangle = 3$. About how many links does its largest node have?</p>
+  <ol>
+    <li>About 14</li>
+    <li data-why="That is the power-law hub with γ = 2.5.">About 10,000</li>
+    <li data-why="That is the exponential distribution with the same mean.">About 29</li>
+    <li data-why="That is the average, not the maximum.">3</li>
+  </ol>
+  <div class="explain">Solving $N\,P(K &gt; k_{\max}) = 1$ for a Poisson distribution with mean 3 gives about 14.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>The metabolic network's largest hub (638) is 2.9 times its natural cutoff (218). What does that show?</p>
+  <ol>
+    <li data-why="One network above the estimate does not refute the power law; the estimate is rough.">The power-law fit is wrong</li>
+    <li data-why="Other networks (email, WWW) lie far below their cutoffs.">Real hubs always exceed the cutoff</li>
+    <li data-why="A Poisson network would have a hub of about 20.">The network is random</li>
+    <li>The natural cutoff is an order-of-magnitude estimate, not a bound</li>
+  </ol>
+  <div class="explain">The cutoff gives the expected size of the largest degree; a single sample can land well above or below it.</div>
 </div>
 
 </div></main>

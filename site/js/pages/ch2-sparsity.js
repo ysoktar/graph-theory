@@ -111,7 +111,7 @@ const tip = tooltip();
   const sk = slider(f.controls, { label: "average degree ⟨k⟩", min: 1, max: 1000, value: k, log: true, step: 0.01, format: (v) => fmt.sig(v, 3), onInput: (v) => { k = v; update(); }, wide: true });
   const t = stats(left, [
     { key: "L", label: "links L = N⟨k⟩/2" }, { key: "Lmax", label: "possible links L_max" }, { key: "dens", label: "density" },
-    { key: "bits", label: "dense matrix, 1 bit/entry" }, { key: "f64", label: "dense, 8 bytes/entry (NumPy default)" },
+    { key: "f64", label: "dense, 8 bytes/entry (NumPy default)" }, { key: "bits", label: "dense matrix, 1 bit/entry" },
     { key: "el", label: "edge list" }, { key: "csr", label: "sparse matrix (CSR)" },
   ]);
   const plot = new Plot(right, {

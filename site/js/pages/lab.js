@@ -10,7 +10,7 @@ import { loadClassic, loadNetworks, loadRealGraph, WITH_EDGES } from "../lib/dat
 const GENERATORS = {
   er: { label: "Random network G(N, p)", params: { N: [500, 10, 20000], k: [4, 0.5, 30, "⟨k⟩"] }, make: (p, r) => G.gnp(p.N, p.k / (p.N - 1), r) },
   ba: { label: "Barabási–Albert", params: { N: [500, 10, 20000], m: [2, 1, 10, "m"] }, make: (p, r) => G.barabasiAlbert(p.N, p.m, r) },
-  ws: { label: "Watts–Strogatz", params: { N: [500, 10, 20000], k: [6, 2, 20, "k (even)"], p: [0.05, 0, 1, "rewiring p"] }, make: (p, r) => G.wattsStrogatz(p.N, 2 * Math.round(p.k / 2), p.p, r) },
+  ws: { label: "Watts–Strogatz", params: { N: [500, 10, 20000], k: [6, 2, 20, "k (even)"], p: [0.05, 0, 1, "rewiring p"] }, make: (p, r) => G.wattsStrogatz(p.N, Math.min(2 * Math.round(p.k / 2), 2 * Math.floor((p.N - 1) / 2)), p.p, r) },
   cm: { label: "Configuration model, power law", params: { N: [500, 10, 20000], g: [2.5, 2.01, 4, "γ"], kmin: [2, 1, 10, "k_min"] }, make: (p, r) => G.configurationGraph(G.powerlawSequence(p.N, p.g, p.kmin, r), r) },
   hk: { label: "Holme–Kim (BA with triangles)", params: { N: [500, 10, 20000], m: [2, 1, 10, "m"], t: [0.5, 0, 1, "triad probability"] }, make: (p, r) => G.holmeKim(p.N, p.m, p.t, r) },
   geo: { label: "Random geometric", params: { N: [500, 10, 5000], r: [0.08, 0.01, 0.3, "radius"] }, make: (p, r) => G.randomGeometric(p.N, p.r, r).graph },
@@ -85,7 +85,7 @@ const mkPlot = (title, xl, yl) => { const p = h("div", { class: "panel" }, h("di
 const P1 = mkPlot("Degree distribution P(K ≥ k)", "k", "P(K ≥ k)"), P2 = mkPlot("Clustering C(k)", "k", "C(k)"), P3 = mkPlot("Neighbour degree k_nn(k)", "k", "k_nn(k)");
 const rankHost = h("div");
 out.body.append(rankHost);
-let view = null;
+let view = null, edgeUrl = null;
 
 function analyse() {
   const { graph: g, names } = current;
@@ -114,6 +114,8 @@ function analyse() {
     const rows = [...Array(n).keys()].sort((a, b) => g.degree(b) - g.degree(a)).slice(0, 10).map((v) => [names ? names[v] : v, g.degree(v), bc[v], cl[v], ev[v], pr[v], core[v]]);
     rankHost.append(h("h4", {}, "Ten nodes with the most links"), dataTable([{ label: "node", align: "left" }, { label: "degree" }, { label: "betweenness", format: (v) => v.toFixed(3) }, { label: "closeness", format: (v) => v.toFixed(3) }, { label: "eigenvector", format: (v) => v.toFixed(3) }, { label: "PageRank", format: (v) => v.toFixed(4) }, { label: "k-core" }], rows));
   } else viewHost.append(h("p", { class: "small muted" }, "The drawing and the centrality table are shown for networks of up to 2,000 nodes."));
-  const dl = h("a", { class: "btn", download: "network.edgelist.txt", href: URL.createObjectURL(new Blob([g.edges().map(([u, v]) => (names ? `${names[u]} ${names[v]}` : `${u} ${v}`)).join("\n")], { type: "text/plain" })) }, "Download the edge list");
+  if (edgeUrl) URL.revokeObjectURL(edgeUrl);
+  edgeUrl = URL.createObjectURL(new Blob([g.edges().map(([u, v]) => (names ? `${names[u]} ${names[v]}` : `${u} ${v}`)).join("\n")], { type: "text/plain" }));
+  const dl = h("a", { class: "btn", download: "network.edgelist.txt", href: edgeUrl }, "Download the edge list");
   rankHost.append(h("p", {}, dl));
 }

@@ -54,7 +54,7 @@ const verdictEl = ([cls, text]) => h("span", { class: "verdict " + cls, html: (c
   }
   select(f.controls, { label: "Network", value: name, options: NETWORK_ORDER.map((n) => ({ value: n, label: networks[n].description })), onChange: (v) => { name = v; draw(); } });
   draw();
-  f.setCaption("Theory: ⟨k²⟩ = ⟨k⟩(1 + ⟨k⟩), k_max from N·P(K > k_max) = 1, S = 1 − e^{−⟨k⟩S}, the corrected distance formula of Advanced Topic 3.G, C = ⟨k⟩/N and r = 0. The verdict compares the data with the simulated counterpart: within 25% is “right”, within a factor of two “roughly”.");
+  f.setCaption("Theory: ⟨k²⟩ = ⟨k⟩(1 + ⟨k⟩), k_max from N·P(K > k_max) = 1, S = 1 − exp(−⟨k⟩S), ⟨d⟩ ≈ (ln N − γ_E)/ln⟨k⟩ + ½ (Fronczak et al. 2004; not in the book), C = ⟨k⟩/N and r = 0. The verdict compares the data with the simulated counterpart: within 25% is “right”, within a factor of two “roughly”.");
 
   // ---------------------------------------------------------------- 2. all networks at once
   const g = figure("#fig-heat", { title: "How far off is the random network, for every network?", sub: "Ratio of the real value to that of its random counterpart G(N, L). Orange: the data are larger; blue: smaller; grey: within 25%." });

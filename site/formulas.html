@@ -24,63 +24,66 @@
 <section class="formula-section">
   <h2>Chapter 2 · Graph theory</h2>
   <div class="formula-grid">
-    <div class="formula"><div class="formula-name">Average degree</div><div class="eq">$$\langle k\rangle = \frac{1}{N}\sum_i k_i = \frac{2L}{N}$$</div><a class="small" href="ch2-degree.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Handshaking lemma</div><div class="eq">$$\sum_i k_i = 2L \;\Rightarrow\; \text{the number of odd-degree nodes is even}$$</div><a class="small" href="ch2-konigsberg.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Degree distribution</div><div class="eq">$$p_k = N_k/N, \qquad \sum_k p_k = 1, \qquad \langle k^n\rangle = \sum_k k^n p_k$$</div><a class="small" href="ch2-degree.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Maximum number of links</div><div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}$$</div><a class="small" href="ch2-sparsity.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Adjacency matrix</div><div class="eq">$$A_{ij} = 1 \text{ if } i\text{–}j \text{ linked}; \quad k_i = \sum_j A_{ij}; \quad (A^n)_{ij} = \#\text{walks of length } n$$</div><a class="small" href="ch2-adjacency.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Triangles</div><div class="eq">$$\#\triangle = \tfrac16 \operatorname{Tr} A^3$$</div><a class="small" href="ch2-adjacency.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Local clustering</div><div class="eq">$$C_i = \frac{2L_i}{k_i(k_i-1)}, \qquad \langle C\rangle = \frac1N \sum_i C_i$$</div><a class="small" href="ch2-clustering.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Global clustering (transitivity)</div><div class="eq">$$C_\Delta = \frac{3 \times \#\text{triangles}}{\#\text{connected triples}}$$</div><a class="small" href="ch2-clustering.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Average distance</div><div class="eq">$$\langle d\rangle = \frac{1}{N(N-1)} \sum_{i \ne j} d_{ij} \quad\text{(connected pairs)}$$</div><a class="small" href="ch2-paths.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Average degree</div><div class="eq">$$\langle k\rangle = \frac{1}{N}\sum_i k_i = \frac{2L}{N}$$</div><p class="small muted">$N$ nodes, $L$ links, $k_i$ degree of node $i$.</p><a class="small" href="ch2-degree.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Handshaking lemma</div><div class="eq">$$\sum_i k_i = 2L \;\Rightarrow\; \text{the number of odd-degree nodes is even}$$</div><p class="small muted">Each link adds 1 to two degrees.</p><a class="small" href="ch2-konigsberg.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Degree distribution</div><div class="eq">$$p_k = N_k/N, \qquad \sum_k p_k = 1, \qquad \langle k^n\rangle = \sum_k k^n p_k$$</div><p class="small muted">$N_k$ nodes with degree $k$; $\langle k^n\rangle$ $n$-th moment.</p><a class="small" href="ch2-degree.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Maximum number of links</div><div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}$$</div><p class="small muted">Every pair of the $N$ nodes linked once.</p><a class="small" href="ch2-sparsity.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Adjacency matrix</div><div class="eq">$$A_{ij} = 1 \text{ if } i\text{–}j \text{ linked}; \quad k_i = \sum_j A_{ij}; \quad (A^n)_{ij} = \#\text{walks of length } n$$</div><p class="small muted">$A_{ij}$ link indicator; $A^n$ counts walks of $n$ steps.</p><a class="small" href="ch2-adjacency.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Triangles</div><div class="eq">$$\#\triangle = \tfrac16 \operatorname{Tr} A^3$$</div><p class="small muted">$\operatorname{Tr} A^3$ closed 3-walks; each triangle counted 6 times.</p><a class="small" href="ch2-adjacency.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Local clustering</div><div class="eq">$$C_i = \frac{2L_i}{k_i(k_i-1)}, \qquad \langle C\rangle = \frac1N \sum_i C_i$$</div><p class="small muted">$L_i$ links among the $k_i$ neighbours of $i$.</p><a class="small" href="ch2-clustering.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Global clustering (transitivity)</div><div class="eq">$$C_\Delta = \frac{3 \times \#\text{triangles}}{\#\text{connected triples}}$$</div><p class="small muted">Triple: a node with two neighbours; ×3: each triangle closes three.</p><a class="small" href="ch2-clustering.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Average distance</div><div class="eq">$$\langle d\rangle = \frac{1}{N(N-1)} \sum_{i \ne j} d_{ij} \quad\text{(connected pairs)}$$</div><p class="small muted">$d_{ij}$ shortest-path length from $i$ to $j$.</p><a class="small" href="ch2-paths.html">Explore →</a></div>
   </div>
 </section>
 <section class="formula-section">
   <h2>Chapter 3 · Random networks</h2>
   <div class="formula-grid">
-    <div class="formula"><div class="formula-name">Number of links in G(N, p)</div><div class="eq">$$P(L) = \binom{L_{\max}}{L} p^L (1-p)^{L_{\max}-L}, \quad \langle L\rangle = p\frac{N(N-1)}{2}$$</div><a class="small" href="ch3-model.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Average degree</div><div class="eq">$$\langle k\rangle = p(N-1)$$</div><a class="small" href="ch3-model.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Binomial and Poisson degrees</div><div class="eq">$$p_k = \binom{N-1}{k} p^k (1-p)^{N-1-k} \;\approx\; e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}$$</div><a class="small" href="ch3-degree.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Width of the Poisson distribution</div><div class="eq">$$\sigma_k = \sqrt{\langle k\rangle}, \qquad \langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$$</div><a class="small" href="ch3-degree.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Largest and smallest degree</div><div class="eq">$$N\,P(K > k_{\max}) \approx 1, \qquad N\,P(K < k_{\min}) \approx 1$$</div><a class="small" href="ch3-real-degrees.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Giant component</div><div class="eq">$$S = 1 - e^{-\langle k\rangle S}; \quad S > 0 \iff \langle k\rangle > 1$$</div><a class="small" href="ch3-evolution.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Regimes</div><div class="eq">$$\langle k\rangle < 1:\ N_G \sim \ln N; \quad \langle k\rangle = 1:\ N_G \sim N^{2/3}; \quad \langle k\rangle > \ln N:\ \text{connected}$$</div><a class="small" href="ch3-evolution.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Small world</div><div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln\langle k\rangle} \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12$$</div><a class="small" href="ch3-small-world.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Clustering</div><div class="eq">$$\langle C\rangle = p = \frac{\langle k\rangle}{N-1}$$</div><a class="small" href="ch3-clustering.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Number of links in G(N, p)</div><div class="eq">$$P(L) = \binom{L_{\max}}{L} p^L (1-p)^{L_{\max}-L}, \quad \langle L\rangle = p\frac{N(N-1)}{2}$$</div><p class="small muted">$p$ link probability per pair; $L_{\max} = N(N-1)/2$.</p><a class="small" href="ch3-model.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Average degree</div><div class="eq">$$\langle k\rangle = p(N-1)$$</div><p class="small muted">$p$ link probability; $N-1$ possible partners per node.</p><a class="small" href="ch3-model.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Binomial and Poisson degrees</div><div class="eq">$$p_k = \binom{N-1}{k} p^k (1-p)^{N-1-k} \;\approx\; e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}$$</div><p class="small muted">Poisson limit for large $N$, fixed $\langle k\rangle$.</p><a class="small" href="ch3-degree.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Width of the Poisson distribution</div><div class="eq">$$\sigma_k = \sqrt{\langle k\rangle}, \qquad \langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$$</div><p class="small muted">$\sigma_k$ standard deviation of the degrees.</p><a class="small" href="ch3-degree.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Largest and smallest degree</div><div class="eq">$$N\,P(K > k_{\max}) \approx 1, \qquad N\,P(K < k_{\min}) \approx 1$$</div><p class="small muted">$k_{\max}$: about one node expected beyond it.</p><a class="small" href="ch3-real-degrees.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Giant component</div><div class="eq">$$S = 1 - e^{-\langle k\rangle S}; \quad S > 0 \iff \langle k\rangle > 1$$</div><p class="small muted">$S$ fraction of nodes in the giant component.</p><a class="small" href="ch3-evolution.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Regimes</div><div class="eq">$$\langle k\rangle < 1:\ N_G \sim \ln N; \quad \langle k\rangle = 1:\ N_G \sim N^{2/3}; \quad \langle k\rangle > \ln N:\ \text{connected}$$</div><p class="small muted">$N_G$ size of the largest component.</p><a class="small" href="ch3-evolution.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Small world (with the Fronczak et al. 2004 correction)</div><div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln\langle k\rangle} \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12$$</div><p class="small muted">$\gamma_E \approx 0.577$ Euler's constant; second form: Fronczak et al. (2004).</p><a class="small" href="ch3-small-world.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Clustering</div><div class="eq">$$\langle C\rangle = p = \frac{\langle k\rangle}{N-1}$$</div><p class="small muted">Neighbours are linked with the same probability $p$ as any pair.</p><a class="small" href="ch3-clustering.html">Explore →</a></div>
   </div>
 </section>
 <section class="formula-section">
   <h2>Chapter 4 · Scale-free networks</h2>
   <div class="formula-grid">
-    <div class="formula"><div class="formula-name">Discrete power law</div><div class="eq">$$p_k = \frac{k^{-\gamma}}{\zeta(\gamma, k_{\min})}, \quad k \ge k_{\min}$$</div><a class="small" href="ch4-power-laws.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Continuous power law</div><div class="eq">$$p(k) = (\gamma - 1) k_{\min}^{\gamma-1} k^{-\gamma}, \qquad P(K \ge k) = (k/k_{\min})^{-(\gamma-1)}$$</div><a class="small" href="ch4-power-laws.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Natural cutoff</div><div class="eq">$$k_{\max} \approx k_{\min} N^{1/(\gamma-1)}; \quad \text{exponential: } k_{\min} + \ln N/\lambda$$</div><a class="small" href="ch4-hubs.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Moments</div><div class="eq">$$\langle k^n\rangle = \frac{\gamma-1}{n-\gamma+1} k_{\min}^{\gamma-1}\big(k_{\max}^{n-\gamma+1} - k_{\min}^{n-\gamma+1}\big)$$</div><a class="small" href="ch4-moments.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Distances</div><div class="eq">$$\langle d\rangle \sim \text{const}\ (\gamma = 2),\ \ln\ln N\ (2<\gamma<3),\ \frac{\ln N}{\ln\ln N}\ (\gamma = 3),\ \ln N\ (\gamma > 3)$$</div><a class="small" href="ch4-ultra-small.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Log-likelihood</div><div class="eq">$$\ln\mathcal L(\gamma) = -n \ln\zeta(\gamma, k_{\min}) - \gamma \sum_i \ln k_i$$</div><a class="small" href="ch4-fitting.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Closed-form MLE (k_min ≳ 6)</div><div class="eq">$$\hat\gamma \approx 1 + n\Big[\sum_i \ln\frac{k_i}{k_{\min} - 1/2}\Big]^{-1}, \qquad \sigma \approx \frac{\hat\gamma - 1}{\sqrt n}$$</div><a class="small" href="ch4-fitting.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">KS distance</div><div class="eq">$$D = \max_{k \ge k_{\min}} |S(k) - P(k)|$$</div><a class="small" href="ch4-fitting.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Configuration model</div><div class="eq">$$p_{ij} \approx \frac{k_i k_j}{2L}$$</div><a class="small" href="ch4-generating.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Discrete power law</div><div class="eq">$$p_k = \frac{k^{-\gamma}}{\zeta(\gamma, k_{\min})}, \quad k \ge k_{\min}$$</div><p class="small muted">$\gamma$ exponent; $\zeta(\gamma, k_{\min})$ Hurwitz zeta, normalisation.</p><a class="small" href="ch4-power-laws.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Continuous power law</div><div class="eq">$$p(k) = (\gamma - 1) k_{\min}^{\gamma-1} k^{-\gamma}, \qquad P(K \ge k) = (k/k_{\min})^{-(\gamma-1)}$$</div><p class="small muted">$P(K \ge k)$ CCDF: slope $-(\gamma - 1)$ on log-log axes.</p><a class="small" href="ch4-power-laws.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Natural cutoff</div><div class="eq">$$k_{\max} \approx k_{\min} N^{1/(\gamma-1)}; \quad \text{exponential: } k_{\min} + \ln N/\lambda$$</div><p class="small muted">$k_{\max}$ expected largest degree; $\lambda$ exponential decay rate.</p><a class="small" href="ch4-hubs.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Moments</div><div class="eq">$$\langle k^n\rangle = \frac{\gamma-1}{n-\gamma+1} k_{\min}^{\gamma-1}\big(k_{\max}^{n-\gamma+1} - k_{\min}^{n-\gamma+1}\big)$$</div><p class="small muted">$n$ moment order; diverges with $k_{\max}$ when $n > \gamma - 1$.</p><a class="small" href="ch4-moments.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Distances</div><div class="eq">$$\langle d\rangle \sim \text{const}\ (\gamma = 2),\ \ln\ln N\ (2<\gamma<3),\ \frac{\ln N}{\ln\ln N}\ (\gamma = 3),\ \ln N\ (\gamma > 3)$$</div><p class="small muted">$\gamma$ degree exponent; smaller $\gamma$, shorter paths.</p><a class="small" href="ch4-ultra-small.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Log-likelihood</div><div class="eq">$$\ln\mathcal L(\gamma) = -n \ln\zeta(\gamma, k_{\min}) - \gamma \sum_i \ln k_i$$</div><p class="small muted">$n$ tail size ($k_i \ge k_{\min}$); maximise over $\gamma$.</p><a class="small" href="ch4-fitting.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Closed-form MLE (k_min ≳ 6)</div><div class="eq">$$\hat\gamma \approx 1 + n\Big[\sum_i \ln\frac{k_i}{k_{\min} - 1/2}\Big]^{-1}, \qquad \sigma \approx \frac{\hat\gamma - 1}{\sqrt n}$$</div><p class="small muted">$\hat\gamma$ estimate; $\sigma$ its standard error.</p><a class="small" href="ch4-fitting.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">KS distance</div><div class="eq">$$D = \max_{k \ge k_{\min}} |S(k) - P(k)|$$</div><p class="small muted">$S$ data CDF, $P$ fitted CDF, both for $k \ge k_{\min}$.</p><a class="small" href="ch4-fitting.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Configuration model</div><div class="eq">$$p_{ij} \approx \frac{k_i k_j}{2L}$$</div><p class="small muted">$p_{ij}$ expected links between $i$ and $j$; $2L$ link ends.</p><a class="small" href="ch4-generating.html">Explore →</a></div>
   </div>
 </section>
 <section class="formula-section">
   <h2>Chapters 5–10</h2>
   <div class="formula-grid">
-    <div class="formula"><div class="formula-name">BA preferential attachment</div><div class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}, \qquad k_i(t) = m (t/t_i)^{1/2}$$</div><a class="small" href="ch5-preview.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">BA degree distribution</div><div class="eq">$$p_k = \frac{2m(m+1)}{k(k+1)(k+2)} \sim 2m^2 k^{-3}$$</div><a class="small" href="ch5-preview.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Fitness model</div><div class="eq">$$\Pi_i = \frac{\eta_i k_i}{\sum_j \eta_j k_j}, \qquad k_i(t) = m (t/t_i)^{\eta_i/C}$$</div><a class="small" href="evolving.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Degree correlation function</div><div class="eq">$$k_{nn}(k) = \sum_{k'} k' P(k' \mid k); \quad \text{neutral: } \frac{\langle k^2\rangle}{\langle k\rangle}$$</div><a class="small" href="correlations.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Structural cutoff</div><div class="eq">$$k_s \approx \sqrt{\langle k\rangle N}$$</div><a class="small" href="correlations.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Molloy–Reed criterion</div><div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2$$</div><a class="small" href="robustness.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Random-failure threshold</div><div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}; \quad \text{random network: } 1 - \frac{1}{\langle k\rangle}$$</div><a class="small" href="robustness.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Modularity</div><div class="eq">$$Q = \sum_c \Big[\frac{L_c}{L} - \Big(\frac{k_c}{2L}\Big)^2\Big]$$</div><a class="small" href="communities.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Epidemic threshold (SIR)</div><div class="eq">$$T_c = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}$$</div><a class="small" href="epidemics.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">BA preferential attachment</div><div class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}, \qquad k_i(t) = m (t/t_i)^{1/2}$$</div><p class="small muted">$m$ links per new node; $t_i$ arrival time of $i$.</p><a class="small" href="ch5-preview.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">BA degree distribution</div><div class="eq">$$p_k = \frac{2m(m+1)}{k(k+1)(k+2)} \sim 2m^2 k^{-3}$$</div><p class="small muted">$\gamma = 3$ for every $m$; $k \ge m$.</p><a class="small" href="ch5-preview.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Fitness model</div><div class="eq">$$\Pi_i = \frac{\eta_i k_i}{\sum_j \eta_j k_j}, \qquad k_i(t) = m (t/t_i)^{\eta_i/C}$$</div><p class="small muted">$\eta_i$ fitness; $C$ from $\int \rho(\eta)\,\eta/(C-\eta)\,d\eta = 1$ (1.255 for uniform).</p><a class="small" href="evolving.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Degree correlation function</div><div class="eq">$$k_{nn}(k) = \sum_{k'} k' P(k' \mid k); \quad \text{neutral: } \frac{\langle k^2\rangle}{\langle k\rangle}$$</div><p class="small muted">$k_{nn}(k)$ mean neighbour degree of degree-$k$ nodes.</p><a class="small" href="correlations.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Structural cutoff</div><div class="eq">$$k_s \approx \sqrt{\langle k\rangle N}$$</div><p class="small muted">Above $k_s$, random wiring would need multiple links between hubs.</p><a class="small" href="correlations.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Molloy–Reed criterion</div><div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2$$</div><p class="small muted">$\kappa$ mean degree of a node reached along a link.</p><a class="small" href="robustness.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Random-failure threshold</div><div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}; \quad \text{random network: } 1 - \frac{1}{\langle k\rangle}$$</div><p class="small muted">$f_c$ fraction of random failures that destroys the giant component.</p><a class="small" href="robustness.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Modularity</div><div class="eq">$$Q = \sum_c \Big[\frac{L_c}{L} - \Big(\frac{k_c}{2L}\Big)^2\Big]$$</div><p class="small muted">$L_c$ links inside $c$; $k_c$ total degree of $c$; $L$ all links.</p><a class="small" href="communities.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Epidemic threshold (SIR)</div><div class="eq">$$T_c = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}$$</div><p class="small muted">$T$ transmissibility per link; outbreak possible for $T > T_c = 1/(\kappa-1)$.</p><a class="small" href="epidemics.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Random vaccination</div><div class="eq">$$g_c = 1 - \frac{1}{T(\kappa - 1)}$$</div><p class="small muted">$g_c$ coverage that stops an outbreak of transmissibility $T$.</p><a class="small" href="epidemics.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Resolution limit</div><div class="eq">$$\Delta Q = \frac{l_{AB}}{L} - \frac{k_A k_B}{2L^2}$$</div><p class="small muted">Merging $A$, $B$ joined by $l_{AB} = 1$ link raises $Q$ when $k_A k_B &lt; 2L$.</p><a class="small" href="communities.html">Explore →</a></div>
   </div>
 </section>
 
 <h2>Glossary</h2>
 <dl class="gloss">
   <dt>Adjacency matrix</dt><dd>N×N matrix with A_ij = 1 when nodes i and j are linked.</dd>
+  <dt>AUC</dt><dd>Probability that a true link outscores a non-link; 0.5 = guessing.</dd>
   <dt>Assortative</dt><dd>Hubs tend to link to hubs (r > 0, k_nn(k) increasing).</dd>
   <dt>Betweenness</dt><dd>Share of shortest paths between other pairs that pass through a node.</dd>
   <dt>Bipartite network</dt><dd>Two node types, links only between types; its projection links nodes sharing a neighbour.</dd>
@@ -92,20 +95,27 @@
   <dt>Degree-preserving randomization</dt><dd>Repeated link swaps that keep every degree; a null model for everything but the degrees.</dd>
   <dt>Diameter</dt><dd>Largest shortest-path distance in a network.</dd>
   <dt>Disassortative</dt><dd>Hubs tend to link to small-degree nodes (r < 0).</dd>
+  <dt>Fiedler vector</dt><dd>Laplacian eigenvector of the second-smallest eigenvalue; its sign gives a two-way cut.</dd>
   <dt>Fitness</dt><dd>Intrinsic attractiveness η of a node in the Bianconi–Barabási model.</dd>
+  <dt>Friendship paradox</dt><dd>A random neighbour has on average ⟨k²⟩/⟨k⟩ links, more than a random node.</dd>
   <dt>G(N, L), G(N, p)</dt><dd>Random networks with exactly L links (Erdős–Rényi) or with each pair linked with probability p (Gilbert).</dd>
   <dt>Hub</dt><dd>A node with far more links than average.</dd>
+  <dt>κ (kappa)</dt><dd>⟨k²⟩/⟨k⟩, mean degree of a node reached along a link.</dd>
   <dt>k_min</dt><dd>Smallest degree from which a power-law tail is fitted.</dd>
   <dt>KS distance</dt><dd>Largest gap between the data's cumulative distribution and the model's.</dd>
   <dt>Log-binning</dt><dd>Bins growing by a constant factor, so that each bin collects enough nodes.</dd>
   <dt>Modularity</dt><dd>Excess of links inside groups compared with the configuration model.</dd>
+  <dt>Node embedding</dt><dd>A vector per node, close for nodes close in the network.</dd>
   <dt>Natural cutoff</dt><dd>Expected largest degree of a power law in a network of N nodes, k_min N^{1/(γ−1)}.</dd>
   <dt>Null model</dt><dd>A random reference network that keeps some properties of the data and randomises the rest.</dd>
+  <dt>Percolation</dt><dd>Appearance or loss of a giant component as nodes or links are kept with some probability.</dd>
   <dt>Path / walk</dt><dd>A walk is any sequence of linked nodes; a path visits each node at most once.</dd>
   <dt>Preferential attachment</dt><dd>New links favour well-connected nodes, Π(k) ∝ k.</dd>
+  <dt>Resolution limit</dt><dd>Modularity merges communities with total degree below about √(2L).</dd>
   <dt>Scale-free network</dt><dd>Network whose degree distribution follows a power law, p_k ~ k^−γ.</dd>
   <dt>Small world</dt><dd>Average distance growing like ln N or slower.</dd>
   <dt>Sparse network</dt><dd>L ≪ L_max, that is ⟨k⟩ ≪ N.</dd>
+  <dt>Transmissibility</dt><dd>Probability T that an infection passes along one link.</dd>
   <dt>Ultra-small world</dt><dd>Distances growing like ln ln N, as in scale-free networks with 2 < γ < 3.</dd>
 </dl>
 

@@ -18,16 +18,25 @@
 <main><div class="content">
 
 <h1>The role of the degree exponent</h1>
-<p class="lead">Most properties of a scale-free network depend on $\gamma$, and they change qualitatively at $\gamma = 2$ and $\gamma = 3$ (Section 4.7).</p>
+<p class="lead">Most properties of a scale-free network depend on $\gamma$, and they change qualitatively at $\gamma = 2$ and $\gamma = 3$ (Section 4.7). This page collects the results of the previous pages into three regimes.</p>
 
 <table class="simple">
   <thead><tr><th>Regime</th><th>$\langle k\rangle$</th><th>$\langle k^2\rangle$</th><th>$k_{\max}$</th><th>$\langle d\rangle$</th><th>Notes</th></tr></thead>
   <tbody>
-    <tr><td>Anomalous, $\gamma < 2$</td><td>diverges</td><td>diverges</td><td>would exceed $N$</td><td>constant</td><td>a large simple network cannot keep $\gamma < 2$ up to its largest degrees</td></tr>
-    <tr><td>Scale-free, $2 < \gamma < 3$</td><td>finite</td><td><strong>diverges</strong></td><td>$\sim N^{1/(\gamma-1)}$</td><td>$\ln\ln N$</td><td>hubs dominate; ultra-small</td></tr>
-    <tr><td>Random-like, $\gamma > 3$</td><td>finite</td><td>finite</td><td>$\sim N^{1/(\gamma-1)}$, small</td><td>$\ln N$</td><td>hard to tell from a random network unless $N$ is huge</td></tr>
+    <tr><td>Anomalous, $\gamma &lt; 2$</td><td>diverges</td><td>diverges</td><td>would exceed $N$</td><td>constant</td><td>a large simple network cannot keep $\gamma &lt; 2$ up to its largest degrees</td></tr>
+    <tr><td>Scale-free, $2 &lt; \gamma &lt; 3$</td><td>finite</td><td><strong>diverges</strong></td><td>$\sim N^{1/(\gamma-1)}$</td><td>$\ln\ln N$</td><td>hubs dominate; ultra-small</td></tr>
+    <tr><td>Random-like, $\gamma &gt; 3$</td><td>finite</td><td>finite</td><td>$\sim N^{1/(\gamma-1)}$, small</td><td>$\ln N$</td><td>hard to tell from a random network unless $N$ is huge</td></tr>
   </tbody>
 </table>
+<dl class="symbols">
+  <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>first and second moments (<a href="ch4-moments.html">No typical degree</a>)</dd>
+  <dt>$k_{\max}$</dt><dd>largest degree (<a href="ch4-hubs.html">The largest hub</a>)</dd>
+  <dt>$\langle d\rangle$</dt><dd>average distance (<a href="ch4-ultra-small.html">Ultra-small worlds</a>)</dd>
+  <dt>simple network</dt><dd>no self-loops or repeated links, so $k_{\max} \le N - 1$</dd>
+</dl>
+<div class="callout example">
+  <p>Why $\gamma = 2$ is a wall: $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$; with $\gamma = 1.8$, $k_{\min} = 1$, $N = 10^4$: $10^{4/0.8} = 10^5 &gt; N$.</p>
+</div>
 
 <div data-fig id="fig-net"></div>
 <div data-fig id="fig-multi"></div>
@@ -38,14 +47,63 @@
 <div class="callout fix" data-errata="N18"></div>
 
 <div class="callout discuss">
-  <p>To tell a power law with $\gamma > 3$ from a random network's degree distribution you need a tail long enough to see the straight line. How large must $N$ be?</p>
-  <div class="hint">The tail must span at least two orders of magnitude, so $k_{\max}/k_{\min} = N^{1/(\gamma-1)} \gtrsim 100$, that is $N \gtrsim 100^{\gamma-1}$. For $\gamma = 3.5$ that is $N \gtrsim 10^5$; for $\gamma = 5$ already $N \gtrsim 10^8$. The book makes this argument in Section 4.7: for large $\gamma$ the scale-free property is practically invisible in networks of realistic size.</div>
+  <p>To tell a power law with $\gamma &gt; 3$ from a random network's degree distribution you need a tail long enough to see the straight line. How large must $N$ be?</p>
+  <div class="hint">At least two orders of magnitude: $k_{\max}/k_{\min} = N^{1/(\gamma-1)} \gtrsim 100$, i.e. $N \gtrsim 100^{\gamma-1}$. For $\gamma = 3.5$, $N \gtrsim 10^5$; for $\gamma = 5$, $N \gtrsim 10^8$. Section 4.7: for large $\gamma$ the scale-free property is practically invisible at realistic sizes.</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>One number, $\gamma$, tells which of three qualitatively different behaviours to expect.</li>
+    <li>The boundaries 2 and 3 are where $\langle k\rangle$ and $\langle k^2\rangle$ start to diverge.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Summarises</strong> <a href="ch4-hubs.html">hubs</a>, <a href="ch4-moments.html">moments</a> and <a href="ch4-ultra-small.html">distances</a>.</li>
+    <li><strong>Special case:</strong> $\gamma \to \infty$ recovers random-network behaviour.</li>
+    <li><strong>Later:</strong> the BA model of <a href="ch5-preview.html">Chapter 5</a> gives $\gamma = 3$, right on the boundary.</li>
+  </ul>
 </div>
 
 <div class="quiz" data-answer="2">
   <p>Which regime is the phone-call network in, given $\hat\gamma = 4.76 \pm 0.13$?</p>
-  <ol><li>Anomalous</li><li>Random-like: $\langle k^2\rangle$ stays finite as the network grows</li><li>Scale-free with divergent $\langle k^2\rangle$</li><li>It cannot be decided</li></ol>
-  <div class="explain">$\gamma > 3$, well outside the error bar, so both $\langle k\rangle$ and $\langle k^2\rangle$ converge. The data agree: its $\sigma_k$ is only 1.6 times the random value (<a href="ch4-moments.html">No typical degree</a>).</div>
+  <ol>
+    <li data-why="Anomalous means γ &lt; 2.">Anomalous</li>
+    <li>Random-like: $\langle k^2\rangle$ stays finite as the network grows</li>
+    <li data-why="That needs γ &lt; 3, far outside the error bar.">Scale-free with divergent $\langle k^2\rangle$</li>
+    <li data-why="The error bar 0.13 is far smaller than the distance to 3.">It cannot be decided</li>
+  </ol>
+  <div class="explain">$\gamma &gt; 3$, so both moments converge. Its $\sigma_k$ is only 1.6 times the random value (<a href="ch4-moments.html">No typical degree</a>).</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Which network falls in the scale-free regime $2 &lt; \gamma &lt; 3$?</p>
+  <ol>
+    <li data-why="γ̂ = 1.91 is just below 2.">Email ($\hat\gamma = 1.91$)</li>
+    <li data-why="γ̂ = 3.40 is above 3.">Internet ($\hat\gamma = 3.40$)</li>
+    <li>WWW ($\hat\gamma = 2.16$)</li>
+    <li data-why="γ̂ = 3.43 is above 3.">Collaboration ($\hat\gamma = 3.43$)</li>
+  </ol>
+  <div class="explain">Only metabolism (2.71), protein interactions (2.78) and the WWW (2.16) lie between 2 and 3.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>About how many nodes are needed to see two decades of power-law tail with $\gamma = 4$?</p>
+  <ol>
+    <li>$10^6$</li>
+    <li data-why="That is the requirement for γ = 3.">$10^4$</li>
+    <li data-why="That gives N^(1/3) ≈ 4.6, less than one decade.">$100$</li>
+    <li data-why="That is the requirement for γ = 5.">$10^8$</li>
+  </ol>
+  <div class="explain">$N \gtrsim 100^{\gamma - 1} = 100^3 = 10^6$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Why can a large simple network not keep $\gamma &lt; 2$ up to its largest degrees?</p>
+  <ol>
+    <li data-why="The problem is the size of the hubs, not small degrees.">Too many nodes would have degree 1</li>
+    <li data-why="⟨k²⟩ also diverges for 2 &lt; γ &lt; 3, which is allowed.">$\langle k^2\rangle$ would diverge</li>
+    <li data-why="Distances are not the constraint.">Distances would be too long</li>
+    <li>The largest hub would need more than $N - 1$ links</li>
+  </ol>
+  <div class="explain">$k_{\max} \propto N^{1/(\gamma-1)}$ grows faster than $N$ for $\gamma &lt; 2$, impossible without repeated links.</div>
 </div>
 
 </div></main>

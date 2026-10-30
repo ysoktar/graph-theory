@@ -18,18 +18,42 @@
 <main><div class="content wide">
 
 <h1>Network lab</h1>
-<p class="lead">A workbench for everything on this site: build or load a network and measure it. Nothing is uploaded; pasted data stays in your browser.</p>
+<p class="lead">Build or load a network and measure it with every tool on this site. Nothing is uploaded; pasted data stays in your browser.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Each model predicts a few measures; here you test those predictions side by side.</li>
+    <li>Compare a network with a model of the same $N$ and $\langle k\rangle$ to see what the model explains.</li>
+  </ul>
+</div>
 
 <div data-fig id="fig-source"></div>
 <div data-fig id="fig-analysis"></div>
 
+<h2>What the measures tell you</h2>
+<dl class="symbols">
+  <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>density; heterogeneity — large $\langle k^2\rangle$ means hubs (<a href="ch4-moments.html">Ch 4</a>)</dd>
+  <dt>$k_{\max}$</dt><dd>largest hub, vs Poisson or natural cutoff (<a href="ch4-hubs.html">Ch 4</a>)</dd>
+  <dt>largest component</dt><dd>share of nodes that can reach each other (<a href="ch3-evolution.html">Ch 3</a>)</dd>
+  <dt>$\langle d\rangle$, diameter</dt><dd>typical and longest shortest path (<a href="ch3-small-world.html">small world</a>)</dd>
+  <dt>$\langle C\rangle$, $C_\Delta$</dt><dd>local and global triangle density, vs random $\langle k\rangle/N$ (<a href="ch2-clustering.html">Ch 2</a>)</dd>
+  <dt>$r$</dt><dd>degree correlation of linked nodes (<a href="correlations.html">Ch 7</a>)</dd>
+  <dt>power-law fit</dt><dd>maximum-likelihood $\hat\gamma$ and $k_{\min}$ (<a href="ch4-fitting.html">Ch 4</a>)</dd>
+  <dt>$P(K \ge k)$, $C(k)$, $k_{nn}(k)$</dt><dd>tail shape; hierarchy (falling $C(k)$); assortativity</dd>
+  <dt>betweenness</dt><dd>share of shortest paths through a node</dd>
+  <dt>closeness</dt><dd>inverse mean distance to all others</dd>
+  <dt>eigenvector, PageRank</dt><dd>importance from important neighbours</dd>
+  <dt>k-core</dt><dd>largest $k$ such that the node survives repeated removal of nodes with fewer than $k$ links</dd>
+</dl>
+
 <div class="callout try">
   <ul>
-    <li>Generate a Barabási–Albert network and a random network with the same $N$ and $\langle k\rangle$: compare $k_{\max}$, $\langle k^2\rangle$ and $\langle d\rangle$.</li>
-    <li>Watts–Strogatz with $p = 0$, $0.01$ and $1$: watch $\langle C\rangle$ and $\langle d\rangle$.</li>
-    <li>Holme–Kim adds triangles to preferential attachment: how much does $\langle C\rangle$ rise as the triad probability goes from 0 to 1?</li>
-    <li>A configuration model with $\gamma = 2.1$: is its power-law fit close to 2.1? What does the largest component look like?</li>
-    <li>Load the Florentine families: which family has the highest betweenness? (Padgett and Ansell used this network to explain the rise of the Medici.)</li>
+    <li>BA vs random network, same $N$ and $\langle k\rangle$: compare $k_{\max}$, $\langle k^2\rangle$, $\langle d\rangle$ (<a href="ch5-preview.html">BA</a>).</li>
+    <li>Watts–Strogatz at $p = 0$, $0.01$, $1$: $\langle d\rangle$ drops long before $\langle C\rangle$.</li>
+    <li>Holme–Kim, triad probability 0 → 1: how far does $\langle C\rangle$ rise?</li>
+    <li>Configuration model, $\gamma = 2.1$: does the fit return 2.1? Is $r$ negative (structural cutoff, <a href="correlations.html">Ch 7</a>)?</li>
+    <li>Random geometric: high $C$ and long $\langle d\rangle$, like the power grid.</li>
+    <li>Florentine families: who has the highest betweenness? (Padgett and Ansell: the Medici.)</li>
   </ul>
 </div>
 

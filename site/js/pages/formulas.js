@@ -1,5 +1,5 @@
 import "../layout.js";
-import { $, $$, h } from "../lib/ui.js";
+import { $, $$ } from "../lib/ui.js";
 
 // live filter over the formula cards and glossary entries
 const input = $("#filter");
@@ -10,6 +10,10 @@ input.addEventListener("input", () => {
     el.style.display = hit ? "" : "none";
     if (el.tagName === "DT" && el.nextElementSibling) el.nextElementSibling.style.display = hit ? "" : "none";
   }
+  const shown = $$(".formula").filter((f) => f.style.display !== "none").length;
+  count.textContent = q ? `${shown} of ${total} formulas shown` : summary;
   for (const sec of $$(".formula-section")) sec.style.display = [...sec.querySelectorAll(".formula")].some((f) => f.style.display !== "none") ? "" : "none";
 });
-document.getElementById("count").append(h("span", {}, `${$$(".formula").length} formulas, ${$$(".gloss dt").length} terms`));
+const count = document.getElementById("count"), total = $$(".formula").length;
+const summary = `${total} formulas, ${$$(".gloss dt").length} terms`;
+count.textContent = summary;
