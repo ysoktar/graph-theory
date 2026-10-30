@@ -1,1 +1,597 @@
-{}
+{
+ "Node": {
+  "term": "Düğüm",
+  "def": "Sistemin bir birimi: bir kişi, bir web sayfası, bir protein… Köşe de denir.",
+  "match": "düğüm\\p{L}*"
+ },
+ "Link": {
+  "term": "Bağlantı",
+  "def": "İki düğüm arasındaki bir ilişki: bir arkadaşlık, bir köprü bağlantısı, bir bağlanma… Kenar da denir.",
+  "match": "bağlantı(?!lı| tahmin)\\p{L}*"
+ },
+ "Network": {
+  "term": "Çizge (ağ)",
+  "def": "Bir düğüm kümesi ve aralarındaki bağlantılar. Matematikçiler ağa çizge (graf) der.",
+  "match": "çizge(?! kuram)\\p{L}*"
+ },
+ "Directed network": {
+  "term": "Yönlü ağ",
+  "def": "Bağlantıların yönü vardır (A → B, B → A ile aynı değildir); köprü bağlantıları, e-postalar ya da aramalar gibi. Her düğümün bir giriş derecesi (gelen bağlantılar) ve bir çıkış derecesi (çıkan bağlantılar) vardır.",
+  "match": "(?<!iki |tek )yönlü(?: ağ\\p{L}*| bağlantı\\p{L}*| çizge\\p{L}*)?"
+ },
+ "Undirected network": {
+  "term": "Yönsüz ağ",
+  "def": "Bağlantıların yönü yoktur: A, B'ye bağlıysa B de A'ya bağlıdır; arkadaşlıklar ya da ortak yazarlık gibi.",
+  "match": "yönsüz(?: ağ\\p{L}*| bağlantı\\p{L}*| çizge\\p{L}*)?"
+ },
+ "Weighted network": {
+  "term": "Ağırlıklı ağ",
+  "def": "Her bağlantı bir sayı (ağırlığı) taşır: arama dakikaları, ortak makale sayısı, trafik.",
+  "match": "ağırlıklı(?: ağ\\p{L}*| bağlantı\\p{L}*)?"
+ },
+ "Bipartite network": {
+  "term": "İki parçalı ağ",
+  "def": "İki tür düğüm (örn. kadınlar ve etkinlikler) ve yalnızca türler arasında bağlantılar. İzdüşümü, ortak bir komşuyu paylaşan aynı türden iki düğümü bağlar.",
+  "match": "iki parçalı(?: ağ\\p{L}*| çizge\\p{L}*)?"
+ },
+ "Simple network": {
+  "term": "Basit ağ",
+  "def": "Kendine döngü (bir düğümden kendisine bağlantı) ve çoklu bağlantı (aynı çift arasında iki bağlantı) yoktur.",
+  "match": "basit (?:ağ|çizge)\\p{L}*"
+ },
+ "Self-loop": {
+  "term": "Kendine döngü",
+  "def": "Bir düğümden kendisine giden bağlantı.",
+  "match": "kendine döngü\\p{L}*"
+ },
+ "Multi-link": {
+  "term": "Çoklu bağlantı",
+  "def": "Aynı düğüm çifti arasında iki ya da daha fazla bağlantı; buna izin veren ağa çoklu çizge denir.",
+  "match": "çoklu (?:bağlantı|çizge)\\p{L}*|yinelenen bağlantı\\p{L}*"
+ },
+ "Complete graph": {
+  "term": "Tam çizge",
+  "def": "Her düğüm çifti bağlıdır: N(N − 1)/2 bağlantı, yani en büyük değer L_max. Klik de denir.",
+  "match": "tam çizge\\p{L}*|klik\\p{L}*"
+ },
+ "Star": {
+  "term": "Yıldız",
+  "def": "Diğer her düğüme bağlı tek bir merkez düğüm; diğerleri (yapraklar) 1 derecelidir ve aralarında bağlantı yoktur.",
+  "match": "yıldız\\p{L}*"
+ },
+ "Ring": {
+  "term": "Halka",
+  "def": "Bir çember üzerine dizilmiş, her biri iki komşusuna bağlı düğümler: her derece 2'dir.",
+  "match": "halka(?:nın|da|ya|dır|lar\\p{L}*)?"
+ },
+ "Path graph": {
+  "term": "Yol çizgesi",
+  "def": "Bir doğru üzerine dizilmiş, her biri bir sonrakine bağlı düğümler: iki ucun derecesi 1, geri kalanların 2'dir.",
+  "match": "yol çizge\\p{L}*"
+ },
+ "Tree": {
+  "term": "Ağaç",
+  "def": "Döngüsü olmayan bağlantılı bir ağ: N düğüm ve tam olarak N − 1 bağlantı; her iki düğüm arasında tek bir yol.",
+  "match": "ağaç\\p{L}*|ağac\\p{L}+"
+ },
+ "Leaf": {
+  "term": "Yaprak",
+  "def": "Derecesi 1 olan düğüm.",
+  "match": "yaprak\\p{L}*"
+ },
+ "Cycle": {
+  "term": "Döngü",
+  "def": "Hiçbir düğümü yinelemeden başladığı yere dönen bir yol; A–B–C–A üçgeni gibi.",
+  "match": "döngü\\p{L}*"
+ },
+ "Degree": {
+  "term": "Derece",
+  "def": "k_i, i düğümünün bağlantı sayısı. Yönlü bir ağda: giriş derecesi (gelen) ve çıkış derecesi (çıkan).",
+  "match": "derece\\p{L}*"
+ },
+ "Average degree": {
+  "term": "Ortalama derece",
+  "def": "⟨k⟩ = 2L/N, düğüm başına ortalama bağlantı sayısı (her bağlantı iki dereceye 1 ekler).",
+  "match": "ortalama derece\\p{L}*"
+ },
+ "Degree distribution": {
+  "term": "Derece dağılımı",
+  "def": "p_k, derecesi k olan düğümlerin payı (rastgele bir düğümün k bağlantısı olma olasılığı).",
+  "match": "derece dağılım\\p{L}*"
+ },
+ "Degree sequence": {
+  "term": "Derece dizisi",
+  "def": "Tüm N derecenin listesi, örn. (3, 2, 2, 1).",
+  "match": "derece dizi\\p{L}*"
+ },
+ "Hub": {
+  "term": "Merkez düğüm",
+  "def": "Ortalama bir düğümden çok daha fazla bağlantısı olan düğüm (hub).",
+  "match": "merkez düğüm\\p{L}*"
+ },
+ "Handshaking lemma": {
+  "term": "El sıkışma özdeşliği",
+  "def": "Σ k_i = 2L: dereceleri toplamak her bağlantıyı iki kez, her ucundan bir kez sayar.",
+  "match": "el sıkışma\\p{L}*(?: özdeşli\\p{L}*)?"
+ },
+ "Adjacency matrix": {
+  "term": "Komşuluk matrisi",
+  "def": "i ve j bağlıysa A_ij = 1, değilse 0 olan N×N tablo; yönsüz ağlar için simetriktir.",
+  "match": "komşuluk matris\\p{L}*"
+ },
+ "Sparse network": {
+  "term": "Seyrek ağ",
+  "def": "L ≪ L_max: olası bağlantıların yalnızca çok küçük bir kısmı vardır (⟨k⟩ ≪ N). Gerçek ağlar seyrektir.",
+  "match": "seyrek(?: ağ\\p{L}*|lik\\p{L}*)?"
+ },
+ "Density": {
+  "term": "Yoğunluk",
+  "def": "L / L_max, var olan olası bağlantıların payı; L_max = N(N − 1)/2.",
+  "match": "(?<!olasılık |derece )yoğunluk\\p{L}*"
+ },
+ "Walk": {
+  "term": "Yürüyüş",
+  "def": "Her biri bir sonrakine bağlı herhangi bir düğüm dizisi; düğümler ve bağlantılar yinelenebilir.",
+  "match": "yürüyüş\\p{L}*"
+ },
+ "Path": {
+  "term": "Yol",
+  "def": "Her düğümü en fazla bir kez ziyaret eden bir yürüyüş.",
+  "match": "yol(?:u|lar\\p{L}*|un|da|dan|a|dur|dır|lardır)?",
+  "skip": [
+   "ch2-konigsberg"
+  ]
+ },
+ "Shortest path": {
+  "term": "En kısa yol",
+  "def": "İki düğüm arasında en az bağlantılı yol; uzunluğu onların uzaklığı d'dir.",
+  "match": "en kısa yol\\p{L}*"
+ },
+ "Distance": {
+  "term": "Uzaklık",
+  "def": "d_ij, i ile j arasındaki en kısa yoldaki bağlantı sayısı.",
+  "match": "(?<!fiziksel |tipik )uzaklık\\p{L}*|(?<!fiziksel |tipik )uzaklığ\\p{L}+"
+ },
+ "Diameter": {
+  "term": "Çap",
+  "def": "d_max, herhangi iki düğüm arasındaki en büyük uzaklık.",
+  "match": "çap(?:ı|ın|a|tır|lar\\p{L}*)?"
+ },
+ "Average distance": {
+  "term": "Ortalama uzaklık",
+  "def": "⟨d⟩, tüm düğüm çiftleri üzerinden ortalaması alınmış uzaklık (ortalama yol uzunluğu).",
+  "match": "ortalama uzaklı\\p{L}+|ortalama yol uzunluğu\\p{L}*"
+ },
+ "BFS": {
+  "term": "BFS",
+  "def": "Genişlik öncelikli arama: başlangıcı 0, komşularını 1, onların etiketsiz komşularını 2 diye etiketler… Etiketler uzaklıklardır.",
+  "match": "BFS|genişlik öncelikli arama\\p{L}*"
+ },
+ "Eulerian path": {
+  "term": "Euler yolu",
+  "def": "Her bağlantıyı tam bir kez kullanan bir yürüyüş. Bağlantılı bir ağda 0 ya da 2 düğümün derecesi tekse vardır.",
+  "match": "Euler (?:yol|devre|yürüyüş)\\p{L}*"
+ },
+ "Betweenness": {
+  "term": "Aradalık",
+  "def": "Diğer çiftler arasındaki kaç en kısa yolun bir düğümden (ya da bağlantıdan) geçtiği.",
+  "match": "aradalık\\p{L}*"
+ },
+ "Connected": {
+  "term": "Bağlantılı",
+  "def": "Her düğüm çiftini bir yol birleştiriyorsa ağ bağlantılıdır.",
+  "match": "(?<!tek |iki |çok )bağlantılı(?! üçlü)\\p{L}*"
+ },
+ "Component": {
+  "term": "Bileşen",
+  "def": "Hepsi yollarla birleşen düğümlerin en büyük kümesi; bir ağ bileşenlere ayrılır.",
+  "match": "bileşen\\p{L}*"
+ },
+ "Giant component": {
+  "term": "Dev bileşen",
+  "def": "Ağ ne kadar büyürse büyüsün tüm düğümlerin sonlu bir payını içeren bileşen.",
+  "match": "dev bileşen\\p{L}*|en büyük bileşen\\p{L}*"
+ },
+ "Bridge": {
+  "term": "Köprü",
+  "def": "Kaldırılınca bir bileşeni ikiye bölen bağlantı.",
+  "match": "köprü(?! bağlantı)\\p{L}*"
+ },
+ "Articulation point": {
+  "term": "Kesme noktası",
+  "def": "Kaldırılınca bir bileşeni bölen düğüm.",
+  "match": "kesme nokta\\p{L}*|eklem nokta\\p{L}*"
+ },
+ "Triangle": {
+  "term": "Üçgen",
+  "def": "Hepsi birbirine bağlı üç düğüm.",
+  "match": "üçgen\\p{L}*"
+ },
+ "Clustering coefficient": {
+  "term": "Kümelenme katsayısı",
+  "def": "C_i = 2L_i / (k_i(k_i − 1)): i'nin komşu çiftlerinden birbirine bağlı olanların payı (0 ile 1 arası).",
+  "match": "kümelenme katsayı\\p{L}*|yerel kümelenme\\p{L}*"
+ },
+ "Global clustering": {
+  "term": "Küresel kümelenme",
+  "def": "C_Δ = 3 × üçgen / bağlantılı üçlü: tüm ağ üzerinden sayılan, bir düğümün iki komşusunun bağlı olma olasılığı.",
+  "match": "küresel kümelenme(?: katsayı\\p{L}*)?"
+ },
+ "Random network": {
+  "term": "Rastgele ağ",
+  "def": "N düğüm; her çift aynı p olasılığıyla bağlı (Erdős–Rényi / Gilbert modeli). Gerçek ağların karşılaştırıldığı temel çizgi.",
+  "match": "rastgele (?:ağ|çizge)(?!aç)\\p{L}*|Erd[őo]s[–-]R[ée]nyi"
+ },
+ "G(N, p)": {
+  "term": "G(N, p)",
+  "def": "Gilbert'in rastgele ağı: N düğüm, her çift bağımsız olarak p olasılığıyla bağlı. G(N, L) (Erdős–Rényi) ise rastgele tam olarak L bağlantı yerleştirir.",
+  "match": "G\\(N, ?[pL]\\)"
+ },
+ "Null model": {
+  "term": "Sıfır modeli",
+  "def": "Verinin bazı özelliklerini (N, L ya da dereceler) koruyup gerisini rastgeleleştiren referans ağ; ondan farklar bir açıklama gerektirir.",
+  "match": "sıfır model\\p{L}*"
+ },
+ "Binomial distribution": {
+  "term": "Binom dağılımı",
+  "def": "p olasılıklı n bağımsız denemede k başarı olasılığı: C(n, k) pᵏ (1 − p)ⁿ⁻ᵏ. Rastgele bir ağın dereceleri n = N − 1 ile binomdur.",
+  "match": "binom(?: dağılım\\p{L}*)?"
+ },
+ "Poisson distribution": {
+  "term": "Poisson dağılımı",
+  "def": "p_k = e^(−⟨k⟩) ⟨k⟩ᵏ / k!, büyük N ve küçük p için binom. Dardır: neredeyse her düğümün derecesi ⟨k⟩'ya yakındır, dolayısıyla merkez düğüm yoktur.",
+  "match": "Poisson(?: dağılım\\p{L}*)?"
+ },
+ "Phase transition": {
+  "term": "Faz geçişi",
+  "def": "Bir parametrenin kritik değerinde büyük ölçekli davranışın ani değişimi; burada dev bileşenin ⟨k⟩ = 1'de ortaya çıkışı.",
+  "match": "faz geçiş\\p{L}*"
+ },
+ "Critical point": {
+  "term": "Kritik nokta",
+  "def": "Bir faz geçişinin parametre değeri; örn. rastgele bir ağın dev bileşeni için ⟨k⟩ = 1.",
+  "match": "kritik nokta\\p{L}*|kritik eşi\\p{L}+"
+ },
+ "Small world": {
+  "term": "Küçük dünya",
+  "def": "Ortalama uzaklık yalnızca ln N gibi büyür: çok büyük bir ağda bile herhangi iki düğüm birkaç adım uzaktadır.",
+  "match": "küçük dünya\\p{L}*"
+ },
+ "Six degrees of separation": {
+  "term": "Altı derece ayrım",
+  "def": "Milgram'ın 1967'de, mektupların bir yabancıya ortalama yaklaşık altı tanıdık aracılığıyla ulaştığını bulması.",
+  "match": "altı derece(?: ayrım\\p{L}*)?"
+ },
+ "Watts–Strogatz model": {
+  "term": "Watts–Strogatz modeli",
+  "def": "Bir halka kafesinden başlayın (yüksek kümelenme), bağlantıların bir kısmını rastgele yeniden bağlayın (kısa uzaklıklar): kümelenmeli küçük dünya.",
+  "match": "Watts[–-]Strogatz(?: model\\p{L}*)?"
+ },
+ "Power law": {
+  "term": "Kuvvet yasası",
+  "def": "p_k ∝ k^(−γ): k'yı iki katına çıkarmak p_k'yı her yerde aynı 2^γ çarpanıyla böler; log-log eksenlerde bir doğrudur.",
+  "match": "kuvvet yasa\\p{L}*"
+ },
+ "Scale-free network": {
+  "term": "Ölçekten bağımsız ağ",
+  "def": "Derece dağılımı bir kuvvet yasasına uyan ağ; merkez düğümleri vardır ve tipik bir derecesi yoktur.",
+  "match": "ölçekten bağımsız(?: ağ\\p{L}*)?"
+ },
+ "Degree exponent": {
+  "term": "Derece üsteli",
+  "def": "p_k ∝ k^(−γ)'daki γ; daha küçük γ daha çok ve daha büyük merkez düğüm demektir. Gerçek ağların çoğunda 2 < γ < 3'tür.",
+  "match": "derece üstel\\p{L}*"
+ },
+ "Heavy tail": {
+  "term": "Ağır kuyruk",
+  "def": "Büyük değerler bir Poisson ya da üstel dağılımdakinden çok daha olasıdır; kuvvet yasası bir örnektir.",
+  "match": "ağır kuyruk\\p{L}*|ağır kuyruğ\\p{L}+"
+ },
+ "Natural cutoff": {
+  "term": "Doğal kesme",
+  "def": "k_max ≈ k_min N^(1/(γ−1)), N düğümlü bir kuvvet yasasının beklenen en büyük derecesi.",
+  "match": "doğal kesme\\p{L}*"
+ },
+ "Moment": {
+  "term": "Moment",
+  "def": "⟨kⁿ⟩ = Σ kⁿ p_k. Birincisi ⟨k⟩'dır; ikincisi ⟨k²⟩ yayılımı σ² = ⟨k²⟩ − ⟨k⟩² ile belirler ve γ < 3 için ıraksar.",
+  "match": "moment\\p{L}*"
+ },
+ "Ultra-small world": {
+  "term": "Ultra küçük dünya",
+  "def": "Uzaklıklar ln N'den de yavaş, ln ln N gibi büyür: 2 < γ < 3 olan ölçekten bağımsız ağlar.",
+  "match": "ultra küçük(?: dünya\\p{L}*)?"
+ },
+ "Log binning": {
+  "term": "Logaritmik gruplama",
+  "def": "Genişliği sabit bir çarpanla büyüyen gruplar (1–2, 2–4, 4–8…); böylece p_k'nın seyrek kuyruğu da grup başına yeterli düğüm alır.",
+  "match": "logaritmik grup\\p{L}*"
+ },
+ "CCDF": {
+  "term": "CCDF",
+  "def": "Tümleyen birikimli dağılım P(K ≥ k), en az k bağlantısı olan düğümlerin payı; bir kuvvet yasası için eğimi −(γ − 1)'dir.",
+  "match": "CCDF|tümleyen birikimli(?: dağılım\\p{L}*)?"
+ },
+ "Maximum likelihood": {
+  "term": "En çok olabilirlik",
+  "def": "Gözlenen verinin en olası olduğu parametreyi (burada γ) seçmek; bir kuvvet yasası uydurmanın standart yolu.",
+  "match": "en çok olabilirlik\\p{L}*|MLE"
+ },
+ "KS distance": {
+  "term": "KS uzaklığı",
+  "def": "Kolmogorov–Smirnov uzaklığı: verinin birikimli dağılımı ile modelinki arasındaki en büyük fark.",
+  "match": "Kolmogorov[–-]Smirnov(?: uzaklığ\\p{L}*| testi\\p{L}*)?|KS (?:uzaklığ\\p{L}*|istatisti\\p{L}*|testi\\p{L}*)"
+ },
+ "k_min": {
+  "term": "k_min",
+  "def": "Kuvvet yasası kuyruğunun uydurulduğu başlangıç derecesi; daha küçük dereceler göz ardı edilir.",
+  "match": "k_min"
+ },
+ "Configuration model": {
+  "term": "Konfigürasyon modeli",
+  "def": "Verilen bir derece dizisine sahip rastgele ağ: her düğüme k_i yarım bağlantı (koçan) verin ve koçanları rastgele eşleştirin.",
+  "match": "konfigürasyon model\\p{L}*"
+ },
+ "Degree-preserving randomization": {
+  "term": "Dereceyi koruyan rastgeleleştirme",
+  "def": "Rastgele bağlantı çiftlerinin uçlarını defalarca takas edin: her derece kalır, geri kalan her şey rastgeleleşir. 'Yalnızca dereceler mi?' sorusu için bir sıfır modeli.",
+  "match": "dereceyi koruyan rastgeleleştirme\\p{L}*|bağlantı takas\\p{L}*"
+ },
+ "Preferential attachment": {
+  "term": "Tercihli bağlanma",
+  "def": "Yeni düğümler var olan i düğümüne Π(k_i) = k_i / Σ_j k_j olasılığıyla bağlanır: zengin daha zengin olur.",
+  "match": "tercihli bağlanma\\p{L}*"
+ },
+ "Barabási–Albert model": {
+  "term": "Barabási–Albert modeli",
+  "def": "Büyüme (her adımda m bağlantılı bir yeni düğüm) + tercihli bağlanma. γ = 3 olan bir kuvvet yasası üretir.",
+  "match": "Barab[áa]si[–-]Albert(?: model\\p{L}*)?|BA model\\p{L}*"
+ },
+ "First-mover advantage": {
+  "term": "İlk gelen avantajı",
+  "def": "BA modelinde en yaşlı düğümler en çok bağlantıya sahip olur: k_i(t) = m (t / t_i)^(1/2).",
+  "match": "ilk gelen avantaj\\p{L}*"
+ },
+ "Fitness": {
+  "term": "Uygunluk",
+  "def": "η_i, Bianconi–Barabási modelinde bir düğümün içsel çekiciliği: Π ∝ η_i k_i; bu yüzden uygun bir geç gelen yaşlı merkez düğümleri geçebilir.",
+  "match": "uygunluk\\p{L}*|uygunluğ\\p{L}+"
+ },
+ "Bianconi–Barabási model": {
+  "term": "Bianconi–Barabási modeli",
+  "def": "Uygunluklu BA modeli: bağlanma ∝ η_i k_i. Genç düğümlerin (Google) neden en büyük merkez düğümler olabildiğini açıklar.",
+  "match": "Bianconi[–-]Barab[áa]si(?: model\\p{L}*)?"
+ },
+ "Bose–Einstein condensation": {
+  "term": "Bose–Einstein yoğuşması",
+  "def": "Uygunluk modelinde en uygun düğümün tüm bağlantıların sonlu bir payını koruduğu rejim: kazanan hepsini alır.",
+  "match": "Bose[–-]Einstein(?: yoğuşma\\p{L}*)?"
+ },
+ "Degree correlations": {
+  "term": "Derece korelasyonları",
+  "def": "Bir düğümün derecesinin komşularının dereceleri hakkında bilgi verip vermediği: merkez düğümler merkez düğümlere mi bağlanır?",
+  "match": "derece korelasyon\\p{L}*"
+ },
+ "Assortative": {
+  "term": "Asortatif",
+  "def": "Merkez düğümler merkez düğümlere, küçük düğümler küçük düğümlere bağlanma eğilimindedir (r > 0); toplumsal ağlara özgüdür.",
+  "match": "asortatif\\p{L}*"
+ },
+ "Disassortative": {
+  "term": "Disasortatif",
+  "def": "Merkez düğümler küçük dereceli düğümlere bağlanma eğilimindedir (r < 0); teknolojik ve biyolojik ağlara özgüdür.",
+  "match": "disasortatif\\p{L}*"
+ },
+ "Neutral network": {
+  "term": "Nötr ağ",
+  "def": "Derece korelasyonu yoktur (r ≈ 0): komşuların dereceleri rastgele bağlanmanın vereceği gibidir.",
+  "match": "nötr\\p{L}*"
+ },
+ "Degree correlation coefficient": {
+  "term": "Derece korelasyon katsayısı",
+  "def": "r, −1 ile 1 arasında: bir bağlantının iki ucundaki derecelerin Pearson korelasyonu.",
+  "match": "derece korelasyon katsayı\\p{L}*"
+ },
+ "k_nn(k)": {
+  "term": "k_nn(k)",
+  "def": "Derecesi k olan düğümlerin komşularının ortalama derecesi; artıyorsa asortatif, azalıyorsa disasortatif.",
+  "match": "k_nn"
+ },
+ "Structural cutoff": {
+  "term": "Yapısal kesme",
+  "def": "k_s ≈ √(⟨k⟩N): bunun üstünde basit bir ağ, rastgele bağlanmanın beklediği kadar merkez–merkez bağlantısı taşıyamaz; bu da disasortatifliği zorunlu kılar.",
+  "match": "yapısal kesme\\p{L}*"
+ },
+ "Friendship paradox": {
+  "term": "Arkadaşlık paradoksu",
+  "def": "Arkadaşlarınızın ortalamada sizden daha çok arkadaşı vardır: rastgele bir komşunun ⟨k⟩'dan büyük olan ⟨k²⟩/⟨k⟩ bağlantısı vardır.",
+  "match": "arkadaşlık paradoks\\p{L}*"
+ },
+ "Robustness": {
+  "term": "Dayanıklılık",
+  "def": "Düğümler ya da bağlantılar kaldırılırken bir ağın ne kadar iyi bağlantılı kaldığı (dev bileşenini koruduğu).",
+  "match": "dayanıklılı\\p{L}+"
+ },
+ "Percolation": {
+  "term": "Perkolasyon",
+  "def": "Her düğümü (ya da bağlantıyı) belirli bir olasılıkla tutun ve bir dev bileşenin kalıp kalmadığını sorun.",
+  "match": "perkolasyon\\p{L}*"
+ },
+ "Random failure": {
+  "term": "Rastgele arıza",
+  "def": "Rastgele seçilen düğümleri kaldırmak; ölçekten bağımsız bir ağda çoğunlukla küçük düğümleri vurur.",
+  "match": "rastgele arıza\\p{L}*"
+ },
+ "Targeted attack": {
+  "term": "Hedefli saldırı",
+  "def": "Önce en yüksek dereceli düğümleri kaldırmak; ölçekten bağımsız ağları hızla kırar.",
+  "match": "hedefli saldırı\\p{L}*|saldırı\\p{L}*"
+ },
+ "Molloy–Reed criterion": {
+  "term": "Molloy–Reed ölçütü",
+  "def": "κ = ⟨k²⟩/⟨k⟩ > 2 olduğunda bir dev bileşen vardır.",
+  "match": "Molloy[–-]Reed(?: ölçüt\\p{L}*| eşi\\p{L}+)?"
+ },
+ "κ (kappa)": {
+  "term": "κ (kappa)",
+  "def": "⟨k²⟩/⟨k⟩, rastgele bir bağlantı izlenerek ulaşılan düğümün ortalama derecesi.",
+  "match": "kappa"
+ },
+ "Cascading failure": {
+  "term": "Zincirleme arıza",
+  "def": "Komşuları aşırı yükleyen ve onların da sırayla arızalanmasına yol açan bir arıza; örn. bir elektrik kesintisi.",
+  "match": "zincirleme(?: arıza\\p{L}*| süreç\\p{L}*)?"
+ },
+ "Epidemic threshold": {
+  "term": "Salgın eşiği",
+  "def": "Bir salgının ağın sonlu bir payına ulaşabildiği yayılma hızı eşiği; büyük ölçekten bağımsız ağlarda kaybolur.",
+  "match": "salgın eşi\\p{L}+"
+ },
+ "Transmissibility": {
+  "term": "Bulaşma olasılığı",
+  "def": "T, enfekte düğüm iyileşmeden önce enfeksiyonun bir bağlantı boyunca geçme olasılığı.",
+  "match": "bulaşma olasılığ\\p{L}*|bulaşabilirlik\\p{L}*"
+ },
+ "Community": {
+  "term": "Topluluk",
+  "def": "Ağın geri kalanına göre kendi içinde çok daha fazla bağlantısı olan düğüm grubu.",
+  "match": "topluluk\\p{L}*|topluluğ\\p{L}+"
+ },
+ "Modularity": {
+  "term": "Modülerlik",
+  "def": "Q: toplulukların içindeki bağlantılar eksi aynı derecelerle rastgele bağlanmanın beklediği sayı. Daha yüksek, daha iyi bir bölünmedir.",
+  "match": "modülerlik\\p{L}*"
+ },
+ "Resolution limit": {
+  "term": "Çözünürlük sınırı",
+  "def": "Modülerlik, toplam derecesi yaklaşık √(2L)'den küçük toplulukları göremez: onları bir komşuyla birleştirir.",
+  "match": "çözünürlük sınır\\p{L}*"
+ },
+ "Node embedding": {
+  "term": "Düğüm gömmesi",
+  "def": "Her düğüm için bir sayı vektörü; ağda yakın olan düğümler yakın vektörler alır; standart ML'nin ağ yapısını kullanmasını sağlar.",
+  "match": "(?:düğüm )?gömme\\p{L}*"
+ },
+ "Link prediction": {
+  "term": "Bağlantı tahmini",
+  "def": "Bağlı olmayan çiftleri, bağlı olma (ya da bağlanma) olasılıklarına göre sıralamak.",
+  "match": "bağlantı tahmin\\p{L}*"
+ },
+ "AUC": {
+  "term": "AUC",
+  "def": "ROC eğrisinin altındaki alan: gerçek bir bağlantının bağlantı olmayan bir çiftten yüksek puan alma olasılığı; 0.5 = tahmin, 1 = kusursuz.",
+  "match": "AUC"
+ },
+ "Laplacian": {
+  "term": "Laplace matrisi",
+  "def": "L = D − A (derece matrisi eksi komşuluk matrisi). Özvektörleri spektral gömmeleri ve kesimleri verir.",
+  "match": "Laplace matris\\p{L}*|Laplasyen\\p{L}*"
+ },
+ "Fiedler vector": {
+  "term": "Fiedler vektörü",
+  "def": "İkinci en küçük özdeğerin Laplace özvektörü; öğelerinin işaretleri ağı ikiye böler.",
+  "match": "Fiedler vektör\\p{L}*"
+ },
+ "Random walk": {
+  "term": "Rastgele yürüyüş",
+  "def": "Tekrar tekrar rastgele bir komşuya adım atarak düğümden düğüme gitmek.",
+  "match": "rastgele yürüyüş\\p{L}*"
+ },
+ "DeepWalk": {
+  "term": "DeepWalk",
+  "def": "Gömme yöntemi: rastgele yürüyüşleri cümle, düğüm kimliklerini sözcük olarak alıp word2vec (skip-gram) eğitir.",
+  "match": "DeepWalk"
+ },
+ "node2vec": {
+  "term": "node2vec",
+  "def": "Genişlik öncelikli ve derinlik öncelikli keşif arasında denge kuran yanlı rastgele yürüyüşlü (p, q parametreleri) DeepWalk.",
+  "match": "node2vec"
+ },
+ "Skip-gram": {
+  "term": "Skip-gram",
+  "def": "word2vec'in eğitim görevi: bir öğeden, bir dizide ona yakın öğeleri öngörmek.",
+  "match": "skip-?gram|word2vec"
+ },
+ "GNN": {
+  "term": "GNN",
+  "def": "Çizge sinir ağı: her katman bir düğümün vektörünü komşularının vektörlerinden günceller (mesaj iletimi).",
+  "match": "GNN\\p{L}*|çizge sinir ağ\\p{L}*|GCN\\p{L}*"
+ },
+ "Message passing": {
+  "term": "Mesaj iletimi",
+  "def": "Her düğüm komşularının vektörlerini toplar, birleştirir (toplam, ortalama…) ve kendi vektörünü günceller.",
+  "match": "mesaj ileti\\p{L}*"
+ },
+ "sym:N": {
+  "def": "Düğüm sayısı."
+ },
+ "sym:L": {
+  "def": "Bağlantı sayısı."
+ },
+ "sym:k, kᵢ": {
+  "def": "Derece: bir düğümün (i düğümünün) bağlantı sayısı."
+ },
+ "sym:⟨k⟩": {
+  "def": "Ortalama derece, 2L/N."
+ },
+ "sym:⟨k²⟩": {
+  "def": "Derecelerin ikinci momenti: k²'nin ortalaması. Merkez düğümler olduğunda büyüktür; ⟨k²⟩ − ⟨k⟩² varyanstır."
+ },
+ "sym:pₖ": {
+  "def": "Derece dağılımı: tam olarak k bağlantısı olan düğümlerin payı."
+ },
+ "sym:γ": {
+  "def": "Bir kuvvet yasası pₖ ∝ k^(−γ)'nın derece üsteli."
+ },
+ "sym:k_min": {
+  "def": "En küçük derece (ya da bir kuvvet yasası kuyruğunun uydurulduğu başlangıç derecesi)."
+ },
+ "sym:k_max": {
+  "def": "Ağdaki en büyük derece: en büyük merkez düğüm."
+ },
+ "sym:L_max": {
+  "def": "N düğümün sahip olabileceği en fazla bağlantı: N(N − 1)/2."
+ },
+ "sym:⟨d⟩": {
+  "def": "Ortalama uzaklık: tüm çiftler üzerinden ortalaması alınmış en kısa yol uzunluğu."
+ },
+ "sym:d_max": {
+  "def": "Çap: iki düğüm arasındaki en büyük uzaklık."
+ },
+ "sym:dᵢⱼ": {
+  "def": "i ile j arasındaki uzaklık: en kısa yoldaki bağlantı sayısı."
+ },
+ "sym:Cᵢ": {
+  "def": "i düğümünün kümelenme katsayısı: komşu çiftlerinden bağlı olanların payı."
+ },
+ "sym:⟨C⟩": {
+  "def": "Tüm düğümler üzerinden ortalama kümelenme katsayısı."
+ },
+ "sym:C_Δ": {
+  "def": "Küresel kümelenme: 3 × üçgen / bağlantılı üçlü."
+ },
+ "sym:Aᵢⱼ": {
+  "def": "Komşuluk matrisi öğesi: i ve j bağlıysa 1, değilse 0."
+ },
+ "sym:κ": {
+  "def": "⟨k²⟩/⟨k⟩: rastgele bir bağlantı izlenerek ulaşılan düğümün ortalama derecesi. κ > 2 ise dev bileşen vardır."
+ },
+ "sym:σₖ": {
+  "def": "Derecelerin standart sapması: √(⟨k²⟩ − ⟨k⟩²)."
+ },
+ "sym:η": {
+  "def": "Uygunluk: bir düğümün içsel çekiciliği (Bianconi–Barabási modeli)."
+ },
+ "sym:Π(k)": {
+  "def": "Yeni bir bağlantının derecesi k olan bir düğüme bağlanma olasılığı."
+ },
+ "sym:k_nn(k)": {
+  "def": "Derecesi k olan düğümlerin komşularının ortalama derecesi."
+ },
+ "sym:f_c": {
+  "def": "Dev bileşenin kaybolduğu, kaldırılan düğümlerin kritik oranı."
+ },
+ "sym:T_c": {
+  "def": "Salgın eşiği: büyük bir salgının mümkün olduğu bulaşma olasılığının üstü."
+ }
+}
