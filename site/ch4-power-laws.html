@@ -124,7 +124,7 @@
     <li data-why="The random network concentrates its nodes near the average.">The scale-free one has more nodes near the average</li>
     <li data-why="The power law also has more small-degree nodes, not only more hubs.">Only the number of hubs differs</li>
   </ol>
-  <div class="explain">Same average, different shape: the power law has more small-$k$ nodes, fewer near $\langle k\rangle$, vastly more hubs. Try $\gamma = 2.5$, $k_{\min} = 2$ ($\langle k\rangle \approx 4.7$) in the first figure.</div>
+  <div class="explain">Same average, different shape: the power law has more small-$k$ nodes, fewer near $\langle k\rangle$, vastly more hubs.</div>
 </div>
 <div class="quiz" data-answer="4">
   <p>Why can $p_k = k^{-\gamma}/\zeta(\gamma, k_{\min})$ not be used with $\gamma = 0.8$?</p>
@@ -135,6 +135,37 @@
     <li>$\zeta(0.8, k_{\min})$ is infinite, so the probabilities cannot sum to 1</li>
   </ol>
   <div class="explain">For $\gamma \le 1$ the terms $k^{-\gamma}$ fall too slowly and their sum diverges, so no constant normalises them.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>With $\gamma = 2.5$ and $k_{\min} = 1$, $\zeta(2.5) = 1.342$. What share of nodes has exactly one link?</p>
+  <ol>
+    <li data-why="That is the share with k ≥ 2, the complement.">0.255</li>
+    <li>0.745</li>
+    <li data-why="A probability cannot exceed 1; that is ζ itself.">1.342</li>
+    <li data-why="p₁ is fixed by γ, not split evenly.">0.5</li>
+  </ol>
+  <div class="explain">$p_1 = 1^{-2.5}/\zeta(2.5) = 1/1.342 = 0.745$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A degree histogram looks straight on log-log axes over one decade of $k$. Is the network scale-free?</p>
+  <ol>
+    <li>Not established: a short straight stretch proves little without a proper fit and test</li>
+    <li data-why="Many distributions (log-normal, stretched exponential) look straight over one decade.">Yes: any straight line on log-log axes is a power law</li>
+    <li data-why="A power law is exactly straight on log-log axes.">No: power laws are curved on log-log axes</li>
+    <li data-why="The slope sets γ; it does not test the shape.">Yes, if the slope is between −2 and −3</li>
+  </ol>
+  <div class="explain">A visual line is a hint, not evidence. Maximum likelihood and a goodness-of-fit test decide (<a href=\"ch4-fitting.html\">Estimating the exponent</a>).</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Which mechanism does Chapter 5 propose to explain power-law degree distributions?</p>
+  <ol>
+    <li data-why="That is the random network model, which gives a Poisson distribution.">Placing each link between random pairs</li>
+    <li data-why="Swaps keep an existing degree sequence; they do not create one.">Degree-preserving link swaps</li>
+    <li data-why="Triangle closure builds clustering, not a heavy tail.">Triangle closure</li>
+    <li>Growth with preferential attachment</li>
+  </ol>
+  <div class="explain">New nodes link preferentially to well-connected nodes; the Barabási–Albert model gives $\gamma = 3$.</div>
 </div>
 
 </div></main>

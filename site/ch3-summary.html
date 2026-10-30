@@ -96,6 +96,50 @@
   <div class="explain">A property that nearly every model reproduces cannot discriminate between models.</div>
 </div>
 
+<div class="quiz" data-answer="1">
+  <p>Which prediction holds for all eight networks?</p>
+  <ol>
+    <li>A giant component exists</li>
+    <li data-why="Every network has hubs far beyond Poisson.">Poisson degrees</li>
+    <li data-why="Real clustering is 35 to 11,000 times higher.">$C \approx \langle k\rangle/N$</li>
+    <li data-why="The power grid is 2.2 times farther.">$\langle d\rangle \approx \ln N/\ln\langle k\rangle$</li>
+  </ol>
+  <div class="explain">All have $\langle k\rangle > 1$ and a giant component, as predicted.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Email: real $\langle k^2\rangle = 1{,}269$, Poisson $\langle k\rangle(1+\langle k\rangle) = 13.7$. Ratio?</p>
+  <ol>
+    <li data-why="1,269/13.7 is far larger.">about 3</li>
+    <li data-why="That is closer to √(1,269/13.7).">about 9</li>
+    <li>about 90</li>
+    <li data-why="Off by a factor 10.">about 900</li>
+  </ol>
+  <div class="explain">$1{,}269/13.7 \approx 93$: a few huge hubs (one with 6,553 contacts) dominate $\langle k^2\rangle$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Which null model keeps every node's degree but places links at random?</p>
+  <ol>
+    <li data-why="It keeps only $N$ and $L$.">$G(N, L)$</li>
+    <li>The configuration model</li>
+    <li data-why="It starts from a lattice and rewires; it does not preserve given degrees.">Watts–Strogatz</li>
+    <li data-why="It grows the network; degrees emerge.">Barabási–Albert</li>
+  </ol>
+  <div class="explain">Ch 4; it separates what the degrees alone explain from what needs more.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Random networks predict degree assortativity $r = 0$. What does $r$ measure?</p>
+  <ol>
+    <li data-why="That is $S$.">The fraction of nodes in the giant component</li>
+    <li data-why="That is $C$.">The clustering coefficient</li>
+    <li data-why="That is $\gamma$.">The degree exponent</li>
+    <li>Whether high-degree nodes link to high-degree nodes</li>
+  </ol>
+  <div class="explain">Ch 7: $r > 0$ hubs link to hubs, $r &lt; 0$ hubs link to small nodes; random wiring gives $r \approx 0$.</div>
+</div>
+
 </div></main>
 </body>
 </html>

@@ -58,7 +58,7 @@
   <p>In six of the eight networks $\sigma_k$ is 2.9 to 20 times the random value, and in the same six it exceeds $\langle k\rangle$ itself (11 times for email). The power grid ($\sigma_k = 1.79$ against 1.63) behaves like a random network, and phone calls are only mildly broader (1.57 times). "No typical degree" describes most, not all, real networks.</p>
 </div>
 
-<div class="callout key">
+<div class="callout key" data-beyond="Molloy–Reed criterion: book Chapter 8">
   <p>$\langle k^2\rangle$ is the quantity that matters in the chapters ahead: the giant component of the configuration model ($\langle k^2\rangle &gt; 2\langle k\rangle$, the Molloy–Reed criterion), robustness to random failures (Ch 8) and the epidemic threshold (Ch 10). With a divergent $\langle k^2\rangle$, removing random nodes hardly destroys the giant component.</p>
 </div>
 
@@ -116,6 +116,37 @@
     <li>$\langle k\rangle$ predicts its degree poorly: it may have one link or thousands</li>
   </ol>
   <div class="explain">With a spread eleven times the mean, the average describes almost no node.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>The Internet has $\langle k\rangle = 6.34$ and $\langle k^2\rangle = 240.1$. What is $\sigma_k$?</p>
+  <ol>
+    <li>About 14.1</li>
+    <li data-why="That is √⟨k²⟩; subtract ⟨k⟩² first.">About 15.5</li>
+    <li data-why="That is √⟨k⟩, the Poisson value.">About 2.5</li>
+    <li data-why="That is the variance, not its square root.">About 200</li>
+  </ol>
+  <div class="explain">$\sigma_k = \sqrt{240.1 - 6.34^2} = \sqrt{199.9} \approx 14.1$, 5.6 times the Poisson value $\sqrt{6.34} = 2.5$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A configuration model has $\langle k\rangle = 2$ and $\langle k^2\rangle = 6$. Does it have a giant component?</p>
+  <ol>
+    <li data-why="The condition involves ⟨k²⟩, not ⟨k⟩ alone.">No: $\langle kangle$ must exceed 2</li>
+    <li data-why="The Molloy–Reed criterion needs only the two moments.">Cannot tell without $N$</li>
+    <li>Yes: $\langle k^2angle = 6 &gt; 2\langle kangle = 4$</li>
+    <li data-why="The criterion is ⟨k²⟩ &gt; 2⟨k⟩.">No: $\langle k^2angle$ must exceed $\langle kangle^3$</li>
+  </ol>
+  <div class="explain">Molloy–Reed: a giant component exists when $\langle k^2\rangle &gt; 2\langle k\rangle$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>A random network has $\langle k\rangle = 4$. What is $\langle k^2\rangle$?</p>
+  <ol>
+    <li data-why="That is ⟨k⟩²; the variance ⟨k⟩ must be added.">16</li>
+    <li data-why="That is the mean, not the second moment.">4</li>
+    <li data-why="That is 2⟨k⟩.">8</li>
+    <li>20</li>
+  </ol>
+  <div class="explain">Poisson: $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2 = \langle k\rangle + \langle k\rangle^2 = 4 + 16 = 20$.</div>
 </div>
 
 </div></main>

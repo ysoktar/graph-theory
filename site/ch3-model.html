@@ -136,6 +136,28 @@
   <div class="explain">$\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$: $1/\sqrt{100} = 10\%$, $1/\sqrt{10^4} = 1\%$.</div>
 </div>
 
+<div class="quiz" data-answer="1">
+  <p>$G(N = 3,\ p = 0.5)$. Probability that a realisation has no links?</p>
+  <ol>
+    <li>$1/8$</li>
+    <li data-why="Each of the 3 pairs is unlinked with probability 0.5, so it can happen.">0</li>
+    <li data-why="That is for one pair; all three must be unlinked.">$1/2$</li>
+    <li data-why="There are 3 pairs, not 2.">$1/4$</li>
+  </ol>
+  <div class="explain">$L_{\max} = 3$, so $P(0) = (1-p)^3 = 0.125$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>$G(N, L)$ and $G(N, p)$ with $p$ chosen so that $\langle L\rangle = L$. Which is true?</p>
+  <ol>
+    <li data-why="In $G(N,L)$ the link count is fixed; in $G(N,p)$ it fluctuates.">They are the same model</li>
+    <li data-why="$p$ was chosen to give the same average.">$G(N,p)$ has more links on average</li>
+    <li data-why="Fixing $L$ couples the pairs: one more link here means one fewer elsewhere.">$G(N,L)$ has independent pairs</li>
+    <li>$L$ is fixed in one, fluctuates by $\sigma_L$ in the other; for large $N$ their statistics agree</li>
+  </ol>
+  <div class="explain">Relative fluctuations $\sim 1/\sqrt{\langle L\rangle}$ vanish for large networks, so the two models become equivalent.</div>
+</div>
+
 </div></main>
 </body>
 </html>

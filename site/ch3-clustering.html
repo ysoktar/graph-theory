@@ -60,7 +60,7 @@
 <div data-fig id="fig-ck"></div>
 <div class="callout look">
   <ul>
-    <li>Real $C(k)$ (average $C_i$ over nodes of degree $k$) falls with $k$, in several networks roughly like $1/k$: small nodes sit in tight groups, hubs bridge groups (<em>hierarchical modularity</em>, Ch 9).</li>
+    <li data-beyond="Book Ch 9 (hierarchical modularity)">Real $C(k)$ (average $C_i$ over nodes of degree $k$) falls with $k$, in several networks roughly like $1/k$: small nodes sit in tight groups, hubs bridge groups (<em>hierarchical modularity</em>, Ch 9).</li>
     <li>Random wiring of the same degrees (orange triangles) recovers some clustering where hubs are big (E. coli: nearly half), not for collaboration. See <a href="ch4-generating.html">Generating networks</a>.</li>
   </ul>
 </div>
@@ -70,7 +70,7 @@
     <li><strong>Builds on</strong> $C_i$ and $\langle C\rangle$ from <a href="ch2-clustering.html">Part I</a>; $p$ from <a href="ch3-model.html">the model</a>.</li>
     <li><strong>Fixed by</strong> <a href="ch3-small-world.html">Watts–Strogatz</a>: high $C$ + short paths, but still no hubs.</li>
     <li><strong>Better null model:</strong> the <a href="ch4-generating.html">configuration model</a> keeps degrees; excess $C$ over it is beyond what degrees explain.</li>
-    <li><strong>Leads to</strong> $C(k) \sim 1/k$ and <a href="communities.html">communities</a> (Ch 9).</li>
+    <li data-beyond="Book Ch 9"><strong>Leads to</strong> $C(k) \sim 1/k$ and <a href="communities.html">communities</a> (Ch 9).</li>
   </ul>
 </div>
 
@@ -121,6 +121,39 @@
     <li>small nodes sit in tight groups; hubs link groups that are not linked to each other</li>
   </ol>
   <div class="explain">A hub's neighbours belong to different groups, so few of its neighbour pairs are linked.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Node with $k_i = 5$ and $L_i = 4$ links among its neighbours. $C_i$?</p>
+  <ol>
+    <li>0.4</li>
+    <li data-why="That divides $L_i$ by $k_i$; divide by the $5 \cdot 4/2 = 10$ neighbour pairs.">0.8</li>
+    <li data-why="That forgets the factor 2: pairs, not ordered pairs.">0.2</li>
+    <li data-why="$C_i$ is a fraction, at most 1.">4</li>
+  </ol>
+  <div class="explain">$C_i = 2 \times 4/(5 \times 4) = 0.4$: 4 of 10 neighbour pairs are linked.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>In a random network, compare the expected $C_i$ of a hub ($k = 100$) and a small node ($k = 3$).</p>
+  <ol>
+    <li data-why="More neighbours do not raise each pair's chance $p$.">Hub higher</li>
+    <li data-why="That is the real-network trend, not the random one.">Hub lower, like $1/k$</li>
+    <li>Equal, both $p$</li>
+    <li data-why="$C_i$ is defined for any $k_i \ge 2$.">Undefined for the hub</li>
+  </ol>
+  <div class="explain">Each neighbour pair is linked with probability $p$, whatever $k_i$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Watts–Strogatz fixes clustering and distances. What does it still get wrong?</p>
+  <ol>
+    <li data-why="They are short for small rewiring $p$.">Distances</li>
+    <li data-why="It stays high for small $p$.">Clustering</li>
+    <li data-why="The ring is connected from the start.">The giant component</li>
+    <li>The degree distribution: narrow, no hubs</li>
+  </ol>
+  <div class="explain">Every node starts with the same degree, and rewiring only spreads it a little.</div>
 </div>
 
 </div></main>

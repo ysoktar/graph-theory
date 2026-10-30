@@ -73,3 +73,15 @@ test("every erratum is shown on the page it names", () => {
     }
   }
 });
+
+test("every quiz has options and a data-answer that points to one of them", () => {
+  for (const f of readdirSync(site).filter((x) => x.endsWith(".html"))) {
+    const html = readFileSync(join(site, f), "utf8");
+    for (const [, attrs, body] of html.matchAll(/<div class="quiz"([^>]*)>([\s\S]*?)<\/ol>/g)) {
+      const answer = Number((attrs.match(/data-answer="(\d+)"/) || [])[1]);
+      const items = [...body.matchAll(/<li(\s[^>]*)?>/g)].map((m) => m[1] || "");
+      assert.ok(items.length >= 2, `${f}: quiz has options`);
+      assert.ok(answer >= 1 && answer <= items.length, `${f}: data-answer ${answer} within 1..${items.length}`);
+    }
+  }
+});

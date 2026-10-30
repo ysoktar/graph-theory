@@ -53,7 +53,7 @@
 <div data-fig id="fig-snapshots"></div>
 
 <h2>Size of the giant component (Advanced Topic 3.C)</h2>
-<ol>
+<ol data-beyond="Book Advanced Topic 3.C (derivation)">
   <li>Let $u$ = probability that a node is <em>not</em> reached through one given other node: either no link ($1-p$) or a link to a node outside the giant component ($p\,u$).</li>
   <li>Outside ⇔ this holds for all $N-1$ others: $u = (1 - p + p\,u)^{N-1}$.</li>
   <li>With $p = \langle k\rangle/(N-1)$ and $N \to \infty$: $u = e^{-\langle k\rangle(1-u)}$.</li>
@@ -100,9 +100,9 @@
 <div class="callout connect">
   <ul>
     <li><strong>Builds on</strong> <a href="ch3-degree.html">Poisson $p_0 = e^{-\langle k\rangle}$</a> and Part I <a href="ch2-connectedness.html">components</a>.</li>
-    <li><strong>Special case of</strong> Molloy–Reed $\langle k^2\rangle/\langle k\rangle > 2$ (<a href="robustness.html">Robustness</a>): Poisson gives $1 + \langle k\rangle > 2$ ⇔ $\langle k\rangle > 1$.</li>
-    <li><strong>Contrast:</strong> for scale-free networks with $\gamma &lt; 3$, $\langle k^2\rangle$ diverges, so random node removal cannot break the giant component (Ch 8).</li>
-    <li><strong>Analogue:</strong> the <a href="epidemics.html">epidemic threshold</a> is also set by $\langle k\rangle$ and $\langle k^2\rangle$.</li>
+    <li data-beyond="Book Ch 8"><strong>Special case of</strong> Molloy–Reed $\langle k^2\rangle/\langle k\rangle > 2$ (<a href="robustness.html">Robustness</a>): Poisson gives $1 + \langle k\rangle > 2$ ⇔ $\langle k\rangle > 1$.</li>
+    <li data-beyond="Book Ch 8"><strong>Contrast:</strong> for scale-free networks with $\gamma &lt; 3$, $\langle k^2\rangle$ diverges, so random node removal cannot break the giant component (Ch 8).</li>
+    <li data-beyond="Book Ch 10"><strong>Analogue:</strong> the <a href="epidemics.html">epidemic threshold</a> is also set by $\langle k\rangle$ and $\langle k^2\rangle$.</li>
   </ul>
 </div>
 
@@ -164,6 +164,28 @@
     <li data-why="It peaks at the transition, not at the end.">at the largest ⟨k⟩</li>
   </ol>
   <div class="explain">At the critical point clusters are large but not yet merged; above it the giant component absorbs them.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>$N = 10^3$ at the critical point $\langle k\rangle = 1$. Order of magnitude of $N_G$?</p>
+  <ol>
+    <li data-why="That is the subcritical $\ln N \approx 7$ scale.">about 10</li>
+    <li data-why="That would be a giant component, $S N$ with $S$ near 1.">about 1,000</li>
+    <li>about 100</li>
+    <li data-why="$S = 0$ exactly at the threshold.">about 500</li>
+  </ol>
+  <div class="explain">$N_G \sim N^{2/3} = 1{,}000^{2/3} = 100$.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>$\langle k\rangle$ rises from 0.9 to 1.1 ($N \to \infty$). $S$ goes …</p>
+  <ol>
+    <li>from 0 to about 0.18</li>
+    <li data-why="$S$ is a fraction of nodes, not ⟨k⟩.">from 0.9 to 1.1</li>
+    <li data-why="Below 1 there is no giant component at all.">from 0.45 to 0.55, smoothly</li>
+    <li data-why="Full size needs ⟨k⟩ ≫ 1.">from 0 to 1</li>
+  </ol>
+  <div class="explain">$S(1.1) = 0.176$: a continuous but abrupt rise from zero.</div>
 </div>
 
 </div></main>

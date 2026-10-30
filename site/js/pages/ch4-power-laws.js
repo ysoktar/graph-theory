@@ -21,7 +21,7 @@ const expected = (logP, N) => {
   let gamma = 2.5, kmin = 2, axes = "log", N = 1e6, x = 100;
   const f = figure("#fig-compare", { title: "A power law against a Poisson distribution with the same average", sub: "Discrete power law pₖ = k^−γ / ζ(γ, k_min) for k ≥ k_min, and Poisson with the same ⟨k⟩." });
   const t = stats(f.body, [
-    { key: "k", label: "⟨k⟩ (both)" }, { key: "pl", label: "power law: nodes with k ≥ x" }, { key: "po", label: "Poisson: nodes with k ≥ x" }, { key: "cross", label: "the power law has more nodes for" },
+    { key: "k", label: "⟨k⟩ (both)" }, { key: "pl", label: "power law: nodes with k ≥ x" }, { key: "po", label: "Poisson: nodes with k ≥ x" }, { key: "cross", label: "Poisson has more nodes for k =" },
   ]);
   const plot = new Plot(f.body, { height: 320, x: { type: "log", label: "degree k" }, y: { type: "log", label: "pₖ" } });
   function draw() {
@@ -43,7 +43,7 @@ const expected = (logP, N) => {
     const lpPl = Math.log(plSf(x, gamma, kmin)), lpPo = poissonLogSfGe(x, mk);
     t.set("k", fmt.fix(mk, 2), `ζ(γ − 1, k_min)/ζ(γ, k_min)`);
     t.set("pl", expected(lpPl, N), `x = ${x}, N = ${fmt.exp(N, 0)}`); t.set("po", expected(lpPo, N), `x = ${x}, N = ${fmt.exp(N, 0)}`);
-    t.set("cross", k1 && k2 ? `< ${k1}, ≥ ${k2}` : "–", k1 && k2 ? `degrees k; Poisson has more for ${k1} ≤ k < ${k2}` : "");
+    t.set("cross", k1 && k2 ? `${k1}–${k2 - 1}` : "–", k1 && k2 ? `power law has more below ${k1} and from ${k2} on` : "");
     const lin = axes === "lin";
     plot.update({
       series: [

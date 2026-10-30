@@ -47,7 +47,7 @@
 
 <h2>Sparse limit: Poisson (Advanced Topic 3.A)</h2>
 <p>Real networks are <a href="ch2-sparsity.html">sparse</a> ($\langle k\rangle \ll N$). Fix $\langle k\rangle$, let $N \to \infty$ (so $p = \langle k\rangle/(N-1) \to 0$):</p>
-<ol>
+<ol data-beyond="Book Advanced Topic 3.A (derivation)">
   <li>$\binom{N-1}{k} \approx (N-1)^k/k!$ for $k \ll N$; $k! = 1\cdot2\cdots k$.</li>
   <li>$p^k = \langle k\rangle^k/(N-1)^k$; the $(N-1)^k$ cancels.</li>
   <li>$(1-p)^{N-1-k} \approx (1 - \langle k\rangle/(N-1))^{N-1} \to e^{-\langle k\rangle}$, since $(1-x/n)^n \to e^{-x}$ ($e \approx 2.718$).</li>
@@ -93,7 +93,7 @@
   <ul>
     <li><strong>Predicts</strong> the Part I <a href="ch2-degree.html">$p_k$</a>; <strong>tested</strong> on <a href="ch3-real-degrees.html">real data</a>, where it fails.</li>
     <li><strong>Replaced by</strong> the <a href="ch4-power-laws.html">power law</a> $p_k \sim k^{-\gamma}$ (Ch 4): tail falls like a power, not like $1/k!$ → hubs.</li>
-    <li><strong>Second moment</strong> $\langle k^2\rangle = \langle k\rangle(1+\langle k\rangle)$ → Molloy–Reed $\kappa = 1 + \langle k\rangle > 2$ (<a href="robustness.html">Robustness</a>) ⇔ $\langle k\rangle > 1$, the <a href="ch3-evolution.html">giant-component threshold</a>. Diverges for power laws with $\gamma &lt; 3$ (<a href="ch4-moments.html">Moments</a>).</li>
+    <li data-beyond="Book Ch 8 (Molloy–Reed)"><strong>Second moment</strong> $\langle k^2\rangle = \langle k\rangle(1+\langle k\rangle)$ → Molloy–Reed $\kappa = 1 + \langle k\rangle > 2$ (<a href="robustness.html">Robustness</a>) ⇔ $\langle k\rangle > 1$, the <a href="ch3-evolution.html">giant-component threshold</a>. Diverges for power laws with $\gamma &lt; 3$ (<a href="ch4-moments.html">Moments</a>).</li>
   </ul>
 </div>
 
@@ -141,7 +141,7 @@
   <div class="explain">$p = 10/19 \approx 0.53$; Poisson assumes $p \to 0$, i.e. $N \gg \langle k\rangle$.</div>
 </div>
 
-<div class="quiz" data-answer="3">
+<div class="quiz" data-answer="3" data-beyond="Book Ch 8 (Molloy–Reed)">
   <p>Random network, $\langle k\rangle = 4$. $\langle k^2\rangle$, and is $\kappa = \langle k^2\rangle/\langle k\rangle > 2$?</p>
   <ol>
     <li data-why="⟨k⟩² omits the variance: ⟨k²⟩ = σₖ² + ⟨k⟩².">16, κ = 4</li>
@@ -150,6 +150,28 @@
     <li data-why="For Poisson ⟨k²⟩ = ⟨k⟩(1 + ⟨k⟩), not 2⟨k⟩.">8, κ = 2</li>
   </ol>
   <div class="explain">$\langle k^2\rangle = 4 + 16 = 20$, $\kappa = 1 + \langle k\rangle = 5$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Poisson, $\langle k\rangle = 2$. Which is larger, $p_1$ or $p_2$?</p>
+  <ol>
+    <li data-why="$p_2/p_1 = \langle k\rangle/2 = 1$.">$p_1$, by a factor 2</li>
+    <li data-why="$p_2/p_1 = \langle k\rangle/2$, which is 1 here.">$p_2$, by a factor 2</li>
+    <li data-why="$p_0 = e^{-2} = 0.135$, half of $p_1$.">$p_0$ is larger than both</li>
+    <li>Equal: both $2e^{-2} \approx 0.27$</li>
+  </ol>
+  <div class="explain">$p_k/p_{k-1} = \langle k\rangle/k$, so $p_1 = p_2$ when $\langle k\rangle = 2$.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Why can a power law (Ch 4) have hubs while a Poisson distribution cannot?</p>
+  <ol>
+    <li>Its tail decays like a power of $k$, not like $1/k!$</li>
+    <li data-why="Both can have the same ⟨k⟩; the tail shape differs.">It has a larger mean</li>
+    <li data-why="Both are distributions over $k$ for any $N$.">It is defined only for large $N$</li>
+    <li data-why="Isolated nodes say nothing about the tail.">It has no isolated nodes</li>
+  </ol>
+  <div class="explain">$1/k!$ falls faster than any exponential; $k^{-\gamma}$ falls slowly, so very large $k$ stays plausible.</div>
 </div>
 
 </div></main>

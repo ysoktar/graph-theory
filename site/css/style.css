@@ -511,3 +511,34 @@ dl.symbols::before { content: "where"; grid-column: 1 / -1; font-size: 0.74rem; 
 dl.symbols dt { font-weight: 600; text-align: right; white-space: nowrap; }
 dl.symbols dd { margin: 0; color: var(--text-2); }
 @media (max-width: 560px) { dl.symbols { grid-template-columns: 1fr; } dl.symbols dt { text-align: left; } }
+
+/* ---------- course scope: "in the slides" / "no slides yet" / "beyond" ---------- */
+:root { --beyond: #7a4cc9; --beyond-wash: rgba(122, 76, 201, 0.10); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --beyond: #b08cf0; --beyond-wash: rgba(176, 140, 240, 0.16); } }
+:root[data-theme="dark"] { --beyond: #b08cf0; --beyond-wash: rgba(176, 140, 240, 0.16); }
+.chip.scope { cursor: help; }
+.chip.scope.slides .dot { background: var(--good); }
+.chip.scope.syllabus .dot { background: transparent; border: 1.5px solid var(--warning); }
+.chip.scope.beyond { border-color: var(--beyond); }
+.chip.scope.beyond .dot { background: var(--beyond); }
+.nav-scope { display: inline-block; margin-left: 6px; padding: 0 5px; border-radius: 4px; font-size: 0.68rem; font-weight: 650; line-height: 1.5; vertical-align: 1px; color: var(--text-2); border: 1px solid var(--border); }
+.nav-scope.beyond { border-color: var(--beyond); background: var(--beyond-wash); }
+.nav-scope.syllabus { border-style: dashed; border-color: var(--warning); }
+.beyond-badge {
+  display: inline-flex; align-items: center; gap: 2px; margin-left: 8px; padding: 1px 7px; border-radius: 999px; vertical-align: 2px;
+  background: var(--beyond-wash); border: 1px solid var(--beyond); color: var(--text-2); font-size: 0.72rem; font-weight: 650; letter-spacing: 0; text-transform: none; white-space: nowrap; cursor: help;
+}
+.beyond-badge .why { font-weight: 500; color: var(--muted); white-space: normal; }
+p > .beyond-badge:first-child, li > .beyond-badge:first-child { margin-left: 0; }
+.is-beyond:not(section):not(.callout):not(h2):not(h3) { border-left: 2px dashed var(--beyond); padding-left: 10px; }
+section.is-beyond { border-left: 2px dashed var(--beyond); padding-left: 14px; margin-left: -16px; }
+@media (max-width: 720px) { section.is-beyond { margin-left: 0; padding-left: 10px; } }
+
+/* ---------- exam prep ---------- */
+.bank-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0.75rem 0; }
+.bank-topics { display: flex; flex-wrap: wrap; gap: 6px; margin: 0.5rem 0 0.75rem; }
+.bank-topics label { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border: 1px solid var(--border); border-radius: 999px; font-size: 0.82rem; cursor: pointer; background: var(--surface); }
+.bank-topics label:has(input:checked) { border-color: var(--accent); background: var(--accent-wash); }
+.bank-score { font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 0.9rem; }
+.bank .quiz-src { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
+.bank .quiz { margin: 1rem 0; }

@@ -115,6 +115,39 @@
   <div class="explain">$1/23{,}133 \approx 4.3\times10^{-5}$: a sampling artefact. Log bins and the CCDF show the real decay.</div>
 </div>
 
+<div class="quiz" data-answer="4">
+  <p>$N = 1{,}000$, $\langle k\rangle = 10$, random. Expected number of nodes with $k \ge 20$? ($P(K \ge 20) = 0.35\%$)</p>
+  <ol>
+    <li data-why="That uses 35%, not 0.35%.">350</li>
+    <li data-why="That uses 3.5%.">35</li>
+    <li data-why="A small expected count is not zero.">0</li>
+    <li>about 3.5</li>
+  </ol>
+  <div class="explain">$N\,P(K \ge 20) = 1{,}000 \times 0.0035 \approx 3.5$.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Random society, $\langle k\rangle = 1{,}000$: $k_{\min} \approx 807$. What does this mean?</p>
+  <ol>
+    <li data-why="807 is the extreme; typical is 968–1,032.">Most people know 807 others</li>
+    <li data-why="That is the lower tail, not the upper.">Nobody has more than 807 acquaintances</li>
+    <li>Nobody would be a near-hermit: even the least connected knows ~800 people</li>
+    <li data-why="It is a model prediction, not a count.">The data show 807 hermits</li>
+  </ol>
+  <div class="explain">$N\,P(K &lt; k_{\min}) \approx 1$: about one person falls below 807.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Power grid: observed $k_{\max} = 19$, Poisson 10, the smallest gap of the eight. Why?</p>
+  <ol>
+    <li data-why="19 vs 10 is still far beyond Poisson for $N = 4{,}941$.">It is a random network</li>
+    <li>Physical cost limits how many lines a substation can carry</li>
+    <li data-why="Protein and metabolism are smaller and have large gaps.">It is the smallest network</li>
+    <li data-why="Its ⟨k⟩ = 2.67 is among the lowest.">Its ⟨k⟩ is highest</li>
+  </ol>
+  <div class="explain">Engineering constraints cap degrees, so hubs cannot grow as in the WWW or email.</div>
+</div>
+
 </div></main>
 </body>
 </html>

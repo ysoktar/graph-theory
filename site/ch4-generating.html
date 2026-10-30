@@ -51,7 +51,7 @@
     <li>Collaboration: $\langle C\rangle$ falls from 0.63 to 0.002 and the assortativity from 0.13 to 0. Triangles and degree correlations come from other mechanisms: teams, communities (Ch 9), homophily (Ch 7).</li>
   </ul>
 </div>
-<p>The notebook concludes from the collaboration network that degrees alone create few triangles. The configuration-model counterparts of all eight networks are more varied:</p>
+<p data-beyond="Not in the book or notebook: clustering of the configuration model for all eight networks">The notebook concludes from the collaboration network that degrees alone create few triangles. The configuration-model counterparts of all eight networks are more varied:</p>
 <div id="tbl-cfg"></div>
 <div class="callout fix" data-errata="N19"></div>
 <div class="callout look">
@@ -121,6 +121,37 @@
     <li>Much of it comes from hubs sharing neighbours by chance, the rest from other structure</li>
   </ol>
   <div class="explain">With a large $\langle k^2\rangle$ hubs overlap often even when wired at random; collaboration, by contrast, keeps 0.3%.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>A network has $L = 5{,}000$ links. How many stubs does the configuration model pair?</p>
+  <ol>
+    <li data-why="Each link has two ends.">5,000</li>
+    <li data-why="That halves instead of doubling.">2,500</li>
+    <li>10,000</li>
+    <li data-why="Stubs are counted, not pairs of stubs.">25 million</li>
+  </ol>
+  <div class="explain">Each link is two stubs: $2L = 10{,}000$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$L = 10^4$ and two hubs each have $k = 300$. What does $k_i k_j/2L = 4.5$ mean?</p>
+  <ol>
+    <li>They are expected to share several links: multi-links are inevitable</li>
+    <li data-why="p_ij is k_i k_j/2L itself, not a percentage.">They are linked with probability 4.5%</li>
+    <li data-why="A large value means many links, not none.">They cannot be linked</li>
+    <li data-why="4.5 exceeds 1, so it is an expected number of links.">The formula gives a probability of 1</li>
+  </ol>
+  <div class="explain">For hubs $k_i k_j &gt; 2L$, so $p_{ij} \approx k_i k_j/2L$ stops being a probability: it counts expected links, so stub matching creates repeats.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Which quantity does the configuration model keep fixed that $G(N, L)$ does not?</p>
+  <ol>
+    <li data-why="G(N, L) fixes L too.">The number of links $L$</li>
+    <li data-why="Both destroy clustering.">The clustering coefficient</li>
+    <li data-why="Neither keeps communities.">The community structure</li>
+    <li>Every node's degree</li>
+  </ol>
+  <div class="explain">$G(N, L)$ fixes only $N$ and $L$; the configuration model fixes every $k_i$, and with them $\langle k^2\rangle$ and $k_{\max}$.</div>
 </div>
 
 </div></main>

@@ -59,6 +59,7 @@
   <p>At $d = 4$ the random network reaches most nodes, the lattice only a small diamond. In a $D$-dimensional lattice distances grow like $N^{1/D}$, a power of $N$.</p>
 </div>
 
+<section data-beyond="Not in the book: Fronczak, Fronczak &amp; Hołyst 2004">
 <h2>How good is the formula?</h2>
 <p>Step 1 assumes the neighbourhood is a tree. A finer formula for random networks, not in the book, is due to Fronczak, Fronczak and Hołyst (2004):</p>
 <div class="eq">$$\langle d\rangle \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12.$$</div>
@@ -69,6 +70,7 @@
 <div class="callout example">
   <p>$N = 10^4$, $\langle k\rangle = 10$: tree estimate 4.0, Fronczak et al. 4.25. Facebook: 4.28.</p>
 </div>
+</section>
 <div class="callout fix" data-book="B6"></div>
 <div class="callout fix" data-errata="N21"></div>
 <div data-fig id="fig-dn"></div>
@@ -149,6 +151,28 @@
     <li data-why="Random rewiring destroys triangles; it does not add them.">⟨C⟩ larger, ⟨d⟩ unchanged</li>
   </ol>
   <div class="explain">Distances collapse long before clustering does: the small-world regime.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Facebook 2011: $N = 7.21\times10^8$, $\langle k\rangle \approx 189$. $\ln N/\ln\langle k\rangle$?</p>
+  <ol>
+    <li data-why="That is Milgram's six degrees.">6</li>
+    <li data-why="⟨k⟩ is the reach of one step, not a distance.">189</li>
+    <li>3.9</li>
+    <li data-why="That is the measured value.">4.74</li>
+  </ol>
+  <div class="explain">$20.40/5.24 = 3.89$; measured 4.74, because acquaintances overlap.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Scale-free networks with $2 &lt; \gamma &lt; 3$ (Ch 4) have $\langle d\rangle \sim$ …</p>
+  <ol>
+    <li data-why="That is a 2-D lattice.">$\sqrt N$</li>
+    <li data-why="That is the random network; hubs shorten it further.">$\ln N / \ln\langle k\rangle$</li>
+    <li data-why="That is a chain.">$N$</li>
+    <li>$\ln\ln N$: ultra-small</li>
+  </ol>
+  <div class="explain">Hubs act as shortcuts for most paths, so distances grow even slower than $\ln N$.</div>
 </div>
 
 </div></main>
