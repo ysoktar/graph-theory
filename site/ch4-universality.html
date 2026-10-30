@@ -26,10 +26,10 @@
 <h2>The fits</h2>
 <p>Each network was fitted with the Clauset–Shalizi–Newman method (<a href="ch4-fitting.html">Estimating the exponent</a>): $k_{\min}$ by minimum KS distance, $\gamma$ by maximum likelihood, a bootstrap goodness-of-fit test with 1,000 synthetic data sets, and likelihood-ratio tests.</p>
 <dl class="symbols">
-  <dt>$k_{\min}$</dt><dd>start of the fitted tail</dd>
-  <dt>$\hat\gamma$</dt><dd>maximum-likelihood exponent</dd>
-  <dt>$p$</dt><dd>bootstrap goodness-of-fit; power law ruled out if $p &lt; 0.1$</dd>
-  <dt>$R$</dt><dd>log-likelihood ratio; $R &gt; 0$ favours the power law, significant when its $p &lt; 0.1$</dd>
+  <dt>$k_{\min}$</dt><dd>the start of the fitted tail</dd>
+  <dt>$\hat\gamma$</dt><dd>the maximum-likelihood estimate of the exponent</dd>
+  <dt>$p$</dt><dd>the bootstrap goodness-of-fit p-value; the power law is ruled out if $p &lt; 0.1$</dd>
+  <dt>$R$</dt><dd>the log-likelihood ratio; $R &gt; 0$ favours the power law, and the sign is significant when its $p &lt; 0.1$</dd>
 </dl>
 <div id="tbl-fits"></div>
 <div class="callout fix" data-book="B9"></div>
@@ -67,7 +67,7 @@
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>Collaboration: the power law beats the exponential but its bootstrap $p &lt; 0.001$. What is the best summary?</p>
+  <p>For the collaboration network, the power law beats the exponential, but its bootstrap test gives $p &lt; 0.001$. Which summary is best?</p>
   <ol>
     <li data-why="Beating the exponential does not make the power law plausible.">A strict power law</li>
     <li>Heavy-tailed, but not a strict power law</li>
@@ -118,7 +118,7 @@
   <div class="explain">$1{,}286 / 192{,}244 \approx 0.0067$: the power law describes under 1% of the routers.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Collaboration: power law against log-normal gives $R = -1.97$, $p = 0.049$. What does that mean?</p>
+  <p>For the collaboration network, the likelihood-ratio test of the power law against the log-normal gives $R = -1.97$ with $p = 0.049$. What does that mean?</p>
   <ol>
     <li data-why="R &lt; 0 favours the alternative.">The power law fits significantly better</li>
     <li>The log-normal fits significantly better</li>

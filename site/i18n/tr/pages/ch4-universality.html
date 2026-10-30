@@ -1,0 +1,126 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Evrensellik · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Sekiz ağ, tek yöntem: kitabın ağlarının derece kuyrukları, Clauset–Shalizi–Newman uydurmaları ve ağır kuyruklar ile katı kuvvet yasaları arasındaki fark."></head><body>
+<div class="content">
+
+<h1>Evrensellik</h1>
+<p class="lead">Hücreler, elektrik şebekeleri, bilim insanları, telefonlar, e-posta, yönlendiriciler ve web sayfaları: bu kadar farklı ağlar bir derece dağılımını paylaşır mı? Bölüm 4.5 ağır kuyrukların evrensel olduğunu savunur. İşte aynı test, sekiz ağın hepsine uygulanmış hâliyle.</p>
+
+<div data-fig id="fig-multiples"></div>
+<div class="callout fix" data-errata="N15"></div>
+
+<h2>Uydurmalar</h2>
+<p>Her ağ Clauset–Shalizi–Newman yöntemiyle uyduruldu (<a href="ch4-fitting.html">Üsteli kestirmek</a>): en küçük KS uzaklığıyla $k_{\min}$, en çok olabilirlikle $\gamma$, 1,000 yapay veri kümeli bir bootstrap uyum iyiliği testi ve olabilirlik oranı testleri.</p>
+<dl class="symbols">
+  <dt>$k_{\min}$</dt><dd>uydurulan kuyruğun başlangıcı</dd>
+  <dt>$\hat\gamma$</dt><dd>üstelin en çok olabilirlik kestirimi</dd>
+  <dt>$p$</dt><dd>bootstrap uyum iyiliği p-değeri; $p &lt; 0.1$ ise kuvvet yasası reddedilir</dd>
+  <dt>$R$</dt><dd>log-olabilirlik oranı; $R &gt; 0$ kuvvet yasasını destekler ve işaret, kendi $p &lt; 0.1$ olduğunda anlamlıdır</dd>
+</dl>
+<div id="tbl-fits"></div>
+<div class="callout fix" data-book="B9"></div>
+<div class="callout look">
+  <ul>
+    <li><strong>Ağır kuyruklar neredeyse evrenseldir.</strong> Sekiz ağın yedisinde kuvvet yasası üsteli kesin biçimde yener; elektrik şebekesi dışında hepsi Poisson'dan çok uzaktır.</li>
+    <li data-beyond="Bootstrap testi: kitabın İleri Konu 4.C'si; not defterinde yok"><strong>Katı kuvvet yasaları evrensel değildir.</strong> Bootstrap onları iş birliği, e-posta ve WWW için (kıl payı İnternet için de) reddeder; bu ağlarda log-normal anlamlı biçimde daha iyi uyar. Makul olduğu yerde kuvvet yasası çoğu zaman az sayıda düğümü kapsar: İnternet için %0.7, telefon aramaları için %2.</li>
+    <li><strong>Elektrik şebekesi</strong> istisnadır: düğümlerin %1'i üzerinde $\hat\gamma \approx 7.6$; bir üstelden ayırt edilemez. Coğrafi ve mühendislik kısıtları merkez düğüme yer bırakmaz.</li>
+    <li><strong>Üsteller</strong>, elektrik şebekesi bir yana, 1.9 (e-posta) ile 4.8 (telefon aramaları) arasında <strong>değişir</strong>. Yalnızca metabolizma, protein etkileşimleri ve WWW $2 &lt; \gamma &lt; 3$ aralığına düşer (bkz. <a href="ch4-exponent.html">γ'nın rolü</a>).</li>
+  </ul>
+</div>
+<div class="callout fix" data-errata="N16"></div>
+
+<div class="callout note">
+  <p>Kitap, Tablo 4.1'inde yönlü ağların (WWW, e-posta, metabolizma, telefon aramaları) giriş ve çıkış derecelerini ayrı ayrı uydurur. Bu site, not defteri gibi, her ağı yönsüz kabul eder; dolayısıyla bu dördü için üstelleri doğrudan karşılaştırılamaz. Yönsüz ağlar için uyum yakındır: İnternet için kitabın 3.42'sine karşı 3.40.</p>
+</div>
+
+<div class="callout discuss" data-beyond="Kitapta yok: log-normal kuyrukların ardındaki mekanizmalar">
+  <p>Log-normal çoğu zaman bir kuvvet yasası kadar ya da ondan iyi uyuyorsa, hangisini seçtiğimiz neden önemlidir?</p>
+  <div class="hint">Birçok sonuç için önemli değildir: merkez düğümler, kısa uzaklıklar, dayanıklılık ve hızlı yayılma, ikisinin de üretebildiği büyük bir $\langle k^2\rangle$'den gelir. <em>Mekanizma</em> için önemlidir (tercihli bağlanma, 5. bölüm, bir kuvvet yasası öngörür; çarpımsal rastgele büyüme bir log-normal verme eğilimindedir) ve <em>dışa doğru uzatma</em> için önemlidir ($\gamma &lt; 3$ ile $\langle k^2\rangle$, $N$ ile büyümeyi sürdürür; log-normal ile sürdürmez).</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>İlgisiz sistemler arasında paylaşılan bir kuyruk biçimi, paylaşılan bir mekanizmayı düşündürür.</li>
+    <li>Sekiz ağın hepsini tek bir yöntemle sınamak, "ağır kuyruklu" ile "katı kuvvet yasası"nı birbirinden ayırır.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Uyguladığı:</strong> <a href="ch4-fitting.html">Üsteli kestirmek</a> sayfasının yöntemi, her ağa.</li>
+    <li><strong>Yerleştirdiği:</strong> her ağı <a href="ch4-exponent.html">γ'nın rolü</a> sayfasındaki bir rejime.</li>
+    <li><strong>Gerekçelendirdiği:</strong> bir mekanizma, <a href="ch5-preview.html">tercihli bağlanma</a>.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>İş birliği ağı için kuvvet yasası üsteli yeniyor, ama bootstrap testi $p &lt; 0.001$ veriyor. Hangi özet en iyisidir?</p>
+  <ol>
+    <li data-why="Üsteli yenmek kuvvet yasasını makul yapmaz.">Katı bir kuvvet yasası</li>
+    <li>Ağır kuyruklu, ama katı bir kuvvet yasası değil</li>
+    <li data-why="Üsteli yenmek kuyruğun hafif değil ağır olduğunu gösterir.">Hafif, üstel bir kuyruk</li>
+    <li data-why="⟨k⟩ = 8.1 ve k_max = 279 değerleri bir Poisson ağınınkilerden çok uzaktır.">Rastgele bir ağ gibi Poisson</li>
+  </ol>
+  <div class="explain">Olabilirlik oranı kuyruğun üstelden ağır olduğunu gösterir; bootstrap kesin kuvvet yasası biçimini reddeder.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Hangi ağın anlamlı bir kuvvet yasası kuyruğu yoktur?</p>
+  <ol>
+    <li data-why="Kuvvet yasası üsteli yener ve bootstrap'tan geçer (p ≈ 0.9).">Protein etkileşimleri</li>
+    <li data-why="Kuvvet yasası bootstrap'tan geçemez, ama kuyruğu çok ağırdır (γ̂ ≈ 1.9).">E-posta</li>
+    <li>Elektrik şebekesi</li>
+    <li data-why="Kuyruğu ağırdır (γ̂ = 3.40), bootstrap kararı sınırdadır.">İnternet</li>
+  </ol>
+  <div class="explain">Elektrik şebekesinin "kuvvet yasası", düğümlerin %1'i üzerinde $\hat\gamma \approx 7.6$'dır ve bir üstelden ayırt edilemez.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>İnternet'in kuvvet yasası bootstrap'tan yalnızca kıl payı geçer ve yönlendiricilerinin %0.7'sini kapsar. Uydurma neyi betimler?</p>
+  <ol>
+    <li>Yalnızca kuyruğu: $k \ge 70$ olan 1,286 yönlendiriciyi</li>
+    <li data-why="k_min = 70 olan bir uydurma, 70'in altındaki yönlendiriciler hakkında bir şey söylemez.">192,244 yönlendiricinin hepsini</li>
+    <li data-why="Uydurma yalnızca en büyüğünü değil, k ≥ k_min olan her yönlendiriciyi içerir.">Yalnızca en büyük merkez düğümü</li>
+    <li data-why="γ̂ = 3.40 sonludur ve iyi kestirilmiştir (σ = 0.07).">Hiçbir şeyi: $\gamma$ kestirilemez</li>
+  </ol>
+  <div class="explain">Bir CSN uydurması yalnızca $k \ge k_{\min}$'i betimler. İnternet için bu, düğümlerin %0.7'sidir.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Bu sitenin WWW ve e-posta üstelleri neden kitabın Tablo 4.1'iyle doğrudan karşılaştırılamaz?</p>
+  <ol>
+    <li data-why="İkisi de en çok olabilirlik uydurması kullanır.">Kitap en küçük kareler kullanır</li>
+    <li data-why="Aynı veri kümeleri kullanılır.">Ağlar farklıdır</li>
+    <li data-why="Rastgele tohumlar sabit bir veri kümesinin uydurulan üstelini değiştirmez.">Bootstrap farklı tohumlar kullandı</li>
+    <li>Kitap giriş ve çıkış derecelerini ayrı uydurur; burada birleştirilmişlerdir</li>
+  </ol>
+  <div class="explain">Yönlü bir ağı yönsüz kabul etmek her farklı komşuyu bir kez sayar; bu da uydurulan dağılımı değiştirir.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>İnternet'in uydurulan kuyruğu 192,244 yönlendiricisinden 1,286'sını tutar. Bu ne kadarlık bir paydır?</p>
+  <ol>
+    <li data-why="10 kat yanlış.">%6.7</li>
+    <li data-why="100 kat yanlış.">%67</li>
+    <li>%0.67</li>
+    <li data-why="1,286/192,244 bunun çok altındadır.">%15</li>
+  </ol>
+  <div class="explain">$1{,}286 / 192{,}244 \approx 0.0067$: kuvvet yasası yönlendiricilerin %1'inden azını betimler.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>İş birliği ağı için kuvvet yasasının log-normale karşı olabilirlik oranı testi $p = 0.049$ ile $R = -1.97$ veriyor. Bu ne anlama gelir?</p>
+  <ol>
+    <li data-why="R &lt; 0 seçeneği destekler.">Kuvvet yasası anlamlı biçimde daha iyi uyar</li>
+    <li>Log-normal anlamlı biçimde daha iyi uyar</li>
+    <li data-why="p &lt; 0.1'dir; dolayısıyla R'nin işareti anlamlıdır.">Test kararsızdır</li>
+    <li data-why="Bir olabilirlik oranı yalnızca ikisini sıralar.">İki dağılım da reddedilir</li>
+  </ol>
+  <div class="explain">$R &lt; 0$ log-normali destekler ve $p &lt; 0.1$ işareti anlamlı yapar.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>5. bölümün Barabási–Albert modeli $\gamma = 3$ öngörür, ama uydurulan üsteller 1.9 ile 4.8 arasındadır. Bundan ne çıkar?</p>
+  <ol>
+    <li data-why="Uydurmalar küçük hatalı en çok olabilirlik kestirimleridir.">Uydurmalar yanlış olmalıdır</li>
+    <li data-why="Elektrik şebekesi dışında hepsi Poisson'dan çok uzaktır.">Gerçek ağlar rastgeledir</li>
+    <li data-why="Çoğunun standart hatası 0.2'nin altındadır.">Derece üstelleri ölçülemez</li>
+    <li>Temel model, başka üstelleri açıklamak için genişletmeler gerektirir</li>
+  </ol>
+  <div class="explain">5. bölüm mekanizmayı verir; genişletmeler (6. bölüm) $\gamma$'yı ayarlar.</div>
+</div>
+
+</div></body></html>

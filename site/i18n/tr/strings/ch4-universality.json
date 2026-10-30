@@ -1,0 +1,17 @@
+{
+  "Eight networks, one procedure": "Sekiz ağ, tek yöntem",
+  "P(K ≥ k) of each network (blue), a Poisson distribution with the same ⟨k⟩ (grey) and the fitted power-law tail (dashed).": "Her ağın P(K ≥ k)'sı (mavi), aynı ⟨k⟩'ya sahip bir Poisson dağılımı (gri) ve uydurulan kuvvet yasası kuyruğu (kesikli).",
+  "Poisson, same ⟨k⟩": "Poisson, aynı ⟨k⟩",
+  "discrete power-law fit": "kesikli kuvvet yasası uydurması",
+  "continuous approximation (notebook)": "sürekli yaklaşıklık (not defteri)",
+  "Fitted tail drawn as": "Uydurulan kuyruğun çizimi",
+  "discrete CCDF ζ(γ, k)/ζ(γ, k_min)": "kesikli CCDF ζ(γ, k)/ζ(γ, k_min)",
+  "continuous (k/k_min)^({0}−γ), as the notebook": "sürekli (k/k_min)^({0}−γ), not defterindeki gibi",
+  "Switch to the continuous form and look at email and the WWW, whose tails start at small k_min: the dashed line lifts off the data just above k_min. The fit itself is discrete, so the discrete curve is the right one to draw.": "Sürekli biçime geçin ve kuyrukları küçük k_min'de başlayan e-posta ile WWW'ya bakın: kesikli çizgi k_min'in hemen üstünde veriden kopar. Uydurmanın kendisi kesiklidir; bu yüzden çizilmesi doğru olan kesikli eğridir.",
+  "Network": "Ağ",
+  "tail share": "kuyruk payı",
+  "GoF p": "uyum iyiliği p",
+  "R vs exponential": "üstele karşı R",
+  "R vs log-normal": "log-normale karşı R",
+  "{0} (p {1})": "{0} (p {1})"
+}
