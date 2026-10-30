@@ -171,5 +171,6 @@
  "Review question from": "Sayfadan tekrar sorusu:",
  "No questions selected: tick at least one topic above.": "Hiç soru seçilmedi: yukarıdan en az bir konu işaretleyin.",
  "Add review questions from the pages": "Sayfalardaki tekrar sorularını da ekle",
- "{0} exam-style questions. Each gives the formulas it needs and asks you to use them and interpret the result. Tick the topics you want; each set is drawn at random.": "{0} sınav tipi soru. Her soru gereken formülleri verir; sizden onları kullanmanızı ve sonucu yorumlamanızı ister. İstediğiniz konuları işaretleyin; her set rastgele seçilir."
+ "{0} exam-style questions. Each gives the formulas it needs and asks you to use them and interpret the result. Tick the topics you want; each set is drawn at random.": "{0} sınav tipi soru. Her soru gereken formülleri verir; sizden onları kullanmanızı ve sonucu yorumlamanızı ister. İstediğiniz konuları işaretleyin; her set rastgele seçilir.",
+ "Adjacency matrix": "Komşuluk matrisi"
 }

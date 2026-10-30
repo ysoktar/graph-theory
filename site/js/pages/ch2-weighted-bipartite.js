@@ -1,5 +1,8 @@
 import "../layout.js";
 import { h, figure, slider, segmented, stats, tooltip } from "../lib/ui.js";
+import { LANG } from "../i18n.js";
+
+const TR = LANG === "tr";
 import { NetView, layouts } from "../lib/netview.js";
 import { MatrixView } from "../lib/matrixview.js";
 import { Plot } from "../lib/plot.js";
@@ -48,7 +51,7 @@ const classic = loadClassic();
     const c = components(g);
     tiles.set("L", kept.length, `of ${karate.edges.length}`);
     tiles.set("x", kept.filter(([u, v]) => hi[u] !== hi[v]).length);
-    tiles.set("c", c.sizes.filter((s) => s > 1).length, `sizes ${c.sizes.filter((s) => s > 1).sort((a, b) => b - a).join(", ")}`);
+    tiles.set("c", c.sizes.filter((s) => s > 1).length, `${TR ? "boyutlar" : "sizes"} ${c.sizes.filter((s) => s > 1).sort((a, b) => b - a).join(", ")}`);
     nv.redraw();
   }
   slider(f.controls, { label: "keep links with weight ≥", min: 1, max: 7, step: 1, value: 1, onInput: (v) => { t = v; update(); }, wide: true });
@@ -101,12 +104,12 @@ const davisReady = classic.then(({ southernWomen: sw }) => {
   }
   function describe(i) {
     if (view === "bipartite") {
-      if (i < nW) return `${i + 1}. ${sw.women[i]}: ${B[i].reduce((a, b) => a + b, 0)} events`;
+      if (i < nW) return `${i + 1}. ${sw.women[i]}: ${B[i].reduce((a, b) => a + b, 0)} ${TR ? "etkinlik" : "events"}`;
       const e = i - nW;
-      return `E${e + 1} (${sw.events[e]}): ${B.reduce((s, r) => s + r[e], 0)} women`;
+      return `E${e + 1} (${sw.events[e]}): ${B.reduce((s, r) => s + r[e], 0)} ${TR ? "kadın" : "women"}`;
     }
-    if (view === "women") return `${i + 1}. ${sw.women[i]}: linked to ${neighbors(i).size} women`;
-    return `E${i + 1} (${sw.events[i]}): linked to ${neighbors(i).size} events`;
+    if (view === "women") return TR ? `${i + 1}. ${sw.women[i]}: ${neighbors(i).size} kadına bağlı` : `${i + 1}. ${sw.women[i]}: linked to ${neighbors(i).size} women`;
+    return TR ? `E${i + 1} (${sw.events[i]}): ${neighbors(i).size} etkinliğe bağlı` : `E${i + 1} (${sw.events[i]}): linked to ${neighbors(i).size} events`;
   }
   function build() {
     sel = -1;
@@ -140,7 +143,7 @@ const davisReady = classic.then(({ southernWomen: sw }) => {
     tiles.set("s", label, `${neighbors(sel).size} neighbours`);
   }
   build();
-  f.setCaption("In the projections, link width shows the weight: the number of shared events (women) or shared attendees (events). With threshold 1 every pair with any overlap is linked.");
+  f.setCaption((TR ? "İzdüşümlerde bağlantı kalınlığı ağırlığı gösterir: ortak etkinliklerin (kadınlar için) ya da ortak katılımcıların (etkinlikler için) sayısı. Eşik 1 olduğunda, herhangi bir örtüşmesi olan her çift bağlanır." : "In the projections, link width shows the weight: the number of shared events (women) or shared attendees (events). With threshold 1 every pair with any overlap is linked."));
 })();
 
 // ------------------------------------------------------------------ 3. the matrices
@@ -153,16 +156,16 @@ const davisReady = classic.then(({ southernWomen: sw }) => {
   new MatrixView(pb, {
     rows: nW, cols: nE, maxSize: 360, labels: true, rowLabel: (i) => i + 1, colLabel: (j) => j + 1,
     cell: (i, j) => (B[i][j] ? "s1" : null),
-    onHover: (i, j, ev) => { if (i == null) return tip.hide(); tip.show(ev.clientX, ev.clientY, `${sw.women[i]} ${B[i][j] ? "attended" : "did not attend"} event E${j + 1} (${sw.events[j]})`); },
+    onHover: (i, j, ev) => { if (i == null) return tip.hide(); tip.show(ev.clientX, ev.clientY, (TR ? `${sw.women[i]}: E${j + 1} (${sw.events[j]}) etkinliğine ${B[i][j] ? "katıldı" : "katılmadı"}` : `${sw.women[i]} ${B[i][j] ? "attended" : "did not attend"} event E${j + 1} (${sw.events[j]})`)); },
   });
   new MatrixView(pw, {
     rows: nW, cols: nW, maxSize: 360, labels: true, rowLabel: (i) => i + 1, colLabel: (j) => j + 1,
     cell: (i, j) => (WW[i][j] ? ramp[Math.min(5, Math.floor((WW[i][j] / (maxW + 1)) * 6))] : null),
     onHover: (i, j, ev) => {
       if (i == null) return tip.hide();
-      tip.show(ev.clientX, ev.clientY, i === j ? `W${i + 1},${i + 1} = ${WW[i][i]}: events attended by ${sw.women[i]}` : `W = ${WW[i][j]}: events shared by ${short2(sw.women[i])} and ${short2(sw.women[j])}`);
+      tip.show(ev.clientX, ev.clientY, i === j ? (TR ? `W${i + 1},${i + 1} = ${WW[i][i]}: katıldığı etkinlik sayısı (${sw.women[i]})` : `W${i + 1},${i + 1} = ${WW[i][i]}: events attended by ${sw.women[i]}`) : (TR ? `W = ${WW[i][j]}: ortak etkinlik sayısı (${short2(sw.women[i])}, ${short2(sw.women[j])})` : `W = ${WW[i][j]}: events shared by ${short2(sw.women[i])} and ${short2(sw.women[j])}`));
     },
   });
-  f.setCaption("Each entry of $W$ is a dot product of two rows of $B$: $W_{uv} = \\sum_e B_{ue}B_{ve}$. The block structure of $W$ (two groups of women who mostly attend different events) is already visible in $B$ once you know where to look.");
+  f.setCaption((TR ? "$W$'nin her öğesi $B$'nin iki satırının iç çarpımıdır: $W_{uv} = \\sum_e B_{ue}B_{ve}$. $W$'nin blok yapısı (çoğunlukla farklı etkinliklere katılan iki kadın grubu), nereye bakacağınızı bildiğinizde $B$'de zaten görülür." : "Each entry of $W$ is a dot product of two rows of $B$: $W_{uv} = \\sum_e B_{ue}B_{ve}$. The block structure of $W$ (two groups of women who mostly attend different events) is already visible in $B$ once you know where to look."));
 })();
 function short2(name) { return name.split(" ")[0]; }

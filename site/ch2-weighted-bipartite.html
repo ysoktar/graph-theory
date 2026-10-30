@@ -18,149 +18,149 @@
 <main><div class="content">
 
 <h1>Weighted and bipartite networks</h1>
-<p class="lead">Links differ in strength, and many data sets link two kinds of node (people and the events they attend). <strong>Weights</strong> and <strong>bipartite</strong> networks record this; projecting a bipartite network loses some of it.</p>
+<p class="lead">Links differ in strength, and many data sets link two kinds of node, such as people and the events they attend. <strong>Weighted</strong> and <strong>bipartite</strong> networks record this. Projecting a bipartite network onto one kind of node loses some of that information.</p>
 
 <h2>Weighted networks (Section 2.6)</h2>
-<p>In a <strong>weighted network</strong> each link carries a number, its <strong>weight</strong>: phone minutes, current on a power line, joint papers. The matrix stores it, $A_{ij} = w_{ij}$, and the degree generalises to the <strong>strength</strong>:</p>
+<p>In a <strong>weighted network</strong> each link carries a number, its <strong>weight</strong>: minutes of phone calls, the current on a power line, the number of joint papers. The matrix stores the weight, $A_{ij} = w_{ij}$, and the degree generalises to the <strong>strength</strong>:</p>
 <div class="eq" data-beyond="Strength is not defined in book Section 2.6 or the notebook">$$s_i = \sum_{j=1}^{N} w_{ij}.$$</div>
 <dl class="symbols">
-  <dt>$w_{ij}$</dt><dd>weight of the link $i$–$j$ (0 if none)</dd>
-  <dt>$s_i$</dt><dd>strength: sum of node $i$'s link weights</dd>
-  <dt>$s_i/k_i$</dt><dd>average weight of $i$'s links</dd>
+  <dt>$w_{ij}$</dt><dd>the weight of the link $i$–$j$ (0 if there is no link)</dd>
+  <dt>$s_i$</dt><dd>the strength: the sum of the weights of node $i$'s links</dd>
+  <dt>$s_i/k_i$</dt><dd>the average weight of $i$'s links</dd>
 </dl>
-<p data-beyond="Not in the notebook: Zachary's link weights">Zachary's link weights count the contexts (class, a campus bar, tournaments …) in which two members interacted: 1 to 7.</p>
+<p data-beyond="Not in the notebook: Zachary's link weights">Zachary's link weights count the number of contexts (classes, a campus bar, tournaments and so on) in which two members interacted, from 1 to 7.</p>
 <div class="callout example">
-  <p>Member 0: $k = 16$, $s = 42$, $s/k \approx 2.6$. Member 25: $k = 3$, weights 5, 2, 7, so $s = 14$, $s/k \approx 4.7$.</p>
+  <p>Member 0 has $k = 16$ links with total weight $s = 42$, so $s/k \approx 2.6$. Member 25 has $k = 3$ links with weights 5, 2 and 7, so $s = 14$ and $s/k \approx 4.7$.</p>
 </div>
 <div data-fig id="fig-weighted"></div>
 <div class="callout look">
   <ul>
-    <li>Strength grows with degree, but not proportionally: some members have few links that are all strong.</li>
-    <li>Raise the threshold. Cross-faction links are weak: 11 of the 78 links cross, 4 of the 48 with $w \ge 3$, none with $w \ge 5$. The thresholded network depends on an arbitrary cut-off.</li>
+    <li>Strength grows with degree, but not in proportion: some members have few links that are all strong.</li>
+    <li>Raise the threshold. Links between the factions are weak: 11 of the 78 links cross, but only 4 of the 48 links with $w \ge 3$ and none with $w \ge 5$. The thresholded network depends on an arbitrary cut-off.</li>
   </ul>
 </div>
 <div class="callout why">
   <ul>
-    <li>Weights keep what a 0/1 network discards: how strong or busy a tie is.</li>
-    <li>They let us ask which ties hold a group together, or which lines carry most load.</li>
+    <li>Weights keep what a 0/1 network throws away: how strong or busy a tie is.</li>
+    <li>They let us ask which ties hold a group together, or which lines carry most of the load.</li>
   </ul>
 </div>
 
 <h2>Bipartite networks (Section 2.7)</h2>
-<p>A <strong>bipartite network</strong> has two node sets $U$ and $V$, with links only between them: actors–films, genes–diseases, women–events. It is stored in the <strong>biadjacency matrix</strong> $B$, one row per $U$-node and one column per $V$-node, $B_{ue} = 1$ if $u$ is linked to $e$.</p>
-<p>The <strong>projection</strong> onto $U$ links two $U$-nodes that share a $V$-neighbour, with weight = number shared:</p>
+<p>A <strong>bipartite network</strong> has two sets of nodes, $U$ and $V$, and links only between the sets: actors and films, genes and diseases, women and events. It is stored in the <strong>biadjacency matrix</strong> $B$, with one row per $U$-node and one column per $V$-node, and $B_{ue} = 1$ when $u$ is linked to $e$.</p>
+<p>The <strong>projection</strong> onto $U$ links two $U$-nodes whenever they share a $V$-neighbour, and gives the link a weight equal to the number of neighbours they share:</p>
 <div class="eq" data-beyond="Matrix form of the projection: not in the book or notebook">$$W = B\,B^{\mathsf T}, \qquad W_{uv} = \sum_{e \in V} B_{ue}B_{ve}, \qquad W_{uu} = \text{degree of } u.$$</div>
 <dl class="symbols">
-  <dt>$U$, $V$</dt><dd>the two node sets (women, events)</dd>
-  <dt>$B$</dt><dd>$|U| \times |V|$ biadjacency matrix</dd>
-  <dt>$B^{\mathsf T}$</dt><dd>transpose: rows and columns swapped</dd>
-  <dt>$B_{ue}B_{ve}$</dt><dd>1 if both $u$ and $v$ attend $e$</dd>
-  <dt>$W_{uv}$</dt><dd>events shared by $u$ and $v$</dd>
-  <dt>$W_{uu}$</dt><dd>events attended by $u$</dd>
+  <dt>$U$, $V$</dt><dd>the two sets of nodes (here, women and events)</dd>
+  <dt>$B$</dt><dd>the $|U| \times |V|$ biadjacency matrix</dd>
+  <dt>$B^{\mathsf T}$</dt><dd>the transpose of $B$: rows and columns swapped</dd>
+  <dt>$B_{ue}B_{ve}$</dt><dd>1 if both $u$ and $v$ attended event $e$</dd>
+  <dt>$W_{uv}$</dt><dd>the number of events that $u$ and $v$ both attended</dd>
+  <dt>$W_{uu}$</dt><dd>the number of events that $u$ attended</dd>
 </dl>
-<p>Projecting onto $V$ uses $B^{\mathsf T}B$. Data: Davis, Gardner and Gardner's <em>Southern Women</em> (1941), 18 women and the 14 social events they attended.</p>
+<p>Projecting onto $V$ uses $B^{\mathsf T}B$ instead. The data are Davis, Gardner and Gardner's <em>Southern Women</em> study (1941): 18 women and the 14 social events they attended.</p>
 <div class="callout example">
-  <p>Evelyn (1) attended 8 events, Laura (2) 7, six together: $W_{11} = 8$, $W_{22} = 7$, $W_{12} = 6$. Event E8 had 14 women, so it alone gives $\binom{14}{2} = 91$ projected links.</p>
+  <p>Evelyn (woman 1) attended 8 events and Laura (woman 2) attended 7, six of them together, so $W_{11} = 8$, $W_{22} = 7$ and $W_{12} = 6$. Event E8 was attended by 14 women, so it alone creates $\binom{14}{2} = 91$ links in the projection.</p>
 </div>
 <div data-fig id="fig-bipartite"></div>
 <div class="callout look">
   <ul>
-    <li>89 bipartite links become 139 links among 18 women (density 0.91): one shared event is enough.</li>
-    <li>Keep pairs sharing at least 4 events: two groups appear, women 1–7 and 9, and 10–15, close to the two cliques of the original study.</li>
+    <li>The 89 links of the bipartite network become 139 links among the 18 women (density 0.91), because a single shared event is enough for a link.</li>
+    <li>Keep only pairs that share at least 4 events. Two groups appear, women 1–7 and 9, and women 10–15, close to the two cliques reported in the original study.</li>
   </ul>
 </div>
 <div data-fig id="fig-biadj"></div>
 <div class="callout why">
   <ul>
-    <li>Many networks are projections: co-authorship (authors–papers), Hollywood (actors–films).</li>
-    <li>The bipartite form keeps what projection loses (which paper, which film).</li>
+    <li>Many networks are projections: co-authorship comes from authors and papers, the Hollywood network from actors and films.</li>
+    <li>The bipartite form keeps what the projection loses: which paper, which film.</li>
     <li>It shows which features the projection itself creates, such as dense clusters.</li>
   </ul>
 </div>
 
 <div class="callout discuss">
   <p>The Hollywood actor network in the book is the projection of an actor–film bipartite network. Which of its properties are produced by the projection itself, rather than by how actors choose to work together?</p>
-  <div class="hint">Every film with $n$ actors becomes a complete subgraph of $n$ nodes, so the projection is full of triangles (high clustering) and large cliques. Large casts inflate degrees. A null model for a projected network should be a randomised <em>bipartite</em> network, projected the same way.</div>
+  <div class="hint">Every film with $n$ actors becomes a complete subgraph of $n$ nodes, so the projection is full of triangles (high clustering) and large cliques. Large casts inflate the degrees. A null model for a projected network should be a randomised <em>bipartite</em> network, projected the same way.</div>
 </div>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Generalises</strong> <a href="ch2-degree.html">degree</a>: strength with all $w = 1$ is the degree.</li>
-    <li><strong>Same algebra as</strong> <a href="ch2-adjacency.html">$A^2$</a>: $W = BB^{\mathsf T}$ counts shared neighbours.</li>
-    <li><strong>Explains part of</strong> high <a href="ch2-clustering.html">clustering</a>: each paper or film becomes a clique.</li>
-    <li><strong>Null model:</strong> randomise the bipartite network, then project (compare <a href="ch4-generating.html">configuration model</a>).</li>
+    <li><strong>Generalises</strong> the <a href="ch2-degree.html">degree</a>: with all weights equal to 1, the strength is the degree.</li>
+    <li><strong>Uses the same algebra as</strong> <a href="ch2-adjacency.html">$A^2$</a>: $W = BB^{\mathsf T}$ counts shared neighbours.</li>
+    <li><strong>Explains part of</strong> the high <a href="ch2-clustering.html">clustering</a> of real networks: each paper or film becomes a clique.</li>
+    <li><strong>Null model:</strong> randomise the bipartite network, then project it (compare the <a href="ch4-generating.html">configuration model</a>).</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>A node's three links have weights 2, 5, 7. Degree and strength?</p>
+  <p>A node's three links have weights 2, 5 and 7. What are its degree and its strength?</p>
   <ol>
-    <li>$k = 3$, $s = 14$</li>
-    <li data-why="Swapped: degree counts links, strength adds weights.">$k = 14$, $s = 3$</li>
-    <li data-why="14/3 is the average weight s/k.">$k = 3$, $s \approx 4.67$</li>
-    <li data-why="Strength adds all weights, not the largest.">$k = 3$, $s = 7$</li>
+    <li>$k = 3$ and $s = 14$.</li>
+    <li data-why="These are swapped: the degree counts links, the strength adds weights.">$k = 14$ and $s = 3$.</li>
+    <li data-why="14/3 is the average weight s/k, not the strength.">$k = 3$ and $s \approx 4.67$.</li>
+    <li data-why="The strength adds all the weights, not only the largest.">$k = 3$ and $s = 7$.</li>
   </ol>
-  <div class="explain">$k = 3$ links; $s = 2 + 5 + 7 = 14$ (karate member 25).</div>
+  <div class="explain">The node has $k = 3$ links and strength $s = 2 + 5 + 7 = 14$ (this is karate member 25).</div>
 </div>
 <div class="quiz" data-answer="2">
   <p>Can a bipartite network contain a triangle?</p>
   <ol>
-    <li data-why="A triangle needs a link within one kind, which is forbidden.">Yes, if both kinds are involved</li>
-    <li>No: every cycle alternates kinds, so its length is even</li>
-    <li data-why="Weights do not change which links exist.">Only if it is weighted</li>
-    <li data-why="The projection is a different network, linking nodes of one kind.">Only in its projection's matrix</li>
+    <li data-why="A triangle needs a link between two nodes of the same kind, which is forbidden.">Yes, if both kinds of node are involved.</li>
+    <li>No: every cycle alternates between the two kinds, so its length is even.</li>
+    <li data-why="Weights do not change which links exist.">Only if it is weighted.</li>
+    <li data-why="The projection is a different network, which links nodes of one kind.">Only in the matrix of its projection.</li>
   </ol>
-  <div class="explain">A cycle $U \to V \to U \to \dots$ closes only after an even number of steps. Projections, in contrast, are full of triangles.</div>
+  <div class="explain">A cycle $U \to V \to U \to \dots$ can close only after an even number of steps. Projections, by contrast, are full of triangles.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Five women attend one party together and share no other event. How many projected links does it create?</p>
+  <p>Five women attend one party together and share no other event. How many links does this party create in the projection onto the women?</p>
   <ol>
-    <li data-why="That counts women, not pairs.">5</li>
+    <li data-why="5 counts the women, not the pairs.">5</li>
     <li>10</li>
     <li data-why="5 × 4 counts each pair twice.">20</li>
-    <li data-why="Every pair gets a link, not just a chain.">4</li>
+    <li data-why="Every pair gets a link, not just a chain of them.">4</li>
   </ol>
   <div class="explain">$\binom{5}{2} = 10$: the event becomes a complete subgraph of 5 nodes.</div>
 </div>
 <div class="quiz" data-answer="2">
   <p>In $W = BB^{\mathsf T}$, what is the diagonal entry $W_{uu}$?</p>
   <ol>
-    <li data-why="W is a product, not a simple adjacency matrix; its diagonal is not forced to 0.">0, since there are no self-loops</li>
-    <li>The number of events woman $u$ attended</li>
-    <li data-why="That is her degree in the projection: non-zero entries off the diagonal.">The number of women she shares an event with</li>
-    <li data-why="Each event she attended adds 1.">Always 1</li>
+    <li data-why="W is a matrix product, not an adjacency matrix, so its diagonal is not forced to 0.">0, because there are no self-loops.</li>
+    <li>The number of events that woman $u$ attended.</li>
+    <li data-why="That is her degree in the projection: the number of non-zero entries off the diagonal.">The number of women she shares an event with.</li>
+    <li data-why="Each event she attended adds 1.">Always 1.</li>
   </ol>
   <div class="explain">$W_{uu} = \sum_e B_{ue}^2 = \sum_e B_{ue}$, the row sum of $B$ (8 for Evelyn).</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>11 of the karate club's 78 links cross the factions, but none of the 9 with $w \ge 5$. What does this suggest?</p>
+  <p>11 of the karate club's 78 links join members of different factions, but none of the 9 links with weight $w \ge 5$ does. What does this suggest?</p>
   <ol>
-    <li>Cross-faction ties were mostly weak</li>
-    <li data-why="11 links do cross; they are weak.">The factions never interacted</li>
-    <li data-why="Strong links concentrate inside the factions: the pattern is systematic.">Weights are unrelated to the factions</li>
-    <li data-why="Removing weak links removes the cross links, so the factions stand out more.">Thresholding at $w \ge 5$ hides the factions</li>
+    <li>Ties between the factions were mostly weak.</li>
+    <li data-why="11 links do cross; they are just weak.">The factions never interacted.</li>
+    <li data-why="Strong links concentrate inside the factions, so the pattern is systematic.">The weights are unrelated to the factions.</li>
+    <li data-why="Removing weak links removes the cross links, so the factions stand out more, not less.">A threshold of $w \ge 5$ hides the factions.</li>
   </ol>
-  <div class="explain">Strong ties stay within groups, so dropping weak links separates them; the threshold choice decides what you see.</div>
+  <div class="explain">Strong ties stay within groups, so dropping weak links separates the groups. The choice of threshold decides what you see.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>Woman $u$ attended E1, E2, E3, E5; woman $v$ attended E2, E3, E4. What is $W_{uv}$?</p>
+  <p>Woman $u$ attended events E1, E2, E3 and E5; woman $v$ attended E2, E3 and E4. What is $W_{uv}$?</p>
   <ol>
-    <li data-why="7 adds both counts; W counts events attended by both.">7</li>
-    <li data-why="3 is v's number of events, W_vv.">3</li>
+    <li data-why="7 adds both counts; W counts the events that both attended.">7</li>
+    <li data-why="3 is the number of events v attended, W_vv.">3</li>
     <li data-why="Both E2 and E3 are shared.">1</li>
     <li>2</li>
   </ol>
-  <div class="explain">Shared events: E2 and E3, so $W_{uv} = 2$.</div>
+  <div class="explain">They share E2 and E3, so $W_{uv} = 2$.</div>
 </div>
 <div class="quiz" data-answer="3">
   <p>In the projection onto the <em>events</em>, when are two events linked?</p>
   <ol>
-    <li data-why="BBᵀ projects onto the women (rows of B); events need BᵀB.">When $(BB^{\mathsf T})_{ef} > 0$</li>
-    <li data-why="The data record attendance, not dates.">When they happened on the same day</li>
-    <li>When at least one woman attended both; weight = number of such women</li>
-    <li data-why="One shared attendee is enough for a link.">When every woman attended both</li>
+    <li data-why="BBᵀ projects onto the women (the rows of B); events need BᵀB.">When $(BB^{\mathsf T})_{ef} > 0$.</li>
+    <li data-why="The data record who attended, not when.">When they took place on the same day.</li>
+    <li>When at least one woman attended both; the weight is the number of such women.</li>
+    <li data-why="A single shared attendee is enough for a link.">When every woman attended both.</li>
   </ol>
-  <div class="explain">The event projection is $B^{\mathsf T}B$: $(B^{\mathsf T}B)_{ef}$ counts women who attended both $e$ and $f$.</div>
+  <div class="explain">The event projection is $B^{\mathsf T}B$: $(B^{\mathsf T}B)_{ef}$ counts the women who attended both $e$ and $f$.</div>
 </div>
 
 </div></main>
