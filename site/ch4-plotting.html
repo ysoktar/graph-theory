@@ -24,10 +24,10 @@
 <div data-fig id="fig-four"></div>
 <div class="callout look">
   <ul>
-    <li><strong>(a)</strong> Linear axes: everything beyond a few dozen links is squashed onto the axis.</li>
+    <li><strong>(a)</strong> On linear axes, everything beyond a few dozen links is squashed onto the axis.</li>
     <li><strong>(b)</strong> Log-log, one bin per degree: the tail flattens into a <em>plateau</em> at $p_k = 1/N$, where each degree is held by one node or none (then it cannot be plotted). <em>Noise, not physics.</em></li>
-    <li><strong>(c)</strong> Logarithmic bins grow with $k$, so each collects enough nodes; the estimate follows the line far into the tail.</li>
-    <li><strong>(d)</strong> The cumulative distribution needs no bins and is again a straight line, slope $-(\gamma - 1)$.</li>
+    <li><strong>(c)</strong> Logarithmic bins grow with $k$, so each one collects enough nodes, and the estimate follows the line far into the tail.</li>
+    <li><strong>(d)</strong> The cumulative distribution needs no bins and is again a straight line, with slope $-(\gamma - 1)$.</li>
   </ul>
 </div>
 
@@ -55,7 +55,7 @@
   <dt>$\gamma - 1$</dt><dd>CCDF exponent, one less than the $p_k$ exponent</dd>
 </dl>
 <ul>
-  <li><strong>Pro:</strong> every node contributes, no binning choice, smooth even where degrees are missing.</li>
+  <li><strong>Pro:</strong> every node contributes, there is no choice of bins to make, and the curve is smooth even where some degrees are missing.</li>
   <li><strong>Con:</strong> neighbouring points share data, so a least-squares fit to it still gives no reliable error bars.</li>
 </ul>
 <div class="callout fix" data-errata="N8"></div>
@@ -113,7 +113,7 @@
   <div class="explain">$P(K\ge k) \sim k^{-(\gamma-1)}$, so $\gamma - 1 = 1.5$ and $\gamma = 2.5$.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>A least-squares line through a linearly binned log-log histogram, true $\gamma = 2.5$. What do you expect?</p>
+  <p>You fit a least-squares line through a linearly binned log-log histogram of a sample whose true exponent is $\gamma = 2.5$. What do you expect?</p>
   <ol>
     <li data-why="The plateau biases the fit; it is not centred on the truth.">$\hat\gamma \approx 2.5$, with a reliable error bar</li>
     <li data-why="The plateau is flat, so it makes the slope shallower, not steeper.">$\hat\gamma$ well above 2.5</li>
