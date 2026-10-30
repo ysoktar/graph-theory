@@ -1,0 +1,143 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Bağlantılılık · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bağlantıları kesin ve bir ağın bileşenlere ayrılışını izleyin; köprüler, kesme noktaları, blok köşegen matrisler ve gerçek ağların dev bileşeni."></head><body>
+<div class="content">
+
+<h1>Bağlantılılık</h1>
+<p class="lead">Aradığı telefona hiçbir yol götürmüyorsa bir telefon işe yaramaz. Bir ağın bir arada durup durmadığı ve hangi tek bağlantılara ya da düğümlere bağlı olduğu, yollarla ilgili bir sorudur.</p>
+
+<ul>
+  <li>Her düğüm çiftini bir yol birleştiriyorsa ağ <strong>bağlantılıdır</strong>.</li>
+  <li><strong>Bileşen</strong>, hepsi yollarla birleşen düğümlerin en büyük kümesidir. Bir bileşenden diğerine hiçbir yol gitmez.</li>
+  <li><strong>Köprü</strong>, kaldırılınca bir bileşeni ikiye bölen bağlantıdır.</li>
+  <li data-beyond="Kitapta ve not defterinde yok"><strong>Kesme noktası</strong> (eklem noktası), kaldırılınca bir bileşeni bölen düğümdür.</li>
+</ul>
+<p>Düğümler bileşen bileşen numaralanırsa komşuluk matrisi $A$ <strong>blok köşegen</strong> olur: sıfırdan farklı tüm öğeleri köşegen boyunca kare bloklarda yer alır.</p>
+<div class="callout example">
+  <p>Karate kulübü tek bir bileşendir. Tek köprüsü 0–11 bağlantısıdır (11 numaralı üyenin $k_{11} = 1$'dir) ve tek kesme noktası 0 düğümüdür.</p>
+</div>
+
+<h2>Onu parçalayın</h2>
+<div data-fig id="fig-cut"></div>
+<div class="callout look">
+  <ul>
+    <li>Bir köprüyü (kalın koyu çizgi) kesmek bir bileşeni böler; diğer her bağlantı için başka bir yol vardır.</li>
+    <li>Kesme noktaları (halkalı) düğüm grupları arasındaki tek hata noktalarıdır.</li>
+    <li>Düğümler bileşene göre sıralandığında matris blok köşegendir.</li>
+  </ul>
+</div>
+
+<h2>Dev bileşen</h2>
+<p>Büyük gerçek ağlar nadiren bağlantılıdır, ama tek bir <strong>dev bileşen</strong> düğümlerin çoğunu tutar; geri kalanı küçük bileşenlerden oluşan bir "toz"dur.</p>
+<div data-fig id="fig-sizes"></div>
+<div class="callout look">
+  <p>İş birliği ağının 567 bileşeni vardır. Dev bileşen 21,363 bilim insanını (%92) tutar, ikinci en büyüğü ise yalnızca 21'ini. <a href="ch3-evolution.html">Evrim</a> sayfası, $\langle k\rangle > 1$ olan rastgele bir ağın tam olarak böyle göründüğünü gösterir.</p>
+</div>
+
+<section data-beyond="Kitabın 8. bölümü: Molloy–Reed ölçütü">
+<h2>Ne kadar hasar gerekir?</h2>
+<p>Bağlantıları rastgele kaldırın ve en büyük bileşenin boyutunu izleyin (<a href="robustness.html">Dayanıklılık</a> sayfasının bir ön izlemesi). Kesikli çizgiler <strong>Molloy–Reed eşiğini</strong> gösterir: bundan az bağlantı tutulursa, aynı derecelere sahip rastgele bir ağ dağılır.</p>
+<div class="eq">$$p_c = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}.$$</div>
+<dl class="symbols">
+  <dt>$p_c$</dt><dd>tutulması gereken bağlantıların kritik oranı</dd>
+  <dt>$\langle k\rangle$</dt><dd>ortalama derece</dd>
+  <dt>$\langle k^2\rangle$</dt><dd>derecelerin karelerinin ortalaması; merkez düğümler olduğunda büyüktür</dd>
+</dl>
+<div class="callout example">
+  <p>İş birliği ağı için $p_c = 8.08/(178.2 - 8.08) \approx 0.048$. Elektrik şebekesi için $p_c = 2.67/(10.33 - 2.67) \approx 0.35$.</p>
+</div>
+<div data-fig id="fig-percolation"></div>
+<div class="callout look">
+  <p>Bağlantıların %20'si tutulduğunda iş birliği ağının en büyük bileşeni hâlâ bilim insanlarının yaklaşık yarısını tutar. Hatlarının yarısı gitmiş elektrik şebekesi ise yalnızca yüzde birkaçını tutar: $p_c \approx 0.35$'in çok üstünde parçalanır, çünkü kafes benzeri uzamsal bir ağın az sayıda alternatif güzergâhı vardır.</p>
+</div>
+
+</section>
+
+<div class="callout why">
+  <ul>
+    <li>Bileşenler kimin kime hiç ulaşabildiğini söyler; bir uzaklık yalnızca bir yolun olduğu yerde vardır.</li>
+    <li>Köprüler ve kesme noktaları tek hata noktalarını bulur.</li>
+    <li>$p_c$, yalnızca derecelerden, bir ağın ne kadar rastgele hasara dayandığını öngörür.</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Gerektiği yer:</strong> <a href="ch2-paths.html">uzaklıklar</a>. Bileşenler arasında $d = \infty$'dur; bu yüzden $\langle d\rangle$ dev bileşeni kullanır.</li>
+    <li><strong>Görüldüğü yer:</strong> <a href="ch2-adjacency.html">komşuluk matrisinde</a> köşegen bloklar olarak.</li>
+    <li><strong>Açıklayan:</strong> rastgele model; $\langle k\rangle = 1$'de bir dev bileşen ortaya çıkar (<a href="ch3-evolution.html">Evrim</a>).</li>
+    <li><strong>Öngördüğü:</strong> dayanıklılık; merkez düğümler $\langle k^2\rangle$'yı yükseltir ve $p_c$'yi düşürür (<a href="robustness.html">Dayanıklılık</a>, <a href="ch4-moments.html">Tipik derece yok</a>).</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Bir ağın $N = 100$ düğümü var, tek bir bileşen oluşturuyor ve her düğümün derecesi 2. Hangi ifade kesinlikle doğrudur?</p>
+  <ol>
+    <li data-why="Bir halkada her bağlantının diğer yönden dolaşan bir alternatifi vardır.">Bir köprüsü vardır.</li>
+    <li data-why="Bir ağacın N − 1 = 99 bağlantısı olur; bu ağın 100 bağlantısı var, dolayısıyla bir döngü içerir.">Bir ağaçtır.</li>
+    <li data-why="L = N⟨k⟩/2 = 100'dür, N⟨k⟩ değil.">$L = 200$</li>
+    <li>Bir halkadır: herhangi bir bağlantıyı kaldırmak onu bağlantılı bırakır.</li>
+  </ol>
+  <div class="explain">Her derecenin 2 olduğu bağlantılı bir ağ 100 düğümlü tek bir döngüdür; onu bölmek iki kesik gerektirir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Karate kulübünün tek köprüsü olan 0–11 bağlantısını kaldırmak tek bir üyeyi ayırır. 11 numaralı üyenin derecesi $k_{11}$ nedir?</p>
+  <ol>
+    <li>1</li>
+    <li data-why="16, 0 düğümünün derecesidir.">16</li>
+    <li data-why="İkinci bir bağlantısı olsaydı 11 numaralı üye kesikten sonra bağlı kalırdı.">2</li>
+    <li data-why="Tek başına ayrılması, 0–11'in 11 numaralı üyenin tek bağlantısı olduğu anlamına gelir.">Bundan anlaşılamaz.</li>
+  </ol>
+  <div class="explain">11 numaralı üye tek başına ayrılır; dolayısıyla 0–11 onun tek bağlantısıydı. Derecesi 1 olan bir düğüme giden bağlantı her zaman bir köprüdür.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Derecesi 1 olan bir düğüm (yaprak) bir kesme noktası olabilir mi?</p>
+  <ol>
+    <li data-why="Bir yaprağı kaldırmak yalnızca kendi bağlantısını kaldırır; diğerleri bağlı kalır.">Evet, her zaman.</li>
+    <li>Hayır.</li>
+    <li data-why="Komşusunun derecesi önemli değildir: hiçbir yol yapraktan geçmiyordu.">Yalnızca komşusu bir merkez düğümse.</li>
+    <li data-why="Soru yönsüz ağlarla ilgili; yön argümanı değiştirmez.">Yalnızca yönlü ağlarda.</li>
+  </ol>
+  <div class="explain">İki başka düğüm arasındaki hiçbir yol bir yapraktan geçmez; bu yüzden onu kaldırmak kimseyi ayırmaz.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>3 bileşenli bir ağın düğümleri bileşen bileşen numaralanıyor. Komşuluk matrisi $A$'da 1'ler nerede görülebilir?</p>
+  <ol>
+    <li data-why="Bağlantılar bir bileşenin içindeki düğümleri birleştirir ve bu düğümler numaralamada bir arada durur.">Her yerde.</li>
+    <li data-why="Köşegen dışı bloklar bileşenler arası bağlantılar olurdu; bunlar yoktur.">Yalnızca köşegen blokların dışında.</li>
+    <li>Yalnızca köşegen boyunca uzanan 3 kare bloğun içinde.</li>
+    <li data-why="Köşegen öğeleri Aᵢᵢ kendine döngülerdir ve 0'dır.">Yalnızca köşegenin kendisinde.</li>
+  </ol>
+  <div class="explain">Blokların dışındaki bir 1, bileşenler arasında bir bağlantı olurdu; bu da bileşenlerin tanımıyla çelişir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>İki ağın ortalama derecesi $\langle k\rangle$ aynı, ama birinde merkez düğümler var ve dolayısıyla $\langle k^2\rangle$ değeri daha büyük. Rastgele bağlantı kaybına hangisi daha çok dayanır?</p>
+  <ol>
+    <li>Merkez düğümlü olan, çünkü $p_c$ değeri daha küçüktür.</li>
+    <li data-why="Paydadaki daha büyük ⟨k²⟩, p_c'yi büyütmez, küçültür.">Merkez düğümsüz olan.</li>
+    <li data-why="p_c, ⟨k⟩'ya olduğu kadar ⟨k²⟩'ye de bağlıdır.">İkisi eşit.</li>
+    <li data-why="Molloy–Reed, p_c'yi yalnızca derecelerden verir.">Derecelerden anlaşılamaz.</li>
+  </ol>
+  <div class="explain">Daha büyük bir $\langle k^2\rangle$, $p_c$'yi düşürür: merkez düğümler ağı rastgele arızalar altında bir arada tutar (iş birliği ağı için 0.048, elektrik şebekesi için 0.35).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir ağın 10 düğümü, 3 bileşeni var ve hiç döngüsü yok. Kaç bağlantısı vardır?</p>
+  <ol>
+    <li data-why="N − 1 = 9 tek bir ağaçtır; her fazladan bileşen bir bağlantı eksiltir.">9</li>
+    <li>7</li>
+    <li data-why="10 düğümde 10 bağlantı, bileşenlerden birinde bir döngüyü zorunlu kılardı.">10</li>
+    <li data-why="3, bileşen sayısıdır.">3</li>
+  </ol>
+  <div class="explain">Her bileşen bir ağaçtır ve bir ağacın bağlantı sayısı düğüm sayısından bir eksiktir; dolayısıyla $L = 10 - 3 = 7$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Rastgele bir ağda ortalama derece $\langle k\rangle$ hangi değerin üstüne çıkınca bir dev bileşen ortaya çıkar?</p>
+  <ol>
+    <li data-why="ln N, ağın tamamen bağlantılı hâle geldiği daha sonraki bir aşamadır.">$\ln N$</li>
+    <li data-why="⟨k⟩ = 0.5'te henüz dev bileşen yoktur.">0.5</li>
+    <li data-why="Bu yoğun bir ağ olurdu; eşik küçüktür ve N ile büyümez.">$N/2$</li>
+    <li>1</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 1$'de, yani ortalama düğüm başına bir bağlantıda, bir dev bileşen ortaya çıkar (Kısım II, Evrim).</div>
+</div>
+
+</div></body></html>
