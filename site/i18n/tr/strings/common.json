@@ -59,12 +59,8 @@
  "Loading questions…": "Sorular yükleniyor…",
  "New set": "Yeni set",
  "Questions": "Soru sayısı",
- "all {0}": "tümü ({0})",
  "Answer a question to start the score.": "Puanı başlatmak için bir soruyu cevaplayın.",
  "{0} of {1} right on the first try": "{1} sorudan {0} tanesi ilk denemede doğru",
- "{0} questions from {1} pages. Tick the pages you want; each set is drawn at random.": "{1} sayfadan {0} soru. İstediğiniz sayfaları işaretleyin; her set rastgele seçilir.",
- "No questions selected: tick at least one page above.": "Hiç soru seçilmedi: yukarıdan en az bir sayfa işaretleyin.",
- "From": "Kaynak:",
  "Start": "Başlangıç",
  "Part I · Graph theory": "Kısım I · Çizge kuramı",
  "Part II · Random networks": "Kısım II · Rastgele ağlar",
@@ -169,5 +165,11 @@
  "Shake the layout": "Yerleşimi karıştır",
  "Zoom to fit": "Sığdır",
  "Fit": "Sığdır",
- "Switch to English": "Switch to English"
+ "Switch to English": "Switch to English",
+ "all": "tümü",
+ "Book": "Kitap",
+ "Review question from": "Sayfadan tekrar sorusu:",
+ "No questions selected: tick at least one topic above.": "Hiç soru seçilmedi: yukarıdan en az bir konu işaretleyin.",
+ "Add review questions from the pages": "Sayfalardaki tekrar sorularını da ekle",
+ "{0} exam-style questions. Each gives the formulas it needs and asks you to use them and interpret the result. Tick the topics you want; each set is drawn at random.": "{0} sınav tipi soru. Her soru gereken formülleri verir; sizden onları kullanmanızı ve sonucu yorumlamanızı ister. İstediğiniz konuları işaretleyin; her set rastgele seçilir."
 }

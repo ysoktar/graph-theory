@@ -1,0 +1,146 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Rastgele ağ modeli · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele bir ağı çift çift kurun, farklı gerçekleşmeleri karşılaştırın ve bağlantı sayısının binom dağılımına uyduğunu görün."></head><body>
+<div class="content">
+
+<h1>Rastgele ağ modeli</h1>
+<p class="lead">279 bağlantılı bir merkez düğüm (hub) şaşırtıcı mı? 0.6'lık bir kümelenme katsayısı yüksek mi? Bağlantıları tamamen rastgele yerleştirilmiş bir ağın nasıl göründüğünü bilmeden bu soruların hiçbirini cevaplayamayız. 3. bölüm bu karşılaştırma ölçütünü kurar.</p>
+
+<div class="callout why">
+  <ul>
+    <li><strong>Sıfır modeli</strong> (null model), rastlantı dışındaki bütün mekanizmaların çıkarıldığı bir ağdır.</li>
+    <li>Veri modele uyuyorsa onu açıklamak için özel bir mekanizma gerekmez. Veri modelden sapıyorsa ağı rastgele olmayan bir şey biçimlendirmiştir.</li>
+    <li>Sonraki sayfaların her biri rastgele ağ için Kısım I'deki bir niceliği öngörür ve onu veriyle karşılaştırır.</li>
+  </ul>
+</div>
+
+<h2>Bağlantıları rastgele yerleştirmenin iki yolu</h2>
+<ul>
+  <li><strong>$G(N, L)$</strong> (Erdős–Rényi, 1959): düğüm çiftlerinden tam olarak $L$ tanesini düzgün rastgele seçin ve bağlayın.</li>
+  <li><strong>$G(N, p)$</strong> (Gilbert, 1959): her çifti diğerlerinden bağımsız olarak $p$ <strong>olasılığıyla</strong> bağlayın. Olasılık 0 ile 1 arasında bir sayıdır; $p = 0.2$ "durumların %20'sinde" demektir.</li>
+</ul>
+<p>İkisine de Erdős–Rényi ağı denir ve büyük $N$ için aynı davranırlar. Çiftler bağımsız olduğundan $G(N,p)$ ile hesap yapmak daha kolaydır; rastgele karşılığın bağlantı sayısının verideki ile tam olarak aynı olması gerektiğinde ise $G(N,L)$ kullanışlıdır.</p>
+<div class="callout fix" data-errata="N6"></div>
+
+<h2>Çift çift bir ağ kurmak</h2>
+<p>Şekil $G(N,p)$ tarifini harfiyen uygular: her çift için bir rastgele sayı çeker ve sayı $p$'den küçükse bağlantıyı ekler.</p>
+<div data-fig id="fig-build"></div>
+
+<h2>Her gerçekleşme farklıdır</h2>
+<p>Tarifin her çalıştırılması farklı bir ağ üretir; buna <strong>gerçekleşme</strong> (realisation) denir. Model bu yüzden bir <strong>topluluğu</strong> (ensemble), yani tarifin üretebileceği bütün ağların kümesini tanımlar; öngörüleri bu kümenin tipik bir üyesi hakkındadır.</p>
+<div data-fig id="fig-three"></div>
+
+<h2>Kaç bağlantı var? (Kesim 3.3)</h2>
+<ol>
+  <li>$L_{\max} = N(N-1)/2$ çift vardır: her düğüm $N-1$ başka düğümle çift oluşturabilir ve bu sayım her çifti iki kez sayar.</li>
+  <li>Her çift, diğerlerinden bağımsız olarak $p$ olasılığıyla bağlantı olur.</li>
+  <li>$L_{\max}$ bağımsız denemedeki başarı sayısı <strong>binom dağılımına</strong> uyar:</li>
+</ol>
+<div class="eq">$$P(L) = \binom{L_{\max}}{L}\, p^{L} (1-p)^{L_{\max}-L}$$</div>
+<dl class="symbols">
+  <dt>$P(L)$</dt><dd>tam olarak $L$ bağlantı olması olasılığı</dd>
+  <dt>$L_{\max}$</dt><dd>düğüm çifti sayısı, $N(N-1)/2$</dd>
+  <dt>$\binom{L_{\max}}{L}$</dt><dd>"$L_{\max}$'in $L$'li kombinasyonu": hangi çiftlerin bağlı olacağını seçmenin yol sayısı, $\frac{L_{\max}!}{L!\,(L_{\max}-L)!}$</dd>
+  <dt>$p^{L}$</dt><dd>seçilen $L$ çiftin bağlı olması olasılığı</dd>
+  <dt>$(1-p)^{L_{\max}-L}$</dt><dd>geri kalan bütün çiftlerin bağlı olmaması olasılığı</dd>
+</dl>
+<div class="eq">$$\langle L\rangle = p\,\frac{N(N-1)}{2}, \qquad \sigma_L = \sqrt{L_{\max}\, p\,(1-p)}, \qquad \langle k\rangle = \frac{2\langle L\rangle}{N} = p\,(N-1).$$</div>
+<dl class="symbols">
+  <dt>$\langle L\rangle$</dt><dd>$L$'nin beklenen değeri, yani birçok gerçekleşme üzerindeki ortalaması</dd>
+  <dt>$\sigma_L$</dt><dd>standart sapma, $L$'nin $\langle L\rangle$'den tipik uzaklığı</dd>
+  <dt>$\langle k\rangle$</dt><dd>ortalama derece; her bağlantının iki ucu olduğu için $2L/N$'ye eşittir (<a href="ch2-konigsberg.html">el sıkışma önermesi</a>)</dd>
+</dl>
+<div class="callout example">
+  <p>$N = 200$ ve $p = 0.05$ için: $L_{\max} = 19{,}900$, $\langle L\rangle = 995$, $\sigma_L = \sqrt{19{,}900 \times 0.05 \times 0.95} \approx 30.7$ ve $\langle k\rangle = 9.95$. Tipik bir gerçekleşmede 935 ile 1,055 arasında bağlantı bulunur ($\pm 2\sigma_L$).</p>
+</div>
+<div data-fig id="fig-ldist"></div>
+<div class="callout look">
+  <p>Küçük $p$ için göreli dalgalanma $\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$'dir. 995 bağlantıda %3, 50,000 bağlantıda ($N = 10^4$, $\langle k\rangle = 10$) %0.45'tir. Büyük gerçekleşmeler bu yüzden neredeyse özdeştir ve tek bir gerçekleşme bütün topluluğu temsil edebilir.</p>
+</div>
+
+<h2>Gerçek bir ağın rastgele karşılığı</h2>
+<p>Rastgele karşılık, gerçek ağla aynı $N$ ve $L$'ye sahiptir; yalnızca bağlantılar rastgele yerleştirilir. Ortak yazarlık ağı ($N = 23{,}133$, $L = 93{,}439$, $\langle k\rangle = 8.08$) için</p>
+<div class="eq">$$p = \frac{\langle k\rangle}{N-1} = \frac{2L}{N(N-1)} = \frac{L}{L_{\max}} \approx 3.5\times10^{-4}.$$</div>
+<p>Sonraki sayfalarda gerçek bir ağ için verilen her rastgele ağ değeri böyle bir karşılığa aittir.</p>
+
+<div class="callout connect">
+  <ul>
+    <li>Model, Kısım I'deki betimleyicileri (<a href="ch2-degree.html">derece</a>, <a href="ch2-connectedness.html">bileşenler</a>, <a href="ch2-paths.html">uzaklıklar</a>, <a href="ch2-clustering.html">kümelenme</a>) yalnızca $N$ ve $p$'den <strong>öngörür</strong>.</li>
+    <li><strong>Sonraki sayfalar:</strong> <a href="ch3-degree.html">dereceler Poisson dağılır</a>, <a href="ch3-evolution.html">dev bileşen $\langle k\rangle = 1$'de ortaya çıkar</a>, <a href="ch3-small-world.html">uzaklıklar $\ln N$ gibi büyür</a> ve <a href="ch3-clustering.html">kümelenme $p$'ye eşittir</a>. <a href="ch3-summary.html">Özet</a> sayfası bunları veriyle karşılaştırır.</li>
+    <li>Sonraki modeller onu <strong>genişletir</strong>: <a href="ch4-generating.html">konfigürasyon modeli</a> gerçek dereceleri korur, <a href="ch5-preview.html">Barabási–Albert modeli</a> ise büyüme ve tercihli bağlanma ekler.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Rastgele bir ağda $N = 1{,}000$ düğüm ve $p = 0.01$ bağlantı olasılığı var. Ortalama derecesi nedir?</p>
+  <ol>
+    <li data-why="0.01, bir çiftin bağlı olma olasılığıdır; bir düğümün bağlantı sayısı değildir.">0.01</li>
+    <li data-why="Ortalama derecenin 1 olması için p ≈ 1/(N − 1) ≈ 0.001 gerekirdi.">1</li>
+    <li>yaklaşık 10</li>
+    <li data-why="Yaklaşık 5,000, düğüm başına değil, ağdaki toplam bağlantı sayısıdır.">yaklaşık 5,000</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = p(N-1) = 0.01 \times 999 \approx 10$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$N = 1{,}000$ ve $p = 0.01$ olan rastgele bir ağda kaç bağlantı beklersiniz?</p>
+  <ol>
+    <li data-why="10, tek bir düğümün ortalama derecesidir.">yaklaşık 10</li>
+    <li>yaklaşık 4,995</li>
+    <li data-why="N⟨k⟩ her bağlantıyı iki ucundan birer kez, yani iki kez sayar; 2'ye bölünmelidir.">yaklaşık 9,990</li>
+    <li data-why="N² sıralı çiftleri sayar ve p olasılığını hesaba katmaz.">yaklaşık 1,000,000</li>
+  </ol>
+  <div class="explain">$\langle L\rangle = p\,N(N-1)/2 = 0.01 \times 499{,}500 = 4{,}995$; bu aynı zamanda $N\langle k\rangle/2$'dir.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>$N = 5{,}000$ ve $p = 0.002$ olan rastgele bir ağın iki gerçekleşmesini üretiyorsunuz. Ne beklemelisiniz?</p>
+  <ol>
+    <li data-why="Bağlantılar her seferinde yeniden çekilir; ağlar neredeyse kesin olarak farklıdır.">Birbirinin aynı iki ağ</li>
+    <li data-why="Bağlantı sayısının kendisi de rastgeledir; gerçekleşmeden gerçekleşmeye yaklaşık σ_L ≈ 158 değişir.">Bağlantı sayıları tam olarak aynı olan iki farklı ağ</li>
+    <li>İstatistikleri neredeyse aynı olan iki farklı ağ</li>
+    <li data-why="Aynı modelin büyük gerçekleşmeleri istatistiksel olarak neredeyse ayırt edilemez.">İstatistikleri birbiriyle ilgisiz iki farklı ağ</li>
+  </ol>
+  <div class="explain">Burada $\langle L\rangle \approx 24{,}995$ ve $\sigma_L \approx 158$ olduğundan iki bağlantı sayısı %1'den az farklıdır.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$N = 4{,}941$ düğümü ve $L = 6{,}594$ bağlantısı olan ABD elektrik şebekesinin rastgele karşılığını kurmak istiyorsunuz. Hangi $p$'yi kullanmalısınız?</p>
+  <ol>
+    <li data-why="L/N ≈ 1.33 ortalama derecenin yarısıdır; bir olasılık 1'i aşamaz.">$L/N \approx 1.33$</li>
+    <li>$2L/[N(N-1)] \approx 5.4\times10^{-4}$</li>
+    <li data-why="p = 0.5 her düğüme yaklaşık 2,470 bağlantı verirdi; neredeyse tam bir ağ olurdu.">$0.5$</li>
+    <li data-why="p = 1/N, ⟨k⟩ ≈ 1 verir; bu, şebekenin 2.67'lik değerinden daha seyrektir.">$1/N \approx 2.0\times10^{-4}$</li>
+  </ol>
+  <div class="explain">$p = L/L_{\max} \approx 5.4\times10^{-4}$, dolayısıyla $\langle k\rangle = p(N-1) = 2.67$, yani şebekenin kendi ortalama derecesi.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Rastgele A ağında $\langle L\rangle = 100$, rastgele B ağında $\langle L\rangle = 10{,}000$ bağlantı var; ikisinde de $p$ küçük. Bağlantı sayılarının göreli dalgalanması $\sigma_L/\langle L\rangle$ ne kadardır?</p>
+  <ol>
+    <li data-why="σ_L yalnızca √⟨L⟩ gibi büyür; bu yüzden oran ağ büyüdükçe küçülür.">ikisinde de %10</li>
+    <li data-why="Büyük rastgele ağlar daha az değil, daha çok öngörülebilirdir.">A için %1, B için %10</li>
+    <li data-why="Oran 1/⟨L⟩ değil, 1/√⟨L⟩'dir.">A için %1, B için %0.01</li>
+    <li>A için %10, B için %1</li>
+  </ol>
+  <div class="explain">$\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$; bu $1/\sqrt{100} = \%10$ ve $1/\sqrt{10^4} = \%1$ verir.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>$N = 3$ düğümlü ve $p = 0.5$ olan rastgele bir ağda bir gerçekleşmenin hiç bağlantısı olmaması olasılığı nedir?</p>
+  <ol>
+    <li>$1/8$</li>
+    <li data-why="3 çiftin her biri 0.5 olasılıkla bağlantısız kalır; boş ağ ortaya çıkabilir.">0</li>
+    <li data-why="1/2 tek bir çiftin olasılığıdır; üç çiftin de bağlantısız olması gerekir.">$1/2$</li>
+    <li data-why="Üç düğüm 2 değil, 3 çift oluşturur.">$1/4$</li>
+  </ol>
+  <div class="explain">$L_{\max} = 3$ çift vardır; dolayısıyla $P(0) = (1-p)^3 = 0.125$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>$G(N, L)$'yi $G(N, p)$ ile karşılaştırıyorsunuz ve $p$'yi $\langle L\rangle = L$ olacak biçimde seçiyorsunuz. Hangi ifade doğrudur?</p>
+  <ol>
+    <li data-why="$G(N,L)$'de bağlantı sayısı sabittir, $G(N,p)$'de ise dalgalanır.">İkisi aynı modeldir.</li>
+    <li data-why="$p$, ikisinin ortalama bağlantı sayısı aynı olacak biçimde seçildi.">$G(N,p)$'nin ortalama bağlantı sayısı daha fazladır.</li>
+    <li data-why="$L$'yi sabitlemek çiftleri birbirine bağlar: bir yerde fazladan bir bağlantı, başka bir yerde bir eksik demektir.">$G(N,L)$'deki çiftler bağımsızdır.</li>
+    <li>$L$, $G(N,L)$'de sabittir, $G(N,p)$'de yaklaşık $\sigma_L$ kadar dalgalanır; büyük $N$ için istatistikleri örtüşür.</li>
+  </ol>
+  <div class="explain">Yaklaşık $1/\sqrt{\langle L\rangle}$ olan göreli dalgalanmalar büyük ağlarda kaybolur; bu yüzden iki model eşdeğer hale gelir.</div>
+</div>
+
+</div></body></html>

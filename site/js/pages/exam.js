@@ -1,23 +1,30 @@
-// Exam study guides: the page text is static; the practice set below it is assembled from the
-// quizzes of every page in the exam's scope, so it grows whenever a page gains a question.
-import { NAV, pageInfo, enhanceQuizzes, annotateGlossary } from "../layout.js";
-import { h, $, $$, renderMath, button, select } from "../lib/ui.js";
-import { articleUrl } from "../i18n.js";
+// Exam study guides. The practice set deals from the guide's own question bank (<template id="exam-questions">,
+// one .quiz per question, grouped by data-topic): exam-style questions that give the formulas and ask to apply
+// and interpret them. The stand-alone quizzes of the pages in the exam's scope can be added as review questions.
+import { pageInfo, enhanceQuizzes, annotateGlossary } from "../layout.js";
+import { h, $, $$, renderMath, button, select, checkbox } from "../lib/ui.js";
+import { articleUrl, t } from "../i18n.js";
 
 const bank = $("#bank");
-const ids = bank.dataset.pages.split(",").map((s) => s.trim()).filter(Boolean);
+const ids = (bank.dataset.pages || "").split(",").map((s) => s.trim()).filter(Boolean);
 const optional = new Set((bank.dataset.optional || "").split(",").map((s) => s.trim()).filter(Boolean));
 const file = (id) => (id === "index" ? "index.html" : `${id}.html`);
 
-/** One entry per stand-alone quiz (quizzes marked data-local need their page's figure and are skipped). */
-async function collect() {
+/** The guide's own questions, in page order. */
+const own = (() => {
+  const tpl = $("#exam-questions");
+  return tpl ? $$(".quiz", tpl.content).map((q) => ({ topic: q.dataset.topic || "", html: q.outerHTML })) : [];
+})();
+
+/** Review questions: every stand-alone quiz (not marked data-local) of the pages in scope. */
+async function collectPages() {
   const parser = new DOMParser();
-  const pages = await Promise.all(ids.map(async (id) => {
+  const pages = await Promise.all(ids.filter((id) => !optional.has(id)).map(async (id) => {
     try {
       let r = await fetch(articleUrl(id));
       if (!r.ok) r = await fetch(file(id)); // no translation yet: use the English questions
       const doc = parser.parseFromString(await r.text(), "text/html");
-      return $$(".quiz:not([data-local])", doc).map((q) => ({ id, html: q.outerHTML }));
+      return $$(".quiz:not([data-local])", doc).map((q) => ({ page: id, html: q.outerHTML }));
     } catch { return []; }
   }));
   return pages.flat();
@@ -28,57 +35,63 @@ const shuffle = (a) => {
   return a;
 };
 
-(async () => {
-  bank.textContent = "Loading questions…";
-  const all = await collect();
-  const parts = NAV.filter((p) => p.items.some((it) => ids.includes(it.id)));
-  const on = new Set(ids.filter((id) => !optional.has(id)));
-  let size = 15, answered = 0, correct = 0;
+const topics = [...new Set(own.map((q) => q.topic))];
+const on = new Set(topics);
+let size = 10, review = null, withReview = false, answered = 0, correct = 0;
 
-  const score = h("span", { class: "bank-score", "aria-live": "polite" });
-  const list = h("div");
-  const topics = h("div", { class: "bank-topics" });
-  const paintScore = () => { score.textContent = answered ? `${correct} of ${answered} right on the first try` : "Answer a question to start the score."; };
+const score = h("span", { class: "bank-score", "aria-live": "polite" });
+const list = h("div");
+const paintScore = () => { score.textContent = answered ? t(`${correct} of ${answered} right on the first try`) : t("Answer a question to start the score."); };
 
-  for (const p of parts) {
-    for (const it of p.items.filter((x) => ids.includes(x.id))) {
-      const n = all.filter((q) => q.id === it.id).length;
-      const input = h("input", { type: "checkbox" });
-      input.checked = on.has(it.id);
-      input.addEventListener("change", () => { if (input.checked) on.add(it.id); else on.delete(it.id); deal(); });
-      topics.append(h("label", { title: p.part }, input, `${it.title} (${n})`));
-    }
-  }
+function deal() {
+  const pool = own.filter((q) => on.has(q.topic));
+  if (withReview && review) pool.push(...review);
+  const pick = shuffle(pool).slice(0, size || pool.length);
+  answered = 0; correct = 0; paintScore();
+  list.replaceChildren(...pick.map((q) => {
+    const box = h("div", { html: q.html });
+    if (q.page) {
+      const info = pageInfo(q.page);
+      box.append(h("div", { class: "quiz-src" }, t("Review question from") + " ", h("a", { href: file(q.page) }, info.title), info.book ? ` · ${t("Book")} ${info.book}` : ""));
+    } else if (q.topic) box.append(h("div", { class: "quiz-src" }, q.topic));
+    return box;
+  }));
+  if (!pick.length) list.append(h("p", { class: "muted" }, t("No questions selected: tick at least one topic above.")));
+  enhanceQuizzes(list);
+  renderMath(list);
+  annotateGlossary(list, "exam", { quizzesOnly: true });
+}
 
-  function deal() {
-    const pool = shuffle(all.filter((q) => on.has(q.id)));
-    const pick = size ? pool.slice(0, size) : pool;
-    answered = 0; correct = 0; paintScore();
-    list.replaceChildren(...pick.map((q) => {
-      const box = h("div", { html: q.html });
-      const info = pageInfo(q.id);
-      box.append(h("div", { class: "quiz-src" }, "From ", h("a", { href: file(q.id) }, info.title), info.book ? ` · Book ${info.book}` : ""));
-      return box;
-    }));
-    if (!pick.length) list.append(h("p", { class: "muted" }, "No questions selected: tick at least one page above."));
-    enhanceQuizzes(list);
-    renderMath(list);
-    annotateGlossary(list, "exam", { quizzesOnly: true });
-  }
+list.addEventListener("quizanswer", (e) => {
+  if (!e.detail.firstTry) return;
+  answered++;
+  if (e.detail.correct) correct++;
+  paintScore();
+});
 
-  list.addEventListener("quizanswer", (e) => {
-    if (!e.detail.firstTry) return;
-    answered++;
-    if (e.detail.correct) correct++;
-    paintScore();
+const topicBox = h("div", { class: "bank-topics" });
+for (const tp of topics) {
+  const input = h("input", { type: "checkbox" });
+  input.checked = true;
+  input.addEventListener("change", () => { if (input.checked) on.add(tp); else on.delete(tp); deal(); });
+  topicBox.append(h("label", {}, input, `${tp} (${own.filter((q) => q.topic === tp).length})`));
+}
+
+const bar = h("div", { class: "bank-bar" });
+button(bar, { label: t("New set"), icon: "dice", onClick: deal });
+select(bar, { label: t("Questions"), value: String(size), options: [{ value: "5", label: "5" }, { value: "10", label: "10" }, { value: "20", label: "20" }, { value: "0", label: t("all") }], onChange: (v) => { size = Number(v); deal(); } });
+if (ids.length) {
+  checkbox(bar, {
+    label: t("Add review questions from the pages"),
+    onChange: async (v) => {
+      withReview = v;
+      if (v && !review) { score.textContent = t("Loading questions…"); review = await collectPages(); }
+      deal();
+    },
   });
-
-  const bar = h("div", { class: "bank-bar" });
-  button(bar, { label: "New set", icon: "dice", onClick: deal });
-  select(bar, { label: "Questions", value: String(size), options: [{ value: "10", label: "10" }, { value: "15", label: "15" }, { value: "30", label: "30" }, { value: "0", label: `all ${all.length}` }], onChange: (v) => { size = Number(v); deal(); } });
-  bar.append(score);
-  bank.replaceChildren(
-    h("p", { class: "muted small" }, `${all.length} questions from ${ids.length} pages. Tick the pages you want; each set is drawn at random.`),
-    topics, bar, list);
-  deal();
-})();
+}
+bar.append(score);
+bank.replaceChildren(
+  h("p", { class: "muted small" }, t(`${own.length} exam-style questions. Each gives the formulas it needs and asks you to use them and interpret the result. Tick the topics you want; each set is drawn at random.`)),
+  topicBox, bar, list);
+deal();

@@ -26,26 +26,26 @@
 <dl class="symbols">
   <dt>$p_k$</dt><dd>share of nodes with exactly $k$ links</dd>
   <dt>$k$</dt><dd>degree (number of links)</dd>
-  <dt>$\gamma$</dt><dd>degree exponent; real networks: about 2 to 3.5</dd>
+  <dt>$\gamma$</dt><dd>degree exponent, about 2 to 3.5 in real networks</dd>
   <dt>$\sim$</dt><dd>proportional to, for large $k$</dd>
 </dl>
 <ul>
-  <li><strong>Straight line on log-log axes:</strong> $\log p_k \approx -\gamma \log k + \text{const}$, slope $-\gamma$.</li>
-  <li><strong>No characteristic scale:</strong> doubling $k$ always divides $p_k$ by $2^{\gamma}$, from 2 → 4 links as from 200 → 400. A Poisson distribution has a scale, $\langle k\rangle$, beyond which it collapses.</li>
+  <li><strong>It is a straight line on log-log axes.</strong> Taking logarithms gives $\log p_k \approx -\gamma \log k + \text{const}$, a line with slope $-\gamma$.</li>
+  <li><strong>It has no characteristic scale.</strong> Doubling $k$ always divides $p_k$ by the same factor $2^{\gamma}$, whether we go from 2 to 4 links or from 200 to 400. A Poisson distribution does have a scale, $\langle k\rangle$, beyond which it collapses.</li>
 </ul>
 <div class="callout example">
-  <p>$\gamma = 2.5$: doubling $k$ divides $p_k$ by $2^{2.5} \approx 5.7$; multiplying $k$ by 10 divides it by $10^{2.5} \approx 316$.</p>
+  <p>With $\gamma = 2.5$, doubling $k$ divides $p_k$ by $2^{2.5} \approx 5.7$, and multiplying $k$ by 10 divides it by $10^{2.5} \approx 316$.</p>
 </div>
 
 <p>Degrees are integers, so the exact form is the <em>discrete</em> power law, starting at a smallest degree $k_{\min}$ (it cannot start at 0, where $k^{-\gamma}$ is infinite):</p>
 <div class="eq">$$p_k = \frac{k^{-\gamma}}{\zeta(\gamma, k_{\min})} \quad (k \ge k_{\min}), \qquad \zeta(\gamma, k_{\min}) = \sum_{k = k_{\min}}^{\infty} k^{-\gamma}.$$</div>
 <dl class="symbols">
   <dt>$k_{\min}$</dt><dd>smallest degree the power law describes</dd>
-  <dt>$\zeta(\gamma, k_{\min})$</dt><dd>Hurwitz zeta function: normalising sum, finite only for $\gamma > 1$</dd>
+  <dt>$\zeta(\gamma, k_{\min})$</dt><dd>Hurwitz zeta function, the sum that makes the probabilities add up to 1 (finite only for $\gamma > 1$)</dd>
   <dt>$\zeta(\gamma)$</dt><dd>Riemann zeta function, the case $k_{\min} = 1$</dd>
 </dl>
 <div class="callout example">
-  <p>$\gamma = 2.5$, $k_{\min} = 1$: $\zeta(2.5) = 1.342$, so $p_1 = 0.745$, $p_2 = 0.132$, and $\langle k\rangle = \zeta(1.5)/\zeta(2.5) = 1.95$.</p>
+  <p>For $\gamma = 2.5$ and $k_{\min} = 1$, $\zeta(2.5) = 1.342$. Then $p_1 = 0.745$, $p_2 = 0.132$, and the average degree is $\langle k\rangle = \zeta(1.5)/\zeta(2.5) = 1.95$.</p>
 </div>
 <p>It is often easier to treat $k$ as a positive real number. The <em>continuous</em> power law and its <strong>complementary cumulative distribution</strong> (CCDF) are</p>
 <div class="eq">$$p(k) = (\gamma - 1)\, k_{\min}^{\gamma - 1}\, k^{-\gamma}, \qquad P(K \ge k) = \left(\frac{k}{k_{\min}}\right)^{-(\gamma - 1)}.$$</div>
@@ -53,23 +53,23 @@
   <dt>$p(k)$</dt><dd>probability density of degree $k$</dd>
   <dt>$(\gamma - 1)\,k_{\min}^{\gamma - 1}$</dt><dd>normalising constant (continuous counterpart of $1/\zeta$)</dd>
   <dt>$K$</dt><dd>degree of a randomly chosen node</dd>
-  <dt>$P(K \ge k)$</dt><dd>share of nodes with at least $k$ links; exponent $\gamma - 1$</dd>
+  <dt>$P(K \ge k)$</dt><dd>share of nodes with at least $k$ links; it falls with exponent $\gamma - 1$</dd>
 </dl>
 <p>The two agree in the tail but differ at small $k$, which matters when a fit is drawn or simulated (see <a href="ch4-universality.html">Universality</a>).</p>
 <div class="callout example">
-  <p>$\gamma = 2.5$, $k_{\min} = 1$: share with $k \ge 2$ is 0.255 (discrete) against 0.354 (continuous).</p>
+  <p>For $\gamma = 2.5$ and $k_{\min} = 1$, the share of nodes with $k \ge 2$ is 0.255 in the discrete form but 0.354 in the continuous one.</p>
 </div>
 
 <h2>Where the hubs live</h2>
 <div data-fig id="fig-compare"></div>
 <div class="callout look">
-  <p>Against a Poisson distribution with the same average, the power law has <strong>more</strong> small-degree nodes, <strong>fewer</strong> near the average and <strong>vastly more</strong> hubs. With $\gamma = 2.5$, $k_{\min} = 2$ and $N = 10^6$: about 2,000 nodes with $k \ge 100$; Poisson expects $10^{-87}$.</p>
+  <p>Against a Poisson distribution with the same average, the power law has <strong>more</strong> small-degree nodes, <strong>fewer</strong> near the average and <strong>vastly more</strong> hubs. With $\gamma = 2.5$, $k_{\min} = 2$ and $N = 10^6$, the power law predicts about 2,000 nodes with $k \ge 100$; the Poisson distribution predicts $10^{-87}$, that is, none.</p>
 </div>
 
 <h2>Real data: the Internet</h2>
 <div data-fig id="fig-internet"></div>
 <div class="callout look">
-  <p>On linear axes both look like bumps at small $k$; on log-log axes the difference is enormous. The Internet has 2,375 routers with $k \ge 50$, 534 with $k \ge 100$ and one with 1,071. A random network of the same size and density expects $10^{-22}$ with $k \ge 50$.</p>
+  <p>On linear axes both look like bumps at small $k$; on log-log axes the difference is enormous. The Internet has 2,375 routers with $k \ge 50$, 534 with $k \ge 100$ and one with 1,071. A random network of the same size and density would be expected to have $10^{-22}$ nodes with $k \ge 50$.</p>
 </div>
 
 <div data-fig id="fig-look"></div>
@@ -83,21 +83,21 @@
 </div>
 
 <div class="callout discuss">
-  <p>In a random network $\langle k\rangle$ is a "typical" degree. Is it for a power law with $\gamma = 2.5$?</p>
-  <div class="hint">No. With $k_{\min} = 1$, 75% of nodes have $k = 1$ while $\langle k\rangle \approx 1.95$; the hubs pull the average up. On the Internet 76% of routers are below the average 6.3 and the median is 3. No degree is typical, hence "scale-free"; see <a href="ch4-moments.html">No typical degree</a>.</div>
+  <p>In a random network $\langle k\rangle$ is a "typical" degree: most nodes have about that many links. Is that also true for a power law with $\gamma = 2.5$?</p>
+  <div class="hint">No. With $k_{\min} = 1$, 75% of nodes have $k = 1$, while $\langle k\rangle \approx 1.95$ because the hubs pull the average up. On the Internet 76% of routers have fewer links than the average 6.3, and the median router has 3. No degree is typical, which is what "scale-free" means; see <a href="ch4-moments.html">No typical degree</a>.</div>
 </div>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Replaces</strong> the Poisson $p_k$ of the <a href="ch3-degree.html">random network</a>, which <a href="ch3-real-degrees.html">failed on real data</a>.</li>
-    <li><strong>Needs</strong> correct <a href="ch4-plotting.html">plotting</a> and <a href="ch4-fitting.html">fitting</a> before $\gamma$ can be trusted.</li>
-    <li><strong>Predicts</strong> <a href="ch4-hubs.html">hub size</a>, <a href="ch4-moments.html">moments</a> and <a href="ch4-ultra-small.html">distances</a>.</li>
-    <li><strong>Explained by</strong> growth and preferential attachment in <a href="ch5-preview.html">Chapter 5</a>.</li>
+    <li>It <strong>replaces</strong> the Poisson $p_k$ of the <a href="ch3-degree.html">random network</a>, which <a href="ch3-real-degrees.html">failed on real data</a>.</li>
+    <li>It <strong>needs</strong> correct <a href="ch4-plotting.html">plotting</a> and <a href="ch4-fitting.html">fitting</a> before we can trust $\gamma$.</li>
+    <li>It <strong>predicts</strong> <a href="ch4-hubs.html">hub size</a>, <a href="ch4-moments.html">moments</a> and <a href="ch4-ultra-small.html">distances</a>.</li>
+    <li>It is <strong>explained by</strong> growth and preferential attachment in <a href="ch5-preview.html">Chapter 5</a>.</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>$p_k$ is a straight line of slope $-2.3$ on log-log axes. What is $\gamma$, and the slope of $P(K \ge k)$?</p>
+  <p>A network's degree distribution $p_k$ is a straight line of slope $-2.3$ on log-log axes. What is $\gamma$, and what is the slope of its CCDF $P(K \ge k)$?</p>
   <ol>
     <li data-why="γ is defined with the minus sign outside, p_k ~ k^(−γ), so it is positive.">$\gamma = -2.3$; slope $-2.3$</li>
     <li>$\gamma = 2.3$; slope $-1.3$</li>
@@ -107,7 +107,7 @@
   <div class="explain">$p_k \sim k^{-2.3}$ means $\gamma = 2.3$. Summing over all degrees $\ge k$ lowers the exponent by one: $P(K\ge k) \sim k^{-1.3}$.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>With $\gamma = 3$, 8,000 nodes have 10 links. About how many have 20?</p>
+  <p>In a scale-free network with $\gamma = 3$, 8,000 nodes have 10 links. About how many nodes have 20 links?</p>
   <ol>
     <li data-why="Halving is the rule for γ = 1; here doubling divides by 2³.">4,000</li>
     <li data-why="Dividing by 2² = 4 is the rule for γ = 2.">2,000</li>
@@ -117,28 +117,28 @@
   <div class="explain">Doubling $k$ divides $p_k$ by $2^3 = 8$: $8{,}000/8 = 1{,}000$. The same factor holds from 100 to 200 or 1,000 to 2,000 links.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>A random and a scale-free network both have $N = 10^6$ and $\langle k\rangle = 4.7$. Which is true?</p>
+  <p>A random network and a scale-free network both have $N = 10^6$ nodes and average degree $\langle k\rangle = 4.7$. Which statement is true?</p>
   <ol>
-    <li>The scale-free one has more nodes with very few links and many more with very many</li>
-    <li data-why="Equal averages do not mean equal distributions.">Their degree distributions are the same</li>
-    <li data-why="The random network concentrates its nodes near the average.">The scale-free one has more nodes near the average</li>
-    <li data-why="The power law also has more small-degree nodes, not only more hubs.">Only the number of hubs differs</li>
+    <li>The scale-free network has more nodes with very few links and many more nodes with very many links</li>
+    <li data-why="Equal averages do not mean equal distributions.">The two networks have the same degree distribution</li>
+    <li data-why="The random network concentrates its nodes near the average.">The scale-free network has more nodes near the average degree</li>
+    <li data-why="The power law also has more small-degree nodes, not only more hubs.">Only the number of hubs differs between them</li>
   </ol>
-  <div class="explain">Same average, different shape: the power law has more small-$k$ nodes, fewer near $\langle k\rangle$, vastly more hubs.</div>
+  <div class="explain">The averages are equal but the shapes differ: the power law has more small-degree nodes, fewer nodes near $\langle k\rangle$ and vastly more hubs.</div>
 </div>
 <div class="quiz" data-answer="4">
   <p>Why can $p_k = k^{-\gamma}/\zeta(\gamma, k_{\min})$ not be used with $\gamma = 0.8$?</p>
   <ol>
-    <li data-why="Nothing in the formula needs γ to be an integer.">$\gamma$ must be a whole number</li>
-    <li data-why="Hubs are a tail property; the problem is more basic.">There would be no hubs</li>
-    <li data-why="The formula has no condition on N.">The network would need more than $N$ nodes</li>
-    <li>$\zeta(0.8, k_{\min})$ is infinite, so the probabilities cannot sum to 1</li>
+    <li data-why="Nothing in the formula needs γ to be an integer.">Because $\gamma$ must be a whole number</li>
+    <li data-why="Hubs are a tail property; the problem is more basic.">Because there would be no hubs</li>
+    <li data-why="The formula has no condition on N.">Because the network would need more than $N$ nodes</li>
+    <li>Because $\zeta(0.8, k_{\min})$ is infinite, so the probabilities cannot add up to 1</li>
   </ol>
   <div class="explain">For $\gamma \le 1$ the terms $k^{-\gamma}$ fall too slowly and their sum diverges, so no constant normalises them.</div>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>With $\gamma = 2.5$ and $k_{\min} = 1$, $\zeta(2.5) = 1.342$. What share of nodes has exactly one link?</p>
+  <p>A power law has $\gamma = 2.5$ and $k_{\min} = 1$, so its normalising constant is $\zeta(2.5) = 1.342$. What share of the nodes has exactly one link?</p>
   <ol>
     <li data-why="That is the share with k ≥ 2, the complement.">0.255</li>
     <li>0.745</li>
@@ -148,24 +148,24 @@
   <div class="explain">$p_1 = 1^{-2.5}/\zeta(2.5) = 1/1.342 = 0.745$.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>A degree histogram looks straight on log-log axes over one decade of $k$. Is the network scale-free?</p>
+  <p>A network's degree histogram looks like a straight line on log-log axes over one decade of $k$ (from 10 to 100 links, say). Is the network scale-free?</p>
   <ol>
-    <li>Not established: a short straight stretch proves little without a proper fit and test</li>
+    <li>We cannot tell yet: a short straight stretch proves little without a proper fit and test</li>
     <li data-why="Many distributions (log-normal, stretched exponential) look straight over one decade.">Yes: any straight line on log-log axes is a power law</li>
     <li data-why="A power law is exactly straight on log-log axes.">No: power laws are curved on log-log axes</li>
     <li data-why="The slope sets γ; it does not test the shape.">Yes, if the slope is between −2 and −3</li>
   </ol>
-  <div class="explain">A visual line is a hint, not evidence. Maximum likelihood and a goodness-of-fit test decide (<a href="ch4-fitting.html">Estimating the exponent</a>).</div>
+  <div class="explain">A line seen by eye is a hint, not evidence. Maximum likelihood and a goodness-of-fit test decide (<a href="ch4-fitting.html">Estimating the exponent</a>).</div>
 </div>
 <div class="quiz" data-answer="4">
   <p>Which mechanism does Chapter 5 propose to explain power-law degree distributions?</p>
   <ol>
-    <li data-why="That is the random network model, which gives a Poisson distribution.">Placing each link between random pairs</li>
+    <li data-why="That is the random network model, which gives a Poisson distribution.">Placing each link between a random pair of nodes</li>
     <li data-why="Swaps keep an existing degree sequence; they do not create one.">Degree-preserving link swaps</li>
     <li data-why="Triangle closure builds clustering, not a heavy tail.">Triangle closure</li>
     <li>Growth with preferential attachment</li>
   </ol>
-  <div class="explain">New nodes link preferentially to well-connected nodes; the Barabási–Albert model gives $\gamma = 3$.</div>
+  <div class="explain">The network grows, and new nodes link preferentially to nodes that already have many links. The resulting Barabási–Albert model gives $\gamma = 3$.</div>
 </div>
 
 </div></main>
