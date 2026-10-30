@@ -324,7 +324,7 @@ function render() {
   }
   // text
   status.textContent = state.message || (state.mode === "walk" ? "Click a piece of land to start." : "Click any bridge to build or remove it.");
-  walkLine.textContent = state.start ? "Walk: " + state.lands.map((L, i) => (i ? ` —${state.used[i - 1]}→ ${L}` : L)).join("") : "";
+  walkLine.textContent = state.start ? "Walk: " + state.lands.map((L, i) => (i ? ` –${state.used[i - 1]}→ ${L}` : L)).join("") : "";
   const verdict = odd.length === 0 ? "No land mass has an odd number of bridges: a closed walk crossing every bridge once exists, starting anywhere."
     : odd.length === 2 ? `Exactly two land masses (${odd.join(" and ")}) have an odd number of bridges: a walk exists, from one of them to the other.`
     : `${odd.length} land masses (${odd.join(", ")}) have an odd number of bridges: no walk can cross every bridge exactly once.`;

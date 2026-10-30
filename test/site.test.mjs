@@ -118,3 +118,11 @@ test("every Turkish string table is valid JSON with string values", () => {
     for (const [k, v] of Object.entries(o)) assert.equal(typeof v, "string", `${f}: ${k}`);
   }
 });
+
+test("pages and scripts use no em dashes (house style)", () => {
+  const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? (e.name === "vendor" ? [] : walk(join(d, e.name))) : /\.(html|js|json)$/.test(e.name) ? [join(d, e.name)] : []));
+  for (const f of walk(site)) {
+    if (f.endsWith("errata.js")) continue; // quotes the notebook and the book verbatim
+    assert.ok(!readFileSync(f, "utf8").includes("—"), `${f} contains an em dash`);
+  }
+});

@@ -53,7 +53,7 @@
   <dt>$R$</dt><dd>new infections caused by one case</dd>
 </dl>
 <ul>
-  <li>Random network: $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$, so $T_c = 1/\langle k\rangle$ — the mixing-model answer.</li>
+  <li>Random network: $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$, so $T_c = 1/\langle k\rangle$, the answer of the well-mixed model.</li>
   <li>Scale-free, $\gamma < 3$: $\langle k^2\rangle \to \infty$, so $T_c \to 0$ (Pastor-Satorras and Vespignani 2001).</li>
   <li>Mean-field SIS gives $\langle k\rangle/\langle k^2\rangle$: same behaviour.</li>
 </ul>
@@ -66,7 +66,7 @@
 <h2>Whom to vaccinate?</h2>
 <p>A vaccinated node is, for the epidemic, a removed node: vaccination is <a href="robustness.html">robustness</a> in reverse.</p>
 <ul>
-  <li><strong>Random:</strong> a fraction $g$ cuts $R$ to $(1-g)\,T(\kappa-1)$, so $g_c = 1 - \dfrac{1}{T(\kappa - 1)}$ — near 1 when $\kappa$ is large.</li>
+  <li><strong>Random:</strong> a fraction $g$ cuts $R$ to $(1-g)\,T(\kappa-1)$, so $g_c = 1 - \dfrac{1}{T(\kappa - 1)}$, which is close to 1 when $\kappa$ is large.</li>
   <li><strong>Hubs:</strong> cuts $\langle k^2\rangle$ far more than $\langle k\rangle$, raising $T_c$. Needs the whole network.</li>
   <li><strong>Acquaintance</strong> (Cohen, Havlin and ben-Avraham 2003): vaccinate a random contact of a random person. Contacts average $\kappa$ links, so this finds hubs blindly.</li>
 </ul>

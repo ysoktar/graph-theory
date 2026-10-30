@@ -49,7 +49,7 @@
 </div>
 
 <h2>The book's networks</h2>
-<p>In a random network $\sigma_k = \sqrt{\langle k\rangle}$ ($\sigma_k$ — standard deviation of the degrees). If $\sigma_k \gg \sqrt{\langle k\rangle}$, a random node can have one link or a thousand, and $\langle k\rangle$ says little about it.</p>
+<p>In a random network $\sigma_k = \sqrt{\langle k\rangle}$ ($\sigma_k$ is the standard deviation of the degrees). If $\sigma_k \gg \sqrt{\langle k\rangle}$, a random node can have one link or a thousand, and $\langle k\rangle$ says little about it.</p>
 <div class="callout example">
   <p>Random, $\langle k\rangle = 9$: $\sigma_k = 3$, and 99.7% of nodes have 0–18 links. Email: $\langle k\rangle = 3.23$, $\sigma_k = 35.5$, eleven times the mean.</p>
 </div>
@@ -131,10 +131,15 @@
 <div class="quiz" data-answer="3">
   <p>A configuration model has $\langle k\rangle = 2$ and $\langle k^2\rangle = 6$. Does it have a giant component?</p>
   <ol>
-    <li data-why="The condition involves ⟨k²⟩, not ⟨k⟩ alone.">No: $\langle kangle$ must exceed 2</li>
+    <li data-why="The condition involves ⟨k²⟩, not ⟨k⟩ alone.">No: $\langle k
+angle$ must exceed 2</li>
     <li data-why="The Molloy–Reed criterion needs only the two moments.">Cannot tell without $N$</li>
-    <li>Yes: $\langle k^2angle = 6 &gt; 2\langle kangle = 4$</li>
-    <li data-why="The criterion is ⟨k²⟩ &gt; 2⟨k⟩.">No: $\langle k^2angle$ must exceed $\langle kangle^3$</li>
+    <li>Yes: $\langle k^2
+angle = 6 &gt; 2\langle k
+angle = 4$</li>
+    <li data-why="The criterion is ⟨k²⟩ &gt; 2⟨k⟩.">No: $\langle k^2
+angle$ must exceed $\langle k
+angle^3$</li>
   </ol>
   <div class="explain">Molloy–Reed: a giant component exists when $\langle k^2\rangle &gt; 2\langle k\rangle$.</div>
 </div>
