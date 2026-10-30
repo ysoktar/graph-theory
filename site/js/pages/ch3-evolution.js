@@ -28,7 +28,6 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
     { key: "k", label: "⟨k⟩ = 2L/N" }, { key: "L", label: "links L" }, { key: "S", label: "largest component N_G/N" },
     { key: "S2", label: "second largest" }, { key: "c", label: "components" }, { key: "r", label: "regime" },
   ]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   const plot = new Plot(pr, { height: 240, x: { label: "average degree ⟨k⟩", min: 0, max: kMax }, y: { label: "N_G / N", min: 0, max: 1 } });
   let traj = [];
   function ensureOrder(L) {
@@ -121,7 +120,6 @@ const regime = (k, N) => (k < 0.995 ? "subcritical" : k <= 1.005 ? "critical" : 
   let k = 1.8;
   const f = figure("#fig-fixed", { title: "Solving S = 1 − exp(−⟨k⟩S) graphically", sub: "The solution is where the curve crosses the diagonal. The staircase shows the iteration S ← 1 − exp(−⟨k⟩S) starting from S = 1." });
   const t = stats(f.body, [{ key: "S", label: "solution S" }, { key: "slope", label: "slope of the curve at S = 0" }, { key: "steps", label: "iterations to converge" }]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const plot = new Plot(f.body, { height: 320, x: { label: "S", min: 0, max: 1 }, y: { label: "1 − exp(−⟨k⟩S)", min: 0, max: 1 } });
   function draw() {
     const S = giantComponentFraction(k);

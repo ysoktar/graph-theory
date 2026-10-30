@@ -1,5 +1,8 @@
 import "../layout.js";
 import { h, figure, slider, segmented, select, stats, tex, button, dataTable } from "../lib/ui.js";
+import { LANG } from "../i18n.js";
+
+const TR = LANG === "tr";
 import { NetView } from "../lib/netview.js";
 import { Plot, fnSeries } from "../lib/plot.js";
 import { karateGraph, loadNetworks, NETWORK_ORDER } from "../lib/data.js";
@@ -122,7 +125,7 @@ const s = (tag, attrs = {}) => { const el = document.createElementNS(SVGNS, tag)
   }
   slider(f.controls, { label: "triangles t", min: 1, max: 20, step: 1, value: T, onInput: (v) => { T = v; update(); }, wide: true });
   update();
-  f.setCaption("Each of the $2t$ outer nodes has $C_i = 1$; the centre, with $k = 2t$, has $C = 1/(2t-1)$. Of the $t(2t-1) + 2t$ connected triples, only $3t$ lie in triangles, so $C_\\Delta = 3/(2t+1)$.");
+  f.setCaption((TR ? "Dıştaki $2t$ düğümün her birinin $C_i = 1$'i vardır; derecesi $k = 2t$ olan merkezin ise $C = 1/(2t-1)$. $t(2t-1) + 2t$ bağlantılı üçlüden yalnızca $3t$ tanesi üçgenlerdedir; bu yüzden $C_\\Delta = 3/(2t+1)$." : "Each of the $2t$ outer nodes has $C_i = 1$; the centre, with $k = 2t$, has $C = 1/(2t-1)$. Of the $t(2t-1) + 2t$ connected triples, only $3t$ lie in triangles, so $C_\\Delta = 3/(2t+1)$."));
 }
 
 // ------------------------------------------------------------------ 4. real networks
@@ -159,5 +162,5 @@ const s = (tag, attrs = {}) => { const el = document.createElementNS(SVGNS, tag)
   });
   select(f.controls, { label: "C(k) for", value: name, options: NETWORK_ORDER.map((n) => ({ value: n, label: networks[n].description })), onChange: (v) => { name = v; render(); } });
   render();
-  f.setCaption("The convention matters most where many nodes have a single link: 76% of the email network's nodes, 52% of the protein network's and 50% of the WWW's have k ≤ 1. Leaving them out multiplies ⟨C⟩ by 2 to 4 (email 0.036 → 0.148). Always state the convention. The dashed line in the C(k) plot is the random-network value ⟨k⟩/N, orders of magnitude lower (Chapter 3).");
+  f.setCaption((TR ? "Kural en çok, birçok düğümün tek bağlantısı olduğu yerde önemlidir: e-posta ağının düğümlerinin %76'sı, protein ağınınkilerin %52'si ve WWW'nunkilerin %50'si k ≤ 1'dir. Onları dışarıda bırakmak ⟨C⟩'yi 2 ile 4 kat büyütür (e-posta 0.036 → 0.148). Kuralı her zaman belirtin. C(k) grafiğindeki kesikli çizgi rastgele ağ değeri ⟨k⟩/N'dir ve mertebelerce düşüktür (Bölüm 3)." : "The convention matters most where many nodes have a single link: 76% of the email network's nodes, 52% of the protein network's and 50% of the WWW's have k ≤ 1. Leaving them out multiplies ⟨C⟩ by 2 to 4 (email 0.036 → 0.148). Always state the convention. The dashed line in the C(k) plot is the random-network value ⟨k⟩/N, orders of magnitude lower (Chapter 3)."));
 })();

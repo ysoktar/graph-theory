@@ -1,5 +1,6 @@
 import "../layout.js";
 import { h, figure, slider, select, stats, dataTable, color, onThemeChange, tooltip } from "../lib/ui.js";
+import { LANG } from "../i18n.js";
 import { Plot, fnSeries } from "../lib/plot.js";
 import { loadNetworks, loadCollabExtra, NETWORK_ORDER, SHORT } from "../lib/data.js";
 import { fmt, arrMax } from "../lib/stats.js";
@@ -138,5 +139,5 @@ const tip = tooltip();
     });
   }
   update();
-  f.setCaption("Dense storage grows like $N^2$ whatever the network; sparse storage grows like $L$. A dense matrix stops fitting in a laptop's memory at $N \\approx 4.5\\times10^4$ (8-byte entries) or $N \\approx 3.6\\times10^5$ (bits), while an edge list of a billion links still fits.");
+  f.setCaption((LANG === "tr" ? "Yoğun saklama, ağ ne olursa olsun $N^2$ gibi büyür; seyrek saklama $L$ gibi büyür. Yoğun bir matris $N \\approx 4.5\\times10^4$ (8 baytlık öğeler) ya da $N \\approx 3.6\\times10^5$ (bitler) civarında bir dizüstü bilgisayarın belleğine sığmaz olur; bir milyar bağlantılı bir kenar listesi ise hâlâ sığar." : "Dense storage grows like $N^2$ whatever the network; sparse storage grows like $L$. A dense matrix stops fitting in a laptop's memory at $N \\approx 4.5\\times10^4$ (8-byte entries) or $N \\approx 3.6\\times10^5$ (bits), while an edge list of a billion links still fits."));
 }

@@ -123,6 +123,37 @@
   <div class="explain">The flat plateau pulls the slope towards zero: about 1.6 in the experiment on the <a href="ch4-fitting.html">next page</a>.</div>
 </div>
 
+<div class="quiz" data-answer="3">
+  <p>With $b = 4$ bins per decade, by what factor is each log bin wider than the previous one?</p>
+  <ol>
+    <li data-why="b is the number of bins per decade, not the width factor.">4</li>
+    <li data-why="That divides 10 by 4 instead of taking the 4th root.">2.5</li>
+    <li>About 1.78</li>
+    <li data-why="That is the factor for one bin per decade.">10</li>
+  </ol>
+  <div class="explain">The factor is $10^{1/b} = 10^{1/4} \approx 1.78$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Why do logarithmic bins estimate the tail better than linear bins?</p>
+  <ol>
+    <li>Wide bins at large $k$ collect many nodes, which averages out the noise</li>
+    <li data-why="Every node is still counted.">They remove the hubs from the data</li>
+    <li data-why="That is what the cumulative distribution does, not log binning.">They change the exponent to $\gamma - 1$</li>
+    <li data-why="Binning cannot change the underlying distribution.">They make the distribution Poisson</li>
+  </ol>
+  <div class="explain">Dividing each bin's count by its width keeps the estimate of $p_k$ unbiased while the counts stay large.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>A least-squares line through the CCDF comes with a small standard error. Can you trust that error bar?</p>
+  <ol>
+    <li data-why="Each CCDF point sums all degrees above it, so neighbours share data.">Yes, every point is independent</li>
+    <li>No: neighbouring CCDF points share data, so the error is underestimated</li>
+    <li data-why="Straightness says nothing about independence of the points.">Yes, if the line is straight</li>
+    <li data-why="The slope is −(γ − 1), which is fine; the error bar is the problem.">No, because the CCDF has the wrong slope</li>
+  </ol>
+  <div class="explain">Least-squares errors assume independent points. Maximum likelihood gives an honest error bar.</div>
+</div>
+
 </div></main>
 </body>
 </html>

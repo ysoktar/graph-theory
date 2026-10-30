@@ -1,0 +1,128 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Gerçek ağlar rastgele değildir · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele ağ modelinin kitabın sekiz ağına karşı karnesi: neyi doğru, neyi yanlış öngörüyor ve ne kadar."></head><body>
+<div class="content">
+
+<h1>Gerçek ağlar rastgele değildir</h1>
+<p class="lead">Gerçek ağların hangi özellikleri rastlantının ötesinde bir açıklama gerektirir? Rastgele ağı veriyle özellik özellik karşılaştırın. Başarısızlıkları 4. bölümün nereye gideceğini belirler.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Erdős ve Rényi gerçek ağların rastgele olduğunu hiç iddia etmedi: modelleri bir karşılaştırma ölçütüdür.</li>
+    <li>Model bir özelliği yeniden üretiyorsa o özellik özel bir açıklama gerektirmez. Birini kaçırıyorsa iş başında rastgele olmayan bir süreç vardır.</li>
+  </ul>
+</div>
+
+<h2>Her seferinde bir ağ</h2>
+<p>Not defteri (45. hücre) bu tabloyu iş birliği ağı için kurar. Burada sekiz ağdan herhangi biri için, kuramı benzetimle üretilmiş rastgele bir karşılığın yanında görerek kurabilirsiniz.</p>
+<div data-fig id="fig-score"></div>
+<div class="callout fix" data-errata="N12"></div>
+
+<h2>Sekiz ağın hepsi</h2>
+<div data-fig id="fig-heat"></div>
+
+<h2>Karar (Bölüm 3.10)</h2>
+<table class="simple">
+  <thead><tr><th>Özellik</th><th>Rastgele ağ</th><th>Gerçek ağlar</th><th>Karar</th></tr></thead>
+  <tbody>
+    <tr><td>Derece dağılımı</td><td>Poisson, $\sigma_k = \sqrt{\langle k\rangle}$</td><td>geniş, merkez düğümlü; $k_{\max}$ ve $\langle k^2\rangle$ çok daha büyük</td><td><span class="verdict no">yanlış</span></td></tr>
+    <tr><td>Dev bileşen</td><td>$\langle k\rangle > 1$ için vardır</td><td>sekizinde de var</td><td><span class="verdict ok">var olduğu doğru</span>; boyutu çoğu zaman tutmaz</td></tr>
+    <tr><td>Bağlantılılık</td><td>yalnızca $\langle k\rangle > \ln N$ için</td><td>elektrik şebekesi ve WWW, $\langle k\rangle &lt; \ln N$ olmasına karşın bağlantılıdır; diğerlerinin çoğu öngörülenden fazla düğümü dışarıda bırakır</td><td><span class="verdict meh">karışık</span></td></tr>
+    <tr><td>Ortalama uzaklık</td><td>$\sim \ln N/\ln\langle k\rangle$</td><td>küçük dünyalar (elektrik şebekesi dışında); merkez düğümce zengin ağlar daha da küçük</td><td><span class="verdict ok">kabaca doğru</span></td></tr>
+    <tr><td>Kümelenme</td><td>$\langle k\rangle/N$, $k$'dan bağımsız</td><td>mertebelerce büyük ve $C(k)$, $k$ ile azalır</td><td><span class="verdict no">yanlış</span></td></tr>
+  </tbody>
+</table>
+<div class="callout key">
+  <p>Model en yerel iki özellikte başarısız olur: bir düğümün kaç bağlantısı olduğu (merkez düğümler) ve komşularının bağlı olup olmadığı (üçgenler). 4. bölüm Poisson dağılımının yerine bir kuvvet yasası koyar; kümelenme 9. bölümde geri döner.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Özetlediği konular:</strong> <a href="ch3-degree.html">dereceler</a>, <a href="ch3-evolution.html">bileşenler</a>, <a href="ch3-small-world.html">uzaklıklar</a> ve <a href="ch3-clustering.html">kümelenme</a>; her biri önce öngörülen, sonra sınanan bir Kısım I niceliği.</li>
+    <li><strong>Gerekçelendirdiği konular:</strong> <a href="ch4-power-laws.html">ölçekten bağımsız ağlar</a> (Bölüm 4) ve merkez düğümleri açıklayan <a href="ch5-preview.html">Barabási–Albert modeli</a> (Bölüm 5).</li>
+    <li><strong>Sıfır modelleri hiyerarşisi:</strong> $G(N, L)$, $N$ ve $L$'yi korur; <a href="ch4-generating.html">konfigürasyon modeli</a> her düğümün derecesini de korur.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Rastgele model, sekiz ağın altısı için uzaklıkları kabaca doğru öngörür. Bu, onu bu ağların nasıl bağlandığı için iyi bir model yapar mı?</p>
+  <div class="hint">Hayır. Birkaç uzun menzilli bağlantısı olan neredeyse her ağ küçük bir dünyadır (Watts–Strogatz); bu yüzden uzaklıklardaki uyum zayıf bir kanıttır. Modelleri birbirinden ayıran özellikler, yani dereceler ve kümelenme, onun yanlış öngördükleridir.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>İş birliği ağı hakkındaki hangi olguyu, aynı $N$ ve $L$'ye sahip rastgele karşılığı açıklayabilir?</p>
+  <ol>
+    <li data-why="Rastgele karşılığın en büyük derecesi yaklaşık 21'dir.">279 ortak çalışanı olan bir bilim insanını.</li>
+    <li data-why="Rastgele karşılığın ⟨C⟩ ≈ 3 × 10⁻⁴'tür.">$\langle C\rangle = 0.63$'lük bir ortalama kümelenmeyi.</li>
+    <li>Yaklaşık beş aracılık tipik bir ayrımı.</li>
+    <li data-why="Rastgele bağlanma yaklaşık N e^{−⟨k⟩} ≈ 7 düğümü dışarıda bırakır.">Dev bileşenin dışındaki 1,770 bilim insanını.</li>
+  </ol>
+  <div class="explain">Rastgele karşılıkta $\langle d\rangle \approx 5.1$'dir, gözlenen ise 5.3. Diğer her değer çok uzaktır.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>İş birliği ağında $\langle k^2\rangle = 178$'dir. Rastgele ağ formülü $\langle k\rangle(1+\langle k\rangle)$, $\langle k\rangle = 8.08$ için ne öngörür?</p>
+  <ol>
+    <li data-why="Bu, varyans ⟨k⟩ olmadan yalnızca ⟨k⟩²'dir.">65</li>
+    <li>73: gerçek değer, merkez düğümler yüzünden 2.4 kat büyüktür.</li>
+    <li data-why="Bu gerçek değerdir; Poisson dağılımı çok daha dardır.">178</li>
+    <li data-why="Bu ⟨k⟩'dır, birinci moment.">8.08</li>
+  </ol>
+  <div class="explain">$8.08 \times 9.08 = 73.3$. Merkez düğümler $\langle k^2\rangle$'yı şişirir: e-posta ağı için gerçek değer Poisson değerinin 90 katıdır.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Uzaklıklardaki uyum, bir ağın rastgele olduğu için neden zayıf bir kanıttır?</p>
+  <ol>
+    <li data-why="Ölçülen uzaklıklar kesindir (300 BFS kaynağı).">Uzaklıklar kötü ölçülür.</li>
+    <li data-why="Öngörü kesindir: Fronczak ve ark. formülü benzetimle uyuşur.">ln N formülü kesin değildir.</li>
+    <li data-why="Merkez düğümlü gerçek ağlar daha uzun değil, daha da kısadır.">Gerçek uzaklıklar her zaman daha uzundur.</li>
+    <li>Bazı uzun menzilli bağlantıları olan neredeyse her ağ küçük bir dünyadır.</li>
+  </ol>
+  <div class="explain">Neredeyse her modelin yeniden ürettiği bir özellik modelleri birbirinden ayıramaz.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Rastgele ağın hangi öngörüsü sekiz ağın hepsi için geçerlidir?</p>
+  <ol>
+    <li>Bir dev bileşen vardır.</li>
+    <li data-why="Her ağda Poisson'un çok ötesinde merkez düğümler vardır.">Dereceler Poisson'dur.</li>
+    <li data-why="Gerçek kümelenme 35 ile 11,000 kat yüksektir.">$C \approx \langle k\rangle/N$.</li>
+    <li data-why="Elektrik şebekesinin uzaklıkları 2.2 kat uzundur.">$\langle d\rangle \approx \ln N/\ln\langle k\rangle$.</li>
+  </ol>
+  <div class="explain">Hepsinde öngörüldüğü gibi $\langle k\rangle > 1$ ve bir dev bileşen vardır.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>E-posta ağında $\langle k^2\rangle = 1{,}269$'dur, Poisson değeri $\langle k\rangle(1+\langle k\rangle)$ ise 13.7. Oran nedir?</p>
+  <ol>
+    <li data-why="1,269/13.7 çok daha büyüktür.">Yaklaşık 3.</li>
+    <li data-why="Bu √(1,269/13.7)'ye daha yakındır.">Yaklaşık 9.</li>
+    <li>Yaklaşık 90.</li>
+    <li data-why="Bu 10 kat yanlıştır.">Yaklaşık 900.</li>
+  </ol>
+  <div class="explain">$1{,}269/13.7 \approx 93$: birkaç devasa merkez düğüm (biri 6,553 kişiyle iletişimli) $\langle k^2\rangle$'ye hâkimdir.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Hangi sıfır modeli her düğümün derecesini korur ama bağlantıları rastgele yerleştirir?</p>
+  <ol>
+    <li data-why="Yalnızca N ve L'yi korur.">$G(N, L)$.</li>
+    <li>Konfigürasyon modeli.</li>
+    <li data-why="Bir kafesten başlar ve yeniden bağlar; verilen dereceleri korumaz.">Watts–Strogatz modeli.</li>
+    <li data-why="Ağı büyütür ve dereceler büyümeden ortaya çıkar.">Barabási–Albert modeli.</li>
+  </ol>
+  <div class="explain">Konfigürasyon modeli (Bölüm 4), yalnızca derecelerin açıkladığını daha fazlasını gerektirenden ayırır.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Rastgele ağlar $r = 0$'lık bir derece korelasyon katsayısı (asortatiflik) öngörür. $r$ neyi ölçer?</p>
+  <ol>
+    <li data-why="Bu S'dir.">Dev bileşendeki düğümlerin oranını.</li>
+    <li data-why="Bu C'dir.">Kümelenme katsayısını.</li>
+    <li data-why="Bu γ'dır.">Derece üstelini.</li>
+    <li>Yüksek dereceli düğümlerin başka yüksek dereceli düğümlere bağlanıp bağlanmadığını.</li>
+  </ol>
+  <div class="explain">Bölüm 7: $r > 0$ için merkez düğümler merkez düğümlere, $r &lt; 0$ için küçük düğümlere bağlanır; rastgele bağlanma $r \approx 0$ verir.</div>
+</div>
+
+</div></body></html>

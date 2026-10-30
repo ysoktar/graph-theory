@@ -1,0 +1,163 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Küçük dünyalar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Altı derece ayrım: rastgele ağlarda uzaklıklar neden yalnızca ln N gibi büyür, kitabın ağları rastgele karşılıklarıyla nasıl karşılaştırılır ve Watts–Strogatz modeli."></head><body>
+<div class="content">
+
+<h1>Küçük dünyalar</h1>
+<p class="lead">Dünyadaki herhangi iki insan neden yalnızca yaklaşık altı el sıkışma uzaklığındadır? Rastgele ağlar, bağlantılar rastgele olduğunda bu kadar kısa zincirlerin kaçınılmaz olduğunu gösterir; gerçek ağlar bunu çoğunlukla doğrular, öğretici bir istisnayla.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Yalnızca $N$ ve $\langle k\rangle$'dan <a href="ch2-paths.html">uzaklıkları</a> (Kısım I) öngörür.</li>
+    <li>"Altı derece"yi açıklar: uzaklık $N$'nin bir kuvveti gibi değil, $\ln N$ gibi büyür.</li>
+    <li>Öngörülenden kısa uzaklıklı gerçek bir ağ merkez düğümlere, daha uzun uzaklıklı bir ağ ise uzamsal kısıtlara işaret eder.</li>
+  </ul>
+</div>
+
+<p>Karinthy'nin 1929 tarihli <em>Láncszemek</em> ("Zincirler") öyküsü beş aracı üzerine iddiaya girer. Milgram (1967) bunu sınadı: Nebraska ve Kansas'taki insanlar bir mektubu, yalnızca birbirini ön adıyla tanıyan kişiler aracılığıyla, Massachusetts'teki iki hedeften birine (Boston'da ve Sharon'da) ilettiler. Tamamlanan zincirlerin yaklaşık beş aracısı vardı: "altı derece ayrım".</p>
+<div class="callout fix" data-book="B8"></div>
+
+<h2>Uzaklıklar neden kısadır (Bölüm 3.8)</h2>
+<ol>
+  <li>Bir düğümün yaklaşık $\langle k\rangle$ komşusu, 2 uzaklıkta yaklaşık $\langle k\rangle^2$ düğümü ve $d$ uzaklıkta yaklaşık $\langle k\rangle^d$ düğümü vardır (hiçbir düğümün iki kez sayılmadığı varsayılırsa).</li>
+  <li>Dolayısıyla $d$ uzaklık içindeki düğüm sayısı şudur:</li>
+</ol>
+<div class="eq">$$N(d) \approx 1 + \langle k\rangle + \langle k\rangle^2 + \dots + \langle k\rangle^d = \frac{\langle k\rangle^{d+1} - 1}{\langle k\rangle - 1}.$$</div>
+<ol start="3">
+  <li>$N(d)$, $N$'yi aşamaz. $\langle k\rangle^{d} \approx N$ alıp logaritma almak $d \ln\langle k\rangle \approx \ln N$ verir; dolayısıyla:</li>
+</ol>
+<div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln \langle k\rangle}.$$</div>
+<dl class="symbols">
+  <dt>$N(d)$</dt><dd>bir düğümün $d$ adım içindeki düğüm sayısı</dd>
+  <dt>$\langle d\rangle$</dt><dd>düğüm çiftleri arasındaki ortalama uzaklık (en kısa yol uzunluğu)</dd>
+  <dt>$\ln$</dt><dd>doğal logaritma: $\ln x = y$, $e^y = x$ demektir</dd>
+  <dt>$\langle k\rangle$</dt><dd>adım başına büyüme çarpanı olan ortalama derece</dd>
+</dl>
+<p>Bu <strong>küçük dünya özelliğidir</strong>: on kat daha fazla düğüm yalnızca $\ln 10/\ln\langle k\rangle$ adım ekler.</p>
+<div class="callout example">
+  <p>$N = 8\times10^9$ ve $\langle k\rangle = 1{,}000$ ile dünya için: $\ln N/\ln\langle k\rangle = 22.8/6.91 = 3.3$. $N = 7.21\times10^8$ ve $\langle k\rangle \approx 189$ ile 2011'deki Facebook için formül 3.9 verir; ölçülen değer 4.74'tür.</p>
+</div>
+<div class="callout fix" data-book="B7"></div>
+<div data-fig id="fig-ball"></div>
+
+<div data-fig id="fig-bfs"></div>
+<div class="callout look">
+  <p>$d = 4$'te rastgele ağ düğümlerin çoğuna ulaşır, kafes ise yalnızca küçük bir eşkenar dörtgene. $D$ boyutlu bir kafeste uzaklıklar $N$'nin bir kuvveti olan $N^{1/D}$ gibi büyür.</p>
+</div>
+
+<section data-beyond="Kitapta yok: Fronczak, Fronczak ve Hołyst 2004">
+<h2>Formül ne kadar iyi?</h2>
+<p>1. adım, bir düğümün komşuluğunun hiçbir düğüme iki kez ulaşılmayan bir ağaç olduğunu varsayar. Rastgele ağlar için kitapta olmayan daha kesin bir formül Fronczak, Fronczak ve Hołyst'a (2004) aittir:</p>
+<div class="eq">$$\langle d\rangle \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12.$$</div>
+<dl class="symbols">
+  <dt>$\gamma_E$</dt><dd>Euler sabiti, $0.5772\ldots$</dd>
+  <dt>$+\frac12$</dt><dd>ağaç kestiriminin kaçırdığı bir kayma</dd>
+</dl>
+<div class="callout example">
+  <p>$N = 10^4$ ve $\langle k\rangle = 10$ için ağaç kestirimi 4.0, Fronczak ve ark. formülü 4.25'tir. Facebook için 4.28 verir.</p>
+</div>
+</section>
+<div class="callout fix" data-book="B6"></div>
+<div class="callout fix" data-errata="N21"></div>
+<div data-fig id="fig-dn"></div>
+
+<h2>Gerçek ağlar (Bölüm 3.8)</h2>
+<p>Her ağ, aynı $N$ ve $L$'ye sahip, benzetimle üretilmiş bir $G(N, L)$ ile karşılaştırılır. (Not defteri yalnızca iş birliği ağını, o da formüle karşı sınar.)</p>
+<div data-fig id="fig-real"></div>
+<div class="callout fix" data-errata="N11"></div>
+<div data-fig id="fig-dist"></div>
+
+<div class="callout discuss">
+  <p>E-posta ve metabolik ağların uzaklıkları rastgele karşılıklarınınkinden çok daha <em>kısa</em>, elektrik şebekesininki ise çok daha <em>uzundur</em>. Her birini ne açıklayabilir?</p>
+  <div class="hint">Daha kısa: merkez düğümler (6,553 kişiyle iletişimi olan bir e-posta adresi, 638 başka metabolitle tepkimeye giren bir metabolit) yolların çoğunun kullandığı kısayollardır ve ölçekten bağımsız ağlar <a href="ch4-ultra-small.html">ultra küçük</a> olabilir (Bölüm 4). Daha uzun: şebeke uzaya gömülüdür ve uzun hatlar pahalıdır; bu yüzden bağlantıları yakın istasyonları birleştirir. Kısayollar olmadan bir kafes gibi davranır.</div>
+</div>
+
+<h2>Kümelenmeli küçük dünyalar: Watts–Strogatz (1998)</h2>
+<p>Rastgele ağların uzaklıkları kısadır ama neredeyse hiç üçgenleri yoktur (<a href="ch3-clustering.html">sonraki sayfa</a>). Kafeslerin çok sayıda üçgeni vardır ama uzaklıkları uzundur. Gerçek toplumsal ağlarda hem kısa uzaklıklar hem de çok sayıda üçgen vardır. Watts ve Strogatz'ın fikri: bir halka kafesinden başlayın ve her bağlantıyı $p$ olasılıkla rastgele bir düğüme yeniden bağlayın.</p>
+<div data-fig id="fig-ws"></div>
+<div data-fig id="fig-ws-sweep"></div>
+<div class="callout key">
+  <p>Birkaç kısayol yeter. Her biri birçok yolu kısaltır; bu yüzden $p$ büyüdükçe $\langle d\rangle$ hızla düşer, yerel bir özellik olan kümelenme ise neredeyse değişmez. Derece dağılımı dar kalır; dolayısıyla modelde merkez düğüm yoktur.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Üzerine kurulduğu konular:</strong> <a href="ch2-paths.html">uzaklıklar ve BFS</a> (Kısım I) ve <a href="ch3-evolution.html">dev bileşen</a> (uzaklıklar onun içinde ölçülür).</li>
+    <li><strong>İncelten:</strong> <a href="ch4-ultra-small.html">ultra küçük dünyalar</a>; $2 &lt; \gamma &lt; 3$ olan ölçekten bağımsız ağlarda $\langle d\rangle \sim \ln\ln N$'dir (Bölüm 4).</li>
+    <li><strong>Watts–Strogatz modeli</strong> bir kafes ile rastgele bir ağ arasında ara değer verir. Kısa yolları <a href="ch3-clustering.html">kümelenmeyle</a> birlikte açıklar, ama merkez düğümleri açıklamaz.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$\langle k\rangle = 10$ olan rastgele bir ağ $N = 10^4$'ten $N = 10^6$ düğüme büyüyor. Ortalama uzaklığı $\langle d\rangle$ ne kadar büyür?</p>
+  <ol>
+    <li data-why="ln N büyür; dolayısıyla ⟨d⟩ de büyür.">Hiç büyümez.</li>
+    <li>Yaklaşık 2 adım.</li>
+    <li data-why="Bu, kafes davranışı olan ⟨d⟩ ∝ √N olurdu.">10 kat.</li>
+    <li data-why="Bu, ⟨d⟩ ∝ N olurdu.">100 kat.</li>
+  </ol>
+  <div class="explain">$\ln(10^6/10^4)/\ln 10 = 2$: uzaklık yaklaşık 4'ten yaklaşık 6'ya çıkar.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Bunlardan hangisi küçük bir dünya <em>değildir</em>, yani $\langle d\rangle \sim \ln N$ değildir?</p>
+  <ol>
+    <li data-why="Rastgele ağlar referans küçük dünyadır.">$\langle k\rangle = 3$ olan rastgele bir ağ</li>
+    <li data-why="Birkaç kısayol bile logaritmik uzaklıklar verir.">$p = 0.05$ olan bir Watts–Strogatz ağı</li>
+    <li>Kare bir kafes</li>
+    <li data-why="Merkez düğümleri onu rastgele ağdan bile küçük yapar (9.4'e karşı 3.9).">E-posta ağı</li>
+  </ol>
+  <div class="explain">Kare bir kafeste $\langle d\rangle \approx \frac23\sqrt N$'dir, $N$'nin bir kuvveti.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Dünyayı $N = 8\times10^9$ insanlı ve her birinin $\langle k\rangle = 1{,}000$ tanıdığı olan rastgele bir ağ olarak düşünün. $\ln N/\ln\langle k\rangle$ nedir?</p>
+  <ol>
+    <li data-why="Altı, Milgram'ın zincir uzunluğudur, bu kestirim değil.">6</li>
+    <li>3.3</li>
+    <li data-why="⟨k⟩ bir adımda ulaşılan sayıdır, uzaklık değil.">1,000</li>
+    <li data-why="N/⟨k⟩, erişimin her adımda ⟨k⟩ ile çarpıldığını göz ardı eder.">8 × 10⁶</li>
+  </ol>
+  <div class="explain">$22.8/6.91 = 3.3$. Gerçek tanıdıklar örtüşür; bu yüzden gerçek zincirler daha uzundur.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Elektrik şebekesinin gözlenen ortalama uzaklığı 18.8'dir, rastgele karşılığınınki ise 8.5. Neden?</p>
+  <ol>
+    <li data-why="Karşılığı aynı ⟨k⟩ = 2.67'ye sahiptir.">⟨k⟩ değeri çok düşüktür.</li>
+    <li data-why="N değeri karşılıkta eşleştirilmiştir.">Çok küçüktür.</li>
+    <li data-why="Merkez düğümler uzaklıkları kısaltır; şebekenin sözü edilecek merkez düğümü yoktur.">Merkez düğümleri vardır.</li>
+    <li>Bağlantıları yakın istasyonları birleştirir; bu yüzden uzun menzilli kısayolları yoktur.</li>
+  </ol>
+  <div class="explain">Uzaya gömülü olmak şebekeyi kafes benzeri yapar. Uzaklıkları logaritmik yapan, rastgele bağlantılardır.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Bir Watts–Strogatz ağının yeniden bağlama olasılığı $p = 0.01$'dir. Özgün halkayla ($p = 0$) nasıl karşılaştırılır?</p>
+  <ol>
+    <li>⟨d⟩ çok daha küçüktür, ⟨C⟩ ise neredeyse değişmemiştir.</li>
+    <li data-why="Kümelenme yereldir; %1'lik yeniden bağlama az sayıda üçgeni kaldırır.">İkisi de çok daha küçüktür.</li>
+    <li data-why="Her kısayol aynı anda birçok yolu kısaltır.">İkisi de neredeyse değişmemiştir.</li>
+    <li data-why="Rastgele yeniden bağlama üçgenleri yok eder, eklemez.">⟨C⟩ daha büyük, ⟨d⟩ değişmemiştir.</li>
+  </ol>
+  <div class="explain">Uzaklıklar, kümelenmeden çok önce çöker: bu, küçük dünya rejimidir.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>2011'de Facebook'un, her birinin $\langle k\rangle \approx 189$ arkadaşı olan $N = 7.21\times10^8$ kullanıcısı vardı. $\ln N/\ln\langle k\rangle$ nedir?</p>
+  <ol>
+    <li data-why="Bu, Milgram'ın altı derecesidir.">6</li>
+    <li data-why="⟨k⟩ bir adımın erişimidir, uzaklık değil.">189</li>
+    <li>3.9</li>
+    <li data-why="Bu ölçülen değerdir.">4.74</li>
+  </ol>
+  <div class="explain">$20.40/5.24 = 3.89$. Ölçülen değer 4.74'tür, çünkü arkadaşlar örtüşür.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>$2 &lt; \gamma &lt; 3$ olan ölçekten bağımsız ağların (Bölüm 4) ortalama uzaklığı $\langle d\rangle$, $N$ ile nasıl büyür?</p>
+  <ol>
+    <li data-why="Bu iki boyutlu bir kafestir.">$\sqrt N$ gibi.</li>
+    <li data-why="Bu rastgele ağdır; merkez düğümler onu daha da kısaltır.">$\ln N / \ln\langle k\rangle$ gibi.</li>
+    <li data-why="Bu bir zincirdir.">$N$ gibi.</li>
+    <li>$\ln\ln N$ gibi: ultra küçüktürler.</li>
+  </ol>
+  <div class="explain">Merkez düğümler yolların çoğu için kısayol görevi görür; bu yüzden uzaklıklar $\ln N$'den de yavaş büyür.</div>
+</div>
+
+</div></body></html>

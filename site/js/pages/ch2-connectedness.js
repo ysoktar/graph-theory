@@ -1,5 +1,8 @@
 import "../layout.js";
 import { h, figure, button, select, stats, slider } from "../lib/ui.js";
+import { LANG } from "../i18n.js";
+
+const TR = LANG === "tr";
 import { NetView } from "../lib/netview.js";
 import { MatrixView } from "../lib/matrixview.js";
 import { Plot } from "../lib/plot.js";
@@ -39,7 +42,7 @@ import { fmt } from "../lib/stats.js";
     edgeWidth: (u, v) => (bridgeSet.has(key(u, v)) ? 3.5 : 1.6),
     label: (i) => String(i), labelInside: () => true, labelSize: 9.5,
     onEdgeClick: (e, [u, v]) => { g.removeEdge(u, v); update(); },
-    tooltip: (i) => `node ${i} · component of ${comp.sizes[comp.label[i]]} node${comp.sizes[comp.label[i]] > 1 ? "s" : ""}${cut.cutNodes.includes(i) ? " · articulation point" : ""}`,
+    tooltip: (i) => (TR ? `düğüm ${i} · ${comp.sizes[comp.label[i]]} düğümlü bileşen${cut.cutNodes.includes(i) ? " · kesme noktası" : ""}` : `node ${i} · component of ${comp.sizes[comp.label[i]]} node${comp.sizes[comp.label[i]] > 1 ? "s" : ""}${cut.cutNodes.includes(i) ? " · articulation point" : ""}`),
     legend: [{ label: "ringed: articulation point", color: "text" }],
   });
   const mv = new MatrixView(pm, {
@@ -145,5 +148,5 @@ import { fmt } from "../lib/stats.js";
   }
   slider(f.controls, { label: "fraction of links kept", min: 0.02, max: 1, step: 0.01, value: q, format: (v) => fmt.pct(v, 0), onInput: (v) => { q = v; draw(); }, wide: true });
   draw();
-  f.setCaption("Dashed lines: the Molloy–Reed threshold $p_c = \\langle k\\rangle/(\\langle k^2\\rangle - \\langle k\\rangle)$ for each network's degrees. It is exact for a random network with the same degree sequence (configuration model). Real networks deviate from it: clustering wastes links on redundant triangles, while geography and degree correlations shape the paths.");
+  f.setCaption((TR ? "Kesikli çizgiler, her ağın dereceleri için Molloy–Reed eşiğini gösterir: $p_c = \\langle k\\rangle/(\\langle k^2\\rangle - \\langle k\\rangle)$. Eşik, aynı derece dizisine sahip rastgele bir ağ (konfigürasyon modeli) için kesindir. Gerçek ağlar ondan sapar: kümelenme bağlantıları gereksiz üçgenlerde harcar; coğrafya ve derece korelasyonları da yolları biçimlendirir." : "Dashed lines: the Molloy–Reed threshold $p_c = \\langle k\\rangle/(\\langle k^2\\rangle - \\langle k\\rangle)$ for each network's degrees. It is exact for a random network with the same degree sequence (configuration model). Real networks deviate from it: clustering wastes links on redundant triangles, while geography and degree correlations shape the paths."));
 })();

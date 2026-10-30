@@ -1,5 +1,6 @@
 import "../layout.js";
 import { h, figure, segmented, select, stats, tex, tooltip } from "../lib/ui.js";
+import { LANG } from "../i18n.js";
 import { NetView, layouts } from "../lib/netview.js";
 import { MatrixView } from "../lib/matrixview.js";
 import { karateGraph } from "../lib/data.js";
@@ -68,7 +69,9 @@ const tip = tooltip();
       update();
     },
   });
-  f.setCaption("Directed links follow the book's convention: $A_{ij} = 1$ means a link pointing <em>from</em> $j$ <em>to</em> $i$, so row $i$ lists the links arriving at $i$.");
+  f.setCaption(LANG === "tr"
+    ? "Yönlü bağlantılar kitabın kuralını izler: $A_{ij} = 1$, <em>$j$'den $i$'ye</em> yönelen bir bağlantı demektir; bu yüzden $i$. satır $i$'ye gelen bağlantıları listeler."
+    : "Directed links follow the book's convention: $A_{ij} = 1$ means a link pointing <em>from</em> $j$ <em>to</em> $i$, so row $i$ lists the links arriving at $i$.");
   requestAnimationFrame(update);
 }
 function sub(i) { return String(i).split("").map((c) => "₀₁₂₃₄₅₆₇₈₉"[c]).join(""); }

@@ -1,5 +1,10 @@
 import "../layout.js";
-import { $, $$ } from "../lib/ui.js";
+import { $, $$, h } from "../lib/ui.js";
+import { GLOSSARY } from "../glossary.js";
+
+// the glossary is the site-wide one, so this list and the dotted-underline definitions never disagree
+$(".gloss").append(...[...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term, "en", { sensitivity: "base" }))
+  .flatMap((t) => [h("dt", { id: "term-" + t.term.toLowerCase().replace(/[^a-z0-9]+/g, "-") }, t.term), h("dd", {}, t.def)]));
 
 // live filter over the formula cards and glossary entries
 const input = $("#filter");

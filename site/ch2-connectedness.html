@@ -21,54 +21,57 @@
 <p class="lead">A phone is useless if no path leads from it to the phone it calls. Whether a network holds together, and which single links or nodes it depends on, is a question about paths.</p>
 
 <ul>
-  <li><strong>Connected</strong>: a path joins every pair of nodes.</li>
-  <li><strong>Component</strong>: a largest set of nodes joined by paths; no path runs between components.</li>
-  <li><strong>Bridge</strong>: a link whose removal splits a component.</li>
-  <li><strong>Articulation point</strong> (cut vertex): a node whose removal splits a component.</li>
+  <li>A network is <strong>connected</strong> when a path joins every pair of nodes.</li>
+  <li>A <strong>component</strong> is a largest set of nodes that are all joined by paths. No path runs from one component to another.</li>
+  <li>A <strong>bridge</strong> is a link whose removal splits a component in two.</li>
+  <li data-beyond="Not in the book or notebook">An <strong>articulation point</strong> (or cut vertex) is a node whose removal splits a component.</li>
 </ul>
-<p>Numbering the nodes component by component makes $A$ <strong>block diagonal</strong>: all non-zero entries lie in square blocks on the diagonal.</p>
+<p>If the nodes are numbered component by component, the adjacency matrix $A$ becomes <strong>block diagonal</strong>: all its non-zero entries lie in square blocks along the diagonal.</p>
 <div class="callout example">
-  <p>Karate: one component; its only bridge is 0–11 ($k_{11} = 1$), its only articulation point node 0.</p>
+  <p>The karate club is a single component. Its only bridge is the link 0–11 (member 11 has $k_{11} = 1$), and its only articulation point is node 0.</p>
 </div>
 
 <h2>Cut it apart</h2>
 <div data-fig id="fig-cut"></div>
 <div class="callout look">
   <ul>
-    <li>Cutting a bridge (thick dark line) splits a component; any other link has an alternative path.</li>
-    <li>Articulation points (ringed) are single points of failure between clusters.</li>
-    <li>Ordered by component, the matrix is block diagonal.</li>
+    <li>Cutting a bridge (a thick dark line) splits a component; for any other link there is an alternative path.</li>
+    <li>Articulation points (ringed) are single points of failure between groups of nodes.</li>
+    <li>When the nodes are ordered by component, the matrix is block diagonal.</li>
   </ul>
 </div>
 
 <h2>The giant component</h2>
-<p>Large real networks are rarely connected, but one <strong>giant component</strong> holds most nodes; the rest is a "dust" of small components.</p>
+<p>Large real networks are rarely connected, but one <strong>giant component</strong> holds most of the nodes, and the rest form a "dust" of small components.</p>
 <div data-fig id="fig-sizes"></div>
 <div class="callout look">
-  <p>Collaboration: 567 components; the giant holds 21,363 scientists (92%), the second-largest only 21. <a href="ch3-evolution.html">Evolution</a> shows that a random network with $\langle k\rangle > 1$ looks exactly like this.</p>
+  <p>The collaboration network has 567 components. The giant component holds 21,363 scientists (92%), and the second-largest only 21. <a href="ch3-evolution.html">Evolution</a> shows that a random network with $\langle k\rangle > 1$ looks exactly like this.</p>
 </div>
 
+<section data-beyond="Book Chapter 8: Molloy–Reed criterion">
 <h2>How much damage does it take?</h2>
-<p>Remove links at random and track the largest component (preview of <a href="robustness.html">Robustness</a>). The dashed lines mark the <strong>Molloy–Reed threshold</strong>, below which a random network with the same degrees falls apart:</p>
+<p>Remove links at random and follow the size of the largest component (a preview of <a href="robustness.html">Robustness</a>). The dashed lines mark the <strong>Molloy–Reed threshold</strong>: if fewer links than this are kept, a random network with the same degrees falls apart.</p>
 <div class="eq">$$p_c = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}.$$</div>
 <dl class="symbols">
-  <dt>$p_c$</dt><dd>critical fraction of links kept</dd>
-  <dt>$\langle k\rangle$</dt><dd>average degree</dd>
-  <dt>$\langle k^2\rangle$</dt><dd>average squared degree; large when there are hubs</dd>
+  <dt>$p_c$</dt><dd>the critical fraction of links that must be kept</dd>
+  <dt>$\langle k\rangle$</dt><dd>the average degree</dd>
+  <dt>$\langle k^2\rangle$</dt><dd>the average of the squared degrees, which is large when there are hubs</dd>
 </dl>
 <div class="callout example">
-  <p>Collaboration: $8.08/(178.2 - 8.08) \approx 0.048$. Power grid: $2.67/(10.33 - 2.67) \approx 0.35$.</p>
+  <p>For the collaboration network, $p_c = 8.08/(178.2 - 8.08) \approx 0.048$. For the power grid, $p_c = 2.67/(10.33 - 2.67) \approx 0.35$.</p>
 </div>
 <div data-fig id="fig-percolation"></div>
 <div class="callout look">
   <p>With 20% of links kept, the collaboration network's largest component still holds about half the scientists. The power grid, with half its lines gone, keeps only a few percent: it fragments well above $p_c \approx 0.35$, because a lattice-like spatial network has few alternative routes.</p>
 </div>
 
+</section>
+
 <div class="callout why">
   <ul>
-    <li>Components say who can reach whom at all; distances need a path.</li>
+    <li>Components say who can reach whom at all; a distance exists only where there is a path.</li>
     <li>Bridges and articulation points locate single points of failure.</li>
-    <li>$p_c$ predicts from degrees alone how much random damage a network survives.</li>
+    <li>$p_c$ predicts, from the degrees alone, how much random damage a network survives.</li>
   </ul>
 </div>
 
@@ -82,54 +85,74 @@
 </div>
 
 <div class="quiz" data-answer="4">
-  <p>$N = 100$, one component, every node of degree 2. Which is certainly true?</p>
+  <p>A network has $N = 100$ nodes, forms one component, and every node has degree 2. Which statement is certainly true?</p>
   <ol>
-    <li data-why="In a ring every link has an alternative path the other way round.">It has a bridge</li>
-    <li data-why="A tree has N − 1 = 99 links; this network has 100, so it contains a cycle.">It is a tree</li>
+    <li data-why="In a ring every link has an alternative path the other way round.">It has a bridge.</li>
+    <li data-why="A tree has N − 1 = 99 links; this network has 100, so it contains a cycle.">It is a tree.</li>
     <li data-why="L = N⟨k⟩/2 = 100, not N⟨k⟩.">$L = 200$</li>
-    <li>It is a ring: removing any one link keeps it connected</li>
+    <li>It is a ring: removing any one link leaves it connected.</li>
   </ol>
-  <div class="explain">Degree 2 everywhere and connected means one cycle of 100 nodes; splitting it takes two cuts.</div>
+  <div class="explain">A connected network in which every degree is 2 is a single cycle of 100 nodes; splitting it takes two cuts.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>Removing the karate club's only bridge, 0–11, splits off a single member. What is $k_{11}$?</p>
+  <p>Removing the karate club's only bridge, the link 0–11, splits off a single member. What is the degree $k_{11}$ of member 11?</p>
   <ol>
     <li>1</li>
     <li data-why="16 is node 0's degree.">16</li>
     <li data-why="With a second link, member 11 would stay attached after the cut.">2</li>
-    <li data-why="Being split off alone means 0–11 was member 11's only link.">Cannot tell</li>
+    <li data-why="Being split off alone means 0–11 was member 11's only link.">It cannot be told from this.</li>
   </ol>
-  <div class="explain">Member 11 is cut off alone, so 0–11 was its only link. A link to a degree-1 node is always a bridge.</div>
+  <div class="explain">Member 11 is cut off alone, so 0–11 was its only link. A link to a node of degree 1 is always a bridge.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Can a node of degree 1 be an articulation point?</p>
+  <p>Can a node of degree 1 (a leaf) be an articulation point?</p>
   <ol>
-    <li data-why="Removing a leaf removes only its own link; the others stay joined.">Yes, always</li>
-    <li>No</li>
-    <li data-why="Its neighbour's degree does not matter: no path ran through the leaf.">Only if its neighbour is a hub</li>
-    <li data-why="The question is about undirected networks; direction does not change the argument.">Only in directed networks</li>
+    <li data-why="Removing a leaf removes only its own link; the others stay joined.">Yes, always.</li>
+    <li>No.</li>
+    <li data-why="Its neighbour's degree does not matter: no path ran through the leaf.">Only if its neighbour is a hub.</li>
+    <li data-why="The question is about undirected networks; direction does not change the argument.">Only in directed networks.</li>
   </ol>
   <div class="explain">No path between two other nodes passes through a leaf, so removing it disconnects nobody.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>A network with 3 components is numbered component by component. Where can 1s appear in $A$?</p>
+  <p>The nodes of a network with 3 components are numbered component by component. Where can 1s appear in its adjacency matrix $A$?</p>
   <ol>
-    <li data-why="Links join nodes within a component, which lie together in the numbering.">Anywhere</li>
-    <li data-why="Off-diagonal blocks would be links between components, which do not exist.">Only outside the diagonal blocks</li>
-    <li>Only inside the 3 square blocks on the diagonal</li>
-    <li data-why="The diagonal entries Aᵢᵢ are self-loops, which are 0.">Only on the diagonal</li>
+    <li data-why="Links join nodes within a component, which lie together in the numbering.">Anywhere.</li>
+    <li data-why="Off-diagonal blocks would be links between components, which do not exist.">Only outside the diagonal blocks.</li>
+    <li>Only inside the 3 square blocks along the diagonal.</li>
+    <li data-why="The diagonal entries Aᵢᵢ are self-loops, which are 0.">Only on the diagonal itself.</li>
   </ol>
   <div class="explain">A 1 outside the blocks would be a link between components, contradicting their definition.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>Two networks share $\langle k\rangle$; one has hubs (larger $\langle k^2\rangle$). Which survives more random link loss?</p>
+  <p>Two networks have the same average degree $\langle k\rangle$, but one has hubs and therefore a larger $\langle k^2\rangle$. Which one survives more random loss of links?</p>
   <ol>
-    <li>The one with hubs: its $p_c$ is smaller</li>
-    <li data-why="A larger ⟨k²⟩ in the denominator makes p_c smaller, not larger.">The one without hubs</li>
-    <li data-why="p_c depends on ⟨k²⟩ as well as ⟨k⟩.">Both equally</li>
-    <li data-why="Molloy–Reed gives p_c from the degrees alone.">Cannot tell from degrees</li>
+    <li>The one with hubs, because its $p_c$ is smaller.</li>
+    <li data-why="A larger ⟨k²⟩ in the denominator makes p_c smaller, not larger.">The one without hubs.</li>
+    <li data-why="p_c depends on ⟨k²⟩ as well as ⟨k⟩.">Both equally.</li>
+    <li data-why="Molloy–Reed gives p_c from the degrees alone.">It cannot be told from the degrees.</li>
   </ol>
-  <div class="explain">Larger $\langle k^2\rangle$ lowers $p_c$: hubs keep the network together under random failure (collaboration 0.048 against power grid 0.35).</div>
+  <div class="explain">A larger $\langle k^2\rangle$ lowers $p_c$: hubs keep the network together under random failure (0.048 for the collaboration network against 0.35 for the power grid).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>A network has 10 nodes, 3 components and no cycles at all. How many links does it have?</p>
+  <ol>
+    <li data-why="N − 1 = 9 is a single tree; each extra component removes one link.">9</li>
+    <li>7</li>
+    <li data-why="10 links on 10 nodes would force a cycle in some component.">10</li>
+    <li data-why="3 is the number of components.">3</li>
+  </ol>
+  <div class="explain">Each component is a tree, and a tree has one link fewer than it has nodes, so $L = 10 - 3 = 7$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>In a random network, above which value of the average degree $\langle k\rangle$ does a giant component appear?</p>
+  <ol>
+    <li data-why="ln N is where the network becomes fully connected, a later stage.">$\ln N$</li>
+    <li data-why="At ⟨k⟩ = 0.5 there is no giant component yet.">0.5</li>
+    <li data-why="That would be a dense network; the threshold is small and does not grow with N.">$N/2$</li>
+    <li>1</li>
+  </ol>
+  <div class="explain">At $\langle k\rangle = 1$, one link per node on average, a giant component emerges (Part II, Evolution).</div>
 </div>
 
 </div></main>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>From Graphs to Hubs · Network Science, interactively</title>
-<meta name="description" content="An interactive companion to chapters 2–4 of Barabási's Network Science: graph theory, random networks and the scale-free property, explored on the book's own data.">
+<meta name="description" content="An interactive companion to Barabási's Network Science for the BIL489/589 Graph Theory course: graph theory, random and scale-free networks, the Barabási–Albert model, degree correlations, robustness and node embeddings, explored on the book's own data.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -19,7 +19,7 @@
 
 <section class="hero">
   <div>
-    <div class="kicker"><span>An interactive companion to <a href="https://networksciencebook.com/">Network Science</a>: chapters 2–4 in depth, chapters 5–10 and graph ML as in the BIL489/589 Graph Theory course</span></div>
+    <div class="kicker"><span>An interactive companion to <a href="https://networksciencebook.com/">Network Science</a> for the BIL489/589 Graph Theory course: chapters 1–5 in depth, then chapters 6–10, graph ML and node embeddings</span></div>
     <h1>From Graphs to Hubs</h1>
     <p class="question">How does a real network differ from a random one, and why does it matter?</p>
     <p class="lead">Build networks, run the models and fit the data yourself. Every figure on this site is live, and every number is computed in your browser, much of it from the book's own reference networks.</p>
@@ -37,28 +37,74 @@
 <div class="cards" id="parts"></div>
 
 <h2>How the topics connect</h2>
-<p>Each box is a page; an arrow means "leads to". Dashed arrows: a <strong>null model</strong>, a network wired at random under constraints, predicts what randomness alone would give, and the data are compared with it.</p>
+<p>Each box is a page, and an arrow means "leads to". The dashed arrows point to <strong>null models</strong>: networks wired at random while keeping some property of the data fixed. A null model shows what randomness alone would produce, so the data can be compared with it.</p>
 <div id="concept-map"></div>
 <ul>
-  <li><strong>Degrees:</strong> the random model predicts Poisson degrees; real networks have heavy tails, described by power laws, which create hubs; hubs decide robustness and spreading.</li>
-  <li><strong>Distances:</strong> short paths are generic (small worlds); hubs make them shorter still (ultra-small).</li>
-  <li><strong>Clustering:</strong> far above the random value; Watts–Strogatz adds it while keeping paths short.</li>
-  <li><strong>Null models:</strong> G(N, L) keeps only $N$ and $L$; the configuration model also keeps every degree; degree-preserving randomization does so by rewiring the real links.</li>
+  <li><strong>Degrees:</strong> the random model predicts Poisson degrees, but real networks have heavy tails. Power laws describe these tails, and they create hubs. The hubs in turn decide how robust a network is and how fast things spread on it.</li>
+  <li><strong>Distances:</strong> short paths appear in almost any network (small worlds). Hubs make them shorter still (ultra-small worlds).</li>
+  <li><strong>Clustering:</strong> real networks have far more triangles than random ones. The Watts–Strogatz model adds them while keeping paths short.</li>
+  <li><strong>Null models:</strong> G(N, L) keeps only the number of nodes $N$ and links $L$. The configuration model also keeps every node's degree. Degree-preserving randomization keeps the degrees too, by rewiring the real links.</li>
 </ul>
 
 <h2>How to read the figures</h2>
-<p>The colour conventions are the notebook's, used the same way throughout:</p>
+<p>The colours follow the class notebook and mean the same thing on every page:</p>
 <div class="legend" style="font-size:.92rem;gap:8px 22px;margin-bottom:1rem">
   <span class="legend-item"><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="var(--s1)"/></svg>real data (other series: orange, then aqua)</span>
   <span class="legend-item"><svg width="12" height="12"><circle cx="6" cy="6" r="4.5" fill="var(--random)"/></svg>random network</span>
   <span class="legend-item"><svg width="18" height="10"><line x1="1" x2="17" y1="5" y2="5" stroke="var(--theory)" stroke-width="2" stroke-dasharray="4 3"/></svg>theory, a formula</span>
 </div>
 <ul>
-  <li><strong>Hover</strong> any chart for exact values; every chart also has a <em>Data table</em> underneath.</li>
-  <li><strong>Network views</strong> can be dragged, panned and zoomed (click inside first, then scroll or pinch). <em>Re-layout</em> shakes the layout and <em>Fit</em> zooms back to the whole network.</li>
-  <li>Boxes marked <strong>Look for</strong> say what a figure should show you. <strong>Discuss</strong> boxes are the notebook's discussion questions, with hints. <strong>Check yourself</strong> questions give instant feedback.</li>
+  <li><strong>Hover</strong> over any chart to see exact values. Every chart also has a <em>Data table</em> underneath.</li>
+  <li><strong>Network drawings</strong> can be dragged, panned and zoomed: click inside first, then scroll or pinch. <em>Re-layout</em> shakes the layout, and <em>Fit</em> zooms back out to the whole network.</li>
   <li>Heavier simulations run in a background thread. Their figures fill in as results arrive.</li>
 </ul>
+
+<h2 id="reading-guide">How to read the explanations</h2>
+<p>Every page uses the same few building blocks. Each one below is a live example of itself.</p>
+
+<h3>Words and symbols</h3>
+<p>A <span class="term" tabindex="0" data-term="Dotted underline" data-def="Hover over or tap an underlined word or symbol to see its definition. Each term is underlined where it first appears on a page, and again inside each quiz.">dotted underline</span> marks a technical word or symbol: hover over it or tap it for a one-line definition. All definitions are collected in the <a href="formulas.html#glossary">glossary</a>.</p>
+<p>Every equation is followed by a <strong>"where" list</strong> that says what each symbol means:</p>
+<div class="eq">$$\langle k\rangle = \frac{2L}{N}$$</div>
+<dl class="symbols">
+  <dt>$\langle k\rangle$</dt><dd>average degree: the mean number of links per node</dd>
+  <dt>$L$</dt><dd>number of links; the 2 is there because every link has two ends</dd>
+  <dt>$N$</dt><dd>number of nodes</dd>
+</dl>
+
+<h3>Boxes</h3>
+<div class="callout why"><p>Says why a topic is needed: what problem it solves, what it lets us predict or do.</p></div>
+<div class="callout connect"><p>Says how the topic relates to others: what it builds on, what it explains, and what later replaces or refines it.</p></div>
+<div class="callout key"><p>The one result or rule to remember from a section.</p></div>
+<div class="callout example"><p>Real numbers put into a formula, step by step, so that you can check the method by hand.</p></div>
+<div class="callout gotcha"><p>A common mistake or a misleading shortcut, and how to avoid it.</p></div>
+<div class="callout try"><p>Something to do with the figure, or an exam-style problem; its worked solution opens with a button.</p>
+  <div class="hint" data-label="Show solution"><p>Solutions are written as numbered steps, so you can compare your working line by line.</p></div></div>
+<div class="callout look"><p>What to watch for in the interactive figure just above or below.</p></div>
+<div class="callout discuss"><p>An open question to think about (often from the notebook). Try to answer it before you open the hint.</p>
+  <div class="hint"><p>Hints and worked solutions stay hidden until you ask for them.</p></div></div>
+<div class="callout fix" data-label="Correction"><p>A statement in the book, the class notebook or a software package that turned out to be wrong, with the corrected version and the evidence.</p></div>
+
+<h3>Course scope</h3>
+<p>The chips above each page title say how the page relates to the BIL489/589 course:
+  <span class="chip scope slides"><span class="dot"></span>In the slides</span>
+  <span class="chip scope syllabus"><span class="dot"></span>Syllabus topic · no slides yet</span>
+  <span class="chip scope beyond"><span class="dot"></span>Beyond the course</span>.
+  The side menu tags the last two kinds of page with "no slides" and "extra".</p>
+<p data-beyond="e.g. Book Advanced Topic 3.G">Inside a page, a purple badge and a dashed left border mark material that is not in the course slides (book chapters 1–7) or the class notebook, such as the book's Advanced Topics. Read it for depth; it is unlikely to be exam material.</p>
+
+<h3>Questions</h3>
+<p>Each page ends its sections with <strong>Check yourself</strong> questions. A wrong choice tells you why it is wrong; the right one explains the answer. The <a href="exam-midterm.html">midterm</a> and <a href="exam-final.html">final</a> study guides have their own exam-style practice questions, and can mix these in for review.</p>
+<div class="quiz" data-answer="3">
+  <p>A network has $N = 10$ nodes and $L = 15$ links. What is its average degree $\langle k\rangle$?</p>
+  <ol>
+    <li data-why="That is L/N: it counts each link once, but every link adds to the degree of two nodes.">1.5</li>
+    <li data-why="That is N/L, the formula turned upside down.">0.67</li>
+    <li>3</li>
+    <li data-why="That is 2L, the sum of all degrees; divide it by N to get the average.">30</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 2L/N = 2 \cdot 15 / 10 = 3$.</div>
+</div>
 
 <div class="callout key">
   <p><strong>Everything runs on your machine.</strong> This is a static website. Simulations, fits and graph algorithms run as JavaScript in your browser, and nothing is sent anywhere. The real-network data are compact summaries (degree histograms, fits, clustering, distances) precomputed once from the book's edge lists. For six of the eight networks the full edge lists are included, so the site can also analyse those networks live.</p>

@@ -74,7 +74,7 @@
 <p>A real degree distribution is rarely a power law from $k = 1$; at best its tail is, above an unknown $k_{\min}$. Clauset, Shalizi and Newman (<em>SIAM Review</em> 51, 661, 2009) proposed three steps:</p>
 <ol>
   <li><strong>Fit.</strong> For every candidate $k_{\min}$, fit $\gamma$ by maximum likelihood on $k \ge k_{\min}$ and compute the Kolmogorov–Smirnov distance $D$. Keep the $k_{\min}$ with the smallest $D$.</li>
-  <li><strong>Test.</strong> Draw synthetic data sets from the fitted model, refit each, and compute $p$, the share with $D$ at least the observed one. If $p &lt; 0.1$, the power law is ruled out.</li>
+  <li data-beyond="Book Advanced Topic 4.C; not in the notebook"><strong>Test.</strong> Draw synthetic data sets from the fitted model, refit each, and compute $p$, the share with $D$ at least the observed one. If $p &lt; 0.1$, the power law is ruled out.</li>
   <li><strong>Compare.</strong> Likelihood-ratio tests against alternatives such as the log-normal or the exponential.</li>
 </ol>
 <div class="eq">$$D = \max_{k \ge k_{\min}} \bigl|S(k) - P(k)\bigr|$$</div>
@@ -85,16 +85,16 @@
   <dt>$p$</dt><dd>goodness-of-fit $p$-value from the bootstrap</dd>
 </dl>
 <div data-fig id="fig-scan"></div>
-<div class="callout gotcha">
+<div class="callout gotcha" data-beyond="This site's own check of powerlaw 2.0 defaults">
   <p><strong>Check the defaults of a fitting routine.</strong> The Python <code>powerlaw</code> package (2.0) restricts the exponent to $\gamma \le 3$ unless told otherwise and silently discards any $k_{\min}$ whose best exponent exceeds 3. For the Internet this moves the result from $k_{\min} = 70$, $\hat\gamma = 3.40$ to $k_{\min} = 36$, $\hat\gamma = 2.94$: the "scale-free regime" comes from the default, not the data. Try the toggle above.</p>
 </div>
 
 <div data-fig id="fig-alt"></div>
-<div data-fig id="fig-gof"></div>
+<div data-fig id="fig-gof" data-beyond="Book Advanced Topic 4.C; not in the notebook"></div>
 <div class="callout fix" data-errata="N14"></div>
 
 <h2>Three bugs in the powerlaw package</h2>
-<p>Checking the bootstrap of step 2 against Python turned up three defects in the random-number generators of <code>powerlaw</code> 2.0.0, which any bootstrap built on <code>generate_random()</code> inherits. The notebook is not affected: its only call uses $k_{\min} = 1$, where the generator happens to be exact. Reproductions, a proposed fix and validation scripts are in <a href="https://github.com/ysoktar/graph-theory/tree/main/research/powerlaw-discrete-generator">research/powerlaw-discrete-generator</a>.</p>
+<p data-beyond="This site's own check of powerlaw 2.0.0">Checking the bootstrap of step 2 against Python turned up three defects in the random-number generators of <code>powerlaw</code> 2.0.0, which any bootstrap built on <code>generate_random()</code> inherits. The notebook is not affected: its only call uses $k_{\min} = 1$, where the generator happens to be exact. Reproductions, a proposed fix and validation scripts are in <a href="https://github.com/ysoktar/graph-theory/tree/main/research/powerlaw-discrete-generator">research/powerlaw-discrete-generator</a>.</p>
 <div class="callout fix" data-software="S1"></div>
 <div class="callout fix" data-software="S2"></div>
 <div class="callout fix" data-software="S3"></div>
@@ -158,6 +158,39 @@
     <li>Not established: that needs the bootstrap goodness-of-fit test</li>
   </ol>
   <div class="explain">A likelihood ratio only says which of two models is less bad. Collaboration, email and the WWW beat the exponential yet fail the bootstrap test.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>The tail grows from $n = 400$ to $n = 1{,}600$ nodes at the same $\hat\gamma$. What happens to $\sigma$?</p>
+  <ol>
+    <li data-why="σ falls like 1/√n, not 1/n.">It quarters</li>
+    <li data-why="More data always narrows the estimate.">It stays the same</li>
+    <li data-why="More data reduces the error.">It doubles</li>
+    <li>It halves</li>
+  </ol>
+  <div class="explain">$\sigma = (\hat\gamma - 1)/\sqrt n$; four times more data gives $\sqrt 4 = 2$ times smaller error.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Restricting the Internet fit to $\gamma \le 3$ moves $\hat\gamma$ from 3.40 to 2.94. What does that change in Chapter 4's terms?</p>
+  <ol>
+    <li>The predicted regime: from random-like (finite $\langle k^2
+angle$) to scale-free (divergent $\langle k^2
+angle$)</li>
+    <li data-why="Crossing γ = 3 changes whether ⟨k²⟩ diverges.">Nothing: both exponents describe the same network</li>
+    <li data-why="The data are unchanged; only the fit differs.">The number of nodes in the network</li>
+    <li data-why="The exponent feeds every prediction of the model.">Only the plot colours</li>
+  </ol>
+  <div class="explain">$\gamma = 3$ is the boundary between divergent and finite $\langle k^2\rangle$ (<a href="ch4-exponent.html">role of γ</a>), so a default can change the conclusion.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>What does the Kolmogorov–Smirnov distance $D$ measure?</p>
+  <ol>
+    <li data-why="That is a least-squares criterion; D takes the maximum gap.">The average squared error between data and model</li>
+    <li data-why="No statistic gives that; p is the share of synthetic samples with a larger D.">The probability that the power law is true</li>
+    <li>The largest gap between the observed and fitted cumulative distributions</li>
+    <li data-why="D compares distributions, not exponents.">The difference between two estimates of $\gamma$</li>
+  </ol>
+  <div class="explain">$D = \max_k |S(k) - P(k)|$ over the tail. The $k_{\min}$ with the smallest $D$ is kept.</div>
 </div>
 
 </div></main>

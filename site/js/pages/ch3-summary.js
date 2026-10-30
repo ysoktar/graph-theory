@@ -1,4 +1,5 @@
 import "../layout.js";
+import { t as tl } from "../i18n.js";
 import { h, figure, select, dataTable } from "../lib/ui.js";
 import { fmt, poissonKmax, giantComponentFraction } from "../lib/stats.js";
 import { loadNetworks, NETWORK_ORDER, SHORT } from "../lib/data.js";
@@ -49,7 +50,7 @@ const verdictEl = ([cls, text]) => h("span", { class: "verdict " + cls, html: (c
     const d = networks[name];
     const rows = PROPS.map((p) => [p.label, p.f(p.real(d)), p.f(p.theory(d)), p.f(p.sim(d)), verdictEl(judge(p, p.real(d), p.sim(d)))]);
     host.replaceChildren(dataTable([
-      { label: "Property", align: "left" }, { label: `${d.description} (data)` }, { label: "random theory" }, { label: "G(N, L) simulated" }, { label: "random model gets it…", align: "left" },
+      { label: "Property", align: "left" }, { label: `${tl(d.description)} (${tl("data")})` }, { label: "random theory" }, { label: "G(N, L) simulated" }, { label: "random model gets it…", align: "left" },
     ], rows));
   }
   select(f.controls, { label: "Network", value: name, options: NETWORK_ORDER.map((n) => ({ value: n, label: networks[n].description })), onChange: (v) => { name = v; draw(); } });

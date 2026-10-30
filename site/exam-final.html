@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final study guide · From Graphs to Hubs</title>
+<meta name="description" content="What to know for the BIL489/589 final, weighted to Ch 6–8, GraphML and node embeddings, with exam-style problems and a practice set.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/exam.js"></script>
+</head>
+<body data-page="exam-final">
+<main><div class="content">
+
+<h1>Final study guide</h1>
+<p class="lead">The whole course, weighted to what came after the midterm: evolving networks and fitness (Ch 6), degree correlations (Ch 7), robustness (Ch 8), graph machine learning and node embeddings. Each topic has the formulas you will use, exam-style problems with worked solutions and common mistakes, and the guide ends with a practice set of new exam-style questions.</p>
+
+<div class="callout key">
+  <p><strong>What is tested is use, not memory.</strong> Exam-style questions give you the formulas. What you must be able to do is pick the right formula, put the numbers in, and say what the result means for the network: compare it with a model, predict what changes, or spot a flawed claim.</p>
+</div>
+
+<div class="callout gotcha">
+  <p><strong>Scope is an assumption.</strong> The syllabus gives no exam scopes or dates. This guide assumes the final is cumulative, with most weight on Ch 6–8, GraphML and node embeddings. Confirm with the instructor.</p>
+</div>
+
+<table class="simple">
+  <thead><tr><th>Course</th><th>Midterm</th><th>Homework</th><th>Final</th><th>Paper presentation</th></tr></thead>
+  <tbody>
+    <tr><td>BIL489</td><td>40%</td><td>10%</td><td>50%</td><td>–</td></tr>
+    <tr><td>BIL589</td><td>35%</td><td>10%</td><td>45%</td><td>10% (<a href="#papers">paper ideas</a>)</td></tr>
+  </tbody>
+</table>
+
+<h2>How to study</h2>
+<ol>
+  <li>Refresh Ch 1–5 with the <a href="#recap">recap</a>; use the <a href="exam-midterm.html">midterm guide</a> for any gap.</li>
+  <li>For Ch 6–8 and GraphML, read <strong>Must know</strong>: the formulas you will be given, with every symbol explained. Learn when each applies, not the formula itself.</li>
+  <li>Solve the <strong>exam-style problems</strong> on paper before opening the solutions, and finish each with one sentence on what the number tells you.</li>
+  <li>Take the <a href="#practice">practice set</a> until you score 80% or more on a fresh set.</li>
+</ol>
+
+<h2>Formula checklist</h2>
+<table class="simple">
+  <thead><tr><th>Formula</th><th>Meaning</th><th>Page</th></tr></thead>
+  <tbody>
+    <tr><td>$k_i(t) = m(t/t_i)^{\beta}$, $\gamma = 1 + 1/\beta$</td><td>degree growth sets the exponent (BA: $\beta = \frac12$, $\gamma = 3$)</td><td><a href="ch5-preview.html">BA model</a></td></tr>
+    <tr><td>$\Pi_i = \eta_ik_i/\sum_j\eta_jk_j$</td><td>fitness-weighted preferential attachment</td><td><a href="evolving.html">Fitness</a></td></tr>
+    <tr><td>$\beta(\eta) = \eta/C$, $\int\rho(\eta)\frac{\eta}{C-\eta}d\eta = 1$</td><td>each node grows at its own rate</td><td><a href="evolving.html">Fitness</a></td></tr>
+    <tr><td>uniform $\rho$: $C = 1.255$, $p_k \sim k^{-2.255}/\ln k$</td><td>fitness lowers $\gamma$ below 3</td><td><a href="evolving.html">Fitness</a></td></tr>
+    <tr><td>$\gamma = 3 + A/m$</td><td>initial attractiveness raises $\gamma$</td><td><a href="#ch6">Ch 6 below</a></td></tr>
+    <tr><td>$q_k = kp_k/\langle k\rangle$</td><td>degree at the end of a random link</td><td><a href="correlations.html">Correlations</a></td></tr>
+    <tr><td>$k_{nn}(k)$; neutral $= \langle k^2\rangle/\langle k\rangle$</td><td>mean neighbour degree; flat if uncorrelated</td><td><a href="correlations.html">Correlations</a></td></tr>
+    <tr><td>$k_{nn}(k) \sim k^\mu$; $r \in [-1,1]$</td><td>sign of $\mu$ or $r$: assortative (+) or disassortative (−)</td><td><a href="correlations.html">Correlations</a></td></tr>
+    <tr><td>$k_s \sim (\langle k\rangle N)^{1/2}$</td><td>structural cutoff: hubs above it cannot link as often as chance requires</td><td><a href="correlations.html">Correlations</a></td></tr>
+    <tr><td>$\kappa = \langle k^2\rangle/\langle k\rangle &gt; 2$</td><td>Molloy–Reed: giant component exists</td><td><a href="robustness.html">Robustness</a></td></tr>
+    <tr><td>$f_c = 1 - 1/(\kappa - 1)$</td><td>random failures needed to break the network</td><td><a href="robustness.html">Robustness</a></td></tr>
+    <tr><td>$f_c^{ER} = 1 - 1/\langle k\rangle$</td><td>same for a random network</td><td><a href="robustness.html">Robustness</a></td></tr>
+    <tr><td>$p(s) \sim s^{-\alpha}$, $\alpha = \frac32$ or $\frac{\gamma}{\gamma-1}$</td><td>cascade (avalanche) sizes</td><td><a href="#ch8">Ch 8 below</a></td></tr>
+    <tr><td>$L = D - A$, $x^\top Lx = \sum_{(i,j)}(x_i - x_j)^2$</td><td>Laplacian: smooth vectors have low energy</td><td><a href="embeddings.html">Embeddings</a></td></tr>
+    <tr><td>$P(v\mid u) = e^{z_u\cdot z_v}/\sum_n e^{z_u\cdot z_n}$</td><td>skip-gram objective of DeepWalk / node2vec</td><td><a href="embeddings.html">Embeddings</a></td></tr>
+    <tr><td>$h_v^{(l+1)} = \sigma\big(W^{(l)}\cdot\text{agg}\{h_u^{(l)}\}\big)$</td><td>GNN message passing</td><td><a href="embeddings.html">GraphML</a></td></tr>
+    <tr><td>CN, Jaccard, Adamic–Adar, $k_uk_v$; AUC</td><td>link-prediction scores and their evaluation</td><td><a href="embeddings.html">GraphML</a></td></tr>
+  </tbody>
+</table>
+
+<div class="callout connect">
+  <p>One storyline runs through the course:</p>
+  <ol>
+    <li>The <strong>random network</strong> is the null model: what chance gives (Ch 3).</li>
+    <li>Real networks are <strong>scale-free</strong>: hubs, huge $\langle k^2\rangle$ (Ch 4).</li>
+    <li>The <strong>BA model</strong> explains where power laws come from (Ch 5).</li>
+    <li><strong>Fitness</strong> explains why latecomers win and why $\gamma \ne 3$ (Ch 6).</li>
+    <li><strong>Correlations</strong> refine who links to whom, beyond the degrees (Ch 7).</li>
+    <li><strong>Robustness</strong> depends on $\langle k^2\rangle$: hubs make failures harmless and attacks deadly (Ch 8). <span data-beyond="Book Ch 10">The epidemic threshold depends on the same ratio.</span></li>
+    <li><strong>Embeddings</strong> turn each node's position into a vector, so machine learning can use the structure (GraphML).</li>
+  </ol>
+</div>
+
+<!-- ============================== RECAP ============================== -->
+<section id="recap">
+<h2>Ch 1–5 · Compact recap</h2>
+<p>Full treatment with problems: <a href="exam-midterm.html">midterm guide</a>. The results the later chapters build on:</p>
+<ul>
+  <li>$\langle k\rangle = 2L/N$; $p_k$; $C_i = 2L_i/[k_i(k_i-1)]$; $\langle d\rangle$ (<a href="exam-midterm.html#ch2">Ch 2</a>).</li>
+  <li>Random network: Poisson $p_k$, $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, giant component for $\langle k\rangle &gt; 1$, $\langle d\rangle \approx \ln N/\ln\langle k\rangle$, $C = \langle k\rangle/N$ (<a href="exam-midterm.html#ch3">Ch 3</a>).</li>
+  <li>Power law $p_k \sim k^{-\gamma}$; $k_{\max} = k_{\min}N^{1/(\gamma-1)}$; $\langle k^2\rangle \to \infty$ for $\gamma &lt; 3$; configuration model $p_{ij} = k_ik_j/2L$ (<a href="exam-midterm.html#ch4">Ch 4</a>).</li>
+  <li>BA: $\Pi(k) = k/\sum_j k_j$, $k_i = m(t/t_i)^{1/2}$, $p_k \approx 2m^2k^{-3}$; both growth and preference needed (<a href="exam-midterm.html#ch5">Ch 5</a>).</li>
+</ul>
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> A network has $\langle k\rangle = 5$ and $\langle k^2\rangle = 255$. (a) Is its degree distribution Poisson? (b) Mean degree of a random neighbour? (c) Giant component? (d) Random failures needed to destroy it?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>(a) Poisson would give $\langle k^2\rangle = 5 \times 6 = 30$. 255 is far larger: heavy tail, hubs.</li>
+      <li>(b) $\langle k^2\rangle/\langle k\rangle = 51$ (friendship paradox, Ch 7).</li>
+      <li>(c) $\kappa = 51 &gt; 2$: yes (Molloy–Reed, Ch 8).</li>
+      <li>(d) $f_c = 1 - 1/50 = 98\%$, assuming random wiring.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Which model fits each description: Erdős–Rényi, Watts–Strogatz, configuration model, Barabási–Albert? (a) Tests whether a property follows from the degrees alone. (b) Short paths and high clustering, no hubs. (c) Older nodes are larger; $\gamma = 3$. (d) Poisson degrees; the baseline for "chance".</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>(a) Configuration model (or degree-preserving randomization): degrees fixed, all else random.</li>
+      <li>(b) Watts–Strogatz.</li>
+      <li>(c) Barabási–Albert.</li>
+      <li>(d) Erdős–Rényi. Book Table 6.1: ER and WS are <em>static</em>, the configuration model is <em>generative</em> (degrees put in), BA is <em>evolving</em> (degrees explained).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> In two or three sentences each: what does each model add to the previous one? Random → scale-free description → BA → fitness.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Random network: explains giant component and small world; predicts no hubs and $C \to 0$.</li>
+      <li>Power law: describes the hubs and predicts huge $\langle k^2\rangle$, $k_{\max} \sim N^{1/(\gamma-1)}$, ultra-small distances. It does not say why.</li>
+      <li>BA: growth + preferential attachment produce the power law ($\gamma = 3$). But the oldest node always wins and $\gamma$ is fixed.</li>
+      <li>Fitness: growth rate depends on quality too; latecomers can win and $\gamma$ changes with $\rho(\eta)$.</li>
+    </ol>
+  </div>
+</div>
+</section>
+
+<!-- ============================== CH 6 ============================== -->
+<section id="ch6">
+<h2>Ch 6 · Evolving networks</h2>
+<p>Why we need it: in the BA model age alone decides success, so the oldest node is always the largest and $\gamma = 3$. Real networks have late winners (Google was a latecomer to search) and exponents from 2 to 5. Chapter 6 adds the missing processes.</p>
+<h3>Must know</h3>
+<p><strong>Bianconi–Barabási (fitness) model.</strong> Each new node gets a fitness $\eta$ drawn from $\rho(\eta)$, fixed for life. Links attach with</p>
+<div class="eq">$$\Pi_i = \frac{\eta_ik_i}{\sum_j \eta_jk_j}$$</div>
+<dl class="symbols">
+  <dt>$\eta_i$</dt><dd>fitness of node $i$: its intrinsic attractiveness</dd>
+  <dt>$\rho(\eta)$</dt><dd>fitness distribution</dd>
+  <dt>$\sum_j \eta_jk_j$</dt><dd>normalisation over all nodes</dd>
+</dl>
+<p><strong>Degree dynamics.</strong></p>
+<div class="eq">$$k_i(t) = m\Big(\frac{t}{t_i}\Big)^{\beta(\eta_i)}, \qquad \beta(\eta) = \frac{\eta}{C}, \qquad \int\rho(\eta)\,\frac{\eta}{C - \eta}\,d\eta = 1$$</div>
+<dl class="symbols">
+  <dt>$\beta(\eta)$</dt><dd>dynamical exponent, now different for each node: fitter nodes grow faster</dd>
+  <dt>$C$</dt><dd>constant fixed by $\rho(\eta)$; it makes the total $\sum_j\eta_jk_j$ grow like $Cmt$</dd>
+  <dt>$t_i$</dt><dd>arrival time of node $i$</dd>
+</dl>
+<ul>
+  <li>Equal fitness: $C = 2$, $\beta = \frac12$: back to BA.</li>
+  <li>Uniform $\rho$ on $[0,1]$: $e^{-2/C} = 1 - 1/C$, so $C = 1.255$ and $p_k \sim k^{-(1+C)}/\ln k$: $\gamma = 2.255$ with a log correction.</li>
+  <li>In general $p_k$ is a mixture of power laws, one per fitness: $p_k \approx C\int d\eta\,\frac{\rho(\eta)}{\eta}\big(\frac mk\big)^{C/\eta+1}$.</li>
+</ul>
+<p><strong>Measuring fitness.</strong> Take logs: $\ln k_i(t) = \beta(\eta_i)\ln t + B_i$. The slope of $\ln k$ against $\ln t$ gives $\beta$, hence $\eta$ up to the factor $C$. On the Web, $\rho(\eta)$ is exponential: fitness differences are small, and growth amplifies them, $\frac{k_2-k_1}{k_1} \sim t^{(\eta_2-\eta_1)/C}$.</p>
+<p><strong>Bose–Einstein condensation.</strong> Map fitness to energy, $\varepsilon_i = -\frac{1}{\beta_T}\ln\eta_i$ (fitter = lower energy), and each link end to a particle. Two phases, decided only by $\rho(\eta)$:</p>
+<ul>
+  <li><em>Fit-get-rich</em> (scale-free): the fittest node becomes the largest hub, closely followed by others.</li>
+  <li><em>Winner-takes-all</em> (condensate): the fittest node keeps a finite share of all links; hub-and-spoke, not scale-free.</li>
+</ul>
+<p><strong>Other elementary processes</strong> (Section 6.5; each extends BA):</p>
+<table class="simple">
+  <thead><tr><th>Process</th><th>Exponent</th><th>Effect</th></tr></thead>
+  <tbody>
+    <tr><td>Initial attractiveness $\Pi \sim A + k$</td><td>$\gamma = 3 + A/m$</td><td>raises $\gamma$; small-degree saturation $p_k \sim (k+A)^{-\gamma}$</td></tr>
+    <tr><td>$n$ internal links per step, double preferential</td><td>$\gamma = 2 + \frac{m}{m+2n}$</td><td>lowers $\gamma$ to between 2 and 3</td></tr>
+    <tr><td>$n$ internal links per step, random</td><td>$\gamma = 3 + 2n/m$</td><td>raises $\gamma$</td></tr>
+    <tr><td>Accelerated growth $m(t) = m_0t^\theta$</td><td>$\gamma = 3 + \frac{2\theta}{1-\theta}$</td><td>raises $\gamma$</td></tr>
+    <tr><td>Node deletion at rate $r &lt; 1$</td><td>$\gamma = 3 + \frac{2r}{1-r}$</td><td>exponential $p_k$ at $r = 1$</td></tr>
+    <tr><td>Aging $\Pi \sim k\,(t - t_i)^{-\nu}$</td><td>$\gamma &lt; 3$ for $\nu &lt; 0$</td><td>$\gamma \to \infty$ as $\nu \to 1$; no power law for $\nu &gt; 1$</td></tr>
+  </tbody>
+</table>
+<dl class="symbols">
+  <dt>$A$</dt><dd>initial attractiveness: lets nodes with $k = 0$ get links</dd>
+  <dt>$n$</dt><dd>links added between existing nodes per new node</dd>
+  <dt>$\theta$</dt><dd>acceleration: links per new node grow like $t^\theta$</dd>
+  <dt>$r$</dt><dd>node removal rate (nodes removed per node added)</dd>
+  <dt>$\nu$</dt><dd>aging exponent: attractiveness falls with age $t - t_i$</dd>
+</dl>
+<div class="callout fix" data-book="B12"></div>
+<p>What this lets you do: predict $p_k$ from the processes that build the network. Book: "get the dynamics right; the topology is the bonus."</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Half the nodes have $\eta = 1$, half $\eta = 0.5$. Find $C$, both dynamical exponents and the exponent of the tail.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Condition: $\frac12\cdot\frac{1}{C-1} + \frac12\cdot\frac{0.5}{C-0.5} = 1$.</li>
+      <li>Multiply out: $0.5(C-0.5) + 0.25(C-1) = (C-1)(C-0.5)$, i.e. $C^2 - 2.25C + 1 = 0$.</li>
+      <li>Roots 1.640 and 0.610. $C$ must exceed $\eta_{\max} = 1$ (else $\beta &gt; 1$), so $C = 1.640$.</li>
+      <li>$\beta(1) = 1/1.640 = 0.61$; $\beta(0.5) = 0.30$.</li>
+      <li>Each fitness class gives $p_k \sim k^{-(1 + C/\eta)}$; the fit class dominates the tail: $\gamma = 1 + 1/0.61 = 2.64$. Between BA (3) and uniform fitness (2.255).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Same network, $m = 2$. Node A arrives at $t = 100$ with $\eta = 0.5$; node B at $t = 2{,}000$ with $\eta = 1$. When does B overtake A?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$k_A = 2(t/100)^{0.305}$, $k_B = 2(t/2000)^{0.610}$.</li>
+      <li>Equal when $0.305\ln(t/100) = 0.610\ln(t/2000)$, i.e. $\ln(t/100) = 2\ln(t/2000)$.</li>
+      <li>$t/100 = (t/2000)^2 \Rightarrow t = 2000^2/100 = 40{,}000$.</li>
+      <li>After that B leads forever. In BA ($\beta$ equal) this never happens.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> In a network with uniform fitness ($C = 1.255$), three pages have $\ln k$ against $\ln t$ slopes 0.4, 0.6 and 0.8. Find their fitness. What if $C$ were unknown?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\eta = C\beta$: $1.255 \times 0.4 = 0.50$, $0.75$, $1.00$.</li>
+      <li>Without $C$ only ratios are known: $\eta$'s are in ratio 2 : 3 : 4. Ranking and relative fitness are what matter for prediction.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Compute $\gamma$ for (a) $m = 2$, $A = 2$; (b) $m = 1$ with $n = 1$ double-preferential internal link; (c) $m = 2$, $n = 1$ random internal link; (d) $\theta = 0.2$. Which can explain the WWW's $\gamma \approx 2.1$?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>(a) $3 + 2/2 = 4$. (b) $2 + 1/3 = 2.33$. (c) $3 + 2/2 = 4$. (d) $3 + 0.4/0.8 = 3.5$.</li>
+      <li>Only (b) lowers $\gamma$ below 3. Extra advantage for the already-large (double preference, $\nu &lt; 0$, uniform fitness) lowers $\gamma$; random ingredients raise it.</li>
+      <li>Most new Web links join existing pages (Section 6.5). If they follow double preference, $\gamma$ falls toward 2.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Two growing networks of $10^6$ nodes. In X the largest hub holds 0.1% of all links and the share keeps falling as X grows; in Y it holds 30% and stays there. Interpret with the Bose gas mapping.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>X: fit-get-rich phase. Fitness decides the order of hubs but no node dominates; scale-free.</li>
+      <li>Y: Bose–Einstein condensate. The fittest node keeps a finite share: winner-takes-all, hub-and-spoke.</li>
+      <li>Which phase occurs depends only on $\rho(\eta)$, not on the "temperature" $\beta_T$, which drops out.</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Confusing the growth exponent $\beta(\eta)$ with the Bose-gas $\beta_T$ (inverse temperature).</li>
+  <li>Taking the root $C &lt; \eta_{\max}$: then the fittest node would grow faster than $t$.</li>
+  <li>"Fitness makes everything scale-free with $\gamma = 1 + C$": that is for uniform $\rho$ only, with a $1/\ln k$ correction.</li>
+  <li>Expecting every extension to lower $\gamma$: most random ingredients raise it.</li>
+</ul>
+<p class="small">Pages: <a href="evolving.html">Evolving networks: fitness</a>, <a href="ch5-preview.html">BA model</a>, <a href="ch4-universality.html">Universality</a>.</p>
+</section>
+
+<!-- ============================== CH 7 ============================== -->
+<section id="ch7">
+<h2>Ch 7 · Degree correlations</h2>
+<p>Why we need it: the degree distribution counts hubs but not whom they link to. Networks with the same degrees can differ here and behave differently (giant component, distances, robustness).</p>
+<h3>Must know</h3>
+<p><strong>Three types.</strong> Assortative: hubs link to hubs. Disassortative: hubs link to small nodes. Neutral: as random wiring given the degrees.</p>
+<p><strong>Who sits at the end of a link.</strong></p>
+<div class="eq">$$q_k = \frac{kp_k}{\langle k\rangle}, \qquad \text{neutral: } e_{jk} = q_jq_k$$</div>
+<dl class="symbols">
+  <dt>$q_k$</dt><dd>probability that a random link end sits at a degree-$k$ node: hubs are reached $k$ times more often</dd>
+  <dt>$e_{jk}$</dt><dd>probability that a random link joins degrees $j$ and $k$ (degree correlation matrix)</dd>
+</dl>
+<p><strong>Degree correlation function.</strong></p>
+<div class="eq">$$k_{nn}(k_i) = \frac{1}{k_i}\sum_j A_{ij}k_j, \qquad k_{nn}(k) = \sum_{k'}k'P(k'\mid k), \qquad \text{neutral: } k_{nn}(k) = \frac{\langle k^2\rangle}{\langle k\rangle}$$</div>
+<dl class="symbols">
+  <dt>$k_{nn}(k_i)$</dt><dd>average degree of node $i$'s neighbours</dd>
+  <dt>$k_{nn}(k)$</dt><dd>its average over all nodes of degree $k$</dd>
+  <dt>$P(k'\mid k)$</dt><dd>probability that a neighbour of a degree-$k$ node has degree $k'$; neutral: $q_{k'}$</dd>
+</dl>
+<p>Neutral value $\langle k^2\rangle/\langle k\rangle &gt; \langle k\rangle$: your friends have more friends than you (friendship paradox). Fit</p>
+<div class="eq">$$k_{nn}(k) \approx a\,k^{\mu}$$</div>
+<dl class="symbols">
+  <dt>$\mu$</dt><dd>correlation exponent: $&gt; 0$ assortative, $= 0$ neutral, $&lt; 0$ disassortative</dd>
+  <dt>$a$</dt><dd>prefactor</dd>
+</dl>
+<p><strong>Degree correlation coefficient</strong> (Newman): the Pearson correlation of the degrees at the two ends of a link.</p>
+<div class="eq">$$r = \sum_{jk}\frac{jk\,(e_{jk} - q_jq_k)}{\sigma^2}, \qquad \sigma^2 = \sum_k k^2q_k - \Big(\sum_k kq_k\Big)^2$$</div>
+<dl class="symbols">
+  <dt>$r$</dt><dd>between $-1$ and $1$; sign as for $\mu$</dd>
+  <dt>$e_{jk} - q_jq_k$</dt><dd>excess of $j$–$k$ links over the neutral expectation</dd>
+  <dt>$\sigma^2$</dt><dd>variance of $q_k$, normalises $r$</dd>
+</dl>
+<p>By hand, from the link list (each link counted once, $j, k$ its end degrees):</p>
+<div class="eq">$$r = \frac{\overline{jk} - \overline{\tfrac{j+k}{2}}^{\,2}}{\overline{\tfrac{j^2+k^2}{2}} - \overline{\tfrac{j+k}{2}}^{\,2}}$$</div>
+<dl class="symbols">
+  <dt>$\overline{\,\cdot\,}$</dt><dd>average over the $L$ links</dd>
+</dl>
+<p>Book values: collaboration $+0.13$, phone calls $+0.21$; metabolism $-0.25$, email $-0.08$; power grid $\approx 0$.</p>
+<p><strong>Structural cutoff.</strong> Random wiring expects $kk'/(\langle k\rangle N)$ links between two nodes of degrees $k$ and $k'$. A simple network allows at most 1. Two hubs of degree $k_s$ already expect one link:</p>
+<div class="eq">$$k_s \sim (\langle k\rangle N)^{1/2}$$</div>
+<dl class="symbols">
+  <dt>$k_s$</dt><dd>structural cutoff: where the expected number of links between two equal hubs reaches 1</dd>
+  <dt>$\langle k\rangle N$</dt><dd>$= 2L$, the number of link ends</dd>
+</dl>
+<p>Above $k_s$, links between hubs are missing: <strong>structural disassortativity</strong>. It occurs when $k_{\max} &gt; k_s$, i.e. for $\gamma &lt; 3$. Test: degree-preserving randomization with simple links (R-S). If the randomized $k_{nn}(k)$ matches the real one, the correlations are structural; if it is flat, a real mechanism made them.</p>
+<p><strong>Models.</strong> ER and BA are neutral; with scale-free degrees, the simple configuration model and the hidden-parameter model are structurally disassortative ($k_{nn} \sim k^{-1}$ for the latter); the fitness model (uniform) is disassortative. Xalvi-Brunet–Sokolov rewiring tunes correlations at fixed degrees.</p>
+<p><strong>Impact.</strong> Assortative: giant component appears at lower $\langle k\rangle$ but is smaller for large $\langle k\rangle$; shorter $\langle d\rangle$, larger $d_{\max}$. Disassortative: the opposite.</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Triangle a–b–c plus a pendant d linked to a. Find every $k_{nn}(k_i)$, the function $k_{nn}(k)$, the neutral value and $r$. Classify.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Degrees: a 3, b 2, c 2, d 1. $k_{nn}$: a $(2+2+1)/3 = 1.67$; b, c $(3+2)/2 = 2.5$; d $3$.</li>
+      <li>$k_{nn}(1) = 3$, $k_{nn}(2) = 2.5$, $k_{nn}(3) = 1.67$: falling, disassortative.</li>
+      <li>Neutral: $\langle k^2\rangle/\langle k\rangle = (18/4)/(8/4) = 2.25$.</li>
+      <li>Links $(j,k)$: (3,2), (3,2), (2,2), (3,1). $\overline{jk} = 19/4 = 4.75$; $\overline{(j+k)/2} = 9/4 = 2.25$ (equal to the neutral value, as it must be); $\overline{(j^2+k^2)/2} = 22/4 = 5.5$.</li>
+      <li>$r = (4.75 - 5.0625)/(5.5 - 5.0625) = -0.3125/0.4375 = -0.71$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Metabolism: $N = 1{,}039$, $\langle k\rangle = 9.13$, $k_{\max} = 638$. Power grid: $N = 4{,}941$, $\langle k\rangle = 2.67$, $k_{\max} = 19$. Which can show structural disassortativity? For metabolism's two top hubs (638 and 460), how many links does random wiring expect?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Metabolism: $k_s = \sqrt{9.13 \times 1{,}039} = \sqrt{9{,}486} \approx 97 &lt; 638$: yes.</li>
+      <li>Power grid: $k_s = \sqrt{2.67 \times 4{,}941} \approx 115 &gt; 19$: no conflict; it is neutral ($r \approx 0.003$).</li>
+      <li>Expected links: $638 \times 460/9{,}486 \approx 31$. A simple network allows 1, so the hubs' other links go to small nodes.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Phone calls: $\langle k\rangle = 3.11$, $\langle k^2\rangle = 17.30$. What is the mean degree of a random person's contact if the network were neutral? Why does this matter for vaccination?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\langle k^2\rangle/\langle k\rangle = 17.30/3.11 = 5.57$, almost twice $\langle k\rangle$.</li>
+      <li>Following a link reaches a high-degree node with probability $\propto k$ ($q_k$).</li>
+      <li><span data-beyond="Book Ch 10">Vaccinating a random <em>contact</em> of a random person reaches hubs without knowing the network (acquaintance immunization).</span></li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> A network has $k_{nn}(2) = 20$ and $k_{nn}(200) = 6$ on a straight log–log line. Find $\mu$ and classify.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\mu = \ln(6/20)/\ln(200/2) = \ln 0.3/\ln 100 = -1.204/4.605 = -0.26$.</li>
+      <li>$\mu &lt; 0$: disassortative. Next step: compare with R-S randomization to see if it is structural.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Suppose network X has $r = 0.15$ and its R-S randomization $r \approx 0$; network Y has $r = -0.25$ and its randomization $r = -0.20$. What do you conclude about each?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>X: the correlation disappears when only the degrees are kept, so it comes from how links were formed (homophily, communities). Typical of social networks.</li>
+      <li>Y: most of the disassortativity survives randomization, so it is structural: forced by hubs above $k_s$ in a simple network. Typical of biological networks.</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Comparing $k_{nn}(k)$ with $\langle k\rangle$: the neutral reference is $\langle k^2\rangle/\langle k\rangle$.</li>
+  <li>Calling every negative $r$ a "mechanism": check structural disassortativity first.</li>
+  <li>Counting each link twice in the by-hand $r$ formula and then dividing by $L$.</li>
+</ul>
+<p class="small">Pages: <a href="correlations.html">Degree correlations</a>, <a href="ch4-generating.html">Generating networks</a>.</p>
+</section>
+
+<!-- ============================== CH 8 ============================== -->
+<section id="ch8">
+<h2>Ch 8 · Network robustness</h2>
+<p>Why we need it: a network works while its nodes can reach each other. Robustness theory predicts, from the degrees alone, how much damage breaks the giant component, and why hubs make networks robust to accidents but fragile to attacks.</p>
+<h3>Must know</h3>
+<p><strong>Percolation.</strong> Occupy each site of a lattice with probability $p$. At a critical $p_c$ a spanning cluster appears (square lattice: $p_c \approx 0.593$). Near $p_c$:</p>
+<div class="eq">$$P_\infty \sim (p - p_c)^{\beta_p}, \qquad \langle s\rangle \sim |p - p_c|^{-\gamma_p}, \qquad \xi \sim |p - p_c|^{-\nu}$$</div>
+<dl class="symbols">
+  <dt>$P_\infty$</dt><dd>probability that a site belongs to the largest cluster (order parameter)</dd>
+  <dt>$\langle s\rangle$</dt><dd>average cluster size</dd>
+  <dt>$\xi$</dt><dd>correlation length: typical distance within a cluster</dd>
+  <dt>$\beta_p, \gamma_p, \nu$</dt><dd>critical exponents: universal (independent of lattice details), unlike $p_c$</dd>
+</dl>
+<p>Removing a fraction $f$ of nodes is percolation in reverse: at $f_c$ the giant component falls apart.</p>
+<p><strong>Molloy–Reed criterion.</strong> A node reached along a link must have, on average, at least one more link to pass the path on:</p>
+<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} &gt; 2$$</div>
+<dl class="symbols">
+  <dt>$\kappa$</dt><dd>mean degree of a node reached by following a random link</dd>
+  <dt>$2$</dt><dd>one link in, at least one out</dd>
+</dl>
+<p>Assumes random wiring (no correlations). Random network: $\kappa = 1 + \langle k\rangle$, so $\kappa &gt; 2 \iff \langle k\rangle &gt; 1$ (Ch 3).</p>
+<p><strong>Random failures.</strong> Remove a fraction $f$ at random. A degree-$k$ node keeps each link with probability $1 - f$, so</p>
+<div class="eq">$$\begin{aligned}\langle k\rangle_f &= (1-f)\langle k\rangle\\ \langle k^2\rangle_f &= (1-f)^2\langle k^2\rangle + f(1-f)\langle k\rangle\\ \kappa_f &= (1-f)\kappa + f\end{aligned}$$</div>
+<p>Set $\kappa_f = 2$:</p>
+<div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}, \qquad f_c^{ER} = 1 - \frac{1}{\langle k\rangle}$$</div>
+<dl class="symbols">
+  <dt>$f_c$</dt><dd>critical fraction of randomly removed nodes</dd>
+  <dt>$f_c^{ER}$</dt><dd>for a random network, using $\kappa = 1 + \langle k\rangle$</dd>
+</dl>
+<p><strong>Scale-free networks.</strong> For $2 &lt; \gamma &lt; 3$:</p>
+<div class="eq">$$\kappa \approx \frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma}, \qquad f_c \approx 1 - \frac{C}{N^{(3-\gamma)/(\gamma-1)}}$$</div>
+<dl class="symbols">
+  <dt>$k_{\max}$</dt><dd>grows with $N$, so $\kappa \to \infty$ and $f_c \to 1$: random failures cannot break a large scale-free network</dd>
+  <dt>$C$</dt><dd>a constant (finite-size formula)</dd>
+</dl>
+<p>For $\gamma &gt; 3$: $\kappa = \frac{\gamma-2}{\gamma-3}k_{\min}$, finite; $f_c &lt; 1$.</p>
+<p><strong>Attacks</strong> (remove hubs first). The threshold solves (book Eq. 8.12)</p>
+<div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big)$$</div>
+<dl class="symbols">
+  <dt>$f_c$</dt><dd>here the fraction of highest-degree nodes removed; only a few per cent to some tens of per cent</dd>
+</dl>
+<p>Removing hubs cuts $\langle k^2\rangle$ fast, so $\kappa$ reaches 2 quickly. <strong>Robust yet fragile</strong>.</p>
+<p><strong>Cascading failures</strong> (Sections 8.5–8.6). Ingredients: a flow on the network, a local breakdown rule, redistribution of load. Avalanche sizes follow</p>
+<div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases}3/2 & \gamma \ge 3\\ \gamma/(\gamma-1) & 2 &lt; \gamma &lt; 3\end{cases}$$</div>
+<dl class="symbols">
+  <dt>$s$</dt><dd>avalanche size: number of failed nodes</dd>
+  <dt>$\alpha$</dt><dd>avalanche exponent; derived from the branching model at its critical point (mean offspring 1)</dd>
+</dl>
+<p>Failure propagation model: a node fails when a fraction $\varphi$ of its neighbours has failed. High $\langle k\rangle$: cascades die out; low: global cascades; in between: power-law sizes.</p>
+<p><strong>Building robustness</strong> (Section 8.7). Maximise $f_c^{\text{tot}} = f_c^{\text{rand}} + f_c^{\text{targ}}$. Optimum: a bimodal degree distribution, a few hubs ($k_{\max} \sim N^{2/3}$) and many nodes of equal degree.</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Derive $f_c = 1 - 1/(\kappa - 1)$ from $\kappa_f = (1-f)\kappa + f$. Apply it to a random network with $\langle k\rangle = 4$ and check that the survivors have $\langle k\rangle_f = 1$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$(1-f)\kappa + f = 2 \Rightarrow \kappa - 2 = f(\kappa - 1) \Rightarrow f_c = \frac{\kappa-2}{\kappa-1} = 1 - \frac{1}{\kappa-1}$.</li>
+      <li>Random: $\kappa = 1 + 4 = 5$, $f_c = 1 - 1/4 = 0.75$.</li>
+      <li>Check: $\kappa_f = 0.25 \times 5 + 0.75 = 2$ ✓; $\langle k\rangle_f = 0.25 \times 4 = 1$ ✓, the Ch 3 threshold.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Internet: $\langle k\rangle = 6.34$, $\langle k^2\rangle = 240.1$. Power grid: $\langle k\rangle = 2.67$, $\langle k^2\rangle = 10.33$. Compute $f_c$ for each and for random networks with the same $\langle k\rangle$. Interpret.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Internet: $\kappa = 37.9$, $f_c = 1 - 1/36.9 = 97.3\%$. Random: $1 - 1/6.34 = 84.2\%$.</li>
+      <li>Power grid: $\kappa = 3.87$, $f_c = 1 - 1/2.87 = 65.2\%$. Random: $62.5\%$.</li>
+      <li>Hubs (large $\langle k^2\rangle$) give the Internet its extra robustness; the grid has no hubs and gains almost nothing.</li>
+      <li>The real grid breaks earlier than 65%: it is spatial, not randomly wired, which Molloy–Reed assumes.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Scale-free network, $\gamma = 2.5$, $k_{\min} = 1$. Find $\kappa$ and $f_c$ for $N = 10^4$ and $N = 10^6$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$k_{\max} = N^{1/1.5}$: 464 and $10^4$.</li>
+      <li>$\kappa \approx \frac{0.5}{0.5}\,k_{\max}^{0.5}$: 21.5 and 100.</li>
+      <li>$f_c = 1 - 1/(\kappa - 1)$: 95.1% and 99.0%.</li>
+      <li>$f_c \to 1$ as $N$ grows: the larger the network, the harder to break by random failures.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> For a targeted attack on a scale-free network, the critical fraction $f_c$ of removed hubs solves (book Eq. 8.12) $$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big).$$ Solve it for $\gamma = 2.5$ and $k_{\min} = 2$ (hint: set $x = f_c^{1/3}$). Compare with the random-failure threshold $f_c = 1 - 1/(\kappa - 1)$ at $N = 10^6$, where $\kappa \approx \sqrt{k_{\min} k_{\max}}$ for $\gamma = 2.5$ (from $\langle k^2\rangle/\langle k\rangle$ with the natural cutoff $k_{\max} = k_{\min}N^{1/(\gamma-1)}$). What does the comparison say about how to defend such a network?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Exponents: $\frac{2-\gamma}{1-\gamma} = \frac13$, $\frac{3-\gamma}{1-\gamma} = -\frac13$; $\frac{2-\gamma}{3-\gamma} = -1$.</li>
+      <li>$x = 2 - 2(1/x - 1) = 4 - 2/x \Rightarrow x^2 - 4x + 2 = 0 \Rightarrow x = 2 - \sqrt2 = 0.586$ (need $x &lt; 1$).</li>
+      <li>$f_c = x^3 = 0.20$: removing the top 20% of nodes destroys it.</li>
+      <li>Random: $k_{\max} = 2 \times 10^4$, $\kappa \approx \sqrt2 \times \sqrt{2\times10^4} = 200$, $f_c = 1 - 1/199 = 99.5\%$.</li>
+      <li>Interpretation: the network survives the random loss of 99.5% of its nodes but not the loss of its top 20%. Defence means protecting the hubs.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> In the branching model of cascading failures, avalanche sizes $s$ follow $p(s) \sim s^{-\alpha}$, with $\alpha = 3/2$ when the degree exponent is $\gamma &gt; 3$ (and for random networks) and $\alpha = \gamma/(\gamma - 1)$ when $2 &lt; \gamma &lt; 3$. Compare a random network with a scale-free one with $\gamma = 2.5$. Which has relatively more very large blackouts, and why are both worrying?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Random ($\gamma \ge 3$ behaviour): $\alpha = 3/2$.</li>
+      <li>$\gamma = 2.5$: $\alpha = 2.5/1.5 = 1.67$.</li>
+      <li>Larger $\alpha$ means a faster-decaying tail, so the scale-free network has relatively <em>fewer</em> very large avalanches in this model.</li>
+      <li>Both are power laws, with no typical avalanche size: very large blackouts are rare but far more likely than in a bell-shaped distribution.</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Using $\kappa = \langle k^2\rangle/\langle k\rangle^2$ or $\langle k\rangle$ in Molloy–Reed: it is $\langle k^2\rangle/\langle k\rangle$.</li>
+  <li>"Scale-free networks are robust": only to random failures; they are fragile to attacks.</li>
+  <li>Applying $f_c = 1 - 1/(\kappa-1)$ to correlated or spatial networks without saying it assumes random wiring.</li>
+  <li>Expecting $f_c = 1$ exactly in a finite network: $f_c \to 1$ only as $N \to \infty$.</li>
+</ul>
+<p class="small">Pages: <a href="robustness.html">Robustness &amp; attacks</a>, <a href="ch4-moments.html">Moments</a>, <a href="ch3-evolution.html">Giant component</a>.</p>
+</section>
+
+<!-- ============================== GRAPHML ============================== -->
+<section id="graphml">
+<h2>Intro to graph machine learning</h2>
+<p>Why we need it: earlier chapters describe whole networks with a few numbers. Prediction tasks need a description of every node or pair, learned from the links.</p>
+<h3>Must know</h3>
+<ul>
+  <li><strong>Tasks</strong>: node classification (label nodes from a few known labels), link prediction (find missing or future links), community detection, graph classification.</li>
+  <li><strong>Features</strong>: hand-made (degree, clustering, distances) or learned (embeddings, GNNs).</li>
+  <li><strong>Transductive</strong> methods embed only the nodes seen in training; <strong>inductive</strong> ones (GNNs) apply to new nodes.</li>
+</ul>
+<p><strong>Link prediction scores</strong> for an unlinked pair $u, v$:</p>
+<div class="eq">$$\text{CN} = |N(u)\cap N(v)|, \quad \text{J} = \frac{|N(u)\cap N(v)|}{|N(u)\cup N(v)|}, \quad \text{AA} = \sum_{w \in N(u)\cap N(v)}\frac{1}{\ln k_w}, \quad \text{PA} = k_uk_v$$</div>
+<dl class="symbols">
+  <dt>$N(u)$</dt><dd>set of neighbours of $u$</dd>
+  <dt>CN, J</dt><dd>common neighbours; Jaccard normalises by the union</dd>
+  <dt>AA</dt><dd>Adamic–Adar: a shared low-degree neighbour counts more than a shared hub</dd>
+  <dt>PA</dt><dd>preferential attachment score, from the BA model</dd>
+</dl>
+<p><strong>Evaluation.</strong> Hide some links, score hidden links and non-links:</p>
+<div class="eq">$$\text{AUC} = P(\text{score of hidden link} &gt; \text{score of non-link}), \quad \text{ties count } \tfrac12$$</div>
+<dl class="symbols">
+  <dt>AUC</dt><dd>0.5 = guessing, 1 = perfect ranking</dd>
+</dl>
+<p><strong>Graph neural networks</strong>: each layer mixes a node's vector with its neighbours' (message passing):</p>
+<div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)}\cdot\operatorname{mean}\{h_u^{(l)} : u \in \{v\}\cup N(v)\}\Big)$$</div>
+<dl class="symbols">
+  <dt>$h_v^{(l)}$</dt><dd>vector of node $v$ after layer $l$; $h_v^{(0)}$ are input features</dd>
+  <dt>$W^{(l)}$</dt><dd>learned weight matrix</dd>
+  <dt>$\sigma$</dt><dd>non-linearity, e.g. ReLU</dd>
+</dl>
+<p>GCN (Kipf &amp; Welling 2017) in matrix form: $H^{(l+1)} = \sigma\big(\tilde D^{-1/2}\tilde A\tilde D^{-1/2}H^{(l)}W^{(l)}\big)$ with $\tilde A = A + I$ and $\tilde D$ its degree matrix. After $l$ layers a node sees its $l$-hop neighbourhood. Many layers: all vectors become alike (over-smoothing).</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Links: A–B, A–C, B–C, B–D, C–D, D–E, D–F, E–F, D–G. Score the pairs A–D, B–E, E–G with CN, Jaccard, Adamic–Adar and PA. Which pair does each score rank first?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Degrees: A 2, B 3, C 3, D 5, E 2, F 2, G 1.</li>
+      <li>A–D: common {B, C}; union {B, C, E, F, G}. CN 2, J 2/5 = 0.40, AA $2/\ln3 = 1.82$, PA 10.</li>
+      <li>B–E: common {D}; union {A, C, D, F}. CN 1, J 0.25, AA $1/\ln5 = 0.62$, PA 6.</li>
+      <li>E–G: common {D}; union {D, F}. CN 1, J 0.50, AA 0.62, PA 2.</li>
+      <li>CN, AA, PA rank A–D first; Jaccard ranks E–G first: low-degree nodes sharing their only hub look similar after normalising.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Hidden links score 0.9, 0.4, 0.7; non-links score 0.5, 0.1, 0.7. Compute the AUC.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>9 pairs. 0.9 beats all three: 3.</li>
+      <li>0.4 beats only 0.1: 1.</li>
+      <li>0.7 beats 0.5 and 0.1, ties 0.7: $2 + \frac12 = 2.5$.</li>
+      <li>AUC $= 6.5/9 = 0.72$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Path 1–2–3–4, input $h^{(0)} = (1, 0, 0, 0)$. Apply two mean-aggregation layers (no $W$, no $\sigma$). Which nodes have a non-zero value? What happens after many layers?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Layer 1 (mean over self + neighbours): $h_1 = (1+0)/2 = 0.5$, $h_2 = (0+1+0)/3 = 0.33$, $h_3 = 0$, $h_4 = 0$.</li>
+      <li>Layer 2: $h_1 = (0.5+0.33)/2 = 0.42$, $h_2 = (0.33+0.5+0)/3 = 0.28$, $h_3 = (0+0.33+0)/3 = 0.11$, $h_4 = 0$.</li>
+      <li>After 2 layers the signal reached distance 2 only (node 4 is at distance 3).</li>
+      <li>Many layers: values converge to a common constant; differences vanish (over-smoothing).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> With 10% of links hidden, common neighbours score AUC $\approx 0.96$ on the collaboration network but $\approx 0.57$ on the protein network. Explain using Ch 2–3 concepts.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>CN assumes triadic closure: friends of friends link. That is high clustering.</li>
+      <li>Co-authorship is highly clustered (each paper is a clique), so CN works.</li>
+      <li>Proteins sharing a partner often compete for the same binding site and do not bind each other; clustering is low. CN is near guessing.</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Evaluating link prediction on the links used to compute the scores: hide them first.</li>
+  <li>Reading AUC = 0.5 as "half the links found": it means no better than chance.</li>
+  <li>Stacking many GNN layers "to see more": over-smoothing erases the information.</li>
+</ul>
+<p class="small">Pages: <a href="embeddings.html">Graph ML &amp; node embeddings</a>, <a href="ch2-clustering.html">Clustering</a>.</p>
+</section>
+
+<!-- ============================== EMBEDDINGS ============================== -->
+<section id="embeddings">
+<h2>Node embeddings</h2>
+<p>Why we need it: a classifier needs a fixed-length vector per node. An embedding $z_v \in \mathbb R^d$ places nodes so that nodes close in the network are close in space; any standard ML method can then use them.</p>
+<h3>Must know</h3>
+<p><strong>Spectral embedding.</strong> Graph Laplacian and its quadratic form:</p>
+<div class="eq">$$L = D - A, \qquad x^\top L x = \sum_{(i,j)\in E}(x_i - x_j)^2, \qquad \mathcal L = I - D^{-1/2}AD^{-1/2}$$</div>
+<dl class="symbols">
+  <dt>$D$</dt><dd>diagonal matrix of degrees $k_i$</dd>
+  <dt>$x$</dt><dd>one number per node (a 1-D embedding)</dd>
+  <dt>$E$</dt><dd>set of links; the sum is the "energy": small if linked nodes get similar values</dd>
+  <dt>$\mathcal L$</dt><dd>normalised Laplacian, used when degrees vary a lot</dd>
+</dl>
+<ul>
+  <li>Smallest eigenvalue 0, eigenvector constant; number of zero eigenvalues = number of components.</li>
+  <li>Second eigenvector (<strong>Fiedler vector</strong>): lowest-energy non-trivial embedding; its sign gives a two-way cut. Further eigenvectors give more coordinates.</li>
+</ul>
+<p><strong>Random-walk embeddings.</strong> DeepWalk (Perozzi et al. 2014): run short uniform random walks, treat them as sentences and nodes as words, train word2vec's skip-gram:</p>
+<div class="eq">$$\max \sum_{u}\sum_{v \in \mathcal N_w(u)}\log P(v\mid u), \qquad P(v\mid u) = \frac{e^{z_u\cdot z_v}}{\sum_{n}e^{z_u\cdot z_n}}$$</div>
+<dl class="symbols">
+  <dt>$\mathcal N_w(u)$</dt><dd>nodes within $w$ steps of $u$ on the walks (the context window)</dd>
+  <dt>$z_u\cdot z_v$</dt><dd>dot product: similarity of the two vectors</dd>
+  <dt>$\sum_n$</dt><dd>over all nodes; too costly, so approximated (hierarchical softmax in DeepWalk, negative sampling in node2vec)</dd>
+</dl>
+<p><strong>node2vec</strong> (Grover &amp; Leskovec 2016) biases the walk. Having stepped $t \to v$, the next step to $x$ gets weight</p>
+<div class="eq">$$\alpha_{pq}(t,x) = \begin{cases}1/p & d_{tx} = 0 \ (\text{back to } t)\\ 1 & d_{tx} = 1\\ 1/q & d_{tx} = 2\end{cases}$$</div>
+<dl class="symbols">
+  <dt>$p$</dt><dd>return parameter: small $p$ = walks backtrack, stay local</dd>
+  <dt>$q$</dt><dd>in–out parameter: small $q$ = move outward (depth-first, finds communities); large $q$ = stay near $t$ (breadth-first, finds structural roles)</dd>
+  <dt>$d_{tx}$</dt><dd>distance from the previous node $t$ to the candidate $x$</dd>
+</dl>
+<p>$p = q = 1$ gives DeepWalk. Embeddings are transductive: a new node needs retraining.</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Two triangles joined by a bridge (links 1–2, 1–3, 2–3, 3–4, 4–5, 4–6, 5–6). For $x = (1,1,1,-1,-1,-1)$ compute $x^\top Lx$ and the Rayleigh quotient $x^\top Lx/x^\top x$. The true $\lambda_2 = 0.44$; what does the Fiedler vector do?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Only the bridge 3–4 joins different values: $(1-(-1))^2 = 4$. All other terms are 0. $x^\top Lx = 4$.</li>
+      <li>$x^\top x = 6$; quotient $= 0.67$. It is an upper bound on $\lambda_2$ for vectors orthogonal to the constant ✓ ($0.67 \ge 0.44$).</li>
+      <li>The Fiedler vector is about $(-0.47, -0.47, -0.26, 0.26, 0.47, 0.47)$: the same sign split {1, 2, 3} | {4, 5, 6}, with bridge nodes 3 and 4 nearer zero.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> node2vec with $p = 4$, $q = 0.5$. The walk went $t \to v$. $v$'s neighbours: $t$, $x_1$ (also linked to $t$), $x_2$ (not linked to $t$). Give the transition probabilities. Local or exploratory walk?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Weights: back to $t$: $1/p = 0.25$; $x_1$ ($d = 1$): 1; $x_2$ ($d = 2$): $1/q = 2$.</li>
+      <li>Sum 3.25. Probabilities: 0.08, 0.31, 0.62.</li>
+      <li>Rarely returns, prefers moving away: exploratory (depth-first-like). Embeddings then reflect communities.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Compare spectral embedding and DeepWalk: what does each need to compute, what similarity does it capture, and what can neither do for a node added tomorrow?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Spectral: a few eigenvectors of $L$ or $\mathcal L$; captures smoothness over links (cuts, communities). Exact, but eigenvectors of huge networks are costly.</li>
+      <li>DeepWalk: random walks plus skip-gram training; captures co-occurrence within a few steps. Scales to large sparse networks; results vary with random seeds.</li>
+      <li>Neither embeds an unseen node without recomputation (transductive). GNNs with input features are inductive.</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Using the eigenvector of the <em>largest</em> Laplacian eigenvalue for the cut: it is the second <em>smallest</em>.</li>
+  <li>Mixing up $p$ and $q$: $p$ controls returning, $q$ controls moving outward.</li>
+  <li>Comparing embedding coordinates across separate training runs: they are defined only up to rotation.</li>
+</ul>
+<p class="small">Pages: <a href="embeddings.html">Graph ML &amp; node embeddings</a>, <a href="ch2-adjacency.html">Adjacency matrix</a>.</p>
+</section>
+
+<!-- ============================== PAPERS ============================== -->
+<section id="papers">
+<h2>BIL589 · Paper presentation</h2>
+<p>Classic papers that fit the course; one line each on why. Check with the instructor which papers and formats are accepted.</p>
+<ol>
+  <li><strong>Watts &amp; Strogatz (1998)</strong>, "Collective dynamics of 'small-world' networks", <em>Nature</em>. A few random shortcuts give short paths and high clustering (Ch 3).</li>
+  <li><strong>Barabási &amp; Albert (1999)</strong>, "Emergence of scaling in random networks", <em>Science</em>. Growth plus preferential attachment produce power laws (Ch 4–5).</li>
+  <li><strong>Albert, Jeong &amp; Barabási (2000)</strong>, "Error and attack tolerance of complex networks", <em>Nature</em>. Scale-free networks survive failures and collapse under attack (Ch 8).</li>
+  <li><strong>Bianconi &amp; Barabási (2001)</strong>, "Competition and multiscaling in evolving networks", <em>Europhysics Letters</em>. The fitness model: latecomers can win (Ch 6).</li>
+  <li><strong>Newman (2002)</strong>, "Assortative mixing in networks", <em>Physical Review Letters</em>. Defines $r$; social vs. technological networks; effect on percolation (Ch 7).</li>
+  <li><strong>Clauset, Shalizi &amp; Newman (2009)</strong>, "Power-law distributions in empirical data", <em>SIAM Review</em>. How to fit and test power laws properly (Ch 4).</li>
+  <li><strong>Broido &amp; Clauset (2019)</strong>, "Scale-free networks are rare", <em>Nature Communications</em>. Tests the universality claim on many real networks; a good debate topic (Ch 1, 4).</li>
+  <li><strong>Perozzi, Al-Rfou &amp; Skiena (2014)</strong>, "DeepWalk: online learning of social representations", <em>KDD</em>. Random walks + word2vec = node embeddings.</li>
+  <li><strong>Grover &amp; Leskovec (2016)</strong>, "node2vec: scalable feature learning for networks", <em>KDD</em>. Biased walks between local and exploratory views.</li>
+  <li><strong>Kipf &amp; Welling (2017)</strong>, "Semi-supervised classification with graph convolutional networks", <em>ICLR</em>. The GCN layer; node classification from few labels.</li>
+</ol>
+<div class="callout note">
+  <p>A strong presentation states the question, the method in one slide, one key figure reproduced (NetworkX is enough for most of these), and how the result connects to the course.</p>
+</div>
+</section>
+
+<h2 id="practice">Practice set</h2>
+<div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview, evolving, correlations, robustness, embeddings, communities, epidemics" data-optional="data, communities, epidemics"></div>
+<p class="small muted">These questions are new: none repeats the midterm guide's or the chapter pages'. Each gives the formulas it needs and asks you to use them. Tick "Add review questions from the pages" to mix in the pages' own quizzes.</p>
+<template id="exam-questions">
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="3">
+  <p>A network has $N = 10{,}000$ nodes, average degree $\langle k\rangle = 4$ and degree standard deviation $\sigma_k = 20$. A random network with the same $\langle k\rangle$ has $\sigma_k = \sqrt{\langle k\rangle}$. Is the network closer to a random or to a scale-free network?</p>
+  <ol>
+    <li data-why="A random network would have σ_k = 2, ten times smaller.">Random: its average degree is ordinary.</li>
+    <li data-why="The average does not separate the two models; the spread does.">It cannot be decided without $L$.</li>
+    <li>Scale-free-like: its degrees are 10 times more spread out than random wiring allows, which signals hubs.</li>
+    <li data-why="A spread five times the mean is the opposite of regular.">Regular: all nodes have about 4 links.</li>
+  </ol>
+  <div class="explain">$\sqrt{4} = 2$ against a measured 20. A spread far above the mean is the signature of a heavy tail.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="1">
+  <p>Using $\langle d\rangle \approx \ln N / \ln\langle k\rangle$, compare two random networks with $\langle k\rangle = 10$: one with $N = 10^4$ nodes and one with $N = 10^8$.</p>
+  <ol>
+    <li>About 4 and 8 steps: a network 10,000 times larger is only twice as wide.</li>
+    <li data-why="Distances grow like ln N, not like N.">4 and 40,000 steps.</li>
+    <li data-why="ln N does grow; it only grows slowly.">The same distance in both.</li>
+    <li data-why="With ⟨k⟩ = 10, ln⟨k⟩ ≈ 2.3, so the values are 4 and 8.">9 and 18 steps.</li>
+  </ol>
+  <div class="explain">$\ln 10^4/\ln 10 = 4$ and $\ln 10^8/\ln 10 = 8$. Logarithmic growth is the small-world property.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="4">
+  <p>In a directed network every link leaves one node and enters another, so $\sum_i k_i^{\text{in}} = \sum_i k_i^{\text{out}} = L$. An email log records 1,000 emails among 200 people. What are the average in-degree and average out-degree?</p>
+  <ol>
+    <li data-why="That would count each email twice, as in an undirected network.">10 each.</li>
+    <li data-why="Every email has one sender and one receiver, so the two sums are equal.">5 in, 0 out.</li>
+    <li data-why="1,000/200 = 5; 2.5 halves it again.">2.5 each.</li>
+    <li>5 each: every email adds one to someone's out-degree and one to someone's in-degree.</li>
+  </ol>
+  <div class="explain">$\langle k^{\text{in}}\rangle = \langle k^{\text{out}}\rangle = L/N = 1{,}000/200 = 5$. The individual in- and out-degrees can differ a lot (a newsletter sender), but the averages cannot.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="2">
+  <p>The average degree of a node reached by following a random link is $\kappa = \langle k^2\rangle/\langle k\rangle$. For the Internet sample, $\langle k\rangle = 6.34$ and $\langle k^2\rangle = 240.1$. What does $\kappa$ say?</p>
+  <ol>
+    <li data-why="That is ⟨k⟩; following links favours high-degree nodes.">The router you reach along a link has about 6 links.</li>
+    <li>The router at the end of a random link has about 38 links, six times the average: links lead to hubs (the friendship paradox).</li>
+    <li data-why="240 is the second moment, not the neighbour's degree.">The router you reach has about 240 links.</li>
+    <li data-why="κ follows from the given moments.">Nothing without the full degree list.</li>
+  </ol>
+  <div class="explain">$240.1/6.34 \approx 37.9$. Because hubs own many link ends, anything that spreads along links meets hubs early.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="3">
+  <p>Degree-preserving randomization rewires links while keeping every node's degree. For the collaboration network, clustering falls from 0.63 to about 0.002 and the average distance from 5.3 to 4.4. What do you conclude?</p>
+  <ol>
+    <li data-why="The degrees are identical in both versions, so they cannot be the cause of the difference.">The degrees cause the high clustering.</li>
+    <li data-why="Randomization never changes the degrees.">The randomization changed the degree distribution.</li>
+    <li>The degrees explain distances roughly but not clustering: triangles come from how co-authors group into papers, not from who has many links.</li>
+    <li data-why="Both measures change, but clustering by a factor of 300 and distance by 20%.">Clustering and distance are equally unexplained.</li>
+  </ol>
+  <div class="explain">A null model keeps some features and randomizes the rest. Whatever survives randomization is explained by the kept features (here, the degrees); what disappears needs another mechanism.</div>
+</div>
+<div class="quiz" data-topic="Recap · Ch 2–5" data-answer="1">
+  <p>The natural cutoff $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$ gives the expected largest hub. For a power law with $\gamma = 2.5$, $k_{\min} = 2$ and $N = 10^6$, and for a Poisson network of the same size and $\langle k\rangle$ (whose largest degree is a few dozen), what is the contrast?</p>
+  <ol>
+    <li>About 20,000 links against a few dozen: the power law produces hubs hundreds of times larger.</li>
+    <li data-why="2·(10⁶)^{1/1.5} = 2·10⁴, not 2·10³.">About 2,000 against a few dozen.</li>
+    <li data-why="The exponent 1/(γ − 1) = 2/3 makes k_max grow with N.">Both are a few dozen links.</li>
+    <li data-why="k_max ≈ 20,000 is far below N − 1.">The hub is linked to every node.</li>
+  </ol>
+  <div class="explain">$2 \cdot (10^6)^{2/3} = 2\cdot10^4$. In a power law the largest hub grows as a power of $N$; in a Poisson network only very slowly.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="2">
+  <p>In the Bianconi–Barabási model a new link attaches to node $i$ with probability $\Pi_i = \eta_i k_i / \sum_j \eta_j k_j$, where $\eta_i$ is its fitness. Node A has fitness 1 and 100 links; node B has fitness 2 and 60 links. Which gains links faster now?</p>
+  <ol>
+    <li data-why="A has more links, but attraction is fitness times degree: 100 against 120.">A, because it has more links.</li>
+    <li>B: $\eta k = 120$ against 100, so fitness outweighs A's head start.</li>
+    <li data-why="The products differ, 100 against 120.">Both equally.</li>
+    <li data-why="Fitness and degree multiply; neither alone decides.">B, because fitness counts and degree does not.</li>
+  </ol>
+  <div class="explain">Attraction is $\eta_i k_i$: $1\cdot100 = 100$ for A and $2\cdot60 = 120$ for B. A fitter latecomer can out-grow an older hub, which the BA model forbids.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="4">
+  <p>In the fitness model each node's degree grows as $k_i(t) = m\,(t/t_i)^{\beta_i}$ with $\beta_i = \eta_i / C$; for uniformly distributed fitness $C \approx 1.255$. Node A ($\eta = 0.5$) arrived at $t = 1$; node B ($\eta = 1$) arrived at $t = 1{,}000$. What happens?</p>
+  <ol>
+    <li data-why="That is the BA model, where all nodes share β = 1/2.">A always stays ahead, as in the BA model.</li>
+    <li data-why="B's exponent is twice A's, so B catches up eventually.">They grow in parallel and never cross.</li>
+    <li data-why="B starts with m links, the same as A did; only its growth rate is higher.">B overtakes A immediately.</li>
+    <li>B's exponent is about 0.80 against A's 0.40, so B overtakes A, at around $t \approx 10^6$.</li>
+  </ol>
+  <div class="explain">$\beta_A = 0.5/1.255 \approx 0.40$, $\beta_B \approx 0.80$. Setting $t^{0.40} = (t/1000)^{0.80}$ gives $t \approx 10^6$. Fitness, not age, decides the long-run winner.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="1">
+  <p>In the fitness model, the relative growth rate $\beta_i = d\ln k_i / d\ln t$ is constant for each node and proportional to its fitness. Page A's degree grew from 10 to 40 while time went from 100 to 1,600; page B's grew from 10 to 20 over the same period. Compare their fitness.</p>
+  <ol>
+    <li>$\beta_A = \ln 4/\ln 16 = 0.5$ and $\beta_B = 0.25$: A is twice as fit as B.</li>
+    <li data-why="Fitness is measured by the growth exponent, not by the number of links gained: ln 4/ln 16 = 0.5 against ln 2/ln 16 = 0.25.">A is three times as fit as B, because it gained 30 links against 10.</li>
+    <li data-why="Both started at 10 links, but they grew at different rates.">They are equally fit, since both started at 10 links.</li>
+    <li data-why="The exponents are ln 4/ln 16 and ln 2/ln 16.">B is twice as fit as A.</li>
+  </ol>
+  <div class="explain">$\beta = \ln(k_2/k_1)/\ln(t_2/t_1)$: $\ln 4/\ln 16 = 0.5$ and $\ln 2/\ln 16 = 0.25$. This is how fitness is measured from data: on a log–log plot of $k_i(t)$, fitter nodes have steeper lines.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="3">
+  <p>In the fitness model's Bose–Einstein phase, the fittest node keeps a finite share of all links even as $N \to \infty$; in the "fit-get-rich" phase every hub's share shrinks to zero. A messaging service holds 70% of all user links and its share does not fall as the market grows. Which phase does this suggest?</p>
+  <ol>
+    <li data-why="In fit-get-rich, the largest hub's share vanishes as N grows.">Fit-get-rich: the fittest node is just a large hub.</li>
+    <li data-why="BA hubs also lose share as the network grows.">The BA model with first-mover advantage.</li>
+    <li>Bose–Einstein condensation: winner takes all.</li>
+    <li data-why="A random network has no hub with a finite share at all.">A random network.</li>
+  </ol>
+  <div class="explain">A share that stays finite as the network grows is the condensate. The phase depends on the shape of the fitness distribution, not on the time of arrival.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="2">
+  <p>With initial attractiveness, $\Pi(k) \propto A + k$ and the exponent becomes $\gamma = 3 + A/m$. A network grows with $m = 2$ links per new node and has $\gamma = 3.5$. What is $A$, and what does it do?</p>
+  <ol>
+    <li data-why="3.5 = 3 + A/2 gives A = 1, not 0.5.">$A = 0.5$: new nodes are ignored.</li>
+    <li>$A = 1$: even nodes with no links get some attention, which raises $\gamma$ and makes the network less hub-dominated.</li>
+    <li data-why="A > 0 makes γ larger, not smaller.">$A = 1$: it lowers $\gamma$ and creates more hubs.</li>
+    <li data-why="A is set by the exponent and m, which are given.">It cannot be found from $\gamma$.</li>
+  </ol>
+  <div class="explain">$3.5 = 3 + A/2 \Rightarrow A = 1$. Initial attractiveness weakens the rich-get-richer effect for small nodes.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="4">
+  <p>If, besides the $m$ links of each new node, $n$ links are also added between existing nodes, chosen preferentially at both ends, then $\gamma = 2 + m/(m + 2n)$. With $m = 1$ and $n = 2$, what is $\gamma$, and what does it say about the WWW's exponent near 2.2?</p>
+  <ol>
+    <li data-why="Internal preferential links lower γ below 3.">$\gamma = 3$: internal links change nothing.</li>
+    <li data-why="m/(m + 2n) = 1/5, so γ = 2.2.">$\gamma = 2.5$.</li>
+    <li data-why="γ stays above 2 for any finite n.">$\gamma = 2$ exactly.</li>
+    <li>$\gamma = 2.2$: many preferential links between existing nodes push the exponent towards 2, as observed for the WWW.</li>
+  </ol>
+  <div class="explain">$2 + 1/(1 + 4) = 2.2$. Internal links concentrate even more on hubs, which is one way real exponents fall below the BA value.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="1">
+  <p>With random node deletion at rate $r$ (nodes removed per node added, $r &lt; 1$), the exponent is $\gamma = 3 + 2r/(1 - r)$ (the book's Eq. 6.29, corrected). Removing one node for every five added gives what $\gamma$, and why?</p>
+  <ol>
+    <li>$\gamma = 3.5$: deletion removes links from hubs as well and makes the network more homogeneous.</li>
+    <li data-why="r = 0.2 gives 2·0.2/0.8 = 0.5, not 2.">$\gamma = 5$.</li>
+    <li data-why="Deletion raises γ; it does not lower it.">$\gamma = 2.5$.</li>
+    <li data-why="The network still grows, since r < 1, so it stays scale-free.">The power law disappears.</li>
+  </ol>
+  <div class="explain">$3 + 0.4/0.8 = 3.5$. At $r = 0$ the formula gives the BA value 3; as $r \to 1$ the network stops growing and $\gamma \to \infty$.</div>
+</div>
+<div class="quiz" data-topic="Ch 6 · Evolving networks" data-answer="3">
+  <p>With aging, attractiveness falls with a node's age: $\Pi \propto k\,(t - t_i)^{-\nu}$. In a network where it falls quickly (large $\nu$), what happens to the hubs?</p>
+  <ol>
+    <li data-why="Aging penalizes old nodes, which are the ones with many links.">They grow even larger, since they are old.</li>
+    <li data-why="Aging changes who gets new links, so it changes the degree distribution.">Nothing changes.</li>
+    <li>Old nodes stop collecting links before they become hubs; the power-law tail disappears.</li>
+    <li data-why="Young nodes start with few links and age quickly too; no node keeps attracting long enough.">The youngest node becomes a giant hub.</li>
+  </ol>
+  <div class="explain">Strong aging cuts off the rich-get-richer feedback. It fits systems where items lose relevance, such as news stories or old papers.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="2">
+  <p>The degree correlation function $k_{nn}(k)$ is the average degree of the neighbours of degree-$k$ nodes, and often $k_{nn}(k) \sim k^\mu$. In a co-authorship network, $k_{nn}(k)$ rises with $k$ ($\mu &gt; 0$). Interpret.</p>
+  <ol>
+    <li data-why="Falling k_nn(k) would mean hubs avoid hubs; rising means they seek them.">Hubs link mostly to small nodes.</li>
+    <li>The network is assortative: well-connected scientists tend to collaborate with other well-connected scientists.</li>
+    <li data-why="Neutral networks have a flat k_nn(k).">The network is neutral.</li>
+    <li data-why="k_nn(k) describes who links to whom, not the degree distribution.">The degree distribution is a power law.</li>
+  </ol>
+  <div class="explain">Rising $k_{nn}(k)$: hubs connect to hubs. Social networks are typically assortative; technological and biological ones typically disassortative.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="4">
+  <p>The degree correlation coefficient $r \in [-1, 1]$ is the correlation between the degrees at the two ends of a link. In a star with 10 leaves, every link joins the degree-10 hub to a degree-1 leaf. What is $r$, and what does it mean?</p>
+  <ol>
+    <li data-why="r = 0 means no relation; here the degrees at the two ends are perfectly opposed.">$r = 0$: the star is neutral.</li>
+    <li data-why="Positive r would mean big links to big; here big always links to small.">$r = 1$: perfectly assortative.</li>
+    <li data-why="r has a definite value here, the extreme one.">$r$ is undefined.</li>
+    <li>$r = -1$: perfectly disassortative, since the hub links only to the smallest nodes.</li>
+  </ol>
+  <div class="explain">Each link pairs the highest degree with the lowest, the most negative correlation possible.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="1">
+  <p>In a simple network, the number of links between two hubs cannot exceed one, which forces disassortativity above the structural cutoff $k_s \approx \sqrt{\langle k\rangle N}$. The WWW sample has $\langle k\rangle = 6.69$, $N = 325{,}729$ and a largest hub of 10,721 links. What follows?</p>
+  <ol>
+    <li>$k_s \approx 1{,}480$, far below its largest hubs, so some of its disassortativity may come from this structural limit rather than from a real preference.</li>
+    <li data-why="√(6.69·325,729) ≈ 1,476, not 476,000.">$k_s \approx 476{,}000$: no hub reaches it.</li>
+    <li data-why="The cutoff is a limit on simple networks; hubs above it are common.">The WWW cannot have hubs above $k_s$.</li>
+    <li data-why="k_s concerns links between hubs, not distances.">The WWW's distances must be long.</li>
+  </ol>
+  <div class="explain">$\sqrt{6.69 \cdot 325{,}729} \approx 1{,}476$. Above $k_s$ random wiring would expect several links between two hubs, but a simple network allows one, so hubs look as if they avoid each other.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="3">
+  <p>You measure $r = -0.25$ for a network, then apply degree-preserving randomization (which keeps every degree) to a simple version of it and get $r = -0.22$. What do you conclude?</p>
+  <ol>
+    <li data-why="If r survives randomization, the preference is not needed to explain it.">The nodes have a strong preference to avoid hubs.</li>
+    <li data-why="The randomization keeps every degree exactly.">The randomization changed the degrees.</li>
+    <li>Most of the disassortativity follows from the degrees themselves (structural), not from a preference in who links to whom.</li>
+    <li data-why="Both values are clearly negative.">The network is neutral.</li>
+  </ol>
+  <div class="explain">A null model that keeps the degrees tells you what the degrees alone imply. Only the difference ($-0.25$ against $-0.22$) needs another explanation.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="2">
+  <p>In a neutral network $k_{nn}(k) = \langle k^2\rangle/\langle k\rangle$ for every $k$. In a network with $\langle k^2\rangle/\langle k\rangle = 40$, nodes of degree 2 have $k_{nn} = 120$ and nodes of degree 500 have $k_{nn} = 8$. Which kind of network is it?</p>
+  <ol>
+    <li data-why="Assortative networks have k_nn rising with k; here it falls.">Assortative.</li>
+    <li>Disassortative: small nodes attach to hubs and hubs to small nodes, far from the neutral value 40.</li>
+    <li data-why="Neutral would give k_nn ≈ 40 for all degrees.">Neutral.</li>
+    <li data-why="k_nn(k) depends on the wiring, not on randomness alone.">Random.</li>
+  </ol>
+  <div class="explain">$k_{nn}$ falls from 120 to 8 as $k$ grows: hubs sit among small nodes. This is the typical pattern of the Internet and of protein networks.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="4">
+  <p>The book reports $r = 0.13$ for the collaboration network and $r = -0.04$ for the protein network. (Book errata B13: the book's sentence after Eq. 7.12 swaps the signs; the convention is $r &gt; 0$ assortative.) Interpret both values.</p>
+  <ol>
+    <li data-why="That uses the book's swapped sentence; its own examples contradict it.">Collaboration disassortative, proteins assortative.</li>
+    <li data-why="0.13 is weak but clearly positive.">Both are neutral.</li>
+    <li data-why="Positive and negative r cannot both be assortative.">Both are assortative.</li>
+    <li>Collaboration is assortative (prolific scientists co-author with each other); proteins are weakly disassortative (hub proteins bind mostly to small partners).</li>
+  </ol>
+  <div class="explain">The sign of $r$ gives the type, its size the strength. Both values are modest: degree correlations refine, rather than replace, the picture from the degree distribution.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="1">
+  <p>For a large BA network, $k_{nn}(k)$ is nearly flat. Real social networks show a rising $k_{nn}(k)$ and technological ones a falling one. What does this say about the BA model?</p>
+  <ol>
+    <li>It is essentially neutral, so it cannot explain the correlations of real networks; generating them needs extra rules.</li>
+    <li data-why="A flat curve is neutral, neither rising nor falling.">It is strongly assortative.</li>
+    <li data-why="BA has hubs; flat k_nn says only that they connect without preference.">It has no hubs.</li>
+    <li data-why="The degree distribution and the correlations are separate properties.">Its degree distribution is wrong.</li>
+  </ol>
+  <div class="explain">Matching the degree distribution is not enough: the same degrees can be wired with or without correlations. Models that tune correlations rewire links while keeping degrees.</div>
+</div>
+<div class="quiz" data-topic="Ch 7 · Degree correlations" data-answer="3">
+  <p>In an assortative network the hubs link to each other and form a core. Newman (2002) found that such networks keep a giant component more easily when high-degree nodes are removed. Why?</p>
+  <ol>
+    <li data-why="In a core of interlinked hubs, removing one hub leaves the others still connected.">Removing a hub always disconnects its neighbours.</li>
+    <li data-why="Assortativity concerns the wiring among the same degrees.">Assortative networks have no hubs.</li>
+    <li>The hubs are redundant with each other: removing some leaves the rest of the core connected, while in a disassortative network each hub holds its own set of small nodes.</li>
+    <li data-why="Degree correlations change robustness even at fixed degrees.">Degree correlations do not affect robustness.</li>
+  </ol>
+  <div class="explain">Correlations change robustness at fixed degree distribution, a link between Ch 7 and Ch 8.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="2">
+  <p>The Molloy–Reed criterion: a giant component exists if $\kappa = \langle k^2\rangle/\langle k\rangle &gt; 2$. A network has $\langle k\rangle = 1.5$ and $\langle k^2\rangle = 4$. Does it have a giant component?</p>
+  <ol>
+    <li data-why="⟨k⟩ alone is not the test; κ = 4/1.5 ≈ 2.67.">No, because $\langle k\rangle &lt; 2$.</li>
+    <li>Yes: $\kappa \approx 2.67 &gt; 2$; the spread of degrees lets nodes reach the rest even though the average is low.</li>
+    <li data-why="κ = 2.67, which is above 2.">Exactly at the threshold.</li>
+    <li data-why="The criterion needs only the two moments, which are given.">It cannot be decided without $N$.</li>
+  </ol>
+  <div class="explain">$4/1.5 \approx 2.67$. On average, a node reached along a link has more than one other link to continue, so the network percolates.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="4">
+  <p>Removing a random fraction $f$ of nodes destroys the giant component at $f_c = 1 - 1/(\kappa - 1)$. For a random network $\kappa = \langle k\rangle + 1$. Compare a random network with $\langle k\rangle = 4$ and the Internet sample with $\kappa \approx 37.9$.</p>
+  <ol>
+    <li data-why="κ = 5 for the random network gives f_c = 1 − 1/4 = 0.75.">Both break at $f_c \approx 0.5$.</li>
+    <li data-why="The Internet's large κ makes it harder, not easier, to break.">The Internet breaks first.</li>
+    <li data-why="f_c is defined for random removal; it depends on κ.">Both break at the same point.</li>
+    <li>The random network breaks after removing about 75% of nodes; the Internet only after about 97%.</li>
+  </ol>
+  <div class="explain">Random: $1 - 1/4 = 0.75$. Internet: $1 - 1/36.9 \approx 0.973$. The broader the degrees, the larger $\kappa$ and the more random failures a network survives.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="1">
+  <p>Two networks have the same $\langle k\rangle = 4$: one random ($\sigma_k = 2$), one heavy-tailed ($\sigma_k = 10$). Using $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2$ and $f_c = 1 - 1/(\kappa - 1)$, which survives the random removal of 80% of its nodes?</p>
+  <ol>
+    <li>Only the heavy-tailed one: its $f_c \approx 0.96$, while the random one breaks at 0.75.</li>
+    <li data-why="With the same ⟨k⟩, the random network has the smaller κ = 5 and breaks at 0.75.">Only the random one.</li>
+    <li data-why="80% exceeds the random network's f_c = 0.75.">Both survive.</li>
+    <li data-why="80% is below the heavy-tailed network's f_c ≈ 0.96.">Neither survives.</li>
+  </ol>
+  <div class="explain">Random: $\langle k^2\rangle = 20$, $\kappa = 5$, $f_c = 0.75$. Heavy-tailed: $\langle k^2\rangle = 116$, $\kappa = 29$, $f_c = 1 - 1/28 \approx 0.964$. Random failures mostly hit small nodes; the hubs keep the network together.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="3">
+  <p>The same formula gives the US power grid ($\langle k\rangle = 2.67$, $\langle k^2\rangle = 10.3$) $f_c \approx 0.65$. In simulations on the real grid, random failures break it at about 30–40% removal. Why the gap?</p>
+  <ol>
+    <li data-why="κ = 10.3/2.67 ≈ 3.86, so f_c ≈ 0.65 is computed correctly.">The arithmetic is wrong.</li>
+    <li data-why="The grid's degrees are narrow; it has no large hubs.">The grid's hubs are failing first.</li>
+    <li>The formula assumes the links are otherwise random; the grid is lattice-like and long-chained, so it falls apart earlier than a random network with the same degrees.</li>
+    <li data-why="The grid is fully connected before any removal.">The grid was disconnected to begin with.</li>
+  </ol>
+  <div class="explain">$\kappa = 10.3/2.67 \approx 3.86$ gives $f_c = 1 - 1/2.86 \approx 0.65$. Molloy–Reed uses only the degrees. Geometry and long chains, which it ignores, make real infrastructure more fragile.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="2">
+  <p>A scale-free network with $2 &lt; \gamma &lt; 3$ has a second moment $\langle k^2\rangle$ that keeps growing with $N$. What happens to its random-failure threshold $f_c = 1 - 1/(\kappa - 1)$ as the network grows from $10^3$ to $10^6$ nodes?</p>
+  <ol>
+    <li data-why="κ grows with N, so f_c rises, not falls.">It falls: larger networks are more fragile.</li>
+    <li>It approaches 1: in the limit of a large network almost all nodes must be removed at random to break it.</li>
+    <li data-why="f_c depends on κ, which changes with N.">It stays the same.</li>
+    <li data-why="f_c can only be between 0 and 1.">It exceeds 1.</li>
+  </ol>
+  <div class="explain">Growing $\langle k^2\rangle$ means growing $\kappa$, so $1/(\kappa - 1) \to 0$. This is the robustness of scale-free networks to random failures.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="4">
+  <p>A targeted attack removes nodes in order of decreasing degree. A scale-free network that survives 90% random failures falls apart after the removal of a few percent of its hubs. You must protect a scale-free communication network with a limited budget. What do you protect?</p>
+  <ol>
+    <li data-why="Random nodes are mostly small and matter little.">A random sample of nodes.</li>
+    <li data-why="The many small nodes are what random failures hit, and the network already tolerates that.">The nodes with the fewest links.</li>
+    <li data-why="Removing the hubs is exactly what breaks the network; adding links elsewhere does not stop that.">Add more small nodes.</li>
+    <li>The hubs: they hold the network together, and their loss is what fragments it.</li>
+  </ol>
+  <div class="explain">The same hubs that make scale-free networks robust to random failure make them fragile to attack: robust yet fragile.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="1">
+  <p>A network has $f_c = 0.95$ against random failures, yet one failure triggers a blackout across a third of it. How can both be true?</p>
+  <ol>
+    <li>$f_c$ assumes independent removals; in a cascading failure each failure overloads neighbours, so failures are correlated and spread along the links.</li>
+    <li data-why="f_c is a property of the wiring and does not depend on how many failures happen at once.">$f_c$ was computed wrongly.</li>
+    <li data-why="A single failure is far below 95%; the threshold is not the explanation.">One failure exceeds $f_c$.</li>
+    <li data-why="Cascades happen in many networks, robust or not.">Cascades happen only in random networks.</li>
+  </ol>
+  <div class="explain">Percolation describes static, independent damage. Cascades are dynamics on the network: loads, capacities and redistribution, and they need their own models.</div>
+</div>
+<div class="quiz" data-topic="Ch 8 · Robustness" data-answer="3">
+  <p>Removing a fraction $f$ of nodes at random from a network with $\kappa = \langle k^2\rangle/\langle k\rangle$ is like percolation. Two airline networks have the same number of airports and routes. In A, three hubs each serve 40% of the airports; in B, routes are spread evenly. Which disruption hurts which network most?</p>
+  <ol>
+    <li data-why="Random closures mostly hit small airports, which A tolerates well.">Random closures hurt A most.</li>
+    <li data-why="B has no hubs to target, so attacks on it are like random failures.">Closing the three busiest airports hurts B most.</li>
+    <li>Closing the three hubs devastates A; random closures barely affect A but hurt B more.</li>
+    <li data-why="Same N and L, but different degree spreads give different κ and different vulnerabilities.">Both react the same way, since they have the same number of routes.</li>
+  </ol>
+  <div class="explain">A has a large $\kappa$ (high $f_c$ to random failures) but depends on three nodes. B has a smaller $\kappa$ but no single point of failure.</div>
+</div>
+
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="2">
+  <p>In link prediction you hide some links and score all unlinked pairs. The AUC is the probability that a hidden (true) link scores higher than a random non-link. A method gets AUC = 0.5 on the power grid. What does that mean?</p>
+  <ol>
+    <li data-why="An AUC of 0.5 is what random guessing gives.">It predicts half the missing links correctly, which is good.</li>
+    <li>It is no better than guessing on this network.</li>
+    <li data-why="An AUC below 0.5 would be worse than random; 0.5 is exactly random.">It is worse than random guessing.</li>
+    <li data-why="AUC does not depend on how many links were hidden.">It depends on how many links were hidden.</li>
+  </ol>
+  <div class="explain">AUC 1 is a perfect ranking and 0.5 a random one. Always compare with simple baselines such as common neighbours.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="4">
+  <p>The common-neighbours score of a pair is $s_{ij} = |N(i) \cap N(j)|$, the number of neighbours they share. It predicts hidden links well in the collaboration network (AUC about 0.97) but poorly in the protein network (about 0.57). Why?</p>
+  <ol>
+    <li data-why="The protein network is not too small; it has thousands of links.">The protein network is too small.</li>
+    <li data-why="Both networks have hubs; the difference is in triangles.">Proteins have no hubs.</li>
+    <li data-why="AUC is comparable across networks of different sizes.">The two AUC values cannot be compared.</li>
+    <li>Collaboration is full of triangles (two co-authors of one person often co-author too); protein networks have few triangles, so shared neighbours say little.</li>
+  </ol>
+  <div class="explain">A link-prediction score works when the network's structure matches its assumption. For proteins, paths of length 3 work better than shared neighbours (Kovács et al. 2019).</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="1">
+  <p>The Jaccard score $J_{ij} = |N(i) \cap N(j)| / |N(i) \cup N(j)|$ normalizes shared neighbours. Node $i$ has neighbours {a, b, c} and node $j$ has {b, c, d, e, f}. What is $J_{ij}$, and why normalize at all?</p>
+  <ol>
+    <li>$J = 2/6 \approx 0.33$; without normalizing, hubs would share many neighbours with everyone just because they have many.</li>
+    <li data-why="The intersection {b, c} has 2 elements, the union {a…f} has 6.">$J = 2/8 = 0.25$.</li>
+    <li data-why="2 is the raw common-neighbour count, before dividing by the union.">$J = 2$.</li>
+    <li data-why="2/3 divides by i's degree only.">$J = 2/3$.</li>
+  </ol>
+  <div class="explain">Intersection {b, c}, union {a, b, c, d, e, f}. Normalizing by the union removes the advantage that high-degree nodes would otherwise have.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="3">
+  <p>A spectral embedding uses eigenvectors of the Laplacian $L = D - A$. The signs of the Fiedler vector (the second eigenvector) split the network in two. For six nodes it is $(-0.5, -0.4, -0.1, 0.2, 0.4, 0.4)$. What split does it suggest, and which nodes are borderline?</p>
+  <ol>
+    <li data-why="The split follows the signs, so node 3 (−0.1) is on the negative side.">{1, 2} and {3, 4, 5, 6}, with no borderline nodes.</li>
+    <li data-why="The Fiedler vector splits by sign, not by size alone.">{1, 6} and the rest.</li>
+    <li>{1, 2, 3} and {4, 5, 6}; nodes 3 and 4, closest to zero, sit near the boundary between the groups.</li>
+    <li data-why="The entries have both signs, so the vector does split the network.">No split: all values are small.</li>
+  </ol>
+  <div class="explain">The sign gives the side, the magnitude how firmly a node belongs. Nodes near zero are bridges between the two groups.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="2">
+  <p>DeepWalk runs short random walks and treats each walk as a sentence, then trains word2vec so that nodes appearing near each other in walks get similar vectors. Two nodes are never directly linked but often appear within two steps of each other on walks. What will their embeddings be like?</p>
+  <ol>
+    <li data-why="DeepWalk uses co-occurrence on walks, not only direct links.">Very different, because they are not linked.</li>
+    <li>Similar: they share a neighbourhood, which is what the walks capture.</li>
+    <li data-why="Walks are random, but the embedding learns from many walks and is not random.">Random, because the walks are random.</li>
+    <li data-why="Embeddings are learned from the walks, not from degree alone.">Identical to every other node of the same degree.</li>
+  </ol>
+  <div class="explain">Random-walk embeddings encode "who appears near whom", so nodes in the same region or community end up close in vector space.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="4">
+  <p>node2vec biases its walks with a parameter $q$: $q &lt; 1$ makes walks move outward (depth-first-like), which groups nodes of the same community; $q &gt; 1$ keeps walks local (breadth-first-like), which groups nodes with similar structural roles. You want to find nodes that act as bridges in different parts of a network. Which do you choose?</p>
+  <ol>
+    <li data-why="Outward walks group nodes by community, not by role.">$q &lt; 1$, to explore far.</li>
+    <li data-why="q = 1 does not favour structural roles.">$q = 1$, the unbiased walk.</li>
+    <li data-why="q does change what the embedding captures.">It makes no difference.</li>
+    <li>$q &gt; 1$: local, breadth-first-like walks capture each node's role in its neighbourhood, so bridges in different places look alike.</li>
+  </ol>
+  <div class="explain">The walk strategy decides what "similar" means: same community (homophily) or same role (structural equivalence).</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="1">
+  <p>A graph neural network layer updates each node from its neighbours: $h_i^{(l+1)} = \sigma\big(W \cdot \text{mean}_{j \in N(i)\cup\{i\}}\, h_j^{(l)}\big)$. After two layers, which nodes can influence node $i$'s vector?</p>
+  <ol>
+    <li>Nodes up to distance 2 from $i$.</li>
+    <li data-why="Each layer adds one step, so two layers reach two steps.">Only its direct neighbours.</li>
+    <li data-why="Information travels one step per layer, not to every node at once.">Every node in the network.</li>
+    <li data-why="The mean includes i itself, but also its neighbours and their neighbours.">Only node $i$ itself.</li>
+  </ol>
+  <div class="explain">Each layer passes messages one step. The number of layers sets how far a GNN can see; too many layers make all vectors alike (over-smoothing).</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="3">
+  <p>To test link prediction, you hide 10% of the links, but compute the node embeddings on the full network and only then score the hidden pairs. What is wrong?</p>
+  <ol>
+    <li data-why="10% is a standard test size; the problem is elsewhere.">10% is too few links to hide.</li>
+    <li data-why="Any embedding method has the same problem here.">The embedding method is the wrong one.</li>
+    <li>Information leaks: the embeddings were trained with the hidden links present, so the test score is too optimistic.</li>
+    <li data-why="The issue is in the procedure, not the network.">Nothing; this is the standard procedure.</li>
+  </ol>
+  <div class="explain">Train only on the visible links. The test set must be invisible to everything that is learned, or the reported accuracy is not a prediction.</div>
+</div>
+<div class="quiz" data-topic="GraphML · node embeddings" data-answer="2">
+  <p>Standard machine-learning models (logistic regression, random forests) take a fixed-length vector of numbers per item. What do node embeddings add?</p>
+  <ol>
+    <li data-why="Embeddings do not change the network; they describe it.">They make the network smaller.</li>
+    <li>They turn each node's position in the network into a fixed-length vector, so standard models can classify nodes or predict links.</li>
+    <li data-why="Embeddings use the structure; they do not replace the need for data.">They replace the need for any network data.</li>
+    <li data-why="Degree is one number; embeddings capture much more than degree.">They are just the node degrees.</li>
+  </ol>
+  <div class="explain">Embeddings are the bridge from network science to machine learning: structure in, vectors out.</div>
+</div>
+</template>
+
+</div></main>
+</body>
+</html>

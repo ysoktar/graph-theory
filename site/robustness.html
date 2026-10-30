@@ -50,7 +50,7 @@
 <div class="callout fix" data-book="B10"></div>
 
 <h2>The critical fraction</h2>
-<ol>
+<ol data-beyond="Book Advanced Topic 8.C">
   <li>Remove $f$ at random: each link survives with probability $1 - f$.</li>
   <li>The moments shrink so that $\kappa_f = (1-f)\,\kappa + f$.</li>
   <li>Set $\kappa_f = 2$ and solve:</li>
@@ -135,6 +135,37 @@
   <div class="explain">Molloy–Reed assumes random wiring. The grid is stretched ($\langle d\rangle = 18.8$) and splits after about a third of its nodes fail.</div>
 </div>
 
+<div class="quiz" data-answer="1">
+  <p>Randomly wired network, $\kappa = 3$. $f_c$?</p>
+  <ol>
+    <li>50%</li>
+    <li data-why="That is 1 − 1/κ; use κ − 1.">67%</li>
+    <li data-why="That is 1/κ.">33%</li>
+    <li data-why="κ &gt; 2, so a giant component exists.">0%</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/(3 - 1) = 50\%$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Half the nodes have degree 1, half degree 2: $\langle k\rangle = 1.5$, $\langle k^2\rangle = 2.5$. Giant component?</p>
+  <ol>
+    <li data-why="⟨k⟩ &gt; 1 is the criterion for Poisson degrees only.">Yes, since $\langle k\rangle > 1$</li>
+    <li data-why="The threshold is κ = 2.">Yes, since $\kappa > 1$</li>
+    <li data-why="Molloy–Reed decides from these two moments.">Cannot tell</li>
+    <li>No: $\kappa = 1.67 &lt; 2$</li>
+  </ol>
+  <div class="explain">With no node of degree 3 or more, paths never branch: only chains form.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Targeted attack: which breaks first, a scale-free or a random network with the same $N$ and $\langle k\rangle$?</p>
+  <ol>
+    <li data-why="Scale-free networks are robust to random failures, not to attacks.">The random network</li>
+    <li data-why="Their hubs differ.">Both at the same point</li>
+    <li>The scale-free network</li>
+    <li data-why="Removing enough nodes breaks any network.">Neither breaks</li>
+  </ol>
+  <div class="explain">Its few hubs carry most of $\langle k^2
+angle$; removing them collapses $\kappa$ (Section 8.4).</div>
+</div>
 </div></main>
 </body>
 </html>

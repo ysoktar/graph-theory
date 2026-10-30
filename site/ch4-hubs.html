@@ -41,7 +41,7 @@
   <dt>$\gamma$</dt><dd>degree exponent</dd>
   <dt>$1/(\gamma-1)$</dt><dd>growth exponent of the hub: $\tfrac23$ for $\gamma = 2.5$</dd>
 </dl>
-<p>For an exponential $p(k) = \lambda e^{-\lambda(k - k_{\min})}$ the same steps give $k_{\max} \approx k_{\min} + \ln N/\lambda$: logarithmic growth ($\lambda$ — decay rate, $1/\lambda$ — mean excess over $k_{\min}$). A Poisson tail falls faster still, so its maximum grows roughly like $\ln N/\ln\ln N$.</p>
+<p>For an exponential $p(k) = \lambda e^{-\lambda(k - k_{\min})}$ the same steps give $k_{\max} \approx k_{\min} + \ln N/\lambda$: logarithmic growth ($\lambda$ is the decay rate; $1/\lambda$ is the mean excess over $k_{\min}$). A Poisson tail falls faster still: <span data-beyond="Not in the book: the Poisson maximum">its maximum grows roughly like $\ln N/\ln\ln N$</span>.</p>
 <div class="callout example">
   <p>$N = 10^6$, $k_{\min} = 1$, $\langle k\rangle = 3$: power law ($\gamma = 2.5$) $10^{6 \cdot 2/3} = 10{,}000$; exponential $1 + 2\ln 10^6 \approx 29$; Poisson 14.</p>
 </div>
@@ -120,6 +120,37 @@
     <li>The natural cutoff is an order-of-magnitude estimate, not a bound</li>
   </ol>
   <div class="explain">The cutoff gives the expected size of the largest degree; a single sample can land well above or below it.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>$\gamma = 2.5$, $k_{\min} = 2$, $N = 10^6$. What is the natural cutoff?</p>
+  <ol>
+    <li data-why="That uses the exponent ½ (γ = 3) instead of ⅔.">2,000</li>
+    <li data-why="That forgets the factor k_min = 2.">10,000</li>
+    <li data-why="A hub cannot exceed N − 1 links.">2 million</li>
+    <li>20,000</li>
+  </ol>
+  <div class="explain">$k_{\max} \approx 2 \times (10^6)^{1/1.5} = 2 \times 10^4$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Email: observed $k_{\max} = 6{,}553$, natural cutoff about 56,000. Why can the cutoff overshoot this much?</p>
+  <ol>
+    <li>With $\hat\gamma$ near 2 the extrapolation is extreme, and real tails bend down at the highest degrees</li>
+    <li data-why="The cutoff uses the network's own tail size.">The fit used the wrong $N$</li>
+    <li data-why="Its hub is 500 times the Poisson value.">Email is a random network</li>
+    <li data-why="All nodes are kept.">The largest hub was deleted from the data</li>
+  </ol>
+  <div class="explain">$N^{1/(\gamma-1)}$ is very sensitive near $\gamma = 2$; finite size and the cost of links cap real hubs.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>For $\gamma = 2.1$ the hub exponent is $1/(\gamma-1) \approx 0.91$. What does that imply for distances?</p>
+  <ol>
+    <li data-why="That holds for γ &gt; 3, where hubs are small.">They grow like $\ln N$, as in a random network</li>
+    <li data-why="Only a chain-like network has distances that grow like N.">They grow like $N$</li>
+    <li>They are very short: the hubs reach a large share of all nodes</li>
+    <li data-why="Hubs are the shortcuts that make paths short.">Distances do not depend on hubs</li>
+  </ol>
+  <div class="explain">Near $\gamma = 2$ the largest hub links almost every node, so most paths need only a few steps (<a href="ch4-ultra-small.html">Ultra-small worlds</a>).</div>
 </div>
 
 </div></main>

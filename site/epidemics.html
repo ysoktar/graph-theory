@@ -22,7 +22,7 @@
 
 <div class="callout why">
   <ul>
-    <li>Classical epidemiology assumes everyone meets everyone; an epidemic needs $R_0 > 1$.</li>
+    <li>Classical epidemiology assumes everyone meets everyone; an epidemic needs $R_0 > 1$</li>
     <li>The network model replaces that with "you meet your neighbours".</li>
     <li>It predicts what mixing models cannot: with hubs, even weak diseases spread and random vaccination barely helps.</li>
     <li>It tells us whom to vaccinate instead.</li>
@@ -33,7 +33,7 @@
 <p>Nodes are <strong>S</strong>usceptible, <strong>I</strong>nfected or <strong>R</strong>ecovered. An infected node tries once to infect each susceptible neighbour, succeeding with probability $T$, then recovers.</p>
 <dl class="symbols">
   <dt>$T$</dt><dd>transmissibility: chance of passing the infection along one link</dd>
-  <dt>$\beta, \mu$</dt><dd>infection and recovery rates; $T = \beta/(\beta+\mu)$</dd>
+  <dt>$\beta, \tau$</dt><dd>infection rate per link, recovery time; $T = 1 - e^{-\beta\tau}$ (Advanced Topic 10.D)</dd>
 </dl>
 <div data-fig id="fig-outbreak"></div>
 
@@ -53,7 +53,7 @@
   <dt>$R$</dt><dd>new infections caused by one case</dd>
 </dl>
 <ul>
-  <li>Random network: $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$, so $T_c = 1/\langle k\rangle$ — the mixing-model answer.</li>
+  <li>Random network: $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$, so $T_c = 1/\langle k\rangle$, the answer of the well-mixed model.</li>
   <li>Scale-free, $\gamma < 3$: $\langle k^2\rangle \to \infty$, so $T_c \to 0$ (Pastor-Satorras and Vespignani 2001).</li>
   <li>Mean-field SIS gives $\langle k\rangle/\langle k^2\rangle$: same behaviour.</li>
 </ul>
@@ -66,7 +66,7 @@
 <h2>Whom to vaccinate?</h2>
 <p>A vaccinated node is, for the epidemic, a removed node: vaccination is <a href="robustness.html">robustness</a> in reverse.</p>
 <ul>
-  <li><strong>Random:</strong> a fraction $g$ cuts $R$ to $(1-g)\,T(\kappa-1)$, so $g_c = 1 - \dfrac{1}{T(\kappa - 1)}$ — near 1 when $\kappa$ is large.</li>
+  <li><strong>Random:</strong> a fraction $g$ cuts $R$ to $(1-g)\,T(\kappa-1)$, so $g_c = 1 - \dfrac{1}{T(\kappa - 1)}$, which is close to 1 when $\kappa$ is large.</li>
   <li><strong>Hubs:</strong> cuts $\langle k^2\rangle$ far more than $\langle k\rangle$, raising $T_c$. Needs the whole network.</li>
   <li><strong>Acquaintance</strong> (Cohen, Havlin and ben-Avraham 2003): vaccinate a random contact of a random person. Contacts average $\kappa$ links, so this finds hubs blindly.</li>
 </ul>
@@ -148,6 +148,26 @@
   <div class="explain">Hubs appear in many contact lists. Email network: a person has 3.2 contacts, a contact 393.</div>
 </div>
 
+<div class="quiz" data-answer="1">
+  <p>Random network, $\langle k\rangle = 5$. $T_c$?</p>
+  <ol>
+    <li>0.2</li>
+    <li data-why="That is 1/(⟨k⟩ − 1); for Poisson degrees ⟨k²⟩ − ⟨k⟩ = ⟨k⟩².">0.25</li>
+    <li data-why="That is 1/⟨k⟩².">0.04</li>
+    <li data-why="A probability cannot exceed 1.">5</li>
+  </ol>
+  <div class="explain">$T_c = \langle k\rangle/\langle k\rangle^2 = 1/5$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A scale-free contact network ($\gamma = 2.5$) grows from $10^4$ to $10^7$ people. Its $T_c$</p>
+  <ol>
+    <li data-why="That holds for random networks with fixed ⟨k⟩.">stays fixed</li>
+    <li data-why="Bigger hubs make spreading easier.">rises</li>
+    <li>falls towards 0</li>
+    <li data-why="Hubs lower the threshold.">jumps to 1</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle$ grows with $N$ for $\gamma &lt; 3$, so $T_c = \langle k\rangle/(\langle k^2\rangle - \langle k\rangle) \to 0$.</div>
+</div>
 </div></main>
 </body>
 </html>

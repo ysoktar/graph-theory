@@ -1,0 +1,159 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Komşuluk matrisi · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bir ağı komşuluk matrisi üzerinden düzenleyin, karate kulübünün topluluklarını bloklar olarak görün ve matris kuvvetleriyle yürüyüşleri ve üçgenleri sayın."></head><body>
+<div class="content">
+
+<h1>Komşuluk matrisi</h1>
+<p class="lead">Bir ağ hakkında herhangi bir şey hesaplamak için hangi düğüm çiftlerinin bağlı olduğunu kaydetmemiz gerekir. <strong>Komşuluk matrisi</strong> bunu 0'lar ve 1'lerden oluşan bir tabloyla yapar ve ağ sorularını (dereceler, ortak komşular, üçgenler) aritmetiğe dönüştürür.</p>
+
+<h2>Tanım</h2>
+<p>$N$ düğümlü bir ağ için $A$, $N \times N$ boyutlu bir tablodur:</p>
+<div class="eq">$$A_{ij} = \begin{cases} 1 & i \text{ ve } j \text{ düğümleri bağlıysa,}\\ 0 & \text{aksi hâlde.}\end{cases}$$</div>
+<dl class="symbols">
+  <dt>$A_{ij}$</dt><dd>$i$. satır ve $j$. sütundaki öğe</dd>
+  <dt>$A_{ii}$</dt><dd>bir köşegen öğesi; kendine döngü (bir düğümden kendisine bağlantı) yoksa 0'dır</dd>
+</dl>
+<p>Yönsüz bir ağda $A_{ij} = A_{ji}$'dir; bu yüzden $A$ <strong>simetriktir</strong> ve $2L$ tane 1 içerir. Dereceler ve bağlantı sayısı buradan çıkar:</p>
+<div class="eq">$$k_i = \sum_{j=1}^{N} A_{ij}, \qquad L = \frac{1}{2}\sum_{i,j=1}^{N} A_{ij}.$$</div>
+<dl class="symbols">
+  <dt>$\sum_j A_{ij}$</dt><dd>$i$. satırın toplamı, yani derece $k_i$</dd>
+  <dt>$\tfrac12 \sum_{i,j}$</dt><dd>tüm öğelerin toplamının yarısı; çünkü her bağlantı iki kez görünür: $A_{ij}$ olarak ve $A_{ji}$ olarak</dd>
+</dl>
+<p><strong>Yönlü</strong> bir ağ için kitabın kuralı, <em>$j$'den $i$'ye</em> bir bağlantı için $A_{ij} = 1$'dir. O zaman satır toplamları giriş dereceleri, sütun toplamları çıkış dereceleridir ve $A$ genellikle simetrik değildir. Birçok yazılım paketi ters kuralı kullanır; hangisini okuduğunuzu denetleyin.</p>
+<div class="callout example">
+  <p>1–2, 1–3, 2–3 ve 3–4 bağlantıları $A = \begin{pmatrix} 0&1&1&0\\ 1&0&1&0\\ 1&1&0&1\\ 0&0&1&0 \end{pmatrix}$ matrisini verir. Satır toplamları 2, 2, 3 ve 1'dir; toplamları $8 = 2L$ eder.</p>
+</div>
+
+<h2>Bir ağı matrisi üzerinden düzenleyin</h2>
+<div data-fig id="fig-edit"></div>
+<div class="callout look">
+  <ul>
+    <li>Yönsüz bir ağda $A_{ij}$'ye tıklamak $A_{ji}$'yi de ayarlar, köşegen boş kalır ve satır toplamları derecelerdir.</li>
+    <li>Yönlü bir ağda bir öğe bir oktur. Satır toplamları giriş, sütun toplamları çıkış dereceleridir ve ikisi de $L$'ye eşittir.</li>
+  </ul>
+</div>
+
+<h2>Matris olarak karate kulübü</h2>
+<p>Düğümlerin sırası keyfidir: onları yeniden numaralamak aynı ağı verir. Ama iyi bir sıra yapıyı ortaya çıkarabilir.</p>
+<div data-fig id="fig-karate"></div>
+<div class="callout look">
+  <p>Taraflara göre sıralandığında matris, köşegen üzerinde iki yoğun blok gösterir: 78 bağlantının 67'si bir tarafın içinde kalır. Bu <em>topluluk yapısıdır</em> (<a href="communities.html">Topluluklar</a>). Rastgele sırada aynı matris gürültü gibi görünür.</p>
+</div>
+
+<h2>$A$'nın kuvvetlerinden yürüyüşler ve üçgenler</h2>
+<p>$n$ uzunluğunda bir <strong>yürüyüş</strong>, art arda $n$ bağlantıdan oluşan bir dizidir. Bir <em>yoldan</em> farklı olarak yürüyüş bir düğümü birden fazla kez ziyaret edebilir. $A^2 = A \cdot A$ çarpımı 2 uzunluğundaki yürüyüşleri sayar:</p>
+<div class="eq">$$(A^2)_{ij} = \sum_{m=1}^{N} A_{im}A_{mj}, \qquad (A^n)_{ij} = i\text{'den } j\text{'ye } n \text{ uzunluğundaki yürüyüş sayısı}.$$</div>
+<dl class="symbols">
+  <dt>$A_{im}A_{mj}$</dt><dd>$i$–$m$ ve $m$–$j$ ikisi de bağlantıysa 1; bu bir $i \to m \to j$ yürüyüşü verir</dd>
+  <dt>$(A^2)_{ij}$</dt><dd>$i \ne j$ için $i$ ile $j$'nin ortak komşu sayısı</dd>
+  <dt>$A^n$</dt><dd>$A$'nın kendisiyle $n$ kez çarpımı</dd>
+</dl>
+<p>Uzaklık $d_{ij}$, $(A^n)_{ij} > 0$ olan en küçük $n$'dir. Üçgen 3 uzunluğunda kapalı bir yürüyüştür ve iz her üçgeni 6 kez sayar (3 başlangıç düğümü × 2 yön):</p>
+<div class="eq">$$\text{üçgen sayısı} = \frac{1}{6}\,\mathrm{Tr}\, A^3, \qquad \bigl(A^3\bigr)_{ii} = 2\times(i\text{'den geçen üçgen sayısı}).$$</div>
+<dl class="symbols">
+  <dt>$\mathrm{Tr}\,A^3$</dt><dd>iz: $A^3$'ün köşegen öğelerinin toplamı</dd>
+  <dt>$(A^3)_{ii}$</dt><dd>$i$'de başlayıp $i$'de biten kapalı 3 adımlı yürüyüşlerin sayısı</dd>
+</dl>
+<div class="callout example">
+  <p>Yukarıdaki örnekte $A_{14} = 0$ ama $(A^2)_{14} = 1$'dir (3 düğümü üzerinden); bu yüzden $d_{14} = 2$. $\mathrm{Tr}\,A^3 = 2+2+2+0 = 6$, yani bir üçgen.</p>
+  <p>Karate kulübünde $A_{0,33} = 0$ ve $(A^2)_{0,33} = 4$'tür; bu yüzden $d = 2$. $\mathrm{Tr}\,A^3 = 270$, yani 45 üçgen.</p>
+</div>
+<div data-fig id="fig-powers"></div>
+
+<div class="callout fix" data-errata="N4"></div>
+<div class="callout fix" data-book="B2"></div>
+
+<div class="callout why">
+  <ul>
+    <li>Ağ soruları, bilgisayarların hızlı yaptığı doğrusal cebire dönüşür.</li>
+    <li>$A^2$ ortak komşuları sayar; arkadaş önerisinin ve bağlantı tahmininin temeli budur.</li>
+    <li>$A^3$ üçgenleri sayar; üçgenler kümelenme katsayısını verir.</li>
+    <li data-beyond="1–7. bölümlerde yok: spektral yöntemler">$A$'nın özvektörleri düğümleri önemlerine göre sıralar ve toplulukları bulur.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Karate kulübünün komşuluk matrisinin $34^2 = 1{,}156$ öğesi vardır ve bunların 156'sı sıfırdan farklıdır. $N = 23{,}133$ ve $L = 93{,}439$ olan iş birliği ağı için sıfırdan farklı öğelerin oranı ne olurdu? Bu, büyük ağların nasıl saklanması gerektiği konusunda ne düşündürür?</p>
+  <div class="hint">$2L/N^2 = 186{,}878 / 535{,}135{,}689 \approx \%0.035$. Matris neredeyse tamamen sıfırdır; bu yüzden gerçek ağlar kenar listeleri ya da seyrek matrisler olarak saklanır (<a href="ch2-sparsity.html">sonraki sayfa</a>).</div>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>İçerdikleri:</strong> <a href="ch2-degree.html">dereceler</a> (satır toplamları) ve el sıkışma özdeşliği (tüm öğelerin toplamı $2L$'dir).</li>
+    <li><strong>Gerçek ağlarda çoğunlukla sıfırdır:</strong> <a href="ch2-sparsity.html">seyreklik</a> sayfasına bakın.</li>
+    <li><strong>Verdikleri:</strong> <a href="ch2-paths.html">uzaklıklar</a> ($(A^n)_{ij} > 0$ olan ilk $n$), <a href="ch2-connectedness.html">bileşenler</a> (düğümler bileşene göre sıralandığında köşegen bloklar) ve <a href="ch2-clustering.html">kümelenme</a> (üçgenler).</li>
+    <li><strong>Rastgele model:</strong> <a href="ch3-model.html">G(N, p)</a>, $i &lt; j$ olan her $A_{ij}$'yi bağımsız olarak $p$ olasılıkla 1 yapar.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Yönsüz bir ağda $(A^2)_{ii}$ nedir?</p>
+  <ol>
+    <li>Derece $k_i$.</li>
+    <li data-why="Kendine döngü olmasa da i → m → i yürüyüşleri vardır.">0, çünkü kendine döngü yoktur.</li>
+    <li data-why="Üçgenler kapalı 3 adımlı yürüyüş gerektirir: (A³)ᵢᵢ/2 ile sayılırlar.">$i$'den geçen üçgen sayısı.</li>
+    <li data-why="Her komşu bir i → m → i yürüyüşü verir, iki değil.">$2k_i$.</li>
+  </ol>
+  <div class="explain">$(A^2)_{ii} = \sum_m A_{im}^2 = k_i$: her komşu için bir gidip-dönme yürüyüşü vardır.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Karate kulübünde $A_{0,33} = 0$ ve $(A^2)_{0,33} = 4$'tür. 0 ve 33 numaralı üyeler arasındaki uzaklık nedir?</p>
+  <ol>
+    <li data-why="Uzaklık 1 doğrudan bir bağlantı gerektirir, ama A₀,₃₃ = 0.">1</li>
+    <li>2</li>
+    <li data-why="4, 2 uzunluğundaki yürüyüşleri sayar; bir uzunluk değildir.">4</li>
+    <li data-why="Uzaklık, (Aⁿ)ᵢⱼ > 0 olan ilk n'dir ve A bunu verir.">$A$'dan okunamaz.</li>
+  </ol>
+  <div class="explain">1 uzunluğunda yürüyüş yoktur ve 2 uzunluğunda dört tane vardır; bu yüzden $d_{0,33} = 2$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Kendine döngüsü olmayan yönsüz bir ağın komşuluk matrisinde 40 tane 1 vardır. Ağın kaç bağlantısı vardır?</p>
+  <ol>
+    <li data-why="Her bağlantı iki kez görünür: Aᵢⱼ ve Aⱼᵢ olarak.">40</li>
+    <li>20</li>
+    <li data-why="Bu, yarıya bölmek yerine iki katına çıkarır.">80</li>
+    <li data-why="Yalnızca bir kez yarıya bölün: her bağlantı tam iki hücre doldurur.">10</li>
+  </ol>
+  <div class="explain">Her bağlantı iki hücre doldurur; bu yüzden $L = 40/2 = 20$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Kitabın kuralıyla ($j$'den $i$'ye bir bağlantı için $A_{ij} = 1$), $i$. satırın toplamı nedir?</p>
+  <ol>
+    <li data-why="Bu kuralla çıkış dereceleri sütun toplamlarıdır.">$i$'nin çıkış derecesi.</li>
+    <li>$i$'nin giriş derecesi.</li>
+    <li data-why="Yönlü bir matrisin satırı bağlantıların yalnızca bir yönünü içerir.">$i$'nin toplam derecesi.</li>
+    <li data-why="L tek bir satırın değil, tüm öğelerin toplamıdır.">Bağlantı sayısı $L$.</li>
+  </ol>
+  <div class="explain">$i$. satırda her $j \to i$ bağlantısı, yani $i$'ye gelen her bağlantı için bir 1 vardır.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Karate kulübünde $\mathrm{Tr}\,A^3 = 270$'tir. Kaç üçgen içerir?</p>
+  <ol>
+    <li data-why="Her üçgen altı kapalı yürüyüş verir.">270</li>
+    <li data-why="3'e bölmek başlangıç düğümlerini hesaba katar, ama iki yönü katmaz.">90</li>
+    <li>45</li>
+    <li data-why="2'ye bölmek yönleri hesaba katar, ama başlangıç düğümlerini katmaz.">135</li>
+  </ol>
+  <div class="explain">Her üçgen 3 başlangıç düğümü × 2 yön = 6 kapalı yürüyüş verir; bu yüzden $270/6 = 45$ üçgen vardır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Bir ağın bağlantıları 1–2, 1–3, 2–3 ve 3–4'tür. $(A^2)_{12}$ nedir?</p>
+  <ol>
+    <li data-why="A², 1 ile 2 ayrıca doğrudan bağlı olsun ya da olmasın var olan 2 uzunluğundaki yürüyüşleri sayar.">0, çünkü 1 ve 2 doğrudan bağlıdır.</li>
+    <li data-why="İkisinin de komşusu olan yalnızca 3 düğümüdür.">2</li>
+    <li data-why="3, k₃'tür; 1 ile 2'nin ortak komşu sayısı değildir.">3</li>
+    <li>1</li>
+  </ol>
+  <div class="explain">Tek $1 \to m \to 2$ yürüyüşü $m = 3$ üzerinden geçer; bu yüzden 1 ile 2'nin bir ortak komşusu vardır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Yönlü bir ağın komşuluk matrisi ne zaman simetriktir?</p>
+  <ol>
+    <li data-why="Tek bir j → i bağlantısı Aᵢⱼ = 1 ama Aⱼᵢ = 0 verir.">Her zaman.</li>
+    <li data-why="Her bağlantının tersi de varsa simetriktir.">Hiçbir zaman.</li>
+    <li data-why="Kendine döngüler köşegendedir ve simetriyi etkilemez.">Kendine döngü olmadığında.</li>
+    <li>Her bağlantının ters yönlü bir eşi olduğunda.</li>
+  </ol>
+  <div class="explain">Tüm çiftler için $A_{ij} = A_{ji}$ olması, her $j \to i$ bağlantısının bir $i \to j$ bağlantısıyla birlikte geldiği anlamına gelir: ağ fiilen yönsüzdür.</div>
+</div>
+
+</div></body></html>

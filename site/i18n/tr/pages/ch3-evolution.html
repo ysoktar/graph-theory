@@ -1,0 +1,176 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Evrim ve dev bileşen · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele bağlantıları tek tek ekleyin ve ⟨k⟩ = 1'deki bir faz geçişinde dev bileşenin ortaya çıkışını izleyin; dört rejim, sonlu boyut etkileri ve gerçek ağların konumu."></head><body>
+<div class="content">
+
+<h1>Rastgele bir ağın evrimi</h1>
+<p class="lead">Rastgele bir ağ ne zaman bir arada durur? $N$ yalıtılmış düğümden başlayın ve rastgele bağlantıları tek tek ekleyin. Bir süre yalnızca küçük kümeler oluşur; sonra tek bir bileşen birden düğümlerin çoğunu yutar. Bu faz geçişi tam olarak düğüm başına bir bağlantıda gerçekleşir.</p>
+
+<div class="callout why">
+  <ul>
+    <li><a href="ch2-connectedness.html">Bağlantılılığı</a> (Kısım I) yalnızca ortalama derece $\langle k\rangle$'dan öngörür.</li>
+    <li>Seyrek ağların neden yine de büyük ölçüde bağlantılı olabildiğini açıklar: bir dev bileşen için $\langle k\rangle > 1$ yeter.</li>
+    <li><a href="robustness.html">Dayanıklılık</a> ve <a href="epidemics.html">salgınlardaki</a> sonraki eşikler için kalıptır.</li>
+  </ul>
+</div>
+
+<h2>Olmasını izleyin</h2>
+<div data-fig id="fig-evolve"></div>
+<div class="callout look">
+  <ul>
+    <li>$\langle k\rangle &lt; 1$ için yalnızca küçük ağaçlar vardır.</li>
+    <li>1'in hemen üstünde bir <strong>dev bileşen</strong> ortaya çıkar (tüm düğümlerin sonlu bir payını tutan bileşen). $\langle k\rangle = 2$'de düğümlerin %80'ini tutar.</li>
+    <li>Yalıtılmış düğümler en son katılır ve ağ ancak $\langle k\rangle \approx \ln N$ civarında tamamen bağlantılı olur.</li>
+  </ul>
+</div>
+
+<h2>Dört rejim (Bölüm 3.6)</h2>
+<table class="simple">
+  <thead><tr><th>Rejim</th><th>Koşul</th><th>En büyük bileşen $N_G$</th></tr></thead>
+  <tbody>
+    <tr><td>Alt kritik</td><td>$\langle k\rangle &lt; 1$</td><td>dev bileşen yok; $N_G \sim \ln N$</td></tr>
+    <tr><td>Kritik</td><td>$\langle k\rangle = 1$</td><td>$N_G \sim N^{2/3}$: $N$'nin sıfıra giden bir payı</td></tr>
+    <tr><td>Süper kritik</td><td>$1 &lt; \langle k\rangle &lt; \ln N$</td><td>$N_G \approx S N$, artı birçok küçük bileşen</td></tr>
+    <tr><td>Bağlantılı</td><td>$\langle k\rangle > \ln N$</td><td>tüm düğümleri tutan tek bir bileşen</td></tr>
+  </tbody>
+</table>
+<p>Burada $\sim$ "sabit bir çarpan dışında … gibi büyür" demektir; $\ln$ doğal logaritmadır ($e$ tabanlı).</p>
+<div class="callout fix" data-errata="N7"></div>
+<div data-fig id="fig-snapshots"></div>
+
+<h2>Dev bileşenin boyutu (İleri Konu 3.C)</h2>
+<ol data-beyond="Kitabın İleri Konu 3.C'si (türetme)">
+  <li>$u$, bir düğümün belirli bir başka düğüm üzerinden dev bileşene <em>bağlanmama</em> olasılığı olsun. Ya ikisi bağlı değildir (olasılık $1-p$), ya da bağlıdırlar ama diğer düğüm dev bileşenin dışındadır (olasılık $p\,u$).</li>
+  <li>Bir düğüm, bu durum diğer $N-1$ düğümün hepsi için geçerliyse dev bileşenin dışındadır: $u = (1 - p + p\,u)^{N-1}$.</li>
+  <li>$p = \langle k\rangle/(N-1)$ ve $N \to \infty$ ile bu, $u = e^{-\langle k\rangle(1-u)}$ olur.</li>
+  <li>İçerideki pay $S = 1 - u$'dur; dolayısıyla:</li>
+</ol>
+<div class="eq">$$S = 1 - e^{-\langle k\rangle S}.$$</div>
+<dl class="symbols">
+  <dt>$S$</dt><dd>dev bileşendeki düğümlerin oranı, $N_G/N$</dd>
+  <dt>$u = 1 - S$</dt><dd>onun dışında olma olasılığı</dd>
+  <dt>$\langle k\rangle$</dt><dd>ortalama derece</dd>
+  <dt>$e^{-\langle k\rangle S}$</dt><dd>bir düğümün bağlantılarından hiçbirinin dev bileşene gitmeme olasılığı</dd>
+</dl>
+<p>$S = 0$ denklemi her zaman sağlar. Sıfırdan farklı bir çözüm yalnızca $1 - e^{-\langle k\rangle S}$ eğrisi köşegenden daha dik başlarsa vardır ve eğrinin $S = 0$'daki eğimi $\langle k\rangle$'dır. Dolayısıyla: <strong>bir dev bileşen tam olarak $\langle k\rangle > 1$ olduğunda vardır</strong>.</p>
+<div class="callout example">
+  <p>$S(1.5) = 0.583$, $S(2) = 0.797$, $S(3) = 0.941$ ve $S(5) = 0.993$; $S(0.8) = 0$ ise.</p>
+</div>
+<div data-fig id="fig-fixed"></div>
+
+<h2>Ne zaman bağlantılıdır?</h2>
+<ol>
+  <li>Yalıtılmış düğümlerin beklenen sayısı $N p_0 = N e^{-\langle k\rangle}$'dır.</li>
+  <li>Bu sayı tam olarak $\langle k\rangle > \ln N$ olduğunda birin altına düşer.</li>
+</ol>
+<div class="callout example">
+  <p>$N = 10^4$ için $\ln N = 9.21$'dir; bu da $L \approx 46{,}050$ bağlantı gerektirir. $\langle k\rangle = 5$'te hâlâ $10^4 e^{-5} \approx 67$ yalıtılmış düğüm vardır.</p>
+</div>
+
+<h2>Sonlu ağlar</h2>
+<p>Kuram $N \to \infty$ için kesindir; sonlu ağlarda geçiş bulanıklaşır. Geçişin yerini <em>ikinci</em> en büyük bileşen gösterir: geçişin iki tarafında küçüktür ve kritik noktanın yakınında en büyüktür.</p>
+<div data-fig id="fig-finite"></div>
+<div class="callout fix" data-errata="N9"></div>
+<div data-fig id="fig-scaling"></div>
+<div class="callout look">
+  <p>Log-log eksenlerde bir kuvvet yasası $N_G \propto N^a$, eğimi $a$ olan bir doğrudur. Eğim $\langle k\rangle = 2$'de 1, $\langle k\rangle = 1$'de $2/3$ ve $\langle k\rangle = 0.5$'te neredeyse düzdür ($\ln N$).</p>
+</div>
+
+<h2>Gerçek ağlar süper kritiktir (Bölüm 3.7)</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>Sekiz ağın hepsinde $\langle k\rangle > 1$'dir ve yedisinde $\langle k\rangle &lt; \ln N$'dir; dolayısıyla rastgele karşılıkları bağlantılı olmazdı. Dev bileşenin dışında kalması beklenen düğümlerin payı elektrik şebekesi ve protein ağı için yaklaşık %9, İnternet için %0.2 ve iş birliği ağı için %0.03'tür.</p>
+</div>
+<div class="callout fix" data-errata="N10"></div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Üzerine kurulduğu konular:</strong> <a href="ch3-degree.html">Poisson değeri $p_0 = e^{-\langle k\rangle}$</a> ve Kısım I'in <a href="ch2-connectedness.html">bileşenleri</a>.</li>
+    <li data-beyond="Kitabın 8. bölümü"><strong>Özel bir durumu olduğu koşul:</strong> Molloy–Reed $\langle k^2\rangle/\langle k\rangle > 2$ (<a href="robustness.html">Dayanıklılık</a>); Poisson dereceler için $1 + \langle k\rangle > 2$, yani $\langle k\rangle > 1$ olur.</li>
+    <li data-beyond="Kitabın 8. bölümü"><strong>Karşıtlık:</strong> $\gamma &lt; 3$ olan ölçekten bağımsız ağlarda $\langle k^2\rangle$ ıraksar; bu yüzden düğümleri rastgele kaldırmak dev bileşeni kıramaz (Bölüm 8).</li>
+    <li data-beyond="Kitabın 10. bölümü"><strong>Benzeri:</strong> <a href="epidemics.html">salgın eşiği</a> de $\langle k\rangle$ ve $\langle k^2\rangle$ ile belirlenir.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Bir elektrik şebekesi $\langle k\rangle &lt; \ln N$ olmasına karşın neden tamamen bağlantılı olabilir? <span class="muted">(Not defteri II.5.)</span></p>
+  <div class="hint">Rastgele karşılığı düğümlerin yaklaşık %9'unu dev bileşenin dışında bırakırdı ve böyle bir şebeke işe yaramazdı; bu yüzden bağlantılı olacak biçimde tasarlandı. Gerçek ağlar rastgele bağlanmaz, kısıtlar altında kurulur. Aynı yoğunluktaki protein ağı ise kısmen henüz keşfedilmemiş etkileşimler yüzünden düğümlerin %18'ini dışarıda bırakır.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Rastgele bir ağın $N = 10^6$ düğümü ve $\langle k\rangle = 0.8$'i vardır. Dev bileşeni var mıdır?</p>
+  <ol>
+    <li>Hayır: yalnızca küçük bileşenleri vardır, en büyüğünün boyutu $\sim \ln N$.</li>
+    <li data-why="⟨k⟩ = 1'in altında S = 1 − e^{−0.8S}'nin tek çözümü S = 0'dır.">Evet, düğümlerin yaklaşık %80'ini tutan.</li>
+    <li data-why="Boyut alt kritik bir ağı kurtarmaz; eşik her N için ⟨k⟩ = 1'dir.">Evet, çünkü N büyüktür.</li>
+    <li data-why="Bu, ⟨k⟩ > ln N ≈ 13.8 gerektirirdi.">Tamamen bağlantılıdır.</li>
+  </ol>
+  <div class="explain">$\langle k\rangle &lt; 1$ iken $1 - e^{-\langle k\rangle S}$'nin 0'daki eğimi 1'in altındadır; dolayısıyla tek çözüm $S = 0$'dır.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Büyük bir rastgele ağın $\langle k\rangle = 2$'dir. Düğümlerinin ne kadarı dev bileşendedir?</p>
+  <ol>
+    <li data-why="Bu, S'nin ⟨k⟩ = 1'in hemen üstünde ne kadar ani büyüdüğünü göz ardı eder.">Yaklaşık %20'si.</li>
+    <li data-why="S = 0.5'i deneyin: 1 − e^{−1} = 0.63, 0.5 değil.">Yaklaşık %50'si.</li>
+    <li>Yaklaşık %80'i.</li>
+    <li data-why="Bu, ⟨k⟩ > ln N gerektirirdi.">%100'ü.</li>
+  </ol>
+  <div class="explain">$S = 1 - e^{-2S}$'yi çözmek $S = 0.797$ verir.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Rastgele bir ağın $N = 10^4$ düğümü vardır. Bağlantılı olması için yaklaşık kaç rastgele bağlantı gerekir?</p>
+  <ol>
+    <li data-why="5,000 bağlantı ⟨k⟩ = 1 verir: dev bileşen ancak orada oluşmaya başlar.">5,000</li>
+    <li>Yaklaşık 46,000.</li>
+    <li data-why="10,000 bağlantı ⟨k⟩ = 2 verir: S ≈ %80, yaklaşık 1,350 yalıtılmış düğümle.">10,000</li>
+    <li data-why="Bu tam ağdır, L_max ≈ 5 × 10⁷.">Yaklaşık 50,000,000.</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = \ln N = 9.21$'de, yani $L = N\langle k\rangle/2 \approx 46{,}050$'de bağlantılı olur.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Elektrik şebekesinin $\langle k\rangle = 2.67$ ve $\ln N = 8.51$ değerleri vardır. Rastgele karşılığı hangi rejimdedir?</p>
+  <ol>
+    <li data-why="⟨k⟩ > 1'dir; dolayısıyla bir dev bileşen vardır.">Alt kritik.</li>
+    <li data-why="Kritik, tam olarak ⟨k⟩ = 1 demektir.">Kritik.</li>
+    <li data-why="Bu, ⟨k⟩ > ln N gerektirirdi.">Bağlantılı.</li>
+    <li>Süper kritik: yaklaşık %91'lik bir dev bileşen ve yaklaşık 340 yalıtılmış düğüm.</li>
+  </ol>
+  <div class="explain">$S(2.67) = 0.912$ ve $N e^{-\langle k\rangle} = 4{,}941\, e^{-2.67} \approx 342$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Sonlu rastgele ağlarda ikinci en büyük bileşen hangi ortalama derecede en büyüktür?</p>
+  <ol>
+    <li data-why="Küçük ⟨k⟩'da her bileşen çok küçüktür.">⟨k⟩ = 0 civarında.</li>
+    <li>⟨k⟩ = 1 civarında, biraz üstünde.</li>
+    <li data-why="O zamana kadar dev bileşen kümelerin çoğunu yutmuştur.">⟨k⟩ = ln N civarında.</li>
+    <li data-why="Sonda değil, geçişte en büyüğe ulaşır.">En büyük ⟨k⟩'da.</li>
+  </ol>
+  <div class="explain">Kritik noktada kümeler büyüktür ama henüz birleşmemiştir; noktanın üstünde dev bileşen onları yutar.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>$N = 10^3$ düğümlü rastgele bir ağ kritik nokta $\langle k\rangle = 1$'dedir. En büyük bileşeni $N_G$'nin büyüklük mertebesi nedir?</p>
+  <ol>
+    <li data-why="Bu alt kritik ölçektir, ln N ≈ 7.">Yaklaşık 10.</li>
+    <li data-why="Bu, S'si 1'e yakın S N'lik bir dev bileşen olurdu.">Yaklaşık 1,000.</li>
+    <li>Yaklaşık 100.</li>
+    <li data-why="Tam eşikte S = 0'dır.">Yaklaşık 500.</li>
+  </ol>
+  <div class="explain">$N_G \sim N^{2/3} = 1{,}000^{2/3} = 100$.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Çok büyük bir rastgele ağda $\langle k\rangle$ 0.9'dan 1.1'e çıkıyor. Dev bileşenin payı $S$ nasıl değişir?</p>
+  <ol>
+    <li>0'dan yaklaşık 0.18'e.</li>
+    <li data-why="S, ⟨k⟩ değil, düğümlerin bir payıdır.">0.9'dan 1.1'e.</li>
+    <li data-why="1'in altında hiç dev bileşen yoktur.">Düzgünce, 0.45'ten 0.55'e.</li>
+    <li data-why="Tam boyuta ulaşmak ⟨k⟩ ≫ 1 gerektirir.">0'dan 1'e.</li>
+  </ol>
+  <div class="explain">$S(1.1) = 0.176$: sıfırdan sürekli ama ani bir yükseliş.</div>
+</div>
+
+</div></body></html>

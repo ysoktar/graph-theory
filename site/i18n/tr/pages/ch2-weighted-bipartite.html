@@ -1,0 +1,151 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Ağırlıklı ve iki parçalı ağlar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Karate kulübünde bağlantı ağırlıkları, düğüm gücü ve eşikleme; Davis'in Southern Women verisinde iki parçalı ağlar ve izdüşümleri."></head><body>
+<div class="content">
+
+<h1>Ağırlıklı ve iki parçalı ağlar</h1>
+<p class="lead">Bağlantıların gücü farklıdır ve birçok veri kümesi iki tür düğümü, örneğin insanları ve katıldıkları etkinlikleri birbirine bağlar. <strong>Ağırlıklı</strong> ve <strong>iki parçalı</strong> ağlar bunu kaydeder. İki parçalı bir ağı tek bir düğüm türüne izdüşürmek bu bilginin bir kısmını kaybettirir.</p>
+
+<h2>Ağırlıklı ağlar (Bölüm 2.6)</h2>
+<p><strong>Ağırlıklı bir ağda</strong> her bağlantı bir sayı, yani <strong>ağırlığını</strong> taşır: telefon görüşmesi dakikaları, bir elektrik hattındaki akım, ortak makale sayısı. Matris ağırlığı saklar, $A_{ij} = w_{ij}$, ve derece <strong>güce</strong> genelleşir:</p>
+<div class="eq" data-beyond="Güç, kitabın 2.6. bölümünde ve not defterinde tanımlanmaz">$$s_i = \sum_{j=1}^{N} w_{ij}.$$</div>
+<dl class="symbols">
+  <dt>$w_{ij}$</dt><dd>$i$–$j$ bağlantısının ağırlığı (bağlantı yoksa 0)</dd>
+  <dt>$s_i$</dt><dd>güç: $i$ düğümünün bağlantı ağırlıklarının toplamı</dd>
+  <dt>$s_i/k_i$</dt><dd>$i$'nin bağlantılarının ortalama ağırlığı</dd>
+</dl>
+<p data-beyond="Not defterinde yok: Zachary'nin bağlantı ağırlıkları">Zachary'nin bağlantı ağırlıkları, iki üyenin etkileştiği ortamların (dersler, kampüsteki bir bar, turnuvalar vb.) sayısını, 1'den 7'ye kadar sayar.</p>
+<div class="callout example">
+  <p>0 numaralı üyenin toplam ağırlığı $s = 42$ olan $k = 16$ bağlantısı vardır; yani $s/k \approx 2.6$. 25 numaralı üyenin ağırlıkları 5, 2 ve 7 olan $k = 3$ bağlantısı vardır; yani $s = 14$ ve $s/k \approx 4.7$.</p>
+</div>
+<div data-fig id="fig-weighted"></div>
+<div class="callout look">
+  <ul>
+    <li>Güç dereceyle büyür, ama orantılı olarak değil: bazı üyelerin hepsi güçlü olan az sayıda bağlantısı vardır.</li>
+    <li>Eşiği yükseltin. Taraflar arasındaki bağlantılar zayıftır: 78 bağlantının 11'i taraflar arasıdır, ama $w \ge 3$ olan 48 bağlantının yalnızca 4'ü ve $w \ge 5$ olanların hiçbiri. Eşiklenmiş ağ keyfî bir kesme değerine bağlıdır.</li>
+  </ul>
+</div>
+<div class="callout why">
+  <ul>
+    <li>Ağırlıklar, 0/1 bir ağın attığı bilgiyi korur: bir bağın ne kadar güçlü ya da yoğun olduğunu.</li>
+    <li>Hangi bağların bir grubu bir arada tuttuğunu ya da yükün çoğunu hangi hatların taşıdığını sormamızı sağlar.</li>
+  </ul>
+</div>
+
+<h2>İki parçalı ağlar (Bölüm 2.7)</h2>
+<p><strong>İki parçalı bir ağın</strong> iki düğüm kümesi, $U$ ve $V$, vardır ve bağlantılar yalnızca bu kümeler arasındadır: oyuncular ve filmler, genler ve hastalıklar, kadınlar ve etkinlikler. Her $U$ düğümü için bir satır ve her $V$ düğümü için bir sütun içeren <strong>iki parçalı komşuluk matrisi</strong> $B$'de saklanır; $u$, $e$'ye bağlıysa $B_{ue} = 1$'dir.</p>
+<p>$U$ üzerine <strong>izdüşüm</strong>, bir $V$ komşusunu paylaşan iki $U$ düğümünü bağlar ve bağlantıya paylaştıkları komşu sayısına eşit bir ağırlık verir:</p>
+<div class="eq" data-beyond="İzdüşümün matris biçimi: kitapta ve not defterinde yok">$$W = B\,B^{\mathsf T}, \qquad W_{uv} = \sum_{e \in V} B_{ue}B_{ve}, \qquad W_{uu} = u\text{'nun derecesi}.$$</div>
+<dl class="symbols">
+  <dt>$U$, $V$</dt><dd>iki düğüm kümesi (burada kadınlar ve etkinlikler)</dd>
+  <dt>$B$</dt><dd>$|U| \times |V|$ boyutlu iki parçalı komşuluk matrisi</dd>
+  <dt>$B^{\mathsf T}$</dt><dd>$B$'nin devriği: satırlar ve sütunlar yer değiştirmiş</dd>
+  <dt>$B_{ue}B_{ve}$</dt><dd>$u$ ve $v$ ikisi de $e$ etkinliğine katıldıysa 1</dd>
+  <dt>$W_{uv}$</dt><dd>$u$ ile $v$'nin birlikte katıldığı etkinliklerin sayısı</dd>
+  <dt>$W_{uu}$</dt><dd>$u$'nun katıldığı etkinliklerin sayısı</dd>
+</dl>
+<p>$V$ üzerine izdüşüm ise $B^{\mathsf T}B$'yi kullanır. Veri, Davis, Gardner ve Gardner'ın <em>Southern Women</em> çalışmasıdır (1941): 18 kadın ve katıldıkları 14 toplumsal etkinlik.</p>
+<div class="callout example">
+  <p>Evelyn (1. kadın) 8 etkinliğe, Laura (2. kadın) 7 etkinliğe katıldı; bunların altısına birlikte. Dolayısıyla $W_{11} = 8$, $W_{22} = 7$ ve $W_{12} = 6$. E8 etkinliğine 14 kadın katıldı; yalnızca bu etkinlik izdüşümde $\binom{14}{2} = 91$ bağlantı yaratır.</p>
+</div>
+<div data-fig id="fig-bipartite"></div>
+<div class="callout look">
+  <ul>
+    <li>İki parçalı ağın 89 bağlantısı, 18 kadın arasında 139 bağlantıya (yoğunluk 0.91) dönüşür; çünkü bir bağlantı için tek bir ortak etkinlik yeter.</li>
+    <li>Yalnızca en az 4 etkinliği paylaşan çiftleri tutun. İki grup ortaya çıkar: 1–7 ve 9 numaralı kadınlar ile 10–15 numaralı kadınlar; özgün çalışmada bildirilen iki kliğe yakın.</li>
+  </ul>
+</div>
+<div data-fig id="fig-biadj"></div>
+<div class="callout why">
+  <ul>
+    <li>Birçok ağ bir izdüşümdür: ortak yazarlık yazarlar ve makalelerden, Hollywood ağı oyuncular ve filmlerden gelir.</li>
+    <li>İki parçalı biçim, izdüşümün kaybettiğini korur: hangi makale, hangi film.</li>
+    <li>İzdüşümün kendisinin yarattığı özellikleri, örneğin yoğun kümeleri, gösterir.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Kitaptaki Hollywood oyuncu ağı, oyuncu–film iki parçalı ağının bir izdüşümüdür. Bu ağın hangi özellikleri, oyuncuların birlikte çalışmayı nasıl seçtiğinden değil, izdüşümün kendisinden kaynaklanır?</p>
+  <div class="hint">$n$ oyunculu her film $n$ düğümlü tam bir alt çizgeye dönüşür; bu yüzden izdüşüm üçgenlerle (yüksek kümelenme) ve büyük kliklerle doludur. Kalabalık oyuncu kadroları dereceleri şişirir. İzdüşümle elde edilmiş bir ağ için sıfır modeli, aynı biçimde izdüşürülmüş rastgeleleştirilmiş bir <em>iki parçalı</em> ağ olmalıdır.</div>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong><a href="ch2-degree.html">Dereceyi</a> genelleştirir:</strong> tüm ağırlıklar 1 olduğunda güç derecedir.</li>
+    <li><strong><a href="ch2-adjacency.html">$A^2$</a> ile aynı cebiri kullanır:</strong> $W = BB^{\mathsf T}$ ortak komşuları sayar.</li>
+    <li><strong>Gerçek ağların yüksek <a href="ch2-clustering.html">kümelenmesinin</a> bir kısmını açıklar:</strong> her makale ya da film bir klik olur.</li>
+    <li><strong>Sıfır modeli:</strong> iki parçalı ağı rastgeleleştirin, sonra izdüşürün (<a href="ch4-generating.html">konfigürasyon modeliyle</a> karşılaştırın).</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Bir düğümün üç bağlantısının ağırlıkları 2, 5 ve 7'dir. Derecesi ve gücü nedir?</p>
+  <ol>
+    <li>$k = 3$ ve $s = 14$.</li>
+    <li data-why="Bunlar yer değiştirmiş: derece bağlantıları sayar, güç ağırlıkları toplar.">$k = 14$ ve $s = 3$.</li>
+    <li data-why="14/3, güç değil ortalama ağırlık s/k'dır.">$k = 3$ ve $s \approx 4.67$.</li>
+    <li data-why="Güç yalnızca en büyüğünü değil, tüm ağırlıkları toplar.">$k = 3$ ve $s = 7$.</li>
+  </ol>
+  <div class="explain">Düğümün $k = 3$ bağlantısı ve $s = 2 + 5 + 7 = 14$ gücü vardır (bu, karate kulübünün 25 numaralı üyesidir).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>İki parçalı bir ağ üçgen içerebilir mi?</p>
+  <ol>
+    <li data-why="Bir üçgen aynı türden iki düğüm arasında bağlantı gerektirir; bu yasaktır.">Evet, iki düğüm türü de yer alıyorsa.</li>
+    <li>Hayır: her döngü iki tür arasında gidip gelir; bu yüzden uzunluğu çifttir.</li>
+    <li data-why="Ağırlıklar hangi bağlantıların var olduğunu değiştirmez.">Yalnızca ağırlıklıysa.</li>
+    <li data-why="İzdüşüm, tek türden düğümleri bağlayan farklı bir ağdır.">Yalnızca izdüşümünün matrisinde.</li>
+  </ol>
+  <div class="explain">Bir $U \to V \to U \to \dots$ döngüsü ancak çift sayıda adımdan sonra kapanabilir. İzdüşümler ise tersine üçgenlerle doludur.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Beş kadın bir partiye birlikte katılıyor ve başka hiçbir etkinliği paylaşmıyor. Bu parti, kadınlar üzerine izdüşümde kaç bağlantı yaratır?</p>
+  <ol>
+    <li data-why="5, çiftleri değil kadınları sayar.">5</li>
+    <li>10</li>
+    <li data-why="5 × 4 her çifti iki kez sayar.">20</li>
+    <li data-why="Yalnızca bir zincir değil, her çift bir bağlantı alır.">4</li>
+  </ol>
+  <div class="explain">$\binom{5}{2} = 10$: etkinlik 5 düğümlü tam bir alt çizgeye dönüşür.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$W = BB^{\mathsf T}$'de köşegen öğesi $W_{uu}$ nedir?</p>
+  <ol>
+    <li data-why="W bir komşuluk matrisi değil bir matris çarpımıdır; köşegeni 0 olmak zorunda değildir.">0, çünkü kendine döngü yoktur.</li>
+    <li>$u$ kadınının katıldığı etkinliklerin sayısı.</li>
+    <li data-why="Bu, izdüşümdeki derecesidir: köşegen dışındaki sıfırdan farklı öğelerin sayısı.">Bir etkinliği paylaştığı kadınların sayısı.</li>
+    <li data-why="Katıldığı her etkinlik 1 ekler.">Her zaman 1.</li>
+  </ol>
+  <div class="explain">$W_{uu} = \sum_e B_{ue}^2 = \sum_e B_{ue}$, yani $B$'nin satır toplamı (Evelyn için 8).</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Karate kulübünün 78 bağlantısının 11'i farklı taraflardaki üyeleri birleştirir, ama ağırlığı $w \ge 5$ olan 9 bağlantının hiçbiri birleştirmez. Bu ne düşündürür?</p>
+  <ol>
+    <li>Taraflar arasındaki bağlar çoğunlukla zayıftı.</li>
+    <li data-why="11 bağlantı taraflar arasıdır; yalnızca zayıftırlar.">Taraflar hiç etkileşmedi.</li>
+    <li data-why="Güçlü bağlantılar tarafların içinde toplanır; dolayısıyla desen sistematiktir.">Ağırlıkların taraflarla ilgisi yoktur.</li>
+    <li data-why="Zayıf bağlantıları kaldırmak taraflar arası bağlantıları kaldırır; taraflar daha az değil daha çok öne çıkar.">$w \ge 5$ eşiği tarafları gizler.</li>
+  </ol>
+  <div class="explain">Güçlü bağlar grupların içinde kalır; bu yüzden zayıf bağlantıları atmak grupları ayırır. Ne gördüğünüzü eşik seçimi belirler.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>$u$ kadını E1, E2, E3 ve E5 etkinliklerine; $v$ kadını E2, E3 ve E4'e katıldı. $W_{uv}$ nedir?</p>
+  <ol>
+    <li data-why="7 iki sayıyı toplar; W ise ikisinin de katıldığı etkinlikleri sayar.">7</li>
+    <li data-why="3, v'nin katıldığı etkinlik sayısıdır, yani W_vv.">3</li>
+    <li data-why="E2 ve E3'ün ikisi de ortaktır.">1</li>
+    <li>2</li>
+  </ol>
+  <div class="explain">E2 ve E3'ü paylaşırlar; bu yüzden $W_{uv} = 2$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p><em>Etkinlikler</em> üzerine izdüşümde iki etkinlik ne zaman bağlıdır?</p>
+  <ol>
+    <li data-why="BBᵀ kadınlar (B'nin satırları) üzerine izdüşürür; etkinlikler için BᵀB gerekir.">$(BB^{\mathsf T})_{ef} > 0$ olduğunda.</li>
+    <li data-why="Veri ne zaman değil, kimin katıldığını kaydeder.">Aynı gün yapıldıklarında.</li>
+    <li>En az bir kadın ikisine de katıldığında; ağırlık bu tür kadınların sayısıdır.</li>
+    <li data-why="Bir bağlantı için tek bir ortak katılımcı yeter.">Her kadın ikisine de katıldığında.</li>
+  </ol>
+  <div class="explain">Etkinlik izdüşümü $B^{\mathsf T}B$'dir: $(B^{\mathsf T}B)_{ef}$, hem $e$'ye hem $f$'ye katılan kadınları sayar.</div>
+</div>
+
+</div></body></html>

@@ -77,7 +77,7 @@
   </ul>
 </div>
 
-<div class="callout discuss">
+<div class="callout discuss" data-beyond="Not in the book: Kovács et al. 2019">
   <p>Common-neighbour scores assume friends of friends become friends. Where should that fail?</p>
   <div class="hint">It suits clustered social networks (collaboration, phone calls). Proteins sharing a partner often compete for the same binding site and do not bind each other; Kovács et al. (Nat. Commun. 2019) count paths of length three instead. The power grid has almost no triangles.</div>
 </div>
@@ -133,6 +133,26 @@
   <div class="explain">Co-authors of one person often co-author together (triangles); proteins do not follow triadic closure.</div>
 </div>
 
+<div class="quiz" data-answer="3">
+  <p>$N(u) = \{a, b, c\}$, $N(v) = \{b, c, d, e\}$. Jaccard score?</p>
+  <ol>
+    <li data-why="That is the common-neighbour count.">2</li>
+    <li data-why="That divides by |N(u)| only.">0.67</li>
+    <li>0.4</li>
+    <li data-why="That divides by |N(v)| only.">0.5</li>
+  </ol>
+  <div class="explain">$|\{b, c\}| / |\{a, b, c, d, e\}| = 2/5$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Which score can rank a pair with no shared neighbours above zero?</p>
+  <ol>
+    <li>Preferential attachment $k_u k_v$</li>
+    <li data-why="It is 0 without shared neighbours.">Common neighbours</li>
+    <li data-why="It is 0 without shared neighbours.">Jaccard</li>
+    <li data-why="It sums over shared neighbours only.">Adamic–Adar</li>
+  </ol>
+  <div class="explain">It uses degrees only: the <a href="ch5-preview.html">BA rule</a> says hubs gain links.</div>
+</div>
 </div></main>
 </body>
 </html>

@@ -372,6 +372,9 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 | [B8](#b8) | Imprecise | Chapter 3, Box 3.7 versus the caption of Figure 3.12 (Milgram's experiment) | The same number, 5.2, is called the median in the box and the mean in the figure caption. |
 | [B9](#b9) | Format | Chapter 4, caption of Table 4.1 (Degree fluctuations in real networks) | Advanced Topic 4.A is “Power Laws” (definitions and relatives of the power law). |
 | [B10](#b10) | Format | Chapter 8, Section 8.3, Eqs. (8.4) and (8.5) (Molloy–Reed criterion) | The denominator lacks its angle brackets: κ is the ratio of the second moment to the average degree ⟨k⟩, not to a degree k. |
+| [B11](#b11) | Error | Chapter 6, Section 6.4, Box 6.3, Eq. (6.16) (from fitness to a Bose gas) | The minus sign is missing. |
+| [B12](#b12) | Error | Chapter 6, Section 6.5, Node Deletion, Eq. (6.29) | At r = 0 (no removal) the formula gives γ = 5, but a growing network without removal is the BA model, γ = 3. |
+| [B13](#b13) | Error | Chapter 7, Section 7.3, Box 7.2, text after Eq. (7.12) (degree correlation coefficient) | The two signs are swapped. |
 
 ### B1
 
@@ -512,6 +515,48 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 **Evidence.** LaTeX source of the online Chapter 8: \frac{\langle k^2\rangle}{k} in (8.4) and (8.5), \frac{\langle k^2\rangle}{\langle k\rangle} elsewhere.
 
 **On the website:** [robustness](https://ysoktar.github.io/graph-theory/robustness.html)
+
+### B11
+
+**Error** · Chapter 6, Section 6.4, Box 6.3, Eq. (6.16) (from fitness to a Bose gas)
+
+> `ε_i = (1/β_T) log η_i   (6.16)`
+
+**Problem.** The minus sign is missing. The mapping must give fitter nodes lower energies, so that the fittest node is the ground state that can condense; with a plus sign the fittest node would have the highest energy. Bianconi and Barabási (2001) write ε = −(1/β) log η.
+
+**Correction.** ε_i = −(1/β_T) log η_i.
+
+**Evidence.** LaTeX source of the online Chapter 6: \varepsilon _i = \frac{1}{{\beta _T }}\log \eta _i; G. Bianconi and A.-L. Barabási, Phys. Rev. Lett. 86, 5632 (2001).
+
+**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+
+### B12
+
+**Error** · Chapter 6, Section 6.5, Node Deletion, Eq. (6.29)
+
+> `γ = 3 + 2/(1 − r)   (6.29)`
+
+**Problem.** At r = 0 (no removal) the formula gives γ = 5, but a growing network without removal is the BA model, γ = 3. The numerator should contain r, which gives 3 at r = 0 and still diverges as r → 1, as the text says.
+
+**Correction.** γ = 3 + 2r/(1 − r).
+
+**Evidence.** LaTeX source of the online Chapter 6: \gamma = 3 + \frac{2}{{1 - r}}. Continuum derivation (BA model, a random node removed at rate r): links grow as L = m(1 − r)t/(1 + r), degrees still grow as (t/t_i)^{1/2}, and a node born at t_i survives with probability (t_i/t)^{r/(1−r)}; together P(K ≥ k) ∝ k^{−2(1 + r/(1−r))}, so γ = 3 + 2r/(1 − r).
+
+**On the website:** [exam-final](https://ysoktar.github.io/graph-theory/exam-final.html)
+
+### B13
+
+**Error** · Chapter 7, Section 7.3, Box 7.2, text after Eq. (7.12) (degree correlation coefficient)
+
+> `For r < 0 the network is assortative, for r = 0 the network is neutral and for r > 0 the network is disassortative.`
+
+**Problem.** The two signs are swapped. The same paragraph calls collaboration (r = 0.13) assortative and proteins (r = −0.04) disassortative, and Box 7.5 says r > 0: assortative.
+
+**Correction.** For r > 0 the network is assortative, for r = 0 neutral, for r < 0 disassortative.
+
+**Evidence.** Online Chapter 7: the same paragraph's examples, and Box 7.5 (At a Glance: Degree Correlations), which lists r > 0: assortative.
+
+**On the website:** [correlations](https://ysoktar.github.io/graph-theory/correlations.html)
 
 ## Problems found in the software
 

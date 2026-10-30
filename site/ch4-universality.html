@@ -36,7 +36,7 @@
 <div class="callout look">
   <ul>
     <li><strong>Heavy tails are nearly universal.</strong> In seven of the eight networks the power law beats the exponential decisively; all but the power grid are far from Poisson.</li>
-    <li><strong>Strict power laws are not.</strong> The bootstrap rules them out for collaboration, email and the WWW (narrowly also the Internet), where the log-normal fits significantly better. Where plausible, the power law often covers few nodes: 0.7% for the Internet, 2% for phone calls.</li>
+    <li data-beyond="Bootstrap test: book Advanced Topic 4.C; not in the notebook"><strong>Strict power laws are not.</strong> The bootstrap rules them out for collaboration, email and the WWW (narrowly also the Internet), where the log-normal fits significantly better. Where plausible, the power law often covers few nodes: 0.7% for the Internet, 2% for phone calls.</li>
     <li><strong>The power grid</strong> is the exception: $\hat\gamma \approx 7.6$ on 1% of the nodes, indistinguishable from an exponential. Geographic and engineering constraints leave no hubs.</li>
     <li><strong>Exponents vary</strong> from 1.9 (email) to 4.8 (phone calls), power grid aside. Only metabolism, protein interactions and the WWW fall inside $2 &lt; \gamma &lt; 3$ (see <a href="ch4-exponent.html">The role of γ</a>).</li>
   </ul>
@@ -47,7 +47,7 @@
   <p>The book fits in- and out-degrees of directed networks (WWW, email, metabolism, phone calls) separately in its Table 4.1. This site, like the notebook, treats every network as undirected, so for those four its exponents are not directly comparable. For undirected networks the agreement is close: Internet 3.40 against the book's 3.42.</p>
 </div>
 
-<div class="callout discuss">
+<div class="callout discuss" data-beyond="Not in the book: mechanisms behind log-normal tails">
   <p>If the log-normal often fits as well as or better than a power law, why does it matter which one we choose?</p>
   <div class="hint">For many consequences it does not: hubs, short distances, robustness and fast spreading follow from a large $\langle k^2\rangle$, which both can produce. It matters for <em>mechanism</em> (preferential attachment, Chapter 5, predicts a power law; multiplicative random growth tends to give a log-normal) and for <em>extrapolation</em> (with $\gamma &lt; 3$, $\langle k^2\rangle$ keeps growing with $N$; with a log-normal it does not).</div>
 </div>
@@ -105,6 +105,37 @@
     <li>The book fits in- and out-degrees separately; here they are merged</li>
   </ol>
   <div class="explain">Treating a directed network as undirected counts each distinct neighbour once, which changes the distribution being fitted.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>The Internet's fitted tail holds 1,286 of its 192,244 routers. What share is that?</p>
+  <ol>
+    <li data-why="Off by a factor of 10.">6.7%</li>
+    <li data-why="Off by a factor of 100.">67%</li>
+    <li>0.67%</li>
+    <li data-why="1,286/192,244 is far below that.">15%</li>
+  </ol>
+  <div class="explain">$1{,}286 / 192{,}244 \approx 0.0067$: the power law describes under 1% of the routers.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Collaboration: power law against log-normal gives $R = -1.97$, $p = 0.049$. What does that mean?</p>
+  <ol>
+    <li data-why="R &lt; 0 favours the alternative.">The power law fits significantly better</li>
+    <li>The log-normal fits significantly better</li>
+    <li data-why="p &lt; 0.1, so the sign of R is significant.">The test is inconclusive</li>
+    <li data-why="A likelihood ratio only ranks the two.">Both distributions are ruled out</li>
+  </ol>
+  <div class="explain">$R &lt; 0$ favours the log-normal, and $p &lt; 0.1$ makes the sign significant.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>The Barabási–Albert model of Chapter 5 predicts $\gamma = 3$, but fitted exponents range from 1.9 to 4.8. What follows?</p>
+  <ol>
+    <li data-why="The fits are maximum-likelihood estimates with small errors.">The fits must be wrong</li>
+    <li data-why="All but the power grid are far from Poisson.">Real networks are random</li>
+    <li data-why="Most have standard errors below 0.2.">Degree exponents cannot be measured</li>
+    <li>The basic model needs extensions to explain other exponents</li>
+  </ol>
+  <div class="explain">Chapter 5 gives the mechanism; extensions (Chapter 6) adjust $\gamma$.</div>
 </div>
 
 </div></main>

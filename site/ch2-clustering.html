@@ -20,25 +20,25 @@
 <h1>Clustering</h1>
 <p class="lead">Your friends tend to know each other. The <strong>clustering coefficient</strong> measures how much, and it is the property that random networks most clearly fail to reproduce.</p>
 
-<p>Node $i$'s $k_i$ neighbours can have at most $k_i(k_i-1)/2$ links among themselves. If $L_i$ exist, the <strong>local clustering coefficient</strong> is the fraction present:</p>
+<p>The $k_i$ neighbours of node $i$ can have at most $k_i(k_i-1)/2$ links among themselves. If $L_i$ of these links exist, the <strong>local clustering coefficient</strong> is the fraction that is present:</p>
 <div class="eq">$$C_i = \frac{2L_i}{k_i(k_i-1)}.$$</div>
 <dl class="symbols">
-  <dt>$k_i$</dt><dd>degree of node $i$</dd>
-  <dt>$L_i$</dt><dd>links among $i$'s neighbours = triangles through $i$</dd>
-  <dt>$k_i(k_i-1)/2$</dt><dd>possible links among the neighbours</dd>
-  <dt>$C_i$</dt><dd>probability that two neighbours of $i$ are linked; 0 to 1</dd>
+  <dt>$k_i$</dt><dd>the degree of node $i$</dd>
+  <dt>$L_i$</dt><dd>the number of links among $i$'s neighbours, which equals the number of triangles through $i$</dd>
+  <dt>$k_i(k_i-1)/2$</dt><dd>the number of possible links among the neighbours</dd>
+  <dt>$C_i$</dt><dd>the probability that two neighbours of $i$ are linked, a number from 0 to 1</dd>
 </dl>
-<p>For $k_i \le 1$ the formula is undefined; the book, the notebook and NetworkX set $C_i = 0$. Two network-wide summaries:</p>
+<p>For $k_i \le 1$ the formula is undefined; the book, the notebook and NetworkX then set $C_i = 0$. Two numbers summarise the whole network:</p>
 <div class="eq">$$\langle C\rangle = \frac{1}{N}\sum_{i=1}^{N} C_i, \qquad C_\Delta = \frac{3\times \#\text{triangles}}{\#\text{connected triples}}.$$</div>
 <dl class="symbols">
-  <dt>$\langle C\rangle$</dt><dd>average clustering: every node weighs the same</dd>
-  <dt>connected triple</dt><dd>a node with two of its neighbours; node $i$ has $k_i(k_i-1)/2$</dd>
-  <dt>$C_\Delta$</dt><dd>global clustering (<code>nx.transitivity</code>, book Advanced Topic 2.A): share of triples closed into triangles</dd>
-  <dt>$3\times$</dt><dd>each triangle closes three triples, one per corner</dd>
+  <dt>$\langle C\rangle$</dt><dd>the average clustering, in which every node counts the same</dd>
+  <dt>connected triple</dt><dd>a node together with two of its neighbours; node $i$ is the centre of $k_i(k_i-1)/2$ of them</dd>
+  <dt>$C_\Delta$</dt><dd>the global clustering coefficient (<code>nx.transitivity</code>, book Advanced Topic 2.A): the share of connected triples that are closed into triangles</dd>
+  <dt>$3\times$</dt><dd>each triangle closes three triples, one at each corner</dd>
 </dl>
 <div class="callout example">
-  <p>Karate node 1: $k = 9$, $L_1 = 12$, so $C_1 = 24/72 \approx 0.33$.</p>
-  <p>Whole club: 45 triangles, $\sum_i k_i(k_i-1)/2 = 528$ triples, $C_\Delta = 135/528 \approx 0.256$; $\langle C\rangle = 0.571$.</p>
+  <p>Karate member 1 has $k = 9$ neighbours with $L_1 = 12$ links among them, so $C_1 = 24/72 \approx 0.33$.</p>
+  <p>The whole club has 45 triangles and $\sum_i k_i(k_i-1)/2 = 528$ connected triples, so $C_\Delta = 135/528 \approx 0.256$, while $\langle C\rangle = 0.571$.</p>
 </div>
 
 <h2>One node, four neighbours</h2>
@@ -47,15 +47,17 @@
 <h2>Clustering in the karate club</h2>
 <div data-fig id="fig-karate"></div>
 <div class="callout look">
-  <p>The leaders have <em>low</em> clustering ($C_0 = 0.150$, $C_{33} = 0.110$), while many low-degree members sit in closed triangles: a hub's neighbours come from circles that do not know each other. This decreasing $C(k)$ returns in <a href="ch3-clustering.html">Part II</a>.</p>
+  <p>The leaders have <em>low</em> clustering ($C_0 = 0.150$, $C_{33} = 0.110$), while many low-degree members sit in closed triangles. A hub's neighbours come from circles that do not know each other. This fall of clustering with degree, $C(k)$, returns in <a href="ch3-clustering.html">Part II</a>.</p>
 </div>
 
+<section data-beyond="Not in the book or notebook: windmill graph">
 <h2>Average or global clustering?</h2>
-<p>$\langle C\rangle$ weights nodes equally; $C_\Delta$ weights each node by its $k_i(k_i-1)/2$ triples, so hubs dominate it. The <em>windmill graph</em> ($t$ triangles sharing one node) shows the extreme.</p>
+<p>$\langle C\rangle$ counts every node equally, while $C_\Delta$ weights each node by its $k_i(k_i-1)/2$ triples, so hubs dominate it. The <em>windmill graph</em>, made of $t$ triangles that share one node, shows the extreme case.</p>
 <div data-fig id="fig-windmill"></div>
 <div class="callout example">
-  <p>$t = 10$: 20 leaves with $C_i = 1$, centre $C = 1/19$; $\langle C\rangle \approx 0.955$, $C_\Delta = 3/21 \approx 0.143$.</p>
+  <p>With $t = 10$, the 20 outer nodes have $C_i = 1$ and the centre has $C = 1/19$, so $\langle C\rangle \approx 0.955$ but $C_\Delta = 3/21 \approx 0.143$.</p>
 </div>
+</section>
 
 <h2>The book's eight networks</h2>
 <div data-fig id="fig-real"></div>
@@ -67,33 +69,33 @@
 
 <div class="callout why">
   <ul>
-    <li>Clustering measures local cohesion: friends of friends become friends.</li>
+    <li>Clustering measures local cohesion: friends of friends tend to become friends.</li>
     <li>It is the clearest test of a model: a random network has $C \approx \langle k\rangle/N$, near 0 for large $N$.</li>
-    <li>$C(k)$ against $k$ reveals hierarchy: hubs bridge groups.</li>
+    <li>Plotting $C(k)$ against $k$ reveals hierarchy: hubs connect separate groups.</li>
   </ul>
 </div>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Counts</strong> triangles, $\tfrac16\mathrm{Tr}\,A^3$ (<a href="ch2-adjacency.html">Adjacency matrix</a>).</li>
-    <li><strong>Partly made by</strong> projection: each paper becomes a clique (<a href="ch2-weighted-bipartite.html">Bipartite networks</a>).</li>
-    <li><strong>Random-network prediction</strong> $C = p$ fails by orders of magnitude (<a href="ch3-clustering.html">Clustering in random networks</a>).</li>
-    <li><strong>Motivates</strong> the <a href="ch3-small-world.html">Watts–Strogatz model</a>: high clustering with short distances.</li>
+    <li><strong>Counts</strong> triangles, whose number is $\tfrac16\mathrm{Tr}\,A^3$ (<a href="ch2-adjacency.html">Adjacency matrix</a>).</li>
+    <li><strong>Is partly created by</strong> projection: each paper becomes a clique of its authors (<a href="ch2-weighted-bipartite.html">Bipartite networks</a>).</li>
+    <li><strong>The random-network prediction</strong> $C = p$ is wrong by orders of magnitude (<a href="ch3-clustering.html">Clustering in random networks</a>).</li>
+    <li><strong>Motivates</strong> the <a href="ch3-small-world.html">Watts–Strogatz model</a>, which combines high clustering with short distances.</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>5 neighbours, 4 links among them. $C_i$?</p>
+  <p>A node has 5 neighbours, with 4 links among them. What is its clustering coefficient $C_i$?</p>
   <ol>
     <li data-why="4/5 divides by the number of neighbours, not of neighbour pairs.">0.8</li>
     <li>0.4</li>
     <li data-why="That divides by 20, counting each pair twice.">0.2</li>
     <li data-why="k² is not the number of possible links.">4/25</li>
   </ol>
-  <div class="explain">Possible links: $5 \cdot 4/2 = 10$; $C_i = 4/10 = 0.4$.</div>
+  <div class="explain">The neighbours could have $5 \cdot 4/2 = 10$ links, so $C_i = 4/10 = 0.4$.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>A node with $k = 9$ has 12 links among its neighbours. $C_i$?</p>
+  <p>A node with $k = 9$ has 12 links among its neighbours. What is $C_i$?</p>
   <ol>
     <li>0.33</li>
     <li data-why="That forgets the 2: possible links are 9·8/2 = 36, not 72.">0.17</li>
@@ -103,34 +105,54 @@
   <div class="explain">$C = 2 \cdot 12/(9 \cdot 8) = 12/36 \approx 0.33$ (karate member 1).</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>Why do the karate leaders (nodes 0 and 33) have low $C_i$?</p>
+  <p>Why do the karate club's leaders (nodes 0 and 33) have low clustering $C_i$?</p>
   <ol>
-    <li data-why="High degree gives more chances for triangles, not fewer; what matters is the share closed.">They have few triangles</li>
-    <li data-why="C_i is defined for any k ≥ 2.">$C_i$ is undefined for hubs</li>
-    <li>Their many neighbours come from groups that rarely know each other</li>
-    <li data-why="They are central, not peripheral.">They are on the edge of the network</li>
+    <li data-why="High degree gives more chances for triangles, not fewer; what matters is the share closed.">They have few triangles.</li>
+    <li data-why="C_i is defined for any k ≥ 2.">$C_i$ is undefined for hubs.</li>
+    <li>Their many neighbours come from groups that rarely know each other.</li>
+    <li data-why="They are central, not peripheral.">They are on the edge of the network.</li>
   </ol>
-  <div class="explain">Possible neighbour links grow like $k^2$; a hub joining separate circles closes only a small share of them.</div>
+  <div class="explain">The number of possible links among neighbours grows like $k^2$, and a hub that joins separate circles closes only a small share of them.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>In the windmill graph, which summary does the centre node dominate?</p>
+  <p>In the windmill graph ($t$ triangles that share one centre node), which of the two network-wide numbers does the centre dominate?</p>
   <ol>
     <li data-why="⟨C⟩ gives the centre weight 1/N, like any leaf.">$\langle C\rangle$</li>
     <li>$C_\Delta$</li>
-    <li data-why="They differ greatly: 0.955 and 0.143 for t = 10.">Both equally</li>
-    <li data-why="The centre holds most triples, so it matters for C_Δ.">Neither</li>
+    <li data-why="They differ greatly: 0.955 and 0.143 for t = 10.">Both equally.</li>
+    <li data-why="The centre holds most triples, so it matters for C_Δ.">Neither.</li>
   </ol>
-  <div class="explain">The centre holds $t(2t-1)$ of the $t(2t+1)$ triples, almost all open; $C_\Delta$ counts triples.</div>
+  <div class="explain">The centre is the middle of $t(2t-1)$ of the $t(2t+1)$ triples, almost all of them open, and $C_\Delta$ counts triples.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>A random network with the collaboration network's $N$ and $\langle k\rangle$ has $C \approx 3.5\times10^{-4}$; the real $\langle C\rangle = 0.633$. Conclusion?</p>
+  <p>A random network with the collaboration network's $N$ and $\langle k\rangle$ has $C \approx 3.5\times10^{-4}$, while the real network has $\langle C\rangle = 0.633$. What do you conclude?</p>
   <ol>
-    <li data-why="The gap is a factor of about 1,800, far beyond sampling noise.">The difference is noise</li>
-    <li data-why="Large N makes the random value smaller still.">The real network is too small to compare</li>
-    <li data-why="Random networks have short distances; the failure here is clustering.">Random networks have too long distances</li>
-    <li>Links are not placed at random: a different model is needed</li>
+    <li data-why="The gap is a factor of about 1,800, far beyond sampling noise.">The difference is noise.</li>
+    <li data-why="Large N makes the random value smaller still.">The real network is too small to compare.</li>
+    <li data-why="Random networks have short distances; the failure here is clustering.">Random networks have distances that are too long.</li>
+    <li>The links are not placed at random, so a different model is needed.</li>
   </ol>
-  <div class="explain">Clustering is about 1,800 times the random value; models such as Watts–Strogatz add it on purpose.</div>
+  <div class="explain">The real clustering is about 1,800 times the random value. Models such as Watts–Strogatz add clustering on purpose.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A network is a single triangle: three nodes, all linked to each other. What are $\langle C\rangle$ and $C_\Delta$?</p>
+  <ol>
+    <li data-why="One triangle closes all three triples, not one third of them.">Both are 1/3.</li>
+    <li data-why="Each node's two neighbours are linked: C_i = 1.">Both are 0.5.</li>
+    <li>Both are 1.</li>
+    <li data-why="C_i is defined for k = 2; only k ≤ 1 is a problem.">They are undefined, since $k = 2$.</li>
+  </ol>
+  <div class="explain">Each node has $k = 2$ and $L_i = 1$, so $C_i = 2/(2 \cdot 1) = 1$; and $C_\Delta = 3 \cdot 1/3 = 1$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A star has one hub linked to 10 leaves (nodes with a single link). What is the hub's clustering coefficient $C_i$?</p>
+  <ol>
+    <li>0</li>
+    <li data-why="That would need every pair of leaves to be linked.">1</li>
+    <li data-why="It does not depend on 1/k; no leaf pair is linked.">0.1</li>
+    <li data-why="1/45 would be one linked pair of the 45 possible.">1/45</li>
+  </ol>
+  <div class="explain">Of the 45 possible pairs of leaves, none is linked, so $C_{\text{hub}} = 0$. The leaves have $k = 1$, so their $C = 0$ by convention.</div>
 </div>
 
 </div></main>

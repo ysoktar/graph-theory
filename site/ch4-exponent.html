@@ -106,6 +106,37 @@
   <div class="explain">$k_{\max} \propto N^{1/(\gamma-1)}$ grows faster than $N$ for $\gamma &lt; 2$, impossible without repeated links.</div>
 </div>
 
+<div class="quiz" data-answer="2">
+  <p>$\gamma = 3$, $k_{\min} = 1$, $N = 10^6$. What is the natural cutoff?</p>
+  <ol>
+    <li data-why="That uses the exponent ⅓.">100</li>
+    <li>1,000</li>
+    <li data-why="That uses the exponent ⅔ (γ = 2.5).">10,000</li>
+    <li data-why="That is k_max ∝ N, the γ = 2 limit.">10⁶</li>
+  </ol>
+  <div class="explain">$k_{\max} \approx N^{1/(\gamma-1)} = (10^6)^{1/2} = 1{,}000$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A network with $\gamma = 3.5$ is called \"not really scale-free\". What is the most precise statement?</p>
+  <ol>
+    <li>Its degrees can follow a power law, but at realistic sizes its moments and distances look random-like</li>
+    <li data-why="A power law with γ = 3.5 is still a power law.">Its degree distribution must be Poisson</li>
+    <li data-why="It has hubs, only smaller ones: N^(1/2.5).">It has no hubs at all</li>
+    <li data-why="⟨k⟩ is finite for γ &gt; 2.">$\langle kangle$ diverges</li>
+  </ol>
+  <div class="explain">For $\gamma &gt; 3$ both $\langle k\rangle$ and $\langle k^2\rangle$ converge and $\langle d\rangle \sim \ln N$, as in a random network.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Why is $\gamma = 3$ a boundary?</p>
+  <ol>
+    <li data-why="⟨k⟩ diverges only below γ = 2.">$\langle kangle$ diverges below it</li>
+    <li data-why="Hubs exist for any γ; they just grow more slowly.">Hubs disappear above it</li>
+    <li data-why="Networks with 2 &lt; γ &lt; 3 are common.">Networks cannot exist below it</li>
+    <li>$\langle k^2angle$ diverges below it and converges above it</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle$ converges when $2 - \gamma + 1 &lt; 0$, i.e. $\gamma &gt; 3$.</div>
+</div>
+
 </div></main>
 </body>
 </html>

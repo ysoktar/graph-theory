@@ -101,6 +101,47 @@
   <div class="explain">Degrees fix how short paths could be; the wiring decides whether the links are used as shortcuts.</div>
 </div>
 
+<div class="quiz" data-answer="4">
+  <p>For $\gamma = 3$, $\langle d\rangle \sim \ln N/\ln\ln N$. What is this ratio at $N = 10^6$?</p>
+  <ol>
+    <li data-why="That is ln N alone.">13.8</li>
+    <li data-why="That is ln ln N alone.">2.6</li>
+    <li data-why="That multiplies instead of dividing.">36</li>
+    <li>About 5.3</li>
+  </ol>
+  <div class="explain">$\ln 10^6 = 13.8$, $\ln\ln 10^6 = 2.63$, ratio $\approx 5.3$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Why are paths so short for $2 &lt; \gamma &lt; 3$?</p>
+  <ol>
+    <li data-why="Most nodes have very few links.">Every node links to every other</li>
+    <li>A hierarchy of hubs links most nodes in a few steps</li>
+    <li data-why="The comparison is at equal ⟨k⟩.">The network has more links than a random one</li>
+    <li data-why="Triangles keep links local; they lengthen paths.">Clustering creates shortcuts</li>
+  </ol>
+  <div class="explain">Small nodes reach a hub, hubs reach bigger hubs; the number of levels grows like $\ln\ln N$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Email: $\langle d\rangle = 9.39$ in $G(N, L)$ but 4.10 with the same degrees wired at random. What causes the drop?</p>
+  <ol>
+    <li data-why="Random wiring destroys communities, so they cannot explain it.">Its communities</li>
+    <li data-why="Random wiring also destroys clustering.">Its clustering</li>
+    <li>Its heavy-tailed degrees: hubs act as shortcuts</li>
+    <li data-why="Both versions have the same N.">A smaller number of nodes</li>
+  </ol>
+  <div class="explain">The only difference between the two null models is the degree sequence; email's hubs (up to 6,553 links) shorten paths by 56%.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A random network has $N = 10^6$ and $\langle k\rangle = 10$. Using $\langle d\rangle \approx \ln N/\ln\langle k\rangle$ from Chapter 3, what is $\langle d\rangle$?</p>
+  <ol>
+    <li>About 6</li>
+    <li data-why="That forgets to divide by ln ⟨k⟩.">About 13.8</li>
+    <li data-why="That is ln ln N, the ultra-small scale.">About 2.6</li>
+    <li data-why="Distances grow logarithmically, not as √N.">About 1,000</li>
+  </ol>
+  <div class="explain">$\ln 10^6 / \ln 10 = 13.8/2.30 = 6$.</div>
+</div>
+
 </div></main>
 </body>
 </html>

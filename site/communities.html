@@ -50,8 +50,8 @@
 
 <h2>Algorithms</h2>
 <ul>
-  <li><strong>Spectral bisection:</strong> choose node values $x_i$ minimising $\sum_{\text{links}} (x_i - x_j)^2$; the solution is the Laplacian's Fiedler vector (<a href="embeddings.html">Embeddings</a>). Its sign splits the nodes.</li>
-  <li><strong>Label propagation</strong> (Raghavan, Albert and Kumara 2007): each node adopts its neighbours' most common label until stable. Fast; random.</li>
+  <li data-beyond="Not in the book: spectral partitioning"><strong>Spectral bisection:</strong> choose node values $x_i$ minimising $\sum_{\text{links}} (x_i - x_j)^2$; the solution is the Laplacian's Fiedler vector (<a href="embeddings.html">Embeddings</a>). Its sign splits the nodes.</li>
+  <li data-beyond="Not in the book: Raghavan et al. 2007"><strong>Label propagation</strong> (Raghavan, Albert and Kumara 2007): each node adopts its neighbours' most common label until stable. Fast; random.</li>
   <li><strong>Louvain</strong> (Blondel et al. 2008): move nodes to raise $Q$, merge communities into super-nodes, repeat. The standard for large networks.</li>
 </ul>
 <div data-fig id="fig-real"></div>
@@ -136,6 +136,26 @@
   <div class="explain">Sparse random networks reach $Q \approx 0.3$ or more under optimisation; only a $Q$ well above that baseline is evidence.</div>
 </div>
 
+<div class="quiz" data-answer="3">
+  <p>Why does the sign of the Fiedler vector cut few links?</p>
+  <ol>
+    <li data-why="It belongs to the second-smallest.">It is the eigenvector of the largest eigenvalue</li>
+    <li data-why="It uses links, not triangles.">It counts triangles</li>
+    <li>It minimises $\sum_{\text{links}} (x_i - x_j)^2$, so linked nodes get similar values</li>
+    <li data-why="Degree alone ignores who links to whom.">It sorts nodes by degree</li>
+  </ol>
+  <div class="explain">Nodes on opposite sides of the cut have different signs; few links can join them cheaply.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>$L = 20{,}000$. Below what total degree are two groups joined by one link merged?</p>
+  <ol>
+    <li data-why="That is √L.">141</li>
+    <li data-why="That is L.">20,000</li>
+    <li data-why="That is 2L, before the square root.">40,000</li>
+    <li>200</li>
+  </ol>
+  <div class="explain">$\sqrt{2L} = \sqrt{40{,}000} = 200$.</div>
+</div>
 </div></main>
 </body>
 </html>

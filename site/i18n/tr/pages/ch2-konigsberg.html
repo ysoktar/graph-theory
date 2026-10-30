@@ -1,0 +1,132 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Königsberg ve Euler · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Königsberg'in yedi köprüsünün her birini tam bir kez geçmeyi deneyin, sonra Euler'in tek derece argümanının bunun neden imkânsız olduğunu nasıl kanıtladığını görün."></head><body>
+<div class="content">
+
+<h1>Königsberg ve çizge kuramının doğuşu</h1>
+<p class="lead">Yedi köprü Königsberg'in (bugünkü Kaliningrad) dört parçasını birbirine bağlıyordu. Her köprüyü tam bir kez geçerek dolaşabilir misiniz? Euler 1736'da bunun yapılamayacağını ve nedenini gösterdi: yanıt yalnızca karaların birbirine nasıl bağlandığına bağlıdır.</p>
+
+<h2>Yürüyüşü deneyin</h2>
+<p>Başlamak için bir kara parçasına, sonra köprülere tıklayın. Vurgulanan köprüler hâlâ geçebileceğiniz köprülerdir.</p>
+<div data-fig id="fig-walk"></div>
+<div class="callout look">
+  <ul>
+    <li>Hangi yolu denerseniz deneyin, her köprüyü kullanmadan takılırsınız.</li>
+    <li>Her kara parçasının <em>tek</em> sayıda köprüsü vardır: 5, 3, 3 ve 3.</li>
+    <li><em>Köprüleri düzenle</em> kipine geçin ve bir köprü ekleyin ya da kaldırın. Artık bir yürüyüş vardır: hâlâ tek sayıda köprüsü olan iki kara parçası arasında uzanır.</li>
+  </ul>
+</div>
+
+<h2>1. adım: yalnızca bağlantıları tutun</h2>
+<p>Karaların biçimi ve köprülerin uzunluğu yanıtı değiştiremez; yalnızca <em>hangi karanın hangisine bağlı olduğu</em> değiştirebilir. Euler her kara parçasını bir nokta, her köprüyü bir çizgi olarak çizdi. Bu bir <strong>çizgedir</strong> (graf):</p>
+<ul>
+  <li><strong>düğüm</strong>: bir kara parçası (A, B, C, D);</li>
+  <li><strong>bağlantı</strong>: bir köprü (a–g);</li>
+  <li><strong>derece</strong> $k$: bir düğümdeki bağlantı sayısı. A adasının beş köprüsü vardır, yani $k_A = 5$.</li>
+</ul>
+<div class="callout why">
+  <ul>
+    <li>Bir sistemi bağlantılarının deseniyle değiştirmek, ağ biliminin yöntemidir.</li>
+    <li>Böylece tek bir argüman köprüleri, sokakları, elektrik hatlarını ya da arkadaşlıkları aynı biçimde kapsar.</li>
+  </ul>
+</div>
+
+<h2>2. adım: köprüleri çiftler hâlinde sayın</h2>
+<ol>
+  <li>Yalnızca içinden geçtiğiniz bir kara parçasına bir köprüyle girer, başka bir köprüyle çıkarsınız.</li>
+  <li>Dolayısıyla köprüleri çiftler hâlinde kullanılır: derecesi <strong>çifttir</strong>.</li>
+  <li>Yalnızca başlangıç ve bitiş noktalarının derecesi tek olabilir.</li>
+</ol>
+<div class="callout key">
+  <p>Bağlantılı bir çizgede bir <strong>Euler yolu</strong> (her bağlantıyı bir kez kullanan bir yürüyüş) ancak ve ancak şu durumlarda vardır:</p>
+  <ul>
+    <li><strong>0</strong> tek dereceli düğüm: yürüyüş her yerden başlayabilir ve başladığı yere döner (bir <em>Euler devresi</em>);</li>
+    <li><strong>2</strong> tek dereceli düğüm: yürüyüş birinden diğerine uzanır.</li>
+  </ul>
+  <p>Königsberg'de 4 tane vardır, dolayısıyla böyle bir yürüyüş yoktur.</p>
+</div>
+<p>Her düğümden diğer her düğüme ulaşılabiliyorsa çizge <strong>bağlantılıdır</strong> (<a href="ch2-connectedness.html">Bağlantılılık</a>). Euler dört tek düğümün yürüyüşü imkânsız kıldığını gösterdi. Hierholzer 1873'te 0 ya da 2 tek düğümün her zaman bir yürüyüşe izin verdiğini kanıtladı; <em>Bir çözüm göster</em> düğmesi onun yöntemini kullanır.</p>
+<div class="callout example">
+  <p>B ile C arasına bir h köprüsü ekleyin. O zaman $k_B$ ve $k_C$ 4 olur, A (5) ve D (3) ise tek kalır. İki tek düğümle bir yürüyüş vardır: A'dan D'ye.</p>
+</div>
+<div class="callout fix" data-book="B1"></div>
+
+<h2>Tek düğümler neden çiftler hâlinde gelir</h2>
+<p>Her bağlantının iki ucu vardır; bu yüzden derecelerin toplamı bağlantı sayısının iki katıdır:</p>
+<div class="eq">$$\sum_{i=1}^{N} k_i = 2L$$</div>
+<dl class="symbols">
+  <dt>$k_i$</dt><dd>$i$ düğümünün derecesi</dd>
+  <dt>$\sum_{i=1}^{N}$</dt><dd>tüm düğümler üzerinden toplam, $i = 1, \dots, N$</dd>
+  <dt>$N$</dt><dd>düğüm sayısı</dd>
+  <dt>$L$</dt><dd>bağlantı sayısı</dd>
+</dl>
+<div class="callout example"><p>Königsberg: $5 + 3 + 3 + 3 = 14 = 2 \times 7$.</p></div>
+<p>$2L$ çift olduğundan, derecesi tek olan düğümlerin sayısı her zaman çifttir. İki tarafı $N$'ye bölmek ortalama dereceyi verir: $\langle k\rangle = 2L/N$ (<a href="ch2-degree.html">sonraki sayfa</a>).</p>
+
+<div class="callout connect">
+  <ul>
+    <li>Bu problemi <strong>derece</strong> çözdü. Derecelerin nasıl dağıldığı, tüm dersin ana ipliğidir (<a href="ch2-degree.html">Derece</a>).</li>
+    <li>Bağlantılar boyunca yürüyüşler <strong>yollara ve uzaklıklara</strong> götürür (<a href="ch2-paths.html">Yollar</a>).</li>
+    <li>Neyin mümkün olduğunu yapı belirler. Dayanıklılığı (<a href="robustness.html">Bölüm 8</a>) ve yayılmayı (<a href="epidemics.html">Bölüm 10</a>) da büyük ölçüde dereceler belirler.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Bağlantılı bir ağın dereceleri 2, 3, 4, 3, 2, 2'dir. Bir Euler yolu var mı?</p>
+  <ol>
+    <li data-why="Tam olarak iki tane olduklarında tek düğümlere izin verilir.">Hayır, çünkü tek dereceli düğümleri var.</li>
+    <li data-why="Her yerden başlayabilen bir yürüyüş sıfır tek düğüm gerektirir.">Evet, ve her yerde başlayıp bitebilir.</li>
+    <li>Evet, bir 3 dereceli düğümden diğerine uzanır.</li>
+    <li data-why="Bağlantılı bir ağda yalnızca dereceler karar verir.">Bir çizim olmadan karar verilemez.</li>
+  </ol>
+  <div class="explain">Tam iki tek düğüm var: yol vardır ve bu ikisi arasında uzanır.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir kentin her birinde tam dört köprü olan dört semti var ve her semte diğer her semtten ulaşılabiliyor. Bir turist her köprüyü bir kez geçip otele dönebilir mi?</p>
+  <ol>
+    <li data-why="Köprülerin çok olması engel değildir; önemli olan sayıların çift olup olmadığıdır.">Hayır, çok fazla köprü var.</li>
+    <li>Evet, herhangi bir semtten başlayarak.</li>
+    <li data-why="Sabit bir başlangıç ve bitiş, iki düğüm tek olduğunda gerekir; burada hiçbiri tek değil.">Yalnızca belirli bir semtten başlanırsa.</li>
+    <li data-why="Koşul derecelerle ilgilidir, semt sayısıyla değil.">Yalnızca semt sayısı köprü sayısından fazlaysa.</li>
+  </ol>
+  <div class="explain">Tüm dereceler çift ve kent bağlantılı; dolayısıyla herhangi bir başlangıç noktasından bir Euler devresi vardır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Yedi köprüde yapılacak hangi tek değişiklik yürüyüşü mümkün kılar?</p>
+  <ol>
+    <li data-why="A 5'ten 3'e, B 3'ten 1'e iner; hâlâ dört tek düğüm vardır.">A ile B arasındaki iki köprüyü de kaldırmak.</li>
+    <li data-why="A'dan yine A'ya giden bir köprü A'nın derecesine 2 ekler (5'ten 7'ye); bu hâlâ tektir.">A'dan yine A'ya bir köprü eklemek.</li>
+    <li data-why="Bir köprü iki dereceyi birer birer değiştirir ve bu işe yarayabilir.">Hiçbiri: tek bir değişiklik yetmez.</li>
+    <li>Herhangi bir köprüyü kaldırmak.</li>
+  </ol>
+  <div class="explain">Her köprü tek dereceli iki kara parçasını birleştirir. Onu kaldırmak ikisini de çift yapar ve tam iki tek düğüm bırakır.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Euler köprü uzunluklarını ve karaların biçimini neden göz ardı edebilir?</p>
+  <ol>
+    <li>Yanıt yalnızca her köprünün hangi karaları birleştirdiğine bağlıdır.</li>
+    <li data-why="Kusursuz bir harita bile aynı yanıtı verir.">1736 haritaları hatalıydı.</li>
+    <li data-why="Uzunluklar hangi yürüyüşlerin var olduğunu etkilemez.">Tüm köprüler aynı uzunluktaydı.</li>
+    <li data-why="Argüman yaklaşık değil, kesindir.">Bu bir yaklaşıklıktır.</li>
+  </ol>
+  <div class="explain">Hangi yürüyüşlerin var olduğunu yalnızca bağlantılar belirler. Yalnızca bağlantıları tutmak ağ biliminin kurucu fikridir.</div>
+</div>
+
+<h2>Ağlar ve çizgeler (Bölüm 2.2)</h2>
+<p>Bir <strong>ağ</strong>, bir sistemin bileşenlerini (<strong>düğümler</strong>) ve bunların doğrudan etkileşimlerini (<strong>bağlantılar</strong>) listeler. Boyutu düğüm sayısı $N$ ve bağlantı sayısı $L$ ile verilir. <em>Ağ, düğüm, bağlantı</em> ile <em>çizge, köşe, kenar</em> sözcükleri aynı şeyleri anlatır. İlişki iki yönlü olduğunda (bir iş birliği, bir elektrik hattı) bağlantı <strong>yönsüzdür</strong>; bir düğümden diğerine yöneldiğinde (bir köprü bağlantısı, bir e-posta, bir telefon araması) <strong>yönlüdür</strong>. Bu site kitabın sekiz referans ağını kullanır (kitap Tablo 2.1):</p>
+<div id="tbl-networks"></div>
+<div class="callout note">
+  <p>Buradaki tüm ağlar, ders not defterinde olduğu gibi <strong>yönsüz ve basit</strong> (yön, kendine döngü ya da yinelenen bağlantı olmadan) ele alınır. Yönlü ağlarda $u\to v$ ve $v\to u$ tek bağlantıda birleşir; bu yüzden $L$ ve $\langle k\rangle$ kitaptakinden küçüktür.</p>
+</div>
+<div class="callout discuss">
+  <p>Aynı 23,133 bilim insanı ortak yazarlıkla, atıflarla ya da e-postalarla birbirine bağlanabilir. Bu üç ağın yapısı aynı olur muydu? Fikirlerin nasıl yayıldığını görmek için hangisini incelerdiniz?</p>
+  <div class="hint">Ağı bağlantının tanımı belirler. Ortak yazarlık yönsüzdür ve üçgenlerle doludur (üç yazarlı bir makale bir üçgendir); atıflar yönlüdür ve daha uzağa ulaşır. Bir bağlantının ne anlama geldiğini her zaman sorun.</div>
+</div>
+<div class="callout why">
+  <ul>
+    <li>Bir postacının ya da kar küreme aracının yapması gerektiği gibi her sokaktan bir kez geçmek, Euler'in koşulu üzerine kurulan <em>Çinli postacı problemidir</em>.</li>
+    <li>Genom dizilemesi, örtüşen parçalar arasında bir Euler yolu bularak DNA'yı yeniden birleştirir.</li>
+    <li>Her <em>düğümü</em> bir kez ziyaret etmek (bir <em>Hamilton yolu</em>) benzer görünür, ama basit bir testi yoktur ve hesaplama açısından zordur.</li>
+  </ul>
+</div>
+
+</div></body></html>

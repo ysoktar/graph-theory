@@ -1,0 +1,162 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Binom → Poisson dereceler · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele bir ağın derece dağılımı: binom, seyrek limitte Poisson ve ağ boyutundan bağımsız."></head><body>
+<div class="content">
+
+<h1>Derece dağılımı: binom → Poisson</h1>
+<p class="lead">Rastgele bir ağda iki düğüm ne kadar farklı olabilir? Her düğüm çifti aynı biçimde ele alındığı için tüm derece dağılımı tam olarak hesaplanabilir. Kitap her gerçek derece dağılımını bu ölçüte göre değerlendirir.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Yalnızca ortalama derece $\langle k\rangle$'yı değil, tüm derece dağılımı $p_k$'yı öngörür (<a href="ch2-degree.html">Kısım I</a>).</li>
+    <li>Bağlantılar rastlantıyla yerleştirilseydi gerçek bir merkez düğümün ne kadar olanaksız olacağını söyler (<a href="ch3-real-degrees.html">sonraki sayfa</a>).</li>
+  </ul>
+</div>
+
+<h2>Kesin yanıt: binom dağılımı</h2>
+<ol>
+  <li>Bir düğümün $N-1$ olası eşi vardır ve her biri ona $p$ olasılıkla bağlıdır.</li>
+  <li>Belirli bir $k$ eşli kümenin bağlı, diğerlerinin bağlı olmama olasılığı $p^k(1-p)^{N-1-k}$'dır.</li>
+  <li>Böyle $\binom{N-1}{k}$ küme vardır; dolayısıyla:</li>
+</ol>
+<div class="eq">$$p_k = \binom{N-1}{k}\, p^k (1-p)^{N-1-k}.$$</div>
+<dl class="symbols">
+  <dt>$p_k$</dt><dd>bir düğümün derecesinin $k$ olma olasılığı</dd>
+  <dt>$N-1$</dt><dd>bir düğümün olası eşlerinin sayısı</dd>
+  <dt>$\binom{N-1}{k}$</dt><dd>bunlar arasından $k$ komşu seçmenin yollarının sayısı</dd>
+  <dt>$p$</dt><dd>belirli bir çiftin bağlı olma olasılığı</dd>
+</dl>
+<p>Ortalaması $\langle k\rangle = p(N-1)$, varyansı $\sigma_k^2 = p(1-p)(N-1)$'dir.</p>
+<div class="callout example">
+  <p>$N = 1{,}000$ ve $p = 0.01$ için: $p_{10} = \binom{999}{10}\,0.01^{10}\,0.99^{989} \approx 0.1257$.</p>
+</div>
+
+<h2>Seyrek limit: Poisson dağılımı (İleri Konu 3.A)</h2>
+<p>Gerçek ağlar <a href="ch2-sparsity.html">seyrektir</a>: $\langle k\rangle \ll N$. $\langle k\rangle$'yı sabit tutun ve $N \to \infty$ olsun; böylece $p = \langle k\rangle/(N-1) \to 0$:</p>
+<ol data-beyond="Kitabın İleri Konu 3.A'sı (türetme)">
+  <li>$k \ll N$ için $\binom{N-1}{k} \approx (N-1)^k/k!$'dir; burada $k! = 1\cdot2\cdots k$.</li>
+  <li>$p^k = \langle k\rangle^k/(N-1)^k$; dolayısıyla $(N-1)^k$ çarpanı sadeleşir.</li>
+  <li>$(1-p)^{N-1-k} \approx (1 - \langle k\rangle/(N-1))^{N-1} \to e^{-\langle k\rangle}$, çünkü $(1-x/n)^n \to e^{-x}$ ($e \approx 2.718$).</li>
+  <li>Üç çarpanı çarpmak şunu verir:</li>
+</ol>
+<div class="eq">$$p_k = e^{-\langle k\rangle}\,\frac{\langle k\rangle^k}{k!}, \qquad \sigma_k = \sqrt{\langle k\rangle}.$$</div>
+<dl class="symbols">
+  <dt>$p_k$</dt><dd>seyrek bağımsız olayları sayan <strong>Poisson dağılımı</strong></dd>
+  <dt>$\langle k\rangle$</dt><dd>tek parametresi: $N$ ve $p$ ortadan kalkmıştır</dd>
+  <dt>$e^{-\langle k\rangle}$</dt><dd>$p_0$, yalıtılmış düğümlerin oranı</dd>
+  <dt>$\langle k\rangle^k/k!$</dt><dd>$k$ ile önce artar, sonra her üstel fonksiyondan hızlı azalır</dd>
+  <dt>$\sigma_k$</dt><dd>$k$'nın standart sapması; varyans ortalamaya eşittir</dd>
+</dl>
+<div class="callout example">
+  <p>$\langle k\rangle = 9.99$ ile Poisson $p_{10} \approx 0.1251$ verir (kesin binom değeri 0.1257'dir). $\langle k\rangle = 10$ ile $\sigma_k \approx 3.16$'dır, düğümlerin %73'ünün 7 ile 13 arası bağlantısı vardır ve $p_0 = e^{-10} \approx 4.5\times10^{-5}$'tir.</p>
+</div>
+<p>Sonuç: aynı $\langle k\rangle$'ya sahip rastgele ağlar, boyutları ne olursa olsun aynı $p_k$'ya sahiptir.</p>
+
+<h2>Benzetimle üretilmiş rastgele ağlar</h2>
+<p><strong>Logaritmik bir eksen</strong> 1, 0.1, 0.01, … değerlerini eşit aralıklarla yerleştirir; bu da çok küçük olasılıkları görünür kılar.</p>
+<div data-fig id="fig-sim"></div>
+<div class="callout look">
+  <ul>
+    <li>$N = 500$, $5{,}000$ ve $50{,}000$ düğümlü ağların hepsi tek bir Poisson eğrisine düşer.</li>
+    <li>$\langle k\rangle = 10$ ile logaritmik eksende: $P(k \ge 20) = \%0.35$ ve $P(k \ge 100) \approx 5\times10^{-63}$.</li>
+  </ul>
+</div>
+
+<h2>Poisson ne zaman iyi bir yaklaşıklıktır?</h2>
+<div data-fig id="fig-binpoi"></div>
+<div class="callout look">
+  <p>Küçük $N$ için binom varyansı $\langle k\rangle(1-p)$, $\langle k\rangle$'nın altındadır, çünkü hiçbir derece $N-1$'i aşamaz. $N = 20$ ve $\langle k\rangle = 10$ ile varyanslar 4.7 ve 10'dur. $N$, $\langle k\rangle$'nın birkaç düzine katı olduğunda iki dağılım çakışır. Kitabın tüm ağlarında $N > 100\langle k\rangle$'dır (en yakını 114 ile E. coli metabolizmasıdır).</p>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li><strong>Sıfır modelinin öngörüsü:</strong> dereceler ortalamanın yaklaşık $\pm 3\sqrt{\langle k\rangle}$ içindedir; tipik bir derece, yani karakteristik bir ölçek vardır.</li>
+    <li><strong>Bir sapma şu anlama gelir:</strong> mertebelerce yayılan dereceler rastlantısal bağlanmadan gelemez.</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li>Kısım I'deki <a href="ch2-degree.html">$p_k$</a>'yı <strong>öngörür</strong> ve <a href="ch3-real-degrees.html">gerçek veride</a> <strong>sınanır</strong>; orada başarısız olur.</li>
+    <li>Kuyruğu $1/k!$ gibi değil $k$'nın bir kuvveti gibi azalan <a href="ch4-power-laws.html">kuvvet yasası</a> $p_k \sim k^{-\gamma}$ (Bölüm 4) <strong>onun yerini alır</strong>; böylece merkez düğümler mümkün olur.</li>
+    <li data-beyond="Kitabın 8. bölümü (Molloy–Reed)"><strong>İkinci momenti</strong> $\langle k^2\rangle = \langle k\rangle(1+\langle k\rangle)$'dir. Dolayısıyla Molloy–Reed koşulu $\kappa = \langle k^2\rangle/\langle k\rangle = 1 + \langle k\rangle > 2$ (<a href="robustness.html">Dayanıklılık</a>), <a href="ch3-evolution.html">dev bileşen eşiği</a> olan $\langle k\rangle > 1$ ile aynıdır. $\gamma &lt; 3$ olan kuvvet yasaları için ikinci moment ıraksar (<a href="ch4-moments.html">Momentler</a>).</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Rastgele bir ağın $\langle k\rangle = 100$'dür. Derecelerin neredeyse tamamı ($\pm 3\sigma_k$ içinde) hangi değerler arasındadır?</p>
+  <ol>
+    <li data-why="Bu ±100'dür; σₖ = √100 = 10.">0 ile 200</li>
+    <li>70 ile 130</li>
+    <li data-why="σₖ = √⟨k⟩ = 10'dur, 1 değil.">97 ile 103</li>
+    <li data-why="Bu ±1σₖ'dir ve düğümlerin yalnızca yaklaşık üçte ikisini kapsar.">90 ile 110</li>
+  </ol>
+  <div class="explain">$\sigma_k = \sqrt{100} = 10$; dolayısıyla derecelerin neredeyse tamamı $100 \pm 30$ içindedir.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Büyük bir rastgele ağın $\langle k\rangle = 3$'tür. Düğümlerinin ne kadarı yalıtılmıştır?</p>
+  <ol>
+    <li data-why="Her çift ayrı bir yazı turadır ve bazı düğümler hepsini kaybeder.">Hiçbiri.</li>
+    <li>Yaklaşık %5'i.</li>
+    <li data-why="Bu p₀ = 1/3 gerektirirdi, ama Poisson e^{−3} verir.">Yaklaşık üçte biri.</li>
+    <li data-why="e^{−3} ≈ 0.05, %0.05 değil %5'tir.">Yaklaşık %0.05'i.</li>
+  </ol>
+  <div class="explain">$p_0 = e^{-3} \approx 0.050$. Bu yalıtılmış düğümler ağın <a href="ch3-evolution.html">bağlantılı</a> olmasını engeller.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>İki rastgele ağın $\langle k\rangle = 5$'tir; birinin $N = 10^3$, diğerinin $N = 10^6$ düğümü vardır. Derece dağılımları nasıl karşılaştırılır?</p>
+  <ol>
+    <li data-why="σₖ = √⟨k⟩, N'yi içermez.">Büyük ağınki çok daha geniştir.</li>
+    <li data-why="p₀ = e^{−⟨k⟩} yalnızca ⟨k⟩'ya bağlıdır.">Büyük ağda yalıtılmış düğümlerin payı daha büyüktür.</li>
+    <li>Pratikte aynıdırlar.</li>
+    <li data-why="Düğüm sayıları N ile ölçeklenir, ama pₖ oranları ölçeklenmez.">Büyük ağın pₖ'sı 1,000 kat yüksektir.</li>
+  </ol>
+  <div class="explain">$p_k$ yalnızca $\langle k\rangle$'ya bağlıdır. Yalnızca en büyük derece $k_{\max}$ büyür, o da yavaşça: 13'ten 19'a.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>$N = 20$ ve $\langle k\rangle = 10$ için binom dağılımı neden Poisson'dan çok daha dardır?</p>
+  <ol>
+    <li>Hiçbir derece 19'u aşamaz ve varyans 10 değil, $\langle k\rangle(1-p) \approx 4.7$'dir.</li>
+    <li data-why="Binom her N için kesindir; yaklaşıklık olan Poisson'dur.">Binom büyük bir N gerektirir.</li>
+    <li data-why="Bağlantılar her boyutta bağımsız kalır.">Küçük ağların bağlantıları ilişkilidir.</li>
+    <li data-why="İkisinin ortalaması da aynıdır, p(N − 1).">Binomun ortalaması daha küçüktür.</li>
+  </ol>
+  <div class="explain">Burada $p = 10/19 \approx 0.53$'tür; Poisson yaklaşıklığı ise $p \to 0$, yani $N \gg \langle k\rangle$ varsayar.</div>
+</div>
+
+<div class="quiz" data-answer="3" data-beyond="Kitabın 8. bölümü (Molloy–Reed)">
+  <p>Rastgele bir ağın $\langle k\rangle = 4$'tür. $\langle k^2\rangle$ değeri nedir ve $\kappa = \langle k^2\rangle/\langle k\rangle > 2$ midir?</p>
+  <ol>
+    <li data-why="⟨k⟩² varyansı dışarıda bırakır: ⟨k²⟩ = σₖ² + ⟨k⟩².">16, dolayısıyla κ = 4.</li>
+    <li data-why="4 yalnızca varyanstır.">4, dolayısıyla κ = 1.</li>
+    <li>20, dolayısıyla κ = 5: bir dev bileşen vardır.</li>
+    <li data-why="Poisson için ⟨k²⟩ = ⟨k⟩(1 + ⟨k⟩)'dir, 2⟨k⟩ değil.">8, dolayısıyla κ = 2.</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2 = 4 + 16 = 20$; dolayısıyla $\kappa = 1 + \langle k\rangle = 5$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>$\langle k\rangle = 2$ olan bir Poisson dağılımında $p_1$ mi, $p_2$ mi daha büyüktür?</p>
+  <ol>
+    <li data-why="p₂/p₁ = ⟨k⟩/2 = 1.">$p_1$, 2 kat.</li>
+    <li data-why="p₂/p₁ = ⟨k⟩/2'dir ve burada 1'dir.">$p_2$, 2 kat.</li>
+    <li data-why="p₀ = e^{−2} = 0.135, p₁'in yarısıdır.">$p_0$ ikisinden de büyüktür.</li>
+    <li>Eşittirler: ikisi de $2e^{-2} \approx 0.27$'dir.</li>
+  </ol>
+  <div class="explain">$p_k/p_{k-1} = \langle k\rangle/k$'dır; dolayısıyla $\langle k\rangle = 2$ olduğunda $p_1 = p_2$'dir.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Bir kuvvet yasası dağılımında (Bölüm 4) neden merkez düğümler olabilir de Poisson dağılımında olamaz?</p>
+  <ol>
+    <li>Kuyruğu $1/k!$ gibi değil, $k$'nın bir kuvveti gibi azalır.</li>
+    <li data-why="İkisinin de ⟨k⟩'sı aynı olabilir; farklı olan kuyruğun biçimidir.">Ortalaması daha büyüktür.</li>
+    <li data-why="İkisi de her N için k üzerinde tanımlı dağılımlardır.">Yalnızca büyük N için tanımlıdır.</li>
+    <li data-why="Yalıtılmış düğümler kuyruk hakkında bir şey söylemez.">Yalıtılmış düğümü yoktur.</li>
+  </ol>
+  <div class="explain">$1/k!$ her üstel fonksiyondan hızlı azalır; $k^{-\gamma}$ ise yavaş azalır, bu yüzden çok büyük $k$ değerleri olası kalır.</div>
+</div>
+
+</div></body></html>

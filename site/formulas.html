@@ -44,8 +44,8 @@
     <div class="formula"><div class="formula-name">Width of the Poisson distribution</div><div class="eq">$$\sigma_k = \sqrt{\langle k\rangle}, \qquad \langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$$</div><p class="small muted">$\sigma_k$ standard deviation of the degrees.</p><a class="small" href="ch3-degree.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">Largest and smallest degree</div><div class="eq">$$N\,P(K > k_{\max}) \approx 1, \qquad N\,P(K < k_{\min}) \approx 1$$</div><p class="small muted">$k_{\max}$: about one node expected beyond it.</p><a class="small" href="ch3-real-degrees.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">Giant component</div><div class="eq">$$S = 1 - e^{-\langle k\rangle S}; \quad S > 0 \iff \langle k\rangle > 1$$</div><p class="small muted">$S$ fraction of nodes in the giant component.</p><a class="small" href="ch3-evolution.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Regimes</div><div class="eq">$$\langle k\rangle < 1:\ N_G \sim \ln N; \quad \langle k\rangle = 1:\ N_G \sim N^{2/3}; \quad \langle k\rangle > \ln N:\ \text{connected}$$</div><p class="small muted">$N_G$ size of the largest component.</p><a class="small" href="ch3-evolution.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Small world (with the Fronczak et al. 2004 correction)</div><div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln\langle k\rangle} \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12$$</div><p class="small muted">$\gamma_E \approx 0.577$ Euler's constant; second form: Fronczak et al. (2004).</p><a class="small" href="ch3-small-world.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Regimes</div><div class="eq">$$\begin{aligned} \langle k\rangle < 1 &:\ N_G \sim \ln N \\ \langle k\rangle = 1 &:\ N_G \sim N^{2/3} \\ \langle k\rangle > \ln N &:\ \text{connected} \end{aligned}$$</div><p class="small muted">$N_G$ size of the largest component.</p><a class="small" href="ch3-evolution.html">Explore →</a></div>
+    <div class="formula" data-beyond="Not in the book: Fronczak et al. 2004"><div class="formula-name">Small world (with the Fronczak et al. 2004 correction)</div><div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln\langle k\rangle} \approx \frac{\ln N - \gamma_E}{\ln\langle k\rangle} + \frac12$$</div><p class="small muted">$\gamma_E \approx 0.577$ Euler's constant; second form: Fronczak et al. (2004).</p><a class="small" href="ch3-small-world.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">Clustering</div><div class="eq">$$\langle C\rangle = p = \frac{\langle k\rangle}{N-1}$$</div><p class="small muted">Neighbours are linked with the same probability $p$ as any pair.</p><a class="small" href="ch3-clustering.html">Explore →</a></div>
   </div>
 </section>
@@ -56,7 +56,7 @@
     <div class="formula"><div class="formula-name">Continuous power law</div><div class="eq">$$p(k) = (\gamma - 1) k_{\min}^{\gamma-1} k^{-\gamma}, \qquad P(K \ge k) = (k/k_{\min})^{-(\gamma-1)}$$</div><p class="small muted">$P(K \ge k)$ CCDF: slope $-(\gamma - 1)$ on log-log axes.</p><a class="small" href="ch4-power-laws.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">Natural cutoff</div><div class="eq">$$k_{\max} \approx k_{\min} N^{1/(\gamma-1)}; \quad \text{exponential: } k_{\min} + \ln N/\lambda$$</div><p class="small muted">$k_{\max}$ expected largest degree; $\lambda$ exponential decay rate.</p><a class="small" href="ch4-hubs.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">Moments</div><div class="eq">$$\langle k^n\rangle = \frac{\gamma-1}{n-\gamma+1} k_{\min}^{\gamma-1}\big(k_{\max}^{n-\gamma+1} - k_{\min}^{n-\gamma+1}\big)$$</div><p class="small muted">$n$ moment order; diverges with $k_{\max}$ when $n > \gamma - 1$.</p><a class="small" href="ch4-moments.html">Explore →</a></div>
-    <div class="formula"><div class="formula-name">Distances</div><div class="eq">$$\langle d\rangle \sim \text{const}\ (\gamma = 2),\ \ln\ln N\ (2<\gamma<3),\ \frac{\ln N}{\ln\ln N}\ (\gamma = 3),\ \ln N\ (\gamma > 3)$$</div><p class="small muted">$\gamma$ degree exponent; smaller $\gamma$, shorter paths.</p><a class="small" href="ch4-ultra-small.html">Explore →</a></div>
+    <div class="formula"><div class="formula-name">Distances</div><div class="eq">$$\langle d\rangle \sim \begin{cases} \text{const} & \gamma = 2 \\ \ln\ln N & 2<\gamma<3 \\ \ln N/\ln\ln N & \gamma = 3 \\ \ln N & \gamma > 3 \end{cases}$$</div><p class="small muted">$\gamma$ degree exponent; smaller $\gamma$, shorter paths.</p><a class="small" href="ch4-ultra-small.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">Log-likelihood</div><div class="eq">$$\ln\mathcal L(\gamma) = -n \ln\zeta(\gamma, k_{\min}) - \gamma \sum_i \ln k_i$$</div><p class="small muted">$n$ tail size ($k_i \ge k_{\min}$); maximise over $\gamma$.</p><a class="small" href="ch4-fitting.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">Closed-form MLE (k_min ≳ 6)</div><div class="eq">$$\hat\gamma \approx 1 + n\Big[\sum_i \ln\frac{k_i}{k_{\min} - 1/2}\Big]^{-1}, \qquad \sigma \approx \frac{\hat\gamma - 1}{\sqrt n}$$</div><p class="small muted">$\hat\gamma$ estimate; $\sigma$ its standard error.</p><a class="small" href="ch4-fitting.html">Explore →</a></div>
     <div class="formula"><div class="formula-name">KS distance</div><div class="eq">$$D = \max_{k \ge k_{\min}} |S(k) - P(k)|$$</div><p class="small muted">$S$ data CDF, $P$ fitted CDF, both for $k \ge k_{\min}$.</p><a class="small" href="ch4-fitting.html">Explore →</a></div>
@@ -80,44 +80,9 @@
   </div>
 </section>
 
-<h2>Glossary</h2>
-<dl class="gloss">
-  <dt>Adjacency matrix</dt><dd>N×N matrix with A_ij = 1 when nodes i and j are linked.</dd>
-  <dt>AUC</dt><dd>Probability that a true link outscores a non-link; 0.5 = guessing.</dd>
-  <dt>Assortative</dt><dd>Hubs tend to link to hubs (r > 0, k_nn(k) increasing).</dd>
-  <dt>Betweenness</dt><dd>Share of shortest paths between other pairs that pass through a node.</dd>
-  <dt>Bipartite network</dt><dd>Two node types, links only between types; its projection links nodes sharing a neighbour.</dd>
-  <dt>CCDF</dt><dd>Complementary cumulative distribution P(K ≥ k); needs no binning.</dd>
-  <dt>Clustering coefficient</dt><dd>Share of a node's neighbour pairs that are linked to each other.</dd>
-  <dt>Component</dt><dd>Maximal set of nodes connected by paths; the largest is the giant component.</dd>
-  <dt>Configuration model</dt><dd>Random network with a prescribed degree sequence, built by pairing stubs.</dd>
-  <dt>Degree</dt><dd>Number of links of a node.</dd>
-  <dt>Degree-preserving randomization</dt><dd>Repeated link swaps that keep every degree; a null model for everything but the degrees.</dd>
-  <dt>Diameter</dt><dd>Largest shortest-path distance in a network.</dd>
-  <dt>Disassortative</dt><dd>Hubs tend to link to small-degree nodes (r < 0).</dd>
-  <dt>Fiedler vector</dt><dd>Laplacian eigenvector of the second-smallest eigenvalue; its sign gives a two-way cut.</dd>
-  <dt>Fitness</dt><dd>Intrinsic attractiveness η of a node in the Bianconi–Barabási model.</dd>
-  <dt>Friendship paradox</dt><dd>A random neighbour has on average ⟨k²⟩/⟨k⟩ links, more than a random node.</dd>
-  <dt>G(N, L), G(N, p)</dt><dd>Random networks with exactly L links (Erdős–Rényi) or with each pair linked with probability p (Gilbert).</dd>
-  <dt>Hub</dt><dd>A node with far more links than average.</dd>
-  <dt>κ (kappa)</dt><dd>⟨k²⟩/⟨k⟩, mean degree of a node reached along a link.</dd>
-  <dt>k_min</dt><dd>Smallest degree from which a power-law tail is fitted.</dd>
-  <dt>KS distance</dt><dd>Largest gap between the data's cumulative distribution and the model's.</dd>
-  <dt>Log-binning</dt><dd>Bins growing by a constant factor, so that each bin collects enough nodes.</dd>
-  <dt>Modularity</dt><dd>Excess of links inside groups compared with the configuration model.</dd>
-  <dt>Node embedding</dt><dd>A vector per node, close for nodes close in the network.</dd>
-  <dt>Natural cutoff</dt><dd>Expected largest degree of a power law in a network of N nodes, k_min N^{1/(γ−1)}.</dd>
-  <dt>Null model</dt><dd>A random reference network that keeps some properties of the data and randomises the rest.</dd>
-  <dt>Percolation</dt><dd>Appearance or loss of a giant component as nodes or links are kept with some probability.</dd>
-  <dt>Path / walk</dt><dd>A walk is any sequence of linked nodes; a path visits each node at most once.</dd>
-  <dt>Preferential attachment</dt><dd>New links favour well-connected nodes, Π(k) ∝ k.</dd>
-  <dt>Resolution limit</dt><dd>Modularity merges communities with total degree below about √(2L).</dd>
-  <dt>Scale-free network</dt><dd>Network whose degree distribution follows a power law, p_k ~ k^−γ.</dd>
-  <dt>Small world</dt><dd>Average distance growing like ln N or slower.</dd>
-  <dt>Sparse network</dt><dd>L ≪ L_max, that is ⟨k⟩ ≪ N.</dd>
-  <dt>Transmissibility</dt><dd>Probability T that an infection passes along one link.</dd>
-  <dt>Ultra-small world</dt><dd>Distances growing like ln ln N, as in scale-free networks with 2 < γ < 3.</dd>
-</dl>
+<h2 id="glossary">Glossary</h2>
+<p class="small muted">The same definitions appear when you hover over or tap a dotted-underlined term on any page.</p>
+<dl class="gloss"></dl>
 
 </div></main>
 </body>

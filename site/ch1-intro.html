@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why networks? · From Graphs to Hubs</title>
+<meta name="description" content="Book Chapter 1: complex systems are networks, why network science emerged around 2000, and what it lets us do.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch1-intro.js"></script>
+</head>
+<body data-page="ch1-intro">
+<main><div class="content">
+
+<h1>Why networks?</h1>
+<p class="lead">On 14 August 2003 a local failure in the power grid spread until 45 million people in eight US states and 10 million in Ontario were without power. The failure travelled along the network's links. Chapter 1 argues that we cannot understand such systems without understanding the networks behind them.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Many systems are too complicated to predict from their parts alone. Their wiring often decides what they do.</li>
+    <li>The same few tools work for cells, brains, the Web and power grids, because their networks follow common laws.</li>
+    <li>This chapter has no formulas. It explains why the rest of the course matters.</li>
+  </ul>
+</div>
+
+<h2>Vulnerability due to interconnectivity (Section 1.1)</h2>
+<p>The 2003 blackout was a <strong>cascading failure</strong>. Such a failure unfolds in three steps:</p>
+<ol>
+  <li>A component fails and its load moves to its neighbours.</li>
+  <li>If the extra load is small, the neighbours absorb it and nothing visible happens.</li>
+  <li>If the extra load is too large, the neighbours fail too and pass the load on. The failure keeps spreading: this is the cascade.</li>
+</ol>
+<p>How large the cascade gets depends on <em>where</em> the first failures sit and how much load each node can carry.</p>
+<ul>
+  <li><strong>Internet</strong>: traffic is rerouted around broken routers and can overload routers that still work, making them unavailable (a denial of service).</li>
+  <li><strong>Finance</strong>: in 1997, credit limits imposed in several Pacific nations made corporations default, and stock markets crashed worldwide. In 2009–2011 the US credit crisis paralysed the global economy.</li>
+  <li><strong>On purpose</strong>: governments try to dry up the money supply of terrorist organisations, and cancer researchers try to induce cascades that kill cancer cells.</li>
+</ul>
+<p>Linking the cities' separate grids into one network made electricity cheap, but it also let a local failure travel far. Information, viruses and business practices spread along networks in the same way. Networks therefore bring both benefits and risks.</p>
+<div class="callout key">
+  <p>To control a cascade we need to understand three things, each a part of this course:</p>
+  <ol>
+    <li>the <strong>structure</strong> of the network (Chapters 2–7);</li>
+    <li>the <strong>dynamics</strong> on it, such as the flow of electricity;</li>
+    <li>how structure and dynamics together set <strong>robustness</strong> (<a href="robustness.html">Chapter 8</a>).</li>
+  </ol>
+</div>
+
+<h2>A network behind every complex system (Section 1.2)</h2>
+<p>A <strong>complex system</strong> is one whose collective behaviour is hard to derive from knowledge of its parts. Behind each such system is a network: its parts are the nodes, and their interactions are the links.</p>
+<table class="simple">
+  <thead><tr><th>System</th><th>Nodes</th><th>Links</th></tr></thead>
+  <tbody>
+    <tr><td>Cell</td><td>genes, proteins, metabolites</td><td>binding interactions, chemical reactions</td></tr>
+    <tr><td>Brain</td><td>neurons</td><td>connections between neurons</td></tr>
+    <tr><td>Society</td><td>people</td><td>professional, friendship and family ties</td></tr>
+    <tr><td>Communication</td><td>phones, computers, satellites</td><td>wired or wireless connections</td></tr>
+    <tr><td>Power grid</td><td>generators, consumers</td><td>transmission lines</td></tr>
+    <tr><td>World Wide Web</td><td>web pages</td><td>hyperlinks (URLs)</td></tr>
+  </tbody>
+</table>
+<p>These systems differ in size, age and nature. The surprise of the field is that, once we ignore <em>what</em> the nodes and links are, their networks look more alike than different.</p>
+
+<h2>Why around the year 2000? (Section 1.3)</h2>
+<p>The study of networks is old. Graph theory goes back to Euler (<a href="ch2-konigsberg.html">Königsberg</a>), random graphs to Erdős and Rényi (1959), and social network analysis to sociology. Yet citations to these classics exploded only after 2000. Two forces turned them into a new field:</p>
+<div class="callout key">
+  <ol>
+    <li><strong>Network maps.</strong> The Internet made data cheap to store, share and analyse. Around 2000 the first large maps appeared: maps of the Internet itself (from the CAIDA and DIMES projects), of protein interactions in human cells, of friendships on Facebook, Twitter and LinkedIn, and of brain wiring (the Connectome project).</li>
+    <li><strong>Universality.</strong> Networks from very different domains turned out to share the same architecture, so one set of mathematical tools works for all of them.</li>
+  </ol>
+</div>
+<p>Most early maps were by-products of other projects. Biochemists had found chemical reactions one by one over 150 years, IMDb listed the actors of each film, and Web of Science indexed the authors of each paper. Network scientists turned these lists into networks. The site's eight <a href="data.html">reference networks</a> are maps of this kind.</p>
+
+<h2>What kind of science (Section 1.4)</h2>
+<ul>
+  <li><strong>Interdisciplinary</strong>: it gives different fields a shared language. Betweenness centrality (how many shortest paths pass through a node) came from sociology and now finds busy Internet routers. Graph partitioning came from computer science and now finds groups of disease genes.</li>
+  <li><strong>Empirical</strong>: unlike graph theory, it tests every tool on real data and judges it by what it reveals.</li>
+  <li><strong>Quantitative</strong>: it takes its formalism from graph theory, its treatment of randomness and universal laws from statistical physics, and further tools from engineering and statistics.</li>
+  <li><strong>Computational</strong>: networks with millions of nodes need efficient algorithms and software (this course uses NetworkX).</li>
+</ul>
+
+<h2>What it lets us do (Sections 1.5–1.6)</h2>
+<ul>
+  <li><strong>Economy</strong>: Google's search relies on the Web's link structure, and Facebook, LinkedIn and Twitter recommend friends with network algorithms.</li>
+  <li><strong>Health</strong>: a list of genes is not enough, because diseases arise when molecular networks break down. Network biology, network medicine and drug design study these networks.</li>
+  <li><strong>Security</strong>: agencies map and disrupt terrorist networks. The same tools have also enabled mass surveillance, so ethical use is part of the job.</li>
+  <li><strong>Epidemics</strong>: in 2009 the course of the H1N1 pandemic was predicted months ahead from the worldwide transportation network. The models predicted a peak in October, not January–February, so vaccines planned for November came too late.</li>
+  <li><strong>Brain</strong>: the only fully mapped nervous system is that of the worm <em>C. elegans</em>, with 302 neurons. The US Connectome project (2010) aims to map mammalian brains.</li>
+  <li><strong>Management</strong>: the informal network of who asks whom for advice often matters more than the official organisation chart.</li>
+  <li><strong>Science</strong>: the papers of Watts and Strogatz (1998, small worlds) and of Barabási and Albert (1999, scale-free networks) gathered citations faster than the classics of complexity science.</li>
+</ul>
+<div class="callout example">
+  <p>A Hungarian company asked every employee whom they turn to for advice. The largest hub (the person named most often) was neither a director nor a top manager but the safety officer, who visited every site and talked to everyone except top management. Should the company fire him or promote him? The book leaves this to you.</p>
+</div>
+<p>Like evolution and quantum mechanics, network science is an <strong>enabling platform</strong>, a body of knowledge on which other fields build.</p>
+
+<h2>Roadmap: how the course builds up</h2>
+<p>Each step answers a question the previous one left open.</p>
+<ol>
+  <li><strong>Graph theory</strong> (<a href="ch2-konigsberg.html">Ch 2</a>) provides the language: nodes, links, degree, paths and clustering.</li>
+  <li><strong>Random networks</strong> (<a href="ch3-model.html">Ch 3</a>) are the <em>null model</em>: they show what pure chance produces. They explain giant components and small worlds, but they have no hubs.</li>
+  <li><strong>Scale-free networks</strong> (<a href="ch4-power-laws.html">Ch 4</a>): real degrees follow power laws. The hubs make the mean squared degree $\langle k^2\rangle$ huge and paths ultra-short.</li>
+  <li><strong>Barabási–Albert model</strong> (<a href="ch5-preview.html">Ch 5</a>): growth plus preferential attachment (new nodes prefer well-connected nodes) explain <em>where</em> power laws come from.</li>
+  <li><strong>Evolving networks</strong> (<a href="evolving.html">Ch 6</a>): fitness, an intrinsic attractiveness of each node, explains why latecomers such as Google can win.</li>
+  <li><strong>Degree correlations</strong> (<a href="correlations.html">Ch 7</a>) describe who links to whom, not only how many links each node has.</li>
+  <li><strong>Robustness</strong> (<a href="robustness.html">Ch 8</a>) brings us back to the blackout. Hubs make networks hard to break by accident and easy to break on purpose.</li>
+  <li><strong>Graph machine learning and node embeddings</strong> (<a href="embeddings.html">GraphML</a>) turn each node's position into a vector, so that machine learning can predict node labels and missing links.</li>
+</ol>
+
+<div class="callout connect">
+  <ul>
+    <li>Cascades return in <a href="robustness.html">Robustness</a> (Section 8.5), and spreading in <a href="epidemics.html">Spreading</a> (Ch 10, beyond the course).</li>
+    <li>In <a href="ch4-universality.html">Universality</a>, the claim of universality becomes a question we can test: does every network have a power-law tail?</li>
+    <li>Because maps are by-products, real data are incomplete and noisy. <a href="embeddings.html">Link prediction</a> tries to fill the gaps.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>The book's homework (Section 1.8) asks you to name three real networks and say what their nodes and links are. Then pick the network you care most about. How large is it, and can it be mapped?</p>
+  <div class="hint">First decide what one link means: a single email, or a regular contact? Does a link have a direction (A emails B), and does it have a strength (how many emails)? Two maps of the same people, such as co-authorship and citation, can look very different. See <a href="ch2-konigsberg.html">Networks and graphs</a> and <a href="ch2-weighted-bipartite.html">Weighted &amp; bipartite networks</a>.</div>
+</div>
+
+<h2>Check yourself</h2>
+<div class="quiz" data-answer="2">
+  <p>What made the 2003 blackout a <em>cascading</em> failure?</p>
+  <ol>
+    <li data-why="One storm can knock out many lines at once; that is not a cascade.">Many lines were hit by the same storm</li>
+    <li>Each failure shifted load to neighbours, which then failed in turn</li>
+    <li data-why="Demand was ordinary; the problem was how load moved after the first failures.">Demand suddenly exceeded the total capacity of the grid</li>
+    <li data-why="The book stresses that cascades follow reproducible laws.">The failures were random and unpredictable</li>
+  </ol>
+  <div class="explain">In a cascade the failure spreads along links: overloaded neighbours fail and pass the load on.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Which pair are the two forces that, according to the book, made network science emerge around 2000?</p>
+  <ol>
+    <li data-why="Both existed long before 2000; Erdős–Rényi is from 1959.">Graph theory and random graph theory</li>
+    <li data-why="Computers help, but the book names the data and a shared architecture.">Faster computers and better visualisation</li>
+    <li>Detailed network maps, and the universality of network properties</li>
+    <li data-why="Social-media data are one source of maps; courses came after the field emerged.">Social media companies and network courses</li>
+  </ol>
+  <div class="explain">Maps of real networks became available, and they turned out to share common properties, so common tools apply.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>What separates network science from graph theory, according to Section 1.4?</p>
+  <ol>
+    <li>Its focus on real data: each tool is judged by what it reveals about real systems</li>
+    <li data-why="Network science uses graph theory's formalism directly.">It does not use graphs</li>
+    <li data-why="Both are mathematical; network science also borrows from statistical physics.">It avoids mathematics</li>
+    <li data-why="Graph theory studies large graphs too.">It studies only small networks</li>
+  </ol>
+  <div class="explain">Network science is empirical: it cares about data, function and usefulness.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>What does "universality" mean in network science?</p>
+  <ol>
+    <li data-why="The nodes differ greatly: they can be molecules, pages or people.">All networks have the same kind of nodes.</li>
+    <li data-why="The properties are shared, but sizes differ by orders of magnitude.">All networks have the same size.</li>
+    <li data-why="Universality is about shared structure, not about one network covering everything.">One network connects all systems in the universe.</li>
+    <li>Networks from different domains share an architecture, so the same tools apply to all of them.</li>
+  </ol>
+  <div class="explain">Metabolism, the Web and friendships were built by very different processes yet have similar networks. Chapter 4 tests this for degrees.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>What did linking neighbouring cities' power grids into one network do?</p>
+  <ol>
+    <li data-why="Interconnection also let local failures spread.">It only made the supply more reliable.</li>
+    <li>It made power cheaper but let local failures travel far.</li>
+    <li data-why="Electricity cannot be stored; sharing production was the economic reason for linking.">It was needed to store electricity.</li>
+    <li data-why="The book's point is the opposite: it brought benefits.">It had no benefit.</li>
+  </ol>
+  <div class="explain">Interconnectivity brings benefits and vulnerability at once, because failures no longer stay local.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>In 2009 the H1N1 pandemic's peak was predicted months ahead. What made this possible?</p>
+  <ol>
+    <li data-why="Before 2000, models assumed that anyone can infect anyone else in the same group; that is what changed.">Compartment models in which everyone meets everyone</li>
+    <li data-why="The prediction came months before the peak.">Counting cases at the peak</li>
+    <li>Models built on the worldwide transportation network</li>
+    <li data-why="The vaccines arrived too late to matter, so they could not inform the forecast.">Vaccination data</li>
+  </ol>
+  <div class="explain">Travel links decide where and when a virus arrives. The models predicted an October peak, so November vaccines came too late.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Where did most of the book's first network maps (metabolic reactions, Hollywood actors, scientific co-authors) come from?</p>
+  <ol>
+    <li>They were by-products of databases built for other purposes.</li>
+    <li data-why="Most were assembled from existing lists; dedicated mapping projects came later.">Network scientists collected them from scratch.</li>
+    <li data-why="They are real data, though incomplete.">They were simulated.</li>
+    <li data-why="Biochemists found reactions one by one over 150 years.">They were all produced after 2010.</li>
+  </ol>
+  <div class="explain">Researchers recognised networks in existing lists of reactions, film casts and paper authors. Today, mapping projects are funded in their own right.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>The blackout raises the question "which failures bring the whole grid down?". Which chapter answers it?</p>
+  <ol>
+    <li data-why="Chapter 3 builds the random null model.">Ch 3, random networks</li>
+    <li data-why="Chapter 5 explains where hubs come from.">Ch 5, the Barabási–Albert model</li>
+    <li data-why="Chapter 7 is about who links to whom.">Ch 7, degree correlations</li>
+    <li>Ch 8, network robustness</li>
+  </ol>
+  <div class="explain">Chapter 8 compares random failures with targeted attacks, computes the critical fraction $f_c$ of removed nodes that breaks the network, and models cascades.</div>
+</div>
+
+</div></main>
+</body>
+</html>

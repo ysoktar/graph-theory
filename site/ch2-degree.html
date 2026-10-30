@@ -18,35 +18,35 @@
 <main><div class="content">
 
 <h1>Degree, average degree and degree distribution</h1>
-<p class="lead">How many links does a node have, and how unevenly are links shared out? A node's <strong>degree</strong> and the network's <strong>degree distribution</strong> answer this. Random and scale-free networks (Parts II and III) differ above all in this distribution, and it decides robustness and spreading.</p>
+<p class="lead">How many links does a node have, and how unevenly are the links shared out among the nodes? A node's <strong>degree</strong> answers the first question and the network's <strong>degree distribution</strong> the second. Random and scale-free networks (Parts II and III) differ above all in this distribution, and it decides how robust a network is and how things spread on it.</p>
 
 <h2>Degree and average degree</h2>
-<p>The <strong>degree</strong> $k_i$ of node $i$ is its number of links. Summing all degrees counts each link twice (<a href="ch2-konigsberg.html">handshaking</a>), so</p>
+<p>The <strong>degree</strong> $k_i$ of node $i$ is its number of links. Adding up all degrees counts each link twice, once at each end (the <a href="ch2-konigsberg.html">handshaking identity</a>), so</p>
 <div class="eq">$$L = \frac{1}{2}\sum_{i=1}^{N} k_i, \qquad \langle k\rangle = \frac{1}{N}\sum_{i=1}^{N} k_i = \frac{2L}{N}.$$</div>
 <dl class="symbols">
-  <dt>$N$, $L$</dt><dd>number of nodes, of links</dd>
-  <dt>$k_i$</dt><dd>degree of node $i$</dd>
-  <dt>$\sum_{i=1}^{N}$</dt><dd>sum over all nodes, $k_1 + \dots + k_N$</dd>
-  <dt>$\langle k\rangle$</dt><dd>average degree; $\langle\cdot\rangle$ = average over nodes</dd>
+  <dt>$N$, $L$</dt><dd>the number of nodes and the number of links</dd>
+  <dt>$k_i$</dt><dd>the degree of node $i$</dd>
+  <dt>$\sum_{i=1}^{N}$</dt><dd>the sum over all nodes, $k_1 + \dots + k_N$</dd>
+  <dt>$\langle k\rangle$</dt><dd>the average degree; angle brackets $\langle\cdot\rangle$ mean an average over all nodes</dd>
 </dl>
-<p>In a <strong>directed</strong> network (WWW, email) links have a direction. Node $i$ has an <strong>in-degree</strong> $k_i^{\text{in}}$ and an <strong>out-degree</strong> $k_i^{\text{out}}$, with $k_i = k_i^{\text{in}} + k_i^{\text{out}}$. Each link leaves one node and enters one:</p>
+<p>In a <strong>directed</strong> network, such as the WWW or email, each link points from one node to another. Node $i$ then has an <strong>in-degree</strong> $k_i^{\text{in}}$ and an <strong>out-degree</strong> $k_i^{\text{out}}$, and its total degree is $k_i = k_i^{\text{in}} + k_i^{\text{out}}$. Every link leaves exactly one node and enters exactly one node, so</p>
 <div class="eq">$$L = \sum_{i} k_i^{\text{in}} = \sum_{i} k_i^{\text{out}}, \qquad \langle k^{\text{in}}\rangle = \langle k^{\text{out}}\rangle = \frac{L}{N}.$$</div>
 <dl class="symbols">
-  <dt>$k_i^{\text{in}}$</dt><dd>links pointing to $i$</dd>
-  <dt>$k_i^{\text{out}}$</dt><dd>links leaving $i$</dd>
+  <dt>$k_i^{\text{in}}$</dt><dd>the number of links pointing to $i$</dd>
+  <dt>$k_i^{\text{out}}$</dt><dd>the number of links leaving $i$</dd>
 </dl>
-<p>The <strong>degree distribution</strong> gives the share of nodes with each degree:</p>
+<p>The <strong>degree distribution</strong> gives the share of nodes that have each degree:</p>
 <div class="eq">$$p_k = \frac{N_k}{N}, \qquad \sum_{k} p_k = 1, \qquad \langle k\rangle = \sum_{k} k\,p_k .$$</div>
 <dl class="symbols">
-  <dt>$N_k$</dt><dd>number of nodes with degree $k$</dd>
-  <dt>$p_k$</dt><dd>share of nodes with degree $k$ = probability that a random node has degree $k$</dd>
-  <dt>$\sum_k k\,p_k$</dt><dd>average degree computed from the distribution</dd>
+  <dt>$N_k$</dt><dd>the number of nodes with degree $k$</dd>
+  <dt>$p_k$</dt><dd>the share of nodes with degree $k$, which is also the probability that a randomly chosen node has degree $k$</dd>
+  <dt>$\sum_k k\,p_k$</dt><dd>the average degree, computed from the distribution</dd>
 </dl>
 <div class="callout why">
   <ul>
-    <li>$\langle k\rangle$ needs only two counts, $N$ and $L$.</li>
-    <li>$p_k$ alone predicts the largest hub, robustness and epidemic thresholds, without the full wiring.</li>
-    <li>Comparing $p_k$ with a random network's shows that real networks are not random.</li>
+    <li>The average degree needs only two counts, $N$ and $L$.</li>
+    <li>From $p_k$ alone we can predict the largest hub, the robustness of the network and the epidemic threshold, without knowing the full wiring.</li>
+    <li>Comparing a real $p_k$ with that of a random network shows that real networks are not random.</li>
   </ul>
 </div>
 
@@ -54,92 +54,112 @@
 <div data-fig id="fig-editor"></div>
 <div class="callout look">
   <ul>
-    <li>Each link raises two degrees by one, so $\sum_i k_i$ is even and odd-degree nodes come in pairs. Try to break this.</li>
-    <li><em>Directed</em>: $\sum k^{\text{in}} = \sum k^{\text{out}} = L$, however unbalanced single nodes are.</li>
-    <li><em>Star</em>: the hub has $k = N-1$, yet $\langle k\rangle < 2$. Averages hide hubs.</li>
+    <li>Each new link raises two degrees by one, so $\sum_i k_i$ is always even and the odd-degree nodes come in pairs. Try to break this.</li>
+    <li>In <em>Directed</em> mode, $\sum k^{\text{in}} = \sum k^{\text{out}} = L$ holds however unbalanced single nodes are.</li>
+    <li>The <em>Star</em> preset links one hub to all other nodes, which become leaves (nodes with a single link). The hub has $k = N-1$, yet $\langle k\rangle < 2$: averages hide hubs.</li>
   </ul>
 </div>
 
 <h2>A first real network: Zachary's karate club</h2>
-<p>Wayne Zachary followed the 34 members of a university karate club (1970–72); a link means two members regularly met outside the club. A conflict split the club between the instructor ("Mr. Hi", node 0) and the president (node 33); colours show the sides.</p>
+<p>Wayne Zachary followed the 34 members of a university karate club from 1970 to 1972. A link means that two members regularly met outside the club. A conflict split the club between the instructor ("Mr. Hi", node 0) and the president (node 33), and the colours show which side each member joined.</p>
 <div data-fig id="fig-karate"></div>
 <div class="callout example">
-  <p>$\langle k\rangle = 2 \times 78/34 \approx 4.59$. $N_2 = 11$, so $p_2 = 11/34 \approx 0.32$. Median degree 3 &lt; mean, pulled up by $k_0 = 16$, $k_{33} = 17$.</p>
+  <p>The average degree is $\langle k\rangle = 2 \times 78/34 \approx 4.59$. Eleven members have degree 2, so $p_2 = 11/34 \approx 0.32$. The median degree, 3, is below the mean because the two leaders ($k_0 = 16$, $k_{33} = 17$) pull the mean up.</p>
 </div>
 
 <h2>A large network: scientific collaboration</h2>
-<p>The <strong>science collaboration network</strong> (book Table 4.1): $N = 23{,}133$ scientists, linked if they co-authored a paper. Its $p_k$ on linear axes:</p>
+<p>The <strong>science collaboration network</strong> (book Table 4.1) links $N = 23{,}133$ scientists whenever two of them co-authored a paper. Here is its $p_k$ on linear axes:</p>
 <div data-fig id="fig-collab"></div>
 <div class="callout look">
-  <p>The bars seem to end near $k \approx 50$, yet $k_{\max} = 279$: each hub is one node in 23,133. Switch to a <em>Log</em> axis (equal steps = equal ratios) to see them. <a href="ch4-plotting.html">Part III</a> shows how to plot $p_k$ properly.</p>
+  <p>The bars seem to end near $k \approx 50$, yet the largest degree is $k_{\max} = 279$. Each hub is a single node out of 23,133, so its bar is too short to see. Switch to a <em>Log</em> axis, on which equal steps mean equal ratios, to see them. <a href="ch4-plotting.html">Part III</a> shows how to plot $p_k$ properly.</p>
 </div>
 <div class="callout example">
-  <p>78% of scientists have $k \le 10$; 28 have $k \ge 100$. Standard deviation $\sigma_k = 10.6 > \langle k\rangle = 8.08$.</p>
+  <p>78% of the scientists have at most 10 collaborators, and 28 have 100 or more. The standard deviation $\sigma_k = 10.6$, the typical distance of a degree from the mean, is larger than the mean $\langle k\rangle = 8.08$ itself.</p>
 </div>
 
 <div class="callout discuss">
   <p>The median scientist has 5 collaborators, the average has 8.1, and the maximum is 279. Which of these numbers would you report as "the typical number of collaborators", and why?</p>
-  <div class="hint">A few very large values pull the mean up; the median (5) describes a typical node better. Here the spread $\sigma_k$ exceeds $\langle k\rangle$, so no single number is "typical": the idea behind the name <em>scale-free</em> (Chapter 4).</div>
+  <div class="hint">A few very large values pull the mean up, so the median (5) describes a typical node better. Here the spread $\sigma_k$ exceeds $\langle k\rangle$, so no single number is "typical". This is the idea behind the name <em>scale-free</em> (Chapter 4).</div>
 </div>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Builds on</strong> <a href="ch2-konigsberg.html">Königsberg</a>: $\sum_i k_i = 2L$, divided by $N$.</li>
-    <li><strong>Read from</strong> the <a href="ch2-adjacency.html">adjacency matrix</a> (row sums); <a href="ch2-sparsity.html">sparsity</a> compares $\langle k\rangle$ with $N-1$.</li>
-    <li><strong>Random-network prediction:</strong> <a href="ch3-degree.html">Poisson</a> $p_k$; <a href="ch3-real-degrees.html">real networks deviate</a> with heavy tails.</li>
-    <li><strong>Heavy tails →</strong> <a href="ch4-power-laws.html">power laws</a> → <a href="ch4-hubs.html">hubs</a> and large $\langle k^2\rangle$ (<a href="ch4-moments.html">No typical degree</a>).</li>
+    <li><strong>Builds on</strong> <a href="ch2-konigsberg.html">Königsberg</a>: dividing the handshaking identity $\sum_i k_i = 2L$ by $N$ gives $\langle k\rangle$.</li>
+    <li><strong>Read from</strong> the <a href="ch2-adjacency.html">adjacency matrix</a>, whose row sums are the degrees. <a href="ch2-sparsity.html">Sparsity</a> compares $\langle k\rangle$ with the largest possible degree, $N-1$.</li>
+    <li><strong>Random-network prediction:</strong> a random network has a <a href="ch3-degree.html">Poisson</a> $p_k$, and <a href="ch3-real-degrees.html">real networks deviate</a> from it with heavy tails.</li>
+    <li><strong>Heavy tails lead to</strong> <a href="ch4-power-laws.html">power laws</a>, which create <a href="ch4-hubs.html">hubs</a> and a large $\langle k^2\rangle$ (<a href="ch4-moments.html">No typical degree</a>).</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>$N = 10$, $L = 15$. What is $\langle k\rangle$?</p>
+  <p>A network has $N = 10$ nodes and $L = 15$ links. What is its average degree $\langle k\rangle$?</p>
   <ol>
-    <li data-why="That is L/N: each link adds to two degrees.">1.5</li>
+    <li data-why="That is L/N, which forgets that each link adds to two degrees.">1.5</li>
     <li>3</li>
-    <li data-why="That is 2L, the sum of degrees, not yet divided by N.">30</li>
-    <li data-why="That is N/L, upside down.">0.67</li>
+    <li data-why="That is 2L, the sum of the degrees, not yet divided by N.">30</li>
+    <li data-why="That is N/L, the ratio turned upside down.">0.67</li>
   </ol>
   <div class="explain">$\langle k\rangle = 2L/N = 30/10 = 3$.</div>
 </div>
 <div class="quiz" data-answer="3">
   <p>Which degree sequence can <em>no</em> network have?</p>
   <ol>
-    <li data-why="A triangle.">2, 2, 2</li>
-    <li data-why="A star with three leaves.">3, 1, 1, 1</li>
+    <li data-why="This is a triangle.">2, 2, 2</li>
+    <li data-why="This is a star: one node linked to three leaves.">3, 1, 1, 1</li>
     <li>2, 2, 1</li>
-    <li data-why="Two separate links.">1, 1, 1, 1</li>
+    <li data-why="These are two separate links.">1, 1, 1, 1</li>
   </ol>
-  <div class="explain">Degrees sum to $2L$, an even number; $2+2+1 = 5$ is odd. An even sum is necessary, not sufficient: 3, 3, 3, 1 is impossible too.</div>
+  <div class="explain">The degrees must add up to $2L$, an even number, but $2+2+1 = 5$ is odd. An even sum is necessary but not sufficient: 3, 3, 3, 1 is impossible too.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>A directed network of 5 pages has 8 links. Average in-degree?</p>
+  <p>A directed network of 5 web pages has 8 links. What is the average in-degree?</p>
   <ol>
     <li>1.6</li>
     <li data-why="3.2 = 2L/N is the average total degree, in plus out.">3.2</li>
     <li data-why="Each link counts fully, once, at the page it enters.">0.8</li>
-    <li data-why="Single in-degrees depend on wiring; their average is always L/N.">It depends on the wiring</li>
+    <li data-why="Single in-degrees depend on the wiring, but their average is always L/N.">It depends on which pages link to which</li>
   </ol>
-  <div class="explain">In-degrees sum to $L = 8$, so $\langle k^{\text{in}}\rangle = 8/5 = 1.6$, equal to $\langle k^{\text{out}}\rangle$.</div>
+  <div class="explain">The in-degrees add up to $L = 8$, so $\langle k^{\text{in}}\rangle = 8/5 = 1.6$, the same as $\langle k^{\text{out}}\rangle$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>11 of the 34 karate members have degree 2. What is $p_2$?</p>
+  <p>In the karate club, 11 of the 34 members have degree 2. What is $p_2$?</p>
   <ol>
-    <li data-why="p_k divides the number of nodes with degree k, not k itself, by N.">$2/34$</li>
+    <li data-why="p_k divides the number of nodes with degree k by N, not k itself.">$2/34$</li>
     <li>$11/34 \approx 0.32$</li>
-    <li data-why="11 is N₂, a count, not a share.">11</li>
-    <li data-why="p_k = N_k/N, not 1/N_k.">$1/11$</li>
+    <li data-why="11 is N₂, a count of members, not a share.">11</li>
+    <li data-why="The share is N_k/N, not 1/N_k.">$1/11$</li>
   </ol>
-  <div class="explain">$p_2 = N_2/N = 11/34 \approx 0.32$: a random member has degree 2 with probability 0.32.</div>
+  <div class="explain">$p_2 = N_2/N = 11/34 \approx 0.32$, so a randomly chosen member has degree 2 with probability 0.32.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>A star: one hub linked to 10 leaves. What is $\langle k\rangle$?</p>
+  <p>A star network has one hub linked to 10 leaves (nodes with a single link). What is its average degree?</p>
   <ol>
-    <li data-why="10 is the hub's degree; ten nodes have degree 1.">10</li>
-    <li data-why="1 is the median degree; the hub pulls the mean up.">1</li>
-    <li>About 1.82, with 10 of 11 nodes below it</li>
-    <li data-why="That averages only the smallest and largest degree.">5.5</li>
+    <li data-why="10 is the hub's degree, but the other ten nodes have degree 1.">10</li>
+    <li data-why="1 is the median degree; the hub pulls the mean above it.">1</li>
+    <li>About 1.82, with 10 of the 11 nodes below it</li>
+    <li data-why="That averages only the smallest and the largest degree.">5.5</li>
   </ol>
-  <div class="explain">$\langle k\rangle = 2 \times 10/11 \approx 1.82$. No node is near the average, which is why we need the whole $p_k$.</div>
+  <div class="explain">$\langle k\rangle = 2 \times 10/11 \approx 1.82$. No node is near the average, which is why we need the whole distribution $p_k$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>In a random network the degrees follow a Poisson distribution, whose standard deviation is $\sigma_k = \sqrt{\langle k\rangle}$. The collaboration network has $\langle k\rangle = 8.08$ but a measured $\sigma_k$ of 10.6. What does this show?</p>
+  <ol>
+    <li data-why="With 23,133 nodes, sampling noise cannot nearly quadruple σ_k.">The difference is noise</li>
+    <li data-why="The Poisson spread is the smaller one here: √8.08 ≈ 2.8.">Random networks spread the degrees more widely</li>
+    <li data-why="The spread does not tell us whether the median equals the mean.">The median must equal the mean</li>
+    <li>The degrees are far more uneven than in a random network: there is a heavy tail with hubs</li>
+  </ol>
+  <div class="explain">A random network would give $\sigma_k \approx \sqrt{8.08} \approx 2.8$, far below the measured 10.6. This is the first sign that real networks are not random (Part II).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>A new node joins a network and links to 3 existing nodes. How does $\sum_i k_i$ change?</p>
+  <ol>
+    <li data-why="Each link also raises the degree of the old node at its other end.">It grows by 3</li>
+    <li>It grows by 6</li>
+    <li data-why="Adding a node with links never leaves the sum unchanged.">It stays the same</li>
+    <li data-why="N rises by 1, but the sum counts link ends, not nodes.">It grows by 4</li>
+  </ol>
+  <div class="explain">The 3 new links each have two ends, so $\sum_i k_i = 2L$ grows by 6: the newcomer gets 3, and three old nodes get 1 each.</div>
 </div>
 
 </div></main>

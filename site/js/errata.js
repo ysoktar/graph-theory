@@ -269,6 +269,30 @@ export const BOOK = [
     evidence: "LaTeX source of the online Chapter 8: \\frac{\\langle k^2\\rangle}{k} in (8.4) and (8.5), \\frac{\\langle k^2\\rangle}{\\langle k\\rangle} elsewhere.",
     page: "robustness.html",
   },
+  {
+    id: "B11", severity: "error", location: "Chapter 6, Section 6.4, Box 6.3, Eq. (6.16) (from fitness to a Bose gas)",
+    quote: "ε_i = (1/β_T) log η_i   (6.16)",
+    issue: "The minus sign is missing. The mapping must give fitter nodes lower energies, so that the fittest node is the ground state that can condense; with a plus sign the fittest node would have the highest energy. Bianconi and Barabási (2001) write ε = −(1/β) log η.",
+    correction: "ε_i = −(1/β_T) log η_i.",
+    evidence: "LaTeX source of the online Chapter 6: \\varepsilon _i = \\frac{1}{{\\beta _T }}\\log \\eta _i; G. Bianconi and A.-L. Barabási, Phys. Rev. Lett. 86, 5632 (2001).",
+    page: "evolving.html",
+  },
+  {
+    id: "B12", severity: "error", location: "Chapter 6, Section 6.5, Node Deletion, Eq. (6.29)",
+    quote: "γ = 3 + 2/(1 − r)   (6.29)",
+    issue: "At r = 0 (no removal) the formula gives γ = 5, but a growing network without removal is the BA model, γ = 3. The numerator should contain r, which gives 3 at r = 0 and still diverges as r → 1, as the text says.",
+    correction: "γ = 3 + 2r/(1 − r).",
+    evidence: "LaTeX source of the online Chapter 6: \\gamma = 3 + \\frac{2}{{1 - r}}. Continuum derivation (BA model, a random node removed at rate r): links grow as L = m(1 − r)t/(1 + r), degrees still grow as (t/t_i)^{1/2}, and a node born at t_i survives with probability (t_i/t)^{r/(1−r)}; together P(K ≥ k) ∝ k^{−2(1 + r/(1−r))}, so γ = 3 + 2r/(1 − r).",
+    page: "exam-final.html",
+  },
+  {
+    id: "B13", severity: "error", location: "Chapter 7, Section 7.3, Box 7.2, text after Eq. (7.12) (degree correlation coefficient)",
+    quote: "For r < 0 the network is assortative, for r = 0 the network is neutral and for r > 0 the network is disassortative.",
+    issue: "The two signs are swapped. The same paragraph calls collaboration (r = 0.13) assortative and proteins (r = −0.04) disassortative, and Box 7.5 says r > 0: assortative.",
+    correction: "For r > 0 the network is assortative, for r = 0 neutral, for r < 0 disassortative.",
+    evidence: "Online Chapter 7: the same paragraph's examples, and Box 7.5 (At a Glance: Degree Correlations), which lists r > 0: assortative.",
+    page: "correlations.html",
+  },
 ];
 
 /** Problems found in the software the notebook relies on (powerlaw 2.0.0). */
