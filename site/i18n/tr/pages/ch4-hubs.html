@@ -1,0 +1,141 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>En büyük merkez düğüm · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Doğal kesme: bir kuvvet yasasının en büyük merkez düğümü ağ boyutunun bir kuvveti gibi büyür, üstel ya da Poisson dağılımınınki ise neredeyse hiç büyümez; kitabın ağlarıyla karşılaştırma."></head><body>
+<div class="content">
+
+<h1>En büyük merkez düğüm</h1>
+<p class="lead">En çok bağlantılı düğümün kaç bağlantısı vardır? Rastgele bir ağda ağ büyüdükçe yanıt neredeyse değişmez. Ölçekten bağımsız bir ağda ise ağın boyutunun bir kuvveti gibi büyür (Bölüm 4.3).</p>
+
+<h2>Doğal kesme</h2>
+<p>En büyük derece $k_{\max}$, kabaca üstünde tek bir düğüm beklediğimiz derecedir:</p>
+<div class="eq">$$N \int_{k_{\max}}^{\infty} p(k)\, dk \approx 1 .$$</div>
+<dl class="symbols">
+  <dt>$k_{\max}$</dt><dd>ağdaki en büyük derece</dd>
+  <dt>$N$</dt><dd>düğüm sayısı</dd>
+  <dt>$p(k)$</dt><dd>$k$'yı sürekli kabul ederek derecelerin yoğunluğu</dd>
+  <dt>$\int_{k_{\max}}^{\infty} p(k)\,dk$</dt><dd>derecesi $k_{\max}$'ın üstünde olan düğümlerin payı</dd>
+</dl>
+<ol>
+  <li>Bir kuvvet yasası için $\int_{k_{\max}}^{\infty} (\gamma-1)\,k_{\min}^{\gamma-1}k^{-\gamma}\,dk = (k_{\max}/k_{\min})^{-(\gamma-1)}$.</li>
+  <li>$N\,(k_{\max}/k_{\min})^{-(\gamma-1)} = 1$ alın.</li>
+  <li>Çözün: $k_{\max}/k_{\min} = N^{1/(\gamma-1)}$.</li>
+</ol>
+<p>Bu <strong>doğal kesmedir</strong>:</p>
+<div class="eq">$$k_{\max} \approx k_{\min}\, N^{1/(\gamma-1)} .$$</div>
+<dl class="symbols">
+  <dt>$k_{\min}$</dt><dd>kuvvet yasasının en küçük derecesi</dd>
+  <dt>$\gamma$</dt><dd>derece üsteli</dd>
+  <dt>$1/(\gamma-1)$</dt><dd>merkez düğümün büyüdüğü üstel: $\gamma = 2.5$ için $\tfrac23$</dd>
+</dl>
+<p>Üstel bir $p(k) = \lambda e^{-\lambda(k - k_{\min})}$ için aynı adımlar $k_{\max} \approx k_{\min} + \ln N/\lambda$ verir: logaritmik büyüme ($\lambda$ azalma hızıdır; $1/\lambda$, $k_{\min}$'in üstündeki ortalama fazlalıktır). Bir Poisson kuyruğu daha da hızlı düşer: <span data-beyond="Kitapta yok: Poisson en büyüğü">en büyüğü kabaca $\ln N/\ln\ln N$ gibi büyür</span>.</p>
+<div class="callout example">
+  <p>$N = 10^6$, $k_{\min} = 1$ ve $\langle k\rangle = 3$ için: $\gamma = 2.5$ olan bir kuvvet yasası $10^{6 \cdot 2/3} = 10{,}000$ verir; bir üstel dağılım $1 + 2\ln 10^6 \approx 29$ verir; bir Poisson dağılımı 14 verir.</p>
+</div>
+<div data-fig id="fig-theory"></div>
+<div class="callout fix" data-errata="N13"></div>
+
+<h2>Benzetim</h2>
+<div data-fig id="fig-sim"></div>
+<div class="callout look">
+  <p>Örneklenen en büyük değerler kuramın öngördüğü eğimlerle büyür: kuvvet yasası için $N$'nin bir kuvveti gibi, üstel ve Poisson için neredeyse hiç. Merkez düğümler yalnızca ağır kuyruktan gelir.</p>
+</div>
+
+<h2>Kitabın ağları</h2>
+<p>Gerçek bir ağ için uydurulan kuyruğun doğal kesmesi $k_{\min}\,n_{\text{kuyruk}}^{1/(\gamma-1)}$'dir; burada $n_{\text{kuyruk}}$, $k \ge k_{\min}$ olan düğümlerin sayısıdır (not defteri 59. hücre, burada sekiz ağın hepsi için).</p>
+<div id="tbl-real"></div>
+<div class="callout look">
+  <ul>
+    <li>Gözlenen her merkez düğüm Poisson değerinin çok ötesindedir: elektrik şebekesi dışında (10'a karşı 19) yaklaşık 7 ile 510 kat.</li>
+    <li>$\hat\gamma$ 2'ye yakınsa (e-posta, WWW) kesme 8 ile 10 kat yüksek kalır: gerçek kuyruklar en yüksek derecelerde aşağı kıvrılır.</li>
+    <li>Bu genel değildir: metabolik merkez düğüm (vurgulanan) kesmesinin 2.9 kat <em>üstündedir</em> (218'e karşı 638); telefon arama ağı ve elektrik şebekesi de kendi kesmelerinin biraz üstündedir.</li>
+  </ul>
+</div>
+<div class="callout fix" data-errata="N22"></div>
+
+<div class="callout why">
+  <ul>
+    <li>Merkez düğüm boyutu, rastgele ve ölçekten bağımsız modeller arasındaki en açık sınanabilir farktır.</li>
+    <li>Kesme, verilen bir $N$ ve $\gamma$ için ne büyüklükte bir merkez düğüm bekleneceğini söyler: bir sınır değil, bir büyüklük mertebesi kestirimidir.</li>
+    <li>$k_{\max}$, momentlerin ne kadar büyüyebileceğini de belirler (<a href="ch4-moments.html">sonraki sayfa</a>).</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Öngören:</strong> uydurulan <a href="ch4-fitting.html">$\hat\gamma$ ve $k_{\min}$</a> ile <a href="ch4-power-laws.html">kuvvet yasası</a>.</li>
+    <li><strong>Karşıtlık:</strong> <a href="ch3-degree.html">rastgele ağın</a> yavaş büyüyen Poisson en büyüğü.</li>
+    <li><strong>Beslediği konular:</strong> <a href="ch4-moments.html">ıraksak momentler</a> ve <a href="ch4-ultra-small.html">ultra kısa uzaklıklar</a>.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$\gamma = 3$ ve $k_{\min} = 2$ olan bir ağ $10^4$'ten $10^6$ düğüme büyüyor. En büyük merkez düğümü kabaca kaç kat büyür?</p>
+  <ol>
+    <li data-why="Bu, üstel bir kuyruktaki gibi logaritmik büyümedir.">Yaklaşık 2</li>
+    <li>Yaklaşık 10</li>
+    <li data-why="Bu, k_max ∝ N, yani γ = 2 gerektirirdi.">Yaklaşık 100</li>
+    <li data-why="Ölçekten bağımsız bir ağda merkez düğüm N'nin bir kuvveti gibi büyür.">Büyümez</li>
+  </ol>
+  <div class="explain">$k_{\max} \propto N^{1/(\gamma-1)} = N^{1/2}$: $\sqrt{100} = 10$; yaklaşık 200'den 2,000 bağlantıya.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>$\gamma$ yukarıdan 2'ye yaklaştıkça doğal kesmeye ne olur?</p>
+  <ol>
+    <li data-why="γ düştükçe 1/(γ − 1) üsteli büyür.">$N$'den bağımsız hâle gelir</li>
+    <li data-why="Logaritmik büyüme üstel kuyruklara özgüdür.">$\ln N$ gibi büyür</li>
+    <li>$k_{\min} N$'ye yaklaşır: en büyük merkez düğüm tüm ağla karşılaştırılabilir hâle gelir</li>
+    <li data-why="Daha küçük γ daha ağır bir kuyruk ve daha büyük merkez düğümler demektir.">$k_{\min}$'e küçülür</li>
+  </ol>
+  <div class="explain">$1/(\gamma-1) \to 1$; dolayısıyla $k_{\max} \propto N$. Bir düğümün $N - 1$'den fazla bağlantısı olamaz; $\gamma = 2$'nin bir sınır olmasının nedeni budur (<a href="ch4-exponent.html">γ'nın rolü</a>).</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Rastgele bir ağın $N = 10^6$ ve $\langle k\rangle = 3$ değerleri vardır. En büyük düğümünün yaklaşık kaç bağlantısı vardır?</p>
+  <ol>
+    <li>Yaklaşık 14</li>
+    <li data-why="Bu, γ = 2.5 olan kuvvet yasası merkez düğümüdür.">Yaklaşık 10,000</li>
+    <li data-why="Bu, aynı ortalamaya sahip üstel dağılımdır.">Yaklaşık 29</li>
+    <li data-why="Bu en büyük değil, ortalamadır.">3</li>
+  </ol>
+  <div class="explain">Ortalaması 3 olan bir Poisson dağılımı için $N\,P(K &gt; k_{\max}) = 1$'i çözmek yaklaşık 14 verir.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Metabolik ağın en büyük merkez düğümü (638), doğal kesmesinin (218) 2.9 katıdır. Bu ne gösterir?</p>
+  <ol>
+    <li data-why="Kestirimin üstündeki tek bir ağ kuvvet yasasını çürütmez; kestirim kabadır.">Kuvvet yasası uydurması yanlıştır</li>
+    <li data-why="Diğer ağlar (e-posta, WWW) kesmelerinin çok altındadır.">Gerçek merkez düğümler kesmeyi her zaman aşar</li>
+    <li data-why="Bir Poisson ağının merkez düğümü yaklaşık 20 olurdu.">Ağ rastgeledir</li>
+    <li>Doğal kesme bir sınır değil, bir büyüklük mertebesi kestirimidir</li>
+  </ol>
+  <div class="explain">Kesme, en büyük derecenin beklenen boyutunu verir; tek bir örneklem onun çok üstüne ya da altına düşebilir.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Bir kuvvet yasasında $\gamma = 2.5$, $k_{\min} = 2$ ve $N = 10^6$ düğüm vardır. Doğal kesmesi nedir?</p>
+  <ol>
+    <li data-why="Bu, ⅔ yerine ½ üstelini (γ = 3) kullanır.">2,000</li>
+    <li data-why="Bu, k_min = 2 çarpanını unutur.">10,000</li>
+    <li data-why="Bir merkez düğüm N − 1 bağlantıyı aşamaz.">2 milyon</li>
+    <li>20,000</li>
+  </ol>
+  <div class="explain">$k_{\max} \approx 2 \times (10^6)^{1/1.5} = 2 \times 10^4$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>E-posta ağının gözlenen en büyük derecesi 6,553'tür, doğal kesmesi ise yaklaşık 56,000. Kesme neden bu kadar yüksekte kalabilir?</p>
+  <ol>
+    <li>$\hat\gamma$ 2'ye yakın olduğunda dışa doğru uzatma aşırıdır ve gerçek kuyruklar en yüksek derecelerde aşağı kıvrılır</li>
+    <li data-why="Kesme ağın kendi kuyruk boyutunu kullanır.">Uydurma yanlış $N$'yi kullandı</li>
+    <li data-why="Merkez düğümü Poisson değerinin 500 katıdır.">E-posta rastgele bir ağdır</li>
+    <li data-why="Tüm düğümler tutulur.">En büyük merkez düğüm veriden silindi</li>
+  </ol>
+  <div class="explain">$N^{1/(\gamma-1)}$, $\gamma = 2$ civarında çok duyarlıdır; sonlu boyut ve bağlantıların maliyeti gerçek merkez düğümleri sınırlar.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>$\gamma = 2.1$ için merkez düğüm üsteli $1/(\gamma-1) \approx 0.91$'dir. Bu, uzaklıklar için ne anlama gelir?</p>
+  <ol>
+    <li data-why="Bu, merkez düğümlerin küçük olduğu γ &gt; 3 için geçerlidir.">Rastgele bir ağdaki gibi $\ln N$ gibi büyürler</li>
+    <li data-why="Uzaklıkları N gibi büyüyen yalnızca zincir benzeri bir ağdır.">$N$ gibi büyürler</li>
+    <li>Çok kısadırlar: merkez düğümler tüm düğümlerin büyük bir payına ulaşır</li>
+    <li data-why="Yolları kısaltan kısayollar merkez düğümlerdir.">Uzaklıklar merkez düğümlere bağlı değildir</li>
+  </ol>
+  <div class="explain">$\gamma = 2$ civarında en büyük merkez düğüm neredeyse her düğüme bağlanır; bu yüzden yolların çoğu yalnızca birkaç adım gerektirir (<a href="ch4-ultra-small.html">Ultra küçük dünyalar</a>).</div>
+</div>
+
+</div></body></html>
