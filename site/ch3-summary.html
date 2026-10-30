@@ -18,17 +18,17 @@
 <main><div class="content">
 
 <h1>Real networks are not random</h1>
-<p class="lead">Which features of real networks need an explanation beyond chance? Hold the random network against the data, property by property; the failures decide where Chapter 4 goes next.</p>
+<p class="lead">Which features of real networks need an explanation beyond chance? Hold the random network against the data, property by property. Its failures decide where Chapter 4 goes next.</p>
 
 <div class="callout why">
   <ul>
-    <li>Erdős and Rényi never claimed real networks are random: the model is a baseline.</li>
-    <li>Reproduced → no special explanation needed. Missed → a non-random process is at work.</li>
+    <li>Erdős and Rényi never claimed that real networks are random: their model is a baseline.</li>
+    <li>If the model reproduces a property, that property needs no special explanation. If it misses one, some non-random process is at work.</li>
   </ul>
 </div>
 
 <h2>One network at a time</h2>
-<p>The notebook (cell 45) builds this table for the collaboration network; here for any of the eight, theory next to the simulated counterpart.</p>
+<p>The notebook (cell 45) builds this table for the collaboration network. Here you can build it for any of the eight networks, with the theory next to a simulated random counterpart.</p>
 <div data-fig id="fig-score"></div>
 <div class="callout fix" data-errata="N12"></div>
 
@@ -39,105 +39,105 @@
 <table class="simple">
   <thead><tr><th>Property</th><th>Random network</th><th>Real networks</th><th>Verdict</th></tr></thead>
   <tbody>
-    <tr><td>Degree distribution</td><td>Poisson, $\sigma_k = \sqrt{\langle k\rangle}$</td><td>broad, with hubs; $k_{\max}$, $\langle k^2\rangle$ far larger</td><td><span class="verdict no">wrong</span></td></tr>
-    <tr><td>Giant component</td><td>exists for $\langle k\rangle > 1$</td><td>all eight have one</td><td><span class="verdict ok">right that it exists</span>; size often off</td></tr>
-    <tr><td>Connectedness</td><td>only for $\langle k\rangle > \ln N$</td><td>power grid and WWW connected although $\langle k\rangle &lt; \ln N$; most others leave more nodes outside than predicted</td><td><span class="verdict meh">mixed</span></td></tr>
-    <tr><td>Average distance</td><td>$\sim \ln N/\ln\langle k\rangle$</td><td>small worlds (except the power grid); hub-rich networks even smaller</td><td><span class="verdict ok">roughly right</span></td></tr>
-    <tr><td>Clustering</td><td>$\langle k\rangle/N$, independent of $k$</td><td>orders of magnitude larger; $C(k)$ falls with $k$</td><td><span class="verdict no">wrong</span></td></tr>
+    <tr><td>Degree distribution</td><td>Poisson, $\sigma_k = \sqrt{\langle k\rangle}$</td><td>broad, with hubs; $k_{\max}$ and $\langle k^2\rangle$ are far larger</td><td><span class="verdict no">wrong</span></td></tr>
+    <tr><td>Giant component</td><td>exists for $\langle k\rangle > 1$</td><td>all eight have one</td><td><span class="verdict ok">right that it exists</span>; its size is often off</td></tr>
+    <tr><td>Connectedness</td><td>only for $\langle k\rangle > \ln N$</td><td>the power grid and the WWW are connected although $\langle k\rangle &lt; \ln N$; most others leave more nodes outside than predicted</td><td><span class="verdict meh">mixed</span></td></tr>
+    <tr><td>Average distance</td><td>$\sim \ln N/\ln\langle k\rangle$</td><td>small worlds (except the power grid); networks rich in hubs are even smaller</td><td><span class="verdict ok">roughly right</span></td></tr>
+    <tr><td>Clustering</td><td>$\langle k\rangle/N$, independent of $k$</td><td>orders of magnitude larger, and $C(k)$ falls with $k$</td><td><span class="verdict no">wrong</span></td></tr>
   </tbody>
 </table>
 <div class="callout key">
-  <p>The model fails on the two most local features: how many links a node has (hubs) and whether neighbours are linked (triangles). Chapter 4 replaces Poisson with a power law; clustering returns in Chapter 9.</p>
+  <p>The model fails on the two most local features: how many links a node has (hubs) and whether its neighbours are linked (triangles). Chapter 4 replaces the Poisson distribution with a power law; clustering returns in Chapter 9.</p>
 </div>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Summarises</strong> <a href="ch3-degree.html">degrees</a>, <a href="ch3-evolution.html">components</a>, <a href="ch3-small-world.html">distances</a>, <a href="ch3-clustering.html">clustering</a>: each a Part I quantity, predicted then tested.</li>
+    <li><strong>Summarises</strong> <a href="ch3-degree.html">degrees</a>, <a href="ch3-evolution.html">components</a>, <a href="ch3-small-world.html">distances</a> and <a href="ch3-clustering.html">clustering</a>: each a Part I quantity, first predicted and then tested.</li>
     <li><strong>Motivates</strong> <a href="ch4-power-laws.html">scale-free networks</a> (Ch 4) and the <a href="ch5-preview.html">Barabási–Albert model</a> (Ch 5), which explains the hubs.</li>
-    <li><strong>Null model hierarchy:</strong> $G(N, L)$ keeps $N, L$; the <a href="ch4-generating.html">configuration model</a> also keeps every degree.</li>
+    <li><strong>A hierarchy of null models:</strong> $G(N, L)$ keeps $N$ and $L$; the <a href="ch4-generating.html">configuration model</a> also keeps every node's degree.</li>
   </ul>
 </div>
 
 <div class="callout discuss">
-  <p>The random model gets distances roughly right for six of the eight networks. Does that make it a good model of their wiring?</p>
-  <div class="hint">No. Almost any network with a few long-range links is a small world (Watts–Strogatz), so agreement there is weak evidence. The discriminating properties, degrees and clustering, are the ones it gets wrong.</div>
+  <p>The random model gets distances roughly right for six of the eight networks. Does that make it a good model of how they are wired?</p>
+  <div class="hint">No. Almost any network with a few long-range links is a small world (Watts–Strogatz), so agreement on distances is weak evidence. The properties that discriminate between models, degrees and clustering, are the ones it gets wrong.</div>
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>Which collaboration-network fact could its random counterpart ($N$, $L$ equal) explain?</p>
+  <p>Which fact about the collaboration network could its random counterpart, with the same $N$ and $L$, explain?</p>
   <ol>
-    <li data-why="Random k_max ≈ 21.">A scientist with 279 collaborators</li>
-    <li data-why="Random ⟨C⟩ ≈ 3 × 10⁻⁴.">$\langle C\rangle = 0.63$</li>
-    <li>Typical separation of about five intermediaries</li>
-    <li data-why="Random: $N e^{-\langle k\rangle} \approx 7$ nodes outside.">1,770 scientists outside the giant component</li>
+    <li data-why="The random counterpart's largest degree is about 21.">A scientist with 279 collaborators.</li>
+    <li data-why="The random counterpart has ⟨C⟩ ≈ 3 × 10⁻⁴.">An average clustering of $\langle C\rangle = 0.63$.</li>
+    <li>A typical separation of about five intermediaries.</li>
+    <li data-why="Random wiring leaves about N e^{−⟨k⟩} ≈ 7 nodes outside.">1,770 scientists outside the giant component.</li>
   </ol>
-  <div class="explain">Random $\langle d\rangle \approx 5.1$ vs observed 5.3; every other value is far off.</div>
+  <div class="explain">The random counterpart has $\langle d\rangle \approx 5.1$, against an observed 5.3. Every other value is far off.</div>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>Collaboration: real $\langle k^2\rangle = 178$. Random prediction $\langle k\rangle(1+\langle k\rangle)$ with $\langle k\rangle = 8.08$?</p>
+  <p>The collaboration network has $\langle k^2\rangle = 178$. What does the random-network formula $\langle k\rangle(1+\langle k\rangle)$ predict for $\langle k\rangle = 8.08$?</p>
   <ol>
     <li data-why="That is ⟨k⟩² alone, without the variance ⟨k⟩.">65</li>
-    <li>73: the real value is 2.4× larger, from its hubs</li>
-    <li data-why="That is the real value; Poisson is much narrower.">178</li>
+    <li>73: the real value is 2.4 times larger, because of the hubs.</li>
+    <li data-why="That is the real value; the Poisson distribution is much narrower.">178</li>
     <li data-why="That is ⟨k⟩, the first moment.">8.08</li>
   </ol>
-  <div class="explain">$8.08 \times 9.08 = 73.3$. Hubs inflate $\langle k^2\rangle$; email exceeds its Poisson value 90×.</div>
+  <div class="explain">$8.08 \times 9.08 = 73.3$. Hubs inflate $\langle k^2\rangle$: for the email network the real value is 90 times its Poisson value.</div>
 </div>
 
 <div class="quiz" data-answer="4">
   <p>Why is agreement on distances weak evidence that a network is random?</p>
   <ol>
-    <li data-why="The measured distances are precise (300 BFS sources).">Distances are measured badly</li>
-    <li data-why="The prediction is accurate: Fronczak et al. agree with simulation.">The ln N formula is inaccurate</li>
-    <li data-why="Real networks with hubs are even shorter, not longer.">Real distances are always longer</li>
-    <li>Almost any network with some long-range links is a small world</li>
+    <li data-why="The measured distances are precise (300 BFS sources).">The distances are measured badly.</li>
+    <li data-why="The prediction is accurate: the Fronczak et al. formula agrees with simulation.">The ln N formula is inaccurate.</li>
+    <li data-why="Real networks with hubs are even shorter, not longer.">Real distances are always longer.</li>
+    <li>Almost any network with some long-range links is a small world.</li>
   </ol>
-  <div class="explain">A property that nearly every model reproduces cannot discriminate between models.</div>
+  <div class="explain">A property that nearly every model reproduces cannot tell models apart.</div>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>Which prediction holds for all eight networks?</p>
+  <p>Which random-network prediction holds for all eight networks?</p>
   <ol>
-    <li>A giant component exists</li>
-    <li data-why="Every network has hubs far beyond Poisson.">Poisson degrees</li>
-    <li data-why="Real clustering is 35 to 11,000 times higher.">$C \approx \langle k\rangle/N$</li>
-    <li data-why="The power grid is 2.2 times farther.">$\langle d\rangle \approx \ln N/\ln\langle k\rangle$</li>
+    <li>A giant component exists.</li>
+    <li data-why="Every network has hubs far beyond Poisson.">The degrees are Poisson.</li>
+    <li data-why="Real clustering is 35 to 11,000 times higher.">$C \approx \langle k\rangle/N$.</li>
+    <li data-why="The power grid's distances are 2.2 times longer.">$\langle d\rangle \approx \ln N/\ln\langle k\rangle$.</li>
   </ol>
-  <div class="explain">All have $\langle k\rangle > 1$ and a giant component, as predicted.</div>
+  <div class="explain">All of them have $\langle k\rangle > 1$ and a giant component, as predicted.</div>
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>Email: real $\langle k^2\rangle = 1{,}269$, Poisson $\langle k\rangle(1+\langle k\rangle) = 13.7$. Ratio?</p>
+  <p>The email network has $\langle k^2\rangle = 1{,}269$, while the Poisson value $\langle k\rangle(1+\langle k\rangle)$ is 13.7. What is the ratio?</p>
   <ol>
-    <li data-why="1,269/13.7 is far larger.">about 3</li>
-    <li data-why="That is closer to √(1,269/13.7).">about 9</li>
-    <li>about 90</li>
-    <li data-why="Off by a factor 10.">about 900</li>
+    <li data-why="1,269/13.7 is far larger.">About 3.</li>
+    <li data-why="That is closer to √(1,269/13.7).">About 9.</li>
+    <li>About 90.</li>
+    <li data-why="That is off by a factor of 10.">About 900.</li>
   </ol>
   <div class="explain">$1{,}269/13.7 \approx 93$: a few huge hubs (one with 6,553 contacts) dominate $\langle k^2\rangle$.</div>
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>Which null model keeps every node's degree but places links at random?</p>
+  <p>Which null model keeps every node's degree but places the links at random?</p>
   <ol>
-    <li data-why="It keeps only $N$ and $L$.">$G(N, L)$</li>
-    <li>The configuration model</li>
-    <li data-why="It starts from a lattice and rewires; it does not preserve given degrees.">Watts–Strogatz</li>
-    <li data-why="It grows the network; degrees emerge.">Barabási–Albert</li>
+    <li data-why="It keeps only N and L.">$G(N, L)$.</li>
+    <li>The configuration model.</li>
+    <li data-why="It starts from a lattice and rewires it; it does not keep given degrees.">The Watts–Strogatz model.</li>
+    <li data-why="It grows the network, and the degrees emerge from the growth.">The Barabási–Albert model.</li>
   </ol>
-  <div class="explain">Ch 4; it separates what the degrees alone explain from what needs more.</div>
+  <div class="explain">The configuration model (Ch 4) separates what the degrees alone explain from what needs more.</div>
 </div>
 
 <div class="quiz" data-answer="4">
-  <p>Random networks predict degree assortativity $r = 0$. What does $r$ measure?</p>
+  <p>Random networks predict a degree correlation coefficient (assortativity) of $r = 0$. What does $r$ measure?</p>
   <ol>
-    <li data-why="That is $S$.">The fraction of nodes in the giant component</li>
-    <li data-why="That is $C$.">The clustering coefficient</li>
-    <li data-why="That is $\gamma$.">The degree exponent</li>
-    <li>Whether high-degree nodes link to high-degree nodes</li>
+    <li data-why="That is S.">The fraction of nodes in the giant component.</li>
+    <li data-why="That is C.">The clustering coefficient.</li>
+    <li data-why="That is γ.">The degree exponent.</li>
+    <li>Whether high-degree nodes link to other high-degree nodes.</li>
   </ol>
-  <div class="explain">Ch 7: $r > 0$ hubs link to hubs, $r &lt; 0$ hubs link to small nodes; random wiring gives $r \approx 0$.</div>
+  <div class="explain">Ch 7: for $r > 0$ hubs link to hubs, for $r &lt; 0$ hubs link to small nodes, and random wiring gives $r \approx 0$.</div>
 </div>
 
 </div></main>
