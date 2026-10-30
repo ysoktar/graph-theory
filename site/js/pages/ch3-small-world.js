@@ -1,5 +1,6 @@
 import "../layout.js";
 import { h, figure, slider, segmented, select, button, stats, dataTable, ICONS } from "../lib/ui.js";
+import { LANG } from "../i18n.js";
 import { NetView, layouts } from "../lib/netview.js";
 import { Plot, fnSeries } from "../lib/plot.js";
 import { RNG } from "../lib/rng.js";
@@ -48,7 +49,7 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
   preset("Facebook 2011: 7.2×10⁸ users, ⟨k⟩ = 190", 7.21e8, 190);
   preset("Collaboration network", 23133, 8.08);
   draw();
-  f.setCaption("The tree estimate N(d) ignores that friends of friends are often already friends, so it overcounts. That is why it gives only a rough $\\langle d\\rangle$. For Facebook in 2011 it predicts 3.9 (Fronczak et al.: 4.3), while the measured average distance among its 721 million active users was 4.74 (Backstrom et al. 2012).");
+  f.setCaption((LANG === "tr" ? "N(d) ağaç kestirimi, arkadaşların arkadaşlarının çoğu zaman zaten arkadaş olduğunu göz ardı eder; bu yüzden fazla sayar. Yalnızca kaba bir $\\langle d\\rangle$ vermesinin nedeni budur. 2011'deki Facebook için 3.9 öngörür (Fronczak ve ark.: 4.3); oysa 721 milyon etkin kullanıcısı arasında ölçülen ortalama uzaklık 4.74'tü (Backstrom ve ark. 2012)." : "The tree estimate N(d) ignores that friends of friends are often already friends, so it overcounts. That is why it gives only a rough $\\langle d\\rangle$. For Facebook in 2011 it predicts 3.9 (Fronczak et al.: 4.3), while the measured average distance among its 721 million active users was 4.74 (Backstrom et al. 2012)."));
 }
 
 // ------------------------------------------------------------------ 2. BFS in a random network versus a lattice
