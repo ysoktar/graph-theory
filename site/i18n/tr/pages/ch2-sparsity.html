@@ -1,0 +1,128 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Gerçek ağlar seyrektir · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Gerçek ağlar olası bağlantılarının yok denecek kadar küçük bir kısmını kullanır. Bunu kitabın sekiz ağında, iş birliği ağının komşuluk matrisinde ve bir ağı saklamanın maliyetinde görün."></head><body>
+<div class="content">
+
+<h1>Gerçek ağlar seyrektir</h1>
+<p class="lead">Var olabilecek tüm bağlantılardan gerçek bir ağ yalnızca çok küçük bir kısmını içerir; bu kısma ağın <strong>yoğunluğu</strong> denir ve ağlar büyüdükçe küçülür. Yoğunluk, ağların nasıl saklanabileceğini ve onlarla nasıl hesap yapılabileceğini belirler; bir ağın karşılaştırılması gereken rastgele modeli de o belirler.</p>
+
+<h2>Olası bağlantılar ve yoğunluk</h2>
+<div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}, \qquad \text{yoğunluk} = \frac{L}{L_{\max}} = \frac{\langle k\rangle}{N-1}.$$</div>
+<dl class="symbols">
+  <dt>$\binom{N}{2}$</dt><dd>"$N$'nin 2'li kombinasyonu": düğüm çiftlerinin sayısı</dd>
+  <dt>$L_{\max}$</dt><dd>her çiftin bağlı olduğu <strong>tam çizgenin</strong> bağlantı sayısı</dd>
+  <dt>$L/L_{\max}$</dt><dd>yoğunluk, 0 ile 1 arasında bir sayı</dd>
+  <dt>$N-1$</dt><dd>olası en büyük derece</dd>
+</dl>
+<p>İkinci biçim $L = N\langle k\rangle/2$ eşitliğini kullanır. $L$, $L_{\max}$'a yakın olduğunda ağ <strong>yoğundur</strong>; $L \ll L_{\max}$ ("çok daha küçük") olduğunda <strong>seyrektir</strong>. Kitabın tüm ağları seyrektir: $N$ iki mertebeden fazla bir aralığa yayılırken $\langle k\rangle$ değerleri 2.7 ile 9.1 arasındadır.</p>
+<div class="callout example">
+  <p>İş birliği ağı: $L_{\max} = 23{,}133 \times 23{,}132/2 \approx 2.68\times10^8$, ama $L = 93{,}439$; bu yüzden yoğunluk $8.08/23{,}132 \approx 3.5\times10^{-4}$'tür.</p>
+</div>
+
+<h2>Sekiz referans ağı</h2>
+<p><strong>Log-log eksenlerde</strong> her çentik değeri 10 ile çarpar ve $L = c\,N^a$ ilişkisi eğimi $a$ olan bir doğru olur. $L_{\max}$'ın eğimi 2'dir; aynı $\langle k\rangle$ değerine sahip bir ağ ailesinin eğimi 1'dir.</p>
+<div data-fig id="fig-lvn"></div>
+<div class="callout look">
+  <p>Ağlar $L_{\max}$'ın 4–5 mertebe altında, sabit $\langle k\rangle$'nın gri doğruları boyunca yer alır: $L$, $N^2$ gibi değil $N$ gibi büyür. (Bunlar büyüyen tek bir ağ değil, sekiz farklı sistemdir.)</p>
+</div>
+
+<h2>Seyreklik neye benzer</h2>
+<p>İş birliği ağının komşuluk matrisinin $23{,}133^2 \approx 5.35\times 10^8$ öğesi vardır, ama bunların yalnızca $2L = 186{,}878$'i (%0.035) sıfırdan farklıdır.</p>
+<div data-fig id="fig-spy"></div>
+
+<h2>Bir ağı saklamak</h2>
+<p>Yoğun bir matris $N^2$ öğe gerektirir. Bir <strong>kenar listesi</strong> (her bağlantı için bir düğüm kimliği çifti) ya da bir <strong>seyrek matris</strong> için $L$ ile orantılı bellek yeter. Yaygın seyrek biçim olan CSR, tüm komşu listelerini art arda ($2L$ kimlik) ve her düğümün listesinin nerede başladığını söyleyen $N+1$ konumu saklar.</p>
+<div data-fig id="fig-memory"></div>
+
+<div class="callout why">
+  <ul>
+    <li>Seyrek saklama, milyonlarca düğümlü ağların belleğe sığmasını sağlar.</li>
+    <li>Her bağlantıya yalnızca birkaç kez dokunan algoritmalar (genişlik öncelikli arama, bileşenler, üçgen sayımı) hızlı kalır.</li>
+    <li>Karşılaştırma için adil rastgele ağ, her çifti yoğunluğa eşit bir $p$ olasılığıyla bağlar.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Ağları neden <strong>kenar listeleri</strong> ya da <strong>seyrek matrisler</strong> olarak saklarız? WWW örneği ($N \approx 3\times10^5$) ya da Facebook ($N \approx 3\times10^9$) için yoğun bir matris ne kadar bellek gerektirirdi? <span class="muted">(Not defteri I.3.)</span></p>
+  <div class="hint">WWW örneği için $N^2 \approx 1.1\times10^{11}$ öğe, öğe başına bir bitle 13 GB, bir baytla 106 GB tutar; oysa 1.1 milyon bağlantısı 9 MB'lık bir kenar listesine sığar. $N = 3\times10^9$ için yoğun bir matris $9\times10^{18}$ bit, yaklaşık bir eksabayt gerektirir; $\langle k\rangle \approx 200$ olan bir kenar listesi ise birkaç terabayttır. Yukarıdaki hazır ayarları deneyin.</div>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Üzerine kurulduğu konular:</strong> $\langle k\rangle = 2L/N$ (<a href="ch2-degree.html">Derece</a>) ve gerçek ağlar için neredeyse tamamen sıfır olan <a href="ch2-adjacency.html">komşuluk matrisi</a>.</li>
+    <li><strong>Karşıtlık:</strong> seyrek olmalarına karşın gerçek ağlar sıkı örülüdür. Uzaklıkları kısa kalır (<a href="ch2-paths.html">Yollar</a>) ve düğümlerin çoğu tek bir dev bağlantılı parça oluşturur (<a href="ch2-connectedness.html">Bağlantılılık</a>).</li>
+    <li><strong>Sıfır modelini belirler:</strong> $p$'si yoğunluğa eşit <a href="ch3-model.html">G(N, p)</a>. Dev bileşeni olup olmadığı $N$'ye değil $\langle k\rangle$'ya bağlıdır (<a href="ch3-evolution.html">Evrim</a>).</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>5 düğümlü bir tam çizgenin kaç bağlantısı vardır?</p>
+  <ol>
+    <li data-why="N², her düğümün kendisiyle eşleştiği çiftler dâhil sıralı çiftleri sayar.">25</li>
+    <li data-why="N(N − 1) her çifti iki kez sayar.">20</li>
+    <li>10</li>
+    <li data-why="Her düğüm 2 değil, diğer 4 düğümün hepsine bağlanır.">5</li>
+  </ol>
+  <div class="explain">$5 \times 4/2 = 10$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Bir ağın $N = 1{,}001$ düğümü ve $0.01$ yoğunluğu vardır. Ortalama derecesi $\langle k\rangle$ nedir?</p>
+  <ol>
+    <li>10</li>
+    <li data-why="0.01 yoğunluktur, olası bağlantıların bir payıdır.">0.01</li>
+    <li data-why="1,001, N'dir; bir düğümün en fazla N − 1 = 1,000 komşusu olabilir.">1,001</li>
+    <li data-why="Yarıya bölme yok: ⟨k⟩/(N − 1) her bağlantının iki ucunu zaten hesaba katar.">5</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = \text{yoğunluk} \times (N-1) = 0.01 \times 1{,}000 = 10$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir ağ $N = 10^3$'ten $N = 10^6$ düğüme büyürken ortalama derecesi $\langle k\rangle = 10$'da kalıyor. Yoğunluğuna ne olur?</p>
+  <ol>
+    <li data-why="Yoğunluk ⟨k⟩'yı büyüyen N − 1'e böler.">Aynı kalır.</li>
+    <li>Yaklaşık 1,000 kat azalır.</li>
+    <li data-why="L 1,000 kat büyür, ama L_max bir milyon kat büyür.">1,000 kat artar.</li>
+    <li data-why="1/N² gibi değil, 1/N gibi azalır.">Bir milyon kat azalır.</li>
+  </ol>
+  <div class="explain">Yoğunluk $= \langle k\rangle/(N-1)$, yaklaşık $10^{-2}$'den yaklaşık $10^{-5}$'e düşer.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Düğüm sayısı $N$'yi iki katına çıkarıyor ve $\langle k\rangle$'yı sabit tutuyorsunuz. Yoğun bir matrisin ve bir kenar listesinin gerektirdiği bellek nasıl değişir?</p>
+  <ol>
+    <li data-why="L = N⟨k⟩/2 iki katına çıkar; dolayısıyla kenar listesi de iki katına çıkar.">Hiçbiri değişmez.</li>
+    <li data-why="Matrisin N² öğesi vardır; bu yüzden daha hızlı büyür.">İkisi de iki katına çıkar.</li>
+    <li data-why="Kenar listesi N²'ye değil L'ye bağlıdır.">İkisi de dört katına çıkar.</li>
+    <li>Matris 4 kat, kenar listesi 2 kat bellek gerektirir.</li>
+  </ol>
+  <div class="explain">Matrisin $(2N)^2 = 4N^2$ öğesi vardır; bağlantı sayısı $L$ ise yalnızca iki katına çıkar.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>WWW örneğinin yoğunluğu $2.1\times10^{-5}$'tir. Hangi sonuç doğrudur?</p>
+  <ol>
+    <li data-why="Yoğunluk çiftler üzerinden bir ortalamadır; bu ağ aslında tek bir bağlantılı parçadır.">Sayfaların çoğunun hiç bağlantısı yoktur.</li>
+    <li data-why="Seyrek ağlar bağlantılı olabilir ve kısa uzaklıklara sahip olabilir.">Birçok ayrı parçaya bölünmesi gerekir.</li>
+    <li>Ortalama bir sayfa diğer 325,728 sayfanın yaklaşık 7'sine bağlanır.</li>
+    <li data-why="Yoğunluk bir bağlantı sayısı değil, olası bağlantıların bir payıdır.">Ortalama bir sayfanın $2.1\times10^{-5}$ bağlantısı vardır.</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 2.1\times10^{-5} \times 325{,}728 \approx 6.7$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>İş birliği ağının $N = 23{,}133$ ve $L = 93{,}439$ değerlerine sahip rastgele bir ağ, her düğüm çiftini $p$ olasılığıyla bağlar. $p$ nedir?</p>
+  <ol>
+    <li data-why="8.08, ⟨k⟩'dır; p ise çift başına bir olasılıktır.">8.08</li>
+    <li>Yaklaşık $3.5\times10^{-4}$.</li>
+    <li data-why="Bu, ağı ⟨k⟩ ≈ 11,566 olan yoğun bir ağ yapardı.">0.5</li>
+    <li data-why="1/N ≈ 4.3 × 10⁻⁵, 8.08 değil ⟨k⟩ ≈ 1 verirdi.">$1/N$</li>
+  </ol>
+  <div class="explain">$p = L/L_{\max} = \langle k\rangle/(N-1) = 8.08/23{,}132 \approx 3.5\times10^{-4}$, yani yoğunluk.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>8 baytlık öğeleri olan yoğun bir komşuluk matrisi $N = 10^5$ düğüm için ne kadar bellek gerektirir?</p>
+  <ol>
+    <li>80 GB</li>
+    <li data-why="Bu N × 800 bayttır; matris N değil N² öğe saklar.">80 MB</li>
+    <li data-why="Bu 8N bayttır, düğüm başına bir öğe.">800 kB</li>
+    <li data-why="N² × 8 = 8 × 10¹⁰ bayttır; bu, yüz kat daha azdır.">8 TB</li>
+  </ol>
+  <div class="explain">$N^2 \times 8 = 10^{10} \times 8 = 8\times10^{10}$ bayt = 80 GB; kaç bağlantı olursa olsun.</div>
+</div>
+
+</div></body></html>

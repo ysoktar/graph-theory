@@ -18,61 +18,61 @@
 <main><div class="content">
 
 <h1>Real networks are sparse</h1>
-<p class="lead">Of all the links that could exist, real networks contain a tiny fraction, the <strong>density</strong>, and it shrinks as they grow. Density decides how networks can be stored and computed with, and sets the random model to compare against.</p>
+<p class="lead">Of all the links that could exist, a real network contains only a tiny fraction, called its <strong>density</strong>, and this fraction shrinks as networks grow. Density decides how networks can be stored and computed with, and it sets the random model that a network should be compared with.</p>
 
 <h2>Possible links and density</h2>
 <div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}, \qquad \text{density} = \frac{L}{L_{\max}} = \frac{\langle k\rangle}{N-1}.$$</div>
 <dl class="symbols">
-  <dt>$\binom{N}{2}$</dt><dd>"$N$ choose 2": number of node pairs</dd>
-  <dt>$L_{\max}$</dt><dd>links of the <strong>complete graph</strong> (all pairs linked)</dd>
-  <dt>$L/L_{\max}$</dt><dd>density, between 0 and 1</dd>
-  <dt>$N-1$</dt><dd>largest possible degree</dd>
+  <dt>$\binom{N}{2}$</dt><dd>"$N$ choose 2": the number of pairs of nodes</dd>
+  <dt>$L_{\max}$</dt><dd>the number of links of the <strong>complete graph</strong>, in which every pair is linked</dd>
+  <dt>$L/L_{\max}$</dt><dd>the density, a number between 0 and 1</dd>
+  <dt>$N-1$</dt><dd>the largest possible degree</dd>
 </dl>
-<p>The second form uses $L = N\langle k\rangle/2$. <strong>Dense</strong>: $L$ close to $L_{\max}$. <strong>Sparse</strong>: $L \ll L_{\max}$ ("much smaller"). All the book's networks are sparse: $\langle k\rangle$ between 2.7 and 9.1 while $N$ spans more than two orders of magnitude.</p>
+<p>The second form uses $L = N\langle k\rangle/2$. A network is <strong>dense</strong> when $L$ is close to $L_{\max}$, and <strong>sparse</strong> when $L \ll L_{\max}$ ("much smaller than"). All the book's networks are sparse: their $\langle k\rangle$ lies between 2.7 and 9.1, while $N$ spans more than two orders of magnitude.</p>
 <div class="callout example">
-  <p>Collaboration: $L_{\max} = 23{,}133 \times 23{,}132/2 \approx 2.68\times10^8$; $L = 93{,}439$; density $= 8.08/23{,}132 \approx 3.5\times10^{-4}$.</p>
+  <p>Collaboration network: $L_{\max} = 23{,}133 \times 23{,}132/2 \approx 2.68\times10^8$, but $L = 93{,}439$, so the density is $8.08/23{,}132 \approx 3.5\times10^{-4}$.</p>
 </div>
 
 <h2>The eight reference networks</h2>
-<p>On <strong>log-log axes</strong> each tick multiplies by 10, and $L = c\,N^a$ is a straight line of slope $a$: slope 2 for $L_{\max}$, slope 1 for fixed $\langle k\rangle$.</p>
+<p>On <strong>log-log axes</strong> each tick multiplies the value by 10, and a relation $L = c\,N^a$ becomes a straight line of slope $a$. $L_{\max}$ has slope 2; a family of networks with the same $\langle k\rangle$ has slope 1.</p>
 <div data-fig id="fig-lvn"></div>
 <div class="callout look">
-  <p>The networks lie 4–5 orders of magnitude below $L_{\max}$, along the grey lines of constant $\langle k\rangle$: $L$ grows like $N$, not $N^2$. (They are eight different systems, not one growing network.)</p>
+  <p>The networks lie 4 to 5 orders of magnitude below $L_{\max}$, along the grey lines of constant $\langle k\rangle$: $L$ grows like $N$, not like $N^2$. (These are eight different systems, not one network growing.)</p>
 </div>
 
 <h2>What sparsity looks like</h2>
-<p>The collaboration matrix has $23{,}133^2 \approx 5.35\times 10^8$ entries; only $2L = 186{,}878$ (0.035%) are non-zero.</p>
+<p>The collaboration network's adjacency matrix has $23{,}133^2 \approx 5.35\times 10^8$ entries, but only $2L = 186{,}878$ of them (0.035%) are non-zero.</p>
 <div data-fig id="fig-spy"></div>
 
 <h2>Storing a network</h2>
-<p>A dense matrix needs $N^2$ entries. Memory proportional to $L$ is enough for an <strong>edge list</strong> (one pair of node ids per link) or a <strong>sparse matrix</strong> (CSR: all neighbour lists, $2L$ ids, plus $N+1$ offsets).</p>
+<p>A dense matrix needs $N^2$ entries. Memory proportional to $L$ is enough for an <strong>edge list</strong> (one pair of node ids per link) or a <strong>sparse matrix</strong>. The common sparse format, CSR, stores all neighbour lists one after another ($2L$ ids) plus $N+1$ offsets that say where each node's list starts.</p>
 <div data-fig id="fig-memory"></div>
 
 <div class="callout why">
   <ul>
-    <li>Sparse storage makes million-node networks fit in memory.</li>
-    <li>Algorithms that touch each link a few times (BFS, components, triangles) stay fast.</li>
-    <li>The fair random comparison links each pair with probability $p$ = density.</li>
+    <li>Sparse storage lets networks with millions of nodes fit in memory.</li>
+    <li>Algorithms that touch each link only a few times (breadth-first search, components, triangle counts) stay fast.</li>
+    <li>The fair random network to compare with links each pair with probability $p$ equal to the density.</li>
   </ul>
 </div>
 
 <div class="callout discuss">
   <p>Why do we store networks as <strong>edge lists</strong> or <strong>sparse matrices</strong>? How much memory would a dense matrix need for the WWW sample ($N \approx 3\times10^5$), or for Facebook ($N \approx 3\times10^9$)? <span class="muted">(Notebook I.3.)</span></p>
-  <div class="hint">WWW: $N^2 \approx 1.1\times10^{11}$ entries, 13 GB at one bit each, 106 GB at one byte; its 1.1 million links fit in a 9 MB edge list. $N = 3\times10^9$: $9\times10^{18}$ bits, about an exabyte, versus a few terabytes for an edge list with $\langle k\rangle \approx 200$. Try the presets above.</div>
+  <div class="hint">For the WWW sample, $N^2 \approx 1.1\times10^{11}$ entries take 13 GB at one bit each and 106 GB at one byte each, while its 1.1 million links fit in a 9 MB edge list. For $N = 3\times10^9$, a dense matrix needs $9\times10^{18}$ bits, about an exabyte, against a few terabytes for an edge list with $\langle k\rangle \approx 200$. Try the presets above.</div>
 </div>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Builds on</strong> $\langle k\rangle = 2L/N$ (<a href="ch2-degree.html">Degree</a>) and the <a href="ch2-adjacency.html">adjacency matrix</a>, here almost all zeros.</li>
-    <li><strong>Contrast:</strong> sparse yet close, distances stay short (<a href="ch2-paths.html">Paths</a>) and most nodes form one giant piece (<a href="ch2-connectedness.html">Connectedness</a>).</li>
-    <li><strong>Sets the null model:</strong> <a href="ch3-model.html">G(N, p)</a> with $p$ = density; its giant component depends on $\langle k\rangle$, not $N$ (<a href="ch3-evolution.html">Evolution</a>).</li>
+    <li><strong>Builds on</strong> $\langle k\rangle = 2L/N$ (<a href="ch2-degree.html">Degree</a>) and on the <a href="ch2-adjacency.html">adjacency matrix</a>, which for real networks is almost all zeros.</li>
+    <li><strong>Contrast:</strong> although they are sparse, real networks are close-knit. Their distances stay short (<a href="ch2-paths.html">Paths</a>) and most nodes form one giant connected piece (<a href="ch2-connectedness.html">Connectedness</a>).</li>
+    <li><strong>Sets the null model:</strong> <a href="ch3-model.html">G(N, p)</a> with $p$ equal to the density. Whether it has a giant component depends on $\langle k\rangle$, not on $N$ (<a href="ch3-evolution.html">Evolution</a>).</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>Links in a complete graph on 5 nodes?</p>
+  <p>How many links does a complete graph on 5 nodes have?</p>
   <ol>
-    <li data-why="N² counts ordered pairs, including self-pairs.">25</li>
+    <li data-why="N² counts ordered pairs, including each node paired with itself.">25</li>
     <li data-why="N(N − 1) counts each pair twice.">20</li>
     <li>10</li>
     <li data-why="Each node links to all 4 others, not 2.">5</li>
@@ -80,64 +80,64 @@
   <div class="explain">$5 \times 4/2 = 10$.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>$N = 1{,}001$, density $0.01$. What is $\langle k\rangle$?</p>
+  <p>A network has $N = 1{,}001$ nodes and density $0.01$. What is its average degree $\langle k\rangle$?</p>
   <ol>
     <li>10</li>
-    <li data-why="That is the density, a share of possible links.">0.01</li>
-    <li data-why="That is N; a node has at most N − 1 = 1,000 neighbours.">1,001</li>
-    <li data-why="No halving: ⟨k⟩/(N − 1) already accounts for both link ends.">5</li>
+    <li data-why="0.01 is the density, a share of the possible links.">0.01</li>
+    <li data-why="1,001 is N; a node has at most N − 1 = 1,000 neighbours.">1,001</li>
+    <li data-why="There is no halving: ⟨k⟩/(N − 1) already accounts for both ends of each link.">5</li>
   </ol>
-  <div class="explain">$\langle k\rangle = 0.01 \times 1{,}000 = 10$.</div>
+  <div class="explain">$\langle k\rangle = \text{density} \times (N-1) = 0.01 \times 1{,}000 = 10$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>$N$ grows from $10^3$ to $10^6$ with $\langle k\rangle = 10$ fixed. The density…</p>
+  <p>A network grows from $N = 10^3$ to $N = 10^6$ nodes while its average degree stays at $\langle k\rangle = 10$. What happens to its density?</p>
   <ol>
-    <li data-why="It divides ⟨k⟩ by N − 1, which grows.">stays the same</li>
-    <li>drops about 1,000-fold</li>
-    <li data-why="L grows 1,000-fold, L_max a million-fold.">grows 1,000-fold</li>
-    <li data-why="It falls like 1/N, not 1/N².">drops $10^6$-fold</li>
+    <li data-why="The density divides ⟨k⟩ by N − 1, which grows.">It stays the same.</li>
+    <li>It drops about 1,000-fold.</li>
+    <li data-why="L grows 1,000-fold, but L_max grows a million-fold.">It grows 1,000-fold.</li>
+    <li data-why="It falls like 1/N, not like 1/N².">It drops a million-fold.</li>
   </ol>
-  <div class="explain">Density $= \langle k\rangle/(N-1)$: from about $10^{-2}$ to $10^{-5}$.</div>
+  <div class="explain">Density $= \langle k\rangle/(N-1)$ falls from about $10^{-2}$ to about $10^{-5}$.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>Double $N$ at fixed $\langle k\rangle$. Memory of a dense matrix and an edge list?</p>
+  <p>You double the number of nodes $N$ and keep $\langle k\rangle$ fixed. How does the memory needed by a dense matrix and by an edge list change?</p>
   <ol>
-    <li data-why="L = N⟨k⟩/2 doubles, so the edge list does.">Both unchanged</li>
-    <li data-why="The matrix has N² entries.">Both double</li>
-    <li data-why="The edge list depends on L, not N².">Both quadruple</li>
-    <li>Matrix ×4, edge list ×2</li>
+    <li data-why="L = N⟨k⟩/2 doubles, so the edge list doubles too.">Neither changes.</li>
+    <li data-why="The matrix has N² entries, so it grows faster.">Both double.</li>
+    <li data-why="The edge list depends on L, not on N².">Both quadruple.</li>
+    <li>The matrix needs 4 times as much, the edge list 2 times as much.</li>
   </ol>
-  <div class="explain">$(2N)^2 = 4N^2$ entries; $L$ doubles.</div>
+  <div class="explain">The matrix has $(2N)^2 = 4N^2$ entries, while the number of links $L$ only doubles.</div>
 </div>
 <div class="quiz" data-answer="3">
   <p>The WWW sample has density $2.1\times10^{-5}$. Which conclusion is correct?</p>
   <ol>
-    <li data-why="Density is an average over pairs; this network is in fact one connected piece.">Most pages have no links</li>
-    <li data-why="Sparse networks can be connected with short distances.">It must split into many pieces</li>
-    <li>An average page links to about 7 of 325,728 others</li>
-    <li data-why="Density is a share of possible links, not a number of links.">An average page has $2.1\times10^{-5}$ links</li>
+    <li data-why="Density is an average over pairs; this network is in fact one connected piece.">Most pages have no links.</li>
+    <li data-why="Sparse networks can be connected and have short distances.">It must split into many separate pieces.</li>
+    <li>An average page links to about 7 of the 325,728 other pages.</li>
+    <li data-why="Density is a share of the possible links, not a number of links.">An average page has $2.1\times10^{-5}$ links.</li>
   </ol>
   <div class="explain">$\langle k\rangle = 2.1\times10^{-5} \times 325{,}728 \approx 6.7$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>A random network with the collaboration network's $N = 23{,}133$ and $L = 93{,}439$ links each pair with probability $p$. What is $p$?</p>
+  <p>A random network with the collaboration network's $N = 23{,}133$ and $L = 93{,}439$ links each pair of nodes with probability $p$. What is $p$?</p>
   <ol>
     <li data-why="8.08 is ⟨k⟩; p is a probability per pair.">8.08</li>
-    <li>$\approx 3.5\times10^{-4}$</li>
+    <li>About $3.5\times10^{-4}$.</li>
     <li data-why="That would make the network dense, with ⟨k⟩ ≈ 11,566.">0.5</li>
     <li data-why="1/N ≈ 4.3 × 10⁻⁵ would give ⟨k⟩ ≈ 1, not 8.08.">$1/N$</li>
   </ol>
-  <div class="explain">$p = L/L_{\max} = \langle k\rangle/(N-1) = 8.08/23{,}132 \approx 3.5\times10^{-4}$: the density.</div>
+  <div class="explain">$p = L/L_{\max} = \langle k\rangle/(N-1) = 8.08/23{,}132 \approx 3.5\times10^{-4}$, which is the density.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>How much memory does a dense matrix with 8-byte entries need for $N = 10^5$?</p>
+  <p>How much memory does a dense adjacency matrix with 8-byte entries need for $N = 10^5$ nodes?</p>
   <ol>
     <li>80 GB</li>
-    <li data-why="That is N × 800 bytes: N², not N, entries are stored.">80 MB</li>
+    <li data-why="That is N × 800 bytes; the matrix stores N², not N, entries.">80 MB</li>
     <li data-why="That is 8N bytes, one entry per node.">800 kB</li>
-    <li data-why="N² × 8 = 8 × 10¹⁰ bytes, a hundred times less.">8 TB</li>
+    <li data-why="N² × 8 = 8 × 10¹⁰ bytes, which is a hundred times less.">8 TB</li>
   </ol>
-  <div class="explain">$N^2 \times 8 = 10^{10} \times 8 = 8\times10^{10}$ bytes = 80 GB, whatever the number of links.</div>
+  <div class="explain">$N^2 \times 8 = 10^{10} \times 8 = 8\times10^{10}$ bytes = 80 GB, however many links there are.</div>
 </div>
 
 </div></main>
