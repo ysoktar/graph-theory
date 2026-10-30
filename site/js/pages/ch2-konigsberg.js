@@ -11,24 +11,26 @@ const s = (tag, attrs = {}, ...kids) => {
   return el;
 };
 
-// Land masses: B north bank, C south bank, A the Kneiphof island, D the land between the two branches.
+// Land masses: B north bank, C south bank, A the Kneiphof island, D the land between the two arms of the river.
+// Coordinates are in the map's 640 × 400 viewBox: vertical bridges span y1 → y2 at x, horizontal ones x1 → x2 at y.
 const LANDS = ["A", "B", "C", "D"];
 const BRIDGES = [
-  { id: "a", u: "A", v: "B", x: 215, y1: 120, y2: 158 },
-  { id: "b", u: "A", v: "B", x: 305, y1: 120, y2: 158 },
-  { id: "c", u: "A", v: "C", x: 215, y1: 222, y2: 260 },
-  { id: "d", u: "A", v: "C", x: 305, y1: 222, y2: 260 },
-  { id: "e", u: "A", v: "D", horizontal: true, y: 190, x1: 358, x2: 422 },
-  { id: "f", u: "B", v: "D", x: 545, y1: 120, y2: 160 },
-  { id: "g", u: "C", v: "D", x: 545, y1: 220, y2: 260 },
-  { id: "h", u: "B", v: "C", x: 70, y1: 120, y2: 260, extra: true },
-  { id: "i", u: "A", v: "D", horizontal: true, y: 172, x1: 352, x2: 422, extra: true },
+  { id: "a", u: "A", v: "B", x: 190, y1: 112, y2: 172 },
+  { id: "b", u: "A", v: "B", x: 292, y1: 112, y2: 170 },
+  { id: "c", u: "A", v: "C", x: 190, y1: 230, y2: 290 },
+  { id: "d", u: "A", v: "C", x: 292, y1: 232, y2: 288 },
+  { id: "e", u: "A", v: "D", horizontal: true, y: 200, x1: 330, x2: 452 },
+  { id: "f", u: "B", v: "D", x: 566, y1: 92, y2: 160 },
+  { id: "g", u: "C", v: "D", x: 566, y1: 242, y2: 308 },
+  { id: "h", u: "B", v: "C", x: 62, y1: 124, y2: 276, extra: true },
+  { id: "i", u: "A", v: "D", horizontal: true, y: 226, x1: 322, x2: 478, extra: true },
 ].map((b) => ({ ...b, present: !b.extra }));
+const bridgeMid = (b) => (b.horizontal ? [(b.x1 + b.x2) / 2, b.y] : [b.x, (b.y1 + b.y2) / 2]);
 
 const state = { mode: "walk", start: null, current: null, used: [], lands: [], message: "", animating: null };
 
 const f = figure("#fig-walk", { title: "The seven bridges of Königsberg", cols: "split" });
-const mapPanel = f.panel("The city (stylised)"), graphPanel = f.panel("The graph");
+const mapPanel = f.panel("The city in 1736 (schematic)"), graphPanel = f.panel("Euler's abstraction: the graph");
 const status = h("div", { class: "status-line", style: { fontSize: ".95rem", margin: "6px 0" }, "aria-live": "polite" });
 const walkLine = h("div", { class: "small", style: { color: "var(--text-2)", minHeight: "1.5em" } });
 const degreeBox = h("div");
@@ -46,50 +48,106 @@ const solveBtn = button(btns, { label: "Show a solution", icon: "play", onClick:
 button(btns, { label: "Original seven bridges", onClick: () => { BRIDGES.forEach((b) => { b.present = !b.extra; }); resetWalk(); render(); } });
 
 // ---------------------------------------------------------------- map
-const map = s("svg", { viewBox: "0 0 640 380", role: "img", "aria-label": "Stylised map of Königsberg with its bridges", style: "width:100%;height:auto;display:block;border-radius:10px;border:1px solid var(--border)" });
+const map = s("svg", { viewBox: "0 0 640 400", role: "img", "aria-label": "Schematic map of Königsberg: the river Pregel, its two banks, the Kneiphof island and the eastern land, joined by seven bridges", class: "kb-map" });
 mapPanel.append(map);
-const water = "color-mix(in srgb, var(--s1) 22%, var(--surface))";
-const land = "var(--surface-2)";
+mapPanel.append(h("div", { class: "kb-legend" },
+  h("span", {}, h("i", { class: "kb-dot you" }), "you are here"),
+  h("span", {}, h("i", { class: "kb-dot next" }), "bridges you can take next"),
+  h("span", {}, h("i", { class: "kb-dot used" }), "crossed, numbered in order")));
+
+// water: one channel in the west, two arms around the island A, and two arms around the eastern land D
+const WATER = "M0,138 C120,126 250,112 420,128 C500,134 560,104 640,92 L640,308 C560,298 500,268 420,272 C250,288 120,276 0,262 Z";
+const BANK_B = "M0,0 H640 V92 C560,104 500,134 420,128 C250,112 120,126 0,138 Z";
+const BANK_C = "M0,400 H640 V308 C560,298 500,268 420,272 C250,288 120,276 0,262 Z";
+const ISLAND_A = "M128,200 C128,170 188,158 244,158 C300,158 342,176 342,200 C342,226 298,242 240,242 C184,242 128,230 128,200 Z";
+const LAND_D = "M640,150 C560,152 474,168 440,200 C474,232 560,248 640,250 Z";
+const defs = s("defs");
+defs.innerHTML = `
+  <pattern id="kb-waves" width="26" height="12" patternUnits="userSpaceOnUse">
+    <path d="M0 8 q6.5 -5 13 0 t13 0" fill="none" stroke="var(--kb-wave)" stroke-width="1.1" stroke-linecap="round"/>
+  </pattern>
+  <pattern id="kb-streets" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+    <path d="M0 0 H34 M0 0 V34" stroke="var(--kb-street)" stroke-width="1"/>
+  </pattern>
+  <marker id="kb-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="var(--s2)"/>
+  </marker>`;
+map.append(defs);
 map.append(
-  s("rect", { x: 0, y: 0, width: 640, height: 380, fill: land }),
-  s("rect", { x: 0, y: 120, width: 640, height: 140, fill: water }),
+  s("rect", { x: 0, y: 0, width: 640, height: 400, fill: "var(--kb-land)" }),
+  s("rect", { x: 0, y: 0, width: 640, height: 400, fill: "url(#kb-streets)" }),
+  s("path", { d: WATER, fill: "var(--kb-water)" }),
+  s("path", { d: WATER, fill: "url(#kb-waves)" }),
+  s("path", { d: WATER, fill: "none", stroke: "var(--kb-shore)", "stroke-width": 1.5 }),
 );
-const landShapes = {
-  B: s("rect", { x: 0, y: 0, width: 640, height: 120, fill: "transparent" }),
-  C: s("rect", { x: 0, y: 260, width: 640, height: 120, fill: "transparent" }),
-  A: s("ellipse", { cx: 260, cy: 190, rx: 100, ry: 38, fill: land }),
-  D: s("rect", { x: 420, y: 158, width: 230, height: 64, rx: 28, fill: land }),
-};
-const landLabelPos = { A: [260, 197], B: [400, 70], C: [400, 325], D: [482, 197] };
+const LAND_PATH = { B: BANK_B, C: BANK_C, A: ISLAND_A, D: LAND_D };
+const landShapes = {};
 for (const L of LANDS) {
-  const g = s("g", { style: "cursor:pointer", tabindex: 0, role: "button", "aria-label": `land ${L}` });
-  g.append(landShapes[L]);
+  const g = s("g", { class: "kb-land", tabindex: 0, role: "button", "aria-label": `land ${L}` });
+  const shape = s("path", { d: LAND_PATH[L], fill: L === "A" || L === "D" ? "var(--kb-land)" : "transparent", stroke: L === "A" || L === "D" ? "var(--kb-shore)" : "none", "stroke-width": 1.5 });
+  g.append(shape);
+  if (L === "A" || L === "D") g.append(s("path", { d: LAND_PATH[L], fill: "url(#kb-streets)", "pointer-events": "none" }));
   g.addEventListener("click", () => clickLand(L));
-  g.addEventListener("keydown", (e) => { if (e.key === "Enter") clickLand(L); });
+  g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); clickLand(L); } });
   map.append(g);
+  landShapes[L] = { g, shape };
 }
-map.append(s("text", { x: 20, y: 200, "font-size": 13, fill: "var(--text-2)", "font-style": "italic" }, "Pregel"));
+map.append(s("text", { x: 26, y: 205, class: "kb-river" }, "Pregel"));
+map.append(s("text", { x: 506, y: 136, class: "kb-river", "text-anchor": "end" }, "Old Pregel"));
+map.append(s("text", { x: 506, y: 274, class: "kb-river", "text-anchor": "end" }, "New Pregel"));
+// compass
+const compass = s("g", { transform: "translate(604,40)", class: "kb-compass", "aria-hidden": "true" });
+compass.append(s("circle", { r: 15 }), s("path", { d: "M0,-11 L4,2 L0,-1 L-4,2 Z" }), s("text", { y: -18, "text-anchor": "middle" }, "N"));
+map.append(compass);
+// land labels: anchor point (where the walker stands), letter and historical name
+const ANCHOR = { A: [214, 200], B: [330, 58], C: [330, 346], D: [584, 200] };
+const NAME = { A: "Kneiphof island", B: "north bank", C: "south bank", D: "eastern land" };
+// where the walker stands on each land: beside the letter, so that neither hides the other
+const SPOT = { A: [258, 186], B: [374, 50], C: [374, 338], D: [548, 186] };
 const landLabels = {};
 for (const L of LANDS) {
-  const [x, y] = landLabelPos[L];
-  landLabels[L] = s("text", { x, y, "text-anchor": "middle", "font-size": 22, "font-weight": 700, "pointer-events": "none" }, L);
-  map.append(landLabels[L]);
+  const [x, y] = ANCHOR[L];
+  const g = s("g", { "pointer-events": "none" });
+  const letter = s("text", { x, y: y + 2, "text-anchor": "middle", class: "kb-letter" }, L);
+  const name = s("text", { x, y: y + 20, "text-anchor": "middle", class: "kb-name" }, NAME[L]);
+  g.append(letter, name);
+  map.append(g);
+  landLabels[L] = { letter, name };
 }
+// bridges: a deck with two rails and a letter badge; a wide invisible hit area for clicking
 const bridgeEls = {};
 for (const b of BRIDGES) {
-  const g = s("g", { style: "cursor:pointer", tabindex: 0, role: "button", "aria-label": `bridge ${b.id} between ${b.u} and ${b.v}` });
-  const r = b.horizontal
-    ? s("rect", { x: b.x1, y: b.y - 7, width: b.x2 - b.x1, height: 14, rx: 4 })
-    : s("rect", { x: b.x - 8, y: b.y1, width: 16, height: b.y2 - b.y1, rx: 4 });
-  const lx = b.horizontal ? (b.x1 + b.x2) / 2 : b.x + 15;
-  const ly = b.horizontal ? b.y - 11 : (b.y1 + b.y2) / 2 + 4;
-  const t = s("text", { x: lx, y: ly, "font-size": 13, "font-weight": 650, "text-anchor": b.horizontal ? "middle" : "start", "pointer-events": "none" }, b.id);
-  g.append(r, t);
+  const g = s("g", { class: "kb-bridge", tabindex: 0, role: "button", "aria-label": `bridge ${b.id} between ${b.u} and ${b.v}` });
+  const [mx, my] = bridgeMid(b);
+  let shadow, deck, rail1, rail2, hit;
+  if (b.horizontal) {
+    shadow = s("rect", { x: b.x1, y: b.y - 6, width: b.x2 - b.x1, height: 16, rx: 3, class: "kb-shadow" });
+    deck = s("rect", { x: b.x1, y: b.y - 8, width: b.x2 - b.x1, height: 16, rx: 3, class: "kb-deck" });
+    rail1 = s("line", { x1: b.x1 + 3, x2: b.x2 - 3, y1: b.y - 8, y2: b.y - 8, class: "kb-rail" });
+    rail2 = s("line", { x1: b.x1 + 3, x2: b.x2 - 3, y1: b.y + 8, y2: b.y + 8, class: "kb-rail" });
+    hit = s("rect", { x: b.x1, y: b.y - 16, width: b.x2 - b.x1, height: 32, fill: "transparent" });
+  } else {
+    shadow = s("rect", { x: b.x - 6, y: b.y1, width: 16, height: b.y2 - b.y1, rx: 3, class: "kb-shadow" });
+    deck = s("rect", { x: b.x - 8, y: b.y1, width: 16, height: b.y2 - b.y1, rx: 3, class: "kb-deck" });
+    rail1 = s("line", { x1: b.x - 8, x2: b.x - 8, y1: b.y1 + 3, y2: b.y2 - 3, class: "kb-rail" });
+    rail2 = s("line", { x1: b.x + 8, x2: b.x + 8, y1: b.y1 + 3, y2: b.y2 - 3, class: "kb-rail" });
+    hit = s("rect", { x: b.x - 18, y: b.y1, width: 36, height: b.y2 - b.y1, fill: "transparent" });
+  }
+  const bx = b.horizontal ? mx : mx + 22, by = b.horizontal ? my - 22 : my;
+  const badge = s("circle", { cx: bx, cy: by, r: 11, class: "kb-badge" });
+  const t = s("text", { x: bx, y: by + 4.5, "text-anchor": "middle", class: "kb-badge-text" }, b.id);
+  g.append(shadow, deck, rail1, rail2, hit, badge, t);
   g.addEventListener("click", () => clickBridge(b));
-  g.addEventListener("keydown", (e) => { if (e.key === "Enter") clickBridge(b); });
+  g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); clickBridge(b); } });
   map.append(g);
-  bridgeEls[b.id] = { g, r, t };
+  bridgeEls[b.id] = { g, deck, badge, t };
 }
+// the route walked so far, and the walker
+const trail = s("path", { class: "kb-trail", "marker-end": "url(#kb-arrow)" });
+map.append(trail);
+const walker = s("g", { class: "kb-walker", "aria-hidden": "true" });
+walker.append(s("circle", { r: 12 }), s("circle", { r: 4, cy: -2.5, class: "kb-walker-head" }), s("path", { d: "M-5.5,7 Q0,0 5.5,7", class: "kb-walker-body" }));
+map.append(walker);
 
 // ---------------------------------------------------------------- graph
 const graph = s("svg", { viewBox: "0 0 360 380", role: "img", "aria-label": "The Königsberg multigraph", style: "width:100%;height:auto;display:block;border-radius:10px;border:1px solid var(--border);background:var(--surface)" });
@@ -211,22 +269,37 @@ function animateSolution() {
 
 function render() {
   // map
+  const left = present().filter((x) => !state.used.includes(x.id));
+  const nextIds = new Set(state.mode === "walk" && state.current ? left.filter((x) => x.u === state.current || x.v === state.current).map((x) => x.id) : []);
   for (const b of BRIDGES) {
     const el = bridgeEls[b.id];
     const order = state.used.indexOf(b.id);
     el.g.style.display = b.present || state.mode === "edit" ? "" : "none";
-    el.r.setAttribute("fill", !b.present ? "none" : order >= 0 ? "var(--s2)" : "var(--text-2)");
-    el.r.setAttribute("stroke", !b.present ? "var(--text-2)" : "var(--surface)");
-    el.r.setAttribute("stroke-dasharray", b.present ? "" : "4 3");
-    el.r.setAttribute("stroke-width", b.present ? 1.5 : 1.5);
-    el.t.textContent = order >= 0 ? `${b.id}·${order + 1}` : b.id;
-    el.t.setAttribute("fill", "var(--text)");
+    el.g.classList.toggle("absent", !b.present);
+    el.g.classList.toggle("used", order >= 0);
+    el.g.classList.toggle("next", nextIds.has(b.id));
+    el.t.textContent = order >= 0 ? String(order + 1) : b.id;
+    el.g.setAttribute("aria-label", `bridge ${b.id} between ${b.u} and ${b.v}${order >= 0 ? `, crossed as step ${order + 1}` : ""}${b.present ? "" : ", not built"}`);
   }
   for (const L of LANDS) {
-    const on = state.current === L;
-    landLabels[L].setAttribute("fill", on ? "var(--s2)" : "var(--text)");
-    landLabels[L].textContent = on ? `● ${L}` : L;
+    landShapes[L].g.classList.toggle("startable", state.mode === "walk" && !state.used.length && !state.animating);
+    landShapes[L].g.classList.toggle("here", state.current === L);
+    landLabels[L].letter.setAttribute("class", "kb-letter" + (state.current === L ? " here" : ""));
   }
+  // trail: land → bridge midpoint → land …, offset a little so that it does not hide the letters
+  if (state.start) {
+    const pts = [SPOT[state.lands[0]]];
+    state.used.forEach((id, i) => { pts.push(bridgeMid(BRIDGES.find((x) => x.id === id))); pts.push(SPOT[state.lands[i + 1]]); });
+    // stop the arrow just short of the walker
+    if (pts.length > 1) {
+      const [x1, y1] = pts[pts.length - 2], [x2, y2] = pts[pts.length - 1], L = Math.hypot(x2 - x1, y2 - y1) || 1;
+      pts[pts.length - 1] = [x2 - ((x2 - x1) / L) * 16, y2 - ((y2 - y1) / L) * 16];
+    }
+    trail.setAttribute("d", pts.length > 1 ? "M" + pts.map((p) => p.join(",")).join(" L") : "");
+    const [wx, wy] = SPOT[state.current];
+    walker.setAttribute("transform", `translate(${wx},${wy})`);
+    walker.style.display = "";
+  } else { trail.setAttribute("d", ""); walker.style.display = "none"; }
   // graph
   for (const b of BRIDGES) {
     const e = graphEdges[b.id];
