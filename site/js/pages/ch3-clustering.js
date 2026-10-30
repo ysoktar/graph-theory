@@ -7,6 +7,7 @@ import { gnp, gnpCSR, clusteringSummary } from "../lib/graph.js";
 import { fmt, logLogFit } from "../lib/stats.js";
 import { loadNetworks, NETWORK_ORDER, SHORT } from "../lib/data.js";
 import { run } from "../lib/compute.js";
+import { t as tl, LANG } from "../i18n.js";
 
 // ------------------------------------------------------------------ 1. why C = p
 {
@@ -96,7 +97,7 @@ import { run } from "../lib/compute.js";
     series: [
       fnSeries((N) => 1 / N, 500, 1e6, 10, { log: true, color: "theory", dashed: true, label: "random network: 1/N" }),
       { type: "scatter", data: nets.map((d) => [d.N, d.nullModels.er.C / d.avgk, d]), color: "random", symbol: "square", label: "random counterpart G(N, L)", r: 4,
-        tooltip: (p) => [h("div", { class: "tt-title" }, `${p[2].description}: random counterpart`), h("div", {}, `⟨C⟩ = ${fmt.sig(p[2].nullModels.er.C, 3)}`)] },
+        tooltip: (p) => [h("div", { class: "tt-title" }, `${tl(p[2].description)}: ${tl("random counterpart")}`), h("div", {}, `⟨C⟩ = ${fmt.sig(p[2].nullModels.er.C, 3)}`)] },
       { type: "scatter", data: nets.map((d) => [d.N, d.clustering.avg / d.avgk, d]), color: 1, label: "real network", r: 5,
         tooltip: (p) => [h("div", { class: "tt-title" }, p[2].description), h("div", {}, `⟨C⟩ = ${fmt.sig(p[2].clustering.avg, 3)}, ⟨k⟩ = ${p[2].avgk.toFixed(2)}`), h("div", {}, `${fmt.sig(p[2].clustering.avg / p[2].nullModels.er.C, 3)}× the random value`)] },
     ],
@@ -144,7 +145,7 @@ import { run } from "../lib/compute.js";
     nulls = null;
     draw();
     const d = networks[name];
-    status.textContent = `Building the random counterparts of ${d.description} (N = ${fmt.int(d.N)})…`;
+    status.textContent = LANG === "tr" ? `${tl(d.description)} için rastgele karşılıklar kuruluyor (N = ${fmt.int(d.N)})…` : `Building the random counterparts of ${d.description} (N = ${fmt.int(d.N)})…`;
     const res = await run("nullClustering", { N: d.N, L: d.L, hist: d.degreeHist, seed: 5 }).promise;
     if (my !== token) return;
     nulls = res;

@@ -1,0 +1,144 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Rastgele ağlarda kümelenme · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele bir ağda neden C = ⟨k⟩/N'dir, ağlar büyüdükçe bu değer nasıl sıfıra gider ve gerçek ağlar ile onların C(k)'sı bundan ne kadar uzaktır."></head><body>
+<div class="content">
+
+<h1>Rastgele ağlarda kümelenme</h1>
+<p class="lead">Arkadaşlarınız genellikle birbirini tanır. Rastgele bir ağda da tanırlar mı? Neredeyse hiçbir zaman. Kümelenme, derece dağılımından sonra rastgele modelin çok yanlış öngördüğü ikinci özelliktir.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Rastlantısal bağlanma için <a href="ch2-clustering.html">kümelenmeyi</a> (Kısım I) öngörür; bu da "çok sayıda üçgen"in ne demek olduğu için bir karşılaştırma ölçütü verir.</li>
+    <li>Bunun çok üstündeki gerçek bir kümelenme yerel mekanizmalara işaret eder: ortak ortamlar, arkadaşların arkadaş tanıştırması (üçlü kapanma), ekipler.</li>
+  </ul>
+</div>
+
+<h2>Öngörü (Bölüm 3.9)</h2>
+<ol>
+  <li>Yerel kümelenme katsayısı $C_i = 2L_i/[k_i(k_i-1)]$'dir (<a href="ch2-clustering.html">Bölüm 2.10</a>).</li>
+  <li>$i$ düğümünün $k_i$ komşusu $k_i(k_i-1)/2$ çift oluşturur ve her çift, diğer her çift gibi, $p$ olasılıkla bağlıdır.</li>
+  <li>Dolayısıyla $\langle L_i\rangle = p\,k_i(k_i-1)/2$'dir ve bölmek şunu verir:</li>
+</ol>
+<div class="eq">$$\langle C_i\rangle = p = \frac{\langle k\rangle}{N-1} \approx \frac{\langle k\rangle}{N}.$$</div>
+<dl class="symbols">
+  <dt>$C_i$</dt><dd>$i$'nin komşu çiftlerinden bağlı olanların oranı</dd>
+  <dt>$L_i$</dt><dd>$i$'nin komşuları arasındaki bağlantı sayısı</dd>
+  <dt>$k_i$</dt><dd>$i$ düğümünün derecesi</dd>
+  <dt>$p$</dt><dd>herhangi bir çiftin bağlı olma olasılığı</dd>
+</dl>
+<ul>
+  <li>Sabit $\langle k\rangle$'da ağ büyüdükçe $C$, <strong>$1/N$ gibi sıfıra gider</strong>.</li>
+  <li>$C_i$ <strong>$k_i$'ye bağlı değildir</strong>: merkez düğümler ve küçük düğümler için aynıdır.</li>
+</ul>
+<div class="callout example">
+  <p>$\langle k\rangle = 10$ ile $N = 10^3$ için $C = 0.01$, $N = 10^6$ için $10^{-5}$'tir. İş birliği ağı için $8.08/23{,}133 = 3.5\times10^{-4}$.</p>
+</div>
+<div data-fig id="fig-why"></div>
+<div data-fig id="fig-cn"></div>
+
+<h2>Gerçek ağlar</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>Her gerçek ağ rastgele bir ağdan çok daha kümelenmiştir ve fark $N$ ile büyür. İş birliği ağı için değerler $3.5\times10^{-4}$'e karşı 0.633'tür, 1,800 kat yüksek. Üç ya da daha fazla yazarlı bir makale hepsini birbirine bağlar; bu yüzden toptan üçgen yaratır.</p>
+</div>
+
+<h2>Kümelenme dereceye bağlıdır</h2>
+<div data-fig id="fig-ck"></div>
+<div class="callout look">
+  <ul>
+    <li data-beyond="Kitabın 9. bölümü (hiyerarşik modülerlik)">Gerçek $C(k)$, yani derecesi $k$ olan düğümlerin ortalama $C_i$'si, $k$ ile azalır; birkaç ağda kabaca $1/k$ gibi. Küçük düğümler sıkı gruplarda yer alır, merkez düğümler ise ayrı grupları birleştirir (<em>hiyerarşik modülerlik</em>, Bölüm 9).</li>
+    <li>Aynı derecelerin rastgele bağlanması (turuncu üçgenler), merkez düğümlerin büyük olduğu yerde kümelenmenin bir kısmını geri getirir (E. coli için neredeyse yarısını), ama iş birliği ağı için getirmez. Bkz. <a href="ch4-generating.html">Ağ üretmek</a>.</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Üzerine kurulduğu konular:</strong> <a href="ch2-clustering.html">Kısım I</a>'deki $C_i$ ve $\langle C\rangle$ ile <a href="ch3-model.html">modelin</a> $p$'si.</li>
+    <li><strong>Düzelten:</strong> yüksek $C$ ve kısa yollar veren ama hâlâ merkez düğümsüz olan <a href="ch3-small-world.html">Watts–Strogatz modeli</a>.</li>
+    <li><strong>Daha iyi bir sıfır modeli</strong> dereceleri koruyan <a href="ch4-generating.html">konfigürasyon modelidir</a>: onun üstündeki kümelenme, derecelerin açıklayabileceğinden fazladır.</li>
+    <li data-beyond="Kitabın 9. bölümü"><strong>Götürdüğü yer:</strong> $C(k) \sim 1/k$ ve <a href="communities.html">topluluklar</a> (Bölüm 9).</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Rastgele ağlar, $N$ büyüdükçe $\langle C\rangle \to 0$ olduğunu öngörür. Büyük toplumsal ağlar neden böyle davranmaz?</p>
+  <div class="hint">Bağlar yerel olarak oluşur: iş yerlerinde, ailelerde, sınıflarda ve arkadaşların arkadaş tanıştırmasıyla (<em>üçlü kapanma</em>). İki arkadaşınızın birbirini tanıyıp tanımadığı dünya nüfusunun büyüklüğüne değil, paylaştığınız ortama bağlıdır; bu yüzden $N$ büyüdükçe $C$ kabaca sabit kalır. Watts–Strogatz modeli bunu yapısına katar.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Rastgele bir ağın $N = 10^5$ ve $\langle k\rangle = 20$ değerleri vardır. $k = 200$ olan bir düğümün beklenen $C_i$'si nedir?</p>
+  <ol>
+    <li>Yaklaşık $2\times10^{-4}$.</li>
+    <li data-why="Bu, ⟨k⟩ yerine k = 200 kullanır; C düğümün derecesine bağlı değildir.">Yaklaşık $2\times10^{-3}$.</li>
+    <li data-why="1/k gerçek ağların eğilimidir; rastgele modelin hiç eğilimi yoktur.">Yaklaşık $1/200$.</li>
+    <li data-why="Bu tipik bir gerçek ağ değeridir, 500 kat fazla yüksek.">Yaklaşık $0.1$.</li>
+  </ol>
+  <div class="explain">Her düğüm için $C = p \approx 20/10^5 = 2\times10^{-4}$.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Rastgele bir ağ $10^3$'ten $10^6$ düğüme büyürken $\langle k\rangle = 10$'u koruyor. $\langle C\rangle$'ye ne olur?</p>
+  <ol>
+    <li data-why="C = ⟨k⟩/N, N'ye bağlıdır.">0.01'de kalır.</li>
+    <li data-why="Bu √1000 ≈ 32'lik bir çarpandır, ama C ∝ 1/N.">Yaklaşık 30 kat düşer.</li>
+    <li>1,000 kat düşer, $10^{-5}$'e.</li>
+    <li data-why="Daha fazla düğüm, her komşu için daha fazla aday demektir; dolayısıyla belirli bir çiftin bağlı olma olasılığı azalır.">Büyür.</li>
+  </ol>
+  <div class="explain">$\langle C\rangle = \langle k\rangle/N$, $10/10^3$'ten $10/10^6$'ya gider.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>İş birliği ağının $\langle C\rangle = 0.633$, rastgele karşılığınınki ise 0.00035'tir. Farkın ana nedeni nedir?</p>
+  <ol>
+    <li data-why="Rastgele karşılığın ⟨k⟩'sı aynıdır.">Daha yüksek bir ortalama derece.</li>
+    <li>Çok yazarlı makaleler tüm yazarlarını birbirine bağlar.</li>
+    <li data-why="Merkez düğümler tek başına çok az şey geri getirir: bu ağ için aynı derecelerle rastgele bağlanma hâlâ çok küçük kümelenme verir.">Merkez düğümleri.</li>
+    <li data-why="Boyutu rastgele değeri düşürür; gerçek değeri yükseltmez.">Büyük N'si.</li>
+  </ol>
+  <div class="explain">$m$ yazarlı her makale tam bir alt çizge ekler: yazarlarının $m(m-1)/2$ çiftinin hepsi bağlıdır.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Gerçek ağlarda $C(k) \sim 1/k$'dır. Bu ne anlama gelir?</p>
+  <ol>
+    <li data-why="Rastgele bir ağın öngördüğü budur: C, k'dan bağımsızdır.">Tüm düğümler eşit ölçüde kümelenmiştir.</li>
+    <li data-why="Tersidir: en düşük C merkez düğümlerindir.">Merkez düğümler en çok kümelenmiş düğümlerdir.</li>
+    <li data-why="C(k) birkaç düğümde değil, her derecedeki tüm düğümlerde ölçülür.">Kümelenme bir örnekleme yan etkisidir.</li>
+    <li>Küçük düğümler sıkı gruplarda yer alır, merkez düğümler ise birbirine bağlı olmayan grupları bağlar.</li>
+  </ol>
+  <div class="explain">Bir merkez düğümün komşuları farklı gruplara aittir; bu yüzden komşu çiftlerinin çok azı bağlıdır.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Bir düğümün $k_i = 5$ komşusu ve bunlar arasında $L_i = 4$ bağlantısı vardır. $C_i$ nedir?</p>
+  <ol>
+    <li>0.4</li>
+    <li data-why="Bu Lᵢ'yi kᵢ'ye böler; bunun yerine 5 · 4/2 = 10 komşu çiftine bölün.">0.8</li>
+    <li data-why="Bu 2 çarpanını unutur: çiftler yerine sıralı çiftleri sayar.">0.2</li>
+    <li data-why="Cᵢ bir orandır, en fazla 1'dir.">4</li>
+  </ol>
+  <div class="explain">$C_i = 2 \times 4/(5 \times 4) = 0.4$: 10 komşu çiftinden 4'ü bağlıdır.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Rastgele bir ağda bir merkez düğümün ($k = 100$) beklenen $C_i$'si küçük bir düğümünküyle ($k = 3$) nasıl karşılaştırılır?</p>
+  <ol>
+    <li data-why="Daha fazla komşu, her çiftin p şansını yükseltmez.">Merkez düğümünkü daha yüksektir.</li>
+    <li data-why="Bu rastgele ağların değil, gerçek ağların eğilimidir.">Merkez düğümünkü 1/k gibi daha düşüktür.</li>
+    <li>Eşittirler: ikisi de $p$'dir.</li>
+    <li data-why="Cᵢ her kᵢ ≥ 2 için tanımlıdır.">Merkez düğüm için tanımsızdır.</li>
+  </ol>
+  <div class="explain">$k_i$ ne olursa olsun her komşu çifti $p$ olasılıkla bağlıdır.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Watts–Strogatz modeli kümelenmeyi ve uzaklıkları düzeltir. Neyi hâlâ yanlış öngörür?</p>
+  <ol>
+    <li data-why="Küçük yeniden bağlama p'si için bile kısadırlar.">Uzaklıkları.</li>
+    <li data-why="Küçük p için yüksek kalır.">Kümelenmeyi.</li>
+    <li data-why="Halka baştan bağlantılıdır.">Dev bileşeni.</li>
+    <li>Derece dağılımını: dardır ve merkez düğüm yoktur.</li>
+  </ol>
+  <div class="explain">Her düğüm aynı dereceyle başlar ve yeniden bağlama dereceleri yalnızca biraz yayar.</div>
+</div>
+
+</div></body></html>
