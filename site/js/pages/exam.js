@@ -14,7 +14,9 @@ async function collect() {
   const parser = new DOMParser();
   const pages = await Promise.all(ids.map(async (id) => {
     try {
-      const doc = parser.parseFromString(await (await fetch(articleUrl(id))).text(), "text/html");
+      let r = await fetch(articleUrl(id));
+      if (!r.ok) r = await fetch(file(id)); // no translation yet: use the English questions
+      const doc = parser.parseFromString(await r.text(), "text/html");
       return $$(".quiz:not([data-local])", doc).map((q) => ({ id, html: q.outerHTML }));
     } catch { return []; }
   }));
