@@ -435,23 +435,25 @@
   </div>
 </div>
 <div class="callout try">
-  <p><strong>Problem.</strong> Attack on $\gamma = 2.5$, $k_{\min} = 2$. Solve Eq. 8.12 exactly (hint: set $x = f_c^{1/3}$). Compare with random failures at $N = 10^6$.</p>
+  <p><strong>Problem.</strong> For a targeted attack on a scale-free network, the critical fraction $f_c$ of removed hubs solves (book Eq. 8.12) $$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big).$$ Solve it for $\gamma = 2.5$ and $k_{\min} = 2$ (hint: set $x = f_c^{1/3}$). Compare with the random-failure threshold $f_c = 1 - 1/(\kappa - 1)$ at $N = 10^6$, where $\kappa \approx \sqrt{k_{\min} k_{\max}}$ for $\gamma = 2.5$ (from $\langle k^2\rangle/\langle k\rangle$ with the natural cutoff $k_{\max} = k_{\min}N^{1/(\gamma-1)}$). What does the comparison say about how to defend such a network?</p>
   <div class="hint" data-label="Show solution">
     <ol>
       <li>Exponents: $\frac{2-\gamma}{1-\gamma} = \frac13$, $\frac{3-\gamma}{1-\gamma} = -\frac13$; $\frac{2-\gamma}{3-\gamma} = -1$.</li>
       <li>$x = 2 - 2(1/x - 1) = 4 - 2/x \Rightarrow x^2 - 4x + 2 = 0 \Rightarrow x = 2 - \sqrt2 = 0.586$ (need $x &lt; 1$).</li>
       <li>$f_c = x^3 = 0.20$: removing the top 20% of nodes destroys it.</li>
       <li>Random: $k_{\max} = 2 \times 10^4$, $\kappa \approx \sqrt2 \times \sqrt{2\times10^4} = 200$, $f_c = 1 - 1/199 = 99.5\%$.</li>
+      <li>Interpretation: the network survives the random loss of 99.5% of its nodes but not the loss of its top 20%. Defence means protecting the hubs.</li>
     </ol>
   </div>
 </div>
 <div class="callout try">
-  <p><strong>Problem.</strong> Cascades on two networks: one random, one scale-free with $\gamma = 2.5$. Give the avalanche exponents. Which has relatively more large blackouts?</p>
+  <p><strong>Problem.</strong> In the branching model of cascading failures, avalanche sizes $s$ follow $p(s) \sim s^{-\alpha}$, with $\alpha = 3/2$ when the degree exponent is $\gamma &gt; 3$ (and for random networks) and $\alpha = \gamma/(\gamma - 1)$ when $2 &lt; \gamma &lt; 3$. Compare a random network with a scale-free one with $\gamma = 2.5$. Which has relatively more very large blackouts, and why are both worrying?</p>
   <div class="hint" data-label="Show solution">
     <ol>
       <li>Random ($\gamma \ge 3$ behaviour): $\alpha = 3/2$.</li>
       <li>$\gamma = 2.5$: $\alpha = 2.5/1.5 = 1.67$.</li>
-      <li>Larger $\alpha$ means a faster-decaying tail, so the scale-free network has relatively <em>fewer</em> very large avalanches in this model; both are heavy-tailed.</li>
+      <li>Larger $\alpha$ means a faster-decaying tail, so the scale-free network has relatively <em>fewer</em> very large avalanches in this model.</li>
+      <li>Both are power laws, with no typical avalanche size: very large blackouts are rare but far more likely than in a bell-shaped distribution.</li>
     </ol>
   </div>
 </div>

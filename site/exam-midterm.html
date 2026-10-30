@@ -97,22 +97,22 @@
 </ul>
 <h3>Exam-style problems</h3>
 <div class="callout try">
-  <p><strong>Problem.</strong> Describe the 2003 blackout as a network process: nodes, links, mechanism. Which three things does the book say we must understand to prevent such events?</p>
+  <p><strong>Problem.</strong> Describe the 2003 blackout as a network process: what are the nodes, the links and the mechanism? Using this picture, explain why inspecting each power line on its own cannot predict how far a blackout will spread.</p>
   <div class="hint" data-label="Show solution">
     <ol>
       <li>Nodes: generators, substations, consumers. Links: transmission lines.</li>
       <li>Mechanism: a line fails; its load moves to neighbouring lines; overloaded lines fail and move the load further. The cascade's size depends on where it starts and on the nodes' capacities.</li>
-      <li>We must understand (a) the network's structure, (b) the dynamics on it (the flow of electricity), (c) how the two together set robustness (Ch 8).</li>
+      <li>Each line's fate depends on its neighbours' loads, so how far a failure travels is set by the wiring and by the flow on it, not by any single line. Predicting it needs the network's structure, the dynamics on it and their combination: robustness (Ch 8).</li>
     </ol>
   </div>
 </div>
 <div class="callout try">
-  <p><strong>Problem.</strong> Erdős and Rényi published random graph theory in 1959. Why does the book date network science to around 2000?</p>
+  <p><strong>Problem.</strong> Erdős and Rényi modelled networks as random in 1959. In a random network the degrees follow a Poisson distribution, $p_k = e^{-\langle k\rangle}\langle k\rangle^k/k!$, which makes nodes far above $\langle k\rangle$ practically impossible. Around 2000, maps of the WWW, the Internet and metabolism became available, with hubs of thousands of links. What did this contradiction imply, and why could it not be seen before 2000?</p>
   <div class="hint" data-label="Show solution">
     <ol>
-      <li>Before then, large real networks could not be mapped or stored.</li>
-      <li>The Internet made data cheap to collect and share: maps of the Internet, the WWW, protein interactions and social ties appeared around 2000.</li>
-      <li>These maps showed universal properties, so one set of tools applied across fields. That shared core made a new discipline. Citations to the 1959 paper exploded only then.</li>
+      <li>A Poisson network with $\langle k\rangle \approx 7$ essentially never has a node with even 50 links; real maps had nodes with thousands. So real networks are not random: some mechanism builds hubs (Ch 4–5).</li>
+      <li>Seeing a tail needs networks with thousands to millions of nodes. Before digital maps (around 2000), studied networks had tens or hundreds of nodes, too few for any tail to show.</li>
+      <li>The same heavy tails then appeared in very different systems (universality), so one theory could cover them all. That is when network science became a field.</li>
     </ol>
   </div>
 </div>
@@ -129,7 +129,7 @@
 <h3>Common mistakes</h3>
 <ul>
   <li>Saying network science started in 2000. Its roots (Euler, Erdős–Rényi, sociology) are old; the field emerged then.</li>
-  <li>Listing the two forces as "computers and the Internet". The book's two are <em>maps</em> and <em>universality</em>.</li>
+  <li>Treating a network as a list of its parts. The questions network science answers (paths, bridges, cascades, spreading) are about the links between the parts.</li>
 </ul>
 <p class="small">Pages: <a href="ch1-intro.html">Why networks?</a>, <a href="data.html">The data</a>.</p>
 </section>
