@@ -18,7 +18,11 @@
 <main><div class="content">
 
 <h1>Midterm study guide</h1>
-<p class="lead">Everything for book Chapters 1–5, from "why networks?" to the Barabási–Albert model: what to know, problems in exam style with worked solutions, and a practice set drawn from every page.</p>
+<p class="lead">Everything for book Chapters 1–5, from "why networks?" to the Barabási–Albert model: the formulas you will use, problems in exam style with worked solutions, and a practice set of exam-style questions.</p>
+
+<div class="callout key">
+  <p><strong>What is tested is use, not memory.</strong> Exam-style questions give you the formulas. What you must be able to do is pick the right formula, put the numbers in, and say what the result means for the network: compare it with a model, predict what changes, or spot a flawed claim.</p>
+</div>
 
 <div class="callout gotcha">
   <p><strong>Scope is an assumption.</strong> The syllabus gives no exam scopes or dates. This guide assumes the midterm covers Chapters 1–5 (introduction to the BA model). Confirm with the instructor.</p>
@@ -35,14 +39,14 @@
 
 <h2>How to study</h2>
 <ol>
-  <li>Read the <strong>Must know</strong> list of a chapter. Every symbol is explained under its formula.</li>
-  <li>Solve the <strong>exam-style problems</strong> on paper before opening the solutions.</li>
+  <li>Read a chapter's <strong>Must know</strong> list: the formulas you will be given, with every symbol explained. Learn when each one applies, not the formula itself.</li>
+  <li>Solve the <strong>exam-style problems</strong> on paper before opening the solutions, and finish each with one sentence on what the number tells you.</li>
   <li>Read <strong>Common mistakes</strong>; open the linked page for anything unclear.</li>
   <li>Take the <a href="#practice">practice set</a> until you score 80% or more on a fresh set.</li>
 </ol>
 
 <h2>Formula checklist</h2>
-<p>If you can say what each line means and when to use it, you know the core.</p>
+<p>You do not need to memorize these: exam-style questions give them. You need to know what each line means and when to use it.</p>
 <table class="simple">
   <thead><tr><th>Formula</th><th>Meaning</th><th>Page</th></tr></thead>
   <tbody>
@@ -581,6 +585,373 @@
 
 <h2 id="practice">Practice set</h2>
 <div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview"></div>
+<p class="small muted">These questions are not the ones on the chapter pages: each gives the formulas it needs and asks you to use them. Tick "Add review questions from the pages" to mix in the pages' own quizzes.</p>
+<template id="exam-questions">
+<div class="quiz" data-topic="Ch 1 · Why networks?" data-answer="1">
+  <p>In the 2003 North American blackout, one failed line shifted its load onto neighbouring lines, which overloaded and failed in turn. What does a network view add to explaining why a local fault spread across several states?</p>
+  <ol>
+    <li>The failure travelled along links, so how far it spread depended on how the grid is wired, not only on the first fault.</li>
+    <li data-why="Independent failures would be scattered at random; a cascade is one failure causing the next along the wiring.">Many components happened to fail independently at the same time.</li>
+    <li data-why="Size alone does not spread failures; a large grid wired differently could contain the fault.">The grid simply had too many nodes.</li>
+    <li data-why="Whether links have a direction is not the mechanism; the load moved to neighbouring lines.">Power lines are directed links.</li>
+  </ol>
+  <div class="explain">A cascade is a process on the network: each failure moves load to the failed element's neighbours. Predicting it needs the wiring diagram, which is what network science studies.</div>
+</div>
+<div class="quiz" data-topic="Ch 1 · Why networks?" data-answer="3">
+  <p>A company has (a) a list of its 500 employees with their departments and (b) a log of who emailed whom. Which question can only the email network answer?</p>
+  <ol>
+    <li data-why="The employee list already gives department sizes.">How many employees work in each department?</li>
+    <li data-why="This is an attribute of each person, not a relation between people.">Who is the most senior employee?</li>
+    <li>Which employees link departments that otherwise barely communicate?</li>
+    <li data-why="Counting people per floor needs only the list.">How many people work on each floor?</li>
+  </ol>
+  <div class="explain">Lists describe nodes one by one; a network describes the relations between them. Bridges between groups exist only in the wiring.</div>
+</div>
+<div class="quiz" data-topic="Ch 1 · Why networks?" data-answer="4">
+  <p>A 1950s study mapped the friendships of 30 schoolchildren. Why could data like this never reveal that real degree distributions have heavy tails?</p>
+  <ol>
+    <li data-why="Children do form friendships unevenly; the problem is the amount of data.">Children have no popular friends.</li>
+    <li data-why="Heavy tails are a property of the data, not of the drawing method.">Hand-drawn sociograms distort degrees.</li>
+    <li data-why="Random-graph theory existed (1959) but cannot reveal a property of real data.">The theory of random graphs was not known yet.</li>
+    <li>With 30 nodes the largest degree is at most 29, far too few nodes to see a tail spanning orders of magnitude.</li>
+  </ol>
+  <div class="explain">A tail is visible only across several orders of magnitude of $k$, which needs maps with thousands to millions of nodes. Such maps (WWW, metabolism, citations) became available around 2000, which is when network science took off.</div>
+</div>
+<div class="quiz" data-topic="Ch 1 · Why networks?" data-answer="2">
+  <p>The book argues that networks behind very different systems (the cell, the Internet, a society) share the same organizing principles. What does this "universality" let you do?</p>
+  <ol>
+    <li data-why="Universality is about shared statistical laws, not identical networks.">Treat all networks as identical copies of each other.</li>
+    <li>Use the same tools and models (degree distribution, hubs, robustness) on a system you have never studied before.</li>
+    <li data-why="The point is the opposite: real networks share non-random features.">Assume every network is random.</li>
+    <li data-why="Universality is what makes a single theory possible.">Build a separate theory for each kind of network.</li>
+  </ol>
+  <div class="explain">Because the same features (heavy tails, small distances, high clustering) recur, a model or measurement developed for one network transfers to others.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="2">
+  <p>The average degree is $\langle k\rangle = 2L/N$. The yeast protein network has $N = 2{,}018$ proteins and $L = 2{,}705$ interactions. What is $\langle k\rangle$, and what does it mean?</p>
+  <ol>
+    <li data-why="That is L/N: it counts each link once, but each link adds 1 to the degree of both of its ends.">1.34: a protein interacts with about one other.</li>
+    <li>2.68: a typical protein interacts with about three others.</li>
+    <li data-why="That is the density L/L_max, the share of possible interactions that exist.">0.0013: proteins almost never interact.</li>
+    <li data-why="That is 2L, the sum of all degrees, before dividing by N.">5,410: each protein interacts with thousands of others.</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 2 \cdot 2{,}705 / 2{,}018 \approx 2.68$. Most proteins have only a few partners, even though the network has thousands of proteins.</div>
+</div>
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="4">
+  <p>A network has at most $L_{\max} = N(N-1)/2$ links. The WWW sample has $N = 325{,}729$ pages and $L = 1{,}090{,}108$ links, so its density $L/L_{\max}$ is about $2\times10^{-5}$. What follows for storing it in a computer?</p>
+  <ol>
+    <li data-why="An adjacency matrix stores N² ≈ 10¹¹ entries, almost all of them zero.">An adjacency matrix is the most compact choice.</li>
+    <li data-why="Density does not change how many links exist; it says how few of the possible ones do.">It cannot be stored; it has too many links.</li>
+    <li data-why="Sparse networks are the normal case; storage depends on L, not on N².">Any format needs about the same memory.</li>
+    <li>An edge list (about 1.1 million pairs) is far smaller than an adjacency matrix (about $10^{11}$ entries, nearly all zero).</li>
+  </ol>
+  <div class="explain">Real networks are sparse: $L \ll L_{\max}$. Store what exists (the links), not every possible pair.</div>
+</div>
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="1">
+  <p>Every link has two ends, so $\sum_i k_i = 2L$. A student reports a network of 7 nodes with degrees 3, 3, 2, 2, 2, 1, 2. What do you conclude?</p>
+  <ol>
+    <li>The data contain an error: the degrees sum to 15, an odd number, so no network has these degrees.</li>
+    <li data-why="2L must be even; 15 links would give a sum of 30.">The network has 15 links.</li>
+    <li data-why="Dividing an odd sum by 2 gives 7.5, which is not a whole number of links.">The network has 7.5 links, which rounds to 8.</li>
+    <li data-why="The sum rule holds for every network, connected or not.">It is possible only if the network is disconnected.</li>
+  </ol>
+  <div class="explain">The degree sum must be even. An odd sum means a degree was miscounted, a useful check on any data set.</div>
+</div>
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="3">
+  <p>A connected network has a walk that uses every link exactly once if and only if 0 or 2 nodes have odd degree (with 2, the walk must start at one and end at the other). A street map has intersection degrees 4, 3, 3, 2, 2, 2. Can a street sweeper drive every street exactly once?</p>
+  <ol>
+    <li data-why="Two odd nodes are allowed; only more than two make it impossible.">No, because some intersections have odd degree.</li>
+    <li data-why="Starting anywhere would need a closed tour, which requires 0 odd nodes.">Yes, starting from any intersection.</li>
+    <li>Yes, but only by starting at one degree-3 intersection and finishing at the other.</li>
+    <li data-why="Euler's rule uses only degrees; lengths and shapes do not matter.">It depends on the lengths of the streets.</li>
+  </ol>
+  <div class="explain">Exactly two nodes have odd degree, so an Euler path exists between them. Each pass through an intersection uses two streets; only the start and end can use an odd number.</div>
+</div>
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="2">
+  <p>The clustering coefficient is $C_i = 2L_i / [k_i(k_i - 1)]$, where $L_i$ is the number of links among the $k_i$ neighbours of node $i$. Alice and Bob each have 5 friends. Among Alice's friends there are 2 friendships; among Bob's there are 8. What do $C_{\text{Alice}}$ and $C_{\text{Bob}}$ tell you?</p>
+  <ol>
+    <li data-why="With the same degree, clustering differs only through L_i, which is 2 versus 8.">Both are 0.4, since both have 5 friends.</li>
+    <li>$C = 0.2$ for Alice and $0.8$ for Bob: Bob's friends form a tight group, while Alice links people who mostly do not know each other.</li>
+    <li data-why="C_i is a fraction of neighbour pairs, so it is at most 1; 8 is L_i itself.">Alice 2, Bob 8: Bob is four times as popular.</li>
+    <li data-why="High clustering means Bob's friends know each other; it says nothing about Bob having more friends.">Bob has more friends than Alice.</li>
+  </ol>
+  <div class="explain">$5 \cdot 4 / 2 = 10$ friend pairs each. Alice: $2/10 = 0.2$; Bob: $8/10 = 0.8$. Low $C_i$ marks a node that connects otherwise separate people.</div>
+</div>
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="4">
+  <p>In the adjacency matrix, $(A^2)_{ij}$ counts the walks of length 2 from $i$ to $j$. In the karate club, $(A^2)_{0,33} = 4$. What does this mean?</p>
+  <ol>
+    <li data-why="Distance is the length of the shortest path; 4 is a count of walks.">Members 0 and 33 are 4 steps apart.</li>
+    <li data-why="A_ij itself says whether a link exists; A² counts two-step walks.">Members 0 and 33 are joined by 4 links.</li>
+    <li data-why="A walk of length 2 is i → m → j, which has 2 steps, not 4.">There are 4 shortest paths of length 4 between them.</li>
+    <li>Members 0 and 33 have 4 friends in common.</li>
+  </ol>
+  <div class="explain">A walk $0 \to m \to 33$ exists exactly when $m$ is a neighbour of both, so $(A^2)_{0,33}$ is their number of common neighbours.</div>
+</div>
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="1">
+  <p>In the person projection of a person–event (bipartite) network, the weight $W_{ij}$ counts the events that $i$ and $j$ both attended. One pair of women has $W = 6$, another $W = 1$. What can you conclude?</p>
+  <ol>
+    <li>The first pair met at six events and is likely close; the second pair shares a single event and may barely know each other.</li>
+    <li data-why="In the unweighted projection both pairs get one link; the weights are what separate them.">Both pairs are equally connected, since both are linked.</li>
+    <li data-why="Weights count shared events, not events attended by one person.">The first pair attended six events in total.</li>
+    <li data-why="A projection links people of one kind only; events are not nodes in it.">The first pair is linked to six events in the projection.</li>
+  </ol>
+  <div class="explain">Projecting throws away the events but keeps how many they shared, which is why projections are naturally weighted.</div>
+</div>
+<div class="quiz" data-topic="Ch 2 · Graph theory" data-answer="3">
+  <p>The average distance $\langle d\rangle$ is the shortest-path length averaged over all pairs. The US power grid has $N = 4{,}941$ and $\langle d\rangle \approx 18.8$; the Internet sample has $N = 192{,}244$ and $\langle d\rangle \approx 6.9$. What does the comparison show?</p>
+  <ol>
+    <li data-why="The larger network is the one with shorter distances.">Distances grow with network size.</li>
+    <li data-why="Both are measured the same way, on the largest component.">The two numbers are not comparable.</li>
+    <li>Distance depends on the wiring, not on size: the grid is lattice-like with few long-range shortcuts, while the Internet's hubs act as shortcuts.</li>
+    <li data-why="The grid is connected; long distances come from its geometry.">The power grid must be disconnected.</li>
+  </ol>
+  <div class="explain">The Internet is 39 times larger yet nearly three times closer. Shortcuts and hubs, not the node count, set how far apart nodes are.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="2">
+  <p>A random network's degrees follow the Poisson distribution $p_k = e^{-\langle k\rangle}\langle k\rangle^k / k!$. For the collaboration network's $\langle k\rangle = 8.08$ and $N = 23{,}133$, the expected number of nodes with $k \ge 50$ is about $10^{-18}$. The real network has many such scientists, the busiest with 279 co-authors. What does this show?</p>
+  <ol>
+    <li data-why="The calculation predicts essentially zero such nodes, while the data contain many.">The random model fits the data well.</li>
+    <li>Random wiring cannot produce hubs: the real degree distribution is far broader than Poisson.</li>
+    <li data-why="The size N is the real one; the mismatch is in the shape of the distribution.">The network is too small for the Poisson formula.</li>
+    <li data-why="Poisson already has the real average degree; the problem is the spread.">The average degree was computed wrongly.</li>
+  </ol>
+  <div class="explain">A Poisson tail falls faster than exponentially, so nodes far above $\langle k\rangle$ essentially never occur. Real hubs are evidence of a non-random mechanism (Ch 4–5).</div>
+</div>
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="4">
+  <p>A random network has a giant component when $\langle k\rangle > 1$, and is fully connected only when $\langle k\rangle > \ln N$. Its giant component holds a fraction $S$ of the nodes, with $S = 1 - e^{-\langle k\rangle S}$. The power grid has $\langle k\rangle = 2.67$ and $N = 4{,}941$ ($\ln N \approx 8.5$). If it were random, what would you expect, and what does the real, fully connected grid tell you?</p>
+  <ol>
+    <li data-why="⟨k⟩ = 2.67 is above 1, so a giant component exists.">No giant component; the real grid contradicts randomness only by chance.</li>
+    <li data-why="Full connection needs ⟨k⟩ > ln N ≈ 8.5, which 2.67 is not.">Fully connected, just like the real grid.</li>
+    <li data-why="S ≈ 0.91, not about 0.5.">About half the nodes in the giant component.</li>
+    <li>A giant component with $S \approx 0.91$, leaving about 9% (some 430 nodes) cut off; the real grid is connected because it was engineered to be.</li>
+  </ol>
+  <div class="explain">Solving $S = 1 - e^{-2.67S}$ gives $S \approx 0.91$. Random wiring at this density always leaves isolated pieces; a grid that reaches every node needs design.</div>
+</div>
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="1">
+  <p>In a random network $\langle d\rangle \approx \ln N / \ln\langle k\rangle$. Estimate $\langle d\rangle$ for $N = 7\times10^9$ people with $\langle k\rangle = 1{,}000$ acquaintances each. What does the result say about "six degrees of separation"?</p>
+  <ol>
+    <li>About 3.3: random wiring alone already puts any two people a few steps apart, so short distances need no special explanation.</li>
+    <li data-why="That divides N by ⟨k⟩ instead of taking logarithms.">About 7 million: people are very far apart.</li>
+    <li data-why="ln N alone ignores that each step multiplies the reach by ⟨k⟩.">About 22.7: much more than six.</li>
+    <li data-why="The formula gives a definite number, about 3.3.">It cannot be estimated without the full network.</li>
+  </ol>
+  <div class="explain">$\ln(7\times10^9) \approx 22.7$ and $\ln 1{,}000 \approx 6.9$, so $\langle d\rangle \approx 3.3$. Because the number reached grows like $\langle k\rangle^d$, distances grow only logarithmically with $N$.</div>
+</div>
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="3">
+  <p>In a random network the clustering coefficient is $C = p \approx \langle k\rangle / N$. The collaboration network has $\langle k\rangle = 8.08$, $N = 23{,}133$ and measured $\langle C\rangle = 0.63$. What do you conclude?</p>
+  <ol>
+    <li data-why="The random value is 0.00035, so the two differ by a factor of about 1,800.">The measured value matches the random model.</li>
+    <li data-why="Clustering compares links among neighbours; it does not need a larger N.">The network is too small to have triangles.</li>
+    <li>Real clustering is about 1,800 times the random value: co-authors of one paper are all linked, so triangles are everywhere.</li>
+    <li data-why="High clustering says nothing directly about hubs; it is about triangles.">The network must have very large hubs.</li>
+  </ol>
+  <div class="explain">$8.08 / 23{,}132 \approx 3.5\times10^{-4}$. A paper with three authors creates a triangle, which random wiring almost never does.</div>
+</div>
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="2">
+  <p>In $G(N, p)$ the number of links $L$ is binomial, with mean $\langle L\rangle = p\,N(N-1)/2$ and standard deviation $\sigma_L \approx \sqrt{\langle L\rangle}$ when $p$ is small. For $N = 1{,}000$ and $p = 0.005$, one sample has $L = 2{,}560$. Is that unusual?</p>
+  <ol>
+    <li data-why="The difference is 62.5 links, but the natural fluctuation is about 50 links.">Yes: it is 62 links more than expected.</li>
+    <li>No: $\langle L\rangle \approx 2{,}498$ and $\sigma_L \approx 50$, so it is only about 1.3 standard deviations above the mean.</li>
+    <li data-why="A G(N, p) sample has a random number of links; only G(N, L) fixes it.">Yes: G(N, p) always has exactly 2,498 links.</li>
+    <li data-why="The question gives enough to compare with the expected spread.">It cannot be judged from one sample.</li>
+  </ol>
+  <div class="explain">$\langle L\rangle = 0.005 \cdot 499{,}500 \approx 2{,}498$ and $\sigma_L \approx 50$. Deviations of one or two standard deviations are normal.</div>
+</div>
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="1">
+  <p>For Poisson degrees the spread is $\sigma_k = \sqrt{\langle k\rangle}$. For the Internet's $\langle k\rangle = 6.34$ this gives $\sigma_k \approx 2.5$, but the measured $\sigma_k$ is 14.1. Interpret the difference.</p>
+  <ol>
+    <li>Real degrees are about 5.6 times more spread out than random wiring allows: some routers are hubs with hundreds of links.</li>
+    <li data-why="σ_k measures spread around the mean, not the mean itself, which is the same 6.34 in both.">The real Internet has a larger average degree.</li>
+    <li data-why="A spread this large is a systematic feature, not noise.">The measurement is noisy; the two agree within error.</li>
+    <li data-why="A larger spread means more variety in degrees, not more regularity.">The Internet is more regular than a random network.</li>
+  </ol>
+  <div class="explain">A standard deviation twice the mean means a heavy tail. This spread later drives robustness and spreading (Ch 8, Ch 10).</div>
+</div>
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="4">
+  <p>At the critical point $\langle k\rangle = 1$ of a random network, the largest component has about $N^{2/3}$ nodes. For $N = 10^6$, what does that mean?</p>
+  <ol>
+    <li data-why="N^{2/3} = 10⁴, which is 1% of the network, not most of it.">Most nodes are already in one component.</li>
+    <li data-why="(10⁶)^{2/3} = 10⁴, not 10^{2/3}.">The largest component has about 5 nodes.</li>
+    <li data-why="The largest component is large in absolute terms, but small as a fraction.">The network is fully connected.</li>
+    <li>The largest component has about 10,000 nodes, only 1% of the network: a giant component has not formed yet, but it is about to.</li>
+  </ol>
+  <div class="explain">$(10^6)^{2/3} = 10^4$. Its share $N^{-1/3}$ vanishes as $N$ grows, which is why $\langle k\rangle = 1$ is the threshold.</div>
+</div>
+<div class="quiz" data-topic="Ch 3 · Random networks" data-answer="3">
+  <p>In the Watts–Strogatz model you rewire a fraction $p$ of a ring lattice's links at random. Around $p = 0.01$ the clustering is still close to the lattice's, while $\langle d\rangle$ has already fallen to random-network values. What does the model explain, and what does it still miss?</p>
+  <ol>
+    <li data-why="Rewiring keeps every degree close to the lattice's, so it cannot make hubs.">It explains hubs and small distances.</li>
+    <li data-why="At p = 0.01 clustering is high, which is the point of the model.">It explains small distances but destroys clustering.</li>
+    <li>It explains high clustering together with short distances, but its degrees stay narrow, so it still has no hubs.</li>
+    <li data-why="The model was built to explain exactly these two real-network properties.">It explains nothing about real networks.</li>
+  </ol>
+  <div class="explain">A few random shortcuts shrink distances without breaking local triangles. The degree distribution stays almost regular, so the scale-free property needs another mechanism (Ch 5).</div>
+</div>
+
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="4">
+  <p>For a power law $p_k \propto k^{-\gamma}$, doubling the degree divides the probability by $2^\gamma$. With $\gamma = 3$, how much rarer is a node with 200 links than one with 100 links, and what does the answer show?</p>
+  <ol>
+    <li data-why="Halving would be γ = 1.">2 times rarer: the tail is almost flat.</li>
+    <li data-why="That would need a doubling factor of 100, γ ≈ 6.6.">100 times rarer: hubs essentially never occur.</li>
+    <li data-why="A power law has no single scale beyond which nodes vanish; that is a Poisson or exponential.">Infinitely rarer: there is a maximum degree of 100.</li>
+    <li>8 times rarer, and the factor is 8 at every scale (10 vs 20, 1,000 vs 2,000): there is no typical degree.</li>
+  </ol>
+  <div class="explain">$2^3 = 8$. The ratio depends only on the factor 2, not on where you are in the distribution. That scale invariance is what "scale-free" means.</div>
+</div>
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="2">
+  <p>The largest expected hub of a power law is the natural cutoff $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$. For $N = 10^6$ and $k_{\min} = 1$, compare $\gamma = 2.5$ with $\gamma = 3$.</p>
+  <ol>
+    <li data-why="With γ = 2.5 the exponent is 1/1.5 = 2/3, which gives 10⁴, ten times more than γ = 3.">Both give about 1,000 links.</li>
+    <li>$\gamma = 2.5$ gives about 10,000 links and $\gamma = 3$ about 1,000: the smaller the exponent, the bigger the hubs.</li>
+    <li data-why="The exponent 1/(γ − 1) shrinks as γ grows, so larger γ means smaller hubs.">$\gamma = 3$ gives the larger hub.</li>
+    <li data-why="k_max is far below N − 1 for both exponents.">Both give a hub linked to the whole network.</li>
+  </ol>
+  <div class="explain">$10^{6/1.5} = 10^4$ and $10^{6/2} = 10^3$. A random network of the same size would have its largest degree within a few tens of $\langle k\rangle$.</div>
+</div>
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="1">
+  <p>The second moment is $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2$, and $\kappa = \langle k^2\rangle / \langle k\rangle$ is the average degree of the node you reach by following a random link. The email network has $\langle k\rangle = 3.23$ and $\sigma_k = 35.5$. What is $\kappa$, and what does it mean?</p>
+  <ol>
+    <li>About 390: a typical address has 3 contacts, but following a random link almost always leads to a hub.</li>
+    <li data-why="That is ⟨k⟩ itself; following links over-samples high-degree nodes.">About 3.2: following a link reaches an average address.</li>
+    <li data-why="That is σ_k; κ also divides ⟨k²⟩ ≈ 1,269 by ⟨k⟩.">About 35: following a link reaches a node one standard deviation above the mean.</li>
+    <li data-why="⟨k²⟩ ≈ 1,269 is the second moment; κ divides it by ⟨k⟩.">About 1,269: every link ends at a node with 1,269 links.</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle \approx 35.5^2 + 3.23^2 \approx 1{,}269$, so $\kappa \approx 393$. Hubs collect a large share of all link ends, so they dominate anything that travels along links.</div>
+</div>
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="3">
+  <p>For scale-free networks, distances scale as $\langle d\rangle \sim \ln\ln N$ when $2 &lt; \gamma &lt; 3$, but as $\ln N$ when $\gamma &gt; 3$. A network with $\gamma = 2.4$ grows from $10^4$ to $10^8$ nodes. How do its distances change?</p>
+  <ol>
+    <li data-why="That is the ln N scaling of γ > 3 or random networks.">They double.</li>
+    <li data-why="Distances grow ten-thousand-fold only for lattices, where d ~ N^{1/D}.">They grow ten-thousand-fold.</li>
+    <li>They grow by only about 30%: $\ln\ln N$ goes from 2.2 to 2.9.</li>
+    <li data-why="ln ln N still grows, just very slowly.">They stay exactly the same.</li>
+  </ol>
+  <div class="explain">$\ln\ln 10^4 \approx 2.22$, $\ln\ln 10^8 \approx 2.91$: a factor 1.31. Hubs connect so many nodes that adding nodes barely lengthens paths (ultra-small world).</div>
+</div>
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="2">
+  <p>For a power law the complementary cumulative distribution falls as $P(K \ge k) \propto k^{-(\gamma - 1)}$. On a log–log plot, the CCDF of a network drops from 0.2 at $k = 5$ to 0.0063 at $k = 50$. Estimate $\gamma$.</p>
+  <ol>
+    <li data-why="1.5 is the slope of the CCDF; the exponent of p_k is one more.">1.5</li>
+    <li>2.5</li>
+    <li data-why="That would need a drop of 10⁻² per decade.">3.0</li>
+    <li data-why="The ratio of the values is 0.0315, whose logarithm is −1.5.">0.5</li>
+  </ol>
+  <div class="explain">The slope is $\log_{10}(0.0063/0.2) / \log_{10}(50/5) = -1.5$, so $\gamma - 1 = 1.5$ and $\gamma = 2.5$. Remember the "+1" when reading exponents off a CCDF.</div>
+</div>
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="4">
+  <p>The maximum-likelihood estimate $\hat\gamma$ has standard error $\sigma = (\hat\gamma - 1)/\sqrt{n}$, where $n$ is the number of nodes in the fitted tail. A fit to $n = 400$ tail nodes gives $\hat\gamma = 2.5$. Is the data compatible with the BA model's $\gamma = 3$?</p>
+  <ol>
+    <li data-why="0.5 is the raw difference; it must be compared with σ = 0.075.">Yes, 2.5 and 3 differ by only 0.5.</li>
+    <li data-why="σ = 1.5/20 = 0.075, so the interval does not reach 3.">Yes, it is within one standard error.</li>
+    <li data-why="The standard error is computable from the given formula.">It cannot be decided without the raw data.</li>
+    <li>No: $\sigma = 0.075$, so $\gamma = 3$ lies almost 7 standard errors away.</li>
+  </ol>
+  <div class="explain">$\sigma = 1.5/\sqrt{400} = 0.075$ and $0.5/0.075 \approx 6.7$. With hundreds of tail nodes, an exponent difference of 0.5 is decisive.</div>
+</div>
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="1">
+  <p>A student fits a straight line to $\log p_k$ against $\log k$, using one bin per degree, and gets $\gamma = 1.6$. Maximum likelihood on the same data gives $\gamma = 2.5$. Which should you trust, and why?</p>
+  <ol>
+    <li>Maximum likelihood: in the sparse tail most degrees occur once, so linear bins pile points on a flat plateau at $p_k = 1/N$, which flattens the fitted line.</li>
+    <li data-why="Least squares on log-log plots is biased by the plateau; the closeness of a line to the points is not evidence of a correct slope.">The straight-line fit, because it uses all the points.</li>
+    <li data-why="The two disagree because one method is biased, not because the data are ambiguous.">Neither: the exponent is undefined.</li>
+    <li data-why="Neither value is right by default; the bias of the line fit is known.">Their average, 2.05.</li>
+  </ol>
+  <div class="explain">Linear bins in the tail record noise (0 or 1 node per degree). Logarithmic bins or the CCDF help the picture, and maximum likelihood gives the estimate.</div>
+</div>
+<div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="3">
+  <p>For $\gamma &lt; 2$ the natural cutoff $k_{\max} \approx N^{1/(\gamma - 1)}$ grows faster than $N$. A paper claims $\gamma = 1.8$ for a large simple network (no multi-links). What should you conclude?</p>
+  <ol>
+    <li data-why="A small γ means more hubs, but the formula then demands hubs larger than the network.">Its hubs are very large, nothing more.</li>
+    <li data-why="γ < 2 is not a mark of randomness; random networks are not power laws at all.">The network must be random.</li>
+    <li>The claim is suspect: the largest hub would need more links than there are other nodes, so either the fit is wrong or the tail does not extend far.</li>
+    <li data-why="The problem appears exactly for large N, where N^{1/0.8} = N^{1.25} > N.">It is fine for large networks.</li>
+  </ol>
+  <div class="explain">$1/(\gamma - 1) = 1.25 &gt; 1$, so $k_{\max} &gt; N$, impossible in a simple network. Large networks with $\gamma &lt; 2$ cannot exist without multi-links.</div>
+</div>
+
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="2">
+  <p>In the BA model a new link attaches to node $i$ with probability $\Pi(k_i) = k_i / \sum_j k_j$, and $\sum_j k_j \approx 2mt$. With $m = 3$ at $t = 1{,}000$, compare a node with 60 links and a node with 3 links.</p>
+  <ol>
+    <li data-why="Preferential attachment is proportional to degree; equal chances would be uniform attachment.">Both are equally likely to get the next link.</li>
+    <li>$\Pi = 60/6{,}000 = 0.01$ against $0.0005$: the hub is 20 times more likely to gain each new link, so the rich get richer.</li>
+    <li data-why="The denominator is the sum of all degrees, 2mt = 6,000, not the number of nodes.">$\Pi = 60/1{,}000 = 0.06$ against 0.003.</li>
+    <li data-why="Π grows with k, so the hub gains links faster, not slower.">The small node is more likely, since it needs links more.</li>
+  </ol>
+  <div class="explain">$\sum_j k_j = 2 \cdot 3 \cdot 1{,}000 = 6{,}000$. Each new node brings 3 links, so the hub expects about 0.03 new links per step, the small node 0.0015.</div>
+</div>
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="3">
+  <p>In the BA model a node's degree grows as $k_i(t) = m\,(t/t_i)^{1/2}$, where $t_i$ is its arrival time. With $m = 2$, compare a node that arrived at $t_i = 100$ with one that arrived at $t_i = 10{,}000$, both measured at $t = 10^6$.</p>
+  <ol>
+    <li data-why="Both grow, but the early node started earlier and grows faster in absolute terms.">They end up with the same degree.</li>
+    <li data-why="The latecomer always stays behind: the ratio of the two degrees is fixed.">The latecomer catches up eventually.</li>
+    <li>200 links against 20: the early node keeps a fixed 10-fold lead forever, the first-mover advantage.</li>
+    <li data-why="That uses t_i instead of t/t_i.">20 links against 200.</li>
+  </ol>
+  <div class="explain">$2\sqrt{10^6/100} = 200$ and $2\sqrt{10^6/10^4} = 20$. The ratio $\sqrt{t_j/t_i} = 10$ never changes, so in the BA model age alone decides who becomes a hub. (Ch 6 adds fitness to break this.)</div>
+</div>
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="1">
+  <p>If degrees grow as $k_i \propto t^\beta$, the degree exponent is $\gamma = 1 + 1/\beta$. The BA model has $\beta = 1/2$. In a modified model degrees grow as $t^{0.8}$. What changes?</p>
+  <ol>
+    <li>$\gamma = 2.25$ instead of 3: faster degree growth gives a smaller exponent and bigger hubs.</li>
+    <li data-why="γ = 1 + 1/0.8 = 2.25, which is smaller, not larger.">$\gamma$ rises to 4.25: fewer hubs.</li>
+    <li data-why="γ depends on β through 1 + 1/β, so it changes.">Nothing: $\gamma$ is always 3.</li>
+    <li data-why="Faster growth still gives a power law; it only changes the exponent.">The distribution stops being a power law.</li>
+  </ol>
+  <div class="explain">$1 + 1/0.8 = 2.25$. The exponent is a fingerprint of how fast degrees grow, which is why measuring $\beta$ in real data tests a model.</div>
+</div>
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="4">
+  <p>Two variants of the BA model: in Model A nodes keep arriving but attach to existing nodes uniformly at random, giving $p_k \propto e^{-k/m}$; in Model B the node count is fixed and links are added preferentially, until the network becomes complete. What do the two results show?</p>
+  <ol>
+    <li data-why="Model A has growth and no hubs, so growth alone is not enough.">Growth alone produces scale-free networks.</li>
+    <li data-why="Model B has preferential attachment and no stationary power law, so it is not enough either.">Preferential attachment alone produces scale-free networks.</li>
+    <li data-why="Each model removes one ingredient, and each fails in its own way.">Both variants give $\gamma = 3$.</li>
+    <li>Both ingredients are needed: without preferential attachment the tail is exponential (no hubs); without growth there is no stationary power law.</li>
+  </ol>
+  <div class="explain">The BA model is minimal: drop either growth or preferential attachment and the scale-free property disappears.</div>
+</div>
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="2">
+  <p>The BA model's exact degree distribution is $p_k = \dfrac{2m(m+1)}{k(k+1)(k+2)}$ for $k \ge m$. With $m = 2$, what fraction of nodes has the minimum degree $k = 2$?</p>
+  <ol>
+    <li data-why="That would be the share of nodes with k = 3: 12/60 = 0.2.">0.2</li>
+    <li>0.5: half of all nodes have only the links they arrived with, while a few hubs collect many.</li>
+    <li data-why="The minimum degree is m = 2, so k = 1 has probability 0.">0.75</li>
+    <li data-why="p_k is a probability, at most 1, and other degrees occur too.">1.0</li>
+  </ol>
+  <div class="explain">$p_2 = 2\cdot2\cdot3 / (2\cdot3\cdot4) = 12/24 = 0.5$. Most nodes are small; the heavy tail is a small minority.</div>
+</div>
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="3">
+  <p>The BA model predicts $\gamma = 3$ whatever $m$ is. The WWW sample's fitted exponent is about 2.2 and the phone-call network's about 4.8. What do you conclude?</p>
+  <ol>
+    <li data-why="The exponents differ systematically from 3, beyond fitting error.">The fits must be wrong, because all real networks have $\gamma = 3$.</li>
+    <li data-why="m changes the average degree, not the exponent.">The networks just have different values of $m$.</li>
+    <li>The BA model captures the mechanism of hubs but not the exponent; real networks need extensions (fitness, aging, internal links, Ch 6).</li>
+    <li data-why="A heavy tail with the wrong exponent still points to growth and preferential attachment.">Preferential attachment plays no role in real networks.</li>
+  </ol>
+  <div class="explain">The BA model is a minimal model. Each extension in Ch 6 shifts $\gamma$, which is how the range of real exponents is explained.</div>
+</div>
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="1">
+  <p>The BA model's clustering falls as $C \sim (\ln N)^2/N$. For $N = 10^6$ this is about $2\times10^{-4}$, while real networks of that size typically have $C$ between 0.1 and 0.6. What does this tell you?</p>
+  <ol>
+    <li>The BA model explains the degree distribution but not clustering; local triangle-forming mechanisms are missing.</li>
+    <li data-why="(13.8)²/10⁶ ≈ 1.9×10⁻⁴, far below the real values.">BA clustering agrees with the data.</li>
+    <li data-why="Clustering is unrelated to the distance formula; it is about triangles.">The BA model has the wrong distances.</li>
+    <li data-why="Clustering is independent of the exponent; a BA network still has γ = 3.">The BA model has the wrong exponent.</li>
+  </ol>
+  <div class="explain">$(\ln 10^6)^2/10^6 \approx 13.8^2/10^6 \approx 1.9\times10^{-4}$. Like the random network, the BA model has almost no triangles in large networks.</div>
+</div>
+<div class="quiz" data-topic="Ch 5 · Barabási–Albert model" data-answer="4">
+  <p>With nonlinear attachment $\Pi(k) \propto k^\alpha$: $\alpha &lt; 1$ gives a stretched-exponential distribution, $\alpha = 1$ gives the BA power law, and $\alpha &gt; 1$ lets a single node grab a finite share of all links. Measurements of a network give $\alpha \approx 0.8$. What do you expect?</p>
+  <ol>
+    <li data-why="One node grabbing a finite share of links needs α > 1.">One super-hub linked to almost everyone.</li>
+    <li data-why="α = 0.8 is not 1, so the BA power law does not apply exactly.">An exact power law with $\gamma = 3$.</li>
+    <li data-why="α = 0 would be uniform attachment; 0.8 still favours larger nodes.">No preference at all: an exponential distribution.</li>
+    <li>A heavy tail that falls faster than a power law: hubs exist but are smaller than in the BA model.</li>
+  </ol>
+  <div class="explain">Sublinear attachment still favours larger nodes, but less than linearly, so the largest hubs grow more slowly than in the BA model.</div>
+</div>
+</template>
 
 </div></main>
 </body>
