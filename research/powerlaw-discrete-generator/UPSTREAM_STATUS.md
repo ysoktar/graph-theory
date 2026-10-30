@@ -36,6 +36,5 @@ matches, so this means no report was found in these searches and pages.
    should `parameter_ranges` constrain fitting only, or also generation from explicit parameters?
 3. One PR with two commits, one per issue. Each commit has failing tests first (RED on master), then the minimal fix
    (GREEN), the full suite, and before/after evidence. See `SUBMITTING_UPSTREAM.md`.
-   and before/after evidence.
 
 Nothing has been filed upstream yet. Issues and PRs are opened only after the user has reviewed them.
