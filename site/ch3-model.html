@@ -18,144 +18,144 @@
 <main><div class="content">
 
 <h1>The random network model</h1>
-<p class="lead">Is a hub with 279 links surprising? Is a clustering coefficient of 0.6 a lot? Neither question has an answer until we know what a network looks like when links are placed purely by chance. Chapter 3 builds that reference.</p>
+<p class="lead">Is a hub with 279 links surprising? Is a clustering coefficient of 0.6 a lot? We cannot answer either question until we know what a network looks like when its links are placed purely by chance. Chapter 3 builds that reference.</p>
 
 <div class="callout why">
   <ul>
-    <li><strong>Null model:</strong> a network with every mechanism left out except chance.</li>
-    <li>Data match it → no mechanism needed. Data deviate → something non-random shaped the network.</li>
-    <li>Each later page predicts one Part I quantity for it, then compares with the data.</li>
+    <li>A <strong>null model</strong> is a network in which every mechanism except chance has been left out.</li>
+    <li>If the data match it, no special mechanism is needed to explain them. If they deviate, something non-random shaped the network.</li>
+    <li>Each of the following pages predicts one Part I quantity for the random network and then compares it with the data.</li>
   </ul>
 </div>
 
 <h2>Two ways to place links at random</h2>
 <ul>
-  <li><strong>$G(N, L)$</strong> (Erdős–Rényi, 1959): link exactly $L$ pairs, chosen uniformly at random.</li>
-  <li><strong>$G(N, p)$</strong> (Gilbert, 1959): link each pair independently with <strong>probability</strong> $p$ (a number in $[0,1]$; $p = 0.2$ means "in 20% of cases").</li>
+  <li><strong>$G(N, L)$</strong> (Erdős–Rényi, 1959): choose exactly $L$ of the node pairs uniformly at random and link them.</li>
+  <li><strong>$G(N, p)$</strong> (Gilbert, 1959): link each pair independently with <strong>probability</strong> $p$. A probability is a number between 0 and 1; $p = 0.2$ means "in 20% of cases".</li>
 </ul>
-<p>Both are called Erdős–Rényi networks and agree for large $N$. $G(N,p)$ is easier to calculate with (pairs are independent); $G(N,L)$ gives a random counterpart with exactly the data's $L$.</p>
+<p>Both are called Erdős–Rényi networks, and for large $N$ they behave alike. $G(N,p)$ is easier to calculate with because its pairs are independent; $G(N,L)$ is handy when a random counterpart must have exactly the data's number of links.</p>
 <div class="callout fix" data-errata="N6"></div>
 
 <h2>Building one, pair by pair</h2>
-<p>The figure runs the $G(N,p)$ recipe: one random number per pair, link if it is below $p$.</p>
+<p>The figure follows the $G(N,p)$ recipe literally: it draws one random number for each pair and adds the link if the number is below $p$.</p>
 <div data-fig id="fig-build"></div>
 
 <h2>Every realisation is different</h2>
-<p>Each run gives a different network, a <strong>realisation</strong>. The model describes the <strong>ensemble</strong> of all possible realisations; its predictions are about typical members.</p>
+<p>Each run of the recipe produces a different network, called a <strong>realisation</strong>. The model therefore describes an <strong>ensemble</strong>, the set of all networks the recipe can produce, and its predictions are statements about a typical member of that set.</p>
 <div data-fig id="fig-three"></div>
 
 <h2>How many links? (Section 3.3)</h2>
 <ol>
-  <li>Pairs: $L_{\max} = N(N-1)/2$ (each node pairs with $N-1$ others; each pair counted twice).</li>
-  <li>Each pair is a link with probability $p$, independently.</li>
-  <li>Number of successes in $L_{\max}$ independent trials → <strong>binomial distribution</strong>:</li>
+  <li>There are $L_{\max} = N(N-1)/2$ pairs: each node can pair with $N-1$ others, and this counts every pair twice.</li>
+  <li>Each pair becomes a link with probability $p$, independently of the others.</li>
+  <li>The number of successes in $L_{\max}$ independent trials follows the <strong>binomial distribution</strong>:</li>
 </ol>
 <div class="eq">$$P(L) = \binom{L_{\max}}{L}\, p^{L} (1-p)^{L_{\max}-L}$$</div>
 <dl class="symbols">
   <dt>$P(L)$</dt><dd>probability of exactly $L$ links</dd>
   <dt>$L_{\max}$</dt><dd>number of node pairs, $N(N-1)/2$</dd>
-  <dt>$\binom{L_{\max}}{L}$</dt><dd>"$L_{\max}$ choose $L$": ways to pick which pairs are linked, $\frac{L_{\max}!}{L!\,(L_{\max}-L)!}$</dd>
+  <dt>$\binom{L_{\max}}{L}$</dt><dd>"$L_{\max}$ choose $L$": the number of ways to pick which pairs are linked, $\frac{L_{\max}!}{L!\,(L_{\max}-L)!}$</dd>
   <dt>$p^{L}$</dt><dd>probability that those $L$ pairs are linked</dd>
-  <dt>$(1-p)^{L_{\max}-L}$</dt><dd>probability that the rest are not</dd>
+  <dt>$(1-p)^{L_{\max}-L}$</dt><dd>probability that all other pairs are not</dd>
 </dl>
 <div class="eq">$$\langle L\rangle = p\,\frac{N(N-1)}{2}, \qquad \sigma_L = \sqrt{L_{\max}\, p\,(1-p)}, \qquad \langle k\rangle = \frac{2\langle L\rangle}{N} = p\,(N-1).$$</div>
 <dl class="symbols">
-  <dt>$\langle L\rangle$</dt><dd>expected value (average over realisations) of $L$</dd>
-  <dt>$\sigma_L$</dt><dd>standard deviation: typical deviation of $L$ from $\langle L\rangle$</dd>
-  <dt>$\langle k\rangle$</dt><dd>average degree; $2L/N$ because each link has two ends (<a href="ch2-konigsberg.html">handshaking lemma</a>)</dd>
+  <dt>$\langle L\rangle$</dt><dd>expected value of $L$, i.e. its average over many realisations</dd>
+  <dt>$\sigma_L$</dt><dd>standard deviation, the typical distance of $L$ from $\langle L\rangle$</dd>
+  <dt>$\langle k\rangle$</dt><dd>average degree; it equals $2L/N$ because each link has two ends (<a href="ch2-konigsberg.html">handshaking lemma</a>)</dd>
 </dl>
 <div class="callout example">
-  <p>$N = 200$, $p = 0.05$: $L_{\max} = 19{,}900$, $\langle L\rangle = 995$, $\sigma_L = \sqrt{19{,}900 \times 0.05 \times 0.95} \approx 30.7$, $\langle k\rangle = 9.95$. Typical range ($\pm 2\sigma_L$): 935–1,055 links.</p>
+  <p>For $N = 200$ and $p = 0.05$: $L_{\max} = 19{,}900$, $\langle L\rangle = 995$, $\sigma_L = \sqrt{19{,}900 \times 0.05 \times 0.95} \approx 30.7$ and $\langle k\rangle = 9.95$. A typical realisation has between 935 and 1,055 links ($\pm 2\sigma_L$).</p>
 </div>
 <div data-fig id="fig-ldist"></div>
 <div class="callout look">
-  <p>For small $p$, $\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$: 3% for 995 links, 0.45% for 50,000 ($N = 10^4$, $\langle k\rangle = 10$). Large realisations are nearly identical, so one stands in for the ensemble.</p>
+  <p>For small $p$ the relative fluctuation is $\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$. It is 3% for 995 links and 0.45% for 50,000 links ($N = 10^4$, $\langle k\rangle = 10$). Large realisations are therefore nearly identical, and a single one can stand in for the whole ensemble.</p>
 </div>
 
 <h2>A random counterpart of a real network</h2>
-<p>Same $N$ and $L$, links placed at random. For the collaboration network ($N = 23{,}133$, $L = 93{,}439$, $\langle k\rangle = 8.08$):</p>
+<p>A random counterpart has the same $N$ and $L$ as the real network, with the links placed at random. For the collaboration network ($N = 23{,}133$, $L = 93{,}439$, $\langle k\rangle = 8.08$) this gives</p>
 <div class="eq">$$p = \frac{\langle k\rangle}{N-1} = \frac{2L}{N(N-1)} = \frac{L}{L_{\max}} \approx 3.5\times10^{-4}.$$</div>
 <p>Every random-network value quoted for a real network on the following pages refers to such a counterpart.</p>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Predicts</strong> the Part I descriptors (<a href="ch2-degree.html">degree</a>, <a href="ch2-connectedness.html">components</a>, <a href="ch2-paths.html">distances</a>, <a href="ch2-clustering.html">clustering</a>) from $N$ and $p$ alone.</li>
-    <li><strong>Next:</strong> <a href="ch3-degree.html">Poisson degrees</a>, <a href="ch3-evolution.html">giant component at $\langle k\rangle = 1$</a>, <a href="ch3-small-world.html">$d \sim \ln N$</a>, <a href="ch3-clustering.html">$C = p$</a>; <a href="ch3-summary.html">summary</a> vs data.</li>
-    <li><strong>Extended by</strong> the <a href="ch4-generating.html">configuration model</a> (keeps real degrees) and the <a href="ch5-preview.html">Barabási–Albert model</a> (adds growth + preferential attachment).</li>
+    <li>The model <strong>predicts</strong> the Part I descriptors (<a href="ch2-degree.html">degree</a>, <a href="ch2-connectedness.html">components</a>, <a href="ch2-paths.html">distances</a>, <a href="ch2-clustering.html">clustering</a>) from $N$ and $p$ alone.</li>
+    <li><strong>Next pages:</strong> <a href="ch3-degree.html">degrees are Poisson</a>, a <a href="ch3-evolution.html">giant component appears at $\langle k\rangle = 1$</a>, <a href="ch3-small-world.html">distances grow like $\ln N$</a>, and <a href="ch3-clustering.html">clustering equals $p$</a>. The <a href="ch3-summary.html">summary</a> holds them against the data.</li>
+    <li>Later models <strong>extend</strong> it: the <a href="ch4-generating.html">configuration model</a> keeps the real degrees, and the <a href="ch5-preview.html">Barabási–Albert model</a> adds growth and preferential attachment.</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>$N = 1{,}000$, $p = 0.01$. Average degree?</p>
+  <p>A random network has $N = 1{,}000$ nodes and link probability $p = 0.01$. What is its average degree?</p>
   <ol>
-    <li data-why="0.01 is the probability for one pair, not a node's link count.">0.01</li>
-    <li data-why="That needs p ≈ 1/(N − 1) ≈ 0.001.">1</li>
+    <li data-why="0.01 is the probability that one pair is linked, not the number of links of a node.">0.01</li>
+    <li data-why="An average degree of 1 would need p ≈ 1/(N − 1) ≈ 0.001.">1</li>
     <li>about 10</li>
-    <li data-why="That is about the total number of links, not per node.">about 5,000</li>
+    <li data-why="About 5,000 is the total number of links in the network, not the number per node.">about 5,000</li>
   </ol>
   <div class="explain">$\langle k\rangle = p(N-1) = 0.01 \times 999 \approx 10$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Expected number of links in $G(1{,}000,\ 0.01)$?</p>
+  <p>How many links do you expect in a random network with $N = 1{,}000$ and $p = 0.01$?</p>
   <ol>
     <li data-why="10 is the average degree of one node.">about 10</li>
     <li>about 4,995</li>
-    <li data-why="N⟨k⟩ counts every link twice; divide by 2.">about 9,990</li>
-    <li data-why="N² counts ordered pairs and ignores p.">about 1,000,000</li>
+    <li data-why="N⟨k⟩ counts every link twice, once from each end, so it must be divided by 2.">about 9,990</li>
+    <li data-why="N² counts ordered pairs and ignores the probability p.">about 1,000,000</li>
   </ol>
-  <div class="explain">$\langle L\rangle = p\,N(N-1)/2 = 0.01 \times 499{,}500 = 4{,}995 = N\langle k\rangle/2$.</div>
+  <div class="explain">$\langle L\rangle = p\,N(N-1)/2 = 0.01 \times 499{,}500 = 4{,}995$, which is also $N\langle k\rangle/2$.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>Two realisations of $G(5{,}000,\ 0.002)$. What do you expect?</p>
+  <p>You generate two realisations of a random network with $N = 5{,}000$ and $p = 0.002$. What should you expect?</p>
   <ol>
-    <li data-why="Links are drawn afresh each time.">Identical networks</li>
-    <li data-why="L itself is random, with σ_L ≈ 158.">Different networks, exactly equal L</li>
-    <li>Different networks with nearly equal statistics</li>
-    <li data-why="Large realisations are statistically almost indistinguishable.">Different networks, unrelated statistics</li>
+    <li data-why="The links are drawn afresh each time, so the networks almost surely differ.">Two identical networks</li>
+    <li data-why="The number of links is itself random; it varies by about σ_L ≈ 158 between realisations.">Two different networks with exactly the same number of links</li>
+    <li>Two different networks whose statistics are nearly equal</li>
+    <li data-why="Large realisations of the same model are statistically almost indistinguishable.">Two different networks with unrelated statistics</li>
   </ol>
-  <div class="explain">$\langle L\rangle \approx 24{,}995$, $\sigma_L \approx 158$: link counts differ by under 1%.</div>
+  <div class="explain">Here $\langle L\rangle \approx 24{,}995$ and $\sigma_L \approx 158$, so the two link counts differ by less than 1%.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Random counterpart of the US power grid ($N = 4{,}941$, $L = 6{,}594$): which $p$?</p>
+  <p>You want a random counterpart of the US power grid, which has $N = 4{,}941$ nodes and $L = 6{,}594$ links. Which $p$ should you use?</p>
   <ol>
-    <li data-why="L/N ≈ 1.33 is half the average degree; a probability cannot exceed 1.">$L/N \approx 1.33$</li>
+    <li data-why="L/N ≈ 1.33 is half the average degree, and a probability cannot exceed 1.">$L/N \approx 1.33$</li>
     <li>$2L/[N(N-1)] \approx 5.4\times10^{-4}$</li>
-    <li data-why="That gives ⟨k⟩ ≈ 2,470, a nearly complete network.">$0.5$</li>
-    <li data-why="1/N gives ⟨k⟩ ≈ 1, sparser than the grid's 2.67.">$1/N \approx 2.0\times10^{-4}$</li>
+    <li data-why="p = 0.5 would give each node about 2,470 links, an almost complete network.">$0.5$</li>
+    <li data-why="p = 1/N gives ⟨k⟩ ≈ 1, which is sparser than the grid's 2.67.">$1/N \approx 2.0\times10^{-4}$</li>
   </ol>
-  <div class="explain">$p = L/L_{\max} \approx 5.4\times10^{-4}$, so $\langle k\rangle = p(N-1) = 2.67$, the grid's own value.</div>
+  <div class="explain">$p = L/L_{\max} \approx 5.4\times10^{-4}$, so $\langle k\rangle = p(N-1) = 2.67$, the grid's own average degree.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>Random networks A ($\langle L\rangle = 100$) and B ($\langle L\rangle = 10{,}000$), small $p$. Relative fluctuation $\sigma_L/\langle L\rangle$?</p>
+  <p>Random network A has $\langle L\rangle = 100$ links and random network B has $\langle L\rangle = 10{,}000$, both with small $p$. How large is the relative fluctuation $\sigma_L/\langle L\rangle$ of their link counts?</p>
   <ol>
-    <li data-why="σ_L grows only like √⟨L⟩, so the ratio shrinks.">10% for both</li>
-    <li data-why="Larger random networks are more predictable, not less.">A 1%, B 10%</li>
-    <li data-why="The ratio is 1/√⟨L⟩, not 1/⟨L⟩.">A 1%, B 0.01%</li>
-    <li>A 10%, B 1%</li>
+    <li data-why="σ_L grows only like √⟨L⟩, so the ratio shrinks as the network grows.">10% for both</li>
+    <li data-why="Larger random networks are more predictable, not less.">1% for A, 10% for B</li>
+    <li data-why="The ratio is 1/√⟨L⟩, not 1/⟨L⟩.">1% for A, 0.01% for B</li>
+    <li>10% for A, 1% for B</li>
   </ol>
-  <div class="explain">$\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$: $1/\sqrt{100} = 10\%$, $1/\sqrt{10^4} = 1\%$.</div>
+  <div class="explain">$\sigma_L/\langle L\rangle \approx 1/\sqrt{\langle L\rangle}$, which gives $1/\sqrt{100} = 10\%$ and $1/\sqrt{10^4} = 1\%$.</div>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>$G(N = 3,\ p = 0.5)$. Probability that a realisation has no links?</p>
+  <p>In a random network with $N = 3$ nodes and $p = 0.5$, what is the probability that a realisation has no links at all?</p>
   <ol>
     <li>$1/8$</li>
-    <li data-why="Each of the 3 pairs is unlinked with probability 0.5, so it can happen.">0</li>
-    <li data-why="That is for one pair; all three must be unlinked.">$1/2$</li>
-    <li data-why="There are 3 pairs, not 2.">$1/4$</li>
+    <li data-why="Each of the 3 pairs is unlinked with probability 0.5, so an empty network can occur.">0</li>
+    <li data-why="1/2 is the probability for one pair; all three pairs must be unlinked.">$1/2$</li>
+    <li data-why="Three nodes form 3 pairs, not 2.">$1/4$</li>
   </ol>
-  <div class="explain">$L_{\max} = 3$, so $P(0) = (1-p)^3 = 0.125$.</div>
+  <div class="explain">There are $L_{\max} = 3$ pairs, so $P(0) = (1-p)^3 = 0.125$.</div>
 </div>
 
 <div class="quiz" data-answer="4">
-  <p>$G(N, L)$ and $G(N, p)$ with $p$ chosen so that $\langle L\rangle = L$. Which is true?</p>
+  <p>You compare $G(N, L)$ with $G(N, p)$, choosing $p$ so that $\langle L\rangle = L$. Which statement is true?</p>
   <ol>
-    <li data-why="In $G(N,L)$ the link count is fixed; in $G(N,p)$ it fluctuates.">They are the same model</li>
-    <li data-why="$p$ was chosen to give the same average.">$G(N,p)$ has more links on average</li>
-    <li data-why="Fixing $L$ couples the pairs: one more link here means one fewer elsewhere.">$G(N,L)$ has independent pairs</li>
-    <li>$L$ is fixed in one, fluctuates by $\sigma_L$ in the other; for large $N$ their statistics agree</li>
+    <li data-why="In $G(N,L)$ the number of links is fixed, while in $G(N,p)$ it fluctuates.">They are the same model.</li>
+    <li data-why="$p$ was chosen so that both have the same average number of links.">$G(N,p)$ has more links on average.</li>
+    <li data-why="Fixing $L$ couples the pairs: one more link in one place means one fewer elsewhere.">The pairs in $G(N,L)$ are independent.</li>
+    <li>$L$ is fixed in $G(N,L)$ and fluctuates by about $\sigma_L$ in $G(N,p)$; for large $N$ their statistics agree.</li>
   </ol>
-  <div class="explain">Relative fluctuations $\sim 1/\sqrt{\langle L\rangle}$ vanish for large networks, so the two models become equivalent.</div>
+  <div class="explain">The relative fluctuations, about $1/\sqrt{\langle L\rangle}$, vanish for large networks, so the two models become equivalent.</div>
 </div>
 
 </div></main>
