@@ -2,6 +2,7 @@ import "../layout.js";
 import { h, figure, slider, select, segmented, stats, dataTable } from "../lib/ui.js";
 import { Plot } from "../lib/plot.js";
 import { loadNetworks, NETWORK_ORDER } from "../lib/data.js";
+import { t as tl } from "../i18n.js";
 import { poissonPmf, poissonLogPmf, poissonLogSfGe, poissonIsf, pkLinear, pkLogBinned, ccdf, fmt, superscript } from "../lib/stats.js";
 
 /** Expected number of nodes with degree ≥ x in a random network, as a readable string (works down to 10^-300 and below). */
@@ -69,13 +70,13 @@ function poissonPpf(q, lam) {
     const kmax = d.kmax;
     let dataSeries, theory = [], yLabel;
     if (view === "ccdf") {
-      dataSeries = { type: "scatter", data: ccdf(h0).filter((p) => p[0] > 0), color: 1, label: `${d.description} (data)`, r: 3.5 };
+      dataSeries = { type: "scatter", data: ccdf(h0).filter((p) => p[0] > 0), color: 1, label: `${tl(d.description)} (${tl("data")})`, r: 3.5 };
       for (let kk = 1; kk <= kmax; kk = kk < 60 ? kk + 1 : Math.ceil(kk * 1.05)) theory.push([kk, Math.exp(poissonLogSfGe(kk, k))]);
       yLabel = "P(K ≥ k)";
     } else {
       dataSeries = view === "log"
-        ? { type: "scatter", data: pkLogBinned(h0).map(([a, b]) => [a, b]), color: 1, label: `${d.description} (log-binned)`, r: 4.5 }
-        : { type: "scatter", data: pkLinear(h0).filter((p) => p[0] > 0), color: 1, label: `${d.description} (linear bins, as the notebook)`, r: 3.5 };
+        ? { type: "scatter", data: pkLogBinned(h0).map(([a, b]) => [a, b]), color: 1, label: `${tl(d.description)} (${tl("log-binned")})`, r: 4.5 }
+        : { type: "scatter", data: pkLinear(h0).filter((p) => p[0] > 0), color: 1, label: `${tl(d.description)} (${tl("linear bins, as the notebook")})`, r: 3.5 };
       for (let kk = 1; kk <= kmax; kk = kk < 60 ? kk + 1 : Math.ceil(kk * 1.05)) theory.push([kk, Math.exp(poissonLogPmf(kk, k))]);
       yLabel = "pₖ";
     }

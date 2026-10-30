@@ -1,0 +1,136 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Gerçek ağlar Poisson değildir · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Kitabın ağlarının derece dağılımlarını aynı ortalama dereceye sahip Poisson dağılımlarıyla karşılaştırın ve rastgele bir ağın asla üretemeyeceği merkez düğümleri sayın."></head><body>
+<div class="content">
+
+<h1>Gerçek ağlar Poisson değildir</h1>
+<p class="lead">Gerçek ağlar rastgele bağlanmış olsaydı en çok bağlantılı düğümleri ne kadar büyük olabilirdi? Poisson kuyruğu bunu kesin olarak yanıtlar ve gerçek ağlar bu yanıtı yüzlerce mertebe ıskalar.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Bu sayfa <a href="ch3-degree.html">Poisson öngörüsünü</a> veride sınar.</li>
+    <li>Öngörülen en büyük derecenin çok üstündeki düğümler, rastlantısal bağlanmanın reddedildiği anlamına gelir: bağlantıları bir mekanizma yoğunlaştırır.</li>
+  </ul>
+</div>
+
+<h2>En büyük düğüm ne kadar büyüktür? (İleri Konu 3.B)</h2>
+<div class="eq">$$N\,P(K > k_{\max}) \approx 1, \qquad N\,P(K < k_{\min}) \approx 1.$$</div>
+<dl class="symbols">
+  <dt>$K$</dt><dd>rastgele seçilen bir düğümün derecesi (bir rastgele değişken)</dd>
+  <dt>$P(K > k)$</dt><dd>$k$'dan fazla bağlantısı olan düğümlerin oranı, $\sum_{k' > k} p_{k'}$</dd>
+  <dt>$N\,P(K > k_{\max})$</dt><dd>bu tür düğümlerin beklenen sayısı; 1'e eşitlemek "yaklaşık bir düğüm" demektir</dd>
+  <dt>$k_{\min}$</dt><dd>en küçük derece; alt kuyruktan aynı yolla bulunur</dd>
+</dl>
+<div class="callout example">
+  <p>$\langle k\rangle = 10$ ile $k_{\max}$, $N = 10^3$ için yaklaşık 21, $10^6$ için 28 ve $10^9$ için 34'tür. $\gamma = 2.5$ olan bir kuvvet yasası ise $N = 10^9$'da $k_{\max} \sim N^{2/3} = 10^6$ verir.</p>
+</div>
+
+<h2>Rastgele bir toplum</h2>
+<p>Bir insan yaklaşık $\langle k\rangle \approx 1{,}000$ kişiyi tanır. Şekil, toplum rastgele bir ağ olsaydı $k$ tanıdığı olan insanların beklenen sayısı $N p_k$'yı çizer.</p>
+<div data-fig id="fig-society"></div>
+<div class="callout look">
+  <p>$N = 7\times10^9$ için en çok bağlantılı kişinin yaklaşık 1,200, en az bağlantılı kişinin yaklaşık 800 tanıdığı vardır. $\sigma_k \approx 32$ ile insanların üçte ikisi 968 ile 1,032, %99.7'si 905 ile 1,095 kişiyi tanır. Rastgele bir toplumda ne ünlüler ne de münzeviler vardır.</p>
+</div>
+<div class="callout fix" data-book="B5"></div>
+
+<h2>Kitabın ağları ile Poisson</h2>
+<p>Her ağ, kendi $\langle k\rangle$ değerine sahip Poisson dağılımıyla karşılaştırılır. <strong>Logaritmik gruplar</strong> ($k$ büyüdükçe genişleyen) ve <strong>CCDF</strong> $P(K \ge k)$ kuyruğu açıkça gösterir; <strong>doğrusal gruplar</strong> not defterinin grafiğini yeniden üretir (bkz. <a href="ch4-plotting.html">pₖ nasıl çizilir (ve nasıl çizilmez)</a>).</p>
+<div data-fig id="fig-compare"></div>
+<div class="callout look">
+  <p>İş birliği ağı ($\langle k\rangle = 8.08$) için Poisson $k_{\max} \approx 21$ öngörür. $k \ge 50$ olan 244 düğüm vardır; Poisson ise $6.5\times10^{-19}$ bekler. $k = 279$ olan düğümlerin beklenen sayısı $10^{-309}$'dur.</p>
+</div>
+<div class="callout fix" data-errata="N8"></div>
+<p>Her ağ Poisson $k_{\max}$ değerini aşar. En küçük fark, tasarlanmış bir ağ olan elektrik şebekesinindir (10'a karşı 19); en büyüğü WWW'nunkidir (21'e karşı 10,721).</p>
+<div id="tbl-kmax"></div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Üzerine kurulduğu konu:</strong> <a href="ch3-degree.html">Derece dağılımı</a> sayfasının Poisson kuyruğu.</li>
+    <li><strong>Karşıtlık:</strong> bir kuvvet yasasının <a href="ch4-hubs.html">doğal kesmesi</a>, $k_{\max} \sim k_{\min} N^{1/(\gamma-1)}$, $N$'nin bir kuvveti gibi büyür (Bölüm 4).</li>
+    <li><strong>Açıklayan:</strong> büyüme ve tercihli bağlanma (<a href="ch5-preview.html">Barabási–Albert modeli</a>, Bölüm 5).</li>
+    <li><strong>Daha iyi bir sıfır modeli,</strong> merkez düğümler kabul edildikten sonra, her dereceyi koruyan <a href="ch4-generating.html">konfigürasyon modelidir</a>.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Rastgele bağlanma hiçbir bilim insanının yaklaşık 20'den fazla ortak çalışanı olmadığını öngörür, ama veride 100'ün üstünde düzinelerce kişi vardır. Hangi süreçler bu merkez düğümleri üretebilir? <span class="muted">(Not defteri II.3.)</span></p>
+  <div class="hint"><em>Tercihli bağlanma</em>: tanınmış bilim insanları ortak çalışanları çeker (Bölüm 5). <em>Uygunluk</em>: bazı düğümler doğaları gereği daha çekicidir (Bölüm 6). <em>Kıdem</em>: erken gelen düğümlerin daha çok zamanı olmuştur. <em>Ekip boyutu</em>: yüzlerce yazarlı bir makale her birine bir anda yüzlerce bağlantı verir; bu, iki parçalı izdüşümün bir yan etkisidir.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Rastgele bir ağın $N = 10^6$ düğümü ve $\langle k\rangle = 10$'u vardır. En büyük derecesi nedir?</p>
+  <ol>
+    <li data-why="10 tipik derecedir; bir milyon düğüm kuyrukta daha ileriye ulaşır.">10</li>
+    <li>Yaklaşık 28.</li>
+    <li data-why="Bu, ortalamanın 300 standart sapma üstü olurdu.">Yaklaşık 1,000.</li>
+    <li data-why="Bu bir kuvvet yasası merkez düğümünün boyutudur.">Yaklaşık 100,000.</li>
+  </ol>
+  <div class="explain">Ortalaması 10 olan bir Poisson dağılımı için $N\,P(K > k_{\max}) = 1$'i çözmek 28 verir.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$\langle k\rangle = 10$ olan rastgele bir ağ $N = 10^3$'ten $N = 10^9$'a büyüyor ve en büyük derecesi 21'den başlıyor. Ne olur?</p>
+  <ol>
+    <li data-why="Daha büyük bir ağ kuyrukta daha ileriye ulaşır.">21'de kalır.</li>
+    <li>Yaklaşık 34.</li>
+    <li data-why="Doğrusal büyüme bir kuvvet yasası kuyruğu gerektirir.">Yaklaşık 21,000,000.</li>
+    <li data-why="√N gibi büyüme, 1/k! kuyruğu için çok hızlıdır.">Yaklaşık 21,000.</li>
+  </ol>
+  <div class="explain">Her fazladan bağlantı olasılıkta büyük bir çarpana mal olur ($\langle k\rangle^k/k!$); bu yüzden bir milyon kat büyük bir ağ tepede yalnızca 13 bağlantı kazanır.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>İş birliği ağının en büyük derecesi 279'dur, rastgele karşılığınınki ise yaklaşık 21. Ne sonuç çıkarırsınız?</p>
+  <ol>
+    <li data-why="23,133 düğümle öngörü kesindir.">Ağ, karar vermek için fazla küçüktür.</li>
+    <li data-why="Fazlalık sekiz ağın hepsinde görülür.">Veri yanlıştır.</li>
+    <li>Bağlantılar birbirinden bağımsız ve rastgele oluşmaz.</li>
+    <li data-why="Karşılık, yapısı gereği aynı ⟨k⟩'ya sahiptir.">Gerçek ⟨k⟩ daha yüksektir.</li>
+  </ol>
+  <div class="explain">$10^{-309}$'luk bir beklenen sayı sıfır modelini reddeder: tercihli bağlanma gibi bir mekanizma gerekir.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Doğrusal gruplarla iş birliği ağının $p_k$'sı yaklaşık $4\times10^{-5}$'te düz bir çizgiyle biter. Bu çizgi nedir?</p>
+  <ol>
+    <li>$1/N$'dir: kuyruktaki her derece tek bir düğüme aittir.</li>
+    <li data-why="Orada Poisson değeri 10⁻¹⁸'in altındadır.">Poisson kuyruğudur.</li>
+    <li data-why="Büyük derecelerin çoğu bir kez görülür ya da hiç görülmez; dolayısıyla çizgi gerçek bir özellik değildir.">pₖ'da gerçek bir düzlüktür.</li>
+    <li data-why="p ≈ 3.5 × 10⁻⁴ bir bağlantı olasılığıdır, pₖ'nın bir değeri değil.">Bağlantı olasılığı p'dir.</li>
+  </ol>
+  <div class="explain">$1/23{,}133 \approx 4.3\times10^{-5}$: çizgi bir örnekleme yan etkisidir. Logaritmik gruplar ve CCDF kuyruğun gerçekte nasıl azaldığını gösterir.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Rastgele bir ağın $N = 1{,}000$ ve $\langle k\rangle = 10$ değerleri vardır ve $P(K \ge 20) = \%0.35$'tir. $k \ge 20$ olan kaç düğüm beklersiniz?</p>
+  <ol>
+    <li data-why="Bu %0.35 değil %35 kullanır.">350</li>
+    <li data-why="Bu %3.5 kullanır.">35</li>
+    <li data-why="Küçük bir beklenen sayı sıfır değildir.">0</li>
+    <li>Yaklaşık 3.5.</li>
+  </ol>
+  <div class="explain">$N\,P(K \ge 20) = 1{,}000 \times 0.0035 \approx 3.5$.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>$\langle k\rangle = 1{,}000$ olan rastgele bir toplumda en küçük derece $k_{\min} \approx 807$'dir. Bu ne anlama gelir?</p>
+  <ol>
+    <li data-why="807 uç değerdir; tipik aralık 968 ile 1,032'dir.">Çoğu insan 807 kişiyi tanır.</li>
+    <li data-why="Bu, alt kuyruğu değil üst kuyruğu betimler.">Hiç kimsenin 807'den fazla tanıdığı yoktur.</li>
+    <li>Hiç kimse neredeyse münzevi olmaz: en az bağlantılı kişi bile yaklaşık 800 kişiyi tanır.</li>
+    <li data-why="Bu veriden bir sayım değil, bir model öngörüsüdür.">Veri 807 münzevi gösterir.</li>
+  </ol>
+  <div class="explain">$N\,P(K &lt; k_{\min}) \approx 1$: yaklaşık bir kişi 807'nin altında kalır.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Elektrik şebekesinin gözlenen en büyük derecesi 19, Poisson öngörüsü ise 10'dur; sekiz ağ arasındaki en küçük fark. Neden?</p>
+  <ol>
+    <li data-why="N = 4,941 için 10'a karşı 19 hâlâ Poisson'un çok ötesindedir.">Rastgele bir ağdır.</li>
+    <li>Fiziksel maliyet bir trafo merkezinin kaç hat taşıyabileceğini sınırlar.</li>
+    <li data-why="Protein ve metabolik ağlar daha küçüktür ve farkları büyüktür.">En küçük ağdır.</li>
+    <li data-why="⟨k⟩ = 2.67 değeri en düşükler arasındadır.">En yüksek ⟨k⟩ ona aittir.</li>
+  </ol>
+  <div class="explain">Mühendislik kısıtları dereceleri sınırlar; bu yüzden merkez düğümler WWW'da ya da e-posta ağında olduğu gibi büyüyemez.</div>
+</div>
+
+</div></body></html>
