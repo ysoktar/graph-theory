@@ -22,7 +22,6 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
     { key: "d", label: "⟨d⟩ ≈ ln N / ln⟨k⟩" }, { key: "dc", label: "Fronczak et al. (2004)" },
     { key: "dmax", label: "steps until N(d) ≥ N" }, { key: "one", label: "reached in one step" },
   ]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   const plot = new Plot(f.body, { height: 280, x: { label: "distance d (handshakes)", integer: true, min: 0 }, y: { type: "log", label: "people within distance d, N(d)" } });
   function draw() {
     const data = [];
@@ -64,7 +63,6 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
   const views = {};
   const dist = { R: null, L: null };
   const t = stats(f.body, [{ key: "R", label: "random network: share reached within d" }, { key: "L", label: "lattice: share reached within d" }]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   t.el.style.gridColumn = "1 / -1";
   const make = (key, g, title, positions) => {
     const p = f.panel(title);
@@ -188,7 +186,6 @@ const RAMP = ["blue-6", "blue-5", "blue-4", "blue-3", "blue-2", "blue-1"];
     edgeColor: (u, v) => (rewired.has(key(u, v)) ? "s2" : "axis"), edgeWidth: (u, v) => (rewired.has(key(u, v)) ? 1.8 : 1.1),
   });
   const t = stats(pr, [{ key: "r", label: "rewired links" }, { key: "C", label: "⟨C⟩" }, { key: "d", label: "⟨d⟩" }, { key: "Cr", label: "C(p)/C(0)" }, { key: "dr", label: "⟨d⟩(p)/⟨d⟩(0)" }]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const base = ringLattice(N, K), C0 = clusteringSummary(base).avg, d0 = distanceStats(base).avg;
   const ringKeys = new Set(base.edges().map(([u, v]) => key(u, v)));
   function update() {

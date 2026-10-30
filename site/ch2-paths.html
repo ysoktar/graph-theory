@@ -42,7 +42,7 @@
 <h2>Shortest paths between two nodes</h2>
 <div data-fig id="fig-sp"></div>
 <div class="callout look">
-  <p>Members 14 and 16, the furthest apart, have 14 shortest paths of length 5, all through node 0. Counting shortest paths through a node gives <em>betweenness centrality</em> (<a href="lab.html">Network lab</a>).</p>
+  <p>Members 14 and 16, the furthest apart, have 14 shortest paths of length 5, all through node 0. <span data-beyond="Not in chapters 1–7: betweenness centrality">Counting shortest paths through a node gives <em>betweenness centrality</em> (<a href="lab.html">Network lab</a>).</span></p>
 </div>
 
 <h2>All distances at once</h2>
@@ -114,6 +114,36 @@
     <li data-why="Their average degrees are almost equal.">The grid has a lower $\langle k\rangle$</li>
   </ol>
   <div class="explain">Same $\langle k\rangle$, very different distances: geography limits shortcuts. Average degree alone does not set distance.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>What is the diameter of a ring of 6 nodes?</p>
+  <ol>
+    <li data-why="6 is the number of nodes; a ring lets you go either way round.">6</li>
+    <li data-why="5 steps one way is 1 step the other way.">5</li>
+    <li data-why="The opposite node is 3 steps away in both directions.">2</li>
+    <li>3</li>
+  </ol>
+  <div class="explain">The farthest node is opposite, 3 steps either way round.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Chain 1–2–3–4. What is $\langle d\rangle$?</p>
+  <ol>
+    <li data-why="That is half the diameter, not the average over the 6 pairs.">1.5</li>
+    <li>$10/6 \approx 1.67$</li>
+    <li data-why="2 is the middle distance, not the average over the 6 pairs.">2</li>
+    <li data-why="3 is the diameter, the largest distance.">3</li>
+  </ol>
+  <div class="explain">Pairs: three at distance 1, two at 2, one at 3; $(3 + 4 + 3)/6 \approx 1.67$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>In a random network $\langle d\rangle \approx \ln N/\ln\langle k\rangle$. With $\langle k\rangle = 10$, $N$ grows from $10^4$ to $10^8$. Then $\langle d\rangle$ goes from 4 to…</p>
+  <ol>
+    <li data-why="ln N grows, so ⟨d⟩ grows too, though slowly.">4 (unchanged)</li>
+    <li data-why="Distance grows with ln N, not with N.">40,000</li>
+    <li>8</li>
+    <li data-why="ln 10⁸ / ln 10 = 8, not 16.">16</li>
+  </ol>
+  <div class="explain">$\ln 10^8/\ln 10 = 8$: ten thousand times more nodes, only twice the distance. That is the small-world effect.</div>
 </div>
 
 </div></main>

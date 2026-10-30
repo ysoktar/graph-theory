@@ -50,12 +50,14 @@
   <p>The leaders have <em>low</em> clustering ($C_0 = 0.150$, $C_{33} = 0.110$), while many low-degree members sit in closed triangles: a hub's neighbours come from circles that do not know each other. This decreasing $C(k)$ returns in <a href="ch3-clustering.html">Part II</a>.</p>
 </div>
 
+<section data-beyond="Not in the book or notebook: windmill graph">
 <h2>Average or global clustering?</h2>
 <p>$\langle C\rangle$ weights nodes equally; $C_\Delta$ weights each node by its $k_i(k_i-1)/2$ triples, so hubs dominate it. The <em>windmill graph</em> ($t$ triangles sharing one node) shows the extreme.</p>
 <div data-fig id="fig-windmill"></div>
 <div class="callout example">
   <p>$t = 10$: 20 leaves with $C_i = 1$, centre $C = 1/19$; $\langle C\rangle \approx 0.955$, $C_\Delta = 3/21 \approx 0.143$.</p>
 </div>
+</section>
 
 <h2>The book's eight networks</h2>
 <div data-fig id="fig-real"></div>
@@ -113,7 +115,7 @@
   <div class="explain">Possible neighbour links grow like $k^2$; a hub joining separate circles closes only a small share of them.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>In the windmill graph, which summary does the centre node dominate?</p>
+  <p>In the windmill graph ($t$ triangles sharing one centre node), which summary does the centre dominate?</p>
   <ol>
     <li data-why="⟨C⟩ gives the centre weight 1/N, like any leaf.">$\langle C\rangle$</li>
     <li>$C_\Delta$</li>
@@ -131,6 +133,26 @@
     <li>Links are not placed at random: a different model is needed</li>
   </ol>
   <div class="explain">Clustering is about 1,800 times the random value; models such as Watts–Strogatz add it on purpose.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A triangle: three nodes, all linked. What are $\langle C\rangle$ and $C_\Delta$?</p>
+  <ol>
+    <li data-why="One triangle closes all three triples, not one third of them.">Both 1/3</li>
+    <li data-why="Each node's two neighbours are linked: C_i = 1.">Both 0.5</li>
+    <li>Both 1</li>
+    <li data-why="C_i is defined for k = 2; only k ≤ 1 is a problem.">Undefined, since $k = 2$</li>
+  </ol>
+  <div class="explain">Each node: $k = 2$, $L_i = 1$, $C_i = 2/(2 \cdot 1) = 1$; $C_\Delta = 3 \cdot 1/3 = 1$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A star: one hub linked to 10 leaves. What is the hub's $C_i$?</p>
+  <ol>
+    <li>0</li>
+    <li data-why="That would need every pair of leaves to be linked.">1</li>
+    <li data-why="It does not depend on 1/k; no leaf pair is linked.">0.1</li>
+    <li data-why="1/45 would be one linked pair of the 45 possible.">1/45</li>
+  </ol>
+  <div class="explain">45 possible leaf pairs, none linked: $C_{\text{hub}} = 0$. Leaves have $k = 1$, so $C = 0$ by convention.</div>
 </div>
 
 </div></main>

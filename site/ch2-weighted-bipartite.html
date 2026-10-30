@@ -22,13 +22,13 @@
 
 <h2>Weighted networks (Section 2.6)</h2>
 <p>In a <strong>weighted network</strong> each link carries a number, its <strong>weight</strong>: phone minutes, current on a power line, joint papers. The matrix stores it, $A_{ij} = w_{ij}$, and the degree generalises to the <strong>strength</strong>:</p>
-<div class="eq">$$s_i = \sum_{j=1}^{N} w_{ij}.$$</div>
+<div class="eq" data-beyond="Strength is not defined in book Section 2.6 or the notebook">$$s_i = \sum_{j=1}^{N} w_{ij}.$$</div>
 <dl class="symbols">
   <dt>$w_{ij}$</dt><dd>weight of the link $i$–$j$ (0 if none)</dd>
   <dt>$s_i$</dt><dd>strength: sum of node $i$'s link weights</dd>
   <dt>$s_i/k_i$</dt><dd>average weight of $i$'s links</dd>
 </dl>
-<p>Zachary's link weights count the contexts (class, a campus bar, tournaments …) in which two members interacted: 1 to 7.</p>
+<p data-beyond="Not in the notebook: Zachary's link weights">Zachary's link weights count the contexts (class, a campus bar, tournaments …) in which two members interacted: 1 to 7.</p>
 <div class="callout example">
   <p>Member 0: $k = 16$, $s = 42$, $s/k \approx 2.6$. Member 25: $k = 3$, weights 5, 2, 7, so $s = 14$, $s/k \approx 4.7$.</p>
 </div>
@@ -49,7 +49,7 @@
 <h2>Bipartite networks (Section 2.7)</h2>
 <p>A <strong>bipartite network</strong> has two node sets $U$ and $V$, with links only between them: actors–films, genes–diseases, women–events. It is stored in the <strong>biadjacency matrix</strong> $B$, one row per $U$-node and one column per $V$-node, $B_{ue} = 1$ if $u$ is linked to $e$.</p>
 <p>The <strong>projection</strong> onto $U$ links two $U$-nodes that share a $V$-neighbour, with weight = number shared:</p>
-<div class="eq">$$W = B\,B^{\mathsf T}, \qquad W_{uv} = \sum_{e \in V} B_{ue}B_{ve}, \qquad W_{uu} = \text{degree of } u.$$</div>
+<div class="eq" data-beyond="Matrix form of the projection: not in the book or notebook">$$W = B\,B^{\mathsf T}, \qquad W_{uv} = \sum_{e \in V} B_{ue}B_{ve}, \qquad W_{uu} = \text{degree of } u.$$</div>
 <dl class="symbols">
   <dt>$U$, $V$</dt><dd>the two node sets (women, events)</dd>
   <dt>$B$</dt><dd>$|U| \times |V|$ biadjacency matrix</dd>
@@ -141,6 +141,26 @@
     <li data-why="Removing weak links removes the cross links, so the factions stand out more.">Thresholding at $w \ge 5$ hides the factions</li>
   </ol>
   <div class="explain">Strong ties stay within groups, so dropping weak links separates them; the threshold choice decides what you see.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Woman $u$ attended E1, E2, E3, E5; woman $v$ attended E2, E3, E4. What is $W_{uv}$?</p>
+  <ol>
+    <li data-why="7 adds both counts; W counts events attended by both.">7</li>
+    <li data-why="3 is v's number of events, W_vv.">3</li>
+    <li data-why="Both E2 and E3 are shared.">1</li>
+    <li>2</li>
+  </ol>
+  <div class="explain">Shared events: E2 and E3, so $W_{uv} = 2$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>In the projection onto the <em>events</em>, when are two events linked?</p>
+  <ol>
+    <li data-why="BBᵀ projects onto the women (rows of B); events need BᵀB.">When $(BB^{\mathsf T})_{ef} > 0$</li>
+    <li data-why="The data record attendance, not dates.">When they happened on the same day</li>
+    <li>When at least one woman attended both; weight = number of such women</li>
+    <li data-why="One shared attendee is enough for a link.">When every woman attended both</li>
+  </ol>
+  <div class="explain">The event projection is $B^{\mathsf T}B$: $(B^{\mathsf T}B)_{ef}$ counts women who attended both $e$ and $f$.</div>
 </div>
 
 </div></main>

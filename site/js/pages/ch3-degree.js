@@ -11,7 +11,6 @@ import { poissonPmf, binomPmf, histogram, pkLinear, fmt } from "../lib/stats.js"
   const Ns = [500, 5000, 50000];
   const f = figure("#fig-sim", { title: "Degree distributions of simulated random networks", sub: "Three sizes, the same average degree ⟨k⟩." });
   const t = stats(f.body, [{ key: "sd", label: "σₖ = √⟨k⟩" }, { key: "in", label: "share within ⟨k⟩ ± 3σₖ" }, { key: "max", label: "largest degree (N = 50,000)" }]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   const plot = new Plot(f.body, { height: 300, x: { label: "degree k", min: 0, integer: true }, y: { label: "pₖ" } });
   function run() {
     const rng = new RNG(2026);
@@ -46,7 +45,6 @@ import { poissonPmf, binomPmf, histogram, pkLinear, fmt } from "../lib/stats.js"
   let N = 20, k = 4;
   const f = figure("#fig-binpoi", { title: "Exact binomial versus its Poisson approximation", sub: "Theory only: the exact degree distribution of G(N, p) with p = ⟨k⟩/(N − 1)." });
   const t = stats(f.body, [{ key: "var", label: "binomial variance ⟨k⟩(1 − p)" }, { key: "pv", label: "Poisson variance ⟨k⟩" }, { key: "d", label: "largest difference in pₖ" }]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const plot = new Plot(f.body, { height: 280, x: { label: "degree k", min: -0.5, integer: true }, y: { label: "pₖ" } });
   function draw() {
     const p = k / (N - 1);

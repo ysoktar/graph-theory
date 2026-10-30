@@ -141,6 +141,26 @@
   </ol>
   <div class="explain">$\langle k\rangle = 2 \times 10/11 \approx 1.82$. No node is near the average, which is why we need the whole $p_k$.</div>
 </div>
+<div class="quiz" data-answer="4">
+  <p>A Poisson (random-network) $p_k$ has $\sigma_k = \sqrt{\langle k\rangle}$. Collaboration: $\langle k\rangle = 8.08$, measured $\sigma_k = 10.6$. What follows?</p>
+  <ol>
+    <li data-why="With 23,133 nodes, sampling noise cannot nearly quadruple σ_k.">The difference is noise</li>
+    <li data-why="Poisson's spread is the small one here: √8.08 ≈ 2.8.">Random networks spread degrees more widely</li>
+    <li data-why="The median says nothing about the spread's size.">The median must equal the mean</li>
+    <li>Degrees are far more uneven than random: a heavy tail with hubs</li>
+  </ol>
+  <div class="explain">$\sqrt{8.08} \approx 2.8$, against 10.6 measured: the first sign that real networks are not random (Part II).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>A new node joins a network with links to 3 existing nodes. How does $\sum_i k_i$ change?</p>
+  <ol>
+    <li data-why="Each link also raises the degree of the old node at its other end.">+3</li>
+    <li>+6</li>
+    <li data-why="Adding a node with links never leaves the sum unchanged.">0</li>
+    <li data-why="N rises by 1, but the sum counts link ends, not nodes.">+4</li>
+  </ol>
+  <div class="explain">3 new links, each with two ends: $\sum k_i = 2L$ grows by 6 (the newcomer gets 3, three old nodes 1 each).</div>
+</div>
 
 </div></main>
 </body>

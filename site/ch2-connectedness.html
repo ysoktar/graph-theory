@@ -24,7 +24,7 @@
   <li><strong>Connected</strong>: a path joins every pair of nodes.</li>
   <li><strong>Component</strong>: a largest set of nodes joined by paths; no path runs between components.</li>
   <li><strong>Bridge</strong>: a link whose removal splits a component.</li>
-  <li><strong>Articulation point</strong> (cut vertex): a node whose removal splits a component.</li>
+  <li data-beyond="Not in the book or notebook"><strong>Articulation point</strong> (cut vertex): a node whose removal splits a component.</li>
 </ul>
 <p>Numbering the nodes component by component makes $A$ <strong>block diagonal</strong>: all non-zero entries lie in square blocks on the diagonal.</p>
 <div class="callout example">
@@ -48,6 +48,7 @@
   <p>Collaboration: 567 components; the giant holds 21,363 scientists (92%), the second-largest only 21. <a href="ch3-evolution.html">Evolution</a> shows that a random network with $\langle k\rangle > 1$ looks exactly like this.</p>
 </div>
 
+<section data-beyond="Book Chapter 8: Molloy–Reed criterion">
 <h2>How much damage does it take?</h2>
 <p>Remove links at random and track the largest component (preview of <a href="robustness.html">Robustness</a>). The dashed lines mark the <strong>Molloy–Reed threshold</strong>, below which a random network with the same degrees falls apart:</p>
 <div class="eq">$$p_c = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}.$$</div>
@@ -63,6 +64,8 @@
 <div class="callout look">
   <p>With 20% of links kept, the collaboration network's largest component still holds about half the scientists. The power grid, with half its lines gone, keeps only a few percent: it fragments well above $p_c \approx 0.35$, because a lattice-like spatial network has few alternative routes.</p>
 </div>
+
+</section>
 
 <div class="callout why">
   <ul>
@@ -130,6 +133,26 @@
     <li data-why="Molloy–Reed gives p_c from the degrees alone.">Cannot tell from degrees</li>
   </ol>
   <div class="explain">Larger $\langle k^2\rangle$ lowers $p_c$: hubs keep the network together under random failure (collaboration 0.048 against power grid 0.35).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>10 nodes, 3 components, and no cycles at all. How many links?</p>
+  <ol>
+    <li data-why="N − 1 = 9 is a single tree; each extra component removes one link.">9</li>
+    <li>7</li>
+    <li data-why="10 links on 10 nodes would force a cycle in some component.">10</li>
+    <li data-why="3 is the number of components.">3</li>
+  </ol>
+  <div class="explain">Each component is a tree with (its nodes − 1) links: $10 - 3 = 7$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>In a random network, a giant component appears once $\langle k\rangle$ exceeds…</p>
+  <ol>
+    <li data-why="ln N is where the network becomes fully connected, a later stage.">$\ln N$</li>
+    <li data-why="At ⟨k⟩ = 0.5 there is no giant component yet.">0.5</li>
+    <li data-why="That would be a dense network; the threshold is small and does not grow with N.">$N/2$</li>
+    <li>1</li>
+  </ol>
+  <div class="explain">At $\langle k\rangle = 1$, one link per node on average, a giant component emerges (Part II, Evolution).</div>
 </div>
 
 </div></main>

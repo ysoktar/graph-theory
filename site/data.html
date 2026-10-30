@@ -37,7 +37,7 @@
   <dt>$\langle d\rangle$</dt><dd>mean distance in the giant component, BFS from 300 random sources (<a href="ch2-paths.html">Paths</a>)</dd>
   <dt>$r$</dt><dd>degree assortativity (<a href="correlations.html">Degree correlations</a>)</dd>
   <dt>$\hat\gamma$, $k_{\min}$</dt><dd>Clauset–Shalizi–Newman power-law fit for $k \ge k_{\min}$ (<a href="ch4-fitting.html">Estimating the exponent</a>)</dd>
-  <dt>$p$</dt><dd>bootstrap goodness-of-fit (1,000 replicates); power law plausible if $p \ge 0.1$</dd>
+  <dt>$p$</dt><dd data-beyond="Clauset et al. bootstrap test; not in the notebook">bootstrap goodness-of-fit (1,000 replicates); power law plausible if $p \ge 0.1$</dd>
 </dl>
 
 <h2>How the data were prepared</h2>
@@ -88,7 +88,7 @@
     <li data-why="Only self-loops are deleted; the pair stays linked.">nothing</li>
     <li data-why="The site's networks are unweighted; the count is not kept.">a link of weight 2</li>
   </ol>
-  <div class="explain">Reciprocated pairs merge, which is why $L$ drops below the book's directed counts (box N2 above).</div>
+  <div class="explain">Reciprocated pairs merge, which is why $L$ drops below the book's directed counts.</div>
 </div>
 <div class="quiz" data-answer="2">
   <p>The protein edge list has 2,930 lines, 225 of them self-loops and no repeats. What is $L$ of the simple network?</p>
@@ -98,7 +98,17 @@
     <li data-why="Self-loops are removed, not added.">3,155</li>
     <li data-why="2,018 is the number of proteins, N.">2,018</li>
   </ol>
-  <div class="explain">$2{,}930 - 225 = 2{,}705$ links; $\langle k\rangle = 2 \times 2{,}705/2{,}018 \approx 2.68$ (box B4).</div>
+  <div class="explain">$2{,}930 - 225 = 2{,}705$ links; $\langle k\rangle = 2 \times 2{,}705/2{,}018 \approx 2.68$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>$k_{\max}/\langle k\rangle$ is about 7 for the power grid (19 / 2.67). What is it for the WWW ($k_{\max} = 10{,}721$, $\langle k\rangle = 6.69$)?</p>
+  <ol>
+    <li data-why="Off by a factor of 100.">16</li>
+    <li data-why="Off by a factor of 10.">160</li>
+    <li data-why="Ten times too large.">16,000</li>
+    <li>About 1,600</li>
+  </ol>
+  <div class="explain">$10{,}721/6.69 \approx 1{,}600$: the WWW's largest hub is 1,600 average pages, the grid's only 7 average nodes.</div>
 </div>
 
 </div></main>

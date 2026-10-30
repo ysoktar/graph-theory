@@ -28,7 +28,6 @@ import { run } from "../lib/compute.js";
     { key: "k", label: "degree kᵢ" }, { key: "Li", label: "links among the neighbours, Lᵢ" }, { key: "Ci", label: "Cᵢ = 2Lᵢ / kᵢ(kᵢ − 1)" },
     { key: "C", label: "network ⟨C⟩" }, { key: "p", label: "theory: p = ⟨k⟩/(N − 1)" },
   ]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))"; // no empty tracks, so long labels get room
   function paint() {
     nb = new Set(g.neighbors(focus));
     const k = nb.size;
@@ -117,7 +116,6 @@ import { run } from "../lib/compute.js";
   const g = figure("#fig-ck", { title: "Clustering as a function of degree, C(k)", sub: "Average Cᵢ of the nodes with degree k, against two random counterparts computed in a background thread." });
   const status = h("div", { class: "status-line" });
   const t = stats(g.body, [{ key: "slope", label: "slope of real C(k), log-log" }, { key: "er", label: "G(N, L), this draw: ⟨C⟩" }, { key: "cfg", label: "same degrees, random wiring: ⟨C⟩" }]);
-  t.el.style.gridTemplateColumns = "repeat(auto-fit, minmax(150px, 1fr))";
   const p2 = new Plot(g.body, { height: 340, x: { type: "log", label: "degree k" }, y: { type: "log", label: "C(k)" } });
   let nulls = null;
   function draw() {

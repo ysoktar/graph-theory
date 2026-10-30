@@ -119,6 +119,26 @@
   </ol>
   <div class="explain">$\langle k\rangle = 2.1\times10^{-5} \times 325{,}728 \approx 6.7$.</div>
 </div>
+<div class="quiz" data-answer="2">
+  <p>A random network with the collaboration network's $N = 23{,}133$ and $L = 93{,}439$ links each pair with probability $p$. What is $p$?</p>
+  <ol>
+    <li data-why="8.08 is ⟨k⟩; p is a probability per pair.">8.08</li>
+    <li>$\approx 3.5\times10^{-4}$</li>
+    <li data-why="That would make the network dense, with ⟨k⟩ ≈ 11,566.">0.5</li>
+    <li data-why="1/N ≈ 4.3 × 10⁻⁵ would give ⟨k⟩ ≈ 1, not 8.08.">$1/N$</li>
+  </ol>
+  <div class="explain">$p = L/L_{\max} = \langle k\rangle/(N-1) = 8.08/23{,}132 \approx 3.5\times10^{-4}$: the density.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>How much memory does a dense matrix with 8-byte entries need for $N = 10^5$?</p>
+  <ol>
+    <li>80 GB</li>
+    <li data-why="That is N × 800 bytes: N², not N, entries are stored.">80 MB</li>
+    <li data-why="That is 8N bytes, one entry per node.">800 kB</li>
+    <li data-why="N² × 8 = 8 × 10¹⁰ bytes, a hundred times less.">8 TB</li>
+  </ol>
+  <div class="explain">$N^2 \times 8 = 10^{10} \times 8 = 8\times10^{10}$ bytes = 80 GB, whatever the number of links.</div>
+</div>
 
 </div></main>
 </body>
