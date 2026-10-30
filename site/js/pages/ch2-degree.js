@@ -5,6 +5,9 @@ import { NetView } from "../lib/netview.js";
 import { Plot } from "../lib/plot.js";
 import { karateGraph, loadNetworks } from "../lib/data.js";
 import { histogram, pkLinear, fmt, histMoments, arrMax, arrMin } from "../lib/stats.js";
+import { LANG } from "../i18n.js";
+
+const TR = LANG === "tr", IN = TR ? "giriş" : "in", OUT = TR ? "çıkış" : "out";
 
 // ------------------------------------------------------------------ 1. editor
 {
@@ -41,13 +44,13 @@ import { histogram, pkLinear, fmt, histMoments, arrMax, arrMin } from "../lib/st
     tiles.set("odd", N ? d.k.filter((k) => k % 2).length : "–");
     if (e.directed) {
       tiles.set("avg", N ? fmt.fix(L / N, 2) : "–", "⟨k_in⟩ = ⟨k_out⟩");
-      tex(formula, N ? `\\langle k^{\\text{in}}\\rangle = \\langle k^{\\text{out}}\\rangle = \\frac{L}{N} = \\frac{${L}}{${N}} = ${fmt.fix(L / N, 2)},\\quad \\textstyle\\sum k^{\\text{in}} = \\sum k^{\\text{out}} = ${L}` : "\\text{Add some nodes}", true);
+      tex(formula, N ? `\\langle k^{\\text{${IN}}}\\rangle = \\langle k^{\\text{${OUT}}}\\rangle = \\frac{L}{N} = \\frac{${L}}{${N}} = ${fmt.fix(L / N, 2)},\\quad \\textstyle\\sum k^{\\text{${IN}}} = \\sum k^{\\text{${OUT}}} = ${L}` : (TR ? "\\text{Birkaç düğüm ekleyin}" : "\\text{Add some nodes}"), true);
       degList.replaceChildren(...(N ? [h("strong", {}, "(k_in, k_out) by node: "), d.kin.map((x, i) => `${i}: (${x}, ${d.kout[i]})`).join(", ")] : []));
       e.view.setLegend([{ label: "more in than out", color: "s2" }, { label: "more out than in", color: "s3" }, { label: "balanced", color: "s1" }]);
     } else {
       tiles.set("avg", N ? fmt.fix((2 * L) / N, 2) : "–", "⟨k⟩ = 2L/N");
       const sum = d.k.reduce((a, b) => a + b, 0);
-      tex(formula, N ? `\\langle k\\rangle = \\frac{2L}{N} = \\frac{2\\cdot ${L}}{${N}} = ${fmt.fix((2 * L) / N, 2)},\\qquad \\textstyle\\sum_i k_i = ${sum} = 2L` : "\\text{Add some nodes}", true);
+      tex(formula, N ? `\\langle k\\rangle = \\frac{2L}{N} = \\frac{2\\cdot ${L}}{${N}} = ${fmt.fix((2 * L) / N, 2)},\\qquad \\textstyle\\sum_i k_i = ${sum} = 2L` : (TR ? "\\text{Birkaç düğüm ekleyin}" : "\\text{Add some nodes}"), true);
       degList.replaceChildren(...(N ? [h("strong", {}, "Degree by node: "), d.k.map((x, i) => `k${sub(i)} = ${x}`).join(", ")] : []));
       e.view.setLegend([]);
     }

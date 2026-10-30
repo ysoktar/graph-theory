@@ -1,0 +1,150 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Derece ve derece dağılımı · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bir ağ kurun ve derecelerin, ortalama derece 2L/N'nin ve derece dağılımının nasıl değiştiğini izleyin; sonra Zachary'nin karate kulübüne ve bilimsel iş birliği ağına bakın."></head><body>
+<div class="content">
+
+<h1>Derece, ortalama derece ve derece dağılımı</h1>
+<p class="lead">Bir düğümün kaç bağlantısı var ve bağlantılar düğümler arasında ne kadar eşitsiz paylaşılmış? Birinci soruyu düğümün <strong>derecesi</strong>, ikincisini ağın <strong>derece dağılımı</strong> yanıtlar. Rastgele ve ölçekten bağımsız ağlar (Kısım II ve III) her şeyden önce bu dağılımda ayrışır; bir ağın ne kadar dayanıklı olduğunu ve üzerinde bir şeyin nasıl yayıldığını da bu dağılım belirler.</p>
+
+<h2>Derece ve ortalama derece</h2>
+<p>$i$ düğümünün <strong>derecesi</strong> $k_i$, bağlantılarının sayısıdır. Tüm dereceleri toplamak her bağlantıyı iki kez, her ucunda bir kez sayar (<a href="ch2-konigsberg.html">el sıkışma özdeşliği</a>); bu yüzden</p>
+<div class="eq">$$L = \frac{1}{2}\sum_{i=1}^{N} k_i, \qquad \langle k\rangle = \frac{1}{N}\sum_{i=1}^{N} k_i = \frac{2L}{N}.$$</div>
+<dl class="symbols">
+  <dt>$N$, $L$</dt><dd>düğüm sayısı ve bağlantı sayısı</dd>
+  <dt>$k_i$</dt><dd>$i$ düğümünün derecesi</dd>
+  <dt>$\sum_{i=1}^{N}$</dt><dd>tüm düğümler üzerinden toplam, $k_1 + \dots + k_N$</dd>
+  <dt>$\langle k\rangle$</dt><dd>ortalama derece; açılı ayraçlar $\langle\cdot\rangle$ tüm düğümler üzerinden ortalama demektir</dd>
+</dl>
+<p>WWW ya da e-posta gibi <strong>yönlü</strong> bir ağda her bağlantı bir düğümden diğerine yönelir. O zaman $i$ düğümünün bir <strong>giriş derecesi</strong> $k_i^{\text{giriş}}$ ve bir <strong>çıkış derecesi</strong> $k_i^{\text{çıkış}}$ vardır; toplam derecesi $k_i = k_i^{\text{giriş}} + k_i^{\text{çıkış}}$'tır. Her bağlantı tam olarak bir düğümden çıkar ve tam olarak bir düğüme girer; bu yüzden</p>
+<div class="eq">$$L = \sum_{i} k_i^{\text{giriş}} = \sum_{i} k_i^{\text{çıkış}}, \qquad \langle k^{\text{giriş}}\rangle = \langle k^{\text{çıkış}}\rangle = \frac{L}{N}.$$</div>
+<dl class="symbols">
+  <dt>$k_i^{\text{giriş}}$</dt><dd>$i$'ye yönelen bağlantıların sayısı</dd>
+  <dt>$k_i^{\text{çıkış}}$</dt><dd>$i$'den çıkan bağlantıların sayısı</dd>
+</dl>
+<p><strong>Derece dağılımı</strong>, her dereceye sahip düğümlerin payını verir:</p>
+<div class="eq">$$p_k = \frac{N_k}{N}, \qquad \sum_{k} p_k = 1, \qquad \langle k\rangle = \sum_{k} k\,p_k .$$</div>
+<dl class="symbols">
+  <dt>$N_k$</dt><dd>derecesi $k$ olan düğümlerin sayısı</dd>
+  <dt>$p_k$</dt><dd>derecesi $k$ olan düğümlerin payı; bu aynı zamanda rastgele seçilen bir düğümün derecesinin $k$ olma olasılığıdır</dd>
+  <dt>$\sum_k k\,p_k$</dt><dd>dağılımdan hesaplanan ortalama derece</dd>
+</dl>
+<div class="callout why">
+  <ul>
+    <li>Ortalama derece için yalnızca iki sayı gerekir: $N$ ve $L$.</li>
+    <li>Yalnızca $p_k$'dan, tüm bağlantı yapısını bilmeden, en büyük merkez düğümü, ağın dayanıklılığını ve salgın eşiğini öngörebiliriz.</li>
+    <li>Gerçek bir $p_k$'yı rastgele bir ağınkiyle karşılaştırmak, gerçek ağların rastgele olmadığını gösterir.</li>
+  </ul>
+</div>
+
+<h2>Bir ağ kurun</h2>
+<div data-fig id="fig-editor"></div>
+<div class="callout look">
+  <ul>
+    <li>Her yeni bağlantı iki dereceyi birer artırır; bu yüzden $\sum_i k_i$ her zaman çifttir ve tek dereceli düğümler çiftler hâlinde gelir. Bunu bozmayı deneyin.</li>
+    <li><em>Yönlü</em> kipte, tek tek düğümler ne kadar dengesiz olursa olsun $\sum k^{\text{giriş}} = \sum k^{\text{çıkış}} = L$ geçerlidir.</li>
+    <li><em>Yıldız</em> hazır ayarı bir merkez düğümü diğer tüm düğümlere bağlar; diğerleri yaprak (tek bağlantılı düğüm) olur. Merkez düğümün derecesi $k = N-1$'dir, ama $\langle k\rangle < 2$'dir: ortalamalar merkez düğümleri gizler.</li>
+  </ul>
+</div>
+
+<h2>İlk gerçek ağ: Zachary'nin karate kulübü</h2>
+<p>Wayne Zachary, 1970'ten 1972'ye kadar bir üniversite karate kulübünün 34 üyesini izledi. Bir bağlantı, iki üyenin kulüp dışında düzenli olarak görüştüğü anlamına gelir. Bir anlaşmazlık kulübü eğitmen ("Mr. Hi", düğüm 0) ile başkan (düğüm 33) arasında böldü; renkler her üyenin hangi tarafa geçtiğini gösterir.</p>
+<div data-fig id="fig-karate"></div>
+<div class="callout example">
+  <p>Ortalama derece $\langle k\rangle = 2 \times 78/34 \approx 4.59$'dur. On bir üyenin derecesi 2'dir, yani $p_2 = 11/34 \approx 0.32$. Ortanca derece olan 3 ortalamanın altındadır, çünkü iki lider ($k_0 = 16$, $k_{33} = 17$) ortalamayı yukarı çeker.</p>
+</div>
+
+<h2>Büyük bir ağ: bilimsel iş birliği</h2>
+<p><strong>Bilimsel iş birliği ağı</strong> (kitap Tablo 4.1), $N = 23{,}133$ bilim insanını, ikisi birlikte bir makale yazdığında birbirine bağlar. İşte doğrusal eksenlerde $p_k$'sı:</p>
+<div data-fig id="fig-collab"></div>
+<div class="callout look">
+  <p>Çubuklar $k \approx 50$ civarında bitiyor gibi görünür, ama en büyük derece $k_{\max} = 279$'dur. Her merkez düğüm 23,133 düğümden yalnızca biridir; bu yüzden çubuğu görülemeyecek kadar kısadır. Onları görmek için eşit adımların eşit oranlar demek olduğu <em>Logaritmik</em> eksene geçin. <a href="ch4-plotting.html">Kısım III</a>, $p_k$'nın doğru biçimde nasıl çizileceğini gösterir.</p>
+</div>
+<div class="callout example">
+  <p>Bilim insanlarının %78'inin en fazla 10 ortak çalışanı vardır ve 28'inin 100 ya da daha fazla. Bir derecenin ortalamadan tipik uzaklığı olan standart sapma $\sigma_k = 10.6$, ortalamanın kendisinden ($\langle k\rangle = 8.08$) büyüktür.</p>
+</div>
+
+<div class="callout discuss">
+  <p>Ortanca bilim insanının 5 ortak çalışanı var, ortalama 8.1, en büyük değer ise 279. "Tipik ortak çalışan sayısı" olarak bunlardan hangisini bildirirdiniz ve neden?</p>
+  <div class="hint">Birkaç çok büyük değer ortalamayı yukarı çeker; bu yüzden tipik bir düğümü ortanca (5) daha iyi anlatır. Burada yayılım $\sigma_k$, $\langle k\rangle$'dan büyüktür; dolayısıyla hiçbir tek sayı "tipik" değildir. <em>Ölçekten bağımsız</em> adının ardındaki fikir budur (Bölüm 4).</div>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Üzerine kurulduğu konu:</strong> <a href="ch2-konigsberg.html">Königsberg</a>. El sıkışma özdeşliği $\sum_i k_i = 2L$'yi $N$'ye bölmek $\langle k\rangle$'yı verir.</li>
+    <li><strong>Nereden okunur:</strong> satır toplamları dereceler olan <a href="ch2-adjacency.html">komşuluk matrisinden</a>. <a href="ch2-sparsity.html">Seyreklik</a> sayfası $\langle k\rangle$'yı olası en büyük derece $N-1$ ile karşılaştırır.</li>
+    <li><strong>Rastgele ağ öngörüsü:</strong> rastgele bir ağın $p_k$'sı <a href="ch3-degree.html">Poisson</a> dağılımıdır; <a href="ch3-real-degrees.html">gerçek ağlar</a> ağır kuyruklarla bundan sapar.</li>
+    <li><strong>Ağır kuyrukların götürdüğü yer:</strong> <a href="ch4-hubs.html">merkez düğümler</a> ve büyük bir $\langle k^2\rangle$ (<a href="ch4-moments.html">Tipik derece yok</a>) yaratan <a href="ch4-power-laws.html">kuvvet yasaları</a>.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir ağın $N = 10$ düğümü ve $L = 15$ bağlantısı var. Ortalama derecesi $\langle k\rangle$ nedir?</p>
+  <ol>
+    <li data-why="Bu L/N'dir; her bağlantının iki dereceye katkı yaptığını unutur.">1.5</li>
+    <li>3</li>
+    <li data-why="Bu 2L'dir, yani derecelerin toplamı; henüz N'ye bölünmemiş.">30</li>
+    <li data-why="Bu N/L'dir, oran ters çevrilmiş.">0.67</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 2L/N = 30/10 = 3$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Hangi derece dizisi <em>hiçbir</em> ağda olamaz?</p>
+  <ol>
+    <li data-why="Bu bir üçgendir.">2, 2, 2</li>
+    <li data-why="Bu bir yıldızdır: üç yaprağa bağlı bir düğüm.">3, 1, 1, 1</li>
+    <li>2, 2, 1</li>
+    <li data-why="Bunlar iki ayrı bağlantıdır.">1, 1, 1, 1</li>
+  </ol>
+  <div class="explain">Derecelerin toplamı çift bir sayı olan $2L$'ye eşit olmalıdır, ama $2+2+1 = 5$ tektir. Çift toplam gereklidir ama yeterli değildir: 3, 3, 3, 1 de imkânsızdır.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>5 web sayfasından oluşan yönlü bir ağın 8 bağlantısı var. Ortalama giriş derecesi nedir?</p>
+  <ol>
+    <li>1.6</li>
+    <li data-why="3.2 = 2L/N, giriş artı çıkış, yani ortalama toplam derecedir.">3.2</li>
+    <li data-why="Her bağlantı, girdiği sayfada bir kez ve tam olarak sayılır.">0.8</li>
+    <li data-why="Tek tek giriş dereceleri bağlantı yapısına bağlıdır, ama ortalamaları her zaman L/N'dir.">Hangi sayfanın hangisine bağlandığına bağlıdır</li>
+  </ol>
+  <div class="explain">Giriş derecelerinin toplamı $L = 8$'dir; bu yüzden $\langle k^{\text{giriş}}\rangle = 8/5 = 1.6$, yani $\langle k^{\text{çıkış}}\rangle$ ile aynı.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Karate kulübünde 34 üyenin 11'inin derecesi 2'dir. $p_2$ nedir?</p>
+  <ol>
+    <li data-why="p_k, derecesi k olan düğümlerin sayısını N'ye böler, k'nın kendisini değil.">$2/34$</li>
+    <li>$11/34 \approx 0.32$</li>
+    <li data-why="11, N₂'dir; bir pay değil, üye sayısıdır.">11</li>
+    <li data-why="Pay N_k/N'dir, 1/N_k değil.">$1/11$</li>
+  </ol>
+  <div class="explain">$p_2 = N_2/N = 11/34 \approx 0.32$; yani rastgele seçilen bir üyenin derecesi 0.32 olasılıkla 2'dir.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Bir yıldız ağında bir merkez düğüm 10 yaprağa (tek bağlantılı düğüme) bağlıdır. Ortalama derecesi nedir?</p>
+  <ol>
+    <li data-why="10 merkez düğümün derecesidir, ama diğer on düğümün derecesi 1'dir.">10</li>
+    <li data-why="1 ortanca derecedir; merkez düğüm ortalamayı bunun üstüne çeker.">1</li>
+    <li>Yaklaşık 1.82; 11 düğümün 10'u bunun altında</li>
+    <li data-why="Bu yalnızca en küçük ve en büyük dereceyi ortalar.">5.5</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 2 \times 10/11 \approx 1.82$. Hiçbir düğüm ortalamaya yakın değildir; bu yüzden tüm $p_k$ dağılımına ihtiyacımız var.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Rastgele bir ağda dereceler, standart sapması $\sigma_k = \sqrt{\langle k\rangle}$ olan bir Poisson dağılımına uyar. İş birliği ağının $\langle k\rangle = 8.08$ ama ölçülen $\sigma_k$ değeri 10.6'dır. Bu ne gösterir?</p>
+  <ol>
+    <li data-why="23,133 düğümle örnekleme gürültüsü σ_k'yı neredeyse dört katına çıkaramaz.">Fark gürültüdür</li>
+    <li data-why="Burada küçük olan Poisson yayılımıdır: √8.08 ≈ 2.8.">Rastgele ağlar dereceleri daha geniş yayar</li>
+    <li data-why="Yayılım, ortancanın ortalamaya eşit olup olmadığını söylemez.">Ortanca ortalamaya eşit olmalıdır</li>
+    <li>Dereceler rastgele bir ağdakinden çok daha eşitsizdir: merkez düğümlü bir ağır kuyruk vardır</li>
+  </ol>
+  <div class="explain">Rastgele bir ağ $\sigma_k \approx \sqrt{8.08} \approx 2.8$ verirdi; bu, ölçülen 10.6'nın çok altındadır. Gerçek ağların rastgele olmadığının ilk işareti budur (Kısım II).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir ağa yeni bir düğüm katılıyor ve var olan 3 düğüme bağlanıyor. $\sum_i k_i$ nasıl değişir?</p>
+  <ol>
+    <li data-why="Her bağlantı diğer ucundaki eski düğümün derecesini de artırır.">3 artar</li>
+    <li>6 artar</li>
+    <li data-why="Bağlantılı bir düğüm eklemek toplamı asla değiştirmeden bırakmaz.">Aynı kalır</li>
+    <li data-why="N 1 artar, ama toplam düğümleri değil bağlantı uçlarını sayar.">4 artar</li>
+  </ol>
+  <div class="explain">3 yeni bağlantının her birinin iki ucu vardır; bu yüzden $\sum_i k_i = 2L$, 6 artar: yeni gelen 3, üç eski düğüm de birer alır.</div>
+</div>
+
+</div></body></html>
