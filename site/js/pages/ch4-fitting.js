@@ -6,6 +6,7 @@ import { samplePowerLaw, histTail, powerLawLogLik, powerLawMLE, fitPowerLaw, hur
 import { estimators } from "../lib/tasks.js";
 import { loadNetworks, loadJSON, NETWORK_ORDER, SHORT } from "../lib/data.js";
 import { run } from "../lib/compute.js";
+import { t as tl } from "../i18n.js";
 
 const NAMES = {
   lsLinear: "(1) least squares, linear bins", lsLog: "(2) least squares, log bins", lsCcdf: "(3) least squares, cumulative",
@@ -171,7 +172,7 @@ const ORDER = Object.keys(NAMES);
     const ser = (key, color, label, dashed) => ({ type: "line", data: c.x.map((x, i) => [x, c[key][i]]).filter((p) => p[1] > 0), color, label, dashed });
     altPlot.update({
       series: [
-        { type: "scatter", data: c.x.map((x, i) => [x, c.data[i]]), color: 1, label: `${d.description}, k ≥ ${d.powerlaw.kmin}`, r: 3 },
+        { type: "scatter", data: c.x.map((x, i) => [x, c.data[i]]), color: 1, label: `${tl(d.description)}, k ≥ ${d.powerlaw.kmin}`, r: 3 },
         ser("lognormal", 2, "log-normal"), ser("exponential", 3, "exponential"), ser("truncated_power_law", 7, "power law with exponential cutoff"),
         ser("power_law", "theory", `power law, γ̂ = ${d.powerlaw.gamma.toFixed(2)}`, true),
       ],
@@ -207,7 +208,7 @@ const ORDER = Object.keys(NAMES);
       try { res = await job.promise; } catch { return; }
       job = null;
       runBtn.innerHTML = ICONS.play + " Run the bootstrap";
-      qs.set("p", res.p.toFixed(3), `${SHORT[name]}, k_min = ${fit.kmin}, γ̂ = ${fit.gamma.toFixed(2)}`);
+      qs.set("p", res.p.toFixed(3), `${tl(SHORT[name])}, k_min = ${fit.kmin}, γ̂ = ${fit.gamma.toFixed(2)}`);
       qs.set("verdict", res.p >= 0.1 ? "plausible" : "ruled out", res.p >= 0.1 ? "a power law cannot be rejected" : "the tail is not a power law");
       const bins = 30, mx = Math.max(fit.D, ...res.Ds) * 1.05, cnt = new Array(bins).fill(0);
       for (const D of res.Ds) cnt[Math.min(bins - 1, Math.floor((D / mx) * bins))]++;
