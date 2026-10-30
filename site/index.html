@@ -56,9 +56,55 @@
 <ul>
   <li><strong>Hover</strong> any chart for exact values; every chart also has a <em>Data table</em> underneath.</li>
   <li><strong>Network views</strong> can be dragged, panned and zoomed (click inside first, then scroll or pinch). <em>Re-layout</em> shakes the layout and <em>Fit</em> zooms back to the whole network.</li>
-  <li>Boxes marked <strong>Look for</strong> say what a figure should show you. <strong>Discuss</strong> boxes are the notebook's discussion questions, with hints. <strong>Check yourself</strong> questions give instant feedback.</li>
   <li>Heavier simulations run in a background thread. Their figures fill in as results arrive.</li>
 </ul>
+
+<h2 id="reading-guide">How to read the explanations</h2>
+<p>Every page uses the same few building blocks. Each one below is a live example of itself.</p>
+
+<h3>Words and symbols</h3>
+<p>A <span class="term" tabindex="0" data-term="Dotted underline" data-def="Hover over or tap an underlined word or symbol to see its definition. Each term is underlined where it first appears on a page, and again inside each quiz.">dotted underline</span> marks a technical word or symbol: hover over it or tap it for a one-line definition. All definitions are collected in the <a href="formulas.html#glossary">glossary</a>.</p>
+<p>Every equation is followed by a <strong>"where" list</strong> that says what each symbol means:</p>
+<div class="eq">$$\langle k\rangle = \frac{2L}{N}$$</div>
+<dl class="symbols">
+  <dt>$\langle k\rangle$</dt><dd>average degree: the mean number of links per node</dd>
+  <dt>$L$</dt><dd>number of links; the 2 is there because every link has two ends</dd>
+  <dt>$N$</dt><dd>number of nodes</dd>
+</dl>
+
+<h3>Boxes</h3>
+<div class="callout why"><p>Says why a topic is needed: what problem it solves, what it lets us predict or do.</p></div>
+<div class="callout connect"><p>Says how the topic relates to others: what it builds on, what it explains, and what later replaces or refines it.</p></div>
+<div class="callout key"><p>The one result or rule to remember from a section.</p></div>
+<div class="callout example"><p>Real numbers put into a formula, step by step, so that you can check the method by hand.</p></div>
+<div class="callout gotcha"><p>A common mistake or a misleading shortcut, and how to avoid it.</p></div>
+<div class="callout try"><p>Something to do with the figure, or an exam-style problem; its worked solution opens with a button.</p>
+  <div class="hint" data-label="Show solution"><p>Solutions are written as numbered steps, so you can compare your working line by line.</p></div></div>
+<div class="callout look"><p>What to watch for in the interactive figure just above or below.</p></div>
+<div class="callout discuss"><p>An open question to think about (often from the notebook). Try to answer it before you open the hint.</p>
+  <div class="hint"><p>Hints and worked solutions stay hidden until you ask for them.</p></div></div>
+<div class="callout fix" data-label="Correction"><p>A statement in the book, the class notebook or a software package that turned out to be wrong, with the corrected version and the evidence.</p></div>
+
+<h3>Course scope</h3>
+<p>The chips above each page title say how the page relates to the BIL489/589 course:
+  <span class="chip scope slides"><span class="dot"></span>In the slides</span>
+  <span class="chip scope syllabus"><span class="dot"></span>Syllabus topic · no slides yet</span>
+  <span class="chip scope beyond"><span class="dot"></span>Beyond the course</span>.
+  The side menu tags the last two kinds of page with "no slides" and "extra".</p>
+<p data-beyond="e.g. Book Advanced Topic 3.G">Inside a page, a purple badge and a dashed left border mark material that is not in the course slides (book chapters 1–7) or the class notebook, such as the book's Advanced Topics. Read it for depth; it is unlikely to be exam material.</p>
+
+<h3>Questions</h3>
+<p>Each page ends its sections with <strong>Check yourself</strong> questions. A wrong choice tells you why it is wrong; the right one explains the answer. The same questions feed the practice sets of the <a href="exam-midterm.html">midterm</a> and <a href="exam-final.html">final</a> study guides.</p>
+<div class="quiz" data-answer="3">
+  <p>A network has $N = 10$ nodes and $L = 15$ links. What is its average degree $\langle k\rangle$?</p>
+  <ol>
+    <li data-why="That is L/N: it counts each link once, but every link adds to the degree of two nodes.">1.5</li>
+    <li data-why="That is N/L, the formula turned upside down.">0.67</li>
+    <li>3</li>
+    <li data-why="That is 2L, the sum of all degrees; divide it by N to get the average.">30</li>
+  </ol>
+  <div class="explain">$\langle k\rangle = 2L/N = 2 \cdot 15 / 10 = 3$.</div>
+</div>
 
 <div class="callout key">
   <p><strong>Everything runs on your machine.</strong> This is a static website. Simulations, fits and graph algorithms run as JavaScript in your browser, and nothing is sent anywhere. The real-network data are compact summaries (degree histograms, fits, clustering, distances) precomputed once from the book's edge lists. For six of the eight networks the full edge lists are included, so the site can also analyse those networks live.</p>

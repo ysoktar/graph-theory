@@ -85,3 +85,36 @@ test("every quiz has options and a data-answer that points to one of them", () =
     }
   }
 });
+
+// Turkish edition: a translated article must keep every hook the page script and the layout rely on.
+const trDir = join(site, "i18n", "tr", "pages");
+const hooks = (html) => {
+  const body = html.slice(html.indexOf('<div class="content">'));
+  return {
+    ids: [...body.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]),
+    answers: [...body.matchAll(/<div class="quiz"[^>]*data-answer="(\d+)"/g)].map((m) => m[1]),
+    options: [...body.matchAll(/<div class="quiz"[\s\S]*?<\/ol>/g)].map((m) => (m[0].match(/<li[\s>]/g) || []).length),
+    local: (body.match(/<div class="quiz"[^>]*data-local/g) || []).length,
+    fixes: [...body.matchAll(/data-(errata|book|software)="([^"]+)"/g)].map((m) => m[1] + ":" + m[2]),
+    beyond: (body.match(/data-beyond=/g) || []).length,
+    bank: [...body.matchAll(/data-(pages|optional)="([^"]*)"/g)].map((m) => m[1] + "=" + m[2]),
+  };
+};
+
+test("every Turkish article keeps the English page's ids, quiz answers, correction boxes and markers", () => {
+  if (!existsSync(trDir)) return;
+  for (const f of readdirSync(trDir).filter((x) => x.endsWith(".html"))) {
+    assert.ok(existsSync(join(site, f)), `i18n/tr/pages/${f} has an English page`);
+    const en = hooks(readFileSync(join(site, f), "utf8")), trh = hooks(readFileSync(join(trDir, f), "utf8"));
+    for (const k of Object.keys(en)) assert.deepEqual(trh[k], en[k], `${f}: ${k}`);
+  }
+});
+
+test("every Turkish string table is valid JSON with string values", () => {
+  const dir = join(site, "i18n", "tr", "strings");
+  if (!existsSync(dir)) return;
+  for (const f of readdirSync(dir).filter((x) => x.endsWith(".json"))) {
+    const o = JSON.parse(readFileSync(join(dir, f), "utf8"));
+    for (const [k, v] of Object.entries(o)) assert.equal(typeof v, "string", `${f}: ${k}`);
+  }
+});

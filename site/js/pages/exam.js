@@ -1,7 +1,8 @@
 // Exam study guides: the page text is static; the practice set below it is assembled from the
 // quizzes of every page in the exam's scope, so it grows whenever a page gains a question.
-import { NAV, pageInfo, enhanceQuizzes } from "../layout.js";
+import { NAV, pageInfo, enhanceQuizzes, annotateGlossary } from "../layout.js";
 import { h, $, $$, renderMath, button, select } from "../lib/ui.js";
+import { articleUrl } from "../i18n.js";
 
 const bank = $("#bank");
 const ids = bank.dataset.pages.split(",").map((s) => s.trim()).filter(Boolean);
@@ -13,7 +14,7 @@ async function collect() {
   const parser = new DOMParser();
   const pages = await Promise.all(ids.map(async (id) => {
     try {
-      const doc = parser.parseFromString(await (await fetch(file(id))).text(), "text/html");
+      const doc = parser.parseFromString(await (await fetch(articleUrl(id))).text(), "text/html");
       return $$(".quiz:not([data-local])", doc).map((q) => ({ id, html: q.outerHTML }));
     } catch { return []; }
   }));
@@ -60,6 +61,7 @@ const shuffle = (a) => {
     if (!pick.length) list.append(h("p", { class: "muted" }, "No questions selected: tick at least one page above."));
     enhanceQuizzes(list);
     renderMath(list);
+    annotateGlossary(list, "exam", { quizzesOnly: true });
   }
 
   list.addEventListener("quizanswer", (e) => {

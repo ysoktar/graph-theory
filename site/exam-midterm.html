@@ -18,7 +18,566 @@
 <main><div class="content">
 
 <h1>Midterm study guide</h1>
-<p class="lead">TODO</p>
+<p class="lead">Everything for book Chapters 1–5, from "why networks?" to the Barabási–Albert model: what to know, problems in exam style with worked solutions, and a practice set drawn from every page.</p>
+
+<div class="callout gotcha">
+  <p><strong>Scope is an assumption.</strong> The syllabus gives no exam scopes or dates. This guide assumes the midterm covers Chapters 1–5 (introduction to the BA model). Confirm with the instructor.</p>
+</div>
+
+<table class="simple">
+  <thead><tr><th>Course</th><th>Midterm</th><th>Homework</th><th>Final</th><th>Paper presentation</th></tr></thead>
+  <tbody>
+    <tr><td>BIL489</td><td>40%</td><td>10%</td><td>50%</td><td>–</td></tr>
+    <tr><td>BIL589</td><td>35%</td><td>10%</td><td>45%</td><td>10%</td></tr>
+  </tbody>
+</table>
+<p class="small muted">Homework-1 is due 15 November.</p>
+
+<h2>How to study</h2>
+<ol>
+  <li>Read the <strong>Must know</strong> list of a chapter. Every symbol is explained under its formula.</li>
+  <li>Solve the <strong>exam-style problems</strong> on paper before opening the solutions.</li>
+  <li>Read <strong>Common mistakes</strong>; open the linked page for anything unclear.</li>
+  <li>Take the <a href="#practice">practice set</a> until you score 80% or more on a fresh set.</li>
+</ol>
+
+<h2>Formula checklist</h2>
+<p>If you can say what each line means and when to use it, you know the core.</p>
+<table class="simple">
+  <thead><tr><th>Formula</th><th>Meaning</th><th>Page</th></tr></thead>
+  <tbody>
+    <tr><td>$\langle k\rangle = 2L/N$</td><td>average degree; each link has two ends</td><td><a href="ch2-degree.html">Degree</a></td></tr>
+    <tr><td>$L_{\max} = N(N-1)/2$</td><td>most links a simple network can have</td><td><a href="ch2-sparsity.html">Sparsity</a></td></tr>
+    <tr><td>$\#\triangle = \operatorname{Tr}A^3/6$</td><td>triangles from the adjacency matrix</td><td><a href="ch2-adjacency.html">Adjacency</a></td></tr>
+    <tr><td>$C_i = 2L_i/[k_i(k_i-1)]$</td><td>share of a node's neighbour pairs that are linked</td><td><a href="ch2-clustering.html">Clustering</a></td></tr>
+    <tr><td>0 or 2 odd degrees</td><td>Euler path exists (connected network)</td><td><a href="ch2-konigsberg.html">Königsberg</a></td></tr>
+    <tr><td>$\langle k\rangle = p(N-1)$</td><td>average degree of $G(N,p)$</td><td><a href="ch3-model.html">Random model</a></td></tr>
+    <tr><td>$p_k = e^{-\langle k\rangle}\langle k\rangle^k/k!$</td><td>Poisson degrees; width $\sqrt{\langle k\rangle}$</td><td><a href="ch3-degree.html">Poisson</a></td></tr>
+    <tr><td>$S = 1 - e^{-\langle k\rangle S}$</td><td>giant component, exists for $\langle k\rangle > 1$</td><td><a href="ch3-evolution.html">Evolution</a></td></tr>
+    <tr><td>$\langle d\rangle \approx \ln N/\ln\langle k\rangle$</td><td>small world</td><td><a href="ch3-small-world.html">Small worlds</a></td></tr>
+    <tr><td>$C = \langle k\rangle/(N-1)$</td><td>random clustering, vanishes for large $N$</td><td><a href="ch3-clustering.html">Clustering (Ch 3)</a></td></tr>
+    <tr><td>$p_k \sim k^{-\gamma}$, $P(K\ge k) \sim k^{-(\gamma-1)}$</td><td>power law and its CCDF</td><td><a href="ch4-power-laws.html">Power laws</a>, <a href="ch4-plotting.html">Plotting</a></td></tr>
+    <tr><td>$k_{\max} = k_{\min} N^{1/(\gamma-1)}$</td><td>largest hub</td><td><a href="ch4-hubs.html">Largest hub</a></td></tr>
+    <tr><td>$\langle k^2\rangle \to \infty$ for $\gamma &lt; 3$</td><td>no typical degree</td><td><a href="ch4-moments.html">Moments</a></td></tr>
+    <tr><td>$\langle d\rangle \sim \ln\ln N$ ($2 &lt; \gamma &lt; 3$)</td><td>ultra-small world</td><td><a href="ch4-ultra-small.html">Ultra-small</a></td></tr>
+    <tr><td>$\hat\gamma \approx 1 + n\big[\sum_i \ln\frac{k_i}{k_{\min}-1/2}\big]^{-1}$</td><td>maximum-likelihood exponent</td><td><a href="ch4-fitting.html">Fitting</a></td></tr>
+    <tr><td>$p_{ij} \approx k_ik_j/2L$</td><td>configuration model: links expected by chance</td><td><a href="ch4-generating.html">Generating</a></td></tr>
+    <tr><td>$\Pi(k_i) = k_i/\sum_j k_j$</td><td>preferential attachment</td><td><a href="ch5-preview.html">BA model</a></td></tr>
+    <tr><td>$k_i(t) = m(t/t_i)^{1/2}$</td><td>degree growth; older nodes lead</td><td><a href="ch5-preview.html">BA model</a></td></tr>
+    <tr><td>$p_k = \frac{2m(m+1)}{k(k+1)(k+2)} \approx 2m^2k^{-3}$</td><td>BA degrees: $\gamma = 3$</td><td><a href="ch5-preview.html">BA model</a></td></tr>
+  </tbody>
+</table>
+<p class="small">All formulas with explanations: <a href="formulas.html">Formula sheet</a>.</p>
+
+<div class="callout connect">
+  <p>The chapters form one argument:</p>
+  <ol>
+    <li>Ch 2 gives the measurements: degree, distance, clustering.</li>
+    <li>Ch 3 asks what pure chance gives: the random network is the <strong>null model</strong>. It gets giant components and short paths right, hubs and clustering wrong.</li>
+    <li>Ch 4 describes the hubs: power laws, a huge $\langle k^2\rangle$, ultra-short paths.</li>
+    <li>Ch 5 explains where power laws come from: growth plus preferential attachment.</li>
+  </ol>
+</div>
+
+<!-- ============================== CH 1 ============================== -->
+<section id="ch1">
+<h2>Ch 1 · Why networks?</h2>
+<p>No formulas; expect short-answer questions. The chapter says <em>why</em> the rest matters.</p>
+<h3>Must know</h3>
+<ul>
+  <li><strong>Complex system</strong>: collective behaviour hard to predict from the parts. Behind each one is a network (cell, brain, society, Internet, power grid).</li>
+  <li><strong>Cascading failure</strong>: a failure shifts load to neighbours, which may fail in turn (2003 blackout: 45 million people in eight US states plus 10 million in Ontario).</li>
+  <li><strong>Interconnectivity</strong> brings benefits (cheap power, fast information) and vulnerability (failures and viruses travel).</li>
+  <li><strong>Two forces</strong> behind the field around 2000: <em>network maps</em> became available; their properties were <em>universal</em>.</li>
+  <li>Network science vs. graph theory: <strong>empirical</strong> and data-driven; also interdisciplinary, quantitative, computational.</li>
+</ul>
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Describe the 2003 blackout as a network process: nodes, links, mechanism. Which three things does the book say we must understand to prevent such events?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Nodes: generators, substations, consumers. Links: transmission lines.</li>
+      <li>Mechanism: a line fails; its load moves to neighbouring lines; overloaded lines fail and move the load further. The cascade's size depends on where it starts and on the nodes' capacities.</li>
+      <li>We must understand (a) the network's structure, (b) the dynamics on it (the flow of electricity), (c) how the two together set robustness (Ch 8).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Erdős and Rényi published random graph theory in 1959. Why does the book date network science to around 2000?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Before then, large real networks could not be mapped or stored.</li>
+      <li>The Internet made data cheap to collect and share: maps of the Internet, the WWW, protein interactions and social ties appeared around 2000.</li>
+      <li>These maps showed universal properties, so one set of tools applied across fields. That shared core made a new discipline. Citations to the 1959 paper exploded only then.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Model a city's metro system as a network. What are the nodes and links? Directed, weighted? Name one question the network answers that a list of stations cannot.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Nodes: stations. Links: track between consecutive stations.</li>
+      <li>Undirected (trains run both ways); weights could be travel time.</li>
+      <li>Questions: fewest stops between two stations (<a href="ch2-paths.html">distance</a>); which station closure disconnects the system (<a href="ch2-connectedness.html">bridges</a>, <a href="robustness.html">robustness</a>).</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Saying network science started in 2000. Its roots (Euler, Erdős–Rényi, sociology) are old; the field emerged then.</li>
+  <li>Listing the two forces as "computers and the Internet". The book's two are <em>maps</em> and <em>universality</em>.</li>
+</ul>
+<p class="small">Pages: <a href="ch1-intro.html">Why networks?</a>, <a href="data.html">The data</a>.</p>
+</section>
+
+<!-- ============================== CH 2 ============================== -->
+<section id="ch2">
+<h2>Ch 2 · Graph theory</h2>
+<p>The vocabulary and measurements used everywhere later. Expect hand computation on a small network.</p>
+<h3>Must know</h3>
+<p><strong>Degree and average degree.</strong></p>
+<div class="eq">$$\sum_{i=1}^{N} k_i = 2L, \qquad \langle k\rangle = \frac{2L}{N}$$</div>
+<dl class="symbols">
+  <dt>$k_i$</dt><dd>degree of node $i$: its number of links</dd>
+  <dt>$N$, $L$</dt><dd>number of nodes, number of links</dd>
+  <dt>$\langle k\rangle$</dt><dd>average degree</dd>
+</dl>
+<p>Consequence: the number of odd-degree nodes is even. Directed: $k_i = k_i^{\text{in}} + k_i^{\text{out}}$ and $\langle k^{\text{in}}\rangle = \langle k^{\text{out}}\rangle = L/N$.</p>
+<p><strong>Degree distribution and moments.</strong></p>
+<div class="eq">$$p_k = \frac{N_k}{N}, \qquad \sum_k p_k = 1, \qquad \langle k^n\rangle = \sum_k k^n p_k$$</div>
+<dl class="symbols">
+  <dt>$N_k$</dt><dd>number of nodes with degree $k$</dd>
+  <dt>$p_k$</dt><dd>fraction of nodes with degree $k$ (probability that a random node has degree $k$)</dd>
+  <dt>$\langle k^n\rangle$</dt><dd>$n$-th moment; $n=1$ is $\langle k\rangle$, $n = 2$ measures spread</dd>
+</dl>
+<p><strong>Adjacency matrix.</strong></p>
+<div class="eq">$$A_{ij} = \begin{cases}1 & i\text{–}j \text{ linked}\\ 0 & \text{otherwise}\end{cases}, \qquad k_i = \sum_j A_{ij}, \qquad \#\triangle = \tfrac16\operatorname{Tr}A^3$$</div>
+<dl class="symbols">
+  <dt>$A_{ij}$</dt><dd>entry in row $i$, column $j$; symmetric if undirected</dd>
+  <dt>$(A^n)_{ij}$</dt><dd>number of walks of length $n$ from $i$ to $j$</dd>
+  <dt>$\operatorname{Tr}A^3$</dt><dd>sum of the diagonal of $A^3$: closed 3-step walks; each triangle is counted 6 times (3 starts × 2 directions)</dd>
+</dl>
+<p><strong>Sparsity.</strong></p>
+<div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}, \qquad \text{real networks: } L \ll L_{\max}$$</div>
+<dl class="symbols">
+  <dt>$L_{\max}$</dt><dd>links of the complete network (every pair linked once)</dd>
+</dl>
+<p>So store edge lists, not $N\times N$ matrices.</p>
+<p><strong>Weighted and bipartite.</strong> Weighted: $A_{ij} = w_{ij}$, the link's strength. Bipartite: two node types, links only between types. Its <em>projection</em> links two nodes of one type if they share a neighbour; the number shared is the weight.</p>
+<p><strong>Paths.</strong> $d_{ij}$ is the number of links on the shortest path from $i$ to $j$ (found by breadth-first search, BFS). Diameter $d_{\max}$: the largest $d_{ij}$.</p>
+<div class="eq">$$\langle d\rangle = \frac{1}{N(N-1)}\sum_{i \ne j} d_{ij}$$</div>
+<dl class="symbols">
+  <dt>$\langle d\rangle$</dt><dd>average distance over all ordered pairs (connected pairs only)</dd>
+</dl>
+<p><strong>Connectedness.</strong> A component is a maximal set of mutually reachable nodes; the largest is the giant component. A <em>bridge</em> is a link whose removal splits a component.</p>
+<p><strong>Clustering.</strong></p>
+<div class="eq">$$C_i = \frac{2L_i}{k_i(k_i-1)}, \qquad \langle C\rangle = \frac1N\sum_i C_i, \qquad C_\Delta = \frac{3\times\#\triangle}{\#\text{connected triples}}$$</div>
+<dl class="symbols">
+  <dt>$L_i$</dt><dd>links among the $k_i$ neighbours of node $i$</dd>
+  <dt>$k_i(k_i-1)/2$</dt><dd>neighbour pairs of node $i$; $C_i$ is the linked share</dd>
+  <dt>$\langle C\rangle$</dt><dd>average local clustering</dd>
+  <dt>$C_\Delta$</dt><dd>global clustering (transitivity); a connected triple is a node with two of its neighbours</dd>
+</dl>
+<p><strong>Euler (Königsberg).</strong> A connected network has a path using every link once if and only if it has 0 or 2 odd-degree nodes.</p>
+<p>What this lets you do: describe any network with a few numbers and compare networks of any kind.</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Two triangles joined by one link: links 1–2, 1–3, 2–3, 3–4, 4–5, 4–6, 5–6. Find (a) degrees, $\langle k\rangle$, $p_k$; (b) $L/L_{\max}$; (c) every $C_i$, $\langle C\rangle$ and $C_\Delta$; (d) $d_{\max}$ and $\langle d\rangle$; (e) the bridges; (f) whether an Euler path exists.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Degrees: $k_1 = k_2 = k_5 = k_6 = 2$, $k_3 = k_4 = 3$. Sum $14 = 2L$ ✓. $\langle k\rangle = 14/6 = 2.33$. $p_2 = 4/6 = 0.67$, $p_3 = 2/6 = 0.33$.</li>
+      <li>$L_{\max} = 6\cdot5/2 = 15$; $L/L_{\max} = 7/15 = 0.47$.</li>
+      <li>Nodes 1, 2, 5, 6: both neighbours linked, $C = 1$. Node 3: neighbours 1, 2, 4; only 1–2 linked: $C_3 = 2\cdot1/(3\cdot2) = 1/3$. Same for node 4. $\langle C\rangle = (4 + 2/3)/6 = 0.78$.</li>
+      <li>Triangles: 2. Triples: $\sum_i k_i(k_i-1)/2 = 4\cdot1 + 2\cdot3 = 10$. $C_\Delta = 3\cdot2/10 = 0.6$. (Smaller than $\langle C\rangle$: the low-degree nodes with $C = 1$ weigh more in $\langle C\rangle$.)</li>
+      <li>Distances: 7 pairs at 1 (the links), 4 at 2 (1–4, 2–4, 3–5, 3–6), 4 at 3 (1–5, 1–6, 2–5, 2–6). $d_{\max} = 3$; $\langle d\rangle = (7 + 8 + 12)/15 = 1.8$.</li>
+      <li>Bridge: 3–4 only. Every other link lies on a triangle.</li>
+      <li>Odd-degree nodes: 3 and 4. Exactly two, so an Euler path exists, from 3 to 4.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Same network. Without multiplying matrices, find $(A^2)_{11}$, $(A^3)_{14}$ and $\operatorname{Tr}A^3$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$(A^2)_{11}$ counts 2-step walks 1 → $x$ → 1: one per neighbour. So $(A^2)_{ii} = k_i = 2$.</li>
+      <li>$(A^3)_{14}$: walks 1 → $x$ → $y$ → 4 with $y \in \{3,5,6\}$. From 1, $x \in \{2,3\}$. $x = 2$ gives $y = 3$ ✓. $x = 3$ needs $y$ adjacent to both 3 and 4: none. Answer 1 (the walk 1–2–3–4).</li>
+      <li>$\operatorname{Tr}A^3 = 6 \times \#\triangle = 6 \times 2 = 12$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> (a) Can a network have degrees 3, 3, 3, 1, 1? (b) Can a <em>simple</em> network have degrees 3, 3, 1, 1?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>(a) Sum $= 11$, odd. A sum of degrees is $2L$, always even. Impossible.</li>
+      <li>(b) Sum $= 8$, even, so $L = 4$ passes the first test. But each degree-3 node must link to all three others. Then each degree-1 node gets a link from both degree-3 nodes: degree 2, not 1. Impossible.</li>
+      <li>Lesson: an even sum is necessary, not sufficient.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> The WWW sample (undirected, simple) has $N = 325{,}729$ and $L = 1{,}090{,}108$. Compute $\langle k\rangle$ and $L/L_{\max}$. How many numbers does an adjacency matrix store, and how many an edge list?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\langle k\rangle = 2L/N = 2{,}180{,}216/325{,}729 = 6.69$.</li>
+      <li>$L_{\max} = N(N-1)/2 = 5.30\times10^{10}$; $L/L_{\max} = 2.1\times10^{-5}$. Sparse.</li>
+      <li>Matrix: $N^2 = 1.06\times10^{11}$ entries, almost all 0. Edge list: $2L \approx 2.2\times10^6$ numbers, about 50,000 times fewer.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> People A, B, C, D attend events E1 = {A, B, C}, E2 = {B, C, D}, E3 = {C, D}. Draw the person projection with weights. Which pair is closest?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Bipartite degrees: A 1, B 2, C 3, D 2; events 3, 3, 2. Both sum to 8 = $L$ ✓.</li>
+      <li>Shared events: A–B 1, A–C 1, B–C 2 (E1, E2), B–D 1, C–D 2 (E2, E3); A–D 0.</li>
+      <li>Closest: B–C and C–D (weight 2). Projection degrees: A 2, B 3, C 3, D 2. The projection has triangles (A, B, C) made by one event alone: projections inflate clustering.</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>$\langle k\rangle = L/N$: wrong for undirected networks; each link adds to two degrees.</li>
+  <li>Confusing $\langle C\rangle$ (average of node values) with $C_\Delta$ (ratio of totals): they differ.</li>
+  <li>Using $k_i^2$ instead of $k_i(k_i-1)$ in $C_i$; nodes with $k_i &lt; 2$ have no $C_i$ (taken as 0 by NetworkX).</li>
+  <li>Averaging distances over disconnected pairs: $d_{ij} = \infty$; average over connected pairs.</li>
+</ul>
+<p class="small">Pages: <a href="ch2-konigsberg.html">Königsberg</a>, <a href="ch2-degree.html">Degree</a>, <a href="ch2-adjacency.html">Adjacency</a>, <a href="ch2-sparsity.html">Sparsity</a>, <a href="ch2-weighted-bipartite.html">Weighted &amp; bipartite</a>, <a href="ch2-paths.html">Paths</a>, <a href="ch2-connectedness.html">Connectedness</a>, <a href="ch2-clustering.html">Clustering</a>.</p>
+</section>
+
+<!-- ============================== CH 3 ============================== -->
+<section id="ch3">
+<h2>Ch 3 · Random networks</h2>
+<p>Why we need it: the <strong>null model</strong>. It says what chance alone produces, so we can tell which features of real networks need an explanation.</p>
+<h3>Must know</h3>
+<p><strong>$G(N,p)$</strong>: $N$ nodes; each of the $L_{\max}$ pairs is linked independently with probability $p$. ($G(N,L)$: exactly $L$ links placed at random; same results for large $N$.)</p>
+<div class="eq">$$\langle L\rangle = p\,\frac{N(N-1)}{2}, \qquad \langle k\rangle = p(N-1)$$</div>
+<dl class="symbols">
+  <dt>$p$</dt><dd>probability that a given pair is linked</dd>
+  <dt>$\langle L\rangle$</dt><dd>expected number of links ($L$ itself is binomial)</dd>
+  <dt>$N-1$</dt><dd>possible partners of one node</dd>
+</dl>
+<p><strong>Degrees: binomial, then Poisson.</strong></p>
+<div class="eq">$$p_k = \binom{N-1}{k}p^k(1-p)^{N-1-k} \;\approx\; e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}, \qquad \sigma_k = \sqrt{\langle k\rangle}$$</div>
+<dl class="symbols">
+  <dt>$\binom{N-1}{k}$</dt><dd>ways to choose which $k$ of the $N-1$ others are neighbours</dd>
+  <dt>$e^{-\langle k\rangle}\langle k\rangle^k/k!$</dt><dd>Poisson limit, valid for $\langle k\rangle \ll N$; depends only on $\langle k\rangle$</dd>
+  <dt>$\sigma_k$</dt><dd>standard deviation of the degrees; $\langle k^2\rangle = \langle k\rangle(1+\langle k\rangle)$</dd>
+</dl>
+<p>Degrees cluster around $\langle k\rangle$; $k_{\max}$ grows very slowly with $N$. No hubs.</p>
+<p><strong>Giant component.</strong></p>
+<div class="eq">$$S = 1 - e^{-\langle k\rangle S}$$</div>
+<dl class="symbols">
+  <dt>$S$</dt><dd>fraction of nodes in the giant component; $S &gt; 0$ only if $\langle k\rangle &gt; 1$</dd>
+</dl>
+<table class="simple">
+  <thead><tr><th>Regime</th><th>Condition</th><th>Largest component</th></tr></thead>
+  <tbody>
+    <tr><td>Subcritical</td><td>$\langle k\rangle &lt; 1$</td><td>small, $\sim \ln N$</td></tr>
+    <tr><td>Critical</td><td>$\langle k\rangle = 1$</td><td>$\sim N^{2/3}$</td></tr>
+    <tr><td>Supercritical</td><td>$1 &lt; \langle k\rangle &lt; \ln N$</td><td>giant ($SN$) plus small pieces</td></tr>
+    <tr><td>Connected</td><td>$\langle k\rangle &gt; \ln N$</td><td>everything</td></tr>
+  </tbody>
+</table>
+<p><strong>Small world.</strong></p>
+<div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln\langle k\rangle}$$</div>
+<dl class="symbols">
+  <dt>$\ln$</dt><dd>natural logarithm. Reason: about $\langle k\rangle^d$ nodes lie within $d$ steps; set $\langle k\rangle^d = N$</dd>
+</dl>
+<p><strong>Clustering.</strong></p>
+<div class="eq">$$C = p = \frac{\langle k\rangle}{N-1}$$</div>
+<dl class="symbols">
+  <dt>$C$</dt><dd>neighbours of a node are linked with the same probability $p$ as any pair; independent of $k$, vanishes as $N$ grows</dd>
+</dl>
+<p><strong>Watts–Strogatz</strong>: rewire a ring lattice with probability $p$; a few shortcuts give short paths while keeping high clustering.</p>
+<div class="callout key"><p>Scorecard: right about giant components and short paths; wrong about hubs (degrees far too narrow) and clustering (far too low).</p></div>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> $G(N,p)$ with $N = 1{,}000$, $p = 0.005$. Find $\langle L\rangle$, $\langle k\rangle$, $\sigma_k$, the regime, $S$ (one or two iterations), $\langle d\rangle$ and $C$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\langle L\rangle = 0.005 \times 499{,}500 = 2{,}497.5$.</li>
+      <li>$\langle k\rangle = 0.005 \times 999 = 4.995 \approx 5$; $\sigma_k = \sqrt5 = 2.24$.</li>
+      <li>$\ln N = 6.91$. Since $1 &lt; 5 &lt; 6.91$: supercritical. A giant component, but not connected.</li>
+      <li>Iterate $S \leftarrow 1 - e^{-5S}$ from $S = 1$: $1 - e^{-5} = 0.9933$, then $1 - e^{-4.966} = 0.9930$. So $S \approx 0.993$: about 7 nodes outside.</li>
+      <li>$\langle d\rangle \approx 6.91/\ln 5 = 6.91/1.609 = 4.3$.</li>
+      <li>$C = p = 0.005$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Same network. How many isolated nodes do you expect? Compare with $1 - S$. How likely is a node with $k = 10$?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$p_0 = e^{-5} = 0.0068$; $Np_0 = 6.8$ isolated nodes.</li>
+      <li>$1 - S = 0.007$, i.e. 7 nodes: almost everything outside the giant component is an isolated node.</li>
+      <li>$p_{10} = e^{-5}\,5^{10}/10! = 0.018$: about 18 nodes. Twice the mean is already rare.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> If the WWW sample ($N = 325{,}729$, $\langle k\rangle = 6.69$) were random, how many nodes would have degree 100? The real sample's largest degree is 10,721. What does this show?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\log_{10} p_{100} = \log_{10}\!\big(e^{-6.69}\,6.69^{100}/100!\big) \approx -78$.</li>
+      <li>Expected count $Np_{100} \approx 10^{-73}$: none, in any network that could ever exist.</li>
+      <li>Real hubs are therefore not chance. The Poisson model must be replaced (Ch 4) and the hubs explained (Ch 5).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> $N = 10^4$ nodes, links added at random. How many links until a giant component appears? Until the network is connected?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Giant component at $\langle k\rangle = 1$: $L = N\langle k\rangle/2 = 5{,}000$.</li>
+      <li>Connected at $\langle k\rangle = \ln N = 9.21$: $L = 10^4 \times 9.21/2 \approx 46{,}000$.</li>
+      <li>One link per node already gives a giant component; full connection needs about nine times more.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> The collaboration network has $N = 23{,}133$, $\langle k\rangle = 8.08$, measured $\langle C\rangle = 0.63$ and $\langle d\rangle \approx 5.4$ (this site's measurement). Compare with a random network of the same $N$ and $\langle k\rangle$. Which property does the random model explain?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Random distance: $\ln 23{,}133/\ln 8.08 = 10.05/2.09 = 4.8$. Close to 5.4: the small world is explained by randomness.</li>
+      <li>Random clustering: $8.08/23{,}133 = 3.5\times10^{-4}$. Real is about 1,800 times larger: not explained.</li>
+      <li>Watts–Strogatz reproduces both; hubs remain unexplained (Ch 4–5).</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Giant component at $\langle k\rangle = \ln N$: no, that is <em>connectedness</em>; the giant component needs only $\langle k\rangle &gt; 1$.</li>
+  <li>Using the Poisson form when $\langle k\rangle$ is comparable to $N$: then use the binomial.</li>
+  <li>Writing $\log_{10}$ in $\ln N/\ln\langle k\rangle$: the ratio is the same in any base, but $\ln N$ in the regime test must be natural.</li>
+</ul>
+<p class="small">Pages: <a href="ch3-model.html">Random model</a>, <a href="ch3-degree.html">Poisson degrees</a>, <a href="ch3-real-degrees.html">Real degrees</a>, <a href="ch3-evolution.html">Evolution</a>, <a href="ch3-small-world.html">Small worlds</a>, <a href="ch3-clustering.html">Clustering</a>, <a href="ch3-summary.html">Summary</a>.</p>
+</section>
+
+<!-- ============================== CH 4 ============================== -->
+<section id="ch4">
+<h2>Ch 4 · The scale-free property</h2>
+<p>Why we need it: real degree distributions have heavy tails. The power law describes them and predicts hubs, a huge $\langle k^2\rangle$ and ultra-short paths.</p>
+<h3>Must know</h3>
+<p><strong>Power law.</strong></p>
+<div class="eq">$$p_k \sim k^{-\gamma}, \qquad \ln p_k = -\gamma\ln k + \text{const}$$</div>
+<dl class="symbols">
+  <dt>$\gamma$</dt><dd>degree exponent; most real networks between 2 and 3. A straight line of slope $-\gamma$ on log–log axes</dd>
+  <dt>$\sim$</dt><dd>"proportional to, for large $k$"</dd>
+</dl>
+<p>Continuous form and its CCDF (complementary cumulative distribution):</p>
+<div class="eq">$$p(k) = (\gamma-1)\,k_{\min}^{\gamma-1}\,k^{-\gamma}, \qquad P(K \ge k) = \Big(\frac{k}{k_{\min}}\Big)^{-(\gamma-1)}$$</div>
+<dl class="symbols">
+  <dt>$k_{\min}$</dt><dd>smallest degree from which the power law holds</dd>
+  <dt>$P(K \ge k)$</dt><dd>fraction of nodes with degree at least $k$; slope $-(\gamma-1)$ on log–log axes, needs no binning</dd>
+</dl>
+<p><strong>Largest hub (natural cutoff).</strong></p>
+<div class="eq">$$k_{\max} = k_{\min}N^{1/(\gamma-1)} \qquad \text{vs. exponential } p_k: \; k_{\max} = k_{\min} + \frac{\ln N}{\lambda}$$</div>
+<dl class="symbols">
+  <dt>$k_{\max}$</dt><dd>degree beyond which we expect about one node: $N\,P(K \ge k_{\max}) \approx 1$</dd>
+  <dt>$\lambda$</dt><dd>decay rate of an exponential distribution $p_k \propto e^{-\lambda k}$</dd>
+</dl>
+<p><strong>Moments.</strong></p>
+<div class="eq">$$\langle k^n\rangle = \frac{\gamma-1}{n-\gamma+1}\,k_{\min}^{\gamma-1}\big(k_{\max}^{\,n-\gamma+1} - k_{\min}^{\,n-\gamma+1}\big)$$</div>
+<dl class="symbols">
+  <dt>$n$</dt><dd>moment order; $\langle k^n\rangle$ grows with $k_{\max}$ (hence with $N$) when $n &gt; \gamma - 1$</dd>
+</dl>
+<table class="simple">
+  <thead><tr><th>Regime</th><th>$\langle k\rangle$</th><th>$\langle k^2\rangle$</th><th>$\langle d\rangle$</th></tr></thead>
+  <tbody>
+    <tr><td>$\gamma = 2$</td><td>diverges</td><td>diverges</td><td>const</td></tr>
+    <tr><td>$2 &lt; \gamma &lt; 3$ (scale-free)</td><td>finite</td><td>diverges</td><td>$\ln\ln N$ (ultra-small)</td></tr>
+    <tr><td>$\gamma = 3$</td><td>finite</td><td>$\sim \ln N$</td><td>$\ln N/\ln\ln N$</td></tr>
+    <tr><td>$\gamma &gt; 3$</td><td>finite</td><td>finite</td><td>$\ln N$ (like random)</td></tr>
+  </tbody>
+</table>
+<p>"Scale-free": with $\langle k^2\rangle \to \infty$, $\sigma_k \gg \langle k\rangle$. A random node's degree can be anything; the average sets no scale.</p>
+<p><strong>Plotting and fitting.</strong> Linear bins hide the tail in noise; use log bins or the CCDF. Least-squares on a log–log plot is biased; use maximum likelihood:</p>
+<div class="eq">$$\hat\gamma \approx 1 + n\Big[\sum_{i=1}^{n}\ln\frac{k_i}{k_{\min}-\frac12}\Big]^{-1}, \qquad \sigma_{\hat\gamma} \approx \frac{\hat\gamma-1}{\sqrt n}$$</div>
+<dl class="symbols">
+  <dt>$n$</dt><dd>number of nodes in the tail, $k_i \ge k_{\min}$</dd>
+  <dt>$-\frac12$</dt><dd>correction for integer degrees (good for $k_{\min} \gtrsim 6$)</dd>
+  <dt>$\sigma_{\hat\gamma}$</dt><dd>standard error</dd>
+</dl>
+<p>$k_{\min}$ is chosen to minimise the Kolmogorov–Smirnov distance $D$ between data and fit.</p>
+<p><strong>Generating networks with given degrees.</strong> Configuration model: give each node $k_i$ stubs, pair stubs at random.</p>
+<div class="eq">$$p_{ij} \approx \frac{k_ik_j}{2L}$$</div>
+<dl class="symbols">
+  <dt>$p_{ij}$</dt><dd>expected number of links between $i$ and $j$; $2L$ is the number of stubs</dd>
+</dl>
+<p>Degree-preserving randomization swaps link ends: same degrees, everything else random. A null model for "what do the degrees alone explain?"</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> $N = 3\times10^5$, $k_{\min} = 1$. Estimate $k_{\max}$ for (a) an exponential $p_k$ with $\lambda = 1$, (b) a power law with $\gamma = 2.1$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>(a) $k_{\max} = 1 + \ln(3\times10^5) = 1 + 12.6 = 13.6$.</li>
+      <li>(b) $k_{\max} = N^{1/1.1} = e^{12.61/1.1} = e^{11.46} \approx 95{,}000$.</li>
+      <li>Same size, same smallest degree: the power law allows a hub 7,000 times larger.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Power law with $\gamma = 2.5$, $k_{\min} = 1$, $N = 10^6$. Find $k_{\max}$, $\langle k\rangle$, $\langle k^2\rangle$ and $\sigma_k$. Interpret.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$k_{\max} = (10^6)^{1/1.5} = 10^4$.</li>
+      <li>$\langle k\rangle = \frac{1.5}{-0.5}\big(10^{4\cdot(-0.5)} - 1\big) = -3\,(0.01 - 1) = 2.97$.</li>
+      <li>$\langle k^2\rangle = \frac{1.5}{0.5}\big(10^{4\cdot 0.5} - 1\big) = 3 \times 99 = 297$.</li>
+      <li>$\sigma_k = \sqrt{297 - 2.97^2} = \sqrt{288.2} = 17.0$.</li>
+      <li>$\langle k\rangle = 3 \pm 17$: the average tells little. $\langle k^2\rangle$ keeps growing as $\sqrt{k_{\max}}$ with $N$. This ratio $\langle k^2\rangle/\langle k\rangle = 100$ returns in robustness (Ch 8).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> A CCDF has $P(K \ge 10) = 0.1$ and $P(K \ge 100) = 0.004$, on a straight log–log line. Estimate $\gamma$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Slope $= \log_{10}(0.004/0.1)/\log_{10}(100/10) = \log_{10}0.04 = -1.40$.</li>
+      <li>CCDF slope is $-(\gamma - 1)$, so $\gamma = 2.4$.</li>
+      <li>Common error: reading the CCDF slope as $-\gamma$ (would give 1.4).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Tail degrees ($k_{\min} = 6$): 6, 6, 7, 7, 8, 9, 10, 12, 15, 25. Estimate $\gamma$ by maximum likelihood with its error.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Terms $\ln(k_i/5.5)$: 0.087, 0.087, 0.241, 0.241, 0.375, 0.492, 0.598, 0.780, 1.003, 1.514. Sum $= 5.42$.</li>
+      <li>$\hat\gamma = 1 + 10/5.42 = 2.85$.</li>
+      <li>$\sigma = 1.85/\sqrt{10} = 0.58$. So $\gamma = 2.8 \pm 0.6$: ten points cannot tell 2.5 from 3.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> A configuration-model network has $L = 1{,}000$ and two hubs with $k = 100$ and $k = 50$. How many links do you expect between them? What goes wrong in a simple network?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$p_{ij} = 100 \times 50/2{,}000 = 2.5$ links.</li>
+      <li>A simple network allows at most 1. Forbidding multi-links removes links between hubs, so hubs end up linked to small nodes: structural disassortativity (Ch 7).</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>CCDF slope is $-(\gamma-1)$, not $-\gamma$.</li>
+  <li>Fitting a straight line to a linearly binned log–log histogram: biased by the noisy tail.</li>
+  <li>"Scale-free" means $\langle k^2\rangle$ diverges ($\gamma &lt; 3$), not just "has hubs".</li>
+  <li>The configuration model reproduces hubs but does not explain them: you put the degrees in.</li>
+</ul>
+<p class="small">Pages: <a href="ch4-power-laws.html">Power laws</a>, <a href="ch4-plotting.html">Plotting</a>, <a href="ch4-fitting.html">Fitting</a>, <a href="ch4-hubs.html">Largest hub</a>, <a href="ch4-moments.html">Moments</a>, <a href="ch4-universality.html">Universality</a>, <a href="ch4-ultra-small.html">Ultra-small</a>, <a href="ch4-exponent.html">Role of γ</a>, <a href="ch4-generating.html">Generating</a>, <a href="synthesis.html">Synthesis</a>.</p>
+</section>
+
+<!-- ============================== CH 5 ============================== -->
+<section id="ch5">
+<h2>Ch 5 · The Barabási–Albert model</h2>
+<p>Why we need it: Ch 4 <em>describes</em> power laws; the BA model <em>explains</em> them with a mechanism. That mechanism predicts $\gamma$, shows which ingredient is essential, and is the base for Ch 6.</p>
+<h3>Must know</h3>
+<p><strong>Model.</strong> Start with $m_0$ nodes. Each step: (1) <em>growth</em>, add a node with $m \le m_0$ links; (2) <em>preferential attachment</em>, each link goes to node $i$ with probability</p>
+<div class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}$$</div>
+<dl class="symbols">
+  <dt>$\Pi(k_i)$</dt><dd>probability that one new link attaches to node $i$</dd>
+  <dt>$\sum_j k_j$</dt><dd>total degree, $\approx 2mt$ after $t$ steps</dd>
+  <dt>$m$</dt><dd>links brought by each new node</dd>
+</dl>
+<p><strong>Degree dynamics</strong> (continuum approximation):</p>
+<div class="eq">$$\frac{dk_i}{dt} = m\,\Pi(k_i) = \frac{k_i}{2t} \;\Rightarrow\; k_i(t) = m\Big(\frac{t}{t_i}\Big)^{\beta}, \quad \beta = \frac12$$</div>
+<dl class="symbols">
+  <dt>$t$</dt><dd>time = number of nodes added ($N \approx t$)</dd>
+  <dt>$t_i$</dt><dd>arrival time of node $i$, when $k_i = m$</dd>
+  <dt>$\beta$</dt><dd>dynamical exponent: every node grows like $\sqrt t$; older nodes stay ahead (first-mover advantage)</dd>
+</dl>
+<p><strong>Degree distribution.</strong> From $P(k_i &lt; k) = P\big(t_i &gt; t\,(m/k)^{1/\beta}\big) = 1 - (m/k)^{1/\beta}$:</p>
+<div class="eq">$$p_k \approx 2m^{1/\beta}k^{-\gamma} = 2m^2k^{-3}, \qquad \gamma = 1 + \frac1\beta = 3$$</div>
+<p>Exact (book Eq. 5.11):</p>
+<div class="eq">$$p_k = \frac{2m(m+1)}{k(k+1)(k+2)}, \quad k \ge m$$</div>
+<dl class="symbols">
+  <dt>$p_k$</dt><dd>independent of $t$ and $N$ (stationary); $\gamma = 3$ for every $m$ and $m_0$</dd>
+  <dt>$p_m$</dt><dd>$= 2/(m+2)$: the most common degree is the smallest</dd>
+</dl>
+<p>Other properties: $k_{\max} \sim mN^{1/2}$; $\langle d\rangle \sim \ln N/\ln\ln N$; $\langle C\rangle \sim (\ln N)^2/N$ (larger than random, still vanishing).</p>
+<p><strong>Both ingredients are needed</strong> (Section 5.6):</p>
+<ul>
+  <li><em>Model A</em>, growth without preference ($\Pi = $ const): $k_i$ grows like $\ln t$; $p_k = \frac{e}{m}e^{-k/m}$, exponential. No hubs.</li>
+  <li><em>Model B</em>, preference without growth ($N$ fixed): not stationary; ends as a complete graph.</li>
+</ul>
+<p><strong>Measuring and generalising preferential attachment</strong> (Sections 5.7–5.8). Compare two snapshots: $\Delta k_i/\Delta t \sim \Pi(k_i)$. Reduce noise with the cumulative function</p>
+<div class="eq">$$\pi(k) = \sum_{k_i=0}^{k}\Pi(k_i), \qquad \Pi(k) \sim k^\alpha \Rightarrow \pi(k) \sim k^{\alpha+1}$$</div>
+<dl class="symbols">
+  <dt>$\alpha$</dt><dd>attachment exponent; no preference: $\pi(k)\sim k$; linear: $\pi(k) \sim k^2$</dd>
+</dl>
+<ul>
+  <li>$\alpha = 0$: exponential (Model A). $0 &lt; \alpha &lt; 1$: stretched exponential, fewer and smaller hubs.</li>
+  <li>$\alpha = 1$: power law (BA). $\alpha &gt; 1$: hub-and-spoke; the top hub keeps a finite share of links, $k_{\max} \sim t$.</li>
+  <li>Measured: Internet and citations $\alpha \approx 1$; co-authorship and actors $\alpha \approx 0.9$ (sublinear).</li>
+</ul>
+<p>Where preference comes from (Section 5.9): following a random <em>link</em> reaches a node with probability $\propto k$ (link selection, copying), so local random choices create global preference.</p>
+
+<h3>Exam-style problems</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> BA network, $m = 3$, at $t = 1{,}000$. What is the probability that one new link lands on a node of degree 60? On a node of degree 3? Expected new links to the degree-60 node in the next step?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\sum_j k_j \approx 2mt = 6{,}000$.</li>
+      <li>$\Pi(60) = 60/6{,}000 = 1\%$; $\Pi(3) = 3/6{,}000 = 0.05\%$: 20 times smaller.</li>
+      <li>The new node brings 3 links: $m\,\Pi = 0.03$ expected links.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> $m = 2$. Node $i$ arrives at $t_i = 100$. Find $k_i$ at $t = 10^4$ and $10^6$. When does it reach 100 links? A node arriving at $t = 10^4$: how far behind is it forever?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$k_i(10^4) = 2\sqrt{100} = 20$; $k_i(10^6) = 2\sqrt{10^4} = 200$.</li>
+      <li>$2\sqrt{t/100} = 100 \Rightarrow t = 100 \times 50^2 = 250{,}000$.</li>
+      <li>Ratio $k_i/k_j = (t_j/t_i)^{1/2} = (10^4/100)^{1/2} = 10$ at every $t$: in BA a latecomer never catches up (fixed by fitness, Ch 6).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Derive $\gamma$ from $k_i(t) = m(t/t_i)^\beta$ for a general $\beta$. What would $\beta = 0.8$ give?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$k_i(t) &lt; k \iff t_i &gt; t\,(m/k)^{1/\beta}$.</li>
+      <li>Arrival times are uniform on $[0, t]$, so $P(k_i &lt; k) = 1 - (m/k)^{1/\beta}$.</li>
+      <li>Differentiate: $p_k = \frac{1}{\beta}m^{1/\beta}k^{-(1/\beta + 1)}$, so $\gamma = 1 + 1/\beta$.</li>
+      <li>$\beta = \frac12$: $\gamma = 3$. $\beta = 0.8$: $\gamma = 2.25$. Faster growth of the leaders, a flatter tail. This is what fitness does (Ch 6).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Exact BA distribution with $m = 3$: find $p_3$, $p_4$ and the fraction of nodes with $k \ge 10$. Hint: $\frac{2}{k(k+1)(k+2)} = \frac{1}{k(k+1)} - \frac{1}{(k+1)(k+2)}$. Largest hub for $N = 10^6$?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$p_3 = 2\cdot3\cdot4/(3\cdot4\cdot5) = 0.4$ (check: $2/(m+2) = 0.4$ ✓). $p_4 = 24/(4\cdot5\cdot6) = 0.2$.</li>
+      <li>With the hint the sum telescopes: $P(K \ge k) = \frac{m(m+1)}{k(k+1)}$.</li>
+      <li>$P(K \ge 10) = 12/110 = 0.109$: 11% of nodes.</li>
+      <li>CCDF $\sim k^{-2}$, i.e. slope $-(\gamma - 1) = -2$ ✓. $k_{\max} \sim mN^{1/2} = 3{,}000$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Two networks: (a) $\pi(k) \sim k^{1.9}$; (b) $\pi(k) \sim k^{2.5}$. Find $\alpha$ and predict the degree distribution. Which of Model A, Model B, BA has (i) no hubs, (ii) no stationary state?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\pi \sim k^{\alpha+1}$: (a) $\alpha = 0.9$, sublinear: stretched exponential, hubs smaller than BA. (b) $\alpha = 1.5$: superlinear, hub-and-spoke; a few super-hubs grab a finite share of links.</li>
+      <li>(i) Model A: exponential $p_k$. (ii) Model B: degrees keep growing until the network is complete.</li>
+      <li>Only growth <em>and</em> linear preference give a stationary power law.</li>
+    </ol>
+  </div>
+</div>
+<h3>Common mistakes</h3>
+<ul>
+  <li>Thinking $\gamma$ depends on $m$: $m$ cancels from $dk_i/dt = k_i/2t$.</li>
+  <li>Using $\sum_j k_j = mt$: each link adds 2 to the total degree, so it is $2mt$.</li>
+  <li>"Preferential attachment alone gives power laws": without growth (Model B) it does not.</li>
+  <li>Reading $\pi(k) \sim k^2$ as $\alpha = 2$: the cumulative function adds one, so $\alpha = 1$.</li>
+</ul>
+<p class="small">Pages: <a href="ch5-preview.html">The Barabási–Albert model</a>; outlook: <a href="evolving.html">Evolving networks</a>.</p>
+</section>
 
 <h2 id="practice">Practice set</h2>
 <div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview"></div>

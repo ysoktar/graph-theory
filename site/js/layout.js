@@ -2,6 +2,8 @@
 // Each page's module imports this first; the page itself only contains its article.
 import { h, $, $$, renderMath, emitThemeChange, CALLOUT_ICONS } from "./lib/ui.js";
 import { ERRATA, BOOK as BOOK_ERRATA, SOFTWARE } from "./errata.js";
+import { annotateTerms, installTermPopover, GLOSSARY, SYMBOLS } from "./glossary.js";
+import { LANG, setLang, loadTurkish, translateLive, t } from "./i18n.js";
 
 export const REPO = "https://github.com/ysoktar/graph-theory";
 export const NOTEBOOK_URL = "https://colab.research.google.com/github/ysoktar/graph-theory/blob/main/notebook/Ch2_4_Applied_Tutorial.ipynb";
@@ -128,7 +130,9 @@ function buildHeader(info) {
   nb.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="1.5" width="11" height="13" rx="1.5"/><path d="M5 5h6M5 8h6M5 11h3"/></svg><span class="label">Notebook</span>';
   const gh = h("a", { class: "icon-btn", href: REPO, target: "_blank", rel: "noopener", title: "Source code on GitHub", "aria-label": "Source code on GitHub" });
   gh.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .2a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.4.7 0-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.5 7.5 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.6 3.9.3.3.5.8.5 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 .2z"/></svg>';
-  return h("header", { class: "site-header" }, menu, brand, h("div", { class: "header-spacer" }), h("div", { class: "header-actions" }, nb, gh, themeBtn));
+  const langBtn = h("button", { class: "icon-btn lang-btn", type: "button", lang: LANG === "tr" ? "en" : "tr", title: LANG === "tr" ? "Switch to English" : "Türkçe sürüme geç", "data-no-tr": "" }, LANG === "tr" ? "EN" : "TR");
+  langBtn.addEventListener("click", () => setLang(LANG === "tr" ? "en" : "tr"));
+  return h("header", { class: "site-header" }, menu, brand, h("div", { class: "header-spacer" }), h("div", { class: "header-actions" }, langBtn, nb, gh, themeBtn));
 }
 
 function buildSidebar(current) {
@@ -161,6 +165,12 @@ function buildPager(current) {
 
 function buildFooter() {
   const f = h("footer", { class: "site-footer" });
+  if (LANG === "tr") {
+    f.innerHTML = `<p>Albert-László Barabási'nin <a href="${BOOK}">Network Science</a> kitabına ve BIL489/589 Çizge Kuramı dersinin not defterine etkileşimli bir eşlikçi.
+    Ağ verisi: kitabın referans ağları (Tablo 4.1), yönsüz ve basit ağlar olarak ele alındı.</p>
+    <p>Bu sitedeki her şey tarayıcınızda çalışır; hiçbir veri bilgisayarınızdan çıkmaz. <a href="${REPO}">GitHub'daki kaynak kod</a>.</p>`;
+    return f;
+  }
   f.innerHTML = `<p>An interactive companion to <a href="${BOOK}">Network Science</a> by Albert-László Barabási and the BIL489/589 Graph Theory course notebook.
     Network data: the book's reference networks (Table 4.1), treated as undirected and simple.</p>
     <p>Everything on this site runs in your browser. No data leaves your machine. <a href="${REPO}">Source on GitHub</a>.</p>`;
@@ -179,12 +189,12 @@ function enhanceCallouts(root) {
     if (!e) continue;
     const lab = h("div", { class: "callout-label" });
     lab.innerHTML = CALLOUT_ICONS.fix + `<span>${kind === "book" ? "Correction to the book" : kind === "software" ? "Bug in the powerlaw package" : "Correction to the notebook"}</span>`;
-    lab.append(h("span", { class: "fix-loc" }, kind === "notebook" ? `· ${e.id} · cell ${e.cell}${e.run ? `, In [${e.run}]` : ""} · ${e.section}` : `· ${e.id} · ${e.location}`));
+    lab.append(h("span", { class: "fix-loc" }, kind === "notebook" ? `· ${e.id} · ${t("cell")} ${e.cell}${e.run ? `, In [${e.run}]` : ""} · ${e.section}` : `· ${e.id} · ${e.location}`));
     const extra = c.innerHTML.trim();
     c.replaceChildren(lab,
       h("div", { class: "fix-quote" }, "“" + e.quote.replace(/\n/g, " ") + "”"),
       h("p", {}, e.issue),
-      h("p", {}, h("strong", {}, "Corrected: "), e.correction, " ", h("a", { href: `notebook-check.html#${e.id}` }, "Details")));
+      h("p", {}, h("strong", {}, t("Corrected:") + " "), e.correction, " ", h("a", { href: `notebook-check.html#${e.id}` }, t("Details"))));
     if (extra) c.append(h("div", { html: extra }));
   }
   for (const c of $$(".callout", root)) {
@@ -216,8 +226,8 @@ function markBeyond(root) {
   for (const el of $$("[data-beyond]", root)) {
     el.classList.add("is-beyond");
     const reason = el.dataset.beyond;
-    const badge = h("span", { class: "beyond-badge", title: "Not in the course slides (book Ch 1–7) or the class notebook" + (reason ? `: ${reason}` : "") },
-      "Beyond the slides", reason ? h("span", { class: "why" }, " · " + reason) : null);
+    const badge = h("span", { class: "beyond-badge", title: t("Not in the course slides (book Ch 1–7) or the class notebook") + (reason ? `: ${reason}` : "") },
+      t("Beyond the slides"), reason ? h("span", { class: "why" }, " · " + reason) : null);
     const target = el.matches("section, div:not(.callout), details") ? el.querySelector("h2, h3, h4, summary, .callout-label") : el.matches(".callout") ? el.querySelector(".callout-label") : null;
     if (target) target.append(badge);
     else el.prepend(badge, " ");
@@ -251,8 +261,8 @@ export function enhanceQuizzes(root = document) {
         // a wrong option may carry its own explanation (<li data-why="…">) of why it is tempting but wrong
         const why = li.dataset.why;
         fb.innerHTML = ok
-          ? `<span class="verdict ok">✓ Correct.</span> ${explain ? explain.innerHTML : ""}`
-          : `<span class="verdict no">✗ Not quite.</span> ${why ? why + " " : ""}Try another option.`;
+          ? `<span class="verdict ok">✓ ${t("Correct.")}</span> ${explain ? explain.innerHTML : ""}`
+          : `<span class="verdict no">✗ ${t("Not quite.")}</span> ${why ? why + " " : ""}${t("Try another option.")}`;
         renderMath(fb);
       });
       opts.append(b);
@@ -262,12 +272,18 @@ export function enhanceQuizzes(root = document) {
   }
 }
 
+/** Glossary underlines: each quiz on its own (quizzes also appear alone in the exam practice sets), then the page. */
+export function annotateGlossary(root, page, { quizzesOnly = false } = {}) {
+  for (const q of $$(".quiz", root)) annotateTerms(q, page);
+  if (!quizzesOnly) annotateTerms(root, page, new Set(), ".quiz");
+}
+
 /** Kicker above the H1: part, book section and notebook section. */
 function buildKicker(info) {
   if (!info || info.id === "index") return null;
   const k = h("div", { class: "kicker" }, h("span", {}, info.part));
-  if (info.book) k.append(h("a", { class: "chip", href: BOOK, target: "_blank", rel: "noopener", title: "Section of Network Science" }, "Book § " + info.book));
-  if (info.nb) k.append(h("a", { class: "chip", href: NOTEBOOK_URL, target: "_blank", rel: "noopener", title: "Section of the class notebook (opens Colab)" }, "Notebook " + info.nb));
+  if (info.book) k.append(h("a", { class: "chip", href: BOOK, target: "_blank", rel: "noopener", title: t("Section of Network Science") }, t("Book §") + " " + info.book));
+  if (info.nb) k.append(h("a", { class: "chip", href: NOTEBOOK_URL, target: "_blank", rel: "noopener", title: t("Section of the class notebook (opens Colab)") }, t("Notebook") + " " + info.nb));
   const sc = SCOPES[info.scope];
   if (sc) k.append(h("span", { class: `chip scope ${info.scope}`, title: sc.tip }, h("span", { class: "dot" }), sc.label));
   return k;
@@ -298,9 +314,14 @@ function init() {
   markBeyond(content);
   enhanceQuizzes(content);
   renderMath(content);
+  annotateGlossary(content, id);
+  installTermPopover();
   const cur = $(".sidebar [aria-current]"), side = $(".sidebar");
   if (cur && side) side.scrollTop = Math.max(0, cur.offsetTop - side.clientHeight / 2);
-  if (info) document.title = id === "index" ? "From Graphs to Hubs · Network Science, interactively" : `${info.title} · From Graphs to Hubs`;
+  if (info && LANG !== "tr") document.title = id === "index" ? "From Graphs to Hubs · Network Science, interactively" : `${info.title} · From Graphs to Hubs`;
+  translateLive(document.body);
 }
 
+// the Turkish article and string tables load before the page's own script runs (it imports this module)
+await loadTurkish(document.body.dataset.page || "index", { errata: [ERRATA, BOOK_ERRATA, SOFTWARE], glossary: GLOSSARY, symbols: SYMBOLS });
 init();

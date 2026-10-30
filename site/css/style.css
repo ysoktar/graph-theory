@@ -128,7 +128,8 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
 .main { min-width: 0; padding: 36px clamp(16px, 4vw, 56px) 64px; }
 .content { max-width: 1060px; margin: 0 auto; }
-.content > :where(p, ul, ol, h1, h2, h3, h4, .lead, .callout, blockquote, .prose, table.simple, .quiz, details.disclosure, .eq) { max-width: 46rem; }
+.content > :where(p, ul, ol, h1, h2, h3, h4, .lead, .callout, blockquote, .prose, table.simple, .quiz, details.disclosure, .eq, dl.symbols),
+.content > section > :where(p, ul, ol, h2, h3, h4, .callout, blockquote, table.simple, .quiz, details.disclosure, .eq, dl.symbols) { max-width: 46rem; }
 .content > .eq { max-width: 46rem; }
 
 /* ---------- typography ---------- */
@@ -542,3 +543,17 @@ section.is-beyond { border-left: 2px dashed var(--beyond); padding-left: 14px; m
 .bank-score { font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 0.9rem; }
 .bank .quiz-src { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
 .bank .quiz { margin: 1rem 0; }
+
+/* ---------- glossary terms: dotted underline + popover ---------- */
+.term { text-decoration: underline dotted var(--muted); text-decoration-thickness: 1.5px; text-underline-offset: 3px; cursor: help; border-radius: 2px; }
+.term:hover, .term:focus-visible { text-decoration-color: var(--accent); background: var(--accent-wash); outline: none; }
+.term-pop {
+  position: absolute; z-index: 60; padding: 9px 12px; border-radius: 8px; font-size: 0.86rem; line-height: 1.45;
+  background: var(--surface); color: var(--text-2); border: 1px solid var(--border-strong); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+}
+.term-pop strong { color: var(--text); }
+.term-pop a { white-space: nowrap; }
+.gloss dt:target, .gloss dt:target + dd { background: var(--accent-wash); }
+.term.sym { text-decoration: none; border-bottom: 1.5px dotted var(--muted); padding-bottom: 1px; }
+.term.sym:hover, .term.sym:focus-visible { border-bottom-color: var(--accent); }
+.lang-btn { font-weight: 700; font-size: 0.8rem; letter-spacing: 0.03em; min-width: 38px; justify-content: center; }
