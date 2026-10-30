@@ -1,0 +1,134 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Yollar ve uzaklıklar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Genişlik öncelikli aramayı adım adım izleyin, karate kulübünün iki üyesi arasındaki tüm en kısa yolları bulun ve gerçek ağların uzaklık dağılımlarını karşılaştırın."></head><body>
+<div class="content">
+
+<h1>Yollar ve uzaklıklar</h1>
+<p class="lead">Bir ağda fiziksel uzaklık nadiren önemlidir; önemli olan iki düğümü kaç bağlantının ayırdığıdır. Uzaklık, haberin, virüslerin ya da arızaların ne kadar hızlı ilerleyebileceğini belirler ve <em>küçük dünya</em> etkisinin temelidir.</p>
+
+<p>Bir <strong>yol</strong>, her biri bir sonrakine bağlı olan ve hiçbir düğümü yeniden ziyaret etmeyen bir düğüm dizisidir; <strong>uzunluğu</strong> bağlantılarının sayısıdır. Bir <strong>en kısa yol</strong> en az bağlantıya sahiptir; uzunluğu <strong>uzaklık</strong> $d_{ij}$'dir. Bir düğüm çiftinin birden çok en kısa yolu olabilir. İki sayı tüm ağı özetler:</p>
+<div class="eq">$$d_{\max} = \max_{i,j} d_{ij}, \qquad \langle d\rangle = \frac{1}{N(N-1)}\sum_{i \ne j} d_{ij}.$$</div>
+<dl class="symbols">
+  <dt>$d_{ij}$</dt><dd>uzaklık: $i$'den $j$'ye bir en kısa yoldaki bağlantı sayısı</dd>
+  <dt>$d_{\max}$</dt><dd>çap: ağdaki en büyük uzaklık</dd>
+  <dt>$\max_{i,j}$</dt><dd>tüm $i, j$ çiftleri üzerinden en büyük değer</dd>
+  <dt>$\langle d\rangle$</dt><dd>ortalama uzaklık</dd>
+  <dt>$\sum_{i \ne j}$</dt><dd>farklı düğümlerin tüm sıralı çiftleri üzerinden toplam</dd>
+  <dt>$N(N-1)$</dt><dd>sıralı çiftlerin sayısı</dd>
+</dl>
+<p>Farklı bileşenlerdeki düğümler için $d_{ij} = \infty$'dur, çünkü onları hiçbir yol birleştirmez; bu yüzden iki sayı da dev bileşenin içinde hesaplanır.</p>
+<div class="callout example">
+  <p>1–2, 1–3, 2–3 ve 3–4 bağlantılarına sahip ağda dört çift 1 uzaklıkta, iki çift (1–4 ve 2–4) 2 uzaklıktadır; dolayısıyla $d_{\max} = 2$ ve $\langle d\rangle = 8/6 \approx 1.33$.</p>
+</div>
+
+<h2>Genişlik öncelikli arama</h2>
+<p><strong>Genişlik öncelikli arama</strong> (BFS, Kutu 2.5) kaynak $s$'yi 0, komşularını 1, onların etiketsiz komşularını 2 diye etiketler ve böyle sürer. Bir düğüm ilk ulaşıldığında etiketini alır ve bu etiket onun $s$'ye uzaklığıdır. Her düğüm ve her bağlantı bir kez işlenir; bu yüzden çalışma süresi $N + L$ gibi büyür.</p>
+<div data-fig id="fig-bfs"></div>
+
+<h2>İki düğüm arasındaki en kısa yollar</h2>
+<div data-fig id="fig-sp"></div>
+<div class="callout look">
+  <p>14 ve 16 numaralı üyeler birbirine en uzak olanlardır: 5 uzunluğunda 14 en kısa yolla birleşirler ve hepsi 0 düğümünden geçer. <span data-beyond="1–7. bölümlerde yok: aradalık merkeziliği">Bir düğümden geçen en kısa yolları saymak <em>aradalık merkeziliğini</em> verir (<a href="lab.html">Ağ laboratuvarı</a>).</span></p>
+</div>
+
+<h2>Tüm uzaklıklar bir arada</h2>
+<div data-fig id="fig-dmatrix"></div>
+<div class="callout example">
+  <p>Karate kulübünün 561 çiftinden 78'i 1 uzaklıkta, 265'i 2, 137'si 3, 73'ü 4 ve 8'i 5 uzaklıktadır. Dolayısıyla $\langle d\rangle = 2.41$ ve $d_{\max} = 5$.</p>
+</div>
+
+<h2>Gerçek ağlarda uzaklıklar</h2>
+<p>Tüm çiftler arasındaki uzaklıkları hesaplamak pahalıdır; bu yüzden not defteri dev bileşende rastgele seçilen 300 kaynaktan BFS çalıştırır. İş birliği ağında bu, altı milyondan fazla uzaklığı örnekler.</p>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>23,133 bilim insanı arasında çiftlerin çoğu 4 ile 6 adım uzaktadır ve çiftlerin %84'ü altı adım içindedir. Elektrik şebekesinin ortalama uzaklığı yaklaşık 19'dur: bağlantıları komşu yerleri birleştirir, bu yüzden uzun kısayolları yoktur. Kısa uzaklıkları <a href="ch3-small-world.html">Küçük dünyalar</a> sayfası açıklar.</p>
+</div>
+<div class="callout fix" data-errata="N5"></div>
+
+<div class="callout why">
+  <ul>
+    <li>Uzaklık, herhangi bir şeyin iki düğüm arasında ne kadar hızlı yayılabileceğini ölçer.</li>
+    <li>$\langle d\rangle$'nın $N$ ile nasıl büyüdüğü modelleri sınar: rastgele ağlar $\ln N/\ln\langle k\rangle$ öngörür.</li>
+    <li>BFS'nin maliyeti $N + L$ ile orantılıdır; bu da büyük seyrek ağlarda uzaklıkları hesaplanabilir kılar.</li>
+  </ul>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Uzaklık,</strong> $(A^n)_{ij} > 0$ olan ilk $n$'dir (<a href="ch2-adjacency.html">Komşuluk matrisi</a>).</li>
+    <li><strong>Bağlantılılık gerektirir:</strong> farklı <a href="ch2-connectedness.html">bileşenler</a> arasında $d = \infty$'dur.</li>
+    <li><strong>Rastgele ağ öngörüsü:</strong> $\langle d\rangle \approx \ln N/\ln\langle k\rangle$ (<a href="ch3-small-world.html">Küçük dünyalar</a>); merkez düğümler onu daha da küçültür (<a href="ch4-ultra-small.html">Ultra küçük dünyalar</a>).</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>$s$ düğümünden başlayan genişlik öncelikli arama $v$ düğümüne 3 etiketini veriyor. Bu size ne söyler?</p>
+  <ol>
+    <li>$s$'den $v$'ye 3 uzunluğunda bir yol vardır ve daha kısası yoktur.</li>
+    <li data-why="3 uzunluğunda birden çok en kısa yol olabilir.">3 uzunluğunda tam olarak bir yol vardır.</li>
+    <li data-why="Etiket bir derece değil, bir uzaklıktır.">$v$'nin derecesi 3'tür.</li>
+    <li data-why="Etiket yalnızca s'ye olan uzaklıktır.">$v$ her düğümden 3 adım uzaktadır.</li>
+  </ol>
+  <div class="explain">Bir düğüm katman katman, ilk ulaşıldığında etiketlenir; bu yüzden etiketi $d_{sv}$'dir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Genişlik öncelikli aramanın tek bir çalıştırması size ne verir?</p>
+  <ol>
+    <li data-why="Daha fazlasını verir: kaynaktan ulaşılabilen her düğümü.">Bir düğüm çifti arasındaki uzaklığı.</li>
+    <li>Kaynaktan ulaşabildiği her düğüme olan uzaklıkları.</li>
+    <li data-why="Bunun için her kaynak için bir çalıştırma gerekir.">Ağdaki tüm uzaklıkları.</li>
+    <li data-why="Çap için tüm kaynaklar gerekir.">Çapı.</li>
+  </ol>
+  <div class="explain">Bir çalıştırma uzaklık matrisinin bir satırını verir. Not defterinin 300 çalıştırması 300 satırı, yani örneklemini verir.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Bir ağın çapı $d_{\max} = 10$'dur. Ortalama uzaklığı $\langle d\rangle$ hakkında ne söyleyebilirsiniz?</p>
+  <ol>
+    <li data-why="Çapı yarıya bölen bir kural yoktur.">$\langle d\rangle = 5$</li>
+    <li data-why="Yalnızca her çift 10 uzaklıkta olsaydı.">$\langle d\rangle = 10$</li>
+    <li>$1 \le \langle d\rangle \le 10$'dur ve genellikle 10'un çok altındadır.</li>
+    <li data-why="Bir ortalama en büyük değeri aşamaz.">$\langle d\rangle > 10$ olabilir.</li>
+  </ol>
+  <div class="explain">Ağın kenarındaki birkaç çift $d_{\max}$'ı belirler, tipik çiftler ise $\langle d\rangle$'yı. Karate kulübünde bunlar 5 ve 2.41'dir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Elektrik şebekesinde $\langle k\rangle = 2.67$ ve $\langle d\rangle \approx 18.8$; protein ağında $\langle k\rangle = 2.68$ ve $\langle d\rangle \approx 5.6$'dır. Uzaklıkları neden bu kadar farklı?</p>
+  <ol>
+    <li>Şebekenin bağlantıları yakın yerleri birleştirir; bu yüzden uzun menzilli kısayolları yoktur.</li>
+    <li data-why="Şebeke (4,941 düğüm) protein ağından (2,018) çok büyük değildir; boyut tek başına yalnızca ln N kadar bir çarpan getirir.">Şebeke çok daha büyüktür.</li>
+    <li data-why="Şebeke tek bir bağlantılı bileşendir.">Şebeke birçok parçaya bölünmüştür.</li>
+    <li data-why="Ortalama dereceleri neredeyse eşittir.">Şebekenin $\langle k\rangle$ değeri daha düşüktür.</li>
+  </ol>
+  <div class="explain">İkisinin $\langle k\rangle$ değeri aynı ama uzaklıkları çok farklıdır, çünkü coğrafya şebekenin kısayollarını sınırlar. Uzaklıkları tek başına ortalama derece belirlemez.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>6 düğümlü bir halkanın çapı nedir?</p>
+  <ol>
+    <li data-why="6 düğüm sayısıdır; halkada iki yönden de gidebilirsiniz.">6</li>
+    <li data-why="Bir yönde 5 adım, diğer yönde 1 adımdır.">5</li>
+    <li data-why="Karşıdaki düğüm iki yönden de 3 adım uzaktadır.">2</li>
+    <li>3</li>
+  </ol>
+  <div class="explain">En uzak düğüm karşıdadır, iki yönden de 3 adım uzakta.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir yol çizgesinin bağlantıları 1–2, 2–3 ve 3–4'tür. Ortalama uzaklığı $\langle d\rangle$ nedir?</p>
+  <ol>
+    <li data-why="Bu, 6 çift üzerinden ortalama değil, çapın yarısıdır.">1.5</li>
+    <li>$10/6 \approx 1.67$</li>
+    <li data-why="2, 6 çift üzerinden ortalama değil, ortadaki uzaklıktır.">2</li>
+    <li data-why="3, çaptır, yani en büyük uzaklık.">3</li>
+  </ol>
+  <div class="explain">6 çiftten üçü 1, ikisi 2 ve biri 3 uzaklıktadır; dolayısıyla $\langle d\rangle = (3 + 4 + 3)/6 \approx 1.67$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Rastgele bir ağda $\langle d\rangle \approx \ln N/\ln\langle k\rangle$'dır. $\langle k\rangle = 10$ olan rastgele bir ağ $N = 10^4$'ten $N = 10^8$ düğüme büyüyor ve $\langle d\rangle$ değeri 4'ten başlıyor. Ne olur?</p>
+  <ol>
+    <li data-why="ln N büyür; dolayısıyla ⟨d⟩ de yavaş da olsa büyür.">4'te kalır.</li>
+    <li data-why="Uzaklık N ile değil ln N ile büyür.">40,000</li>
+    <li>8</li>
+    <li data-why="ln 10⁸ / ln 10 = 8'dir, 16 değil.">16</li>
+  </ol>
+  <div class="explain">$\ln 10^8/\ln 10 = 8$: on bin kat daha fazla düğüm yalnızca iki kat uzaklık verir. Bu küçük dünya etkisidir.</div>
+</div>
+
+</div></body></html>
