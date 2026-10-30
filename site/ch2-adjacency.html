@@ -18,59 +18,59 @@
 <main><div class="content">
 
 <h1>The adjacency matrix</h1>
-<p class="lead">To compute anything we must record which pairs are linked. The <strong>adjacency matrix</strong> does this in a table of 0s and 1s, and turns network questions (degrees, common neighbours, triangles) into arithmetic.</p>
+<p class="lead">To compute anything about a network, we must record which pairs of nodes are linked. The <strong>adjacency matrix</strong> does this in a table of 0s and 1s, and turns network questions (degrees, common neighbours, triangles) into arithmetic.</p>
 
 <h2>Definition</h2>
-<p>For $N$ nodes, $A$ is an $N \times N$ table:</p>
+<p>For a network of $N$ nodes, $A$ is an $N \times N$ table:</p>
 <div class="eq">$$A_{ij} = \begin{cases} 1 & \text{if nodes } i \text{ and } j \text{ are linked,}\\ 0 & \text{otherwise.}\end{cases}$$</div>
 <dl class="symbols">
-  <dt>$A_{ij}$</dt><dd>entry in row $i$, column $j$</dd>
-  <dt>$A_{ii}$</dt><dd>diagonal; 0 without self-loops</dd>
+  <dt>$A_{ij}$</dt><dd>the entry in row $i$ and column $j$</dd>
+  <dt>$A_{ii}$</dt><dd>a diagonal entry; it is 0 when there are no self-loops (links from a node to itself)</dd>
 </dl>
-<p>Undirected: $A_{ij} = A_{ji}$, so $A$ is <strong>symmetric</strong> and has $2L$ ones. Degrees and links follow:</p>
+<p>In an undirected network $A_{ij} = A_{ji}$, so $A$ is <strong>symmetric</strong> and contains $2L$ ones. The degrees and the number of links follow from it:</p>
 <div class="eq">$$k_i = \sum_{j=1}^{N} A_{ij}, \qquad L = \frac{1}{2}\sum_{i,j=1}^{N} A_{ij}.$$</div>
 <dl class="symbols">
-  <dt>$\sum_j A_{ij}$</dt><dd>row sum = degree $k_i$</dd>
-  <dt>$\tfrac12 \sum_{i,j}$</dt><dd>all entries, halved: each link appears as $A_{ij}$ and $A_{ji}$</dd>
+  <dt>$\sum_j A_{ij}$</dt><dd>the sum of row $i$, which is the degree $k_i$</dd>
+  <dt>$\tfrac12 \sum_{i,j}$</dt><dd>the sum of all entries, halved, because each link appears twice: as $A_{ij}$ and as $A_{ji}$</dd>
 </dl>
-<p><strong>Directed</strong> (book's convention): $A_{ij} = 1$ for a link <em>from $j$ to $i$</em>. Row sums are in-degrees, column sums out-degrees; $A$ is generally not symmetric. Software often uses the opposite convention.</p>
+<p>For a <strong>directed</strong> network the book's convention is $A_{ij} = 1$ for a link <em>from $j$ to $i$</em>. Then the row sums are in-degrees, the column sums are out-degrees, and $A$ is usually not symmetric. Many software packages use the opposite convention, so check which one you are reading.</p>
 <div class="callout example">
-  <p>Links 1–2, 1–3, 2–3, 3–4: $A = \begin{pmatrix} 0&1&1&0\\ 1&0&1&0\\ 1&1&0&1\\ 0&0&1&0 \end{pmatrix}$, row sums 2, 2, 3, 1; total $8 = 2L$.</p>
+  <p>The links 1–2, 1–3, 2–3 and 3–4 give $A = \begin{pmatrix} 0&1&1&0\\ 1&0&1&0\\ 1&1&0&1\\ 0&0&1&0 \end{pmatrix}$. The row sums are 2, 2, 3 and 1, and they add up to $8 = 2L$.</p>
 </div>
 
 <h2>Edit a network through its matrix</h2>
 <div data-fig id="fig-edit"></div>
 <div class="callout look">
   <ul>
-    <li>Undirected: clicking $A_{ij}$ also sets $A_{ji}$; the diagonal stays empty; row sums are degrees.</li>
-    <li>Directed: one entry is one arrow; row sums are in-degrees, column sums out-degrees, both totalling $L$.</li>
+    <li>In an undirected network, clicking $A_{ij}$ also sets $A_{ji}$, the diagonal stays empty, and the row sums are the degrees.</li>
+    <li>In a directed network one entry is one arrow. The row sums are in-degrees and the column sums out-degrees, and both add up to $L$.</li>
   </ul>
 </div>
 
 <h2>The karate club as a matrix</h2>
-<p>Node order is arbitrary (renumbering gives the same network), but a good order reveals structure.</p>
+<p>The order of the nodes is arbitrary: renumbering them gives the same network. But a good order can reveal structure.</p>
 <div data-fig id="fig-karate"></div>
 <div class="callout look">
-  <p>Sorted by faction, two dense diagonal blocks appear: 67 of 78 links stay inside a faction. This is <em>community structure</em> (<a href="communities.html">Communities</a>). In random order it looks like noise.</p>
+  <p>Sorted by faction, the matrix shows two dense blocks on the diagonal: 67 of the 78 links stay inside a faction. This is <em>community structure</em> (<a href="communities.html">Communities</a>). In random order the same matrix looks like noise.</p>
 </div>
 
 <h2>Walks and triangles from powers of $A$</h2>
-<p>A <strong>walk</strong> of length $n$ is $n$ consecutive links; it may revisit nodes (a <em>path</em> may not). The product $A^2 = A \cdot A$ counts walks of length 2:</p>
+<p>A <strong>walk</strong> of length $n$ is a sequence of $n$ consecutive links. Unlike a <em>path</em>, a walk may visit a node more than once. The product $A^2 = A \cdot A$ counts the walks of length 2:</p>
 <div class="eq">$$(A^2)_{ij} = \sum_{m=1}^{N} A_{im}A_{mj}, \qquad (A^n)_{ij} = \#\text{walks of length } n \text{ from } i \text{ to } j.$$</div>
 <dl class="symbols">
-  <dt>$A_{im}A_{mj}$</dt><dd>1 if $i$–$m$ and $m$–$j$ are both links: one walk $i \to m \to j$</dd>
-  <dt>$(A^2)_{ij}$</dt><dd>for $i \ne j$: number of common neighbours</dd>
+  <dt>$A_{im}A_{mj}$</dt><dd>1 if $i$–$m$ and $m$–$j$ are both links, which gives one walk $i \to m \to j$</dd>
+  <dt>$(A^2)_{ij}$</dt><dd>for $i \ne j$, the number of common neighbours of $i$ and $j$</dd>
   <dt>$A^n$</dt><dd>$A$ multiplied by itself $n$ times</dd>
 </dl>
-<p>The distance $d_{ij}$ is the smallest $n$ with $(A^n)_{ij} > 0$. A triangle is a closed walk of length 3, counted 6 times in the trace (3 starting nodes × 2 directions):</p>
+<p>The distance $d_{ij}$ is the smallest $n$ for which $(A^n)_{ij} > 0$. A triangle is a closed walk of length 3, and the trace counts each triangle 6 times (3 starting nodes × 2 directions):</p>
 <div class="eq">$$\#\text{triangles} = \frac{1}{6}\,\mathrm{Tr}\, A^3, \qquad \bigl(A^3\bigr)_{ii} = 2\times(\text{triangles through } i).$$</div>
 <dl class="symbols">
-  <dt>$\mathrm{Tr}\,A^3$</dt><dd>trace: sum of the diagonal of $A^3$</dd>
-  <dt>$(A^3)_{ii}$</dt><dd>closed 3-step walks from $i$</dd>
+  <dt>$\mathrm{Tr}\,A^3$</dt><dd>the trace: the sum of the diagonal entries of $A^3$</dd>
+  <dt>$(A^3)_{ii}$</dt><dd>the number of closed 3-step walks that start and end at $i$</dd>
 </dl>
 <div class="callout example">
-  <p>Example above: $A_{14} = 0$, $(A^2)_{14} = 1$ (via 3), so $d_{14} = 2$; $\mathrm{Tr}\,A^3 = 2+2+2+0 = 6$ → 1 triangle.</p>
-  <p>Karate: $A_{0,33} = 0$, $(A^2)_{0,33} = 4$ → $d = 2$; $\mathrm{Tr}\,A^3 = 270$ → 45 triangles.</p>
+  <p>In the example above, $A_{14} = 0$ but $(A^2)_{14} = 1$ (through node 3), so $d_{14} = 2$. $\mathrm{Tr}\,A^3 = 2+2+2+0 = 6$, which means one triangle.</p>
+  <p>In the karate club, $A_{0,33} = 0$ and $(A^2)_{0,33} = 4$, so $d = 2$. $\mathrm{Tr}\,A^3 = 270$, which means 45 triangles.</p>
 </div>
 <div data-fig id="fig-powers"></div>
 
@@ -79,96 +79,96 @@
 
 <div class="callout why">
   <ul>
-    <li>Network questions become fast linear algebra.</li>
-    <li>$A^2$ (common neighbours) underlies friend recommendation and link prediction.</li>
-    <li>$A^3$ (triangles) gives clustering.</li>
-    <li data-beyond="Not in chapters 1–7: spectral methods">Eigenvectors of $A$ rank nodes and find communities.</li>
+    <li>Network questions become linear algebra, which computers do fast.</li>
+    <li>$A^2$ counts common neighbours, the basis of friend recommendation and link prediction.</li>
+    <li>$A^3$ counts triangles, which give the clustering coefficient.</li>
+    <li data-beyond="Not in chapters 1–7: spectral methods">The eigenvectors of $A$ rank nodes by importance and find communities.</li>
   </ul>
 </div>
 
 <div class="callout discuss">
-  <p>The adjacency matrix of the karate club has $34^2 = 1{,}156$ entries, of which 156 are non-zero. What fraction would be non-zero for the collaboration network with $N = 23{,}133$ and $L = 93{,}439$? What does that suggest about how to store large networks?</p>
+  <p>The adjacency matrix of the karate club has $34^2 = 1{,}156$ entries, of which 156 are non-zero. What fraction would be non-zero for the collaboration network, with $N = 23{,}133$ and $L = 93{,}439$? What does that suggest about how to store large networks?</p>
   <div class="hint">$2L/N^2 = 186{,}878 / 535{,}135{,}689 \approx 0.035\%$. The matrix is almost all zeros, so real networks are stored as edge lists or sparse matrices (<a href="ch2-sparsity.html">next page</a>).</div>
 </div>
 
 <div class="callout connect">
   <ul>
-    <li><strong>Encodes</strong> <a href="ch2-degree.html">degree</a> (row sums) and handshaking (sum of all entries).</li>
-    <li><strong>Mostly zeros</strong> in real networks: <a href="ch2-sparsity.html">sparsity</a>.</li>
-    <li><strong>Gives</strong> <a href="ch2-paths.html">distances</a> (first $n$ with $(A^n)_{ij} > 0$), <a href="ch2-connectedness.html">components</a> (diagonal blocks), <a href="ch2-clustering.html">clustering</a> (triangles).</li>
-    <li><strong>Random model:</strong> <a href="ch3-model.html">G(N, p)</a> fills each $A_{ij}$, $i &lt; j$, with 1 independently with probability $p$.</li>
+    <li><strong>Contains</strong> the <a href="ch2-degree.html">degrees</a> (row sums) and the handshaking identity (all entries add up to $2L$).</li>
+    <li><strong>Is mostly zeros</strong> for real networks: see <a href="ch2-sparsity.html">sparsity</a>.</li>
+    <li><strong>Gives</strong> <a href="ch2-paths.html">distances</a> (the first $n$ with $(A^n)_{ij} > 0$), <a href="ch2-connectedness.html">components</a> (diagonal blocks when the nodes are ordered by component) and <a href="ch2-clustering.html">clustering</a> (triangles).</li>
+    <li><strong>Random model:</strong> <a href="ch3-model.html">G(N, p)</a> fills each $A_{ij}$ with $i &lt; j$ with a 1, independently, with probability $p$.</li>
   </ul>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>Undirected network: what is $(A^2)_{ii}$?</p>
+  <p>In an undirected network, what is $(A^2)_{ii}$?</p>
   <ol>
-    <li>The degree $k_i$</li>
-    <li data-why="Walks i → m → i exist even without self-loops.">0, as there are no self-loops</li>
-    <li data-why="Triangles need closed 3-step walks: (A³)ᵢᵢ/2.">Triangles through $i$</li>
-    <li data-why="Each neighbour gives one walk i → m → i, not two.">$2k_i$</li>
+    <li>The degree $k_i$.</li>
+    <li data-why="Walks i → m → i exist even without self-loops.">0, because there are no self-loops.</li>
+    <li data-why="Triangles need closed 3-step walks: they are counted by (A³)ᵢᵢ/2.">The number of triangles through $i$.</li>
+    <li data-why="Each neighbour gives one walk i → m → i, not two.">$2k_i$.</li>
   </ol>
-  <div class="explain">$(A^2)_{ii} = \sum_m A_{im}^2 = k_i$: one out-and-back walk per neighbour.</div>
+  <div class="explain">$(A^2)_{ii} = \sum_m A_{im}^2 = k_i$: there is one out-and-back walk for each neighbour.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Karate: $A_{0,33} = 0$, $(A^2)_{0,33} = 4$. Distance between 0 and 33?</p>
+  <p>In the karate club, $A_{0,33} = 0$ and $(A^2)_{0,33} = 4$. What is the distance between members 0 and 33?</p>
   <ol>
-    <li data-why="Distance 1 needs a direct link; A₀,₃₃ = 0.">1</li>
+    <li data-why="Distance 1 needs a direct link, but A₀,₃₃ = 0.">1</li>
     <li>2</li>
-    <li data-why="4 counts walks of length 2, not a length.">4</li>
-    <li data-why="It is the first n with (Aⁿ)ᵢⱼ > 0.">Not readable from $A$</li>
+    <li data-why="4 counts the walks of length 2; it is not a length.">4</li>
+    <li data-why="The distance is the first n with (Aⁿ)ᵢⱼ > 0, which A gives.">It cannot be read from $A$.</li>
   </ol>
-  <div class="explain">No 1-step walk, four 2-step walks, so $d_{0,33} = 2$.</div>
+  <div class="explain">There is no walk of length 1 and there are four of length 2, so $d_{0,33} = 2$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>An undirected matrix without self-loops has 40 ones. How many links?</p>
+  <p>The adjacency matrix of an undirected network without self-loops contains 40 ones. How many links does the network have?</p>
   <ol>
-    <li data-why="Each link appears twice, as Aᵢⱼ and Aⱼᵢ.">40</li>
+    <li data-why="Each link appears twice, as Aᵢⱼ and as Aⱼᵢ.">40</li>
     <li>20</li>
     <li data-why="That doubles instead of halving.">80</li>
-    <li data-why="Halve once: each link fills exactly two cells.">10</li>
+    <li data-why="Halve only once: each link fills exactly two cells.">10</li>
   </ol>
-  <div class="explain">$L = 40/2 = 20$.</div>
+  <div class="explain">Each link fills two cells, so $L = 40/2 = 20$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Book convention ($A_{ij} = 1$ for $j \to i$): what is the sum of row $i$?</p>
+  <p>With the book's convention ($A_{ij} = 1$ for a link from $j$ to $i$), what is the sum of row $i$?</p>
   <ol>
-    <li data-why="Out-degrees are column sums here.">Out-degree of $i$</li>
-    <li>In-degree of $i$</li>
-    <li data-why="A directed row holds only one direction.">Total degree</li>
-    <li data-why="L is the sum of all entries.">$L$</li>
+    <li data-why="With this convention the out-degrees are the column sums.">The out-degree of $i$.</li>
+    <li>The in-degree of $i$.</li>
+    <li data-why="A row of a directed matrix holds only one direction of links.">The total degree of $i$.</li>
+    <li data-why="L is the sum of all entries, not of one row.">The number of links $L$.</li>
   </ol>
-  <div class="explain">Row $i$ has a 1 for every link $j \to i$, i.e. every link arriving at $i$.</div>
+  <div class="explain">Row $i$ has a 1 for every link $j \to i$, that is, for every link arriving at $i$.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>Karate: $\mathrm{Tr}\,A^3 = 270$. How many triangles?</p>
+  <p>In the karate club, $\mathrm{Tr}\,A^3 = 270$. How many triangles does it contain?</p>
   <ol>
     <li data-why="Each triangle gives six closed walks.">270</li>
-    <li data-why="÷3 covers the starting nodes, not the two directions.">90</li>
+    <li data-why="Dividing by 3 accounts for the starting nodes but not for the two directions.">90</li>
     <li>45</li>
-    <li data-why="÷2 covers the directions, not the starting nodes.">135</li>
+    <li data-why="Dividing by 2 accounts for the directions but not for the starting nodes.">135</li>
   </ol>
-  <div class="explain">3 starts × 2 directions = 6 walks per triangle: $270/6 = 45$.</div>
+  <div class="explain">Each triangle gives 3 starting nodes × 2 directions = 6 closed walks, so there are $270/6 = 45$ triangles.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>Links 1–2, 1–3, 2–3, 3–4. What is $(A^2)_{12}$?</p>
+  <p>A network has the links 1–2, 1–3, 2–3 and 3–4. What is $(A^2)_{12}$?</p>
   <ol>
-    <li data-why="A² counts walks of length 2, which exist whether or not 1 and 2 are linked directly.">0, because 1 and 2 are linked</li>
+    <li data-why="A² counts walks of length 2, which exist whether or not 1 and 2 are also linked directly.">0, because 1 and 2 are linked directly.</li>
     <li data-why="Only node 3 is a neighbour of both.">2</li>
-    <li data-why="That is k₃, not the number of common neighbours.">3</li>
+    <li data-why="3 is k₃, not the number of common neighbours of 1 and 2.">3</li>
     <li>1</li>
   </ol>
-  <div class="explain">The only walk $1 \to m \to 2$ goes through $m = 3$: one common neighbour.</div>
+  <div class="explain">The only walk $1 \to m \to 2$ goes through $m = 3$, so 1 and 2 have one common neighbour.</div>
 </div>
 <div class="quiz" data-answer="4">
   <p>When is the adjacency matrix of a directed network symmetric?</p>
   <ol>
-    <li data-why="A single one-way link j → i gives Aᵢⱼ = 1 but Aⱼᵢ = 0.">Always</li>
-    <li data-why="It is symmetric when every link is matched by its reverse.">Never</li>
-    <li data-why="Self-loops sit on the diagonal and do not affect symmetry.">When there are no self-loops</li>
-    <li>When every link has a reverse link</li>
+    <li data-why="A single one-way link j → i gives Aᵢⱼ = 1 but Aⱼᵢ = 0.">Always.</li>
+    <li data-why="It is symmetric whenever every link is matched by its reverse.">Never.</li>
+    <li data-why="Self-loops sit on the diagonal and do not affect symmetry.">When there are no self-loops.</li>
+    <li>When every link has a reverse link.</li>
   </ol>
-  <div class="explain">$A_{ij} = A_{ji}$ for all pairs means every $j \to i$ comes with $i \to j$: the network is effectively undirected.</div>
+  <div class="explain">$A_{ij} = A_{ji}$ for all pairs means that every link $j \to i$ comes with a link $i \to j$: the network is effectively undirected.</div>
 </div>
 
 </div></main>
