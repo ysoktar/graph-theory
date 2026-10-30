@@ -126,3 +126,12 @@ test("pages and scripts use no em dashes (house style)", () => {
     assert.ok(!readFileSync(f, "utf8").includes("—"), `${f} contains an em dash`);
   }
 });
+
+test("no TeX command was mangled by an escape sequence (\\r, \\n, \\t, \\f, \\b)", () => {
+  const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? (e.name === "vendor" ? [] : walk(join(d, e.name))) : /\.(html|json)$/.test(e.name) ? [join(d, e.name)] : []));
+  for (const f of walk(site)) {
+    const s = readFileSync(f, "utf8");
+    assert.ok(!s.includes("\r"), `${f} contains a carriage return (a mangled \\rangle?)`);
+    assert.ok(!/\$[^$\n]*\n(?:angle|ight|rac|ext|imes|eta|au|heta|abla)\b/.test(s), `${f}: a TeX command broken across a line`);
+  }
+});
