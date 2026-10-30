@@ -1,0 +1,21 @@
+{
+  "Degree distributions of simulated random networks": "Benzetimle üretilmiş rastgele ağların derece dağılımları",
+  "Three sizes, the same average degree ⟨k⟩.": "Üç boyut, aynı ortalama derece ⟨k⟩.",
+  "share within ⟨k⟩ ± {0}σₖ": "⟨k⟩ ± {0}σₖ içindeki pay",
+  "largest degree (N = {0})": "en büyük derece (N = {0})",
+  "degree k": "derece k",
+  "simulation, N = {0}": "benzetim, N = {0}",
+  "Poisson, ⟨k⟩ = {0}": "Poisson, ⟨k⟩ = {0}",
+  "average degree ⟨k⟩": "ortalama derece ⟨k⟩",
+  "Vertical axis": "Dikey eksen",
+  "Linear": "Doğrusal",
+  "Log": "Logaritmik",
+  "The ⟨k⟩ slider updates on release, because the largest network has {0} nodes and about {1} links (generated in your browser). With ⟨k⟩ = {2}, as in the notebook, σₖ = {3} and {4}% of nodes lie within k = {5} ± {6}.": "⟨k⟩ kaydırıcısı bırakıldığında güncellenir, çünkü en büyük ağın {0} düğümü ve yaklaşık {1} bağlantısı vardır (tarayıcınızda üretilir). Not defterindeki gibi ⟨k⟩ = {2} ile σₖ = {3}'tür ve düğümlerin %{4}'i k = {5} ± {6} içindedir.",
+  "Exact binomial versus its Poisson approximation": "Kesin binom ile Poisson yaklaşıklığı",
+  "Theory only: the exact degree distribution of G(N, p) with p = ⟨k⟩/(N − {0}).": "Yalnızca kuram: p = ⟨k⟩/(N − {0}) ile G(N, p)'nin kesin derece dağılımı.",
+  "binomial variance ⟨k⟩({0} − p)": "binom varyansı ⟨k⟩({0} − p)",
+  "Poisson variance ⟨k⟩": "Poisson varyansı ⟨k⟩",
+  "largest difference in pₖ": "pₖ'daki en büyük fark",
+  "binomial, N = {0}": "binom, N = {0}",
+  "nodes N": "düğüm N"
+}
