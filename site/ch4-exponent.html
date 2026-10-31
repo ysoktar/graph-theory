@@ -32,10 +32,11 @@
   <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>first and second moments (<a href="ch4-moments.html">No typical degree</a>)</dd>
   <dt>$k_{\max}$</dt><dd>largest degree (<a href="ch4-hubs.html">The largest hub</a>)</dd>
   <dt>$\langle d\rangle$</dt><dd>average distance (<a href="ch4-ultra-small.html">Ultra-small worlds</a>)</dd>
+  <dt>diverges</dt><dd>grows without limit as the network grows; in a finite network it is finite but set by the largest hubs</dd>
   <dt>simple network</dt><dd>no self-loops or repeated links, so $k_{\max} \le N - 1$</dd>
 </dl>
 <div class="callout example">
-  <p>Why $\gamma = 2$ is a wall: $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$; with $\gamma = 1.8$, $k_{\min} = 1$, $N = 10^4$: $10^{4/0.8} = 10^5 &gt; N$.</p>
+  <p>Why $\gamma = 2$ is a wall: the largest hub has about $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$ links. With $\gamma = 1.8$, $k_{\min} = 1$ and $N = 10^4$ this gives $10^{4/0.8} = 10^5$ links, ten times more than there are other nodes to link to.</p>
 </div>
 
 <div data-fig id="fig-net"></div>
@@ -48,7 +49,7 @@
 
 <div class="callout discuss">
   <p>To tell a power law with $\gamma &gt; 3$ from a random network's degree distribution you need a tail long enough to see the straight line. How large must $N$ be?</p>
-  <div class="hint">At least two orders of magnitude: $k_{\max}/k_{\min} = N^{1/(\gamma-1)} \gtrsim 100$, i.e. $N \gtrsim 100^{\gamma-1}$. For $\gamma = 3.5$, $N \gtrsim 10^5$; for $\gamma = 5$, $N \gtrsim 10^8$. Section 4.7: for large $\gamma$ the scale-free property is practically invisible at realistic sizes.</div>
+  <div class="hint">The tail should span at least two orders of magnitude (a factor of 100): $k_{\max}/k_{\min} = N^{1/(\gamma-1)} \gtrsim 100$, i.e. $N \gtrsim 100^{\gamma-1}$. For $\gamma = 3.5$, $N \gtrsim 10^5$; for $\gamma = 5$, $N \gtrsim 10^8$. Section 4.7: for large $\gamma$ the scale-free property is practically invisible at realistic sizes.</div>
 </div>
 
 <div class="callout why">
@@ -117,7 +118,7 @@
   <div class="explain">$k_{\max} \approx N^{1/(\gamma-1)} = (10^6)^{1/2} = 1{,}000$.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>A network with $\gamma = 3.5$ is called \"not really scale-free\". What is the most precise statement?</p>
+  <p>A network with $\gamma = 3.5$ is called “not really scale-free”. What is the most precise statement?</p>
   <ol>
     <li>Its degrees can follow a power law, but at realistic sizes its moments and distances look random-like</li>
     <li data-why="A power law with γ = 3.5 is still a power law.">Its degree distribution must be Poisson</li>
@@ -134,7 +135,7 @@
     <li data-why="Networks with 2 &lt; γ &lt; 3 are common.">Networks cannot exist below it</li>
     <li>$\langle k^2\rangle$ diverges below it and converges above it</li>
   </ol>
-  <div class="explain">$\langle k^2\rangle$ converges when $2 - \gamma + 1 &lt; 0$, i.e. $\gamma &gt; 3$.</div>
+  <div class="explain">$\langle k^2\rangle \sim \int k^2 k^{-\gamma}\,dk$ grows like $k_{\max}^{3-\gamma}$. As the network grows, $k_{\max}$ grows, so $\langle k^2\rangle$ stays finite only when $3 - \gamma &lt; 0$, i.e. $\gamma &gt; 3$.</div>
 </div>
 
 </div></main>

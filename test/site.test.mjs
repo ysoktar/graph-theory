@@ -133,5 +133,6 @@ test("no TeX command was mangled by an escape sequence (\\r, \\n, \\t, \\f, \\b)
     const s = readFileSync(f, "utf8");
     assert.ok(!s.includes("\r"), `${f} contains a carriage return (a mangled \\rangle?)`);
     assert.ok(!/\$[^$\n]*\n(?:angle|ight|rac|ext|imes|eta|au|heta|abla)\b/.test(s), `${f}: a TeX command broken across a line`);
+    if (f.endsWith(".html")) assert.ok(!s.includes('\\"'), `${f}: a backslash-escaped quote shows as \\" on the page`);
   }
 });
