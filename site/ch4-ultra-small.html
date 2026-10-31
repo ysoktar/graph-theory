@@ -18,7 +18,7 @@
 <main><div class="content">
 
 <h1>Ultra-small worlds</h1>
-<p class="lead">Random networks are small worlds: $\langle d\rangle \sim \ln N$. Hubs make scale-free networks smaller still, because most short paths can pass through a few very well-connected nodes (Section 4.6).</p>
+<p class="lead">Random networks are small worlds: the average distance grows only like $\ln N$. Scale-free networks are smaller still, because most short paths can run through a few very well-connected nodes, the hubs (Section 4.6).</p>
 
 <h2>Four regimes</h2>
 <div class="eq">$$\langle d\rangle \sim \begin{cases} \text{const} & \gamma = 2 \\ \ln\ln N & 2 &lt; \gamma &lt; 3 \\ \dfrac{\ln N}{\ln\ln N} & \gamma = 3 \\ \ln N & \gamma &gt; 3 \end{cases}$$</div>
@@ -31,19 +31,20 @@
 <ul>
   <li><strong>$\gamma = 2$:</strong> the largest hub grows like $N$ and links a finite share of all nodes, so distances stay constant.</li>
   <li><strong>$2 &lt; \gamma &lt; 3$:</strong> hubs of decreasing size form a hierarchy that connects any two nodes in $\sim\ln\ln N$ steps (Cohen and Havlin, 2003).</li>
-  <li><strong>$\gamma &gt; 3$:</strong> the hubs are too small to matter; the network behaves like a random one.</li>
+  <li><strong>$\gamma = 3$:</strong> the borderline case; the hubs still shorten paths a little, by the factor $\ln\ln N$.</li>
+  <li><strong>$\gamma &gt; 3$:</strong> the hubs are too small to matter; distances grow like a random network's.</li>
 </ul>
 <div class="callout example">
-  <p>$N = 10^6$: $\ln N = 13.8$, $\ln\ln N = 2.6$.</p>
+  <p>For a million nodes, $N = 10^6$: $\ln N = 13.8$ but $\ln\ln N = 2.6$. Ultra-small means paths about five times shorter, in this rough scaling.</p>
 </div>
 
 <div data-fig id="fig-dn"></div>
 <div class="callout fix" data-errata="N17"></div>
 <div class="callout look">
-  <p>Even with a fair baseline, $\gamma = 2.1$ gives the shortest distances, growing most slowly. But $\ln\ln N$ changes only from 1.5 to 2.3 between $N = 100$ and $30{,}000$: the regimes are asymptotic statements.</p>
+  <p>Even against a random network with the same $\langle k\rangle$, $\gamma = 2.1$ gives the shortest distances, and they grow most slowly. Do not expect the curves to follow the formulas exactly: $\ln\ln N$ only goes from 1.5 to 2.3 between $N = 100$ and $30{,}000$. The four regimes describe very large $N$.</p>
 </div>
 <div class="callout note">
-  <p>The degree sequences here use an exact discrete power-law sampler. The notebook's helper uses a rounding shortcut that over-represents degree 2 at $k_{\min} = 2$ (see <a href="notebook-check.html#N3">N3</a>), which makes its networks slightly sparser.</p>
+  <p>The degree sequences here use an exact discrete power-law sampler. The notebook's helper uses a rounding shortcut that over-represents degree 2 at $k_{\min} = 2$ (see <a href="notebook-check.html#N3">N3</a>), which makes its networks slightly sparser and so slightly longer.</p>
 </div>
 
 <h2>The book's networks</h2>
