@@ -1,0 +1,131 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Ultra küçük dünyalar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Merkez düğümler ölçekten bağımsız ağlarda uzaklıkları nasıl kısaltır: 2 &lt; γ &lt; 3 için ⟨d⟩ ~ ln ln N, aynı yoğunluktaki rastgele ağlarla karşılaştırmalı benzetim."></head><body>
+<div class="content">
+
+<h1>Ultra küçük dünyalar</h1>
+<p class="lead">Rastgele ağlar küçük dünyalardır: ortalama uzaklık yalnızca $\ln N$ gibi büyür. Ölçekten bağımsız ağlar daha da küçüktür, çünkü kısa yolların çoğu birkaç çok iyi bağlantılı düğümden, merkez düğümlerden geçebilir (Bölüm 4.6).</p>
+
+<h2>Dört rejim</h2>
+<div class="eq">$$\langle d\rangle \sim \begin{cases} \text{sabit} & \gamma = 2 \\ \ln\ln N & 2 &lt; \gamma &lt; 3 \\ \dfrac{\ln N}{\ln\ln N} & \gamma = 3 \\ \ln N & \gamma &gt; 3 \end{cases}$$</div>
+<dl class="symbols">
+  <dt>$\langle d\rangle$</dt><dd>ortalama en kısa yol uzaklığı</dd>
+  <dt>$N$</dt><dd>düğüm sayısı</dd>
+  <dt>$\gamma$</dt><dd>derece üsteli</dd>
+  <dt>$\ln\ln N$</dt><dd>logaritmanın logaritması: son derece yavaş büyür</dd>
+</dl>
+<ul>
+  <li><strong>$\gamma = 2$:</strong> en büyük merkez düğüm $N$ gibi büyür ve tüm düğümlerin sabit bir payına bağlanır; bu yüzden uzaklıklar sabit kalır.</li>
+  <li><strong>$2 &lt; \gamma &lt; 3$:</strong> giderek küçülen merkez düğümler, herhangi iki düğümü $\sim\ln\ln N$ adımda birleştiren bir hiyerarşi kurar (Cohen ve Havlin, 2003).</li>
+  <li><strong>$\gamma = 3$:</strong> sınır durumu; merkez düğümler yolları hâlâ biraz, $\ln\ln N$ çarpanı kadar kısaltır.</li>
+  <li><strong>$\gamma &gt; 3$:</strong> merkez düğümler bir fark yaratamayacak kadar küçüktür; uzaklıklar rastgele bir ağdaki gibi büyür.</li>
+</ul>
+<div class="callout example">
+  <p>Bir milyon düğüm için, $N = 10^6$: $\ln N = 13.8$ ama $\ln\ln N = 2.6$. Bu kaba ölçeklemeyle ultra küçük, yaklaşık beş kat daha kısa yollar demektir.</p>
+</div>
+
+<div data-fig id="fig-dn"></div>
+<div class="callout fix" data-errata="N17"></div>
+<div class="callout look">
+  <p>Aynı $\langle k\rangle$'ya sahip bir rastgele ağla karşılaştırıldığında bile en kısa uzaklıkları $\gamma = 2.1$ verir ve bu uzaklıklar en yavaş büyür. Eğrilerin formülleri tam izlemesini beklemeyin: $N = 100$ ile $30{,}000$ arasında $\ln\ln N$ yalnızca 1.5'ten 2.3'e çıkar. Dört rejim çok büyük $N$'yi anlatır.</p>
+</div>
+<div class="callout note">
+  <p>Buradaki derece dizileri kesin bir kesikli kuvvet yasası örnekleyicisiyle üretildi. Not defterinin yardımcı fonksiyonu, $k_{\min} = 2$'de 2. dereceyi fazla temsil eden bir yuvarlama kestirmesi kullanır (bkz. <a href="notebook-check.html#N3">N3</a>); bu da onun ağlarını biraz daha seyrek, dolayısıyla biraz daha uzun yapar.</p>
+</div>
+
+<h2>Kitabın ağları</h2>
+<p>Her ağın kendi derece dizisini rastgele bağlamak (<a href="ch4-generating.html">konfigürasyon modeli</a>), uzaklıklara tek başına derecelerin ne yaptığını gösterir:</p>
+<div id="tbl-real"></div>
+<div class="callout look">
+  <ul>
+    <li>Aynı dereceler, rastgele bağlantılar: elektrik şebekesi dışındaki her ağ, $G(N, L)$ karşılığından küçüktür; fark %14 (ortak çalışma) ile %56 (e-posta) arasındadır. Vurgulanan satırlar %20'den fazla küçüktür.</li>
+    <li>Sekiz gerçek ağın altısı, rastgele bağlanmış sürümlerinden <em>daha uzundur</em>: topluluklar ve coğrafya, aksi hâlde kestirme olacak bağlantıları yerelde harcar.</li>
+  </ul>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Gerçek ağların neden rastgele modelin öngördüğünden bile küçük olduğunu açıklar.</li>
+    <li>Derecelerin etkisini (konfigürasyon modeli) bağlantı düzeninin etkisinden (gerçek ağ) ayırır.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li>Rastgele ağın <a href="ch3-small-world.html">küçük dünya</a> sonucu $\ln N$'yi <strong>genişletir</strong>.</li>
+    <li><strong>Nedeni</strong> <a href="ch4-hubs.html">büyüyen merkez düğümlerdir</a>.</li>
+    <li><strong>Sıfır modeli:</strong> <a href="ch4-generating.html">konfigürasyon modeli</a> dereceleri korur, gerisini rastgeleleştirir.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$\gamma = 2.5$ olan bir ağ $10^4$ düğümden $10^8$ düğüme büyüyor. $\ln\ln N$ kabaca nasıl değişir?</p>
+  <ol>
+    <li data-why="ln N iki katına çıkar (9.2 → 18.4); onun logaritması çok daha az büyür.">İki katına çıkar</li>
+    <li>Yaklaşık 2.2'den yaklaşık 2.9'a</li>
+    <li data-why="Bu, ln ln N'nin değil, N^(1/4)'ün büyümesine daha yakındır.">On katına çıkar</li>
+    <li data-why="ln ln N büyür, yalnızca çok yavaş.">Değişmez</li>
+  </ol>
+  <div class="explain">$\ln\ln 10^4 = \ln 9.2 \approx 2.2$, $\ln\ln 10^8 = \ln 18.4 \approx 2.9$: on bin kat daha fazla düğüm, yaklaşık üçte bir daha uzun yollar.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Hangi $\gamma$ için uzaklıklar rastgele bir ağdaki gibi, $\ln N$ olarak büyür?</p>
+  <ol>
+    <li data-why="γ = 2'de uzaklıklar sabit kalır.">$\gamma = 2$</li>
+    <li data-why="Bu, ultra küçük rejimdir: ln ln N.">$2 &lt; \gamma &lt; 3$</li>
+    <li>$\gamma &gt; 3$</li>
+    <li data-why="Uzaklıklar merkez düğümler aracılığıyla γ'ya bağlıdır.">Her $\gamma$ için</li>
+  </ol>
+  <div class="explain">$\gamma = 3$'ün üstünde merkez düğümler yolları kısaltamayacak kadar küçüktür ve ağ rastgele bir ağ gibi davranır.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>İnternet'in ortalama uzaklığı 6.91; aynı derecelerle ama rastgele bağlantılarla 4.93. Farkı ne açıklar?</p>
+  <ol>
+    <li>Gerçek bağlantılar yereldir (topluluklar, coğrafya); rastgele bağlantının kestirmeye çevireceği bağlantıları yerelde kullanır</li>
+    <li data-why="İki ağ da tamamen aynı derecelere sahiptir.">Gerçek ağda daha az merkez düğüm vardır</li>
+    <li data-why="Konfigürasyon modeli N'yi ve her dereceyi korur.">Rastgele bağlanmış ağda daha çok düğüm vardır</li>
+    <li data-why="300 kaynak üzerinden %40'lık bir fark örnekleme gürültüsü değildir.">Örnekleme gürültüsü</li>
+  </ol>
+  <div class="explain">Dereceler yolların ne kadar kısa olabileceğini belirler; bağlantıların kestirme olarak kullanılıp kullanılmadığına bağlantı düzeni karar verir.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>$\gamma = 3$ için $\langle d\rangle \sim \ln N/\ln\ln N$. $N = 10^6$'da bu oran kaçtır?</p>
+  <ol>
+    <li data-why="Bu yalnızca ln N'dir.">13.8</li>
+    <li data-why="Bu yalnızca ln ln N'dir.">2.6</li>
+    <li data-why="Bu, bölmek yerine çarpar.">36</li>
+    <li>Yaklaşık 5.3</li>
+  </ol>
+  <div class="explain">$\ln 10^6 = 13.8$, $\ln\ln 10^6 = 2.63$, oran $\approx 5.3$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$2 &lt; \gamma &lt; 3$ için yollar neden bu kadar kısadır?</p>
+  <ol>
+    <li data-why="Düğümlerin çoğunun çok az bağlantısı vardır.">Her düğüm diğer her düğüme bağlıdır</li>
+    <li>Bir merkez düğüm hiyerarşisi düğümlerin çoğunu birkaç adımda birleştirir</li>
+    <li data-why="Karşılaştırma eşit ⟨k⟩'da yapılır.">Ağda rastgele bir ağdakinden daha çok bağlantı vardır</li>
+    <li data-why="Üçgenler bağlantıları yerelde tutar; yolları uzatır.">Kümelenme kestirmeler yaratır</li>
+  </ol>
+  <div class="explain">Küçük düğümler bir merkez düğüme ulaşır, merkez düğümler daha büyük merkez düğümlere; seviye sayısı $\ln\ln N$ gibi büyür.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>E-posta: $G(N, L)$'de $\langle d\rangle = 9.39$, ama aynı dereceler rastgele bağlandığında 4.10. Düşüşün nedeni nedir?</p>
+  <ol>
+    <li data-why="Rastgele bağlama toplulukları yok eder; bu yüzden onlar açıklayamaz.">Toplulukları</li>
+    <li data-why="Rastgele bağlama kümelenmeyi de yok eder.">Kümelenmesi</li>
+    <li>Ağır kuyruklu dereceleri: merkez düğümler kestirme işi görür</li>
+    <li data-why="İki sürümün de N'si aynıdır.">Daha az sayıda düğüm</li>
+  </ol>
+  <div class="explain">İki sıfır modeli arasındaki tek fark derece dizisidir; e-postanın merkez düğümleri (6,553 bağlantıya kadar) yolları %56 kısaltır.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Bir rastgele ağda $N = 10^6$ ve $\langle k\rangle = 10$. 3. Bölüm'deki $\langle d\rangle \approx \ln N/\ln\langle k\rangle$ ile $\langle d\rangle$ kaçtır?</p>
+  <ol>
+    <li>Yaklaşık 6</li>
+    <li data-why="Bu, ln ⟨k⟩'ya bölmeyi unutur.">Yaklaşık 13.8</li>
+    <li data-why="Bu ln ln N'dir, ultra küçük ölçek.">Yaklaşık 2.6</li>
+    <li data-why="Uzaklıklar √N gibi değil, logaritmik olarak büyür.">Yaklaşık 1,000</li>
+  </ol>
+  <div class="explain">$\ln 10^6 / \ln 10 = 13.8/2.30 = 6$.</div>
+</div>
+
+</div></body></html>

@@ -332,6 +332,11 @@
   "def": "Verilen bir derece dizisine sahip rastgele ağ: her düğüme k_i yarım bağlantı (koçan) verin ve koçanları rastgele eşleştirin.",
   "match": "konfigürasyon model\\p{L}*"
  },
+  "Stub": {
+  "term": "Yarım bağlantı (koçan)",
+  "def": "Bir bağlantının bir düğüme takılı yarısı. Konfigürasyon modeli i düğümüne k_i yarım bağlantı verir ve rastgele çiftleri bağlantıya dönüştürür; bir çift tek bir düğüme düşebilir (kendine döngü) ya da var olan bir bağlantıyı tekrarlayabilir (çoklu bağlantı).",
+  "match": "yarım bağlantı\\p{L}*|koçan\\p{L}*"
+ },
  "Degree-preserving randomization": {
   "term": "Dereceyi koruyan rastgeleleştirme",
   "def": "Rastgele bağlantı çiftlerinin uçlarını defalarca takas edin: her derece kalır, geri kalan her şey rastgeleleşir. 'Yalnızca dereceler mi?' sorusu için bir sıfır modeli.",

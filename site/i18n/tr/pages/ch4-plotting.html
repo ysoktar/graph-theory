@@ -1,0 +1,142 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>pₖ nasıl çizilir (ve nasıl çizilmez) · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Doğrusal gruplar, logaritmik gruplar ve birikimli dağılım; kitabın ağlarında ve yapay kuvvet yasalarında yan yana: ham bir histogramın kuyruğu neden gürültüdür."></head><body>
+<div class="content">
+
+<h1>Bir derece dağılımı nasıl çizilir (ve nasıl çizilmez)</h1>
+<p class="lead">Bir kuvvet yasası log-log eksenlerde düz bir doğrudur; bu yüzden ham histogramı çizip bir doğru uydurmak cazip gelir. Ham histogram kuyruğu örnekleme gürültüsünün ardına gizler. İleri Konu 4.B iki çare sunar: logaritmik gruplar ve birikimli dağılım.</p>
+
+<h2>Dört grafik, tek bir dağılım</h2>
+<div data-fig id="fig-four"></div>
+<div class="callout look">
+  <ul>
+    <li><strong>(a)</strong> Doğrusal eksenlerde birkaç düzine bağlantının ötesindeki her şey eksene ezilir.</li>
+    <li><strong>(b)</strong> Log-log eksenlerde, her derece için bir grupla, kuyruk $p_k = 1/N$'de bir <em>düzlüğe</em> yassılaşır; burada her dereceye tek bir düğüm sahiptir ya da hiç düğüm yoktur (o zaman çizilemez). <em>Fizik değil, gürültü.</em></li>
+    <li><strong>(c)</strong> Logaritmik gruplar $k$ ile büyür; böylece her biri yeterli düğüm toplar ve kestirim kuyrukta çok ileriye kadar doğruyu izler.</li>
+    <li><strong>(d)</strong> Birikimli dağılım grup gerektirmez ve yine eğimi $-(\gamma - 1)$ olan bir doğrudur.</li>
+  </ul>
+</div>
+
+<h2>Logaritmik gruplama</h2>
+<p>Mertebe başına $b$ grupla, $n$. grup $k_n \approx 10^{n/b}$'de başlar; bu yüzden her grup bir öncekinden $10^{1/b}$ kat geniştir. $n$. gruptaki kestirim şudur:</p>
+<div class="eq">$$p_{k_n} = \frac{N_n}{N\,(k_{n+1} - k_n)}.$$</div>
+<dl class="symbols">
+  <dt>$b$</dt><dd>mertebe başına grup sayısı ($k$'da 10 katlık bir artış)</dd>
+  <dt>$k_n$</dt><dd>$n$. grubun alt sınırı</dd>
+  <dt>$k_{n+1} - k_n$</dt><dd>grup genişliği (kapsadığı tam sayı derece sayısı)</dd>
+  <dt>$N_n$</dt><dd>derecesi $n$. grupta olan düğümlerin sayısı</dd>
+  <dt>$N$</dt><dd>düğüm sayısı</dd>
+</dl>
+<p>Her nokta grubunun geometrik merkezine çizilir. Şekilde $b$'yi değiştirin: grup çok azsa eğri kabadır, çok fazlaysa gürültü geri gelir.</p>
+<div class="callout example">
+  <p>100–199 grubu $N = 10^5$ düğümden 50'sini tutar: $p_k \approx 50/(10^5 \times 100) = 5\times10^{-6}$.</p>
+</div>
+
+<h2>Birikimli dağılım</h2>
+<p>Tümleyen birikimli dağılım fonksiyonu (CCDF), en az $k$ bağlantısı olan düğümlerin payıdır:</p>
+<div class="eq">$$P_k = P(K \ge k) = \sum_{q \ge k} p_q \sim k^{-(\gamma - 1)}.$$</div>
+<dl class="symbols">
+  <dt>$P_k$</dt><dd>derecesi $\ge k$ olan düğümlerin payı</dd>
+  <dt>$q$</dt><dd>$k, k+1, \dots$ dereceleri üzerinden toplama indisi</dd>
+  <dt>$\gamma - 1$</dt><dd>CCDF üsteli; $p_k$ üstelinden bir eksik</dd>
+</dl>
+<ul>
+  <li><strong>Artısı:</strong> her düğüm katkı yapar, yapılacak bir grup seçimi yoktur ve eğri bazı dereceler eksik olduğunda bile pürüzsüzdür.</li>
+  <li><strong>Eksisi:</strong> komşu noktalar veriyi paylaşır; bu yüzden ona yapılan bir en küçük kareler uydurması yine de güvenilir hata payları vermez.</li>
+</ul>
+<div class="callout fix" data-errata="N8"></div>
+
+<h2>Düzlük nereden gelir</h2>
+<div data-fig id="fig-plateau"></div>
+
+<div class="callout gotcha">
+  <p><strong>Doğrusal gruplanmış bir log-log histograma asla bir doğru uydurmayın.</strong> Düzlük eğimi sıfıra doğru çeker ve sonuç uydurmanın kuyrukta ne kadar ileri gittiğine bağlıdır. <a href="ch4-fitting.html">Sonraki sayfada</a> $\gamma = 2.5$ olan bir örneklem için $\hat\gamma \approx 1.6$ verir.</p>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Bir grafik, kuvvet yasasının makul olup olmadığının ilk sınavıdır.</li>
+    <li>Logaritmik gruplar ve CCDF, ham histogramın gizlediği kuyruğu gösterir.</li>
+    <li>İkisi de güvenilir bir $\gamma$ vermez: bunun için en çok olabilirlik gerekir (<a href="ch4-fitting.html">sonraki sayfa</a>).</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><a href="ch4-power-laws.html">Kuvvet yasaları ve merkez düğümler</a> sayfasının modelini görsel olarak <strong>sınar</strong>.</li>
+    <li>3. bölümdeki <a href="ch3-real-degrees.html">gerçek–Poisson karşılaştırmasıyla</a> <strong>aynı araçlar</strong>.</li>
+    <li><a href="ch4-fitting.html">Üsteli kestirmeye</a> <strong>hazırlar</strong>.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Logaritmik bir grup 100 ile 199 arasındaki dereceleri kapsar ve $N = 10^5$ düğümden 50'sini tutar. $p_k$'nın kestirimi nedir?</p>
+  <ol>
+    <li data-why="Bu grup genişliğine bölmeyi unutur: grubun herhangi bir yerine düşme olasılığıdır.">$5\times10^{-4}$</li>
+    <li data-why="Bu grup genişliğine böler ama N'ye bölmez.">$0.5$</li>
+    <li>$5\times10^{-6}$</li>
+    <li data-why="Bu bir olasılık değil, ham sayıdır.">$50$</li>
+  </ol>
+  <div class="explain">$p_k \approx N_n / (N \cdot \text{genişlik}) = 50 / (10^5 \times 100) = 5\times10^{-6}$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$N = 10^4$ düğümün doğrusal gruplanmış log-log histogramı neden $p_k = 10^{-4}$'te düzleşir?</p>
+  <ol>
+    <li data-why="Bir kuvvet yasası düşmeyi sürdürür; düz kısım dağılımda yoktur.">Kuvvet yasasının en küçük değeri $1/N$'dir</li>
+    <li>Kuyruktaki her dereceye en fazla bir düğüm sahiptir ve $1/N$ sıfırdan farklı en küçük değerdir</li>
+    <li data-why="Logaritmik eksenler sayıları değil, eğrinin görünüşünü değiştirir; tabanı tek düğümler belirler.">Logaritmik eksenler küçük değerleri yukarı gerer</li>
+    <li data-why="Merkez düğümler daha sık değil, azdır; taban, derece başına bir düğümdür.">Merkez düğümler öngörülenden daha yaygındır</li>
+  </ol>
+  <div class="explain">Tam sayı sayımlarla tek bir düğümün sahip olduğu bir derecede $p_k = 1/N = 10^{-4}$'tür; hiç düğümün sahip olmadığı dereceler grafikten düşer. Düzlük örnekleme gürültüsüdür.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Bir ağın CCDF'si log-log eksenlerde eğimi $-1.5$ olan bir doğrudur. $\gamma$ nedir?</p>
+  <ol>
+    <li>2.5</li>
+    <li data-why="CCDF üsteli γ değil, γ − 1'dir.">1.5</li>
+    <li data-why="Bu, bir eklemek yerine bir çıkarır.">0.5</li>
+    <li data-why="Eğim yalnızca γ − 1 = 1.5'i belirler.">3.5</li>
+  </ol>
+  <div class="explain">$P(K\ge k) \sim k^{-(\gamma-1)}$; dolayısıyla $\gamma - 1 = 1.5$ ve $\gamma = 2.5$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Gerçek üsteli $\gamma = 2.5$ olan bir örneklemin doğrusal gruplanmış log-log histogramına bir en küçük kareler doğrusu uyduruyorsunuz. Ne beklersiniz?</p>
+  <ol>
+    <li data-why="Düzlük uydurmayı yanlı yapar; doğru değerin etrafında toplanmaz.">$\hat\gamma \approx 2.5$, güvenilir bir hata payıyla</li>
+    <li data-why="Düzlük düz olduğu için eğimi dikleştirmez, yatıklaştırır.">$\hat\gamma$ 2.5'in çok üstünde</li>
+    <li data-why="Yanlılık sistematiktir ve şansa değil, uydurma aralığına bağlıdır.">$\hat\gamma$ 2.5 civarında rastgele</li>
+    <li>Uydurma aralığına bağlı olarak $\hat\gamma$ 2.5'in çok altında</li>
+  </ol>
+  <div class="explain">Düz düzlük eğimi sıfıra doğru çeker: <a href="ch4-fitting.html">sonraki sayfadaki</a> deneyde yaklaşık 1.6.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Mertebe başına $b = 4$ grupla her logaritmik grup bir öncekinden kaç kat geniştir?</p>
+  <ol>
+    <li data-why="b genişlik çarpanı değil, mertebe başına grup sayısıdır.">4</li>
+    <li data-why="Bu, 4. kökü almak yerine 10'u 4'e böler.">2.5</li>
+    <li>Yaklaşık 1.78</li>
+    <li data-why="Bu, mertebe başına tek grup için çarpandır.">10</li>
+  </ol>
+  <div class="explain">Çarpan $10^{1/b} = 10^{1/4} \approx 1.78$'dir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Logaritmik gruplar kuyruğu doğrusal gruplardan neden daha iyi kestirir?</p>
+  <ol>
+    <li>Büyük $k$'daki geniş gruplar çok sayıda düğüm toplar ve bu gürültüyü ortalar</li>
+    <li data-why="Her düğüm hâlâ sayılır.">Merkez düğümleri veriden çıkarır</li>
+    <li data-why="Bunu logaritmik gruplama değil, birikimli dağılım yapar.">Üsteli $\gamma - 1$'e değiştirir</li>
+    <li data-why="Gruplama altta yatan dağılımı değiştiremez.">Dağılımı Poisson yapar</li>
+  </ol>
+  <div class="explain">Her grubun sayısını genişliğine bölmek, sayılar büyük kalırken $p_k$ kestirimini yansız tutar.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>CCDF'den geçen bir en küçük kareler doğrusu küçük bir standart hatayla geliyor. Bu hata payına güvenebilir misiniz?</p>
+  <ol>
+    <li data-why="Her CCDF noktası üstündeki tüm dereceleri toplar; bu yüzden komşu noktalar veriyi paylaşır.">Evet, her nokta bağımsızdır</li>
+    <li>Hayır: komşu CCDF noktaları veriyi paylaşır; bu yüzden hata düşük kestirilir</li>
+    <li data-why="Düzlük noktaların bağımsızlığı hakkında bir şey söylemez.">Evet, doğru düzse</li>
+    <li data-why="Eğim −(γ − 1)'dir ve bu sorun değildir; sorun hata payıdır.">Hayır, çünkü CCDF'nin eğimi yanlıştır</li>
+  </ol>
+  <div class="explain">En küçük kareler hataları bağımsız noktalar varsayar. Dürüst bir hata payını en çok olabilirlik verir.</div>
+</div>
+
+</div></body></html>

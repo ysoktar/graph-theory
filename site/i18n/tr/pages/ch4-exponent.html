@@ -1,0 +1,126 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>γ'nın rolü · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Derece üstelinin anormal, ölçekten bağımsız ve rastgele benzeri rejimleri: γ merkez düğümlere, momentlere ve uzaklıklara ne yapar, γ &lt; 2 neden zor gerçekleşir ve kitabın ağları nereye düşer."></head><body>
+<div class="content">
+
+<h1>Derece üstelinin rolü</h1>
+<p class="lead">Ölçekten bağımsız bir ağın özelliklerinin çoğu $\gamma$'ya bağlıdır ve $\gamma = 2$ ile $\gamma = 3$'te nitel olarak değişir (Bölüm 4.7). Bu sayfa önceki sayfaların sonuçlarını üç rejimde toplar.</p>
+
+<table class="simple">
+  <thead><tr><th>Rejim</th><th>$\langle k\rangle$</th><th>$\langle k^2\rangle$</th><th>$k_{\max}$</th><th>$\langle d\rangle$</th><th>Notlar</th></tr></thead>
+  <tbody>
+    <tr><td>Anormal, $\gamma &lt; 2$</td><td>ıraksar</td><td>ıraksar</td><td>$N$'yi aşardı</td><td>sabit</td><td>büyük bir basit ağ, $\gamma &lt; 2$'yi en büyük derecelerine kadar sürdüremez</td></tr>
+    <tr><td>Ölçekten bağımsız, $2 &lt; \gamma &lt; 3$</td><td>sonlu</td><td><strong>ıraksar</strong></td><td>$\sim N^{1/(\gamma-1)}$</td><td>$\ln\ln N$</td><td>merkez düğümler baskındır; ultra küçük</td></tr>
+    <tr><td>Rastgele benzeri, $\gamma &gt; 3$</td><td>sonlu</td><td>sonlu</td><td>$\sim N^{1/(\gamma-1)}$, küçük</td><td>$\ln N$</td><td>$N$ çok büyük olmadıkça rastgele bir ağdan ayırt etmek zordur</td></tr>
+  </tbody>
+</table>
+<dl class="symbols">
+  <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>birinci ve ikinci moment (<a href="ch4-moments.html">Tipik derece yok</a>)</dd>
+  <dt>$k_{\max}$</dt><dd>en büyük derece (<a href="ch4-hubs.html">En büyük merkez düğüm</a>)</dd>
+  <dt>$\langle d\rangle$</dt><dd>ortalama uzaklık (<a href="ch4-ultra-small.html">Ultra küçük dünyalar</a>)</dd>
+  <dt>ıraksar</dt><dd>ağ büyüdükçe sınırsız büyür; sonlu bir ağda sonludur ama değerini en büyük merkez düğümler belirler</dd>
+  <dt>basit ağ</dt><dd>kendine döngü ya da tekrarlanan bağlantı yok; bu yüzden $k_{\max} \le N - 1$</dd>
+</dl>
+<div class="callout example">
+  <p>$\gamma = 2$ neden bir duvardır: en büyük merkez düğümün yaklaşık $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$ bağlantısı vardır. $\gamma = 1.8$, $k_{\min} = 1$ ve $N = 10^4$ için bu $10^{4/0.8} = 10^5$ bağlantı eder: bağlanılabilecek diğer düğümlerin on katı.</p>
+</div>
+
+<div data-fig id="fig-net"></div>
+<div data-fig id="fig-multi"></div>
+<div class="callout fix" data-errata="N16"></div>
+
+<h2>Gerçek ağlar</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout fix" data-errata="N18"></div>
+
+<div class="callout discuss">
+  <p>$\gamma &gt; 3$ olan bir kuvvet yasasını rastgele bir ağın derece dağılımından ayırmak için düz çizgiyi görecek kadar uzun bir kuyruk gerekir. $N$ ne kadar büyük olmalıdır?</p>
+  <div class="hint">Kuyruk en az iki büyüklük mertebesine (100 kat) yayılmalıdır: $k_{\max}/k_{\min} = N^{1/(\gamma-1)} \gtrsim 100$, yani $N \gtrsim 100^{\gamma-1}$. $\gamma = 3.5$ için $N \gtrsim 10^5$; $\gamma = 5$ için $N \gtrsim 10^8$. Bölüm 4.7: büyük $\gamma$ için ölçekten bağımsızlık gerçekçi boyutlarda pratikte görünmez.</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Tek bir sayı, $\gamma$, nitel olarak farklı üç davranıştan hangisinin bekleneceğini söyler.</li>
+    <li>2 ve 3 sınırları, $\langle k\rangle$ ile $\langle k^2\rangle$'nin ıraksamaya başladığı yerlerdir.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><a href="ch4-hubs.html">Merkez düğümleri</a>, <a href="ch4-moments.html">momentleri</a> ve <a href="ch4-ultra-small.html">uzaklıkları</a> <strong>özetler</strong>.</li>
+    <li><strong>Özel durum:</strong> $\gamma \to \infty$ rastgele ağ davranışını geri verir.</li>
+    <li><strong>Sonra:</strong> <a href="ch5-preview.html">5. Bölüm</a>'ün BA modeli tam sınırda, $\gamma = 3$ verir.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$\hat\gamma = 4.76 \pm 0.13$ olduğuna göre telefon aramaları ağı hangi rejimdedir?</p>
+  <ol>
+    <li data-why="Anormal, γ &lt; 2 demektir.">Anormal</li>
+    <li>Rastgele benzeri: ağ büyüdükçe $\langle k^2\rangle$ sonlu kalır</li>
+    <li data-why="Bu γ &lt; 3 gerektirir; hata payının çok dışındadır.">Iraksayan $\langle k^2\rangle$ ile ölçekten bağımsız</li>
+    <li data-why="0.13'lük hata payı, 3'e olan uzaklıktan çok daha küçüktür.">Karar verilemez</li>
+  </ol>
+  <div class="explain">$\gamma &gt; 3$, dolayısıyla iki moment de yakınsar. $\sigma_k$'si rastgele değerin yalnızca 1.6 katıdır (<a href="ch4-moments.html">Tipik derece yok</a>).</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Hangi ağ $2 &lt; \gamma &lt; 3$ ölçekten bağımsız rejimine düşer?</p>
+  <ol>
+    <li data-why="γ̂ = 1.91, 2'nin hemen altındadır.">E-posta ($\hat\gamma = 1.91$)</li>
+    <li data-why="γ̂ = 3.40, 3'ün üstündedir.">İnternet ($\hat\gamma = 3.40$)</li>
+    <li>WWW ($\hat\gamma = 2.16$)</li>
+    <li data-why="γ̂ = 3.43, 3'ün üstündedir.">İş birliği ($\hat\gamma = 3.43$)</li>
+  </ol>
+  <div class="explain">Yalnızca metabolizma (2.71), protein etkileşimleri (2.78) ve WWW (2.16) 2 ile 3 arasındadır.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$\gamma = 4$ ile iki büyüklük mertebelik bir kuvvet yasası kuyruğu görmek için yaklaşık kaç düğüm gerekir?</p>
+  <ol>
+    <li>$10^6$</li>
+    <li data-why="Bu, γ = 3 için gereken değerdir.">$10^4$</li>
+    <li data-why="Bu N^(1/3) ≈ 4.6 verir, bir mertebeden az.">$100$</li>
+    <li data-why="Bu, γ = 5 için gereken değerdir.">$10^8$</li>
+  </ol>
+  <div class="explain">$N \gtrsim 100^{\gamma - 1} = 100^3 = 10^6$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Büyük bir basit ağ neden $\gamma &lt; 2$'yi en büyük derecelerine kadar sürdüremez?</p>
+  <ol>
+    <li data-why="Sorun küçük dereceler değil, merkez düğümlerin büyüklüğüdür.">Çok fazla düğümün derecesi 1 olurdu</li>
+    <li data-why="⟨k²⟩, izin verilen 2 &lt; γ &lt; 3 için de ıraksar.">$\langle k^2\rangle$ ıraksardı</li>
+    <li data-why="Kısıt uzaklıklar değildir.">Uzaklıklar çok uzun olurdu</li>
+    <li>En büyük merkez düğümün $N - 1$'den fazla bağlantıya ihtiyacı olurdu</li>
+  </ol>
+  <div class="explain">$\gamma &lt; 2$ için $k_{\max} \propto N^{1/(\gamma-1)}$, $N$'den hızlı büyür; bu, tekrarlanan bağlantılar olmadan imkânsızdır.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>$\gamma = 3$, $k_{\min} = 1$, $N = 10^6$. Doğal kesme nedir?</p>
+  <ol>
+    <li data-why="Bu ⅓ üstelini kullanır.">100</li>
+    <li>1,000</li>
+    <li data-why="Bu ⅔ üstelini kullanır (γ = 2.5).">10,000</li>
+    <li data-why="Bu k_max ∝ N, yani γ = 2 sınırıdır.">10⁶</li>
+  </ol>
+  <div class="explain">$k_{\max} \approx N^{1/(\gamma-1)} = (10^6)^{1/2} = 1{,}000$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$\gamma = 3.5$ olan bir ağ için “aslında ölçekten bağımsız değil” deniyor. En kesin ifade hangisidir?</p>
+  <ol>
+    <li>Dereceleri bir kuvvet yasasına uyabilir, ama gerçekçi boyutlarda momentleri ve uzaklıkları rastgele benzeri görünür</li>
+    <li data-why="γ = 3.5 olan bir kuvvet yasası yine de bir kuvvet yasasıdır.">Derece dağılımı Poisson olmak zorundadır</li>
+    <li data-why="Merkez düğümleri vardır, yalnızca daha küçüktürler: N^(1/2.5).">Hiç merkez düğümü yoktur</li>
+    <li data-why="γ &gt; 2 için ⟨k⟩ sonludur.">$\langle k\rangle$ ıraksar</li>
+  </ol>
+  <div class="explain">$\gamma &gt; 3$ için hem $\langle k\rangle$ hem $\langle k^2\rangle$ yakınsar ve rastgele bir ağdaki gibi $\langle d\rangle \sim \ln N$ olur.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>$\gamma = 3$ neden bir sınırdır?</p>
+  <ol>
+    <li data-why="⟨k⟩ yalnızca γ = 2'nin altında ıraksar.">Altında $\langle k\rangle$ ıraksar</li>
+    <li data-why="Merkez düğümler her γ için vardır; yalnızca daha yavaş büyürler.">Üstünde merkez düğümler kaybolur</li>
+    <li data-why="2 &lt; γ &lt; 3 olan ağlar yaygındır.">Altında ağlar var olamaz</li>
+    <li>Altında $\langle k^2\rangle$ ıraksar, üstünde yakınsar</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle \sim \int k^2 k^{-\gamma}\,dk$, $k_{\max}^{3-\gamma}$ gibi büyür. Ağ büyüdükçe $k_{\max}$ büyür; bu yüzden $\langle k^2\rangle$ yalnızca $3 - \gamma &lt; 0$, yani $\gamma &gt; 3$ olduğunda sonlu kalır.</div>
+</div>
+
+</div></body></html>

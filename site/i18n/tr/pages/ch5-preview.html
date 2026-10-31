@@ -1,0 +1,158 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Barabási–Albert modeli · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Büyüme ve tercihli bağlanma, benzetimle: BA modelinin γ = 3 derece dağılımı, derecelerin karekök büyümesi ve tercihli bağlanma olmadan ne olduğu."></head><body>
+<div class="content">
+
+<h1>Barabási–Albert modeli</h1>
+<p class="lead">4. Bölüm gerçek ağlarda merkez düğümler olduğunu gösterdi ama <em>neden</em> olduklarını göstermedi. Rastgele ağda merkez düğüm yoktur; konfigürasyon modeli ise yalnızca içine koyduğumuz merkez düğümleri yeniden üretir. Ağ büyürken tekrarlanan hangi basit süreç merkez düğümleri kendiliğinden yaratır?</p>
+
+<div class="callout why">
+  <ul>
+    <li>Rastgele ağ ve konfigürasyon modeli <strong>betimleyicidir</strong>: verilen özelliklere sahip bir ağın neye benzediğini söylerler.</li>
+    <li>Barabási–Albert (BA) modeli <strong>mekanizmacıdır</strong>: bir ağın bu görünüme nasıl ulaştığını söyler.</li>
+    <li>Bir mekanizma, bir ağın nasıl büyüyeceğini öngörebilir, birbiriyle ilgisiz sistemlerin neden aynı örüntüyü paylaştığını açıklayabilir ve kurallardaki hangi değişikliğin bu örüntüyü ortadan kaldıracağını gösterebilir.</li>
+  </ul>
+</div>
+
+<h2>Büyüme ve tercihli bağlanma (Bölüm 5.3)</h2>
+<ul>
+  <li><strong>Büyüme:</strong> yeni web sayfaları, makaleler ya da kullanıcılar gibi yeni düğümler gelmeye devam eder.</li>
+  <li><strong>Tercihli bağlanma:</strong> yeni gelenler, zaten çok bağlantısı olan düğümlere daha sık bağlanır.</li>
+</ul>
+<p>Model, birbirine bağlı $m_0$ düğümle başlar. Her adımda $m \le m_0$ bağlantıyla yeni bir düğüm gelir ve her bağlantı var olan bir $i$ düğümüne şu olasılıkla bağlanır:</p>
+<div class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}.$$</div>
+<dl class="symbols">
+  <dt>$\Pi(k_i)$</dt><dd>yeni bir bağlantının $i$ düğümüne düşme olasılığı</dd>
+  <dt>$k_i$</dt><dd>$i$ düğümünün o anki derecesi</dd>
+  <dt>$\sum_j k_j$</dt><dd>tüm derecelerin toplamı; $t$ adımdan sonra yaklaşık $2mt$</dd>
+  <dt>$m$</dt><dd>her yeni düğümün getirdiği bağlantı sayısı</dd>
+</dl>
+<div class="callout example">
+  <p>$m = 2$ ile $t = 1{,}000$ adımdan sonra derecelerin toplamı yaklaşık 4,000'dir. Bu durumda 40 bağlantılı bir düğüm her yeni bağlantıyı $\Pi = \%1$ olasılıkla, 2 bağlantılı bir düğüm ise $\%0.05$ olasılıkla alır. Merkez düğüm yirmi kat hızlı büyür.</p>
+</div>
+<div data-fig id="fig-grow"></div>
+
+<h2>Sonuç neden bir kuvvet yasasıdır (Bölüm 5.4–5.5)</h2>
+<p>Zaman $t$'yi ve derece $k$'yi sürekli sayılar gibi ele alın (süreklilik yaklaşımı). O zaman:</p>
+<ol>
+  <li>Her adım $m$ bağlantı getirir; bu yüzden $i$ düğümü $\dfrac{dk_i}{dt} = m\,\Pi(k_i) = \dfrac{m\,k_i}{2mt} = \dfrac{k_i}{2t}$ hızıyla büyür.</li>
+  <li>$i$ düğümü $t_i$ anında $m$ bağlantıyla gelir; hız denklemini çözmek $k_i(t) = m\,(t/t_i)^{1/2}$ verir.</li>
+  <li>Bir düğüm $t_i = m^2 t/k^2$'den sonra geldiyse $k$'den az bağlantıya sahiptir. Düğümler sabit bir hızla gelir; bu yüzden $P(K &lt; k) = 1 - m^2/k^2$.</li>
+  <li>Bunun $k$'ye göre türevini almak $p_k \approx 2m^2 k^{-3}$ verir.</li>
+</ol>
+<dl class="symbols">
+  <dt>$t$</dt><dd>eklenen düğüm sayısı olarak sayılan zaman</dd>
+  <dt>$t_i$</dt><dd>$i$ düğümünün geliş zamanı</dd>
+  <dt>$1/2$</dt><dd>dinamik üstel $\beta$: her derece $\sqrt{t}$ gibi büyür</dd>
+  <dt>$p_k$</dt><dd>derecesi $k$ olan düğümlerin oranı</dd>
+  <dt>$k^{-3}$</dt><dd>derece üsteli $\gamma = 3$ olan bir kuvvet yasası</dd>
+</dl>
+<p>Eski düğümler daha öndedir; buna <em>ilk gelen avantajı</em> denir. Kesin çözüm (Denklem 5.11, Bölüm 5.5; türetimi İleri Konu 5.A'da) şudur:</p>
+<div class="eq">$$p_k = \frac{2m(m+1)}{k(k+1)(k+2)} \qquad (k \ge m).$$</div>
+<ul>
+  <li>Üstel her $m$ ve her başlangıç ağı için $\gamma = 3$'tür.</li>
+  <li>En büyük merkez düğüm $k_{\max} \sim m N^{1/2}$ gibi büyür; bu, $\gamma = 3$ olan bir kuvvet yasasının doğal kesmesidir (<a href="ch4-hubs.html">En büyük merkez düğüm</a>).</li>
+</ul>
+<div class="callout example">
+  <p>$m = 2$ için kesin formül $p_2 = \frac{2\cdot2\cdot3}{2\cdot3\cdot4} = \frac12$ verir; genel olarak $p_m = 2/(m+2)$. $k = 10$ için $p_{10} = 0.009$ verir; süreklilik formülü ise $0.008$ verir.</p>
+</div>
+<div data-fig id="fig-pk"></div>
+
+<div class="callout key">
+  <p>İki bileşen de gereklidir (Bölüm 5.6). Tercih olmadan büyüme üstel bir derece dağılımı verir (yukarıdaki “tekdüze bağlanma” eğrisi). Büyüme olmadan tercih hiçbir zaman bir kuvvet yasasına oturmaz: ağ tam çizge olana kadar bağlantılar eklenmeye devam eder.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li>BA modeli 4. Bölüm'ün <a href="ch4-power-laws.html">kuvvet yasasını</a> <strong>açıklar</strong>. Üsteli $\gamma = 3$, <a href="ch4-exponent.html">ölçekten bağımsız rejimin</a> sınırındadır; orada $\langle k^2\rangle$ yalnızca $\ln N$ gibi büyür.</li>
+    <li><a href="ch4-generating.html">Konfigürasyon modelinin</a> girdi olarak aldığı derece dizisini <strong>üretir</strong>; ayrıca eski düğümleri birbirine rastgele olmayan bir biçimde bağlıdır.</li>
+    <li><a href="evolving.html">Uygunluk modeli</a> onu <strong>genelleştirir</strong>: düğümler farklı hızlarla büyür, bu yüzden geç gelenler kazanabilir.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>BA modeli her zaman $\gamma = 3$ verir, oysa kitabın ağlarının üstelleri 1.9 ile 4.8 arasındadır ve kümelenmeleri çok daha yüksektir. Modelde eksik olan nedir?</p>
+  <div class="hint">Olası bileşenler: uygunluk (<a href="evolving.html">6. Bölüm</a>), var olan düğümler arasında eklenen ya da silinen bağlantılar, doğrusal olmayan bağlanma $\Pi \sim k^\alpha$ ($\alpha \ne 1$ iken kuvvet yasası bozulur) ve yaşlanma. BA modelinin kümelenmesi $(\ln N)^2/N$ gibi sıfıra gider.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir BA ağında A düğümü $t = 100$'de, B düğümü $t = 10{,}000$'de geldi. $t = 10^6$'da A'nın bağlantısı B'ninkinin yaklaşık kaç katıdır?</p>
+  <ol>
+    <li data-why="Bu, geliş zamanlarının oranıdır; ama dereceler zamanın yalnızca karekökü gibi büyür.">100 katı</li>
+    <li>10 katı</li>
+    <li data-why="Oran 2 değil, (t_B/t_A)^½ = 100^½'dir.">2 katı</li>
+    <li data-why="BA modelinde eski düğüm sonsuza dek önde kalır.">Aynı sayıda</li>
+  </ol>
+  <div class="explain">$k_i \propto (t/t_i)^{1/2}$ olduğundan oran her $t$ anında $k_A/k_B = (t_B/t_A)^{1/2} = 10$'dur.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Büyüyen bir ağda 5,000 bağlantı var ve $m = 3$ bağlantıyla yeni bir düğüm geliyor. Yeni gelenin belirli bir bağlantısının, 50 bağlantılı belirli bir düğüme düşme olasılığı nedir?</p>
+  <ol>
+    <li data-why="Bu, her düğüm eşit olasılıklı olsaydı geçerli olurdu; ama bağlanma yüksek dereceyi kayırır.">$1/N$</li>
+    <li data-why="Her bağlantının iki ucu vardır; dereceler 5,000'e değil 2L = 10,000'e toplanır.">%1</li>
+    <li>%0.5</li>
+    <li data-why="Bu, kabaca üç bağlantıdan herhangi birinin oraya düşme şansıdır, belirli bir bağlantınınki değil.">%1.5</li>
+  </ol>
+  <div class="explain">Dereceler $2L = 10{,}000$'e toplanır; bu yüzden $\Pi = 50/10{,}000 = \%0.5$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$m = 2$ olan büyük bir BA ağında düğümlerin ne kadarının tam olarak 2 bağlantısı, yani en az bağlantısı vardır?</p>
+  <ol>
+    <li>Yaklaşık yarısının</li>
+    <li data-why="Bir kuvvet yasası ağırlığının çoğunu en küçük derecelere koyar, neredeyse hiç koymamaz değil.">Neredeyse hiçbirinin</li>
+    <li data-why="O zaman her düğümün derecesi aynı olurdu ve merkez düğüm olmazdı.">Hepsinin</li>
+    <li data-why="Kesin formül p_2 = 2·2·3/(2·3·4) = 1/2 verir.">Yaklaşık %1'inin</li>
+  </ol>
+  <div class="explain">$p_2 = 1/2$: düğümlerin çoğu küçük kalır ve yalnızca birkaç erken düğüm merkez düğüm olur.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>BA modeli $m$'nin değeri ne olursa olsun neden $\gamma = 3$ verir?</p>
+  <ol>
+    <li data-why="Üstel tanımla konmaz, büyüme kuralından türetilir.">Çünkü üstel 3 olarak tanımlanmıştır</li>
+    <li data-why="Türetim başlangıç ağının boyutunu hiç kullanmaz.">Çünkü başlangıç ağının üç düğümü vardır</li>
+    <li data-why="BA modelinde dereceler sınırsız büyümeye devam eder.">Çünkü hiçbir düğümün üçten fazla bağlantısı olamaz</li>
+    <li>Çünkü $m$, büyüme hızında $dk_i/dt = k_i/(2t)$ sadeleşir</li>
+  </ol>
+  <div class="explain">Yeni gelen başına daha çok bağlantı, rekabet edilecek toplam derecenin de orantılı olarak büyümesi demektir. Bu yüzden her düğüm $\beta = 1/2$ ile büyür ve $\gamma = 1 + 1/\beta = 3$ olur.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>BA modelinde $\gamma = 3$. İkinci momenti $\langle k^2\rangle$ ağ boyutu $N$ ile nasıl büyür?</p>
+  <ol>
+    <li data-why="Sonlu bir ⟨k²⟩ için γ &gt; 3 gerekir.">Sonlu kalır</li>
+    <li data-why="N ile orantılı büyüme, 2'ye yakın bir γ gerektirirdi.">$N$ gibi</li>
+    <li data-why="Bu, ⟨k²⟩'nin değil, en büyük merkez düğüm k_max'ın büyüme biçimidir.">$N^{1/2}$ gibi</li>
+    <li>$\ln N$ gibi</li>
+  </ol>
+  <div class="explain">$\gamma = 3$'te $\langle k^2\rangle \sim \ln k_{\max} \sim \ln N$: sınır durumu (<a href="ch4-exponent.html">γ'nın rolü</a>).</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$m = 3$ olan büyük bir BA ağında düğümlerin hangi oranının tam olarak 3 bağlantısı vardır?</p>
+  <ol>
+    <li>%40</li>
+    <li data-why="Bu, 3'ten fazla bağlantısı olan düğümlerin payıdır.">%60</li>
+    <li data-why="Bu, m = 2 için p_m değeridir.">%50</li>
+    <li data-why="Düğümlerin çoğu yalnızca geldikleri m bağlantıyı korur; bu yüzden pay büyüktür.">Yaklaşık $3/N$</li>
+  </ol>
+  <div class="explain">Kesin formül $p_m = 2/(m+2) = 2/5$ verir.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Yeni düğümler gelmeye devam ediyor, ama her bağlantı düzgün rastgele seçilen var olan bir düğüme bağlanıyor. Hangi derece dağılımı ortaya çıkar?</p>
+  <ol>
+    <li data-why="Büyüme tek başına merkez düğüm yaratmaz; kuvvet yasası tercih gerektirir.">$\gamma = 3$ olan bir kuvvet yasası</li>
+    <li data-why="Tercihli bağlanma olmadan hiç kuvvet yasası yoktur.">$\gamma &lt; 3$ olan bir kuvvet yasası</li>
+    <li>Üstel bir dağılım</li>
+    <li data-why="Tam çizge, büyüme olmadan tercihten doğar.">Tam çizge</li>
+  </ol>
+  <div class="explain">Tercih olmadan eski düğümler yalnızca erken başlamalarından kazanç sağlar ve $p_k$ üstel olarak azalır (Bölüm 5.6).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir BA ağında $N = 10^6$ düğüm ve $m = 2$ var. En büyük merkez düğümün kabaca kaç bağlantısı vardır?</p>
+  <ol>
+    <li data-why="Bu yaklaşık ln N'dir, Poisson benzeri bir ağdaki merkez düğümlerin büyüklüğü.">20</li>
+    <li>2,000</li>
+    <li data-why="Hiçbir düğüm diğer her düğüme bağlı değildir.">1,000,000</li>
+    <li data-why="Bu en küçük derecedir, en büyüğü değil.">2</li>
+  </ol>
+  <div class="explain">En büyük merkez düğüm $k_{\max} \sim m N^{1/2} = 2 \times 1{,}000$ gibi büyür.</div>
+</div>
+
+</div></body></html>

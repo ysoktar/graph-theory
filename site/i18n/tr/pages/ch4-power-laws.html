@@ -1,0 +1,156 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Kuvvet yasaları ve merkez düğümler · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Kuvvet yasası derece dağılımı nedir, aynı ortalamaya sahip bir Poisson dağılımından nasıl ayrılır ve merkez düğümler nereden gelir."></head><body>
+<div class="content">
+
+<h1>Kuvvet yasaları ve merkez düğümler</h1>
+<p class="lead">Rastgele ağ modeli en açık biçimde tek bir özellikte başarısız oldu: gerçek ağlarda <strong>merkez düğümler</strong> (hub) vardır, yani bir Poisson dağılımının izin verdiğinden çok daha fazla bağlantısı olan düğümler. 4. bölüm Poisson dağılımının yerine onlara izin veren bir <strong>kuvvet yasası</strong> koyar.</p>
+
+<h2>Ölçekten bağımsız ağlar (Bölüm 4.2)</h2>
+<p><strong>Derece dağılımı</strong> $p_k$ (<a href="ch2-degree.html">Kısım I</a>), bir kuvvet yasasına uyuyorsa <strong>ölçekten bağımsız</strong> diye adlandırılır:</p>
+<div class="eq">$$p_k \sim k^{-\gamma}.$$</div>
+<dl class="symbols">
+  <dt>$p_k$</dt><dd>tam olarak $k$ bağlantısı olan düğümlerin payı</dd>
+  <dt>$k$</dt><dd>derece (bağlantı sayısı)</dd>
+  <dt>$\gamma$</dt><dd>derece üsteli; gerçek ağlarda yaklaşık 2 ile 3.5 arası</dd>
+  <dt>$\sim$</dt><dd>büyük $k$ için orantılı</dd>
+</dl>
+<ul>
+  <li><strong>Log-log eksenlerde bir doğrudur.</strong> Logaritma almak $\log p_k \approx -\gamma \log k + \text{sabit}$ verir; bu, eğimi $-\gamma$ olan bir doğrudur.</li>
+  <li><strong>Karakteristik bir ölçeği yoktur.</strong> $k$'yı iki katına çıkarmak $p_k$'yı, 2'den 4 bağlantıya da gitsek 200'den 400'e de gitsek, her zaman aynı $2^{\gamma}$ çarpanıyla böler. Poisson dağılımının ise bir ölçeği, $\langle k\rangle$, vardır ve onun ötesinde çöker.</li>
+</ul>
+<div class="callout example">
+  <p>$\gamma = 2.5$ ile $k$'yı iki katına çıkarmak $p_k$'yı $2^{2.5} \approx 5.7$'ye, $k$'yı 10 ile çarpmak ise $10^{2.5} \approx 316$'ya böler.</p>
+</div>
+
+<p>Dereceler tam sayıdır; bu yüzden kesin biçim, en küçük bir $k_{\min}$ derecesinden başlayan <em>kesikli</em> kuvvet yasasıdır ($k^{-\gamma}$ 0'da sonsuz olduğu için 0'dan başlayamaz):</p>
+<div class="eq">$$p_k = \frac{k^{-\gamma}}{\zeta(\gamma, k_{\min})} \quad (k \ge k_{\min}), \qquad \zeta(\gamma, k_{\min}) = \sum_{k = k_{\min}}^{\infty} k^{-\gamma}.$$</div>
+<dl class="symbols">
+  <dt>$k_{\min}$</dt><dd>kuvvet yasasının betimlediği en küçük derece</dd>
+  <dt>$\zeta(\gamma, k_{\min})$</dt><dd>Hurwitz zeta fonksiyonu; olasılıkların toplamını 1 yapan toplam (yalnızca $\gamma > 1$ için sonlu)</dd>
+  <dt>$\zeta(\gamma)$</dt><dd>Riemann zeta fonksiyonu, $k_{\min} = 1$ durumu</dd>
+</dl>
+<div class="callout example">
+  <p>$\gamma = 2.5$ ve $k_{\min} = 1$ için $\zeta(2.5) = 1.342$'dir. O zaman $p_1 = 0.745$, $p_2 = 0.132$ ve ortalama derece $\langle k\rangle = \zeta(1.5)/\zeta(2.5) = 1.95$'tir.</p>
+</div>
+<p>Çoğu zaman $k$'yı pozitif bir gerçel sayı gibi ele almak daha kolaydır. <em>Sürekli</em> kuvvet yasası ve onun <strong>tümleyen birikimli dağılımı</strong> (CCDF) şöyledir:</p>
+<div class="eq">$$p(k) = (\gamma - 1)\, k_{\min}^{\gamma - 1}\, k^{-\gamma}, \qquad P(K \ge k) = \left(\frac{k}{k_{\min}}\right)^{-(\gamma - 1)}.$$</div>
+<dl class="symbols">
+  <dt>$p(k)$</dt><dd>$k$ derecesinin olasılık yoğunluğu</dd>
+  <dt>$(\gamma - 1)\,k_{\min}^{\gamma - 1}$</dt><dd>normalleştirme sabiti ($1/\zeta$'nın sürekli karşılığı)</dd>
+  <dt>$K$</dt><dd>rastgele seçilen bir düğümün derecesi</dd>
+  <dt>$P(K \ge k)$</dt><dd>en az $k$ bağlantısı olan düğümlerin payı; $\gamma - 1$ üsteliyle azalır</dd>
+</dl>
+<p>İkisi kuyrukta uyuşur ama küçük $k$'da farklıdır; bu da bir uydurma çizildiğinde ya da benzetimi yapıldığında önemlidir (bkz. <a href="ch4-universality.html">Evrensellik</a>).</p>
+<div class="callout example">
+  <p>$\gamma = 2.5$ ve $k_{\min} = 1$ için $k \ge 2$ olan düğümlerin payı kesikli biçimde 0.255, sürekli biçimde ise 0.354'tür.</p>
+</div>
+
+<h2>Merkez düğümler nerede yaşar</h2>
+<div data-fig id="fig-compare"></div>
+<div class="callout look">
+  <p>Aynı ortalamaya sahip bir Poisson dağılımına göre kuvvet yasasında küçük dereceli düğümler <strong>daha çok</strong>, ortalamaya yakın düğümler <strong>daha az</strong> ve merkez düğümler <strong>çok daha fazladır</strong>. $\gamma = 2.5$, $k_{\min} = 2$ ve $N = 10^6$ ile kuvvet yasası $k \ge 100$ olan yaklaşık 2,000 düğüm öngörür; Poisson dağılımı ise $10^{-87}$, yani hiç düğüm öngörmez.</p>
+</div>
+
+<h2>Gerçek veri: İnternet</h2>
+<div data-fig id="fig-internet"></div>
+<div class="callout look">
+  <p>Doğrusal eksenlerde ikisi de küçük $k$'da bir tümsek gibi görünür; log-log eksenlerde fark çok büyüktür. İnternet'te $k \ge 50$ olan 2,375, $k \ge 100$ olan 534 yönlendirici ve 1,071 bağlantılı bir yönlendirici vardır. Aynı boyut ve yoğunlukta rastgele bir ağda $k \ge 50$ olan $10^{-22}$ düğüm beklenirdi.</p>
+</div>
+
+<div data-fig id="fig-look"></div>
+
+<div class="callout why">
+  <ul>
+    <li>Poisson modeli yalnızca $\langle k\rangle$ ile belirlenir ve merkez düğüm üretemez.</li>
+    <li>Kuvvet yasası kuyruğu denetleyen bir parametre, $\gamma$, ekler.</li>
+    <li>$\gamma$'dan en büyük merkez düğümü, derece varyansını, yol uzunluklarını, dayanıklılığı ve salgın yayılmasını öngörebiliriz.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Rastgele bir ağda $\langle k\rangle$ "tipik" bir derecedir: düğümlerin çoğunun yaklaşık o kadar bağlantısı vardır. Bu, $\gamma = 2.5$ olan bir kuvvet yasası için de doğru mu?</p>
+  <div class="hint">Hayır. $k_{\min} = 1$ ile düğümlerin %75'inin $k = 1$'i vardır, oysa merkez düğümler ortalamayı yukarı çektiği için $\langle k\rangle \approx 1.95$'tir. İnternet'te yönlendiricilerin %76'sının bağlantısı ortalama 6.3'ten azdır ve ortanca yönlendiricinin 3 bağlantısı vardır. Hiçbir derece tipik değildir; "ölçekten bağımsız"ın anlamı budur; bkz. <a href="ch4-moments.html">Tipik derece yok</a>.</div>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><a href="ch3-real-degrees.html">Gerçek veride başarısız olan</a> <a href="ch3-degree.html">rastgele ağın</a> Poisson $p_k$'sının <strong>yerini alır</strong>.</li>
+    <li>$\gamma$'ya güvenebilmek için doğru <a href="ch4-plotting.html">çizim</a> ve <a href="ch4-fitting.html">uydurma</a> <strong>gerektirir</strong>.</li>
+    <li><a href="ch4-hubs.html">Merkez düğüm boyutunu</a>, <a href="ch4-moments.html">momentleri</a> ve <a href="ch4-ultra-small.html">uzaklıkları</a> <strong>öngörür</strong>.</li>
+    <li><a href="ch5-preview.html">5. bölümde</a> büyüme ve tercihli bağlanmayla <strong>açıklanır</strong>.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir ağın derece dağılımı $p_k$, log-log eksenlerde eğimi $-2.3$ olan bir doğrudur. $\gamma$ nedir ve CCDF'si $P(K \ge k)$'nın eğimi nedir?</p>
+  <ol>
+    <li data-why="γ eksi işareti dışarıda olacak biçimde tanımlanır, p_k ~ k^(−γ); dolayısıyla pozitiftir.">$\gamma = -2.3$; eğim $-2.3$</li>
+    <li>$\gamma = 2.3$; eğim $-1.3$</li>
+    <li data-why="k'ya eşit ya da büyük tüm dereceleri toplamak eğriyi daha hızlı değil daha yavaş düşürür.">$\gamma = 2.3$; eğim $-3.3$</li>
+    <li data-why="p_k'nın kendi eğimi −γ'dır; dolayısıyla γ = 2.3.">$\gamma = 1.3$; eğim $-2.3$</li>
+  </ol>
+  <div class="explain">$p_k \sim k^{-2.3}$, $\gamma = 2.3$ demektir. $k$'ya eşit ya da büyük tüm dereceleri toplamak üsteli bir azaltır: $P(K\ge k) \sim k^{-1.3}$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>$\gamma = 3$ olan ölçekten bağımsız bir ağda 8,000 düğümün 10 bağlantısı var. Yaklaşık kaç düğümün 20 bağlantısı vardır?</p>
+  <ol>
+    <li data-why="Yarıya inmek γ = 1 için kuraldır; burada iki katına çıkmak 2³'e böler.">4,000</li>
+    <li data-why="2² = 4'e bölmek γ = 2 için kuraldır.">2,000</li>
+    <li>1,000</li>
+    <li data-why="10'a bölmek γ ≈ 3.3 gerektirirdi; iki katına çıkmak 2^γ = 8'e böler.">800</li>
+  </ol>
+  <div class="explain">$k$'yı iki katına çıkarmak $p_k$'yı $2^3 = 8$'e böler: $8{,}000/8 = 1{,}000$. Aynı çarpan 100'den 200'e ya da 1,000'den 2,000 bağlantıya da geçerlidir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Rastgele bir ağ ile ölçekten bağımsız bir ağın ikisinin de $N = 10^6$ düğümü ve $\langle k\rangle = 4.7$ ortalama derecesi var. Hangi ifade doğrudur?</p>
+  <ol>
+    <li>Ölçekten bağımsız ağda çok az bağlantılı düğümler daha çok ve çok fazla bağlantılı düğümler çok daha fazladır</li>
+    <li data-why="Eşit ortalamalar eşit dağılımlar demek değildir.">İki ağın derece dağılımı aynıdır</li>
+    <li data-why="Rastgele ağ düğümlerini ortalamanın yakınında toplar.">Ölçekten bağımsız ağda ortalama dereceye yakın düğümler daha fazladır</li>
+    <li data-why="Kuvvet yasasında yalnızca merkez düğümler değil, küçük dereceli düğümler de daha fazladır.">Aralarında yalnızca merkez düğüm sayısı farklıdır</li>
+  </ol>
+  <div class="explain">Ortalamalar eşittir ama biçimler farklıdır: kuvvet yasasında küçük dereceli düğümler daha çok, $\langle k\rangle$'ya yakın düğümler daha az ve merkez düğümler çok daha fazladır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>$p_k = k^{-\gamma}/\zeta(\gamma, k_{\min})$ neden $\gamma = 0.8$ ile kullanılamaz?</p>
+  <ol>
+    <li data-why="Formülde γ'nın tam sayı olmasını gerektiren bir şey yoktur.">Çünkü $\gamma$ bir tam sayı olmalıdır</li>
+    <li data-why="Merkez düğümler bir kuyruk özelliğidir; sorun daha temeldir.">Çünkü merkez düğüm olmazdı</li>
+    <li data-why="Formülde N ile ilgili bir koşul yoktur.">Çünkü ağın N'den fazla düğüme ihtiyacı olurdu</li>
+    <li>Çünkü $\zeta(0.8, k_{\min})$ sonsuzdur; dolayısıyla olasılıkların toplamı 1 olamaz</li>
+  </ol>
+  <div class="explain">$\gamma \le 1$ için $k^{-\gamma}$ terimleri çok yavaş azalır ve toplamları ıraksar; bu yüzden hiçbir sabit onları normalleştiremez.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir kuvvet yasasında $\gamma = 2.5$ ve $k_{\min} = 1$'dir; dolayısıyla normalleştirme sabiti $\zeta(2.5) = 1.342$'dir. Düğümlerin ne kadarının tam olarak bir bağlantısı vardır?</p>
+  <ol>
+    <li data-why="Bu k ≥ 2 olanların payıdır, yani tümleyen.">0.255</li>
+    <li>0.745</li>
+    <li data-why="Bir olasılık 1'i aşamaz; bu ζ'nın kendisidir.">1.342</li>
+    <li data-why="p₁ eşit paylaştırılmaz, γ ile belirlenir.">0.5</li>
+  </ol>
+  <div class="explain">$p_1 = 1^{-2.5}/\zeta(2.5) = 1/1.342 = 0.745$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Bir ağın derece histogramı log-log eksenlerde $k$'nın bir mertebesi boyunca (örneğin 10'dan 100 bağlantıya) bir doğru gibi görünüyor. Ağ ölçekten bağımsız mıdır?</p>
+  <ol>
+    <li>Henüz bilemeyiz: kısa düz bir parça, doğru bir uydurma ve test olmadan çok az şey kanıtlar</li>
+    <li data-why="Birçok dağılım (log-normal, gerilmiş üstel) bir mertebe boyunca düz görünür.">Evet: log-log eksenlerdeki her doğru bir kuvvet yasasıdır</li>
+    <li data-why="Bir kuvvet yasası log-log eksenlerde tam olarak düzdür.">Hayır: kuvvet yasaları log-log eksenlerde eğridir</li>
+    <li data-why="Eğim γ'yı belirler; biçimi sınamaz.">Evet, eğim −2 ile −3 arasındaysa</li>
+  </ol>
+  <div class="explain">Gözle görülen bir doğru bir ipucudur, kanıt değil. Karar en çok olabilirlik ve bir uyum iyiliği testiyle verilir (<a href="ch4-fitting.html">Üsteli kestirmek</a>).</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>5. bölüm kuvvet yasası derece dağılımlarını açıklamak için hangi mekanizmayı önerir?</p>
+  <ol>
+    <li data-why="Bu, Poisson dağılımı veren rastgele ağ modelidir.">Her bağlantıyı rastgele bir düğüm çifti arasına yerleştirmek</li>
+    <li data-why="Takaslar var olan bir derece dizisini korur; yenisini yaratmaz.">Dereceyi koruyan bağlantı takasları</li>
+    <li data-why="Üçgen kapatma ağır bir kuyruk değil, kümelenme kurar.">Üçgen kapatma</li>
+    <li>Tercihli bağlanmalı büyüme</li>
+  </ol>
+  <div class="explain">Ağ büyür ve yeni düğümler zaten çok bağlantısı olan düğümlere tercihli olarak bağlanır. Ortaya çıkan Barabási–Albert modeli $\gamma = 3$ verir.</div>
+</div>
+
+</div></body></html>

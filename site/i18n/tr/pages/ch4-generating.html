@@ -1,0 +1,142 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Ağ üretmek · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Adım adım konfigürasyon modeli, dereceyi koruyan rastgeleleştirme, derece dizisinin kitabın ağlarında neyi açıkladığı ve kuvvet yasası derecelerinin doğru nasıl çekileceği."></head><body>
+<div class="content">
+
+<h1>Verilen bir derece dağılımıyla ağ üretmek</h1>
+<p class="lead">Gerçek bir ağın hangi özelliklerinin yalnızca derecelerinden kaynaklandığını sormak için, o dereceleri paylaşan ama başka hiçbir şeyi paylaşmayan rastgele ağlara ihtiyacımız var: bir <strong>sıfır modeli</strong>. Bölüm 4.8 bunları kurmanın iki yolunu verir.</p>
+
+<h2>Konfigürasyon modeli</h2>
+<p>$i$ düğümüne tam olarak $k_i$ <em>yarım bağlantı</em> (koçan) verin, sonra tüm yarım bağlantıları düzgün rastgele eşleştirin. Böylece verilen derece dizisine sahip her ağ eşit olasılıklı olur, ama kendine döngüler ve tekrarlanan bağlantılar ortaya çıkabilir. $i$ ile $j$'nin bağlı olma olasılığı yaklaşık olarak</p>
+<div class="eq">$$p_{ij} \approx \frac{k_i k_j}{2L}.$$</div>
+<dl class="symbols">
+  <dt>$p_{ij}$</dt><dd>$i$ ve $j$ düğümleri arasında bağlantı olma olasılığı</dd>
+  <dt>$k_i, k_j$</dt><dd>$i$ ve $j$'nin dereceleri</dd>
+  <dt>$L$</dt><dd>bağlantı sayısı; $2L$ = yarım bağlantı sayısı</dd>
+</dl>
+<ol>
+  <li>$i$'nin bir yarım bağlantısı, diğer $\approx 2L$ yarım bağlantı arasından bir eş seçer.</li>
+  <li>Bunların $k_j$ tanesi $j$'ye aittir: şans $k_j/2L$.</li>
+  <li>$i$'nin $k_i$ yarım bağlantısı vardır: $p_{ij} \approx k_i k_j / 2L$.</li>
+</ol>
+<div class="callout example">
+  <p>$k_i = 100$, $k_j = 50$, $L = 10^4$: $p_{ij} = 5{,}000/20{,}000 = 0.25$. Derecesi 2 olan iki düğüm: $4/20{,}000 = 0.0002$.</p>
+</div>
+<div data-fig id="fig-stubs"></div>
+
+<h2>Dereceyi koruyan rastgeleleştirme</h2>
+<p>Gerçek ağdan başlayın ve iki rastgele bağlantının uçlarını tekrar tekrar değiştirin ($A$–$B$, $C$–$D$ → $A$–$D$, $C$–$B$). Her değiş tokuş tüm dereceleri tam olarak korur; yeterince değiş tokuştan sonra diğer bütün yapı karışır. Konfigürasyon modelinden farklı olarak hiçbir bağlantı kaybolmaz.</p>
+<div data-fig id="fig-swap"></div>
+
+<h2>Derece dizisi neyi açıklar</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <ul>
+    <li>Derece dizisi, $G(N, L)$'nin çok yanlış verdiği $k_{\max}$ ve $\langle k^2\rangle$'yi sabitler.</li>
+    <li>Rastgeleleştirilmiş ağların uzaklıkları genellikle hem gerçek ağdakinden hem $G(N, L)$'dekinden <em>daha kısadır</em>: merkez düğümleri kestirme işi görür, gerçek ağlar ise birçok bağlantıyı sıkı örülmüş grupların içinde harcar.</li>
+    <li>İş birliği: $\langle C\rangle$ 0.63'ten 0.002'ye, asortatiflik 0.13'ten 0'a düşer. Üçgenler ve derece korelasyonları başka mekanizmalardan gelir: ekipler, topluluklar (9. Bölüm), homofili (benzerin benzerle bağlanması, 7. Bölüm).</li>
+  </ul>
+</div>
+<p data-beyond="Kitapta ya da not defterinde yok: sekiz ağın hepsi için konfigürasyon modelinin kümelenmesi">Not defteri, iş birliği ağından derecelerin tek başına az üçgen yarattığı sonucunu çıkarır. Sekiz ağın konfigürasyon modeli karşılıkları daha çeşitlidir:</p>
+<div id="tbl-cfg"></div>
+<div class="callout fix" data-errata="N19"></div>
+<div class="callout look">
+  <p>Metabolizma (%45) ve e-posta (%42) için rastgele bağlama gerçek kümelenmenin büyük kısmını geri kazanır (vurgulanmış): $\langle k^2\rangle$ büyük olduğunda merkez düğümler şans eseri birçok komşuyu paylaşır. Bir konfigürasyon modelinin beklenen $\langle C\rangle$ değeri olan $(\langle k^2\rangle - \langle k\rangle)^2/(\langle k\rangle^3 N)$ formülü eğilimi izler ama merkez düğümlerin büyük olduğu yerde fazla tahmin eder; metabolizma için 1'i bile aşar (1'de kesilmiş gösterilir), oysa bir kümelenme katsayısı 1'i aşamaz. Formül hiçbir merkez düğümün çok büyük olmadığını, $k_{\max} \ll \sqrt{\langle k\rangle N}$, varsayar; metabolizma, e-posta ve WWW bunu ihlal eder.</p>
+</div>
+
+<h2>Kuvvet yasası derece dizileri çekmek</h2>
+<p>Kuvvet yasası derece dağılımlı bir konfigürasyon modeli önce kuvvet yasasına uyan derecelere ihtiyaç duyar. Not defterinin yardımcı fonksiyonu hızlı bir yuvarlama formülü kullanır; site ise kesin bir örnekleyici kullanır.</p>
+<div data-fig id="fig-sampler"></div>
+<div class="callout fix" data-errata="N3"></div>
+
+<div class="callout key">
+  <p>Bir ağı dereceyi koruyan rastgeleleştirmesiyle karşılaştırın: ayakta kalan her şeyi dereceler açıklar; kaybolan her şeyin başka bir açıklamaya ihtiyacı vardır.</p>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Bir sıfır modeli, derecelere bakıldığında bir özelliğin şaşırtıcı olup olmadığını söyler.</li>
+    <li>Ağır kuyruklu ağlar için $G(N, L)$ yanlış karşılaştırma ölçütüdür: merkez düğümleri yok eder.</li>
+    <li>Bu bölümün öngörülerini sınamak için her boyutta ölçekten bağımsız ağ üretmemizi sağlar.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><a href="ch3-model.html">Rastgele ağı</a> <strong>genelleştirir</strong>: $G(N, L)$ yalnızca $L$'yi, konfigürasyon modeli her $k_i$'yi sabitler.</li>
+    <li><a href="ch4-ultra-small.html">Uzaklıklar</a>, kümelenme ve <a href="correlations.html">derece korelasyonları</a> <strong>için sıfır modelidir</strong>.</li>
+    <li>Derecelerin nereden geldiğini <strong>açıklamaz</strong>: bu, <a href="ch5-preview.html">büyüme modellerinin</a> işidir.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Dereceyi koruyan rastgeleleştirmeden sonra iş birliği ağının asortatifliği 0.13'ten yaklaşık 0'a düşüyor. Bu neyi gösterir?</p>
+  <ol>
+    <li data-why="Her değiş tokuş tüm dereceleri tam olarak korur.">Değiş tokuşlar derece dizisini değiştirdi</li>
+    <li data-why="Asortatiflik her ağda iyi tanımlıdır; burada yalnızca ≈ 0'dır.">Asortatiflik rastgele ağlarda ölçülemez</li>
+    <li>Bağlı bilim insanlarının dereceleri arasındaki korelasyon derece dizisinden kaynaklanmaz</li>
+    <li data-why="Bağlılık, asortatiflikteki düşüşle ilgisizdir.">Gerçek ağ bağlı değildir</li>
+  </ol>
+  <div class="explain">Değiş tokuşların yok ettiği her şey derecelerden kaynaklanmıyordu. Merkez düğümlerin merkez düğümlerle iş birliği yapması bağlantı düzeninin bir özelliğidir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$L = 10^4$ olan bir konfigürasyon modelinde $k_i = 100$, $k_j = 50$ için $p_{ij}$ nedir?</p>
+  <ol>
+    <li>0.25</li>
+    <li data-why="Bu, 2L yerine L'ye böler.">0.5</li>
+    <li data-why="Bu, k_i k_j yerine k_i + k_j kullanır.">0.0075</li>
+    <li data-why="Bu, dereceleri yok sayan G(N, L) değeridir.">Diğer her çiftle aynı</li>
+  </ol>
+  <div class="explain">$p_{ij} \approx k_i k_j/2L = 5{,}000/20{,}000 = 0.25$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Dereceyi koruyan rastgeleleştirme, konfigürasyon modelinin garanti etmediği neyi garanti eder?</p>
+  <ol>
+    <li data-why="İkisi de derece dizisini korur (yarım bağlantı eşleştirme bunu yapısı gereği yapar).">Aynı derece dizisini</li>
+    <li>Kendine döngü ya da tekrarlanan bağlantı olmamasını, dolayısıyla hiçbir bağlantının kaybolmamasını</li>
+    <li data-why="İkisi de kümelenmeyi karıştırır.">Aynı kümelenmeyi</li>
+    <li data-why="İkisi de gerçek bağlantı düzenini korumaz; bir sıfır modelinin amacı budur.">Aynı toplulukları</li>
+  </ol>
+  <div class="explain">Yarım bağlantı eşleştirme bir düğümü kendisiyle ya da bir komşusuyla iki kez eşleştirebilir; bunları atmak bağlantı kaybettirir. Bunları yaratacak değiş tokuşlar ise basitçe reddedilebilir.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Metabolik ağın derecelerini rastgele bağlamak kümelenmesinin %45'ini geri kazanıyor. Bundan ne çıkar?</p>
+  <ol>
+    <li data-why="%45 sıfırdan çok uzaktır; büyük bir pay derecelerden gelir.">Metabolizmadaki kümelenmenin derecelerle hiçbir ilgisi yoktur</li>
+    <li data-why="Kalan %55 yine başka bir açıklama gerektirir.">Dereceler kümelenmesinin tamamını açıklar</li>
+    <li data-why="Konfigürasyon modeli gerçek dereceleri tam olarak korur.">Konfigürasyon modeli dereceleri değiştirdi</li>
+    <li>Büyük kısmı, merkez düğümlerin şans eseri komşu paylaşmasından, geri kalanı başka yapılardan gelir</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle$ büyük olduğunda merkez düğümler rastgele bağlansalar bile sık sık örtüşür; iş birliği ağı ise buna karşılık yalnızca %0.3'ünü korur.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Bir ağda $L = 5{,}000$ bağlantı var. Konfigürasyon modeli kaç yarım bağlantıyı eşleştirir?</p>
+  <ol>
+    <li data-why="Her bağlantının iki ucu vardır.">5,000</li>
+    <li data-why="Bu, iki katına çıkarmak yerine yarıya böler.">2,500</li>
+    <li>10,000</li>
+    <li data-why="Yarım bağlantı çiftleri değil, yarım bağlantılar sayılır.">25 milyon</li>
+  </ol>
+  <div class="explain">Her bağlantı iki yarım bağlantıdır: $2L = 10{,}000$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$L = 10^4$ ve iki merkez düğümün her birinin $k = 300$ bağlantısı var. $k_i k_j/2L = 4.5$ ne anlama gelir?</p>
+  <ol>
+    <li>Birkaç bağlantıyı paylaşmaları beklenir: çoklu bağlantılar kaçınılmazdır</li>
+    <li data-why="p_ij yüzde değil, doğrudan k_i k_j/2L'dir.">%4.5 olasılıkla bağlıdırlar</li>
+    <li data-why="Büyük bir değer, bağlantı olmaması değil, çok bağlantı demektir.">Bağlı olamazlar</li>
+    <li data-why="4.5, 1'i aşar; bu yüzden beklenen bağlantı sayısıdır.">Formül 1 olasılık verir</li>
+  </ol>
+  <div class="explain">Merkez düğümler için $k_i k_j &gt; 2L$ olur; bu yüzden $p_{ij} \approx k_i k_j/2L$ olasılık olmaktan çıkar: beklenen bağlantı sayısını sayar ve yarım bağlantı eşleştirme tekrarlar yaratır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Konfigürasyon modeli, $G(N, L)$'nin sabitlemediği hangi niceliği sabit tutar?</p>
+  <ol>
+    <li data-why="G(N, L) da L'yi sabitler.">Bağlantı sayısı $L$</li>
+    <li data-why="İkisi de kümelenmeyi yok eder.">Kümelenme katsayısı</li>
+    <li data-why="İkisi de toplulukları korumaz.">Topluluk yapısı</li>
+    <li>Her düğümün derecesi</li>
+  </ol>
+  <div class="explain">$G(N, L)$ yalnızca $N$ ve $L$'yi sabitler; konfigürasyon modeli her $k_i$'yi, onlarla birlikte de $\langle k^2\rangle$ ve $k_{\max}$'ı sabitler.</div>
+</div>
+
+</div></body></html>

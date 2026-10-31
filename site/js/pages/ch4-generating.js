@@ -7,6 +7,7 @@ import { Graph, trySwap, clusteringSummary, assortativity } from "../lib/graph.j
 import { hurwitzZeta, fmt } from "../lib/stats.js";
 import { karateGraph, loadNetworks, loadRealGraph, NETWORK_ORDER, WITH_EDGES } from "../lib/data.js";
 import { run } from "../lib/compute.js";
+import { t as tl, LANG } from "../i18n.js";
 
 // ------------------------------------------------------------------ 1. the configuration model, stub by stub
 {
@@ -102,7 +103,7 @@ import { run } from "../lib/compute.js";
 (async () => {
   const { networks } = await loadNetworks();
   let name = "collaboration", job = null;
-  const f = figure("#fig-real", { title: "What does the degree sequence explain?", sub: "The real network against its degree-preserving randomization (2L swaps) and against G(N, L), computed in a background thread." });
+  const f = figure("#fig-real", { title: "What does the degree sequence explain?", sub: "The real network against its degree-preserving randomization (2L swaps) and against G(N, L)." });
   const status = h("div", { class: "status-line" });
   const host = h("div");
   f.body.append(host);
@@ -111,7 +112,7 @@ import { run } from "../lib/compute.js";
     if (job) job.cancel();
     const d = networks[name];
     host.replaceChildren();
-    status.textContent = `Loading ${d.description}…`;
+    status.textContent = LANG === "tr" ? `${tl(d.description)} yükleniyor…` : `Loading ${d.description}…`;
     const g = await loadRealGraph(name);
     const pairs = new Int32Array(2 * g.m);
     let p = 0;
@@ -132,11 +133,11 @@ import { run } from "../lib/compute.js";
       ["⟨k²⟩", fmt.sig(d.k2, 4), fmt.sig(d.k2, 4), fmt.sig(er.k2, 4)],
       ["k_max", fmt.int(d.kmax), fmt.int(d.kmax), fmt.int(er.kmax)],
       ["giant component N_G/N", fmt.pct(b.giant, 1), fmt.pct(a.giant, 1), fmt.pct(er.giant, 1)],
-      ["⟨d⟩ (80 sources)", fmt.fix(b.d, 2), fmt.fix(a.d, 2), fmt.fix(er.avgd, 2)],
+      ["⟨d⟩ (from 80 start nodes)", fmt.fix(b.d, 2), fmt.fix(a.d, 2), fmt.fix(er.avgd, 2)],
       ["⟨C⟩", fmt.sig(b.C, 3), fmt.sig(a.C, 3), fmt.sig(er.C, 3)],
       ["assortativity r", fmt.fix(b.r, 3), fmt.fix(a.r, 3), fmt.fix(er.r, 3)],
     ];
-    host.replaceChildren(dataTable([{ label: "Property", align: "left" }, { label: `${d.description} (real)` }, { label: "degree-preserving randomization" }, { label: "G(N, L)" }], rows));
+    host.replaceChildren(dataTable([{ label: "Property", align: "left" }, { label: `${tl(d.description)} (${tl("real")})` }, { label: "degree-preserving randomization" }, { label: "G(N, L)" }], rows));
   }
   select(f.controls, { label: "Network", value: name, options: WITH_EDGES.map((n) => ({ value: n, label: networks[n].description })), onChange: (v) => { name = v; go(); } });
   f.controls.append(status);
@@ -159,7 +160,7 @@ import { run } from "../lib/compute.js";
 {
   let gamma = 2.5, kmin = 1;
   const f = figure("#fig-sampler", { title: "Drawing power-law degrees: exact versus rounding", sub: "P(K = k) of the exact discrete power law and of the rounding shortcut k = ⌊(k_min − ½)(1 − u)^(−1/(γ−1)) + ½⌋ used by the notebook's helper." });
-  const t = stats(f.body, [{ key: "e", label: "exact P(K = k_min)" }, { key: "r", label: "rounding P(K = k_min)" }, { key: "m", label: "MLE of an infinite rounded sample" }]);
+  const t = stats(f.body, [{ key: "e", label: "exact P(K = k_min)" }, { key: "r", label: "rounding P(K = k_min)" }, { key: "m", label: "fitted γ of a huge rounded sample" }]);
   const plot = new Plot(f.body, { height: 260, x: { type: "log", label: "degree k" }, y: { type: "log", label: "P(K = k)" } });
   function draw() {
     const z = hurwitzZeta(gamma, kmin);

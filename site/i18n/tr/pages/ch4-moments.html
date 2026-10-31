@@ -1,0 +1,137 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Tipik derece yok · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bir kuvvet yasasının momentleri: ⟨k⟩ sonlu kalırken 2 < γ < 3 için ⟨k²⟩ neden ıraksar ve kitabın ağlarında derece yayılımı."></head><body>
+<div class="content">
+
+<h1>Tipik derece yok: "ölçekten bağımsız" ne demek</h1>
+<p class="lead">Rastgele bir ağda ortalama derece doğal bir ölçektir: neredeyse her düğümün yaklaşık $\langle k\rangle$ bağlantısı vardır. Bir kuvvet yasasının böyle bir ölçeği yoktur, çünkü ikinci momenti sınırsız büyür (Bölüm 4.4).</p>
+
+<h2>Bir kuvvet yasasının momentleri</h2>
+<p>Derece dağılımının $n$. <strong>momenti</strong> $\langle k^n\rangle = \sum_k k^n p_k$'dır. $k_{\min}$ ile $k_{\max}$ arasında sürekli bir kuvvet yasası için:</p>
+<div class="eq">$$\langle k^n\rangle = \int_{k_{\min}}^{k_{\max}} k^n p(k)\, dk = \frac{\gamma - 1}{n - \gamma + 1}\, k_{\min}^{\gamma - 1}\left(k_{\max}^{\,n - \gamma + 1} - k_{\min}^{\,n - \gamma + 1}\right).$$</div>
+<dl class="symbols">
+  <dt>$n$</dt><dd>momentin mertebesi ($n = 1$ ortalama, $n = 2$ ikinci moment)</dd>
+  <dt>$\langle k^n\rangle$</dt><dd>tüm düğümler üzerinden $k^n$'nin ortalaması</dd>
+  <dt>$k_{\min}, k_{\max}$</dt><dd>en küçük ve en büyük derece</dd>
+  <dt>$n - \gamma + 1$</dt><dd>işareti momentin yakınsayıp yakınsamadığını belirler</dd>
+</dl>
+<ol>
+  <li>$k_{\max}$, $N$ ile büyür (<a href="ch4-hubs.html">önceki sayfa</a>).</li>
+  <li>$n - \gamma + 1 &lt; 0$ ise $k_{\max}^{\,n-\gamma+1} \to 0$: moment yakınsar.</li>
+  <li>$n - \gamma + 1 &gt; 0$ ise $k_{\max}^{\,n-\gamma+1} \to \infty$: moment ıraksar.</li>
+</ol>
+<p>Tipik $2 &lt; \gamma &lt; 3$ aralığı için:</p>
+<ul>
+  <li>$\langle k\rangle$ sonludur;</li>
+  <li>$\langle k^2\rangle$ ve onunla birlikte varyans $\sigma_k^2 = \langle k^2\rangle - \langle k\rangle^2$, $N \to \infty$ iken <strong>ıraksar</strong>.</li>
+</ul>
+<div class="callout example">
+  <p>$\gamma = 2.5$ ve $n = 2$ için $n - \gamma + 1 = 0.5$'tir; dolayısıyla $\langle k^2\rangle \propto k_{\max}^{0.5} \propto N^{1/3}$: bin kat büyük bir ağın $\langle k^2\rangle$'si on kat büyüktür.</p>
+</div>
+<div data-fig id="fig-theory"></div>
+<div data-fig id="fig-sim"></div>
+<div class="callout look">
+  <p>Örneklem ortalaması hızla oturur, ama $\langle k^2\rangle$, Poisson değeri yerinde kalırken, öngörülen eğim boyunca $N$ ile tırmanmayı sürdürür. $\gamma &gt; 3$ ile (3.5'i deneyin) ikisi de yakınsar ve yalnızca momentler ağı rastgele bir ağdan neredeyse ayıramaz.</p>
+</div>
+
+<h2>Kitabın ağları</h2>
+<p>Rastgele bir ağda $\sigma_k = \sqrt{\langle k\rangle}$'dır ($\sigma_k$ derecelerin standart sapmasıdır). $\sigma_k \gg \sqrt{\langle k\rangle}$ ise rastgele bir düğümün bir bağlantısı da olabilir, bin bağlantısı da; ve $\langle k\rangle$ onun hakkında çok az şey söyler.</p>
+<div class="callout example">
+  <p>$\langle k\rangle = 9$ olan rastgele bir ağda $\sigma_k = 3$'tür ve düğümlerin %99.7'sinin 0 ile 18 arası bağlantısı vardır. E-posta ağında ise $\langle k\rangle = 3.23$ ama $\sigma_k = 35.5$'tir; ortalamanın on bir katı.</p>
+</div>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <p>Sekiz ağın altısında $\sigma_k$ rastgele değerin 2.9 ile 20 katıdır ve aynı altısında $\langle k\rangle$'nın kendisini aşar (e-posta için 11 kat). Elektrik şebekesi ($\sigma_k = 1.79$'a karşı 1.63) rastgele bir ağ gibi davranır, telefon aramaları ise yalnızca biraz daha geniştir (1.57 kat). "Tipik derece yok" gerçek ağların hepsini değil, çoğunu betimler.</p>
+</div>
+
+<div class="callout key" data-beyond="Molloy–Reed ölçütü: kitabın 8. bölümü">
+  <p>İlerideki bölümlerde önemli olan nicelik $\langle k^2\rangle$'dir: konfigürasyon modelinin dev bileşeni ($\langle k^2\rangle &gt; 2\langle k\rangle$, Molloy–Reed ölçütü), rastgele arızalara dayanıklılık (Bölüm 8) ve salgın eşiği (Bölüm 10). Iraksak bir $\langle k^2\rangle$ ile rastgele düğümleri kaldırmak dev bileşeni neredeyse hiç yok etmez.</p>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>"Ölçekten bağımsız" tam olarak şu demektir: sonlu varyans yok, dolayısıyla tipik derece yok.</li>
+    <li>Rastgele model $\sigma_k = \sqrt{\langle k\rangle}$ öngörür; gerçek ağlar bunu 20 kata kadar bozar.</li>
+    <li>Dayanıklılığı ve yayılmayı $\langle k\rangle$ değil, $\langle k^2\rangle$ denetler.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Kaynağı:</strong> büyüyen <a href="ch4-hubs.html">en büyük merkez düğüm</a>.</li>
+    <li><strong>Sınıflandırdığı:</strong> <a href="ch4-exponent.html">γ'nın rolü</a> sayfasındaki rejimler.</li>
+    <li><strong>Girdiği yerler:</strong> <a href="ch4-ultra-small.html">uzaklıklar</a> ve <a href="ch4-generating.html">konfigürasyon modeli</a>.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>$N \to \infty$ iken $\langle k^3\rangle$ hangi $\gamma$ değerleri için sonlu kalır?</p>
+  <ol>
+    <li>$\gamma &gt; 4$</li>
+    <li data-why="Bu ⟨k²⟩ (n = 2) için koşuldur.">$\gamma &gt; 3$</li>
+    <li data-why="Bu ⟨k⟩ (n = 1) için koşuldur.">$\gamma &gt; 2$</li>
+    <li data-why="Yeterince büyük γ için her moment yakınsar.">Hiçbir zaman</li>
+  </ol>
+  <div class="explain">$\langle k^n\rangle$, $n - \gamma + 1 &lt; 0$, yani $\gamma &gt; n + 1 = 4$ olduğunda yakınsar.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>$\gamma = 2.5$ olan ölçekten bağımsız bir ağ büyümeyi sürdürüyor. $\langle k\rangle$ ve $\langle k^2\rangle$'ye ne olur?</p>
+  <ol>
+    <li data-why="γ &lt; 3 için ⟨k²⟩ ıraksar.">İkisi de yakınsar</li>
+    <li data-why="γ &gt; 2 için ⟨k⟩ yakınsar.">İkisi de ıraksar</li>
+    <li>$\langle k\rangle$ yakınsar, $\langle k^2\rangle$ ıraksar</li>
+    <li data-why="Yüksek momentler merkez düğümlere daha az değil daha çok duyarlıdır.">$\langle k\rangle$ ıraksar, $\langle k^2\rangle$ yakınsar</li>
+  </ol>
+  <div class="explain">$n - \gamma + 1$, $n = 1$ için $-0.5$ ve $n = 2$ için $+0.5$'tir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Rastgele bir ağın $\langle k\rangle = 16$'dır. $\sigma_k$ nedir?</p>
+  <ol>
+    <li data-why="Bu standart sapma değil, varyanstır.">16</li>
+    <li>4</li>
+    <li data-why="Bu ⟨k⟩/2'dir; Poisson kuralı √⟨k⟩'dır.">8</li>
+    <li data-why="Bu bir yayılım ölçüsü değil, ⟨k⟩²'dir.">256</li>
+  </ol>
+  <div class="explain">Poisson varyansı ortalamaya eşittir: $\sigma_k = \sqrt{16} = 4$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>E-posta ağında $\sigma_k/\langle k\rangle \approx 11$'dir. Bu, rastgele seçilen bir düğüm için ne anlama gelir?</p>
+  <ol>
+    <li data-why="Düğümlerin çoğunun bağlantısı ortalamadan azdır; merkez düğümler ortalamayı yukarı çeker.">Neredeyse kesinlikle yaklaşık $\langle k\rangle$ bağlantısı vardır</li>
+    <li data-why="σ yayılımı betimler, her derecenin sabit bir katını değil.">Ortalamanın yaklaşık 11 katı bağlantısı vardır</li>
+    <li data-why="Yayılım çok büyüktür; dolayısıyla ağ rastgeleden çok uzaktır.">Ağ rastgeleye yakındır</li>
+    <li>$\langle k\rangle$ onun derecesini kötü öngörür: bir bağlantısı da olabilir, binlerce de</li>
+  </ol>
+  <div class="explain">Ortalamanın on bir katı bir yayılımla ortalama neredeyse hiçbir düğümü betimlemez.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>İnternet'te $\langle k\rangle = 6.34$ ve $\langle k^2\rangle = 240.1$'dir. $\sigma_k$ nedir?</p>
+  <ol>
+    <li>Yaklaşık 14.1</li>
+    <li data-why="Bu √⟨k²⟩'dir; önce ⟨k⟩²'yi çıkarın.">Yaklaşık 15.5</li>
+    <li data-why="Bu √⟨k⟩'dır, Poisson değeri.">Yaklaşık 2.5</li>
+    <li data-why="Bu karekökü değil, varyanstır.">Yaklaşık 200</li>
+  </ol>
+  <div class="explain">$\sigma_k = \sqrt{240.1 - 6.34^2} = \sqrt{199.9} \approx 14.1$; Poisson değeri $\sqrt{6.34} = 2.5$'in 5.6 katı.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Bir konfigürasyon modelinin $\langle k\rangle = 2$ ve $\langle k^2\rangle = 6$ değerleri vardır. Dev bileşeni var mıdır?</p>
+  <ol>
+    <li data-why="Koşul yalnızca ⟨k⟩'yı değil, ⟨k²⟩'yi de içerir.">Hayır: $\langle k\rangle$, 2'yi aşmalıdır</li>
+    <li data-why="Molloy–Reed ölçütü yalnızca iki momenti gerektirir.">$N$ olmadan söylenemez</li>
+    <li>Evet: $\langle k^2\rangle = 6 &gt; 2\langle k\rangle = 4$</li>
+    <li data-why="Ölçüt ⟨k²⟩ &gt; 2⟨k⟩'dır.">Hayır: $\langle k^2\rangle$, $\langle k\rangle^3$'ü aşmalıdır</li>
+  </ol>
+  <div class="explain">Molloy–Reed: $\langle k^2\rangle &gt; 2\langle k\rangle$ olduğunda bir dev bileşen vardır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Rastgele bir ağın $\langle k\rangle = 4$'tür. $\langle k^2\rangle$ nedir?</p>
+  <ol>
+    <li data-why="Bu ⟨k⟩²'dir; varyans ⟨k⟩ eklenmelidir.">16</li>
+    <li data-why="Bu ikinci moment değil, ortalamadır.">4</li>
+    <li data-why="Bu 2⟨k⟩'dır.">8</li>
+    <li>20</li>
+  </ol>
+  <div class="explain">Poisson: $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2 = \langle k\rangle + \langle k\rangle^2 = 4 + 16 = 20$.</div>
+</div>
+
+</div></body></html>

@@ -1,0 +1,179 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Üsteli kestirmek · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Üsteli bilinen örneklemlerde en küçük kareler ile en çok olabilirlik, gerçek ağlarda Clauset–Shalizi–Newman k_min taraması, olabilirlik oranı testleri, canlı bir bootstrap uyum iyiliği testi ve powerlaw paketindeki üç hata."></head><body>
+<div class="content">
+
+<h1>Derece üstelini kestirmek</h1>
+<p class="lead">Log-log bir grafiğe düz bir doğru uydurmak $\gamma$'yı kestirmenin en yaygın ve en az güvenilir yollarından biridir. Bu sayfa beş kestiriciyi üsteli bildiğimiz veride sınar, sonra istatistiksel olarak sağlam yöntemi kitabın ağlarına uygular.</p>
+
+<h2>Denetimli bir deney</h2>
+<p>Bir kestiriciyi değerlendirmek için yanıtı bilinen veriye ihtiyacımız var. Üsteli $\gamma$ ve $k_{\min} = 1$ olan kesikli bir kuvvet yasasından $n$ derece çekiyor ve $\gamma$'yı beş yolla kestiriyoruz (not defteri III.3):</p>
+<ol>
+  <li>doğrusal gruplanmış histogramda en küçük kareler, eğim $= -\gamma$;</li>
+  <li>logaritmik gruplanmış histogramda en küçük kareler, eğim $= -\gamma$;</li>
+  <li>birikimli dağılımda en küçük kareler, eğim $= -(\gamma - 1)$;</li>
+  <li>İleri Konu 4.C'deki kapalı biçimli en çok olabilirlik yaklaşıklığı, $k \ge 6$ kuyruğunda;</li>
+  <li>sayısal olarak bulunan kesin kesikli en çok olabilirlik kestirimi.</li>
+</ol>
+<div data-fig id="fig-experiment"></div>
+<div data-fig id="fig-trials"></div>
+<div class="callout look">
+  <p>Doğrusal gruplar (1) her örneklemde çok aşağıda yanlıdır. Logaritmik gruplar (2) ve birikimli dağılım (3) ortalamada daha iyidir, ama gruplara ve uydurma aralığına bağlıdır ve güvenilir bir hata payı vermez. Kesin en çok olabilirlik (5) en küçük yayılımla doğru değerin etrafında toplanır.</p>
+</div>
+<div class="callout example">
+  <p>20 örneklem, $n = 10^4$, $\gamma = 2.5$: (1) 1.32–1.98, (2) 2.21–2.61, (3) 2.29–2.77, (5) 2.48–2.55.</p>
+</div>
+
+<h2>En çok olabilirlik (İleri Konu 4.C)</h2>
+<p><strong>Olabilirlik</strong> $\mathcal L(\gamma)$, üstel $\gamma$ olsaydı gözlenen derecelerin olasılığıdır. Kesikli bir kuvvet yasasının kuyruğu için:</p>
+<div class="eq">$$\ln \mathcal L(\gamma) = \sum_{i=1}^{n} \ln p_{k_i} = -n \ln \zeta(\gamma, k_{\min}) - \gamma \sum_{i=1}^{n} \ln k_i .$$</div>
+<dl class="symbols">
+  <dt>$k_i$</dt><dd>kuyruktaki $i$ düğümünün derecesi ($k_i \ge k_{\min}$)</dd>
+  <dt>$n$</dt><dd>kuyruktaki düğüm sayısı</dd>
+  <dt>$p_{k_i}$</dt><dd>$k_i$ derecesinin kuvvet yasası olasılığı</dd>
+  <dt>$\zeta(\gamma, k_{\min})$</dt><dd>Hurwitz zeta fonksiyonu (normalleştirme)</dd>
+</dl>
+<p>Üç adımda türetme:</p>
+<ol>
+  <li>Dereceler bağımsızdır: $\mathcal L = \prod_i p_{k_i}$, dolayısıyla $\ln \mathcal L = \sum_i \ln p_{k_i}$.</li>
+  <li>$p_k = k^{-\gamma}/\zeta(\gamma, k_{\min})$'yi yerine koyun: $\ln p_{k_i} = -\gamma \ln k_i - \ln \zeta(\gamma, k_{\min})$.</li>
+  <li>Kuyruktaki $n$ düğüm üzerinden toplayın.</li>
+</ol>
+<p>Kestirim $\hat\gamma$, $\ln\mathcal L$'yi en büyük yapar; kapalı bir formülü yoktur, ama eğrinin tek bir tepesi vardır ve sayısal olarak kolayca bulunur. Standart hatası yaklaşık olarak şudur:</p>
+<div class="eq">$$\sigma = \frac{\hat\gamma - 1}{\sqrt{n}}.$$</div>
+<dl class="symbols">
+  <dt>$\hat\gamma$</dt><dd>$\gamma$'nın en çok olabilirlik kestirimi</dd>
+  <dt>$\sigma$</dt><dd>$\hat\gamma$'nın standart hatası</dd>
+</dl>
+<div class="callout example">
+  <p>İnternet: kuyrukta $n = 1{,}286$ düğüm, $\hat\gamma = 3.40$; dolayısıyla $\sigma = 2.40/\sqrt{1286} = 0.067$.</p>
+</div>
+<p>Dereceleri sürekli kabul etmek kitapta kullanılan kapalı biçimli yaklaşıklığı verir:</p>
+<div class="eq">$$\hat\gamma \approx 1 + n \left[\sum_{i=1}^{n} \ln \frac{k_i}{k_{\min} - \tfrac12}\right]^{-1}.$$</div>
+<dl class="symbols">
+  <dt>$k_{\min} - \tfrac12$</dt><dd>tam sayı dereceler için süreklilik düzeltmesi</dd>
+</dl>
+<p>Yalnızca $k_{\min} \gtrsim 6$ için kesindir. $k_{\min} = 1$ ile $\gamma = 2.5$ için yaklaşık 2.0 verir (Clauset, Shalizi ve Newman 2009).</p>
+<div data-fig id="fig-lik"></div>
+
+<h2>Gerçek veri: Clauset–Shalizi–Newman yöntemi</h2>
+<p>Gerçek bir derece dağılımı nadiren $k = 1$'den itibaren bir kuvvet yasasıdır; en iyi durumda kuyruğu, bilinmeyen bir $k_{\min}$'in üstünde öyledir. Clauset, Shalizi ve Newman (<em>SIAM Review</em> 51, 661, 2009) üç adım önerdi:</p>
+<ol>
+  <li><strong>Uydurun.</strong> Her aday $k_{\min}$ için $k \ge k_{\min}$ üzerinde en çok olabilirlikle $\gamma$'yı uydurun ve Kolmogorov–Smirnov uzaklığı $D$'yi hesaplayın. $D$'si en küçük olan $k_{\min}$'i tutun.</li>
+  <li data-beyond="Kitabın İleri Konu 4.C'si; not defterinde yok"><strong>Sınayın.</strong> Uydurulan modelden yapay veri kümeleri çekin, her birini yeniden uydurun ve $D$'si en az gözlenen kadar olanların payı $p$'yi hesaplayın. $p &lt; 0.1$ ise kuvvet yasası reddedilir.</li>
+  <li><strong>Karşılaştırın.</strong> Log-normal ya da üstel gibi seçeneklere karşı olabilirlik oranı testleri.</li>
+</ol>
+<div class="eq">$$D = \max_{k \ge k_{\min}} \bigl|S(k) - P(k)\bigr|$$</div>
+<dl class="symbols">
+  <dt>$D$</dt><dd>Kolmogorov–Smirnov uzaklığı: veri ile model arasındaki en büyük fark</dd>
+  <dt>$S(k)$</dt><dd>kuyruktaki düğümlerden derecesi $\ge k$ olanların gözlenen payı</dd>
+  <dt>$P(k)$</dt><dd>uydurulan kuvvet yasasında derecesi $\ge k$ olanların payı</dd>
+  <dt>$p$</dt><dd>bootstrap'tan elde edilen uyum iyiliği $p$-değeri</dd>
+</dl>
+<div data-fig id="fig-scan"></div>
+<div class="callout gotcha" data-beyond="Bu sitenin powerlaw 2.0 varsayılanları üzerindeki kendi denetimi">
+  <p><strong>Bir uydurma yordamının varsayılanlarını denetleyin.</strong> Python <code>powerlaw</code> paketi (2.0), aksi söylenmedikçe üsteli $\gamma \le 3$ ile sınırlar ve en iyi üsteli 3'ü aşan her $k_{\min}$'i sessizce atar. İnternet için bu, sonucu $k_{\min} = 70$, $\hat\gamma = 3.40$'tan $k_{\min} = 36$, $\hat\gamma = 2.94$'e taşır: "ölçekten bağımsız rejim" veriden değil, varsayılandan gelir. Yukarıdaki seçiciyi deneyin.</p>
+</div>
+
+<div data-fig id="fig-alt"></div>
+<div data-fig id="fig-gof" data-beyond="Kitabın İleri Konu 4.C'si; not defterinde yok"></div>
+<div class="callout fix" data-errata="N14"></div>
+
+<h2>powerlaw paketindeki üç hata</h2>
+<p data-beyond="Bu sitenin powerlaw 2.0.0 üzerindeki kendi denetimi">2. adımın bootstrap'ını Python'a karşı denetlemek, <code>powerlaw</code> 2.0.0'ın rastgele sayı üreteçlerinde, <code>generate_random()</code> üzerine kurulan her bootstrap'ın devraldığı üç kusur ortaya çıkardı. Not defteri etkilenmez: tek çağrısı, üretecin rastlantı eseri kesin olduğu $k_{\min} = 1$'i kullanır. Yeniden üretmeler, önerilen bir düzeltme ve doğrulama betikleri <a href="https://github.com/ysoktar/graph-theory/tree/main/research/powerlaw-discrete-generator">research/powerlaw-discrete-generator</a> klasöründedir.</p>
+<div class="callout fix" data-software="S1"></div>
+<div class="callout fix" data-software="S2"></div>
+<div class="callout fix" data-software="S3"></div>
+
+<h2>İnternet ölçekten bağımsız mı?</h2>
+<div class="callout discuss">
+  <p>CSN ölçütüne göre kuvvet yasası sekiz ağın üçü için reddedilir, İnternet için sınırdadır ve makul olduğu yerde çoğu zaman düğümlerin yalnızca yüzde birkaçını kapsar. Bu ağlar "ölçekten bağımsız" mı? Bunun önemi var mı?</p>
+  <div class="hint">Broido ve Clauset (<em>Nat. Commun.</em> 10, 1017, 2019) yaklaşık 1,000 ağı sınadı ve "ölçekten bağımsız ağların nadir olduğu" sonucuna vardı. Holme (<em>Nat. Commun.</em> 10, 1016, 2019) ve Voitalov, van der Hoorn, van der Hofstad ve Krioukov (<em>Phys. Rev. Research</em> 1, 033034, 2019), merkez düğümler, uzaklıklar, dayanıklılık ve yayılma için önemli olanın kuyruğun ağır olup olmadığı, yani $\langle k^2\rangle \gg \langle k\rangle^2$ olup olmadığı olduğunu söyleyerek yanıt verdi. Burada $\langle k^2\rangle/\langle k\rangle^2$, 1.45 (elektrik şebekesi) ile 121 (e-posta) arasındadır. İki taraf da log-log bir grafikteki düz bir doğrunun hiçbir şey kanıtlamadığında hemfikirdir.</div>
+</div>
+
+<div class="callout why">
+  <ul>
+    <li>Ölçekten bağımsız modelin her öngörüsünü $\gamma$ yönlendirir; bu yüzden yanlı bir $\hat\gamma$ yanlış öngörüler verir.</li>
+    <li>En çok olabilirlik, hata payıyla birlikte yansız bir $\hat\gamma$ verir.</li>
+    <li>Bootstrap testi, hiçbir uydurmanın söyleyemeyeceğini söyler: bir kuvvet yasası makul mü, değil mi.</li>
+  </ul>
+</div>
+<div class="callout connect">
+  <ul>
+    <li><strong>Üzerine kurulduğu konu:</strong> <a href="ch4-plotting.html">çizim</a>; grafik öneride bulunur, karar uydurmanındır.</li>
+    <li><strong>Beslediği konular:</strong> $\hat\gamma$ ve $k_{\min}$ değerleri <a href="ch4-hubs.html">merkez düğüm boyutlarına</a>, <a href="ch4-universality.html">evrenselliğe</a> ve <a href="ch4-exponent.html">γ'nın rolüne</a> girer.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Bir kuvvet yasası uydurmasının bootstrap testi $p = 0.45$ veriyor. Ne sonuç çıkarabilirsiniz?</p>
+  <ol>
+    <li data-why="p, modelin doğru olma olasılığı değil, D'si daha büyük olan yapay örneklemlerin payıdır.">Dağılım 0.45 olasılıkla bir kuvvet yasasıdır</li>
+    <li data-why="Kuvvet yasası yalnızca p &lt; 0.1 olduğunda reddedilir.">Kuvvet yasası reddedilir</li>
+    <li>Kuvvet yasası makuldür; veri onu reddedemez</li>
+    <li data-why="Log-normal ile karşılaştırma bir olabilirlik oranı testi (3. adım) gerektirir.">Kuvvet yasası bir log-normalden daha iyi uyar</li>
+  </ol>
+  <div class="explain">Büyük bir $p$, gözlenen kadar büyük sapmaların uydurulan yasadan çekilen örneklemlerde yaygın olduğu anlamına gelir. Ne kuvvet yasasını kanıtlar ne de seçenekleri dışlar.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$n = 400$ düğümlü bir kuyruk $\hat\gamma = 3$ veriyor. Yaklaşık standart hata nedir?</p>
+  <ol>
+    <li>0.1</li>
+    <li data-why="Bu √n yerine n'ye böler.">0.005</li>
+    <li data-why="Bu γ̂ − 1 yerine γ̂ kullanır.">0.15</li>
+    <li data-why="Bu karekökü tamamen unutur ve çok büyüktür.">2</li>
+  </ol>
+  <div class="explain">$\sigma = (\hat\gamma - 1)/\sqrt n = 2/20 = 0.1$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$k_{\min}$ neden 1'e eşitlenmek yerine $D$'yi en küçük yaparak seçilir?</p>
+  <ol>
+    <li data-why="Daha büyük k_min daha az kuyruk düğümü ve daha küçük değil daha büyük bir hata demektir.">Daha büyük bir $k_{\min}$ standart hatayı her zaman küçültür</li>
+    <li>Çok küçükse kuvvet yasası olmayan baş kısmı katar (yanlılık); çok büyükse veriyi boşa harcar (gürültü)</li>
+    <li data-why="Olabilirlik her k_min ≥ 1 için vardır.">Olabilirlik $k_{\min} = 1$ için tanımsızdır</li>
+    <li data-why="γ, k_min ile sabitlenmez; her aday için uydurulur.">$k_{\min}$ bilinince $\gamma$ sabittir</li>
+  </ol>
+  <div class="explain">Gerçek dağılımlar yalnızca kuyrukta bir kuvvet yasasına uyar. KS taraması, uydurulan yasanın veriyle en iyi uyuştuğu $k_{\min}$'i seçer.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Bir olabilirlik oranı testinde kuvvet yasası üsteli yeniyor ($R &gt; 0$, $p &lt; 0.001$). Dolayısıyla bir kuvvet yasası makul müdür?</p>
+  <ol>
+    <li data-why="R yalnızca iki adayı sıralar; ikisi de kötü olabilir.">Evet, test bunu kanıtlar</li>
+    <li data-why="R &gt; 0 kuvvet yasasını destekler; onu reddetmez.">Hayır, $R &gt; 0$ onu dışlar</li>
+    <li data-why="Örneklem boyutu testin neyi karşılaştırdığını değiştirmez.">Yalnızca $n &gt; 1{,}000$ ise</li>
+    <li>Gösterilmiş değildir: bunun için bootstrap uyum iyiliği testi gerekir</li>
+  </ol>
+  <div class="explain">Bir olabilirlik oranı yalnızca iki modelden hangisinin daha az kötü olduğunu söyler. İş birliği, e-posta ve WWW üsteli yener ama bootstrap testinden geçemez.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Kuyruk aynı $\hat\gamma$ ile $n = 400$'den $n = 1{,}600$ düğüme büyüyor. $\sigma$'ya ne olur?</p>
+  <ol>
+    <li data-why="σ, 1/n gibi değil 1/√n gibi azalır.">Dörtte birine iner</li>
+    <li data-why="Daha fazla veri kestirimi her zaman daraltır.">Aynı kalır</li>
+    <li data-why="Daha fazla veri hatayı küçültür.">İki katına çıkar</li>
+    <li>Yarıya iner</li>
+  </ol>
+  <div class="explain">$\sigma = (\hat\gamma - 1)/\sqrt n$; dört kat daha fazla veri $\sqrt 4 = 2$ kat daha küçük hata verir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>İnternet uydurmasını $\gamma \le 3$ ile sınırlamak $\hat\gamma$'yı 3.40'tan 2.94'e taşıyor. Bu, 4. bölümün terimleriyle neyi değiştirir?</p>
+  <ol>
+    <li>Öngörülen rejimi: rastgeleye benzer olandan (sonlu $\langle k^2\rangle$) ölçekten bağımsıza (ıraksak $\langle k^2\rangle$)</li>
+    <li data-why="γ = 3'ü geçmek ⟨k²⟩'nin ıraksayıp ıraksamadığını değiştirir.">Hiçbir şeyi: iki üstel de aynı ağı betimler</li>
+    <li data-why="Veri değişmez; yalnızca uydurma farklıdır.">Ağdaki düğüm sayısını</li>
+    <li data-why="Üstel, modelin her öngörüsüne girer.">Yalnızca grafik renklerini</li>
+  </ol>
+  <div class="explain">$\gamma = 3$, ıraksak ve sonlu $\langle k^2\rangle$ arasındaki sınırdır (<a href="ch4-exponent.html">γ'nın rolü</a>); bu yüzden bir varsayılan sonucu değiştirebilir.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Kolmogorov–Smirnov uzaklığı $D$ neyi ölçer?</p>
+  <ol>
+    <li data-why="Bu bir en küçük kareler ölçütüdür; D en büyük farkı alır.">Veri ile model arasındaki ortalama kare hatayı</li>
+    <li data-why="Bunu hiçbir istatistik vermez; p, D'si daha büyük olan yapay örneklemlerin payıdır.">Kuvvet yasasının doğru olma olasılığını</li>
+    <li>Gözlenen ve uydurulan birikimli dağılımlar arasındaki en büyük farkı</li>
+    <li data-why="D üstelleri değil dağılımları karşılaştırır.">İki $\gamma$ kestirimi arasındaki farkı</li>
+  </ol>
+  <div class="explain">Kuyruk üzerinden $D = \max_k |S(k) - P(k)|$. $D$'si en küçük olan $k_{\min}$ tutulur.</div>
+</div>
+
+</div></body></html>

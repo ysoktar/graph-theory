@@ -24,13 +24,13 @@
 <p>The largest degree $k_{\max}$ is roughly the degree above which we expect a single node:</p>
 <div class="eq">$$N \int_{k_{\max}}^{\infty} p(k)\, dk \approx 1 .$$</div>
 <dl class="symbols">
-  <dt>$k_{\max}$</dt><dd>largest degree in the network</dd>
+  <dt>$k_{\max}$</dt><dd>the largest degree in the network</dd>
   <dt>$N$</dt><dd>number of nodes</dd>
-  <dt>$p(k)$</dt><dd>degree density (continuous)</dd>
-  <dt>$\int_{k_{\max}}^{\infty} p(k)\,dk$</dt><dd>share of nodes with degree above $k_{\max}$</dd>
+  <dt>$p(k)$</dt><dd>the density of degrees, treating $k$ as continuous</dd>
+  <dt>$\int_{k_{\max}}^{\infty} p(k)\,dk$</dt><dd>the share of nodes with a degree above $k_{\max}$</dd>
 </dl>
 <ol>
-  <li>Power law: $\int_{k_{\max}}^{\infty} (\gamma-1)\,k_{\min}^{\gamma-1}k^{-\gamma}\,dk = (k_{\max}/k_{\min})^{-(\gamma-1)}$.</li>
+  <li>For a power law, $\int_{k_{\max}}^{\infty} (\gamma-1)\,k_{\min}^{\gamma-1}k^{-\gamma}\,dk = (k_{\max}/k_{\min})^{-(\gamma-1)}$.</li>
   <li>Set $N\,(k_{\max}/k_{\min})^{-(\gamma-1)} = 1$.</li>
   <li>Solve: $k_{\max}/k_{\min} = N^{1/(\gamma-1)}$.</li>
 </ol>
@@ -39,11 +39,11 @@
 <dl class="symbols">
   <dt>$k_{\min}$</dt><dd>smallest degree of the power law</dd>
   <dt>$\gamma$</dt><dd>degree exponent</dd>
-  <dt>$1/(\gamma-1)$</dt><dd>growth exponent of the hub: $\tfrac23$ for $\gamma = 2.5$</dd>
+  <dt>$1/(\gamma-1)$</dt><dd>the exponent with which the hub grows: $\tfrac23$ for $\gamma = 2.5$</dd>
 </dl>
 <p>For an exponential $p(k) = \lambda e^{-\lambda(k - k_{\min})}$ the same steps give $k_{\max} \approx k_{\min} + \ln N/\lambda$: logarithmic growth ($\lambda$ is the decay rate; $1/\lambda$ is the mean excess over $k_{\min}$). A Poisson tail falls faster still: <span data-beyond="Not in the book: the Poisson maximum">its maximum grows roughly like $\ln N/\ln\ln N$</span>.</p>
 <div class="callout example">
-  <p>$N = 10^6$, $k_{\min} = 1$, $\langle k\rangle = 3$: power law ($\gamma = 2.5$) $10^{6 \cdot 2/3} = 10{,}000$; exponential $1 + 2\ln 10^6 \approx 29$; Poisson 14.</p>
+  <p>For $N = 10^6$, $k_{\min} = 1$ and $\langle k\rangle = 3$: a power law with $\gamma = 2.5$ gives $10^{6 \cdot 2/3} = 10{,}000$; an exponential gives $1 + 2\ln 10^6 \approx 29$; a Poisson distribution gives 14.</p>
 </div>
 <div data-fig id="fig-theory"></div>
 <div class="callout fix" data-errata="N13"></div>
@@ -60,8 +60,8 @@
 <div class="callout look">
   <ul>
     <li>Every observed hub is far beyond the Poisson value: about 7 to 510 times, except the power grid (19 against 10).</li>
-    <li>For $\hat\gamma$ near 2 (email, WWW) the cutoff overshoots by 8 to 10: real tails bend down at the highest degrees.</li>
-    <li>Not general: the metabolic hub (highlighted) is 2.9 times <em>above</em> its cutoff (638 against 218); phone calls and the power grid are slightly above too.</li>
+    <li>For $\hat\gamma$ near 2 (email, WWW) the cutoff overshoots by a factor of 8 to 10: real tails bend down at the highest degrees.</li>
+    <li>This is not general: the metabolic hub (highlighted) is 2.9 times <em>above</em> its cutoff (638 against 218), and the phone-call network and the power grid are slightly above theirs too.</li>
   </ul>
 </div>
 <div class="callout fix" data-errata="N22"></div>
@@ -123,7 +123,7 @@
 </div>
 
 <div class="quiz" data-answer="4">
-  <p>$\gamma = 2.5$, $k_{\min} = 2$, $N = 10^6$. What is the natural cutoff?</p>
+  <p>A power law has $\gamma = 2.5$, $k_{\min} = 2$ and $N = 10^6$ nodes. What is its natural cutoff?</p>
   <ol>
     <li data-why="That uses the exponent ½ (γ = 3) instead of ⅔.">2,000</li>
     <li data-why="That forgets the factor k_min = 2.">10,000</li>
@@ -133,7 +133,7 @@
   <div class="explain">$k_{\max} \approx 2 \times (10^6)^{1/1.5} = 2 \times 10^4$.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>Email: observed $k_{\max} = 6{,}553$, natural cutoff about 56,000. Why can the cutoff overshoot this much?</p>
+  <p>The email network's observed largest degree is 6,553, while its natural cutoff is about 56,000. Why can the cutoff overshoot this much?</p>
   <ol>
     <li>With $\hat\gamma$ near 2 the extrapolation is extreme, and real tails bend down at the highest degrees</li>
     <li data-why="The cutoff uses the network's own tail size.">The fit used the wrong $N$</li>

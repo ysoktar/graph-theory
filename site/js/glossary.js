@@ -79,6 +79,7 @@ export const GLOSSARY = [
   { term: "KS distance", def: "Kolmogorov–Smirnov distance: the largest gap between the data's cumulative distribution and the model's.", match: "KS (?:distance|statistic|test)|Kolmogorov[–-]Smirnov(?: distance| statistic| test)?" },
   { term: "k_min", def: "The degree from which the power-law tail is fitted; smaller degrees are ignored.", match: "k_min" },
   { term: "Configuration model", def: "A random network with a given degree sequence: give each node k_i stubs (half-links) and pair the stubs at random.", match: "configuration models?" },
+  { term: "Stub", def: "Half of a link, attached to one node. The configuration model gives node i k_i stubs and joins random pairs of stubs into links; a pair can land on one node (a self-loop) or repeat an existing link (a multi-link).", match: "stubs?" },
   { term: "Degree-preserving randomization", def: "Swap the ends of random link pairs many times: every degree stays, everything else is randomised. A null model for 'is it just the degrees?'.", match: "degree-preserving randomi[sz]ations?|link swaps?" },
   // ---- BA model and evolving networks
   { term: "Preferential attachment", def: "New nodes link to existing node i with probability Π(k_i) = k_i / Σ_j k_j: the rich get richer.", match: "preferential attachment" },

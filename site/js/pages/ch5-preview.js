@@ -69,7 +69,7 @@ const baSf = (k, m) => (m * (m + 1)) / (k * (k + 1)); // P(K ≥ k)
 // ------------------------------------------------------------------ 2. large networks (worker)
 (async () => {
   let m = 2, job = null;
-  const f = figure("#fig-pk", { title: "Degree distribution of a large network", sub: "N = 100,000 nodes, built in a background thread.", cols: "cols-2" });
+  const f = figure("#fig-pk", { title: "Degree distribution of a large network", sub: "N = 100,000 nodes.", cols: "cols-2" });
   const pa = f.panel("P(K ≥ k)"), pb = f.panel("Degree of three nodes as the network grows");
   const t = stats(f.body, [{ key: "g", label: "fitted γ̂ (preferential)" }, { key: "kmax", label: "largest degree" }]);
   t.el.style.gridColumn = "1 / -1";
