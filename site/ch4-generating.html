@@ -47,7 +47,7 @@
 <div class="callout look">
   <ul>
     <li>The degree sequence fixes $k_{\max}$ and $\langle k^2\rangle$, which $G(N, L)$ gets badly wrong.</li>
-    <li>Randomized networks are usually <em>smaller</em> than both the real network and $G(N, L)$: hubs act as shortcuts, while real networks spend many links inside tightly knit groups.</li>
+    <li>Randomized networks usually have <em>shorter</em> distances than both the real network and $G(N, L)$: their hubs act as shortcuts, while real networks spend many links inside tightly knit groups.</li>
     <li>Collaboration: $\langle C\rangle$ falls from 0.63 to 0.002 and the assortativity from 0.13 to 0. Triangles and degree correlations come from other mechanisms: teams, communities (Ch 9), homophily (Ch 7).</li>
   </ul>
 </div>
@@ -55,7 +55,7 @@
 <div id="tbl-cfg"></div>
 <div class="callout fix" data-errata="N19"></div>
 <div class="callout look">
-  <p>For metabolism (45%) and email (42%) random wiring recovers much of the real clustering (highlighted): with a large $\langle k^2\rangle$, hubs share many neighbours by chance. The estimate $(\langle k^2\rangle - \langle k\rangle)^2/(\langle k\rangle^3 N)$ tracks the trend but breaks down above about 0.1 (it even exceeds 1, shown capped): it assumes $k_{\max} \ll \sqrt{\langle k\rangle N}$, which these two violate.</p>
+  <p>For metabolism (45%) and email (42%) random wiring recovers much of the real clustering (highlighted): with a large $\langle k^2\rangle$, hubs share many neighbours by chance. The formula $(\langle k^2\rangle - \langle k\rangle)^2/(\langle k\rangle^3 N)$, the expected $\langle C\rangle$ of a configuration model, follows the trend but overestimates where the hubs are large; for metabolism it even exceeds 1 (shown capped at 1), which a clustering coefficient cannot. It assumes no hub is too large, $k_{\max} \ll \sqrt{\langle k\rangle N}$, which metabolism, email and the WWW violate.</p>
 </div>
 
 <h2>Drawing power-law degree sequences</h2>
