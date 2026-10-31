@@ -1,0 +1,183 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Sentez ve öz değerlendirme · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele ağlar, ölçekten bağımsız ağlar ve kitabın gerçek ağları yan yana; 2–4. Bölümlerin ana mesajları ve bir öz değerlendirme."></head><body>
+<div class="content">
+
+<h1>Sentez ve öz değerlendirme</h1>
+<p class="lead">Üç tabloda ders: her modelin veriye karşı öngörüsü, modellerin birbiriyle ilişkisi ve her kavramın nerede yeniden karşımıza çıktığı.</p>
+
+<h2>Veriye karşı öngörüler (not defteri IV. Kısım, düzeltilmiş)</h2>
+<table class="simple">
+  <thead><tr><th>Özellik</th><th>Rastgele ağ (3. Bölüm)</th><th>Ölçekten bağımsız ağ (4. Bölüm)</th><th>Verinin gösterdiği</th></tr></thead>
+  <tbody>
+    <tr><td>Derece dağılımı</td><td>Poisson, dar</td><td>kuvvet yasası, ağır kuyruklu</td><td>elektrik şebekesi dışında ağır kuyruklu; ağların yarısı için katı kuvvet yasası makul</td></tr>
+    <tr><td>En büyük merkez düğüm</td><td>$\ln N$'den yavaş</td><td>$\sim k_{\min} N^{1/(\gamma-1)}$</td><td>yüzlerce ile binlerce bağlantı, çoğunlukla doğal kesmenin altında</td></tr>
+    <tr><td>$\langle k^2\rangle$</td><td>$\langle k\rangle(\langle k\rangle + 1)$</td><td>$\gamma &lt; 3$ için $N$ ile büyür</td><td>elektrik şebekesi ve, hafifçe, telefon aramaları dışında $\sigma_k \gg \sqrt{\langle k\rangle}$</td></tr>
+    <tr><td>Uzaklıklar</td><td>$\ln N/\ln\langle k\rangle$</td><td>$2 &lt; \gamma &lt; 3$ için $\ln\ln N$</td><td>elektrik şebekesi dışında küçük dünyalar</td></tr>
+    <tr><td>Kümelenme</td><td>$\langle k\rangle/N$, $k$'den bağımsız</td><td>konfigürasyon modeli: $\langle k^2\rangle$ çok büyük değilse düşük</td><td>rastgele değerin 40 ile 10,000 katı; $C(k)$, $k$ ile azalır</td></tr>
+    <tr><td>Dev bileşen</td><td>$\langle k\rangle > 1$</td><td>$\langle k^2\rangle > 2\langle k\rangle$: $\gamma &lt; 3$ için neredeyse her zaman</td><td>sekizinin hepsi kritik üstü</td></tr>
+  </tbody>
+</table>
+<div class="callout fix" data-errata="N20"></div>
+<div class="callout fix" data-errata="N13"></div>
+
+<h2>Bir bakışta sekiz ağ</h2>
+<div id="tbl-measured"></div>
+
+<h2>Modeller birbiriyle nasıl ilişkili</h2>
+<table class="simple">
+  <thead><tr><th>Model</th><th>Eklediği</th><th>Sağladığı</th><th>İlişki</th></tr></thead>
+  <tbody>
+    <tr><td><a href="ch3-model.html">Rastgele ağ</a></td><td>rastgele bağlantılar</td><td>tek başına şansın ne verdiğini söylemek</td><td>kümelenme, uzaklıklar ve merkez düğümler için sıfır modeli</td></tr>
+    <tr><td><a href="ch4-generating.html">Konfigürasyon modeli</a></td><td>herhangi bir derece dizisi</td><td>derecelerin neyi açıkladığını ayırmak</td><td>rastgele ağı genelleştirir; <a href="correlations.html">korelasyonlar</a> ve <a href="communities.html">modülerlik</a> için sıfır modeli</td></tr>
+    <tr><td><a href="ch5-preview.html">Barabási–Albert</a></td><td>büyüme + tercihli bağlanma</td><td>merkez düğümlerin neden oluştuğunu açıklamak</td><td>kuvvet yasasının mekanizması; uygunluk modelinin özel durumu</td></tr>
+    <tr><td><a href="evolving.html">Uygunluk modeli</a></td><td>çekicilik $\eta$</td><td>geç kazananları ve $\gamma \ne 3$'ü açıklamak</td><td>BA'yı genelleştirir</td></tr>
+    <tr><td><a href="robustness.html">Perkolasyon</a></td><td>düğüm ya da bağlantı silme</td><td>$f_c$ ve $T_c$'yi öngörmek</td><td>hasar altındaki konfigürasyon modeli; <a href="epidemics.html">SIR</a> bir bağlantı perkolasyonudur</td></tr>
+  </tbody>
+</table>
+
+<h2>Her kavram nerede yeniden çıkar</h2>
+<table class="simple">
+  <thead><tr><th>Kavram</th><th>Tanımı</th><th>Öngören</th><th>Kullanıldığı yer</th></tr></thead>
+  <tbody>
+    <tr><td>$p_k$, $\langle k\rangle$</td><td><a href="ch2-degree.html">2. Bölüm</a></td><td>tüm modeller</td><td>her yerde</td></tr>
+    <tr><td>$\kappa = \langle k^2\rangle/\langle k\rangle$</td><td><a href="ch4-moments.html">4. Bölüm</a></td><td>$\gamma &lt; 3$ için ıraksar; BA: $\sim \ln N$</td><td>Molloy–Reed, $f_c$, $T_c$, nötr $k_{nn}$, arkadaşlık paradoksu</td></tr>
+    <tr><td>Dev bileşen</td><td><a href="ch3-evolution.html">3. Bölüm</a></td><td>rastgele: $\langle k\rangle > 1$; genel: $\kappa > 2$</td><td>dayanıklılık, salgınlar</td></tr>
+    <tr><td>Uzaklıklar $\langle d\rangle$</td><td><a href="ch2-paths.html">2. Bölüm</a></td><td>$\ln N/\ln\langle k\rangle$; $\ln\ln N$</td><td><a href="ch4-ultra-small.html">ultra küçük dünyalar</a></td></tr>
+    <tr><td>Kümelenme $C$</td><td><a href="ch2-clustering.html">2. Bölüm</a></td><td>rastgele: $\langle k\rangle/N$; BA: $(\ln N)^2/N$</td><td>topluluklar, bağlantı tahmini</td></tr>
+    <tr><td>Üstel $\gamma$</td><td><a href="ch4-power-laws.html">4. Bölüm</a></td><td>BA: 3; uygunluk: $1 + C$</td><td>merkez düğümler, momentler, uzaklıklar</td></tr>
+    <tr><td>Doğal kesme $k_{\max}$</td><td><a href="ch4-hubs.html">4. Bölüm</a></td><td>$k_{\min} N^{1/(\gamma-1)}$</td><td>yapısal kesme $\sqrt{\langle k\rangle N}$</td></tr>
+    <tr><td>Asortatiflik $r$</td><td><a href="correlations.html">7. Bölüm</a></td><td>rastgele, konfigürasyon, BA: $r \to 0$</td><td>dayanıklılık</td></tr>
+    <tr><td>Modülerlik $Q$</td><td><a href="communities.html">9. Bölüm</a></td><td>rastgele ağlar da yüksek $Q$'ya ulaşır</td><td>spektral gömme</td></tr>
+  </tbody>
+</table>
+
+<h2>Ana mesajlar</h2>
+<ol>
+  <li>Rastgele ağlar <strong>sıfır modelidir</strong>: dev bileşen ve küçük dünyalar konusunda haklı, merkez düğümler ve kümelenme konusunda haksızdır.</li>
+  <li>Gerçek derece dağılımları <strong>ağır kuyrukludur</strong>. Logaritmik kutularla ya da CCDF ile çizin; en çok olabilirlikle uydurun ve bir uyum iyiliği testi yapın.</li>
+  <li>Ağır kuyruk büyük $\langle k^2\rangle$ demektir: dayanıklılığı (8. Bölüm) ve yayılmayı (10. Bölüm) kuyruğun tam biçimi değil, bu belirler.</li>
+  <li><strong>Dereceyi koruyan rastgeleleştirme</strong>, derecelerin açıkladığını açıklamadığından ayırır.</li>
+  <li><strong>Her şeyi denetleyin</strong>: yazılım varsayılanlarını (powerlaw 2.0, aksi söylenmedikçe yalnızca $\gamma \le 3$'ü arar), yaklaşıklıkları ve tek bir ağdan çıkarılan sonuçları.</li>
+</ol>
+
+<h2>Öz değerlendirme</h2>
+<div class="quiz" data-answer="3">
+  <p>Bir rastgele ağda $N = 10^4$ düğüm var ve $\langle k\rangle = 2$. Hangi betimleme ona en iyi uyar?</p>
+  <ol>
+    <li data-why="⟨k⟩ = 2 &gt; 1, yani kritik üstüdür.">Dev bileşen yoktur</li>
+    <li data-why="Bağlılık için ⟨k⟩ &gt; ln N ≈ 9.2 gerekir.">Bağlıdır</li>
+    <li>Düğümlerin yaklaşık %80'ini içeren bir dev bileşen vardır</li>
+    <li data-why="Poisson kuyrukları incedir: en büyük derece 9 civarındadır.">Yaklaşık 100 bağlantılı bir merkez düğüm vardır</li>
+  </ol>
+  <div class="explain">$S = 1 - e^{-2S}$, $S \approx 0.80$ verir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Doğrusal kutularla çizilmiş log-log bir $p_k$ grafiği düz, yatay bir kuyrukla bitiyor. Neden?</p>
+  <ol>
+    <li data-why="Bir kesme kuyruğu düzleştirmez, aşağı büker.">Bir kesme</li>
+    <li>Kuyruktaki dereceleri tek tek düğümler taşır: $p_k = 1/N$</li>
+    <li data-why="Korelasyonlar p_k'yi değiştirmez.">Asortatiflik</li>
+    <li data-why="γ bir düzlük değil, eğimi belirler.">$\gamma \approx 2$</li>
+  </ol>
+  <div class="explain">Bu örnekleme gürültüsüdür: her büyük derece bir kez, $1/N$ yüksekliğinde görülür. Logaritmik kutular ya da CCDF bunu giderir.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>$\gamma \le 3$ ile sınırlanmış bir uydurma $k_{\min} = 36$ ile $\hat\gamma = 2.94$ veriyor. Sınırsız uydurma ise $k_{\min} = 70$ ile $\hat\gamma = 3.40$ veriyor. Hangi üsteli raporlarsınız?</p>
+  <ol>
+    <li data-why="Bu, veriye bakmadan cevaba karar vermektir.">2.94, çünkü ölçekten bağımsız $\gamma &lt; 3$ demektir</li>
+    <li data-why="İki uydurmanın ortalamasını almanın anlamı yoktur.">3.17</li>
+    <li data-why="Log-log grafiklerde en küçük kareler uydurması yanlıdır; doğru yöntem en çok olabilirliktir.">Hiçbirini; en küçük kareleri kullanın</li>
+    <li>3.40</li>
+  </ol>
+  <div class="explain">Sınırlama en iyi uydurmayı dışarıda bıraktı. Sınırsız uydurmanın KS uzaklığı daha küçüktür; yani veri onu tercih eder.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Dereceyi koruyan rastgeleleştirmeden sonra bir ağın kümelenmesi 0.6'dan 0.002'ye, ortalama uzaklığı 5.3'ten 4.4'e düşüyor. Ne sonuç çıkarırsınız?</p>
+  <ol>
+    <li>Kümelenmeyi dereceler açıklamaz; üçgenler yolları uzatır</li>
+    <li data-why="Dereceyi koruyan değiş tokuşlar dereceleri yapısı gereği korur.">Değiş tokuşlar dereceleri değiştirdi</li>
+    <li data-why="Rastgele bir ağ kümelenme kaybetmezdi.">Ağ rastgeledir</li>
+    <li data-why="Uzaklıklar esas olarak derecelere bağlıdır.">Uzaklıkları tek başına kümelenme belirler</li>
+  </ol>
+  <div class="explain">Dereceler değişmedi; dolayısıyla üçgenleri açıklayamazlar. Üçgen kapatan bağlantılar rastgeleleştirmeden sonra kestirmeye dönüşür, bu yüzden yollar kısalır.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Dört ağın $\langle k\rangle = 1.5$ değeri aynı. Düğümlerinin yarısının rastgele bozulmasına hangisi en iyi dayanır?</p>
+  <ol>
+    <li data-why="κ = ⟨k⟩ + 1 = 2.5, yani f_c = 1 − 1/1.5 = %33: düğümlerin yarısı bozulmadan çok önce dağılır.">Rastgele ağ</li>
+    <li data-why="Kafeslerde merkez düğüm yoktur.">Kare kafes</li>
+    <li>Ölçekten bağımsız, $\gamma = 2.3$</li>
+    <li data-why="Tek bir bozulma bir halkayı keser.">Halka</li>
+  </ol>
+  <div class="explain">Büyük bir $\langle k^2\rangle$, $\kappa \gg 2$ verir; bu yüzden $f_c = 1 - 1/(\kappa - 1)$, 1'e yakındır.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Molloy–Reed ölçütünü, salgın eşiğini ve nötr $k_{nn}$'yi hangi nicelik belirler?</p>
+  <ol>
+    <li data-why="Üçü de ikinci momente de bağlıdır.">$\langle k\rangle$</li>
+    <li>$\kappa = \langle k^2\rangle/\langle k\rangle$</li>
+    <li data-why="Kümelenme üçüne de girmez.">$C$</li>
+    <li data-why="γ yalnızca ⟨k²⟩ aracılığıyla önemlidir.">$\gamma$</li>
+  </ol>
+  <div class="explain">Üçü de bir bağlantıyı sonuna kadar izler ve bu yolla ulaşılan düğümün ortalama $\langle k\rangle$ değil, $\kappa$ bağlantısı vardır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Ölçekten bağımsız bir ağ neden hem bozulmalara dayanıklı hem salgınlara açıktır?</p>
+  <ol>
+    <li data-why="İki özellik aynı ağda birlikte geçerlidir.">Değildir; bunlar farklı ağlardır</li>
+    <li data-why="Kümelenmenin iki eşikte de rolü yoktur.">Yüksek kümelenme</li>
+    <li data-why="Uzaklıklar f_c ya da T_c'de yer almaz.">Kısa uzaklıklar</li>
+    <li>Tek bir büyük $\kappa$: $f_c = 1 - 1/(\kappa-1)$ ve $T_c = 1/(\kappa-1)$</li>
+  </ol>
+  <div class="explain">İkisi de aynı $\kappa$'nın belirlediği perkolasyon eşikleridir ve $T_c = 1 - f_c$: büyük bir $\kappa$, $f_c$'yi 1'e yükseltir, $T_c$'yi 0'a indirir.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Modülerlik, asortatiflik ve dereceyi koruyan rastgeleleştirmenin ortak noktası nedir?</p>
+  <ol>
+    <li>Sıfır modeli olarak konfigürasyon modeli</li>
+    <li data-why="G(N, p) gerçek dereceleri yok sayar.">Rastgele ağ $G(N, p)$</li>
+    <li data-why="Hiçbiri ağı büyütmez.">BA modeli</li>
+    <li data-why="Uygunluk bir büyüme modelidir.">Uygunluk modeli</li>
+  </ol>
+  <div class="explain">Her biri bir ağı, kendi derecelerinin rastgele bağlanmış hâliyle karşılaştırır.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Hangi model, eşit $\eta$ özel durumu olarak BA'yı içerir?</p>
+  <ol>
+    <li data-why="Dereceleri girdi olarak alır; büyümesi yoktur.">Konfigürasyon modeli</li>
+    <li data-why="G(N, p)'de ne büyüme ne tercih vardır.">Rastgele ağ</li>
+    <li>Uygunluk modeli</li>
+    <li data-why="Perkolasyon düğüm siler; ağ büyütmez.">Perkolasyon</li>
+  </ol>
+  <div class="explain">Eşit $\eta$'lar $\Pi_i = \eta_i k_i/\sum_j \eta_j k_j$'de sadeleşir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>BA modeli kuvvet yasasını açıklar. Hâlâ neyi kaçırır?</p>
+  <ol>
+    <li data-why="BA'nın bir dev bileşeni vardır.">Dev bileşeni</li>
+    <li>Yüksek kümelenmeyi ve $\gamma \ne 3$'ü</li>
+    <li data-why="BA ağları küçük dünyalardır.">Küçük uzaklıkları</li>
+    <li data-why="BA'da merkez düğümler tasarım gereği vardır.">Merkez düğümleri</li>
+  </ol>
+  <div class="explain">BA kümelenmesi $(\ln N)^2/N$ gibi sıfıra gider ve $\gamma$ her zaman 3'tür; üsteli uygunluk ve başka bileşenler düzeltir.</div>
+</div>
+
+<h2>Kapanış tartışması (not defteri IV. Kısım)</h2>
+<div class="callout discuss">
+  <ol>
+    <li>Elektrik şebekesinde merkez düğümleri hangi kısıtlar engeller?</li>
+    <li>Ölçekten bağımsız bir nüfusun %1'ini aşılayabilirsiniz: kimi aşılarsınız ve $\langle k^2\rangle$ neden önemlidir? (<a href="epidemics.html">Yayılma</a>)</li>
+    <li>İş birliği uydurması düğümlerin yalnızca bir kısmını kapsıyor ve bootstrap testi onu reddediyor. Ağ “ölçekten bağımsız” mıdır? Bu etiket pratikte önemli midir?</li>
+  </ol>
+</div>
+
+<h2>İleri okuma</h2>
+<ul>
+  <li>A.-L. Barabási, <a href="https://networksciencebook.com/"><em>Network Science</em></a>, 2–4. Bölümler ve İleri Konular 3.A–3.G, 4.A–4.C.</li>
+  <li>A. Clauset, C. R. Shalizi, M. E. J. Newman, "Power-law distributions in empirical data", <em>SIAM Review</em> 51, 661 (2009).</li>
+  <li>J. Alstott, E. Bullmore, D. Plenz, "powerlaw: a Python package for analysis of heavy-tailed distributions", <em>PLoS ONE</em> 9, e85777 (2014). 2.0.0 sürümü için bu sitenin <a href="ch4-fitting.html">hata notlarına</a> bakın.</li>
+  <li>A. D. Broido, A. Clauset, "Scale-free networks are rare", <em>Nat. Commun.</em> 10, 1017 (2019); P. Holme, "Rare and everywhere", <em>Nat. Commun.</em> 10, 1016 (2019).</li>
+  <li>M. E. J. Newman, <em>Networks</em>, 2. baskı, Oxford University Press (2018).</li>
+</ul>
+
+</div></body></html>
