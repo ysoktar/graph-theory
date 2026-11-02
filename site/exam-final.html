@@ -177,7 +177,7 @@
   <dt>$\nu$</dt><dd>aging exponent: attractiveness falls with age $t - t_i$</dd>
 </dl>
 <div class="callout fix" data-book="B12"></div>
-<p>What this lets you do: predict $p_k$ from the processes that build the network. Book: "get the dynamics right; the topology is the bonus."</p>
+<p>What this lets you do: predict $p_k$ from the processes that build the network. The book's lesson: get the dynamics right, and the topology follows.</p>
 
 <h3>Exam-style problems</h3>
 <div class="callout try">
@@ -279,7 +279,7 @@
 <dl class="symbols">
   <dt>$\overline{\,\cdot\,}$</dt><dd>average over the $L$ links</dd>
 </dl>
-<p>Book values: collaboration $+0.13$, phone calls $+0.21$; metabolism $-0.25$, email $-0.08$; power grid $\approx 0$.</p>
+<p>Measured on the book's networks (undirected): collaboration $+0.13$, phone calls $+0.21$; metabolism $-0.25$, email $-0.08$; power grid $\approx 0$.</p>
 <p><strong>Structural cutoff.</strong> Random wiring expects $kk'/(\langle k\rangle N)$ links between two nodes of degrees $k$ and $k'$. A simple network allows at most 1. Two hubs of degree $k_s$ already expect one link:</p>
 <div class="eq">$$k_s \sim (\langle k\rangle N)^{1/2}$$</div>
 <dl class="symbols">
@@ -307,9 +307,9 @@
   <p><strong>Problem.</strong> Metabolism: $N = 1{,}039$, $\langle k\rangle = 9.13$, $k_{\max} = 638$. Power grid: $N = 4{,}941$, $\langle k\rangle = 2.67$, $k_{\max} = 19$. Which can show structural disassortativity? For metabolism's two top hubs (638 and 460), how many links does random wiring expect?</p>
   <div class="hint" data-label="Show solution">
     <ol>
-      <li>Metabolism: $k_s = \sqrt{9.13 \times 1{,}039} = \sqrt{9{,}486} \approx 97 &lt; 638$: yes.</li>
+      <li>Metabolism: $k_s = \sqrt{9.13 \times 1{,}039} = \sqrt{9{,}482} \approx 97 &lt; 638$: yes.</li>
       <li>Power grid: $k_s = \sqrt{2.67 \times 4{,}941} \approx 115 &gt; 19$: no conflict; it is neutral ($r \approx 0.003$).</li>
-      <li>Expected links: $638 \times 460/9{,}486 \approx 31$. A simple network allows 1, so the hubs' other links go to small nodes.</li>
+      <li>Expected links: $638 \times 460/9{,}482 \approx 31$. A simple network allows 1, so the hubs' other links go to small nodes.</li>
     </ol>
   </div>
 </div>
@@ -535,7 +535,7 @@
   </div>
 </div>
 <div class="callout try">
-  <p><strong>Problem.</strong> With 10% of links hidden, common neighbours score AUC $\approx 0.96$ on the collaboration network but $\approx 0.57$ on the protein network. Explain using Ch 2–3 concepts.</p>
+  <p><strong>Problem.</strong> With 10% of links hidden, common neighbours score AUC $\approx 0.96$ on the collaboration network but $\approx 0.56$ on the protein network. Explain using Ch 2–3 concepts.</p>
   <div class="hint" data-label="Show solution">
     <ol>
       <li>CN assumes triadic closure: friends of friends link. That is high clustering.</li>
@@ -966,7 +966,7 @@
   <div class="explain">AUC 1 is a perfect ranking and 0.5 a random one. Always compare with simple baselines such as common neighbours.</div>
 </div>
 <div class="quiz" data-topic="GraphML · node embeddings" data-answer="4">
-  <p>The common-neighbours score of a pair is $s_{ij} = |N(i) \cap N(j)|$, the number of neighbours they share. It predicts hidden links well in the collaboration network (AUC about 0.97) but poorly in the protein network (about 0.57). Why?</p>
+  <p>The common-neighbours score of a pair is $s_{ij} = |N(i) \cap N(j)|$, the number of neighbours they share. It predicts hidden links well in the collaboration network (AUC about 0.96) but poorly in the protein network (about 0.56). Why?</p>
   <ol>
     <li data-why="The protein network is not too small; it has thousands of links.">The protein network is too small.</li>
     <li data-why="Both networks have hubs; the difference is in triangles.">Proteins have no hubs.</li>

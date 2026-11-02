@@ -1,0 +1,1035 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Final çalışma rehberi · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="BIL489/589 finali için bilinmesi gerekenler; ağırlık 6–8. Bölümlerde, çizge ML'de ve düğüm gömmelerinde; sınav tarzı problemler ve bir alıştırma seti."></head><body>
+<div class="content">
+
+<h1>Final çalışma rehberi</h1>
+<p class="lead">Tüm ders, ağırlık ara sınavdan sonra gelenlerde: evrilen ağlar ve uygunluk (6. Bölüm), derece korelasyonları (7. Bölüm), dayanıklılık (8. Bölüm), çizge üzerinde makine öğrenmesi ve düğüm gömmeleri. Her konuda kullanacağınız formüller, çözümlü sınav tarzı problemler ve sık yapılan hatalar var; rehber yeni sınav tarzı sorulardan oluşan bir alıştırma setiyle biter.</p>
+
+<div class="callout key">
+  <p><strong>Sınanan ezber değil, kullanmaktır.</strong> Sınav tarzı sorular formülleri verir. Yapabilmeniz gereken, doğru formülü seçmek, sayıları yerine koymak ve sonucun ağ için ne anlama geldiğini söylemektir: bir modelle karşılaştırmak, neyin değişeceğini öngörmek ya da hatalı bir iddiayı yakalamak.</p>
+</div>
+
+<div class="callout gotcha">
+  <p><strong>Kapsam bir varsayımdır.</strong> Ders izlencesi sınav kapsamı ya da tarihi vermiyor. Bu rehber finalin kümülatif olduğunu, ağırlığın 6–8. Bölümlerde, çizge ML'de ve düğüm gömmelerinde olduğunu varsayar. Öğretim üyesine danışın.</p>
+</div>
+
+<table class="simple">
+  <thead><tr><th>Ders</th><th>Ara sınav</th><th>Ödev</th><th>Final</th><th>Makale sunumu</th></tr></thead>
+  <tbody>
+    <tr><td>BIL489</td><td>%40</td><td>%10</td><td>%50</td><td>–</td></tr>
+    <tr><td>BIL589</td><td>%35</td><td>%10</td><td>%45</td><td>%10 (<a href="#papers">makale fikirleri</a>)</td></tr>
+  </tbody>
+</table>
+
+<h2>Nasıl çalışmalı</h2>
+<ol>
+  <li>1–5. Bölümleri <a href="#recap">özetle</a> tazeleyin; herhangi bir eksik için <a href="exam-midterm.html">ara sınav rehberini</a> kullanın.</li>
+  <li>6–8. Bölümler ve çizge ML için <strong>Bilinmesi gerekenleri</strong> okuyun: size verilecek formüller, her sembolün açıklamasıyla. Formülün kendisini değil, ne zaman uygulandığını öğrenin.</li>
+  <li><strong>Sınav tarzı problemleri</strong> çözümleri açmadan önce kâğıt üzerinde çözün ve her birini sayının size ne söylediğine dair tek bir cümleyle bitirin.</li>
+  <li>Yeni bir sette %80 ya da üstü alana kadar <a href="#practice">alıştırma setini</a> çözün.</li>
+</ol>
+
+<h2>Formül kontrol listesi</h2>
+<table class="simple">
+  <thead><tr><th>Formül</th><th>Anlamı</th><th>Sayfa</th></tr></thead>
+  <tbody>
+    <tr><td>$k_i(t) = m(t/t_i)^{\beta}$, $\gamma = 1 + 1/\beta$</td><td>derece büyümesi üsteli belirler (BA: $\beta = \frac12$, $\gamma = 3$)</td><td><a href="ch5-preview.html">BA modeli</a></td></tr>
+    <tr><td>$\Pi_i = \eta_ik_i/\sum_j\eta_jk_j$</td><td>uygunlukla ağırlıklandırılmış tercihli bağlanma</td><td><a href="evolving.html">Uygunluk</a></td></tr>
+    <tr><td>$\beta(\eta) = \eta/C$, $\int\rho(\eta)\frac{\eta}{C-\eta}d\eta = 1$</td><td>her düğüm kendi hızıyla büyür</td><td><a href="evolving.html">Uygunluk</a></td></tr>
+    <tr><td>düzgün $\rho$: $C = 1.255$, $p_k \sim k^{-2.255}/\ln k$</td><td>uygunluk $\gamma$'yı 3'ün altına indirir</td><td><a href="evolving.html">Uygunluk</a></td></tr>
+    <tr><td>$\gamma = 3 + A/m$</td><td>başlangıç çekiciliği $\gamma$'yı yükseltir</td><td><a href="#ch6">aşağıda 6. Bölüm</a></td></tr>
+    <tr><td>$q_k = kp_k/\langle k\rangle$</td><td>rastgele bir bağlantının ucundaki derece</td><td><a href="correlations.html">Korelasyonlar</a></td></tr>
+    <tr><td>$k_{nn}(k)$; nötr $= \langle k^2\rangle/\langle k\rangle$</td><td>ortalama komşu derecesi; korelasyon yoksa düz</td><td><a href="correlations.html">Korelasyonlar</a></td></tr>
+    <tr><td>$k_{nn}(k) \sim k^\mu$; $r \in [-1,1]$</td><td>$\mu$'nün ya da $r$'nin işareti: asortatif (+) ya da disasortatif (−)</td><td><a href="correlations.html">Korelasyonlar</a></td></tr>
+    <tr><td>$k_s \sim (\langle k\rangle N)^{1/2}$</td><td>yapısal kesme: üstündeki merkez düğümler şansın gerektirdiği kadar sık bağlanamaz</td><td><a href="correlations.html">Korelasyonlar</a></td></tr>
+    <tr><td>$\kappa = \langle k^2\rangle/\langle k\rangle &gt; 2$</td><td>Molloy–Reed: dev bileşen vardır</td><td><a href="robustness.html">Dayanıklılık</a></td></tr>
+    <tr><td>$f_c = 1 - 1/(\kappa - 1)$</td><td>ağı bölmek için gereken rastgele bozulmalar</td><td><a href="robustness.html">Dayanıklılık</a></td></tr>
+    <tr><td>$f_c^{ER} = 1 - 1/\langle k\rangle$</td><td>rastgele bir ağ için aynısı</td><td><a href="robustness.html">Dayanıklılık</a></td></tr>
+    <tr><td>$p(s) \sim s^{-\alpha}$, $\alpha = \frac32$ ya da $\frac{\gamma}{\gamma-1}$</td><td>kademe (çığ) büyüklükleri</td><td><a href="#ch8">aşağıda 8. Bölüm</a></td></tr>
+    <tr><td>$L = D - A$, $x^\top Lx = \sum_{(i,j)}(x_i - x_j)^2$</td><td>Laplace matrisi: düzgün vektörlerin enerjisi düşüktür</td><td><a href="embeddings.html">Gömmeler</a></td></tr>
+    <tr><td>$P(v\mid u) = e^{z_u\cdot z_v}/\sum_n e^{z_u\cdot z_n}$</td><td>DeepWalk / node2vec'in skip-gram amacı</td><td><a href="embeddings.html">Gömmeler</a></td></tr>
+    <tr><td>$h_v^{(l+1)} = \sigma\big(W^{(l)}\cdot\text{agg}\{h_u^{(l)}\}\big)$</td><td>GNN mesaj iletimi</td><td><a href="embeddings.html">Çizge ML</a></td></tr>
+    <tr><td>CN, Jaccard, Adamic–Adar, $k_uk_v$; AUC</td><td>bağlantı tahmini puanları ve değerlendirilmeleri</td><td><a href="embeddings.html">Çizge ML</a></td></tr>
+  </tbody>
+</table>
+
+<div class="callout connect">
+  <p>Dersin tamamından tek bir hikâye geçer:</p>
+  <ol>
+    <li><strong>Rastgele ağ</strong> sıfır modelidir: şansın verdiği (3. Bölüm).</li>
+    <li>Gerçek ağlar <strong>ölçekten bağımsızdır</strong>: merkez düğümler, çok büyük $\langle k^2\rangle$ (4. Bölüm).</li>
+    <li><strong>BA modeli</strong> kuvvet yasalarının nereden geldiğini açıklar (5. Bölüm).</li>
+    <li><strong>Uygunluk</strong> geç gelenlerin neden kazandığını ve neden $\gamma \ne 3$ olduğunu açıklar (6. Bölüm).</li>
+    <li><strong>Korelasyonlar</strong> derecelerin ötesinde kimin kime bağlandığını inceltir (7. Bölüm).</li>
+    <li><strong>Dayanıklılık</strong> $\langle k^2\rangle$'ye bağlıdır: merkez düğümler bozulmaları zararsız, saldırıları ölümcül yapar (8. Bölüm). <span data-beyond="Kitabın 10. Bölümü">Salgın eşiği de aynı orana bağlıdır.</span></li>
+    <li><strong>Gömmeler</strong> her düğümün konumunu bir vektöre çevirir; böylece makine öğrenmesi yapıyı kullanabilir (çizge ML).</li>
+  </ol>
+</div>
+
+<!-- ============================== RECAP ============================== -->
+<section id="recap">
+<h2>1–5. Bölümler · Kısa özet</h2>
+<p>Problemlerle tam anlatım: <a href="exam-midterm.html">ara sınav rehberi</a>. Sonraki bölümlerin üzerine kurulduğu sonuçlar:</p>
+<ul>
+  <li>$\langle k\rangle = 2L/N$; $p_k$; $C_i = 2L_i/[k_i(k_i-1)]$; $\langle d\rangle$ (<a href="exam-midterm.html#ch2">2. Bölüm</a>).</li>
+  <li>Rastgele ağ: Poisson $p_k$, $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, $\langle k\rangle &gt; 1$ için dev bileşen, $\langle d\rangle \approx \ln N/\ln\langle k\rangle$, $C = \langle k\rangle/N$ (<a href="exam-midterm.html#ch3">3. Bölüm</a>).</li>
+  <li>Kuvvet yasası $p_k \sim k^{-\gamma}$; $k_{\max} = k_{\min}N^{1/(\gamma-1)}$; $\gamma &lt; 3$ için $\langle k^2\rangle \to \infty$; konfigürasyon modeli $p_{ij} = k_ik_j/2L$ (<a href="exam-midterm.html#ch4">4. Bölüm</a>).</li>
+  <li>BA: $\Pi(k) = k/\sum_j k_j$, $k_i = m(t/t_i)^{1/2}$, $p_k \approx 2m^2k^{-3}$; hem büyüme hem tercih gerekir (<a href="exam-midterm.html#ch5">5. Bölüm</a>).</li>
+</ul>
+<h3>Sınav tarzı problemler</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Bir ağda $\langle k\rangle = 5$ ve $\langle k^2\rangle = 255$. (a) Derece dağılımı Poisson mudur? (b) Rastgele bir komşunun ortalama derecesi nedir? (c) Dev bileşen var mı? (d) Onu yok etmek için kaç rastgele bozulma gerekir?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>(a) Poisson $\langle k^2\rangle = 5 \times 6 = 30$ verirdi. 255 çok daha büyüktür: ağır kuyruk, merkez düğümler.</li>
+      <li>(b) $\langle k^2\rangle/\langle k\rangle = 51$ (arkadaşlık paradoksu, 7. Bölüm).</li>
+      <li>(c) $\kappa = 51 &gt; 2$: evet (Molloy–Reed, 8. Bölüm).</li>
+      <li>(d) Rastgele bağlantı varsayımıyla $f_c = 1 - 1/50 = \%98$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Her betimlemeye hangi model uyar: Erdős–Rényi, Watts–Strogatz, konfigürasyon modeli, Barabási–Albert? (a) Bir özelliğin yalnızca derecelerden kaynaklanıp kaynaklanmadığını sınar. (b) Kısa yollar ve yüksek kümelenme, merkez düğüm yok. (c) Eski düğümler daha büyüktür; $\gamma = 3$. (d) Poisson dereceler; “şans” için karşılaştırma ölçütü.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>(a) Konfigürasyon modeli (ya da dereceyi koruyan rastgeleleştirme): dereceler sabit, geri kalan her şey rastgele.</li>
+      <li>(b) Watts–Strogatz.</li>
+      <li>(c) Barabási–Albert.</li>
+      <li>(d) Erdős–Rényi. Kitabın Tablo 6.1'i: ER ve WS <em>durağan</em>, konfigürasyon modeli <em>üretici</em> (dereceler girdi olarak verilir), BA <em>evrilen</em> (dereceler açıklanır) modellerdir.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Her biri için iki ya da üç cümleyle: her model bir öncekine ne ekler? Rastgele → ölçekten bağımsız betimleme → BA → uygunluk.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Rastgele ağ: dev bileşeni ve küçük dünyayı açıklar; merkez düğüm olmadığını ve $C \to 0$ olduğunu öngörür.</li>
+      <li>Kuvvet yasası: merkez düğümleri betimler ve çok büyük $\langle k^2\rangle$'yi, $k_{\max} \sim N^{1/(\gamma-1)}$'i ve ultra küçük uzaklıkları öngörür. Nedenini söylemez.</li>
+      <li>BA: büyüme + tercihli bağlanma kuvvet yasasını üretir ($\gamma = 3$). Ama en eski düğüm her zaman kazanır ve $\gamma$ sabittir.</li>
+      <li>Uygunluk: büyüme hızı nitelikle de değişir; geç gelenler kazanabilir ve $\gamma$, $\rho(\eta)$ ile değişir.</li>
+    </ol>
+  </div>
+</div>
+</section>
+
+<!-- ============================== CH 6 ============================== -->
+<section id="ch6">
+<h2>6. Bölüm · Evrilen ağlar</h2>
+<p>Neden gerekli: BA modelinde başarıya yalnızca yaş karar verir; bu yüzden en eski düğüm her zaman en büyüğüdür ve $\gamma = 3$'tür. Gerçek ağlarda geç kazananlar (Google aramaya geç geldi) ve 2 ile 5 arasında üsteller vardır. 6. Bölüm eksik süreçleri ekler.</p>
+<h3>Bilinmesi gerekenler</h3>
+<p><strong>Bianconi–Barabási (uygunluk) modeli.</strong> Her yeni düğüm $\rho(\eta)$'dan çekilen, ömür boyu sabit bir uygunluk $\eta$ alır. Bağlantılar şu olasılıkla bağlanır:</p>
+<div class="eq">$$\Pi_i = \frac{\eta_ik_i}{\sum_j \eta_jk_j}$$</div>
+<dl class="symbols">
+  <dt>$\eta_i$</dt><dd>$i$ düğümünün uygunluğu: içsel çekiciliği</dd>
+  <dt>$\rho(\eta)$</dt><dd>uygunluk dağılımı</dd>
+  <dt>$\sum_j \eta_jk_j$</dt><dd>tüm düğümler üzerinden normalleştirme</dd>
+</dl>
+<p><strong>Derece dinamiği.</strong></p>
+<div class="eq">$$k_i(t) = m\Big(\frac{t}{t_i}\Big)^{\beta(\eta_i)}, \qquad \beta(\eta) = \frac{\eta}{C}, \qquad \int\rho(\eta)\,\frac{\eta}{C - \eta}\,d\eta = 1$$</div>
+<dl class="symbols">
+  <dt>$\beta(\eta)$</dt><dd>dinamik üstel, artık her düğüm için farklı: daha uygun düğümler daha hızlı büyür</dd>
+  <dt>$C$</dt><dd>$\rho(\eta)$'nın belirlediği sabit; $\sum_j\eta_jk_j$ toplamının $Cmt$ gibi büyümesini sağlar</dd>
+  <dt>$t_i$</dt><dd>$i$ düğümünün geliş zamanı</dd>
+</dl>
+<ul>
+  <li>Eşit uygunluk: $C = 2$, $\beta = \frac12$: BA'ya dönüş.</li>
+  <li>$[0,1]$ üzerinde düzgün $\rho$: $e^{-2/C} = 1 - 1/C$; yani $C = 1.255$ ve $p_k \sim k^{-(1+C)}/\ln k$: logaritmik düzeltmeyle $\gamma = 2.255$.</li>
+  <li>Genel olarak $p_k$, her uygunluk için bir tane olmak üzere kuvvet yasalarının bir karışımıdır: $p_k \approx C\int d\eta\,\frac{\rho(\eta)}{\eta}\big(\frac mk\big)^{C/\eta+1}$.</li>
+</ul>
+<p><strong>Uygunluğu ölçmek.</strong> Logaritma alın: $\ln k_i(t) = \beta(\eta_i)\ln t + B_i$. $\ln k$'nın $\ln t$'ye karşı eğimi $\beta$'yı, dolayısıyla $C$ çarpanına kadar $\eta$'yı verir. Web'de $\rho(\eta)$ üsteldir: uygunluk farkları küçüktür ve büyüme onları büyütür, $\frac{k_2-k_1}{k_1} \sim t^{(\eta_2-\eta_1)/C}$.</p>
+<p><strong>Bose–Einstein yoğuşması.</strong> Uygunluğu enerjiye eşleyin, $\varepsilon_i = -\frac{1}{\beta_T}\ln\eta_i$ (daha uygun = daha düşük enerji), her bağlantı ucunu da bir parçacığa. Yalnızca $\rho(\eta)$'nın belirlediği iki evre vardır:</p>
+<ul>
+  <li><em>Uygun olan zenginleşir</em> (ölçekten bağımsız): en uygun düğüm en büyük merkez düğüm olur, diğerleri onu yakından izler.</li>
+  <li><em>Kazanan her şeyi alır</em> (yoğuşma): en uygun düğüm tüm bağlantıların sabit bir payını korur; merkez ve kollar yapısı, ölçekten bağımsız değil.</li>
+</ul>
+<p><strong>Diğer temel süreçler</strong> (Bölüm 6.5; her biri BA'yı genişletir):</p>
+<table class="simple">
+  <thead><tr><th>Süreç</th><th>Üstel</th><th>Etki</th></tr></thead>
+  <tbody>
+    <tr><td>Başlangıç çekiciliği $\Pi \sim A + k$</td><td>$\gamma = 3 + A/m$</td><td>$\gamma$'yı yükseltir; küçük derecelerde doyma $p_k \sim (k+A)^{-\gamma}$</td></tr>
+    <tr><td>Adım başına $n$ iç bağlantı, çift tercihli</td><td>$\gamma = 2 + \frac{m}{m+2n}$</td><td>$\gamma$'yı 2 ile 3 arasına indirir</td></tr>
+    <tr><td>Adım başına $n$ iç bağlantı, rastgele</td><td>$\gamma = 3 + 2n/m$</td><td>$\gamma$'yı yükseltir</td></tr>
+    <tr><td>Hızlanan büyüme $m(t) = m_0t^\theta$</td><td>$\gamma = 3 + \frac{2\theta}{1-\theta}$</td><td>$\gamma$'yı yükseltir</td></tr>
+    <tr><td>$r &lt; 1$ hızıyla düğüm silme</td><td>$\gamma = 3 + \frac{2r}{1-r}$</td><td>$r = 1$'de üstel $p_k$</td></tr>
+    <tr><td>Yaşlanma $\Pi \sim k\,(t - t_i)^{-\nu}$</td><td>$\nu &lt; 0$ için $\gamma &lt; 3$</td><td>$\nu \to 1$ iken $\gamma \to \infty$; $\nu &gt; 1$ için kuvvet yasası yok</td></tr>
+  </tbody>
+</table>
+<dl class="symbols">
+  <dt>$A$</dt><dd>başlangıç çekiciliği: $k = 0$ olan düğümlerin bağlantı almasını sağlar</dd>
+  <dt>$n$</dt><dd>yeni düğüm başına var olan düğümler arasına eklenen bağlantılar</dd>
+  <dt>$\theta$</dt><dd>hızlanma: yeni düğüm başına bağlantılar $t^\theta$ gibi büyür</dd>
+  <dt>$r$</dt><dd>düğüm silme hızı (eklenen düğüm başına silinen düğüm)</dd>
+  <dt>$\nu$</dt><dd>yaşlanma üsteli: çekicilik yaş $t - t_i$ ile azalır</dd>
+</dl>
+<div class="callout fix" data-book="B12"></div>
+<p>Bunun sağladığı: ağı kuran süreçlerden $p_k$'yı öngörmek. Kitabın dersi: dinamiği doğru kurun, topoloji kendiliğinden gelir.</p>
+
+<h3>Sınav tarzı problemler</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Düğümlerin yarısında $\eta = 1$, yarısında $\eta = 0.5$. $C$'yi, iki dinamik üsteli ve kuyruğun üstelini bulun.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Koşul: $\frac12\cdot\frac{1}{C-1} + \frac12\cdot\frac{0.5}{C-0.5} = 1$.</li>
+      <li>Paydaları çarpın: $0.5(C-0.5) + 0.25(C-1) = (C-1)(C-0.5)$, yani $C^2 - 2.25C + 1 = 0$.</li>
+      <li>Kökler 1.640 ve 0.610. $C$, $\eta_{\max} = 1$'i aşmalıdır (yoksa $\beta &gt; 1$ olur); bu yüzden $C = 1.640$.</li>
+      <li>$\beta(1) = 1/1.640 = 0.61$; $\beta(0.5) = 0.30$.</li>
+      <li>Her uygunluk sınıfı $p_k \sim k^{-(1 + C/\eta)}$ verir; kuyruğa uygun sınıf hâkimdir: $\gamma = 1 + 1/0.61 = 2.64$. BA (3) ile düzgün uygunluk (2.255) arasında.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Aynı ağ, $m = 2$. A düğümü $t = 100$'de $\eta = 0.5$ ile, B düğümü $t = 2{,}000$'de $\eta = 1$ ile geliyor. B, A'yı ne zaman geçer?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$k_A = 2(t/100)^{0.305}$, $k_B = 2(t/2000)^{0.610}$.</li>
+      <li>$0.305\ln(t/100) = 0.610\ln(t/2000)$, yani $\ln(t/100) = 2\ln(t/2000)$ olduğunda eşittirler.</li>
+      <li>$t/100 = (t/2000)^2 \Rightarrow t = 2000^2/100 = 40{,}000$.</li>
+      <li>Ondan sonra B sonsuza dek öndedir. BA'da ($\beta$'lar eşit) bu hiç olmaz.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Düzgün uygunluklu bir ağda ($C = 1.255$) üç sayfanın $\ln t$'ye karşı $\ln k$ eğimleri 0.4, 0.6 ve 0.8. Uygunluklarını bulun. $C$ bilinmeseydi ne olurdu?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$\eta = C\beta$: $1.255 \times 0.4 = 0.50$, $0.75$, $1.00$.</li>
+      <li>$C$ olmadan yalnızca oranlar bilinir: $\eta$'lar 2 : 3 : 4 oranındadır. Öngörü için önemli olan sıralama ve göreli uygunluktur.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Şunlar için $\gamma$'yı hesaplayın: (a) $m = 2$, $A = 2$; (b) $m = 1$ ve $n = 1$ çift tercihli iç bağlantı; (c) $m = 2$, $n = 1$ rastgele iç bağlantı; (d) $\theta = 0.2$. Hangisi WWW'nin $\gamma \approx 2.1$ değerini açıklayabilir?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>(a) $3 + 2/2 = 4$. (b) $2 + 1/3 = 2.33$. (c) $3 + 2/2 = 4$. (d) $3 + 0.4/0.8 = 3.5$.</li>
+      <li>Yalnızca (b), $\gamma$'yı 3'ün altına indirir. Zaten büyük olanlara ek avantaj (çift tercih, $\nu &lt; 0$, düzgün uygunluk) $\gamma$'yı düşürür; rastgele bileşenler yükseltir.</li>
+      <li>Yeni Web bağlantılarının çoğu var olan sayfaları birleştirir (Bölüm 6.5). Bunlar çift tercihe uyarsa $\gamma$, 2'ye doğru düşer.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> $10^6$ düğümlü iki büyüyen ağ. X'te en büyük merkez düğüm tüm bağlantıların %0.1'ini tutuyor ve X büyüdükçe bu pay düşmeye devam ediyor; Y'de %30'unu tutuyor ve orada kalıyor. Bose gazı eşlemesiyle yorumlayın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>X: uygun olanın zenginleştiği evre. Uygunluk merkez düğümlerin sırasına karar verir ama hiçbir düğüm baskın değildir; ölçekten bağımsız.</li>
+      <li>Y: Bose–Einstein yoğuşması. En uygun düğüm sabit bir payı korur: kazanan her şeyi alır, merkez ve kollar.</li>
+      <li>Hangi evrenin oluşacağı yalnızca $\rho(\eta)$'ya bağlıdır; hesaptan düşen “sıcaklık” $\beta_T$'ye bağlı değildir.</li>
+    </ol>
+  </div>
+</div>
+<h3>Sık yapılan hatalar</h3>
+<ul>
+  <li>Büyüme üsteli $\beta(\eta)$'yı Bose gazının $\beta_T$'si (ters sıcaklık) ile karıştırmak.</li>
+  <li>$C &lt; \eta_{\max}$ olan kökü almak: o zaman en uygun düğüm $t$'den hızlı büyürdü.</li>
+  <li>“Uygunluk her şeyi $\gamma = 1 + C$ ile ölçekten bağımsız yapar”: bu yalnızca düzgün $\rho$ içindir ve $1/\ln k$ düzeltmesi vardır.</li>
+  <li>Her uzantının $\gamma$'yı düşürmesini beklemek: rastgele bileşenlerin çoğu onu yükseltir.</li>
+</ul>
+<p class="small">Sayfalar: <a href="evolving.html">Evrilen ağlar: uygunluk</a>, <a href="ch5-preview.html">BA modeli</a>, <a href="ch4-universality.html">Evrensellik</a>.</p>
+</section>
+
+<!-- ============================== CH 7 ============================== -->
+<section id="ch7">
+<h2>7. Bölüm · Derece korelasyonları</h2>
+<p>Neden gerekli: derece dağılımı merkez düğümleri sayar ama kime bağlandıklarını söylemez. Dereceleri aynı olan ağlar bu konuda farklılaşabilir ve farklı davranabilir (dev bileşen, uzaklıklar, dayanıklılık).</p>
+<h3>Bilinmesi gerekenler</h3>
+<p><strong>Üç tür.</strong> Asortatif: merkez düğümler merkez düğümlere bağlanır. Disasortatif: merkez düğümler küçük düğümlere bağlanır. Nötr: dereceler verildiğinde rastgele bağlantı gibi.</p>
+<p><strong>Bir bağlantının ucunda kim var.</strong></p>
+<div class="eq">$$q_k = \frac{kp_k}{\langle k\rangle}, \qquad \text{nötr: } e_{jk} = q_jq_k$$</div>
+<dl class="symbols">
+  <dt>$q_k$</dt><dd>rastgele bir bağlantı ucunun derecesi $k$ olan bir düğümde olma olasılığı: merkez düğümlere $k$ kat daha sık ulaşılır</dd>
+  <dt>$e_{jk}$</dt><dd>rastgele bir bağlantının $j$ ve $k$ derecelerini birleştirme olasılığı (derece korelasyon matrisi)</dd>
+</dl>
+<p><strong>Derece korelasyon fonksiyonu.</strong></p>
+<div class="eq">$$k_{nn}(k_i) = \frac{1}{k_i}\sum_j A_{ij}k_j, \qquad k_{nn}(k) = \sum_{k'}k'P(k'\mid k), \qquad \text{nötr: } k_{nn}(k) = \frac{\langle k^2\rangle}{\langle k\rangle}$$</div>
+<dl class="symbols">
+  <dt>$k_{nn}(k_i)$</dt><dd>$i$ düğümünün komşularının ortalama derecesi</dd>
+  <dt>$k_{nn}(k)$</dt><dd>derecesi $k$ olan tüm düğümler üzerinden ortalaması</dd>
+  <dt>$P(k'\mid k)$</dt><dd>derecesi $k$ olan bir düğümün bir komşusunun derecesinin $k'$ olma olasılığı; nötrde $q_{k'}$</dd>
+</dl>
+<p>Nötr değer $\langle k^2\rangle/\langle k\rangle &gt; \langle k\rangle$: arkadaşlarınızın sizden çok arkadaşı vardır (arkadaşlık paradoksu). Uydurma:</p>
+<div class="eq">$$k_{nn}(k) \approx a\,k^{\mu}$$</div>
+<dl class="symbols">
+  <dt>$\mu$</dt><dd>korelasyon üsteli: $&gt; 0$ asortatif, $= 0$ nötr, $&lt; 0$ disasortatif</dd>
+  <dt>$a$</dt><dd>ön çarpan</dd>
+</dl>
+<p><strong>Derece korelasyon katsayısı</strong> (Newman): bir bağlantının iki ucundaki derecelerin Pearson korelasyonu.</p>
+<div class="eq">$$r = \sum_{jk}\frac{jk\,(e_{jk} - q_jq_k)}{\sigma^2}, \qquad \sigma^2 = \sum_k k^2q_k - \Big(\sum_k kq_k\Big)^2$$</div>
+<dl class="symbols">
+  <dt>$r$</dt><dd>$-1$ ile $1$ arasında; işareti $\mu$'deki gibi</dd>
+  <dt>$e_{jk} - q_jq_k$</dt><dd>$j$–$k$ bağlantılarının nötr beklentiye göre fazlası</dd>
+  <dt>$\sigma^2$</dt><dd>$q_k$'nın varyansı, $r$'yi normalleştirir</dd>
+</dl>
+<p>Elle, bağlantı listesinden (her bağlantı bir kez sayılır, $j, k$ uçlarının dereceleri):</p>
+<div class="eq">$$r = \frac{\overline{jk} - \overline{\tfrac{j+k}{2}}^{\,2}}{\overline{\tfrac{j^2+k^2}{2}} - \overline{\tfrac{j+k}{2}}^{\,2}}$$</div>
+<dl class="symbols">
+  <dt>$\overline{\,\cdot\,}$</dt><dd>$L$ bağlantı üzerinden ortalama</dd>
+</dl>
+<p>Kitabın ağlarında ölçülen (yönsüz): iş birliği $+0.13$, telefon aramaları $+0.21$; metabolizma $-0.25$, e-posta $-0.08$; elektrik şebekesi $\approx 0$.</p>
+<p><strong>Yapısal kesme.</strong> Rastgele bağlantı, dereceleri $k$ ve $k'$ olan iki düğüm arasında $kk'/(\langle k\rangle N)$ bağlantı bekler. Basit bir ağ en fazla 1'e izin verir. Derecesi $k_s$ olan iki merkez düğüm zaten bir bağlantı bekler:</p>
+<div class="eq">$$k_s \sim (\langle k\rangle N)^{1/2}$$</div>
+<dl class="symbols">
+  <dt>$k_s$</dt><dd>yapısal kesme: iki eşit merkez düğüm arasındaki beklenen bağlantı sayısının 1'e ulaştığı yer</dd>
+  <dt>$\langle k\rangle N$</dt><dd>$= 2L$, bağlantı ucu sayısı</dd>
+</dl>
+<p>$k_s$'nin üstünde merkez düğümler arası bağlantılar eksiktir: <strong>yapısal disasortatiflik</strong>. $k_{\max} &gt; k_s$ olduğunda, yani $\gamma &lt; 3$ için ortaya çıkar. Test: basit bağlantılarla dereceyi koruyan rastgeleleştirme (R-S). Rastgeleleştirilmiş $k_{nn}(k)$ gerçeğiyle uyuşuyorsa korelasyonlar yapısaldır; düzse onları gerçek bir mekanizma yapmıştır.</p>
+<p><strong>Modeller.</strong> ER ve BA nötrdür; ölçekten bağımsız derecelerle basit konfigürasyon modeli ve gizli parametre modeli yapısal olarak disasortatiftir (ikincisi için $k_{nn} \sim k^{-1}$); uygunluk modeli (düzgün) disasortatiftir. Xalvi-Brunet–Sokolov yeniden bağlaması korelasyonları sabit derecelerde ayarlar.</p>
+<p><strong>Etki.</strong> Asortatif: dev bileşen daha düşük $\langle k\rangle$'da ortaya çıkar ama büyük $\langle k\rangle$ için daha küçüktür; daha kısa $\langle d\rangle$, daha büyük $d_{\max}$. Disasortatif: tersi.</p>
+
+<h3>Sınav tarzı problemler</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> a–b–c üçgeni artı a'ya bağlı sarkan bir d düğümü. Her $k_{nn}(k_i)$'yi, $k_{nn}(k)$ fonksiyonunu, nötr değeri ve $r$'yi bulun. Sınıflandırın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Dereceler: a 3, b 2, c 2, d 1. $k_{nn}$: a $(2+2+1)/3 = 1.67$; b, c $(3+2)/2 = 2.5$; d $3$.</li>
+      <li>$k_{nn}(1) = 3$, $k_{nn}(2) = 2.5$, $k_{nn}(3) = 1.67$: azalan, disasortatif.</li>
+      <li>Nötr: $\langle k^2\rangle/\langle k\rangle = (18/4)/(8/4) = 2.25$.</li>
+      <li>$(j,k)$ bağlantıları: (3,2), (3,2), (2,2), (3,1). $\overline{jk} = 19/4 = 4.75$; $\overline{(j+k)/2} = 9/4 = 2.25$ (olması gerektiği gibi nötr değere eşit); $\overline{(j^2+k^2)/2} = 22/4 = 5.5$.</li>
+      <li>$r = (4.75 - 5.0625)/(5.5 - 5.0625) = -0.3125/0.4375 = -0.71$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Metabolizma: $N = 1{,}039$, $\langle k\rangle = 9.13$, $k_{\max} = 638$. Elektrik şebekesi: $N = 4{,}941$, $\langle k\rangle = 2.67$, $k_{\max} = 19$. Hangisinde yapısal disasortatiflik görülebilir? Metabolizmanın en büyük iki merkez düğümü (638 ve 460) için rastgele bağlantı kaç bağlantı bekler?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Metabolizma: $k_s = \sqrt{9.13 \times 1{,}039} = \sqrt{9{,}482} \approx 97 &lt; 638$: evet.</li>
+      <li>Elektrik şebekesi: $k_s = \sqrt{2.67 \times 4{,}941} \approx 115 &gt; 19$: çatışma yok; nötrdür ($r \approx 0.003$).</li>
+      <li>Beklenen bağlantılar: $638 \times 460/9{,}482 \approx 31$. Basit bir ağ 1'e izin verir; bu yüzden merkez düğümlerin diğer bağlantıları küçük düğümlere gider.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Telefon aramaları: $\langle k\rangle = 3.11$, $\langle k^2\rangle = 17.30$. Ağ nötr olsaydı rastgele bir kişinin bir tanıdığının ortalama derecesi ne olurdu? Bu aşılama için neden önemlidir?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$\langle k^2\rangle/\langle k\rangle = 17.30/3.11 = 5.57$, $\langle k\rangle$'nın neredeyse iki katı.</li>
+      <li>Bir bağlantıyı izlemek yüksek dereceli bir düğüme $\propto k$ olasılıkla ($q_k$) ulaştırır.</li>
+      <li><span data-beyond="Kitabın 10. Bölümü">Rastgele bir kişinin rastgele bir <em>tanıdığını</em> aşılamak, ağı bilmeden merkez düğümlere ulaşır (tanıdık aşılaması).</span></li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Düz bir log–log çizgisi üzerindeki bir ağda $k_{nn}(2) = 20$ ve $k_{nn}(200) = 6$. $\mu$'yü bulun ve sınıflandırın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$\mu = \ln(6/20)/\ln(200/2) = \ln 0.3/\ln 100 = -1.204/4.605 = -0.26$.</li>
+      <li>$\mu &lt; 0$: disasortatif. Sonraki adım: yapısal olup olmadığını görmek için R-S rastgeleleştirmesiyle karşılaştırın.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> X ağında $r = 0.15$, R-S rastgeleleştirmesinde $r \approx 0$; Y ağında $r = -0.25$, rastgeleleştirmesinde $r = -0.20$ olsun. Her biri için ne sonuç çıkarırsınız?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>X: yalnızca dereceler korunduğunda korelasyon kaybolur; demek ki bağlantıların nasıl kurulduğundan gelir (homofili, topluluklar). Sosyal ağlara özgüdür.</li>
+      <li>Y: disasortatifliğin çoğu rastgeleleştirmeden sağ çıkar; yani yapısaldır: basit bir ağda $k_s$'nin üstündeki merkez düğümlerin zorunlu kıldığıdır. Biyolojik ağlara özgüdür.</li>
+    </ol>
+  </div>
+</div>
+<h3>Sık yapılan hatalar</h3>
+<ul>
+  <li>$k_{nn}(k)$'yi $\langle k\rangle$ ile karşılaştırmak: nötr referans $\langle k^2\rangle/\langle k\rangle$'dır.</li>
+  <li>Her negatif $r$'yi bir “mekanizma” saymak: önce yapısal disasortatifliği denetleyin.</li>
+  <li>Elle $r$ formülünde her bağlantıyı iki kez sayıp sonra $L$'ye bölmek.</li>
+</ul>
+<p class="small">Sayfalar: <a href="correlations.html">Derece korelasyonları</a>, <a href="ch4-generating.html">Ağ üretmek</a>.</p>
+</section>
+
+<!-- ============================== CH 8 ============================== -->
+<section id="ch8">
+<h2>8. Bölüm · Ağ dayanıklılığı</h2>
+<p>Neden gerekli: bir ağ, düğümleri birbirine ulaşabildiği sürece çalışır. Dayanıklılık kuramı, yalnızca derecelerden, dev bileşeni hangi hasarın böleceğini ve merkez düğümlerin ağları neden kazalara karşı dayanıklı ama saldırılara karşı kırılgan yaptığını öngörür.</p>
+<h3>Bilinmesi gerekenler</h3>
+<p><strong>Perkolasyon.</strong> Bir kafesin her noktasını $p$ olasılıkla doldurun. Kritik bir $p_c$'de bir uçtan uca küme ortaya çıkar (kare kafes: $p_c \approx 0.593$). $p_c$ yakınında:</p>
+<div class="eq">$$P_\infty \sim (p - p_c)^{\beta_p}, \qquad \langle s\rangle \sim |p - p_c|^{-\gamma_p}, \qquad \xi \sim |p - p_c|^{-\nu}$$</div>
+<dl class="symbols">
+  <dt>$P_\infty$</dt><dd>bir noktanın en büyük kümeye ait olma olasılığı (düzen parametresi)</dd>
+  <dt>$\langle s\rangle$</dt><dd>ortalama küme büyüklüğü</dd>
+  <dt>$\xi$</dt><dd>korelasyon uzunluğu: bir küme içindeki tipik uzaklık</dd>
+  <dt>$\beta_p, \gamma_p, \nu$</dt><dd>kritik üsteller: $p_c$'den farklı olarak evrenseldir (kafesin ayrıntılarından bağımsız)</dd>
+</dl>
+<p>Düğümlerin $f$ oranını silmek tersine perkolasyondur: $f_c$'de dev bileşen dağılır.</p>
+<p><strong>Molloy–Reed ölçütü.</strong> Bir bağlantı boyunca ulaşılan bir düğümün, yolu sürdürmek için ortalamada en az bir bağlantısı daha olmalıdır:</p>
+<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} &gt; 2$$</div>
+<dl class="symbols">
+  <dt>$\kappa$</dt><dd>rastgele bir bağlantıyı izleyerek ulaşılan düğümün ortalama derecesi</dd>
+  <dt>$2$</dt><dd>bir bağlantı giriş, en az bir bağlantı çıkış</dd>
+</dl>
+<p>Rastgele bağlantı (korelasyon yok) varsayar. Rastgele ağ: $\kappa = 1 + \langle k\rangle$; yani $\kappa &gt; 2 \iff \langle k\rangle &gt; 1$ (3. Bölüm).</p>
+<p><strong>Rastgele bozulmalar.</strong> Rastgele bir $f$ oranını silin. Derecesi $k$ olan bir düğüm her bağlantısını $1 - f$ olasılıkla korur; bu yüzden</p>
+<div class="eq">$$\begin{aligned}\langle k\rangle_f &= (1-f)\langle k\rangle\\ \langle k^2\rangle_f &= (1-f)^2\langle k^2\rangle + f(1-f)\langle k\rangle\\ \kappa_f &= (1-f)\kappa + f\end{aligned}$$</div>
+<p>$\kappa_f = 2$ alın:</p>
+<div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}, \qquad f_c^{ER} = 1 - \frac{1}{\langle k\rangle}$$</div>
+<dl class="symbols">
+  <dt>$f_c$</dt><dd>rastgele silinen düğümlerin kritik oranı</dd>
+  <dt>$f_c^{ER}$</dt><dd>rastgele bir ağ için, $\kappa = 1 + \langle k\rangle$ kullanarak</dd>
+</dl>
+<p><strong>Ölçekten bağımsız ağlar.</strong> $2 &lt; \gamma &lt; 3$ için:</p>
+<div class="eq">$$\kappa \approx \frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma}, \qquad f_c \approx 1 - \frac{C}{N^{(3-\gamma)/(\gamma-1)}}$$</div>
+<dl class="symbols">
+  <dt>$k_{\max}$</dt><dd>$N$ ile büyür; bu yüzden $\kappa \to \infty$ ve $f_c \to 1$: rastgele bozulmalar büyük bir ölçekten bağımsız ağı bölemez</dd>
+  <dt>$C$</dt><dd>bir sabit (sonlu boyut formülü)</dd>
+</dl>
+<p>$\gamma &gt; 3$ için: $\kappa = \frac{\gamma-2}{\gamma-3}k_{\min}$, sonlu; $f_c &lt; 1$.</p>
+<p><strong>Saldırılar</strong> (önce merkez düğümleri silin). Eşik şu denklemi çözer (kitap, Denklem 8.12):</p>
+<div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big)$$</div>
+<dl class="symbols">
+  <dt>$f_c$</dt><dd>burada silinen en yüksek dereceli düğümlerin oranı; yalnızca yüzde birkaç ile yüzde birkaç on arası</dd>
+</dl>
+<p>Merkez düğümleri silmek $\langle k^2\rangle$'yi hızla düşürür; bu yüzden $\kappa$ çabucak 2'ye ulaşır. <strong>Dayanıklı ama kırılgan</strong>.</p>
+<p><strong>Kademeli çöküşler</strong> (Bölüm 8.5–8.6). Bileşenler: ağ üzerinde bir akış, yerel bir çökme kuralı, yükün yeniden dağıtılması. Çığ büyüklükleri şuna uyar:</p>
+<div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases}3/2 & \gamma \ge 3\\ \gamma/(\gamma-1) & 2 &lt; \gamma &lt; 3\end{cases}$$</div>
+<dl class="symbols">
+  <dt>$s$</dt><dd>çığ büyüklüğü: bozulan düğüm sayısı</dd>
+  <dt>$\alpha$</dt><dd>çığ üsteli; kritik noktasındaki (ortalama yavru sayısı 1) dallanma modelinden türetilir</dd>
+</dl>
+<p>Arıza yayılım modeli: bir düğüm, komşularının $\varphi$ oranı bozulduğunda bozulur. Yüksek $\langle k\rangle$: kademeler söner; düşük: küresel kademeler; arada: kuvvet yasası büyüklükleri.</p>
+<p><strong>Dayanıklılık kurmak</strong> (Bölüm 8.7). $f_c^{\text{top}} = f_c^{\text{rast}} + f_c^{\text{hedef}}$'i en büyük yapın. En iyisi: iki tepeli bir derece dağılımı; birkaç merkez düğüm ($k_{\max} \sim N^{2/3}$) ve eşit dereceli birçok düğüm.</p>
+
+<h3>Sınav tarzı problemler</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> $\kappa_f = (1-f)\kappa + f$'den $f_c = 1 - 1/(\kappa - 1)$'i türetin. Bunu $\langle k\rangle = 4$ olan rastgele bir ağa uygulayın ve kalanlarda $\langle k\rangle_f = 1$ olduğunu denetleyin.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$(1-f)\kappa + f = 2 \Rightarrow \kappa - 2 = f(\kappa - 1) \Rightarrow f_c = \frac{\kappa-2}{\kappa-1} = 1 - \frac{1}{\kappa-1}$.</li>
+      <li>Rastgele: $\kappa = 1 + 4 = 5$, $f_c = 1 - 1/4 = 0.75$.</li>
+      <li>Denetim: $\kappa_f = 0.25 \times 5 + 0.75 = 2$ ✓; $\langle k\rangle_f = 0.25 \times 4 = 1$ ✓, 3. Bölüm'ün eşiği.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> İnternet: $\langle k\rangle = 6.34$, $\langle k^2\rangle = 240.1$. Elektrik şebekesi: $\langle k\rangle = 2.67$, $\langle k^2\rangle = 10.33$. Her biri için ve aynı $\langle k\rangle$'ya sahip rastgele ağlar için $f_c$'yi hesaplayın. Yorumlayın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>İnternet: $\kappa = 37.9$, $f_c = 1 - 1/36.9 = \%97.3$. Rastgele: $1 - 1/6.34 = \%84.2$.</li>
+      <li>Elektrik şebekesi: $\kappa = 3.87$, $f_c = 1 - 1/2.87 = \%65.2$. Rastgele: $\%62.5$.</li>
+      <li>Merkez düğümler (büyük $\langle k^2\rangle$) İnternet'e ek dayanıklılık verir; şebekede merkez düğüm yoktur ve neredeyse hiçbir şey kazanmaz.</li>
+      <li>Gerçek şebeke %65'ten önce dağılır: Molloy–Reed'in varsaydığı gibi rastgele bağlanmamış, mekânsaldır.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Ölçekten bağımsız ağ, $\gamma = 2.5$, $k_{\min} = 1$. $N = 10^4$ ve $N = 10^6$ için $\kappa$'yı ve $f_c$'yi bulun.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$k_{\max} = N^{1/1.5}$: 464 ve $10^4$.</li>
+      <li>$\kappa \approx \frac{0.5}{0.5}\,k_{\max}^{0.5}$: 21.5 ve 100.</li>
+      <li>$f_c = 1 - 1/(\kappa - 1)$: %95.1 ve %99.0.</li>
+      <li>$N$ büyüdükçe $f_c \to 1$: ağ ne kadar büyükse rastgele bozulmalarla bölmek o kadar zordur.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Ölçekten bağımsız bir ağa hedefli saldırıda, silinen merkez düğümlerin kritik oranı $f_c$ şu denklemi çözer (kitap, Denklem 8.12): $$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big).$$ $\gamma = 2.5$ ve $k_{\min} = 2$ için çözün (ipucu: $x = f_c^{1/3}$ alın). Bunu $N = 10^6$'daki rastgele bozulma eşiği $f_c = 1 - 1/(\kappa - 1)$ ile karşılaştırın; burada $\gamma = 2.5$ için $\kappa \approx \sqrt{k_{\min} k_{\max}}$ (doğal kesme $k_{\max} = k_{\min}N^{1/(\gamma-1)}$ ile $\langle k^2\rangle/\langle k\rangle$'dan). Karşılaştırma böyle bir ağı korumak hakkında ne söyler?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Üsteller: $\frac{2-\gamma}{1-\gamma} = \frac13$, $\frac{3-\gamma}{1-\gamma} = -\frac13$; $\frac{2-\gamma}{3-\gamma} = -1$.</li>
+      <li>$x = 2 - 2(1/x - 1) = 4 - 2/x \Rightarrow x^2 - 4x + 2 = 0 \Rightarrow x = 2 - \sqrt2 = 0.586$ ($x &lt; 1$ gerekir).</li>
+      <li>$f_c = x^3 = 0.20$: düğümlerin en üstteki %20'sini silmek onu yok eder.</li>
+      <li>Rastgele: $k_{\max} = 2 \times 10^4$, $\kappa \approx \sqrt2 \times \sqrt{2\times10^4} = 200$, $f_c = 1 - 1/199 = \%99.5$.</li>
+      <li>Yorum: ağ düğümlerinin %99.5'inin rastgele kaybına dayanır ama en üstteki %20'sinin kaybına dayanamaz. Korumak, merkez düğümleri korumak demektir.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Kademeli çöküşlerin dallanma modelinde çığ büyüklükleri $s$, $p(s) \sim s^{-\alpha}$'ya uyar; derece üsteli $\gamma &gt; 3$ iken (ve rastgele ağlar için) $\alpha = 3/2$, $2 &lt; \gamma &lt; 3$ iken $\alpha = \gamma/(\gamma - 1)$'dir. Rastgele bir ağı $\gamma = 2.5$ olan ölçekten bağımsız bir ağla karşılaştırın. Hangisinde görece daha çok çok büyük kesinti olur ve ikisi de neden endişe vericidir?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Rastgele ($\gamma \ge 3$ davranışı): $\alpha = 3/2$.</li>
+      <li>$\gamma = 2.5$: $\alpha = 2.5/1.5 = 1.67$.</li>
+      <li>Daha büyük $\alpha$ daha hızlı azalan bir kuyruk demektir; bu yüzden bu modelde ölçekten bağımsız ağda çok büyük çığlar görece <em>daha azdır</em>.</li>
+      <li>İkisi de tipik bir çığ büyüklüğü olmayan kuvvet yasalarıdır: çok büyük kesintiler nadirdir ama çan biçimli bir dağılımdakinden çok daha olasıdır.</li>
+    </ol>
+  </div>
+</div>
+<h3>Sık yapılan hatalar</h3>
+<ul>
+  <li>Molloy–Reed'de $\kappa = \langle k^2\rangle/\langle k\rangle^2$ ya da $\langle k\rangle$ kullanmak: doğrusu $\langle k^2\rangle/\langle k\rangle$'dır.</li>
+  <li>“Ölçekten bağımsız ağlar dayanıklıdır”: yalnızca rastgele bozulmalara; saldırılara karşı kırılgandırlar.</li>
+  <li>$f_c = 1 - 1/(\kappa-1)$'i korelasyonlu ya da mekânsal ağlara, rastgele bağlantı varsaydığını söylemeden uygulamak.</li>
+  <li>Sonlu bir ağda tam olarak $f_c = 1$ beklemek: $f_c \to 1$ yalnızca $N \to \infty$ iken.</li>
+</ul>
+<p class="small">Sayfalar: <a href="robustness.html">Dayanıklılık ve saldırılar</a>, <a href="ch4-moments.html">Momentler</a>, <a href="ch3-evolution.html">Dev bileşen</a>.</p>
+</section>
+
+<!-- ============================== GRAPHML ============================== -->
+<section id="graphml">
+<h2>Çizge makine öğrenmesine giriş</h2>
+<p>Neden gerekli: önceki bölümler ağların tamamını birkaç sayıyla betimler. Öngörü görevleri, bağlantılardan öğrenilen, her düğümün ya da her çiftin bir betimlemesini gerektirir.</p>
+<h3>Bilinmesi gerekenler</h3>
+<ul>
+  <li><strong>Görevler</strong>: düğüm sınıflandırma (birkaç bilinen etiketten düğümleri etiketlemek), bağlantı tahmini (eksik ya da gelecekteki bağlantıları bulmak), topluluk bulma, çizge sınıflandırma.</li>
+  <li><strong>Öznitelikler</strong>: elle yapılmış (derece, kümelenme, uzaklıklar) ya da öğrenilmiş (gömmeler, GNN'ler).</li>
+  <li><strong>Dönüştürücü (transductive)</strong> yöntemler yalnızca eğitimde görülen düğümleri gömer; <strong>tümevarımsal (inductive)</strong> olanlar (GNN'ler) yeni düğümlere de uygulanır.</li>
+</ul>
+<p>Bağlı olmayan bir $u, v$ çifti için <strong>bağlantı tahmini puanları</strong>:</p>
+<div class="eq">$$\text{CN} = |N(u)\cap N(v)|, \quad \text{J} = \frac{|N(u)\cap N(v)|}{|N(u)\cup N(v)|}, \quad \text{AA} = \sum_{w \in N(u)\cap N(v)}\frac{1}{\ln k_w}, \quad \text{PA} = k_uk_v$$</div>
+<dl class="symbols">
+  <dt>$N(u)$</dt><dd>$u$'nun komşularının kümesi</dd>
+  <dt>CN, J</dt><dd>ortak komşular; Jaccard birleşime göre normalleştirir</dd>
+  <dt>AA</dt><dd>Adamic–Adar: paylaşılan düşük dereceli bir komşu, paylaşılan bir merkez düğümden daha çok sayılır</dd>
+  <dt>PA</dt><dd>BA modelinden gelen tercihli bağlanma puanı</dd>
+</dl>
+<p><strong>Değerlendirme.</strong> Bazı bağlantıları gizleyin, gizlenmiş bağlantıları ve bağlantı olmayan çiftleri puanlayın:</p>
+<div class="eq">$$\text{AUC} = P(\text{gizlenmiş bağlantının puanı} &gt; \text{bağlantısız çiftin puanı}), \quad \text{eşitlikler } \tfrac12 \text{ sayılır}$$</div>
+<dl class="symbols">
+  <dt>AUC</dt><dd>0.5 = tahmin etmek, 1 = kusursuz sıralama</dd>
+</dl>
+<p><strong>Çizge sinir ağları</strong>: her katman bir düğümün vektörünü komşularınınkilerle karıştırır (mesaj iletimi):</p>
+<div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)}\cdot\operatorname{mean}\{h_u^{(l)} : u \in \{v\}\cup N(v)\}\Big)$$</div>
+<dl class="symbols">
+  <dt>$h_v^{(l)}$</dt><dd>$l$. katmandan sonra $v$ düğümünün vektörü; $h_v^{(0)}$ girdi öznitelikleridir</dd>
+  <dt>$W^{(l)}$</dt><dd>öğrenilen ağırlık matrisi</dd>
+  <dt>$\sigma$</dt><dd>doğrusal olmayan fonksiyon, ör. ReLU</dd>
+</dl>
+<p>Matris biçiminde GCN (Kipf ve Welling 2017): $\tilde A = A + I$ ve $\tilde D$ onun derece matrisi olmak üzere $H^{(l+1)} = \sigma\big(\tilde D^{-1/2}\tilde A\tilde D^{-1/2}H^{(l)}W^{(l)}\big)$. $l$ katmandan sonra bir düğüm $l$ adımlık komşuluğunu görür. Çok sayıda katman: tüm vektörler birbirine benzer (aşırı düzleşme).</p>
+
+<h3>Sınav tarzı problemler</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Bağlantılar: A–B, A–C, B–C, B–D, C–D, D–E, D–F, E–F, D–G. A–D, B–E, E–G çiftlerini CN, Jaccard, Adamic–Adar ve PA ile puanlayın. Her puan hangi çifti ilk sıraya koyar?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Dereceler: A 2, B 3, C 3, D 5, E 2, F 2, G 1.</li>
+      <li>A–D: ortak {B, C}; birleşim {B, C, E, F, G}. CN 2, J 2/5 = 0.40, AA $2/\ln3 = 1.82$, PA 10.</li>
+      <li>B–E: ortak {D}; birleşim {A, C, D, F}. CN 1, J 0.25, AA $1/\ln5 = 0.62$, PA 6.</li>
+      <li>E–G: ortak {D}; birleşim {D, F}. CN 1, J 0.50, AA 0.62, PA 2.</li>
+      <li>CN, AA ve PA, A–D'yi ilk sıraya koyar; Jaccard, E–G'yi ilk sıraya koyar: tek merkez düğümlerini paylaşan düşük dereceli düğümler normalleştirmeden sonra benzer görünür.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Gizlenmiş bağlantıların puanları 0.9, 0.4, 0.7; bağlantısız çiftlerinki 0.5, 0.1, 0.7. AUC'yi hesaplayın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>9 çift. 0.9 üçünü de yener: 3.</li>
+      <li>0.4 yalnızca 0.1'i yener: 1.</li>
+      <li>0.7, 0.5'i ve 0.1'i yener, 0.7 ile berabere kalır: $2 + \frac12 = 2.5$.</li>
+      <li>AUC $= 6.5/9 = 0.72$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> 1–2–3–4 yolu, girdi $h^{(0)} = (1, 0, 0, 0)$. İki ortalama katmanı uygulayın ($W$ yok, $\sigma$ yok). Hangi düğümlerin değeri sıfırdan farklıdır? Çok sayıda katmandan sonra ne olur?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>1. katman (kendisi + komşular üzerinden ortalama): $h_1 = (1+0)/2 = 0.5$, $h_2 = (0+1+0)/3 = 0.33$, $h_3 = 0$, $h_4 = 0$.</li>
+      <li>2. katman: $h_1 = (0.5+0.33)/2 = 0.42$, $h_2 = (0.33+0.5+0)/3 = 0.28$, $h_3 = (0+0.33+0)/3 = 0.11$, $h_4 = 0$.</li>
+      <li>2 katmandan sonra sinyal yalnızca 2 uzaklığa ulaştı (4 numaralı düğüm 3 uzaklıkta).</li>
+      <li>Çok sayıda katman: değerler ortak bir sabite yakınsar; farklar kaybolur (aşırı düzleşme).</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Bağlantıların %10'u gizlendiğinde ortak komşular iş birliği ağında AUC $\approx 0.96$, protein ağında ise $\approx 0.56$ alıyor. 2–3. Bölümlerin kavramlarıyla açıklayın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>CN üçlü kapanmayı varsayar: arkadaşların arkadaşları bağlanır. Bu yüksek kümelenmedir.</li>
+      <li>Ortak yazarlık çok kümelenmiştir (her makale bir kliktir); bu yüzden CN işe yarar.</li>
+      <li>Bir eşi paylaşan proteinler çoğu zaman aynı bağlanma bölgesi için yarışır ve birbirine bağlanmaz; kümelenme düşüktür. CN tahmine yakındır.</li>
+    </ol>
+  </div>
+</div>
+<h3>Sık yapılan hatalar</h3>
+<ul>
+  <li>Bağlantı tahminini puanları hesaplamak için kullanılan bağlantılar üzerinde değerlendirmek: önce onları gizleyin.</li>
+  <li>AUC = 0.5'i “bağlantıların yarısı bulundu” diye okumak: şanstan iyi olmadığı anlamına gelir.</li>
+  <li>“Daha çok görmek için” çok sayıda GNN katmanı üst üste koymak: aşırı düzleşme bilgiyi siler.</li>
+</ul>
+<p class="small">Sayfalar: <a href="embeddings.html">Çizge ML ve düğüm gömmeleri</a>, <a href="ch2-clustering.html">Kümelenme</a>.</p>
+</section>
+
+<!-- ============================== EMBEDDINGS ============================== -->
+<section id="embeddings">
+<h2>Düğüm gömmeleri</h2>
+<p>Neden gerekli: bir sınıflandırıcı düğüm başına sabit uzunlukta bir vektör ister. Bir gömme $z_v \in \mathbb R^d$, düğümleri ağda yakın olanlar uzayda da yakın olacak biçimde yerleştirir; böylece herhangi bir standart ML yöntemi onları kullanabilir.</p>
+<h3>Bilinmesi gerekenler</h3>
+<p><strong>Spektral gömme.</strong> Çizge Laplace matrisi ve karesel biçimi:</p>
+<div class="eq">$$L = D - A, \qquad x^\top L x = \sum_{(i,j)\in E}(x_i - x_j)^2, \qquad \mathcal L = I - D^{-1/2}AD^{-1/2}$$</div>
+<dl class="symbols">
+  <dt>$D$</dt><dd>$k_i$ derecelerinden oluşan köşegen matris</dd>
+  <dt>$x$</dt><dd>düğüm başına bir sayı (tek boyutlu bir gömme)</dd>
+  <dt>$E$</dt><dd>bağlantılar kümesi; toplam “enerjidir”: bağlı düğümler benzer değerler alırsa küçüktür</dd>
+  <dt>$\mathcal L$</dt><dd>normalleştirilmiş Laplace matrisi, dereceler çok değiştiğinde kullanılır</dd>
+</dl>
+<ul>
+  <li>En küçük özdeğer 0'dır, özvektörü sabittir; sıfır özdeğerlerin sayısı = bileşen sayısı.</li>
+  <li>İkinci özvektör (<strong>Fiedler vektörü</strong>): en düşük enerjili önemsiz olmayan gömme; işareti ikili bir kesim verir. Diğer özvektörler daha fazla koordinat verir.</li>
+</ul>
+<p><strong>Rastgele yürüyüş gömmeleri.</strong> DeepWalk (Perozzi ve ark. 2014): kısa düzgün rastgele yürüyüşler çalıştırın, onları cümle, düğümleri kelime olarak ele alın, word2vec'in skip-gram'ini eğitin:</p>
+<div class="eq">$$\max \sum_{u}\sum_{v \in \mathcal N_w(u)}\log P(v\mid u), \qquad P(v\mid u) = \frac{e^{z_u\cdot z_v}}{\sum_{n}e^{z_u\cdot z_n}}$$</div>
+<dl class="symbols">
+  <dt>$\mathcal N_w(u)$</dt><dd>yürüyüşlerde $u$'dan $w$ adım içindeki düğümler (bağlam penceresi)</dd>
+  <dt>$z_u\cdot z_v$</dt><dd>iç çarpım: iki vektörün benzerliği</dd>
+  <dt>$\sum_n$</dt><dd>tüm düğümler üzerinden; çok maliyetli olduğu için yaklaşık hesaplanır (DeepWalk'ta hiyerarşik softmax, node2vec'te negatif örnekleme)</dd>
+</dl>
+<p><strong>node2vec</strong> (Grover ve Leskovec 2016) yürüyüşü yönlendirir. $t \to v$ adımı atıldıktan sonra $x$'e giden bir sonraki adım şu ağırlığı alır:</p>
+<div class="eq">$$\alpha_{pq}(t,x) = \begin{cases}1/p & d_{tx} = 0 \ (t\text{'ye geri})\\ 1 & d_{tx} = 1\\ 1/q & d_{tx} = 2\end{cases}$$</div>
+<dl class="symbols">
+  <dt>$p$</dt><dd>geri dönüş parametresi: küçük $p$ = yürüyüşler geri döner, yerelde kalır</dd>
+  <dt>$q$</dt><dd>içeri–dışarı parametresi: küçük $q$ = dışarı doğru ilerler (derinlik öncelikli, toplulukları bulur); büyük $q$ = $t$'nin yakınında kalır (genişlik öncelikli, yapısal rolleri bulur)</dd>
+  <dt>$d_{tx}$</dt><dd>önceki düğüm $t$'den aday $x$'e uzaklık</dd>
+</dl>
+<p>$p = q = 1$ DeepWalk'u verir. Gömmeler dönüştürücüdür: yeni bir düğüm yeniden eğitim gerektirir.</p>
+
+<h3>Sınav tarzı problemler</h3>
+<div class="callout try">
+  <p><strong>Problem.</strong> Bir köprüyle birleşmiş iki üçgen (1–2, 1–3, 2–3, 3–4, 4–5, 4–6, 5–6 bağlantıları). $x = (1,1,1,-1,-1,-1)$ için $x^\top Lx$'i ve Rayleigh bölümü $x^\top Lx/x^\top x$'i hesaplayın. Gerçek $\lambda_2 = 0.44$; Fiedler vektörü ne yapar?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Farklı değerleri yalnızca 3–4 köprüsü birleştirir: $(1-(-1))^2 = 4$. Diğer tüm terimler 0'dır. $x^\top Lx = 4$.</li>
+      <li>$x^\top x = 6$; bölüm $= 0.67$. Sabit vektöre dik vektörler için $\lambda_2$'nin bir üst sınırıdır ✓ ($0.67 \ge 0.44$).</li>
+      <li>Fiedler vektörü yaklaşık $(-0.47, -0.47, -0.26, 0.26, 0.47, 0.47)$'dir: aynı işaret bölmesi {1, 2, 3} | {4, 5, 6}; köprü düğümleri 3 ve 4 sıfıra daha yakındır.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> $p = 4$, $q = 0.5$ ile node2vec. Yürüyüş $t \to v$ gitti. $v$'nin komşuları: $t$, $x_1$ ($t$'ye de bağlı), $x_2$ ($t$'ye bağlı değil). Geçiş olasılıklarını verin. Yerel mi, keşfedici bir yürüyüş mü?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Ağırlıklar: $t$'ye geri: $1/p = 0.25$; $x_1$ ($d = 1$): 1; $x_2$ ($d = 2$): $1/q = 2$.</li>
+      <li>Toplam 3.25. Olasılıklar: 0.08, 0.31, 0.62.</li>
+      <li>Nadiren geri döner, uzaklaşmayı tercih eder: keşfedici (derinlik öncelikliye benzer). Gömmeler o zaman toplulukları yansıtır.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Problem.</strong> Spektral gömmeyi ve DeepWalk'u karşılaştırın: her biri neyi hesaplamayı gerektirir, hangi benzerliği yakalar ve yarın eklenecek bir düğüm için ikisi de neyi yapamaz?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Spektral: $L$'nin ya da $\mathcal L$'nin birkaç özvektörü; bağlantılar üzerindeki düzgünlüğü (kesimler, topluluklar) yakalar. Kesindir, ama çok büyük ağların özvektörleri maliyetlidir.</li>
+      <li>DeepWalk: rastgele yürüyüşler artı skip-gram eğitimi; birkaç adım içinde birlikte görülmeyi yakalar. Büyük seyrek ağlara ölçeklenir; sonuçlar rastgele tohumlarla değişir.</li>
+      <li>Hiçbiri görülmemiş bir düğümü yeniden hesaplama yapmadan gömemez (dönüştürücü). Girdi öznitelikleri olan GNN'ler tümevarımsaldır.</li>
+    </ol>
+  </div>
+</div>
+<h3>Sık yapılan hatalar</h3>
+<ul>
+  <li>Kesim için Laplace matrisinin <em>en büyük</em> özdeğerinin özvektörünü kullanmak: doğrusu ikinci <em>en küçük</em> olandır.</li>
+  <li>$p$ ile $q$'yu karıştırmak: $p$ geri dönmeyi, $q$ dışarı ilerlemeyi denetler.</li>
+  <li>Ayrı eğitim çalıştırmalarının gömme koordinatlarını karşılaştırmak: koordinatlar yalnızca bir döndürmeye kadar tanımlıdır.</li>
+</ul>
+<p class="small">Sayfalar: <a href="embeddings.html">Çizge ML ve düğüm gömmeleri</a>, <a href="ch2-adjacency.html">Komşuluk matrisi</a>.</p>
+</section>
+
+<!-- ============================== PAPERS ============================== -->
+<section id="papers">
+<h2>BIL589 · Makale sunumu</h2>
+<p>Derse uyan klasik makaleler; her biri için neden olduğuna dair tek satır. Hangi makalelerin ve biçimlerin kabul edildiğini öğretim üyesine danışın.</p>
+<ol>
+  <li><strong>Watts ve Strogatz (1998)</strong>, "Collective dynamics of 'small-world' networks", <em>Nature</em>. Birkaç rastgele kestirme kısa yollar ve yüksek kümelenme verir (3. Bölüm).</li>
+  <li><strong>Barabási ve Albert (1999)</strong>, "Emergence of scaling in random networks", <em>Science</em>. Büyüme artı tercihli bağlanma kuvvet yasaları üretir (4–5. Bölümler).</li>
+  <li><strong>Albert, Jeong ve Barabási (2000)</strong>, "Error and attack tolerance of complex networks", <em>Nature</em>. Ölçekten bağımsız ağlar bozulmalara dayanır, saldırı altında çöker (8. Bölüm).</li>
+  <li><strong>Bianconi ve Barabási (2001)</strong>, "Competition and multiscaling in evolving networks", <em>Europhysics Letters</em>. Uygunluk modeli: geç gelenler kazanabilir (6. Bölüm).</li>
+  <li><strong>Newman (2002)</strong>, "Assortative mixing in networks", <em>Physical Review Letters</em>. $r$'yi tanımlar; sosyal ve teknolojik ağlar; perkolasyona etkisi (7. Bölüm).</li>
+  <li><strong>Clauset, Shalizi ve Newman (2009)</strong>, "Power-law distributions in empirical data", <em>SIAM Review</em>. Kuvvet yasaları nasıl doğru uydurulur ve sınanır (4. Bölüm).</li>
+  <li><strong>Broido ve Clauset (2019)</strong>, "Scale-free networks are rare", <em>Nature Communications</em>. Evrensellik iddiasını birçok gerçek ağda sınar; iyi bir tartışma konusu (1. ve 4. Bölümler).</li>
+  <li><strong>Perozzi, Al-Rfou ve Skiena (2014)</strong>, "DeepWalk: online learning of social representations", <em>KDD</em>. Rastgele yürüyüşler + word2vec = düğüm gömmeleri.</li>
+  <li><strong>Grover ve Leskovec (2016)</strong>, "node2vec: scalable feature learning for networks", <em>KDD</em>. Yerel ve keşfedici görünümler arasında yönlendirilmiş yürüyüşler.</li>
+  <li><strong>Kipf ve Welling (2017)</strong>, "Semi-supervised classification with graph convolutional networks", <em>ICLR</em>. GCN katmanı; birkaç etiketten düğüm sınıflandırma.</li>
+</ol>
+<div class="callout note">
+  <p>Güçlü bir sunum soruyu, yöntemi tek bir slaytta, yeniden üretilmiş tek bir ana şekli (bunların çoğu için NetworkX yeterlidir) ve sonucun dersle bağlantısını ortaya koyar.</p>
+</div>
+</section>
+
+<h2 id="practice">Alıştırma seti</h2>
+<div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview, evolving, correlations, robustness, embeddings, communities, epidemics" data-optional="data, communities, epidemics"></div>
+<p class="small muted">Bu sorular yenidir: hiçbiri ara sınav rehberindekileri ya da bölüm sayfalarındakileri tekrarlamaz. Her biri gereken formülleri verir ve onları kullanmanızı ister. Sayfaların kendi testlerini de karıştırmak için “Sayfalardaki tekrar sorularını da ekle” kutusunu işaretleyin.</p>
+<template id="exam-questions">
+<div class="quiz" data-topic="Tekrar · 2–5. Bölümler" data-answer="3">
+  <p>Bir ağda $N = 10{,}000$ düğüm, ortalama derece $\langle k\rangle = 4$ ve derece standart sapması $\sigma_k = 20$. Aynı $\langle k\rangle$'ya sahip rastgele bir ağda $\sigma_k = \sqrt{\langle k\rangle}$'dir. Ağ rastgele bir ağa mı, ölçekten bağımsız bir ağa mı daha yakındır?</p>
+  <ol>
+    <li data-why="Rastgele bir ağda σ_k = 2 olurdu, on kat daha küçük.">Rastgele: ortalama derecesi sıradan.</li>
+    <li data-why="Ortalama iki modeli ayırmaz; yayılım ayırır.">$L$ olmadan karar verilemez.</li>
+    <li>Ölçekten bağımsıza benzer: dereceleri rastgele bağlantının izin verdiğinden 10 kat daha yayılmıştır; bu da merkez düğümlere işaret eder.</li>
+    <li data-why="Ortalamanın beş katı bir yayılım, düzenliliğin tam tersidir.">Düzenli: tüm düğümlerin yaklaşık 4 bağlantısı vardır.</li>
+  </ol>
+  <div class="explain">Ölçülen 20'ye karşı $\sqrt{4} = 2$. Ortalamanın çok üstünde bir yayılım ağır kuyruğun imzasıdır.</div>
+</div>
+<div class="quiz" data-topic="Tekrar · 2–5. Bölümler" data-answer="1">
+  <p>$\langle d\rangle \approx \ln N / \ln\langle k\rangle$'yı kullanarak $\langle k\rangle = 10$ olan iki rastgele ağı karşılaştırın: biri $N = 10^4$, diğeri $N = 10^8$ düğümlü.</p>
+  <ol>
+    <li>Yaklaşık 4 ve 8 adım: 10,000 kat büyük bir ağ yalnızca iki kat geniştir.</li>
+    <li data-why="Uzaklıklar N gibi değil, ln N gibi büyür.">4 ve 40,000 adım.</li>
+    <li data-why="ln N büyür; yalnızca yavaş büyür.">İkisinde de aynı uzaklık.</li>
+    <li data-why="⟨k⟩ = 10 ile ln⟨k⟩ ≈ 2.3'tür; yani değerler 4 ve 8'dir.">9 ve 18 adım.</li>
+  </ol>
+  <div class="explain">$\ln 10^4/\ln 10 = 4$ ve $\ln 10^8/\ln 10 = 8$. Logaritmik büyüme küçük dünya özelliğidir.</div>
+</div>
+<div class="quiz" data-topic="Tekrar · 2–5. Bölümler" data-answer="4">
+  <p>Yönlü bir ağda her bağlantı bir düğümden çıkar ve bir başkasına girer; bu yüzden $\sum_i k_i^{\text{in}} = \sum_i k_i^{\text{out}} = L$. Bir e-posta kaydı 200 kişi arasında 1,000 e-posta içeriyor. Ortalama giriş derecesi ve ortalama çıkış derecesi nedir?</p>
+  <ol>
+    <li data-why="Bu, yönsüz bir ağdaki gibi her e-postayı iki kez sayardı.">Her biri 10.</li>
+    <li data-why="Her e-postanın bir göndereni ve bir alıcısı vardır; bu yüzden iki toplam eşittir.">Giriş 5, çıkış 0.</li>
+    <li data-why="1,000/200 = 5'tir; 2.5 onu bir kez daha yarıya böler.">Her biri 2.5.</li>
+    <li>Her biri 5: her e-posta birinin çıkış derecesine ve birinin giriş derecesine bir ekler.</li>
+  </ol>
+  <div class="explain">$\langle k^{\text{in}}\rangle = \langle k^{\text{out}}\rangle = L/N = 1{,}000/200 = 5$. Tek tek giriş ve çıkış dereceleri çok farklı olabilir (bir bülten gönderen), ama ortalamalar olamaz.</div>
+</div>
+<div class="quiz" data-topic="Tekrar · 2–5. Bölümler" data-answer="2">
+  <p>Rastgele bir bağlantıyı izleyerek ulaşılan bir düğümün ortalama derecesi $\kappa = \langle k^2\rangle/\langle k\rangle$'dır. İnternet örneği için $\langle k\rangle = 6.34$ ve $\langle k^2\rangle = 240.1$. $\kappa$ ne söyler?</p>
+  <ol>
+    <li data-why="Bu ⟨k⟩'dır; bağlantıları izlemek yüksek dereceli düğümleri kayırır.">Bir bağlantı boyunca ulaştığınız yönlendiricinin yaklaşık 6 bağlantısı vardır.</li>
+    <li>Rastgele bir bağlantının ucundaki yönlendiricinin yaklaşık 38 bağlantısı vardır, ortalamanın altı katı: bağlantılar merkez düğümlere götürür (arkadaşlık paradoksu).</li>
+    <li data-why="240 ikinci momenttir, komşunun derecesi değil.">Ulaştığınız yönlendiricinin yaklaşık 240 bağlantısı vardır.</li>
+    <li data-why="κ verilen momentlerden çıkar.">Tam derece listesi olmadan hiçbir şey.</li>
+  </ol>
+  <div class="explain">$240.1/6.34 \approx 37.9$. Merkez düğümler bağlantı uçlarının çoğuna sahip olduğu için bağlantılar boyunca yayılan her şey merkez düğümlerle erken karşılaşır.</div>
+</div>
+<div class="quiz" data-topic="Tekrar · 2–5. Bölümler" data-answer="3">
+  <p>Dereceyi koruyan rastgeleleştirme, her düğümün derecesini koruyarak bağlantıları yeniden bağlar. İş birliği ağı için kümelenme 0.63'ten yaklaşık 0.002'ye, ortalama uzaklık 5.3'ten 4.4'e düşer. Ne sonuç çıkarırsınız?</p>
+  <ol>
+    <li data-why="Dereceler iki sürümde de aynıdır; bu yüzden farkın nedeni olamazlar.">Yüksek kümelenmenin nedeni derecelerdir.</li>
+    <li data-why="Rastgeleleştirme dereceleri hiçbir zaman değiştirmez.">Rastgeleleştirme derece dağılımını değiştirdi.</li>
+    <li>Dereceler uzaklıkları kabaca açıklar ama kümelenmeyi açıklamaz: üçgenler, kimin çok bağlantısı olduğundan değil, ortak yazarların makalelerde nasıl gruplandığından gelir.</li>
+    <li data-why="İki ölçü de değişir, ama kümelenme 300 kat, uzaklık %20 değişir.">Kümelenme ve uzaklık eşit derecede açıklanamaz.</li>
+  </ol>
+  <div class="explain">Bir sıfır modeli bazı özellikleri korur, gerisini rastgeleleştirir. Rastgeleleştirmeden sağ çıkan her şeyi korunan özellikler (burada dereceler) açıklar; kaybolan ise başka bir mekanizma gerektirir.</div>
+</div>
+<div class="quiz" data-topic="Tekrar · 2–5. Bölümler" data-answer="1">
+  <p>Doğal kesme $k_{\max} \approx k_{\min} N^{1/(\gamma-1)}$ beklenen en büyük merkez düğümü verir. $\gamma = 2.5$, $k_{\min} = 2$ ve $N = 10^6$ olan bir kuvvet yasası için ve aynı boyutta ve $\langle k\rangle$'da bir Poisson ağı için (en büyük derecesi birkaç düzinedir) karşıtlık nedir?</p>
+  <ol>
+    <li>Birkaç düzineye karşı yaklaşık 20,000 bağlantı: kuvvet yasası yüzlerce kat büyük merkez düğümler üretir.</li>
+    <li data-why="2·(10⁶)^{1/1.5} = 2·10⁴'tür, 2·10³ değil.">Birkaç düzineye karşı yaklaşık 2,000.</li>
+    <li data-why="1/(γ − 1) = 2/3 üsteli k_max'ı N ile büyütür.">İkisi de birkaç düzine bağlantı.</li>
+    <li data-why="k_max ≈ 20,000, N − 1'in çok altındadır.">Merkez düğüm her düğüme bağlıdır.</li>
+  </ol>
+  <div class="explain">$2 \cdot (10^6)^{2/3} = 2\cdot10^4$. Kuvvet yasasında en büyük merkez düğüm $N$'nin bir kuvveti olarak büyür; Poisson ağında ise çok yavaş.</div>
+</div>
+
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="2">
+  <p>Bianconi–Barabási modelinde yeni bir bağlantı $i$ düğümüne $\Pi_i = \eta_i k_i / \sum_j \eta_j k_j$ olasılıkla bağlanır; burada $\eta_i$ uygunluğudur. A düğümünün uygunluğu 1 ve 100 bağlantısı var; B düğümünün uygunluğu 2 ve 60 bağlantısı var. Şu anda hangisi daha hızlı bağlantı kazanır?</p>
+  <ol>
+    <li data-why="A'nın daha çok bağlantısı var, ama çekim uygunluk çarpı derecedir: 100'e karşı 120.">A, çünkü daha çok bağlantısı var.</li>
+    <li>B: $\eta k = 120$'ye karşı 100; uygunluk A'nın erken başlangıcından ağır basar.</li>
+    <li data-why="Çarpımlar farklıdır: 100'e karşı 120.">İkisi eşit.</li>
+    <li data-why="Uygunluk ve derece çarpılır; hiçbiri tek başına karar vermez.">B, çünkü uygunluk sayılır, derece sayılmaz.</li>
+  </ol>
+  <div class="explain">Çekim $\eta_i k_i$'dir: A için $1\cdot100 = 100$, B için $2\cdot60 = 120$. Daha uygun bir geç gelen eski bir merkez düğümü büyümede geçebilir; BA modeli buna izin vermez.</div>
+</div>
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="4">
+  <p>Uygunluk modelinde her düğümün derecesi $\beta_i = \eta_i / C$ olmak üzere $k_i(t) = m\,(t/t_i)^{\beta_i}$ gibi büyür; düzgün dağılmış uygunluk için $C \approx 1.255$'tir. A düğümü ($\eta = 0.5$) $t = 1$'de, B düğümü ($\eta = 1$) $t = 1{,}000$'de geldi. Ne olur?</p>
+  <ol>
+    <li data-why="Bu, tüm düğümlerin β = 1/2'yi paylaştığı BA modelidir.">BA modelindeki gibi A her zaman önde kalır.</li>
+    <li data-why="B'nin üsteli A'nınkinin iki katıdır; bu yüzden B sonunda yetişir.">Paralel büyürler ve hiç kesişmezler.</li>
+    <li data-why="B, A gibi m bağlantıyla başlar; yalnızca büyüme hızı daha yüksektir.">B, A'yı hemen geçer.</li>
+    <li>B'nin üsteli yaklaşık 0.80, A'nınki 0.40'tır; bu yüzden B, A'yı yaklaşık $t \approx 10^6$'da geçer.</li>
+  </ol>
+  <div class="explain">$\beta_A = 0.5/1.255 \approx 0.40$, $\beta_B \approx 0.80$. $t^{0.40} = (t/1000)^{0.80}$ alındığında $t \approx 10^6$ çıkar. Uzun vadeli kazanana yaş değil, uygunluk karar verir.</div>
+</div>
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="1">
+  <p>Uygunluk modelinde göreli büyüme hızı $\beta_i = d\ln k_i / d\ln t$ her düğüm için sabittir ve uygunluğuyla orantılıdır. Zaman 100'den 1,600'e giderken A sayfasının derecesi 10'dan 40'a, B sayfasınınki aynı sürede 10'dan 20'ye çıktı. Uygunluklarını karşılaştırın.</p>
+  <ol>
+    <li>$\beta_A = \ln 4/\ln 16 = 0.5$ ve $\beta_B = 0.25$: A, B'nin iki katı uygundur.</li>
+    <li data-why="Uygunluk kazanılan bağlantı sayısıyla değil, büyüme üsteliyle ölçülür: ln 4/ln 16 = 0.5'e karşı ln 2/ln 16 = 0.25.">A, B'nin üç katı uygundur, çünkü 10'a karşı 30 bağlantı kazandı.</li>
+    <li data-why="İkisi de 10 bağlantıyla başladı, ama farklı hızlarla büyüdü.">Eşit derecede uygundurlar, çünkü ikisi de 10 bağlantıyla başladı.</li>
+    <li data-why="Üsteller ln 4/ln 16 ve ln 2/ln 16'dır.">B, A'nın iki katı uygundur.</li>
+  </ol>
+  <div class="explain">$\beta = \ln(k_2/k_1)/\ln(t_2/t_1)$: $\ln 4/\ln 16 = 0.5$ ve $\ln 2/\ln 16 = 0.25$. Uygunluk veriden böyle ölçülür: $k_i(t)$'nin log–log grafiğinde daha uygun düğümlerin çizgileri daha diktir.</div>
+</div>
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="3">
+  <p>Uygunluk modelinin Bose–Einstein evresinde en uygun düğüm $N \to \infty$ iken bile tüm bağlantıların sabit bir payını korur; “uygun olan zenginleşir” evresinde ise her merkez düğümün payı sıfıra iner. Bir mesajlaşma hizmeti tüm kullanıcı bağlantılarının %70'ini tutuyor ve pazar büyüdükçe payı düşmüyor. Bu hangi evreye işaret eder?</p>
+  <ol>
+    <li data-why="Uygun olanın zenginleştiği evrede en büyük merkez düğümün payı N büyüdükçe sıfıra gider.">Uygun olan zenginleşir: en uygun düğüm yalnızca büyük bir merkez düğümdür.</li>
+    <li data-why="BA merkez düğümleri de ağ büyüdükçe pay kaybeder.">İlk gelen avantajlı BA modeli.</li>
+    <li>Bose–Einstein yoğuşması: kazanan her şeyi alır.</li>
+    <li data-why="Rastgele bir ağda payı sabit kalan bir merkez düğüm hiç yoktur.">Rastgele bir ağ.</li>
+  </ol>
+  <div class="explain">Ağ büyüdükçe sabit kalan bir pay yoğuşmadır. Evre, geliş zamanına değil, uygunluk dağılımının biçimine bağlıdır.</div>
+</div>
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="2">
+  <p>Başlangıç çekiciliğiyle $\Pi(k) \propto A + k$ olur ve üstel $\gamma = 3 + A/m$'ye dönüşür. Bir ağ yeni düğüm başına $m = 2$ bağlantıyla büyüyor ve $\gamma = 3.5$. $A$ nedir ve ne işe yarar?</p>
+  <ol>
+    <li data-why="3.5 = 3 + A/2, 0.5 değil A = 1 verir.">$A = 0.5$: yeni düğümler yok sayılır.</li>
+    <li>$A = 1$: hiç bağlantısı olmayan düğümler bile biraz ilgi görür; bu $\gamma$'yı yükseltir ve ağı merkez düğümlerin daha az baskın olduğu bir ağ yapar.</li>
+    <li data-why="A > 0, γ'yı küçültmez, büyütür.">$A = 1$: $\gamma$'yı düşürür ve daha çok merkez düğüm yaratır.</li>
+    <li data-why="A, verilen üstel ve m ile belirlenir.">$\gamma$'dan bulunamaz.</li>
+  </ol>
+  <div class="explain">$3.5 = 3 + A/2 \Rightarrow A = 1$. Başlangıç çekiciliği küçük düğümler için zengin daha da zenginleşir etkisini zayıflatır.</div>
+</div>
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="4">
+  <p>Her yeni düğümün $m$ bağlantısının yanı sıra, var olan düğümler arasına iki uçta da tercihli seçilen $n$ bağlantı eklenirse $\gamma = 2 + m/(m + 2n)$ olur. $m = 1$ ve $n = 2$ ile $\gamma$ nedir ve bu, WWW'nin 2.2'ye yakın üsteli hakkında ne söyler?</p>
+  <ol>
+    <li data-why="Tercihli iç bağlantılar γ'yı 3'ün altına indirir.">$\gamma = 3$: iç bağlantılar hiçbir şeyi değiştirmez.</li>
+    <li data-why="m/(m + 2n) = 1/5'tir; yani γ = 2.2.">$\gamma = 2.5$.</li>
+    <li data-why="Sonlu her n için γ, 2'nin üstünde kalır.">Tam olarak $\gamma = 2$.</li>
+    <li>$\gamma = 2.2$: var olan düğümler arasındaki çok sayıda tercihli bağlantı, WWW'de görüldüğü gibi üsteli 2'ye doğru iter.</li>
+  </ol>
+  <div class="explain">$2 + 1/(1 + 4) = 2.2$. İç bağlantılar merkez düğümlerde daha da yoğunlaşır; gerçek üstellerin BA değerinin altına düşmesinin bir yolu budur.</div>
+</div>
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="1">
+  <p>$r$ hızıyla rastgele düğüm silmede (eklenen düğüm başına silinen düğüm, $r &lt; 1$) üstel $\gamma = 3 + 2r/(1 - r)$'dir (kitabın düzeltilmiş Denklem 6.29'u). Eklenen her beş düğüm için bir düğüm silmek hangi $\gamma$'yı verir ve neden?</p>
+  <ol>
+    <li>$\gamma = 3.5$: silme merkez düğümlerden de bağlantı kaldırır ve ağı daha türdeş yapar.</li>
+    <li data-why="r = 0.2, 2 değil 2·0.2/0.8 = 0.5 verir.">$\gamma = 5$.</li>
+    <li data-why="Silme γ'yı düşürmez, yükseltir.">$\gamma = 2.5$.</li>
+    <li data-why="r < 1 olduğundan ağ hâlâ büyür; bu yüzden ölçekten bağımsız kalır.">Kuvvet yasası kaybolur.</li>
+  </ol>
+  <div class="explain">$3 + 0.4/0.8 = 3.5$. $r = 0$'da formül BA değeri 3'ü verir; $r \to 1$ iken ağ büyümeyi durdurur ve $\gamma \to \infty$ olur.</div>
+</div>
+<div class="quiz" data-topic="6. Bölüm · Evrilen ağlar" data-answer="3">
+  <p>Yaşlanmada çekicilik bir düğümün yaşıyla azalır: $\Pi \propto k\,(t - t_i)^{-\nu}$. Çekiciliğin hızla azaldığı (büyük $\nu$) bir ağda merkez düğümlere ne olur?</p>
+  <ol>
+    <li data-why="Yaşlanma, çok bağlantısı olanları, yani eski düğümleri cezalandırır.">Eski oldukları için daha da büyürler.</li>
+    <li data-why="Yaşlanma yeni bağlantıları kimin aldığını değiştirir; dolayısıyla derece dağılımını da değiştirir.">Hiçbir şey değişmez.</li>
+    <li>Eski düğümler merkez düğüm olmadan önce bağlantı toplamayı bırakır; kuvvet yasası kuyruğu kaybolur.</li>
+    <li data-why="Genç düğümler az bağlantıyla başlar ve onlar da hızla yaşlanır; hiçbir düğüm yeterince uzun süre çekici kalmaz.">En genç düğüm dev bir merkez düğüm olur.</li>
+  </ol>
+  <div class="explain">Güçlü yaşlanma zengin daha da zenginleşir geri beslemesini keser. Haberler ya da eski makaleler gibi önemini yitiren öğelerin olduğu sistemlere uyar.</div>
+</div>
+
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="2">
+  <p>Derece korelasyon fonksiyonu $k_{nn}(k)$, derecesi $k$ olan düğümlerin komşularının ortalama derecesidir ve çoğu zaman $k_{nn}(k) \sim k^\mu$'dür. Bir ortak yazarlık ağında $k_{nn}(k)$, $k$ ile artıyor ($\mu &gt; 0$). Yorumlayın.</p>
+  <ol>
+    <li data-why="Azalan k_nn(k), merkez düğümlerin merkez düğümlerden kaçındığı anlamına gelirdi; artan, onları aradıkları anlamına gelir.">Merkez düğümler çoğunlukla küçük düğümlere bağlanır.</li>
+    <li>Ağ asortatiftir: iyi bağlantılı bilim insanları diğer iyi bağlantılı bilim insanlarıyla iş birliği yapma eğilimindedir.</li>
+    <li data-why="Nötr ağların k_nn(k)'si düzdür.">Ağ nötrdür.</li>
+    <li data-why="k_nn(k) derece dağılımını değil, kimin kime bağlı olduğunu betimler.">Derece dağılımı bir kuvvet yasasıdır.</li>
+  </ol>
+  <div class="explain">Artan $k_{nn}(k)$: merkez düğümler merkez düğümlere bağlanır. Sosyal ağlar tipik olarak asortatif, teknolojik ve biyolojik ağlar tipik olarak disasortatiftir.</div>
+</div>
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="4">
+  <p>Derece korelasyon katsayısı $r \in [-1, 1]$, bir bağlantının iki ucundaki dereceler arasındaki korelasyondur. On yapraklı bir yıldızda her bağlantı derecesi 10 olan merkez düğümü derecesi 1 olan bir yaprağa bağlar. $r$ nedir ve ne anlama gelir?</p>
+  <ol>
+    <li data-why="r = 0 ilişki yok demektir; burada iki uçtaki dereceler tam olarak zıttır.">$r = 0$: yıldız nötrdür.</li>
+    <li data-why="Pozitif r, büyüğün büyüğe bağlandığı anlamına gelirdi; burada büyük her zaman küçüğe bağlanır.">$r = 1$: kusursuz asortatif.</li>
+    <li data-why="r'nin burada kesin bir değeri vardır, uç değer.">$r$ tanımsızdır.</li>
+    <li>$r = -1$: kusursuz disasortatif, çünkü merkez düğüm yalnızca en küçük düğümlere bağlanır.</li>
+  </ol>
+  <div class="explain">Her bağlantı en yüksek dereceyi en düşükle eşleştirir: mümkün olan en negatif korelasyon.</div>
+</div>
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="1">
+  <p>Basit bir ağda iki merkez düğüm arasındaki bağlantı sayısı biri aşamaz; bu da yapısal kesme $k_s \approx \sqrt{\langle k\rangle N}$'nin üstünde disasortatifliği zorunlu kılar. WWW örneğinde $\langle k\rangle = 6.69$, $N = 325{,}729$ ve en büyük merkez düğümün 10,721 bağlantısı var. Ne çıkar?</p>
+  <ol>
+    <li>$k_s \approx 1{,}480$, en büyük merkez düğümlerinin çok altında; bu yüzden disasortatifliğinin bir kısmı gerçek bir tercihten değil, bu yapısal sınırdan gelebilir.</li>
+    <li data-why="√(6.69·325,729) ≈ 1,476'dır, 476,000 değil.">$k_s \approx 476{,}000$: hiçbir merkez düğüm ona ulaşmaz.</li>
+    <li data-why="Kesme basit ağlar için bir sınırdır; üstündeki merkez düğümler yaygındır.">WWW'de $k_s$'nin üstünde merkez düğüm olamaz.</li>
+    <li data-why="k_s uzaklıklarla değil, merkez düğümler arası bağlantılarla ilgilidir.">WWW'nin uzaklıkları uzun olmalıdır.</li>
+  </ol>
+  <div class="explain">$\sqrt{6.69 \cdot 325{,}729} \approx 1{,}476$. $k_s$'nin üstünde rastgele bağlantı iki merkez düğüm arasında birkaç bağlantı beklerdi, ama basit bir ağ bir taneye izin verir; bu yüzden merkez düğümler birbirinden kaçıyormuş gibi görünür.</div>
+</div>
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="3">
+  <p>Bir ağ için $r = -0.25$ ölçüyorsunuz, sonra basit bir sürümüne dereceyi koruyan rastgeleleştirme (her dereceyi korur) uygulayıp $r = -0.22$ buluyorsunuz. Ne sonuç çıkarırsınız?</p>
+  <ol>
+    <li data-why="r rastgeleleştirmeden sağ çıkıyorsa onu açıklamak için tercihe gerek yoktur.">Düğümlerin merkez düğümlerden kaçınma yönünde güçlü bir tercihi vardır.</li>
+    <li data-why="Rastgeleleştirme her dereceyi tam olarak korur.">Rastgeleleştirme dereceleri değiştirdi.</li>
+    <li>Disasortatifliğin çoğu, kimin kime bağlandığındaki bir tercihten değil, derecelerin kendisinden gelir (yapısal).</li>
+    <li data-why="İki değer de açıkça negatiftir.">Ağ nötrdür.</li>
+  </ol>
+  <div class="explain">Dereceleri koruyan bir sıfır modeli, derecelerin tek başına neyi gerektirdiğini söyler. Yalnızca fark ($-0.25$'e karşı $-0.22$) başka bir açıklama gerektirir.</div>
+</div>
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="2">
+  <p>Nötr bir ağda her $k$ için $k_{nn}(k) = \langle k^2\rangle/\langle k\rangle$'dır. $\langle k^2\rangle/\langle k\rangle = 40$ olan bir ağda derecesi 2 olan düğümlerin $k_{nn}$'i 120, derecesi 500 olanlarınki 8. Bu ne tür bir ağdır?</p>
+  <ol>
+    <li data-why="Asortatif ağlarda k_nn, k ile artar; burada azalır.">Asortatif.</li>
+    <li>Disasortatif: küçük düğümler merkez düğümlere, merkez düğümler küçük düğümlere bağlanır; nötr değer 40'tan çok uzak.</li>
+    <li data-why="Nötr, tüm dereceler için k_nn ≈ 40 verirdi.">Nötr.</li>
+    <li data-why="k_nn(k) yalnızca rastgeleliğe değil, bağlantı düzenine bağlıdır.">Rastgele.</li>
+  </ol>
+  <div class="explain">$k$ büyüdükçe $k_{nn}$ 120'den 8'e düşer: merkez düğümler küçük düğümlerin arasında durur. İnternet'in ve protein ağlarının tipik örüntüsü budur.</div>
+</div>
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="4">
+  <p>Kitap iş birliği ağı için $r = 0.13$, protein ağı için $r = -0.04$ bildiriyor. (Kitap düzeltmesi B13: kitabın Denklem 7.12'den sonraki cümlesi işaretleri yer değiştirir; kural $r &gt; 0$ asortatiftir.) İki değeri de yorumlayın.</p>
+  <ol>
+    <li data-why="Bu, kitabın işaretleri yer değiştirmiş cümlesini kullanır; kitabın kendi örnekleri onunla çelişir.">İş birliği disasortatif, proteinler asortatif.</li>
+    <li data-why="0.13 zayıf ama açıkça pozitiftir.">İkisi de nötr.</li>
+    <li data-why="Pozitif ve negatif r ikisi birden asortatif olamaz.">İkisi de asortatif.</li>
+    <li>İş birliği asortatiftir (üretken bilim insanları birlikte yazar); proteinler zayıf biçimde disasortatiftir (merkez proteinler çoğunlukla küçük eşlere bağlanır).</li>
+  </ol>
+  <div class="explain">$r$'nin işareti türü, büyüklüğü gücü verir. İki değer de mütevazıdır: derece korelasyonları derece dağılımından gelen resmi değiştirmez, inceltir.</div>
+</div>
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="1">
+  <p>Büyük bir BA ağı için $k_{nn}(k)$ neredeyse düzdür. Gerçek sosyal ağlar artan, teknolojik ağlar azalan bir $k_{nn}(k)$ gösterir. Bu BA modeli hakkında ne söyler?</p>
+  <ol>
+    <li>Esasen nötrdür; bu yüzden gerçek ağların korelasyonlarını açıklayamaz; onları üretmek ek kurallar gerektirir.</li>
+    <li data-why="Düz bir eğri nötrdür, ne artar ne azalır.">Güçlü biçimde asortatiftir.</li>
+    <li data-why="BA'da merkez düğümler vardır; düz k_nn yalnızca tercihsiz bağlandıklarını söyler.">Merkez düğümü yoktur.</li>
+    <li data-why="Derece dağılımı ve korelasyonlar ayrı özelliklerdir.">Derece dağılımı yanlıştır.</li>
+  </ol>
+  <div class="explain">Derece dağılımını tutturmak yetmez: aynı dereceler korelasyonlu ya da korelasyonsuz bağlanabilir. Korelasyonları ayarlayan modeller dereceleri koruyarak bağlantıları yeniden bağlar.</div>
+</div>
+<div class="quiz" data-topic="7. Bölüm · Derece korelasyonları" data-answer="3">
+  <p>Asortatif bir ağda merkez düğümler birbirine bağlanır ve bir çekirdek oluşturur. Newman (2002), bu tür ağların yüksek dereceli düğümler silindiğinde dev bileşeni daha kolay koruduğunu buldu. Neden?</p>
+  <ol>
+    <li data-why="Birbirine bağlı merkez düğümlerden oluşan bir çekirdekte bir merkez düğümü silmek diğerlerini bağlı bırakır.">Bir merkez düğümü silmek her zaman komşularını koparır.</li>
+    <li data-why="Asortatiflik aynı dereceler arasındaki bağlantı düzeniyle ilgilidir.">Asortatif ağlarda merkez düğüm yoktur.</li>
+    <li>Merkez düğümler birbirinin yedeğidir: bazılarını silmek çekirdeğin geri kalanını bağlı bırakır; disasortatif bir ağda ise her merkez düğüm kendi küçük düğüm grubunu tutar.</li>
+    <li data-why="Derece korelasyonları sabit derecelerde bile dayanıklılığı değiştirir.">Derece korelasyonları dayanıklılığı etkilemez.</li>
+  </ol>
+  <div class="explain">Korelasyonlar sabit derece dağılımında dayanıklılığı değiştirir: 7. ve 8. Bölümler arasında bir bağ.</div>
+</div>
+
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="2">
+  <p>Molloy–Reed ölçütü: $\kappa = \langle k^2\rangle/\langle k\rangle &gt; 2$ ise bir dev bileşen vardır. Bir ağda $\langle k\rangle = 1.5$ ve $\langle k^2\rangle = 4$. Dev bileşeni var mı?</p>
+  <ol>
+    <li data-why="Test tek başına ⟨k⟩ değildir; κ = 4/1.5 ≈ 2.67.">Hayır, çünkü $\langle k\rangle &lt; 2$.</li>
+    <li>Evet: $\kappa \approx 2.67 &gt; 2$; ortalama düşük olsa bile derecelerin yayılımı düğümlerin geri kalana ulaşmasını sağlar.</li>
+    <li data-why="κ = 2.67, 2'nin üstündedir.">Tam eşikte.</li>
+    <li data-why="Ölçüt yalnızca verilen iki momenti gerektirir.">$N$ olmadan karar verilemez.</li>
+  </ol>
+  <div class="explain">$4/1.5 \approx 2.67$. Bir bağlantı boyunca ulaşılan bir düğümün, ortalamada, devam etmek için birden fazla başka bağlantısı vardır; bu yüzden ağ perkolasyon yapar.</div>
+</div>
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="4">
+  <p>Düğümlerin rastgele bir $f$ oranını silmek dev bileşeni $f_c = 1 - 1/(\kappa - 1)$'de yok eder. Rastgele bir ağ için $\kappa = \langle k\rangle + 1$. $\langle k\rangle = 4$ olan rastgele bir ağı $\kappa \approx 37.9$ olan İnternet örneğiyle karşılaştırın.</p>
+  <ol>
+    <li data-why="Rastgele ağ için κ = 5, f_c = 1 − 1/4 = 0.75 verir.">İkisi de $f_c \approx 0.5$'te dağılır.</li>
+    <li data-why="İnternet'in büyük κ'sı onu bölmeyi kolaylaştırmaz, zorlaştırır.">Önce İnternet dağılır.</li>
+    <li data-why="f_c rastgele silme için tanımlıdır; κ'ya bağlıdır.">İkisi de aynı noktada dağılır.</li>
+    <li>Rastgele ağ düğümlerin yaklaşık %75'i silindikten sonra dağılır; İnternet ancak yaklaşık %97'den sonra.</li>
+  </ol>
+  <div class="explain">Rastgele: $1 - 1/4 = 0.75$. İnternet: $1 - 1/36.9 \approx 0.973$. Dereceler ne kadar genişse $\kappa$ o kadar büyüktür ve ağ o kadar çok rastgele bozulmaya dayanır.</div>
+</div>
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="1">
+  <p>İki ağın $\langle k\rangle = 4$ değeri aynı: biri rastgele ($\sigma_k = 2$), biri ağır kuyruklu ($\sigma_k = 10$). $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2$ ve $f_c = 1 - 1/(\kappa - 1)$ ile, düğümlerinin %80'inin rastgele silinmesine hangisi dayanır?</p>
+  <ol>
+    <li>Yalnızca ağır kuyruklu olan: onun $f_c$'si $\approx 0.96$, rastgele olan ise 0.75'te dağılır.</li>
+    <li data-why="⟨k⟩ aynıyken κ'sı daha küçük olan (κ = 5) rastgele ağdır ve 0.75'te dağılır.">Yalnızca rastgele olan.</li>
+    <li data-why="%80, rastgele ağın f_c = 0.75 değerini aşar.">İkisi de dayanır.</li>
+    <li data-why="%80, ağır kuyruklu ağın f_c ≈ 0.96 değerinin altındadır.">Hiçbiri dayanamaz.</li>
+  </ol>
+  <div class="explain">Rastgele: $\langle k^2\rangle = 20$, $\kappa = 5$, $f_c = 0.75$. Ağır kuyruklu: $\langle k^2\rangle = 116$, $\kappa = 29$, $f_c = 1 - 1/28 \approx 0.964$. Rastgele bozulmalar çoğunlukla küçük düğümlere denk gelir; ağı merkez düğümler bir arada tutar.</div>
+</div>
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="3">
+  <p>Aynı formül ABD elektrik şebekesi ($\langle k\rangle = 2.67$, $\langle k^2\rangle = 10.3$) için $f_c \approx 0.65$ verir. Gerçek şebeke üzerindeki benzetimlerde rastgele bozulmalar onu yaklaşık %30–40 silmede böler. Fark neden?</p>
+  <ol>
+    <li data-why="κ = 10.3/2.67 ≈ 3.86; yani f_c ≈ 0.65 doğru hesaplanmıştır.">Hesap yanlıştır.</li>
+    <li data-why="Şebekenin dereceleri dardır; büyük merkez düğümü yoktur.">Önce şebekenin merkez düğümleri bozuluyor.</li>
+    <li>Formül, bağlantıların dışında her şeyin rastgele olduğunu varsayar; şebeke kafes benzeri ve uzun zincirlidir, bu yüzden aynı derecelere sahip rastgele bir ağdan daha önce dağılır.</li>
+    <li data-why="Şebeke herhangi bir silmeden önce tamamen bağlıdır.">Şebeke baştan bağlı değildi.</li>
+  </ol>
+  <div class="explain">$\kappa = 10.3/2.67 \approx 3.86$, $f_c = 1 - 1/2.86 \approx 0.65$ verir. Molloy–Reed yalnızca dereceleri kullanır. Onun yok saydığı geometri ve uzun zincirler gerçek altyapıyı daha kırılgan yapar.</div>
+</div>
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="2">
+  <p>$2 &lt; \gamma &lt; 3$ olan ölçekten bağımsız bir ağın ikinci momenti $\langle k^2\rangle$, $N$ ile büyümeye devam eder. Ağ $10^3$'ten $10^6$ düğüme büyüdükçe rastgele bozulma eşiği $f_c = 1 - 1/(\kappa - 1)$'e ne olur?</p>
+  <ol>
+    <li data-why="κ, N ile büyür; bu yüzden f_c düşmez, yükselir.">Düşer: büyük ağlar daha kırılgandır.</li>
+    <li>1'e yaklaşır: büyük bir ağ limitinde onu bölmek için düğümlerin neredeyse tamamı rastgele silinmelidir.</li>
+    <li data-why="f_c, N ile değişen κ'ya bağlıdır.">Aynı kalır.</li>
+    <li data-why="f_c yalnızca 0 ile 1 arasında olabilir.">1'i aşar.</li>
+  </ol>
+  <div class="explain">Büyüyen $\langle k^2\rangle$, büyüyen $\kappa$ demektir; yani $1/(\kappa - 1) \to 0$. Ölçekten bağımsız ağların rastgele bozulmalara karşı dayanıklılığı budur.</div>
+</div>
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="4">
+  <p>Hedefli bir saldırı düğümleri azalan derece sırasıyla siler. %90 rastgele bozulmaya dayanan ölçekten bağımsız bir ağ, merkez düğümlerinin yüzde birkaçı silindikten sonra dağılır. Sınırlı bir bütçeyle ölçekten bağımsız bir iletişim ağını korumanız gerekiyor. Neyi korursunuz?</p>
+  <ol>
+    <li data-why="Rastgele düğümler çoğunlukla küçüktür ve pek önemli değildir.">Rastgele bir düğüm örneklemini.</li>
+    <li data-why="Rastgele bozulmaların vurduğu, çok sayıdaki küçük düğümdür ve ağ buna zaten dayanır.">En az bağlantısı olan düğümleri.</li>
+    <li data-why="Ağı bölen tam olarak merkez düğümleri silmektir; başka yere bağlantı eklemek bunu durdurmaz.">Daha çok küçük düğüm eklemek.</li>
+    <li>Merkez düğümleri: ağı onlar bir arada tutar ve onları kaybetmek ağı parçalar.</li>
+  </ol>
+  <div class="explain">Ölçekten bağımsız ağları rastgele bozulmaya karşı dayanıklı yapan aynı merkez düğümler onları saldırıya karşı kırılgan yapar: dayanıklı ama kırılgan.</div>
+</div>
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="1">
+  <p>Bir ağın rastgele bozulmalara karşı $f_c$'si 0.95, yine de tek bir arıza ağın üçte birinde bir kesintiyi tetikliyor. İkisi birden nasıl doğru olabilir?</p>
+  <ol>
+    <li>$f_c$ bağımsız silmeler varsayar; kademeli bir çöküşte her arıza komşuları aşırı yükler, bu yüzden arızalar birbirine bağlıdır ve bağlantılar boyunca yayılır.</li>
+    <li data-why="f_c bağlantı düzeninin bir özelliğidir ve aynı anda kaç arıza olduğuna bağlı değildir.">$f_c$ yanlış hesaplanmıştır.</li>
+    <li data-why="Tek bir arıza %95'in çok altındadır; açıklama eşik değildir.">Tek bir arıza $f_c$'yi aşar.</li>
+    <li data-why="Kademeler, dayanıklı olsun olmasın birçok ağda olur.">Kademeler yalnızca rastgele ağlarda olur.</li>
+  </ol>
+  <div class="explain">Perkolasyon durağan, bağımsız hasarı betimler. Kademeler ağ üzerindeki dinamiklerdir: yükler, kapasiteler ve yeniden dağıtım; kendi modellerine ihtiyaç duyarlar.</div>
+</div>
+<div class="quiz" data-topic="8. Bölüm · Dayanıklılık" data-answer="3">
+  <p>$\kappa = \langle k^2\rangle/\langle k\rangle$ olan bir ağdan düğümlerin rastgele bir $f$ oranını silmek perkolasyona benzer. İki havayolu ağının havalimanı ve rota sayıları aynı. A'da üç merkez havalimanının her biri havalimanlarının %40'ına hizmet ediyor; B'de rotalar eşit dağılmış. Hangi aksama hangi ağa en çok zarar verir?</p>
+  <ol>
+    <li data-why="Rastgele kapanışlar çoğunlukla A'nın iyi dayandığı küçük havalimanlarına denk gelir.">Rastgele kapanışlar en çok A'ya zarar verir.</li>
+    <li data-why="B'de hedef alınacak merkez düğüm yoktur; bu yüzden ona saldırılar rastgele bozulmalar gibidir.">En yoğun üç havalimanını kapatmak en çok B'ye zarar verir.</li>
+    <li>Üç merkez düğümü kapatmak A'yı mahveder; rastgele kapanışlar A'yı neredeyse hiç etkilemez ama B'ye daha çok zarar verir.</li>
+    <li data-why="N ve L aynı, ama farklı derece yayılımları farklı κ'lar ve farklı zayıflıklar verir.">Rota sayıları aynı olduğu için ikisi de aynı tepkiyi verir.</li>
+  </ol>
+  <div class="explain">A'nın $\kappa$'sı büyüktür (rastgele bozulmalara karşı yüksek $f_c$) ama üç düğüme bağımlıdır. B'nin $\kappa$'sı daha küçüktür ama tek bir arıza noktası yoktur.</div>
+</div>
+
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="2">
+  <p>Bağlantı tahmininde bazı bağlantıları gizler ve bağlı olmayan tüm çiftleri puanlarsınız. AUC, gizlenmiş (gerçek) bir bağlantının rastgele bir bağlantısız çiftten yüksek puan alma olasılığıdır. Bir yöntem elektrik şebekesinde AUC = 0.5 alıyor. Bu ne anlama gelir?</p>
+  <ol>
+    <li data-why="0.5'lik AUC, rastgele tahminin verdiği değerdir.">Eksik bağlantıların yarısını doğru tahmin eder; bu iyidir.</li>
+    <li>Bu ağda tahmin etmekten daha iyi değildir.</li>
+    <li data-why="0.5'in altındaki bir AUC rastgeleden kötü olurdu; 0.5 tam olarak rastgeledir.">Rastgele tahminden kötüdür.</li>
+    <li data-why="AUC kaç bağlantının gizlendiğine bağlı değildir.">Kaç bağlantının gizlendiğine bağlıdır.</li>
+  </ol>
+  <div class="explain">AUC 1 kusursuz bir sıralama, 0.5 rastgele bir sıralamadır. Her zaman ortak komşular gibi basit taban çizgileriyle karşılaştırın.</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="4">
+  <p>Bir çiftin ortak komşu puanı $s_{ij} = |N(i) \cap N(j)|$, paylaştıkları komşu sayısıdır. İş birliği ağında gizlenmiş bağlantıları iyi tahmin eder (AUC yaklaşık 0.96), protein ağında ise kötü (yaklaşık 0.56). Neden?</p>
+  <ol>
+    <li data-why="Protein ağı çok küçük değildir; binlerce bağlantısı vardır.">Protein ağı çok küçüktür.</li>
+    <li data-why="İki ağda da merkez düğümler vardır; fark üçgenlerdedir.">Proteinlerin merkez düğümü yoktur.</li>
+    <li data-why="AUC farklı boyutlardaki ağlar arasında karşılaştırılabilir.">İki AUC değeri karşılaştırılamaz.</li>
+    <li>İş birliği üçgenlerle doludur (bir kişinin iki ortak yazarı çoğu zaman birlikte de yazar); protein ağlarında az üçgen vardır, bu yüzden ortak komşular pek bir şey söylemez.</li>
+  </ol>
+  <div class="explain">Bir bağlantı tahmini puanı, ağın yapısı varsayımına uyduğunda işe yarar. Proteinler için ortak komşular yerine 3 uzunluklu yollar daha iyi çalışır (Kovács ve ark. 2019).</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="1">
+  <p>Jaccard puanı $J_{ij} = |N(i) \cap N(j)| / |N(i) \cup N(j)|$, ortak komşuları normalleştirir. $i$ düğümünün komşuları {a, b, c}, $j$ düğümününkiler {b, c, d, e, f}. $J_{ij}$ nedir ve neden normalleştiririz?</p>
+  <ol>
+    <li>$J = 2/6 \approx 0.33$; normalleştirmeden merkez düğümler, yalnızca çok komşuları olduğu için herkesle çok komşu paylaşırdı.</li>
+    <li data-why="Kesişim {b, c} 2 öğe, birleşim {a…f} 6 öğedir.">$J = 2/8 = 0.25$.</li>
+    <li data-why="2, birleşime bölmeden önceki ham ortak komşu sayısıdır.">$J = 2$.</li>
+    <li data-why="2/3 yalnızca i'nin derecesine böler.">$J = 2/3$.</li>
+  </ol>
+  <div class="explain">Kesişim {b, c}, birleşim {a, b, c, d, e, f}. Birleşime göre normalleştirmek, yüksek dereceli düğümlerin aksi hâlde sahip olacağı avantajı kaldırır.</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="3">
+  <p>Spektral gömme, Laplace matrisi $L = D - A$'nın özvektörlerini kullanır. Fiedler vektörünün (ikinci özvektör) işaretleri ağı ikiye böler. Altı düğüm için vektör $(-0.5, -0.4, -0.1, 0.2, 0.4, 0.4)$. Hangi bölmeyi önerir ve hangi düğümler sınırdadır?</p>
+  <ol>
+    <li data-why="Bölme işaretleri izler; bu yüzden 3 numaralı düğüm (−0.1) negatif taraftadır.">{1, 2} ve {3, 4, 5, 6}; sınırda düğüm yok.</li>
+    <li data-why="Fiedler vektörü yalnızca büyüklüğe göre değil, işarete göre böler.">{1, 6} ve geri kalanlar.</li>
+    <li>{1, 2, 3} ve {4, 5, 6}; sıfıra en yakın olan 3 ve 4 numaralı düğümler gruplar arasındaki sınırın yakınında durur.</li>
+    <li data-why="Öğelerin işaretleri farklıdır; yani vektör ağı böler.">Bölme yok: tüm değerler küçük.</li>
+  </ol>
+  <div class="explain">İşaret tarafı, büyüklük bir düğümün ne kadar sağlam ait olduğunu verir. Sıfıra yakın düğümler iki grup arasında köprüdür.</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="2">
+  <p>DeepWalk kısa rastgele yürüyüşler çalıştırır ve her yürüyüşü bir cümle gibi ele alır; sonra yürüyüşlerde birbirine yakın görülen düğümler benzer vektörler alsın diye word2vec'i eğitir. İki düğüm hiç doğrudan bağlı değil ama yürüyüşlerde sık sık birbirine iki adım içinde görülüyor. Gömmeleri nasıl olur?</p>
+  <ol>
+    <li data-why="DeepWalk yalnızca doğrudan bağlantıları değil, yürüyüşlerde birlikte görülmeyi kullanır.">Bağlı olmadıkları için çok farklı.</li>
+    <li>Benzer: bir komşuluğu paylaşırlar ve yürüyüşlerin yakaladığı da budur.</li>
+    <li data-why="Yürüyüşler rastgeledir, ama gömme birçok yürüyüşten öğrenir ve rastgele değildir.">Yürüyüşler rastgele olduğu için rastgele.</li>
+    <li data-why="Gömmeler yalnızca dereceden değil, yürüyüşlerden öğrenilir.">Aynı dereceli her düğümle özdeş.</li>
+  </ol>
+  <div class="explain">Rastgele yürüyüş gömmeleri “kim kimin yakınında görülüyor” bilgisini kodlar; bu yüzden aynı bölgedeki ya da topluluktaki düğümler vektör uzayında yakın düşer.</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="4">
+  <p>node2vec yürüyüşlerini bir $q$ parametresiyle yönlendirir: $q &lt; 1$ yürüyüşleri dışarı doğru ilerletir (derinlik öncelikliye benzer) ve aynı topluluğun düğümlerini gruplar; $q &gt; 1$ yürüyüşleri yerel tutar (genişlik öncelikliye benzer) ve benzer yapısal rolleri olan düğümleri gruplar. Bir ağın farklı yerlerinde köprü görevi gören düğümleri bulmak istiyorsunuz. Hangisini seçersiniz?</p>
+  <ol>
+    <li data-why="Dışarı ilerleyen yürüyüşler düğümleri role göre değil, topluluğa göre gruplar.">Uzağı keşfetmek için $q &lt; 1$.</li>
+    <li data-why="q = 1 yapısal rolleri kayırmaz.">Yönlendirilmemiş yürüyüş, $q = 1$.</li>
+    <li data-why="q, gömmenin neyi yakaladığını değiştirir.">Fark etmez.</li>
+    <li>$q &gt; 1$: yerel, genişlik öncelikliye benzer yürüyüşler her düğümün komşuluğundaki rolünü yakalar; böylece farklı yerlerdeki köprüler birbirine benzer görünür.</li>
+  </ol>
+  <div class="explain">Yürüyüş stratejisi “benzer”in ne anlama geldiğine karar verir: aynı topluluk (homofili) ya da aynı rol (yapısal eşdeğerlik).</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="1">
+  <p>Bir çizge sinir ağı katmanı her düğümü komşularından günceller: $h_i^{(l+1)} = \sigma\big(W \cdot \text{mean}_{j \in N(i)\cup\{i\}}\, h_j^{(l)}\big)$. İki katmandan sonra hangi düğümler $i$ düğümünün vektörünü etkileyebilir?</p>
+  <ol>
+    <li>$i$'den 2 uzaklığa kadarki düğümler.</li>
+    <li data-why="Her katman bir adım ekler; yani iki katman iki adıma ulaşır.">Yalnızca doğrudan komşuları.</li>
+    <li data-why="Bilgi bir anda her düğüme değil, katman başına bir adım ilerler.">Ağdaki her düğüm.</li>
+    <li data-why="Ortalama i'nin kendisini de içerir, ama komşularını ve onların komşularını da.">Yalnızca $i$ düğümünün kendisi.</li>
+  </ol>
+  <div class="explain">Her katman mesajları bir adım taşır. Katman sayısı bir GNN'nin ne kadar uzağı görebileceğini belirler; çok fazla katman tüm vektörleri birbirine benzetir (aşırı düzleşme).</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="3">
+  <p>Bağlantı tahminini sınamak için bağlantıların %10'unu gizliyorsunuz, ama düğüm gömmelerini tam ağ üzerinde hesaplıyor ve ancak ondan sonra gizlenmiş çiftleri puanlıyorsunuz. Yanlış olan nedir?</p>
+  <ol>
+    <li data-why="%10 standart bir test büyüklüğüdür; sorun başka yerde.">Gizlemek için %10 çok az bağlantıdır.</li>
+    <li data-why="Burada her gömme yöntemi aynı sorunu yaşar.">Gömme yöntemi yanlış yöntemdir.</li>
+    <li>Bilgi sızar: gömmeler gizlenmiş bağlantılar varken eğitildi; bu yüzden test puanı fazla iyimserdir.</li>
+    <li data-why="Sorun ağda değil, yöntemdedir.">Hiçbir şey; standart yöntem budur.</li>
+  </ol>
+  <div class="explain">Yalnızca görünen bağlantılar üzerinde eğitin. Test kümesi öğrenilen her şeyden gizli olmalıdır; yoksa bildirilen doğruluk bir öngörü değildir.</div>
+</div>
+<div class="quiz" data-topic="Çizge ML · düğüm gömmeleri" data-answer="2">
+  <p>Standart makine öğrenmesi modelleri (lojistik regresyon, rastgele ormanlar) öğe başına sabit uzunlukta bir sayı vektörü alır. Düğüm gömmeleri neyi ekler?</p>
+  <ol>
+    <li data-why="Gömmeler ağı değiştirmez; onu betimler.">Ağı küçültürler.</li>
+    <li>Her düğümün ağdaki konumunu sabit uzunlukta bir vektöre çevirirler; böylece standart modeller düğümleri sınıflandırabilir ya da bağlantıları tahmin edebilir.</li>
+    <li data-why="Gömmeler yapıyı kullanır; veri ihtiyacını ortadan kaldırmaz.">Herhangi bir ağ verisine olan ihtiyacı ortadan kaldırırlar.</li>
+    <li data-why="Derece tek bir sayıdır; gömmeler dereceden çok daha fazlasını yakalar.">Yalnızca düğüm dereceleridir.</li>
+  </ol>
+  <div class="explain">Gömmeler ağ biliminden makine öğrenmesine köprüdür: içeri yapı, dışarı vektörler.</div>
+</div>
+</template>
+
+</div></body></html>
