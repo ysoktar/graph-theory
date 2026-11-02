@@ -1,0 +1,39 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Ağ laboratuvarı · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bir ağ üretin, yükleyin ya da yapıştırın ve her şeyi ölçün: dereceler, bileşenler, uzaklıklar, kümelenme, korelasyonlar, kuvvet yasası uydurması ve merkezilikler."></head><body>
+<div class="content wide">
+<h1>Ağ laboratuvarı</h1>
+<p class="lead">Bir ağ kurun ya da yükleyin ve bu sitedeki her araçla ölçün. Hiçbir şey yüklenmez; yapıştırılan veri tarayıcınızda kalır.</p>
+<div class="callout why">
+  <ul>
+    <li>Her model birkaç ölçüyü öngörür; burada bu öngörüleri yan yana sınarsınız.</li>
+    <li>Modelin neyi açıkladığını görmek için bir ağı aynı $N$ ve $\langle k\rangle$'ya sahip bir modelle karşılaştırın.</li>
+  </ul>
+</div>
+<div data-fig id="fig-source"></div>
+<div data-fig id="fig-analysis"></div>
+<h2>Ölçüler size ne söyler</h2>
+<dl class="symbols">
+  <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>yoğunluk ve heterojenlik: büyük bir $\langle k^2\rangle$ merkez düğümler demektir (<a href="ch4-moments.html">4. Bölüm</a>)</dd>
+  <dt>$k_{\max}$</dt><dd>en büyük merkez düğüm, Poisson'a ya da doğal kesmeye karşı (<a href="ch4-hubs.html">4. Bölüm</a>)</dd>
+  <dt>en büyük bileşen</dt><dd>birbirine ulaşabilen düğümlerin payı (<a href="ch3-evolution.html">3. Bölüm</a>)</dd>
+  <dt>$\langle d\rangle$, çap</dt><dd>tipik ve en uzun en kısa yol (<a href="ch3-small-world.html">küçük dünya</a>)</dd>
+  <dt>$\langle C\rangle$, $C_\Delta$</dt><dd>yerel ve küresel üçgen yoğunluğu, rastgele $\langle k\rangle/N$'ye karşı (<a href="ch2-clustering.html">2. Bölüm</a>)</dd>
+  <dt>$r$</dt><dd>bağlı düğümlerin derece korelasyonu (<a href="correlations.html">7. Bölüm</a>)</dd>
+  <dt>kuvvet yasası uydurması</dt><dd>en çok olabilirlik $\hat\gamma$ ve $k_{\min}$ (<a href="ch4-fitting.html">4. Bölüm</a>)</dd>
+  <dt>$P(K \ge k)$, $C(k)$, $k_{nn}(k)$</dt><dd>kuyruk biçimi; hiyerarşi (azalan $C(k)$); asortatiflik</dd>
+  <dt>arasındalık</dt><dd>bir düğümden geçen en kısa yolların payı</dd>
+  <dt>yakınlık</dt><dd>diğer tüm düğümlere ortalama uzaklığın tersi</dd>
+  <dt>özvektör, PageRank</dt><dd>önemli komşulardan gelen önem</dd>
+  <dt>k-çekirdek</dt><dd>$k$'den az bağlantısı olan düğümler tekrar tekrar silindiğinde düğümün ayakta kaldığı en büyük $k$</dd>
+</dl>
+<div class="callout try">
+  <ul>
+    <li>BA ve rastgele ağ, aynı $N$ ve $\langle k\rangle$: $k_{\max}$, $\langle k^2\rangle$ ve $\langle d\rangle$'yi karşılaştırın (<a href="ch5-preview.html">BA</a>).</li>
+    <li>$p = 0$, $0.01$, $1$'de Watts–Strogatz: $\langle d\rangle$, $\langle C\rangle$'den çok önce düşer.</li>
+    <li>Holme–Kim, üçgen olasılığı 0 → 1: $\langle C\rangle$ ne kadar yükselir?</li>
+    <li>Konfigürasyon modeli, $\gamma = 2.1$: uydurma 2.1'i geri verir mi? $r$ negatif mi (yapısal kesme, <a href="correlations.html">7. Bölüm</a>)?</li>
+    <li>Rastgele geometrik: elektrik şebekesi gibi yüksek $C$ ve uzun $\langle d\rangle$.</li>
+    <li>Floransalı aileler: arasındalığı en yüksek olan kim? (Padgett ve Ansell: Mediciler.)</li>
+  </ul>
+</div>
+</div></body></html>
