@@ -155,7 +155,7 @@
 <p><strong>Bose–Einstein condensation.</strong> Map fitness to energy, $\varepsilon_i = -\frac{1}{\beta_T}\ln\eta_i$ (fitter = lower energy), and each link end to a particle. Two phases, decided only by $\rho(\eta)$:</p>
 <ul>
   <li><em>Fit-get-rich</em> (scale-free): the fittest node becomes the largest hub, closely followed by others.</li>
-  <li><em>Winner-takes-all</em> (condensate): the fittest node keeps a finite share of all links; hub-and-spoke, not scale-free.</li>
+  <li><em>Winner-takes-all</em> (condensate): happens when $I = \int \frac{\eta\rho(\eta)}{1-\eta}d\eta &lt; 1$ (with $\eta_{\max} = 1$); the fittest nodes keep a finite share $1 - I$ of all links; hub-and-spoke, not scale-free. Example: $\rho = (1+\zeta)(1-\eta)^\zeta$ gives $I = 1/\zeta$, so condensation iff $\zeta &gt; 1$. (The book says one node keeps the share; later work proved it passes to ever fitter latecomers: <a href="evolving.html">Evolving networks</a>.)</li>
 </ul>
 <p><strong>Other elementary processes</strong> (Section 6.5; each extends BA):</p>
 <table class="simple">
@@ -227,7 +227,7 @@
   <div class="hint" data-label="Show solution">
     <ol>
       <li>X: fit-get-rich phase. Fitness decides the order of hubs but no node dominates; scale-free.</li>
-      <li>Y: Bose–Einstein condensate. The fittest node keeps a finite share: winner-takes-all, hub-and-spoke.</li>
+      <li>Y: Bose–Einstein condensate. In the book's picture the fittest node keeps a finite share: winner-takes-all, hub-and-spoke.</li>
       <li>Which phase occurs depends only on $\rho(\eta)$, not on the "temperature" $\beta_T$, which drops out.</li>
     </ol>
   </div>
@@ -239,7 +239,7 @@
   <li>"Fitness makes everything scale-free with $\gamma = 1 + C$": that is for uniform $\rho$ only, with a $1/\ln k$ correction.</li>
   <li>Expecting every extension to lower $\gamma$: most random ingredients raise it.</li>
 </ul>
-<p class="small">Pages: <a href="evolving.html">Evolving networks: fitness</a>, <a href="ch5-preview.html">BA model</a>, <a href="ch4-universality.html">Universality</a>.</p>
+<p class="small">Pages: <a href="evolving.html">Evolving networks</a>, <a href="ch5-preview.html">BA model</a>, <a href="ch4-universality.html">Universality</a>.</p>
 </section>
 
 <!-- ============================== CH 7 ============================== -->

@@ -80,7 +80,7 @@ export const NAV = [
   { part: "Part IV · Where hubs come from", short: "Ch 5–6", items: [
     { id: "ch5-preview", title: "The Barabási–Albert model", book: "Ch 5", desc: "Growth + preferential attachment gives γ = 3.", needs: ["ch4-power-laws", "ch4-hubs"],
       next: "In the BA model the oldest node always wins and γ is always 3. Real networks disagree: what is missing?" },
-    { id: "evolving", title: "Evolving networks: fitness", book: "Ch 6", desc: "Latecomers can win: the Bianconi–Barabási model.", needs: ["ch5-preview"],
+    { id: "evolving", title: "Evolving networks", book: "Ch 6", desc: "Latecomers can win: fitness, condensation, and the processes that set γ.", needs: ["ch5-preview"],
       next: "We know where hubs come from. Next question: whom do they link to?" },
   ] },
   { part: "Part V · What the wiring does", short: "Ch 7–8", items: [

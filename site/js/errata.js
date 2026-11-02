@@ -316,6 +316,22 @@ export const BOOK = [
     correction: "Treat (8.9) and (8.12) as continuum estimates that trend correctly with γ. For integer degrees use f_c = 1 − 1/(κ − 1) with κ computed from the discrete p_k; it agrees with simulation.",
     evidence: "Exact generating-function solution and simulations on the Robustness page (Thresholds against the degree exponent).",
     page: "robustness.html",
+    },
+  {
+    id: "B17", severity: "imprecise", location: "Chapter 6, Section 6.4 (Bose–Einstein condensation)",
+    quote: "In a network Bose-Einstein condensation means that the fittest node grabs a finite fraction of the links, turning into a super-hub.",
+    issue: "This follows the original physics paper (Bianconi and Barabási 2001), but it was later proved false for the preferential attachment tree with fitness: the condensation is non-extensive. The condensed share of links is spread over a succession of ever fitter latecomers, each eventually overtaken, so the largest node's share tends to zero. Simulations agree: with ρ(η) = 11(1 − η)^10, where the condensate should hold 90% of new links, the largest hub of a 10⁶-node network holds about 7% and the 100 fittest nodes together hold almost none.",
+    correction: "In the condensed phase (∫ η ρ(η)/(1 − η) dη < 1) a finite fraction of new links goes to nodes of fitness ever closer to the maximum, but no single node keeps a finite fraction.",
+    evidence: "S. Dereich, C. Mailler and P. Mörters, “Nonextensive condensation in reinforced branching processes”, Ann. Appl. Probab. 27, 2539 (2017), arXiv:1601.08128; simulations on the Evolving networks page.",
+    page: "evolving.html",
+  },
+  {
+    id: "B18", severity: "error", location: "Chapter 6, Section 6.3, Eq. (6.12) (aging of a paper's novelty)",
+    quote: "P_i(t) = 1/√(2π t σ_i) · e^(−(ln t − μ_i)²/(2σ_i²))   (6.12)",
+    issue: "The normalisation of the log-normal density is misprinted: t and σ_i must stand outside the square root. As printed, the density does not integrate to 1, and the factor would change the solution (6.13), which is derived from the correct log-normal.",
+    correction: "P_i(t) = 1/(√(2π) σ_i t) · e^(−(ln t − μ_i)²/(2σ_i²)).",
+    evidence: "LaTeX source of the online Chapter 6: \\frac{1}{{\\sqrt {2\\pi t\\sigma _i } }}; D. Wang, C. Song and A.-L. Barabási, “Quantifying long-term scientific impact”, Science 342, 127 (2013).",
+    page: "evolving.html",
   },
 ];
 
