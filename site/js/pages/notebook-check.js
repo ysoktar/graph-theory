@@ -1,6 +1,12 @@
 import { REPO } from "../layout.js";
 import { h, $, segmented, renderMath, dataTable } from "../lib/ui.js";
 import { ERRATA, BOOK, SOFTWARE, VERIFIED, SEVERITY } from "../errata.js";
+import { t as tl, LANG } from "../i18n.js";
+
+// the checks that passed are plain sentences; the Turkish edition keeps its own list, in the same order
+const verified = LANG === "tr"
+  ? await fetch(new URL("../../i18n/tr/verified.json", import.meta.url)).then((r) => (r.ok ? r.json() : VERIFIED)).catch(() => VERIFIED)
+  : VERIFIED;
 
 $("#md-link").href = `${REPO}/blob/main/notebook/ERRATA.md`;
 
@@ -13,7 +19,7 @@ function render() {
   host.replaceChildren();
   for (const e of ERRATA) {
     if (filter !== "all" && e.severity !== filter) continue;
-    const loc = `cell ${e.cell}${e.run ? ` · code, In [${e.run}]` : ""}`;
+    const loc = `${tl("cell")} ${e.cell}${e.run ? ` · ${tl("code")}, In [${e.run}]` : ""}`;
     const card = h("div", { class: "callout fix errata-entry", id: e.id },
       h("div", { class: "callout-label" }, h("span", { class: "sev " + e.severity }, SEVERITY[e.severity].label), h("span", {}, `${e.id} · ${loc} · ${e.section}`)),
       h("div", { class: "fix-quote" }, ...e.quote.split("\n").flatMap((l, i) => (i ? [h("br"), l] : [l]))),
@@ -31,7 +37,7 @@ segmented($("#filters"), {
   onChange: (v) => { filter = v; render(); },
 });
 render();
-$("#verified").append(...VERIFIED.map((v) => h("li", {}, v)));
+$("#verified").append(...verified.map((v) => h("li", {}, v)));
 for (const [hostId, list] of [["#book", BOOK], ["#software", SOFTWARE]]) for (const e of list) {
   $(hostId).append(h("div", { class: "callout fix errata-entry", id: e.id },
     h("div", { class: "callout-label" }, h("span", { class: "sev " + e.severity }, SEVERITY[e.severity].label), h("span", {}, `${e.id} · ${e.location}`)),
