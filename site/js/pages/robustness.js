@@ -6,6 +6,7 @@ import { RNG } from "../lib/rng.js";
 import { gnp, gnmPairs, CSRGraph, powerlawSequence, configurationGraph, giantComponent, components, removalCurve, subgraph } from "../lib/graph.js";
 import { fmt } from "../lib/stats.js";
 import { loadNetworks, loadRealGraph, WITH_EDGES } from "../lib/data.js";
+import { t as tl, LANG } from "../i18n.js";
 
 const randomOrder = (n, rng) => { const o = Int32Array.from({ length: n }, (_, i) => i); rng.shuffle(o); return o; };
 const degreeOrder = (g) => { const d = g.degrees(); return Int32Array.from({ length: g.n }, (_, i) => i).sort((a, b) => d[b] - d[a]); };
@@ -55,7 +56,7 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
       s.giant = c.giant;
       const share = c.giantSize / s.g.n;
       t.set(key, fmt.pct(share, 0), `of the original ${s.g.n} nodes`);
-      s.title.textContent = `${key === "er" ? "Random network" : "Scale-free network, γ = 2.3"}: ${s.g.n} nodes, ⟨k⟩ = ${((2 * s.g.m) / s.g.n).toFixed(2)}`;
+      s.title.textContent = `${tl(key === "er" ? "Random network" : "Scale-free network, γ = 2.3")}: ${s.g.n} ${tl("nodes")}, ⟨k⟩ = ${((2 * s.g.m) / s.g.n).toFixed(2)}`;
       s.view.redraw();
     }
   }
@@ -78,7 +79,7 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
   const halfAt = (arr, n) => { for (let i = 0; i <= n; i++) if (arr[i] <= arr[0] / 2) return i / n; return 1; };
   async function draw() {
     const d = networks[name];
-    status.textContent = `Loading ${d.description}…`;
+    status.textContent = LANG === "tr" ? `${tl(d.description)} yükleniyor…` : `Loading ${d.description}…`;
     const g = await loadRealGraph(name);
     const rng = new RNG(1);
     const er = CSRGraph.fromPairs(d.N, gnmPairs(d.N, d.L, rng));
@@ -89,8 +90,8 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
     t.set("half", fmt.pct(halfAt(cur.rr, g.n), 1)); t.set("att", fmt.pct(halfAt(cur.ra, g.n), 1), `random network: ${fmt.pct(halfAt(cur.ea, er.n), 1)}`);
     plot.update({
       series: [
-        { type: "line", data: curve(cur.rr, g.n), color: 1, label: `${d.description}: random failures` },
-        { type: "line", data: curve(cur.ra, g.n), color: 2, label: `${d.description}: attack` },
+        { type: "line", data: curve(cur.rr, g.n), color: 1, label: `${tl(d.description)}: ${tl("random failures")}` },
+        { type: "line", data: curve(cur.ra, g.n), color: 2, label: `${tl(d.description)}: ${tl("attack")}` },
         { type: "line", data: curve(cur.er, er.n), color: "random", dashed: true, label: "G(N, L): random failures" },
         { type: "line", data: curve(cur.ea, er.n), color: "random", label: "G(N, L): attack" },
       ],

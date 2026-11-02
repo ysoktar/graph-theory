@@ -1,0 +1,153 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Dayanıklılık ve saldırılar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele bozulmalara karşı hedefli saldırılar: perkolasyon, Molloy–Reed ölçütü, ölçekten bağımsız ağların neden aynı anda hem dayanıklı hem kırılgan olduğu, kitabın ağları üzerinde sınanmış hâliyle."></head><body>
+<div class="content">
+
+<h1>Dayanıklılık ve saldırılar</h1>
+<p class="lead">Bir ağ dağılmadan önce kaç düğüm kaybedebilir? Bu, <em>hangi</em> düğümlerin kaybedildiğine bağlıdır: ölçekten bağımsız ağları kazara bozmak çok zor, bilerek bozmak ise çok kolaydır (8. Bölüm).</p>
+
+<div class="callout why">
+  <ul>
+    <li>Bir ağ ancak düğümleri birbirine ulaşabildiği sürece çalışır; bunu <strong>dev bileşenle</strong> ölçeriz (<a href="ch3-evolution.html">3. Bölüm</a>).</li>
+    <li>Kuram, onu yok etmek için gereken hasarı yalnızca derecelerden öngörür.</li>
+    <li>Mühendislere hangi tasarımların bozulmalara dayandığını ve hangi düğümlerin korunması gerektiğini söyler.</li>
+  </ul>
+</div>
+
+<div data-fig id="fig-break"></div>
+
+<h2>Düğüm silmek perkolasyondur</h2>
+<p>Düğümlerin $f$ oranını silin; bir <strong>kritik oranda</strong> $f_c$ dev bileşen dağılır. Bu eşik geçişi <strong>perkolasyondur</strong>: dev bileşenin doğuşunun tersten oynatılması.</p>
+<ul>
+  <li><strong>Rastgele bozulmalar:</strong> her düğüm eşit olasılıklı.</li>
+  <li><strong>Hedefli saldırılar:</strong> önce en yüksek dereceli düğümler.</li>
+</ul>
+
+<h2>Molloy–Reed ölçütü</h2>
+<p>Bir bağlantı boyunca ulaşılan bir düğüm en az bir <em>başka</em> bağlantı sunmalıdır, yoksa yollar söner. Böyle bir düğümün ortalama derecesi $\langle k^2\rangle/\langle k\rangle$'dır (<a href="correlations.html">arkadaşlık paradoksu</a>); bu yüzden bir dev bileşen için şu gerekir:</p>
+<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 .$$</div>
+<dl class="symbols">
+  <dt>$\kappa$</dt><dd>rastgele bir bağlantı boyunca ulaşılan düğümün ortalama derecesi</dd>
+  <dt>$\langle k\rangle$</dt><dd>ortalama derece</dd>
+  <dt>$\langle k^2\rangle$</dt><dd>derece karesinin ortalaması; merkez düğümler varken büyüktür (<a href="ch4-moments.html">4. Bölüm</a>)</dd>
+  <dt>$2$</dt><dd>bir bağlantı giriş, en az bir bağlantı çıkış</dd>
+</dl>
+<p>Dereceler verildiğinde rastgele bağlantı (konfigürasyon modeli) varsayar.</p>
+<div class="callout fix" data-book="B10"></div>
+
+<h2>Kritik oran</h2>
+<ol data-beyond="Kitabın İleri Konu 8.C'si">
+  <li>Rastgele $f$ oranında düğüm silin: her bağlantı $1 - f$ olasılıkla ayakta kalır.</li>
+  <li>Momentler, $\kappa_f = (1-f)\,\kappa + f$ olacak biçimde küçülür.</li>
+  <li>$\kappa_f = 2$ alın ve çözün:</li>
+</ol>
+<div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}.$$</div>
+<dl class="symbols"><dt>$f_c$</dt><dd>dev bileşeni yok eden rastgele bozulma oranı</dd></dl>
+<ul>
+  <li>Rastgele ağ: $\kappa = \langle k\rangle + 1$; yani $f_c = 1 - 1/\langle k\rangle$.</li>
+  <li>Ölçekten bağımsız, $\gamma &lt; 3$: $\kappa \to \infty$; yani $f_c \to 1$.</li>
+</ul>
+<div class="callout example">
+  <p>İnternet: $\kappa = 240.1/6.34 = 37.9$ → $f_c = 1 - 1/36.9 = \%97.3$. Aynı $\langle k\rangle$'ya sahip rastgele ağ: $\%84.2$.</p>
+</div>
+<div id="tbl-fc"></div>
+
+<h2>Kitabın ağları</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <ul>
+    <li>Rastgele bozulmalar: ağır kuyruklu ağlar, rastgele ağın eşiğinin çok ötesinde bile bir dev bileşen korur.</li>
+    <li>Saldırılar: aynı ağlar yüzde birkaçlık kayıptan sonra çöker.</li>
+    <li>Elektrik şebekesinde merkez düğüm yoktur ve ikisine karşı da kırılgandır.</li>
+  </ul>
+</div>
+
+<div class="callout key">
+  <p><em>Dayanıklı ama kırılgan</em>: rastgele bir bozulma neredeyse hiçbir zaman bir merkez düğüme denk gelmez; bir saldırı ise her şeyi bir arada tutan merkez düğümleri siler.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><a href="ch3-evolution.html">Dev bileşen geçişinin</a> <strong>tersidir</strong>: rastgele bir ağ için $\kappa = 2$, $\langle k\rangle = 1$ demektir.</li>
+    <li>$\gamma &lt; 3$ için <a href="ch4-moments.html">ıraksayan $\langle k^2\rangle$</a> <strong>üzerine kurulur</strong>.</li>
+    <li><a href="epidemics.html">Salgın eşiğiyle</a> <strong>aynı formül</strong>: $T_c = 1 - f_c$.</li>
+    <li><a href="correlations.html">Derece korelasyonları</a> <strong>tarafından değiştirilir</strong>: birbirine bağlı merkez düğümler birbirini yedekler.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Bağlantı ekleyebilirsiniz ama merkez düğümleri silemezsiniz. Bozulmalara karşı kırılgan hâle gelmeden saldırılara nasıl direnirdiniz?</p>
+  <div class="hint">Bölüm 8.7: iki tepeli bir derece dağılımı (birkaç merkez düğüm, birçok eşit düğüm) birleşik eşiği en büyük yapar. Orta dereceli düğümler arasındaki bağlantılar merkez düğümleri atlayan yollar ekler.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Bir rastgele ağda $\langle k\rangle = 4$. Rastgele bozulmaların hangi oranı dev bileşenini yok eder?</p>
+  <ol>
+    <li data-why="Bu, ⟨k⟩ = 3 bırakır.">%25</li>
+    <li data-why="Bu, ⟨k⟩ = 2 bırakır; hâlâ 1'in üstünde.">%50</li>
+    <li>%75</li>
+    <li data-why="⟨k⟩ 1'e ulaştığında dağılır.">%100</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/4 = \%75$; kalanların $\langle k\rangle$'sı 1'dir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Rastgele bağlanmış bir ağda $\langle k\rangle = 5$ ve $\langle k^2\rangle = 255$. Rastgele bozulmaların hangi oranı $f_c$ dev bileşenini yok eder?</p>
+  <ol>
+    <li data-why="Bu, merkez düğümleri yok sayan 1 − 1/⟨k⟩'dır.">%80</li>
+    <li>%98</li>
+    <li data-why="κ = 51 bir yüzde değil, bir orandır.">%51</li>
+    <li data-why="Büyük bir ⟨k²⟩ ağı kırılgan değil, dayanıklı yapar.">%2</li>
+  </ol>
+  <div class="explain">$\kappa = 255/5 = 51$; yani $f_c = 1 - 1/(51 - 1) = \%98$. Merkez düğümler, düğümlerin neredeyse tamamı bozulana kadar ağı bir arada tutar.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Merkez düğümlerin en üst %1'ini silmek neden rastgele %1'den çok daha fazla zarar verir?</p>
+  <ol>
+    <li data-why="İkisi de aynı sayıda düğüm siler.">Daha çok düğüm silinir</li>
+    <li data-why="Merkez düğümler nadirdir; bu yüzden rastgele bozulmalar onları ıskalar.">Merkez düğümler daha sık bozulur</li>
+    <li data-why="Küçük düğümler ⟨k²⟩'ye çok az katkı yapar.">Ağı küçük düğümler bir arada tutar</li>
+    <li>$\langle k^2\rangle$'ye merkez düğümler hâkimdir; bu yüzden $\kappa$ çöker</li>
+  </ol>
+  <div class="explain">Merkez düğümleri silmek $\kappa$'yı yüzde birkaç içinde 2'ye indirir; rastgele silme onu neredeyse hiç değiştirmez.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Elektrik şebekesi ($\kappa = 3.9$), Molloy–Reed'in $f_c = \%65$ değerinden çok önce dağılır. Neden?</p>
+  <ol>
+    <li>Rastgele bağlanmamış, mekânsaldır: uzun zincirler, az sayıda alternatif yol</li>
+    <li data-why="Formül bu boyuttaki rastgele ağlara iyi uyar.">Çok küçüktür</li>
+    <li data-why="Büyük merkez düğümleri yoktur.">Önce merkez düğümleri bozulur</li>
+    <li data-why="⟨k⟩ ve ⟨k²⟩ veriden kesin olarak bilinir.">Dereceler yanlış ölçülmüştür</li>
+  </ol>
+  <div class="explain">Molloy–Reed rastgele bağlantı varsayar. Şebeke uzamıştır ($\langle d\rangle = 18.8$) ve düğümlerinin yaklaşık üçte biri bozulduktan sonra bölünür.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Rastgele bağlanmış bir ağda $\kappa = 3$. Rastgele bozulmalar için kritik oranı $f_c$ nedir?</p>
+  <ol>
+    <li>%50</li>
+    <li data-why="Bu 1 − 1/κ'dır; κ − 1 kullanın.">%67</li>
+    <li data-why="Bu 1/κ'dır.">%33</li>
+    <li data-why="κ &gt; 2; yani bir dev bileşen vardır.">%0</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/(3 - 1) = \%50$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Düğümlerin yarısının derecesi 1, yarısının 2; yani $\langle k\rangle = 1.5$ ve $\langle k^2\rangle = 2.5$. Bu derecelerle rastgele bağlanmış bir ağın dev bileşeni var mıdır?</p>
+  <ol>
+    <li data-why="⟨k⟩ &gt; 1 ölçütü yalnızca Poisson dereceler içindir.">Evet, çünkü $\langle k\rangle > 1$</li>
+    <li data-why="Eşik κ = 2'dir.">Evet, çünkü $\kappa > 1$</li>
+    <li data-why="Molloy–Reed bu iki momentten karar verir.">Söylenemez</li>
+    <li>Hayır: $\kappa = 1.67 &lt; 2$</li>
+  </ol>
+  <div class="explain">Derecesi 3 ya da daha fazla olan düğüm olmadığından yollar hiç dallanmaz: yalnızca zincirler oluşur.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Hedefli bir saldırı altında (önce en büyük derece) hangisi önce dağılır: ölçekten bağımsız bir ağ mı, yoksa aynı $N$ ve $\langle k\rangle$'ya sahip rastgele bir ağ mı?</p>
+  <ol>
+    <li data-why="Ölçekten bağımsız ağlar saldırılara değil, rastgele bozulmalara dayanıklıdır.">Rastgele ağ</li>
+    <li data-why="Derece dağılımları farklıdır; bu yüzden eşikleri de farklıdır.">İkisi aynı noktada</li>
+    <li>Ölçekten bağımsız ağ</li>
+    <li data-why="Yeterince düğüm silmek her ağı böler.">Hiçbiri dağılmaz</li>
+  </ol>
+  <div class="explain">Az sayıdaki merkez düğümü $\langle k^2\rangle$'nin çoğunu taşır; onları silmek $\kappa$'yı çökertir (Bölüm 8.4).</div>
+</div>
+</div></body></html>

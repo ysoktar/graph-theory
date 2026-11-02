@@ -95,7 +95,7 @@
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>Random network, $\langle k\rangle = 4$. What fraction of random failures destroys the giant component?</p>
+  <p>A random network has $\langle k\rangle = 4$. What fraction of random failures destroys its giant component?</p>
   <ol>
     <li data-why="That leaves ⟨k⟩ = 3.">25%</li>
     <li data-why="That leaves ⟨k⟩ = 2, still above 1.">50%</li>
@@ -105,14 +105,14 @@
   <div class="explain">$f_c = 1 - 1/4 = 75\%$; the survivors have $\langle k\rangle = 1$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>$\langle k\rangle = 5$, $\langle k^2\rangle = 255$, random wiring. $f_c$?</p>
+  <p>A randomly wired network has $\langle k\rangle = 5$ and $\langle k^2\rangle = 255$. What fraction $f_c$ of random failures destroys its giant component?</p>
   <ol>
     <li data-why="That is 1 − 1/⟨k⟩, ignoring hubs.">80%</li>
     <li>98%</li>
     <li data-why="κ = 51 is a ratio, not a percentage.">51%</li>
-    <li data-why="Large ⟨k²⟩ means robust.">2%</li>
+    <li data-why="A large ⟨k²⟩ makes the network robust, not fragile.">2%</li>
   </ol>
-  <div class="explain">$\kappa = 51$, $f_c = 1 - 1/50 = 98\%$.</div>
+  <div class="explain">$\kappa = 255/5 = 51$, so $f_c = 1 - 1/(51 - 1) = 98\%$. The hubs keep the network together until almost every node has failed.</div>
 </div>
 <div class="quiz" data-answer="4">
   <p>Why does removing the top 1% of hubs do far more damage than a random 1%?</p>
@@ -136,7 +136,7 @@
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>Randomly wired network, $\kappa = 3$. $f_c$?</p>
+  <p>A randomly wired network has $\kappa = 3$. What is its critical fraction $f_c$ for random failures?</p>
   <ol>
     <li>50%</li>
     <li data-why="That is 1 − 1/κ; use κ − 1.">67%</li>
@@ -146,7 +146,7 @@
   <div class="explain">$f_c = 1 - 1/(3 - 1) = 50\%$.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>Half the nodes have degree 1, half degree 2: $\langle k\rangle = 1.5$, $\langle k^2\rangle = 2.5$. Giant component?</p>
+  <p>Half the nodes have degree 1 and half have degree 2, so $\langle k\rangle = 1.5$ and $\langle k^2\rangle = 2.5$. Does a randomly wired network with these degrees have a giant component?</p>
   <ol>
     <li data-why="⟨k⟩ &gt; 1 is the criterion for Poisson degrees only.">Yes, since $\langle k\rangle > 1$</li>
     <li data-why="The threshold is κ = 2.">Yes, since $\kappa > 1$</li>
@@ -156,10 +156,10 @@
   <div class="explain">With no node of degree 3 or more, paths never branch: only chains form.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>Targeted attack: which breaks first, a scale-free or a random network with the same $N$ and $\langle k\rangle$?</p>
+  <p>Under a targeted attack (largest degree first), which breaks apart first: a scale-free network or a random network with the same $N$ and $\langle k\rangle$?</p>
   <ol>
     <li data-why="Scale-free networks are robust to random failures, not to attacks.">The random network</li>
-    <li data-why="Their hubs differ.">Both at the same point</li>
+    <li data-why="Their degree distributions differ, so their thresholds differ.">Both at the same point</li>
     <li>The scale-free network</li>
     <li data-why="Removing enough nodes breaks any network.">Neither breaks</li>
   </ol>
