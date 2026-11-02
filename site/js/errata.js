@@ -293,6 +293,30 @@ export const BOOK = [
     evidence: "Online Chapter 7: the same paragraph's examples, and Box 7.5 (At a Glance: Degree Correlations), which lists r > 0: assortative.",
     page: "correlations.html",
   },
+  {
+    id: "B14", severity: "error", location: "Chapter 8, Box 8.8 (At a Glance: Network Robustness), attack threshold",
+    quote: "Attacks: f_c^((2−γ)/(1−γ)) = 2 + (2−γ)/(1−γ) k_min (f_c^((3−γ)/(1−γ)) − 1)",
+    issue: "The coefficient in front of k_min is printed as (2−γ)/(1−γ). The chapter's own Eq. (8.12) and the source it cites (Cohen, Erez, ben-Avraham and Havlin, Phys. Rev. Lett. 86, 3682, 2001) have (2−γ)/(3−γ). With the box's version, γ = 2.5 and k_min = 2 have no solution with 0 < f_c < 1; Eq. (8.12) gives f_c ≈ 0.20.",
+    correction: "f_c^((2−γ)/(1−γ)) = 2 + (2−γ)/(3−γ) k_min (f_c^((3−γ)/(1−γ)) − 1), as in Eq. (8.12).",
+    evidence: "Online Chapter 8: Eq. (8.12) against Box 8.8; Cohen et al. (2001), Eq. (3). Solved numerically on the Robustness page.",
+    page: "robustness.html",
+  },
+  {
+    id: "B15", severity: "error", location: "Chapter 6, Section 6.4, Eq. (6.22) (a fitness distribution that condenses)",
+    quote: "ρ(η) = (1 − ζ)(1 − η)^ζ   (6.22)",
+    issue: "The normalisation constant is wrong. ∫₀¹ (1 − η)^ζ dη = 1/(1 + ζ), so the prefactor must be 1 + ζ. With 1 − ζ the distribution does not integrate to 1, and for the book's own example ζ = 10 (Figure 6.9f) it is negative everywhere.",
+    correction: "ρ(η) = (1 + ζ)(1 − η)^ζ. Then ∫ η ρ(η)/(1 − η) dη = 1/ζ, so the condensation condition (integral below 1) holds exactly for ζ > 1: ζ = 0.1 stays scale-free and ζ = 10 condenses, as Figure 6.9 shows.",
+    evidence: "Direct integration; LaTeX source of the online Chapter 6: \\rho (\\eta ) = (1 - \\zeta )(1 - \\eta )^\\zeta.",
+    page: "evolving.html",
+  },
+  {
+    id: "B16", severity: "imprecise", location: "Chapter 8, Section 8.3, Eq. (8.9) and the caption of Figure 8.9",
+    quote: "For γ = 4 we observe a finite critical point f_c ≃ 2/3, as predicted by (8.9). … k_min = 2 and N = 10,000.",
+    issue: "Equation (8.9) is a continuum approximation: it replaces the sums over integer degrees by integrals starting at k_min. For small k_min this overestimates ⟨k²⟩/⟨k⟩. For a discrete power law with γ = 4 and k_min = 2, κ = 3.08 and f_c = 0.52, not κ = 4 and 2/3; simulations of 10⁵-node configuration-model networks give 0.515. The same approximation in Eq. (8.12) gives an attack threshold of 0.20 for γ = 2.5, k_min = 2, where the exact value is 0.14 (simulation 0.147).",
+    correction: "Treat (8.9) and (8.12) as continuum estimates that trend correctly with γ. For integer degrees use f_c = 1 − 1/(κ − 1) with κ computed from the discrete p_k; it agrees with simulation.",
+    evidence: "Exact generating-function solution and simulations on the Robustness page (Thresholds against the degree exponent).",
+    page: "robustness.html",
+  },
 ];
 
 /** Problems found in the software the notebook relies on (powerlaw 2.0.0). */
