@@ -50,6 +50,12 @@ export const t = (s) => tr(s) ?? s;
 
 const SKIP = ".katex, script, style, code, pre, [data-no-tr]";
 const ATTRS = ["title", "aria-label", "placeholder"];
+// set an attribute only when its translation differs, or the observer would see its own write and loop
+function setAttr(el, a) {
+  if (!el.hasAttribute(a)) return;
+  const old = el.getAttribute(a), v = tr(old);
+  if (v !== null && v !== old) el.setAttribute(a, v);
+}
 function translateNode(n) {
   if (n.nodeType === 3) {
     if (n.parentElement && n.parentElement.closest(SKIP)) return;
@@ -57,13 +63,13 @@ function translateNode(n) {
     if (v !== null && v !== n.nodeValue) n.nodeValue = v;
   } else if (n.nodeType === 1) {
     if (n.closest(SKIP)) return;
-    for (const a of ATTRS) if (n.hasAttribute(a)) { const v = tr(n.getAttribute(a)); if (v !== null) n.setAttribute(a, v); }
+    for (const a of ATTRS) setAttr(n, a);
     const w = document.createTreeWalker(n, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
     while (w.nextNode()) {
       const c = w.currentNode;
       if (c.nodeType === 1) {
         if (c.matches(SKIP)) continue;
-        for (const a of ATTRS) if (c.hasAttribute(a)) { const v = tr(c.getAttribute(a)); if (v !== null) c.setAttribute(a, v); }
+        for (const a of ATTRS) setAttr(c, a);
       } else translateNode(c);
     }
   }

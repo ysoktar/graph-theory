@@ -27,15 +27,22 @@
   <dt>$m$</dt><dd>her yeni düğümün getirdiği bağlantı sayısı</dd>
 </dl>
 <div class="callout example">
-  <p>$m = 2$ ile $t = 1{,}000$ adımdan sonra derecelerin toplamı yaklaşık 4,000'dir. Bu durumda 40 bağlantılı bir düğüm her yeni bağlantıyı $\Pi = \%1$ olasılıkla, 2 bağlantılı bir düğüm ise $\%0.05$ olasılıkla alır. Merkez düğüm yirmi kat hızlı büyür.</p>
+  <p><strong>Çözümlü örnek: sonraki bağlantıyı kim alır?</strong></p>
+  <ol>
+    <li>Verilen: $m = 2$, $t = 1{,}000$ adımdan sonra.</li>
+    <li>Her adım $m$ bağlantı ekler ve her bağlantı toplam dereceye 2 ekler; yani $\sum_j k_j \approx 2mt = 4{,}000$.</li>
+    <li>40 bağlantılı bir düğüm: yeni bağlantı başına $\Pi = 40/4{,}000 = \%1$. 2 bağlantılı bir düğüm: $2/4{,}000 = \%0.05$.</li>
+    <li>Anlamı: merkez düğümün her bağlantıyı kazanma olasılığı yirmi kat fazladır; bu yüzden daha da öne geçer: zengin daha da zenginleşir.</li>
+  </ol>
 </div>
+<p class="small"><strong>Ağlarda zaman</strong> (Kutu 5.2). WWW yaklaşık her milisaniyede bir sayfa ekledi; hücre ise yaklaşık her 200,000 yılda bir gen ekledi. Bunları karşılaştırmak için <em>olay zamanı</em> sayılır: her düğüm geldiğinde $t$ bir artar; yani BA modelinde $t = N$'dir.</p>
 <div data-fig id="fig-grow"></div>
 
 <h2>Sonuç neden bir kuvvet yasasıdır (Bölüm 5.4–5.5)</h2>
 <p>Zaman $t$'yi ve derece $k$'yi sürekli sayılar gibi ele alın (süreklilik yaklaşımı). O zaman:</p>
 <ol>
-  <li>Her adım $m$ bağlantı getirir; bu yüzden $i$ düğümü $\dfrac{dk_i}{dt} = m\,\Pi(k_i) = \dfrac{m\,k_i}{2mt} = \dfrac{k_i}{2t}$ hızıyla büyür.</li>
-  <li>$i$ düğümü $t_i$ anında $m$ bağlantıyla gelir; hız denklemini çözmek $k_i(t) = m\,(t/t_i)^{1/2}$ verir.</li>
+    <li>Her adım $m$ bağlantı getirir; her biri $i$'ye $\Pi(k_i)$ olasılıkla düşer ve dereceler $\sum_j k_j = 2mt - m \approx 2mt$'ye toplanır. Bu yüzden $i$ düğümü $\dfrac{dk_i}{dt} = m\,\Pi(k_i) = \dfrac{m\,k_i}{2mt} = \dfrac{k_i}{2t}$ hızıyla büyür.</li>
+  <li>Değişkenleri ayırın, $\dfrac{dk_i}{k_i} = \dfrac{dt}{2t}$, ve $k_i = m$ olan geliş zamanı $t_i$'den integral alın: $\ln\dfrac{k_i}{m} = \tfrac12\ln\dfrac{t}{t_i}$, yani $k_i(t) = m\,(t/t_i)^{1/2}$. Büyüme hızı $dk_i/dt = m/(2\sqrt{t\,t_i})$ zamanla düşer: herhangi bir düğüme giden yeni bağlantılar giderek azalır.</li>
   <li>Bir düğüm $t_i = m^2 t/k^2$'den sonra geldiyse $k$'den az bağlantıya sahiptir. Düğümler sabit bir hızla gelir; bu yüzden $P(K &lt; k) = 1 - m^2/k^2$.</li>
   <li>Bunun $k$'ye göre türevini almak $p_k \approx 2m^2 k^{-3}$ verir.</li>
 </ol>
@@ -57,8 +64,71 @@
 </div>
 <div data-fig id="fig-pk"></div>
 
+<p>İki özellik daha çıkar. Dağılım <strong>durağandır</strong>: $t$'ye ya da $N$'ye bağlı değildir; çok farklı yaş ve büyüklükteki ağların onu paylaşabilmesinin nedeni budur. Ön çarpanı $m(m+1) \approx m^2$ gibi büyür; bu yüzden $p_k/2m^2$ her $m$ için tek bir eğriye düşer.</p>
+
+<h2>İki bileşen de gereklidir (Bölüm 5.6)</h2>
+<p>Kuvvet yasasının nedeni büyüme mi, tercihli bağlanma mı, yoksa ikisi birden mi? Her seferinde birini çıkarın.</p>
+<ul>
+  <li><strong>A Modeli</strong>, tercihsiz büyüme: $\Pi(k_i) = 1/(m_0 + t - 1)$. $dk_i/dt = m/(m_0 + t - 1)$ hızı, yalnızca logaritmik bir büyüme olan $k_i(t) = m\ln\big(e\,\frac{m_0 + t - 1}{m_0 + t_i - 1}\big) \approx m \ln(e\,t/t_i)$'yi ve üstel bir dağılımı verir:
+  $$p_k = \frac{e}{m}\exp\Big(-\frac{k}{m}\Big).$$</li>
+  <li><strong>B Modeli</strong>, büyümesiz tercih: $N$ sabittir ve her adım rastgele bir düğüm ile $\Pi(k)$ ile seçilen bir düğüm arasına bir bağlantı ekler. Her derece doğrusal büyür, $k_i(t) \approx 2t/N$; dağılım değişmeye devam eder ve $p_k = \delta(k - N + 1)$ olan bir tam çizge olarak biter.</li>
+</ul>
+<div data-fig id="fig-models"></div>
 <div class="callout key">
-  <p>İki bileşen de gereklidir (Bölüm 5.6). Tercih olmadan büyüme üstel bir derece dağılımı verir (yukarıdaki “tekdüze bağlanma” eğrisi). Büyüme olmadan tercih hiçbir zaman bir kuvvet yasasına oturmaz: ağ tam çizge olana kadar bağlantılar eklenmeye devam eder.</p>
+  <p>İki bileşen de gereklidir: tercihli bağlanma olmadan kuyruk üsteldir ve merkez düğüm oluşmaz; büyüme olmadan durağan bir dağılım hiç yoktur. Birlikte, $\gamma = 3$ olan ölçekten bağımsız bir ağ için yeterlidirler.</p>
+</div>
+
+<h2>Tercihli bağlanmayı ölçmek (Bölüm 5.7)</h2>
+<p>Tercihli bağlanma iki iddiada bulunur: bağlantı kazanma şansı $k$'ye bağlıdır (1. hipotez) ve bu bağımlılık doğrusaldır (2. hipotez). İkisi de aynı ağın kısa bir $\Delta t$ süresi arayla çekilmiş iki haritasıyla sınanabilir. Her düğüm için kazandığı bağlantılar $\Pi(k)$'yı kestirir:</p>
+<div class="eq">$$\Pi(k) \sim \frac{\Delta k_i}{\Delta t}, \qquad \pi(k) = \sum_{k_i = 0}^{k} \Pi(k_i).$$</div>
+<dl class="symbols">
+  <dt>$\Delta k_i$</dt><dd>$i$ düğümünün iki harita arasında kazandığı bağlantılar, ilk haritadaki derecesi $k_i$'ye göre gruplanmış</dd>
+  <dt>$\pi(k)$</dt><dd>birikimli bağlanma fonksiyonu: toplamak tek tek derecelerin gürültüsünü yumuşatır</dd>
+</dl>
+<p>$\Pi(k) \sim k^\alpha$ ise $\pi(k) \sim k^{\alpha + 1}$'dir: tercih yoksa eğim 1, doğrusal tercihte eğim 2. İnternet ve atıf ağları $\alpha \approx 1$ verir; ortak yazarlık ve aktörler $\alpha = 0.9 \pm 0.1$, biraz doğrusal altı.</p>
+<h2>Doğrusal olmayan tercihli bağlanma (Bölüm 5.8)</h2>
+<p>$\alpha \ne 1$ olmak üzere $\Pi(k) \sim k^\alpha$ olsaydı ne olurdu?</p>
+<ul>
+  <li>$\alpha = 0$: tercih yok, A Modeli: üstel $p_k$.</li>
+  <li>$0 &lt; \alpha &lt; 1$, <strong>doğrusal altı</strong>: gerilmiş üstel, $p_k \sim k^{-\alpha}\exp\!\big(-\frac{2\mu(\alpha)}{\langle k\rangle(1-\alpha)}k^{1-\alpha}\big)$; daha az ve daha küçük merkez düğümler; en büyüğü yalnızca $k_{\max} \sim (\ln t)^{1/(1-\alpha)}$ gibi büyür.</li>
+  <li>$\alpha = 1$: BA kuvvet yasası, $k_{\max} \sim t^{1/2}$.</li>
+  <li>$\alpha &gt; 1$, <strong>doğrusal üstü</strong>: kazanan her şeyi alır. En erken düğümler tüm bağlantıların sabit bir payını tutan süper merkez düğümler olur, $k_{\max} \sim t$, ve ağ merkez ve kollar biçimini alır.</li>
+</ul>
+<p>Yalnızca tam doğrusal bağlanma saf bir kuvvet yasası verir; iş birliklerinde ölçülen biraz doğrusal altı $\Pi(k)$, gerçek kuyrukların aşağı bükülmesinin bir nedenidir.</p>
+<div data-fig id="fig-alpha"></div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek: veriden α okumak.</strong></p>
+  <ol>
+    <li>Verilen: log–log eksenlerde bir ağın ölçülen $\pi(k)$'sı $k = 2$'de 0.01'den $k = 20$'de 0.79'a çıkıyor.</li>
+    <li>Eğim $= \log_{10}(0.79/0.01)/\log_{10}(20/2) = \log_{10} 79 = 1.9$.</li>
+    <li>$\pi(k) \sim k^{\alpha+1}$; yani $\alpha = 1.9 - 1 = 0.9$: doğrusal altı.</li>
+    <li>Anlamı: biraz bükülmüş bir kuyruk (gerilmiş üstel) ve BA modelinin öngördüğünden küçük merkez düğümler beklenir.</li>
+  </ol>
+</div>
+
+<h2>Tercihli bağlanma nereden gelir? (Bölüm 5.9)</h2>
+<p>Kimse bağlanmadan önce $\Pi(k)$'yı hesaplamaz. İki tür mekanizma onu yine de üretir.</p>
+<ul>
+  <li><strong>Bağlantı seçimi</strong> (yerel, rastgele): yeni bir düğüm rastgele bir bağlantı seçer ve iki ucundan birine bağlanır. Rastgele bir bağlantının ucu, derecesi $k$ olan bir düğüme şu olasılıkla denk gelir:
+  $$q_k = \frac{k\,p_k}{\langle k\rangle},$$
+  yani $k$ ile doğrusal: hiçbir dereceyi bilmeden tercihli bağlanma.</li>
+  <li><strong>Kopyalama</strong> (yerel, rastgele): yeni bir web sayfası rastgele bir $u$ sayfası seçer; $p$ olasılıkla $u$'ya bağlanır, aksi hâlde $u$'nun bağlantılarından birini kopyalar. Bir düğüme ulaşma olasılığı
+  $$\Pi(k) = \frac{p}{N} + (1-p)\frac{k}{2L}$$
+  olur; yine doğrusal. Arkadaşların arkadaşları, kopyalanan kaynaklar ve çoğalan genler böyle işler.</li>
+  <li><strong>Eniyileme</strong> (küresel, akılcı): birim karenin rastgele bir noktasındaki yeni bir düğüm, $d_{ij}$ uzaklığını $j$'nin merkezi bir düğüme ağ uzaklığı $h_j$ ile dengeleyen $C_j = \delta\,d_{ij} + h_j$ maliyetini en küçük yapan $j$ düğümüne bağlanır. Küçük $\delta$ bir yıldız, büyük $\delta$ ($\ge \sqrt N$) merkez düğümsüz bir ağ, arada ($4 \le \delta \le \sqrt N$) ise ölçekten bağımsız bir ağ verir: her düğüm kendi havzasına düşen yeni gelenleri çeker ve büyük düğümlerin havzaları büyüktür.</li>
+</ul>
+<div data-fig id="fig-origins"></div>
+<p class="small">Şans mı akıl mı: 1960'larda Herbert Simon (rastgele, tercihli büyüme) ve Benoit Mandelbrot (eniyileme) kelime sıklıklarındaki kuvvet yasalarının kökeni üzerine tartıştı. İki mekanizma da doğrusal tercihli bağlanma üretir.</p>
+
+<h2>Uzaklıklar ve kümelenme (Bölüm 5.10)</h2>
+<div class="eq">$$d_{\max} \sim \frac{\ln N}{\ln\ln N}\ (m &gt; 1), \qquad \langle C\rangle \sim \frac{(\ln N)^2}{N}.$$</div>
+<dl class="symbols">
+  <dt>$d_{\max}$</dt><dd>çap; ortalama uzaklık da aynı biçimde, rastgele ağın $\ln N$'sinden yavaş ölçeklenir</dd>
+  <dt>$\langle C\rangle$</dt><dd>ortalama kümelenme; rastgele $\langle k\rangle/N$'nin üstünde ama büyük $N$ için yine sıfıra gider</dd>
+</dl>
+<div data-fig id="fig-dc"></div>
+<div class="callout key">
+  <p>BA modelinin dersi, yapı ile evrimin ayrılmaz olduğudur. Rastgele, küçük dünya ve konfigürasyon modelleri bir tablonun fotoğrafı gibidir: bir ağın neye benzediğini yeniden üretirler. BA modeli tabloyu özgün fırça darbeleriyle yeniden çizer: bir ağın topolojisini açıklamak için nasıl oluştuğunu modelleyin.</p>
 </div>
 
 <div class="callout connect">
@@ -155,4 +225,24 @@
   <div class="explain">En büyük merkez düğüm $k_{\max} \sim m N^{1/2} = 2 \times 1{,}000$ gibi büyür.</div>
 </div>
 
+<div class="quiz" data-answer="4">
+  <p>Bağlantı seçimi modelinde yeni bir düğüm rastgele bir bağlantı seçer ve uçlarından birine bağlanır. Rastgele bir bağlantının ucu, derecesi $k$ olan bir düğüme $q_k = k\,p_k/\langle k\rangle$ olasılıkla denk gelir. Bu model neden ölçekten bağımsız bir ağ üretir?</p>
+  <ol>
+    <li data-why="Yeni düğüm derecelere hiç bakmaz; yalnızca bir bağlantı seçer.">Yeni düğüm en çok bağlantısı olan düğümü seçer</li>
+    <li data-why="Büyüme tek başına üstel bir dağılım verir (A Modeli).">Çünkü ağ büyür</li>
+    <li data-why="Bağlantılar düzgün rastgele seçilir; hiçbir şey eniyilenmez.">Merkeze uzaklığı en küçük yapar</li>
+    <li>Merkez düğümler birçok bağlantının ucundadır; bu yüzden rastgele bir bağlantı bir düğüme derecesiyle orantılı olasılıkla ulaşır: hiçbir kural olmadan tercihli bağlanma</li>
+  </ol>
+  <div class="explain">$q_k \propto k$, kılık değiştirmiş doğrusal tercihli bağlanmadır. Büyümeyle birlikte BA modelini ve $\gamma = 3$'ü yeniden üretir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>İki anlık görüntü arasında ölçülen birikimli bağlanma fonksiyonu $\pi(k) \sim k^{2.4}$ gibi büyüyor. $\pi(k) \sim k^{\alpha + 1}$ ile hangi tür bir ağ büyümelidir?</p>
+  <ol>
+    <li data-why="α = 2.4 − 1 = 1.4'tür, 2.4 değil; her durumda doğrusal değildir.">$\gamma = 3$ olan bir BA ağı</li>
+    <li>$\alpha = 1.4$, doğrusal üstü: birkaç erken süper merkez düğüm tüm bağlantıların sabit bir payını alır, merkez ve kollar biçiminde bir ağ</li>
+    <li data-why="Doğrusal altı α &lt; 1 demektir; burada α = 1.4.">$\alpha = 1.4$, doğrusal altı: küçük merkez düğümlü gerilmiş üstel</li>
+    <li data-why="Üstel bir dağılım α = 0, yani π(k) ~ k gerektirir.">Üstel bir derece dağılımı</li>
+  </ol>
+  <div class="explain">$\alpha = 2.4 - 1 = 1.4 &gt; 1$: zengin daha da zenginleşir etkisi kazanan her şeyi alır'a dönüşür ve $k_{\max}$ zamanla doğrusal büyür.</div>
+</div>
 </div></body></html>
