@@ -4,6 +4,7 @@ import { NetView } from "../lib/netview.js";
 import { Plot } from "../lib/plot.js";
 import { RNG } from "../lib/rng.js";
 import { labelPropagation, louvain, modularity, CSRGraph, gnmPairs } from "../lib/graph.js";
+import { t as tl, LANG } from "../i18n.js";
 import { symmetricEigen, normalizedLaplacian } from "../lib/linalg.js";
 import { fmt } from "../lib/stats.js";
 import { karateGraph, loadNetworks, loadRealGraph, WITH_EDGES } from "../lib/data.js";
@@ -48,7 +49,7 @@ const colorOf = (l) => (l < PALETTE.length ? PALETTE[l] : "random");
   button(row, { label: "Label propagation", icon: "dice", onClick: () => { labels = labelPropagation(K, new RNG(seed++)); what = "lpa"; paint(); } });
   button(row, { label: "Louvain", icon: "dice", onClick: () => { labels = louvain(K, new RNG(seed++)); what = "louvain"; paint(); } });
   paint();
-  f.setCaption("The real split has Q = 0.358. Louvain finds four groups with Q ≈ 0.42, the highest modularity any partition of this network reaches: the partition that maximises Q is not the one the club chose. Label propagation is fast but gives a different answer on every run.");
+  f.setCaption("The real split has Q = 0.358. Louvain finds four groups with Q between 0.39 and 0.42, depending on the run; no partition of this network reaches more than 0.420. The partition that maximises Q is not the one the club chose. Label propagation is fast but gives a different answer on every run.");
 })();
 
 // ------------------------------------------------------------------ 2. real networks, and the random-network trap
@@ -62,7 +63,7 @@ const colorOf = (l) => (l < PALETTE.length ? PALETTE[l] : "random");
   const plot = new Plot(f.body, { height: 260, x: { type: "log", label: "community size (nodes)" }, y: { type: "log", label: "number of communities" } });
   async function go() {
     const d = networks[name];
-    status.textContent = `Running Louvain on ${d.description}…`;
+    status.textContent = LANG === "tr" ? `${tl(d.description)} üzerinde Louvain çalışıyor…` : `Running Louvain on ${d.description}…`;
     await new Promise((r) => setTimeout(r, 20));
     const g = await loadRealGraph(name);
     const lr = louvain(g, new RNG(1));
@@ -72,7 +73,7 @@ const colorOf = (l) => (l < PALETTE.length ? PALETTE[l] : "random");
     const sr = sizes(lr), se = sizes(le);
     status.textContent = "";
     host.replaceChildren(dataTable([{ label: "", align: "left" }, { label: "modularity Q" }, { label: "communities" }, { label: "largest community" }],
-      [[`${d.description} (real)`, modularity(g, lr).toFixed(3), fmt.int(sr.n), fmt.int(sr.max)], ["G(N, L), same N and L", modularity(er, le).toFixed(3), fmt.int(se.n), fmt.int(se.max)]]));
+      [[`${tl(d.description)} (${tl("real")})`, modularity(g, lr).toFixed(3), fmt.int(sr.n), fmt.int(sr.max)], ["G(N, L), same N and L", modularity(er, le).toFixed(3), fmt.int(se.n), fmt.int(se.max)]]));
     plot.update({ series: [{ type: "scatter", data: sr.hist, color: 1, label: "real network", r: 3.5 }, { type: "scatter", data: se.hist, color: "random", symbol: "square", label: "G(N, L)", r: 3.5 }], xName: "size", yFormat: fmt.int });
   }
   select(f.controls, { label: "Network", value: name, options: WITH_EDGES.map((n) => ({ value: n, label: networks[n].description })), onChange: (v) => { name = v; go(); } });
