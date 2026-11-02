@@ -1,0 +1,141 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Çizge ML ve düğüm gömmeleri · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Karate kulübünün spektral ve DeepWalk gömmeleri, cümle olarak rastgele yürüyüşler, çizge sinir ağlarında mesaj iletimi ve kitabın ağlarında bağlantı tahmini."></head><body>
+<div class="content">
+
+<h1>Çizge makine öğrenmesi ve düğüm gömmeleri</h1>
+<p class="lead">Makine öğrenmesi modelleri ağ değil, vektör bekler. Bir <strong>düğüm gömmesi</strong> her düğümü bir vektöre eşler; böylece ağda yakın olan düğümler uzayda da yakın olur.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Önceki bölümler ağları birkaç sayıyla betimler ($\langle k\rangle$, $C$, $\gamma$); öngörü ise her düğümün bir betimlemesini gerektirir.</li>
+    <li>Gömmeler standart sınıflandırıcıları besler: düğümleri etiketlemek, toplulukları bulmak, eksik bağlantıları tahmin etmek.</li>
+    <li>Çizge sinir ağları betimlemeyi görev için kendileri öğrenir.</li>
+  </ul>
+</div>
+
+<h2>Spektral gömme</h2>
+<p>Normalleştirilmiş Laplace matrisinin özvektörlerini kullanın:</p>
+<div class="eq">$$\mathcal L = I - D^{-1/2} A D^{-1/2}.$$</div>
+<dl class="symbols">
+  <dt>$A$</dt><dd>komşuluk matrisi (<a href="ch2-adjacency.html">2. Bölüm</a>)</dd>
+  <dt>$D$</dt><dd>derecelerden oluşan köşegen matris</dd>
+  <dt>$I$</dt><dd>birim matris</dd>
+</dl>
+<p>Özdeğerleri küçük olan özvektörler bağlantılar boyunca az değişir. İkincisi (<em>Fiedler vektörü</em>), gerçel değerlere gevşetilmiş en iyi iki gruplu kesimdir; işareti ağı ikiye böler (<a href="communities.html">spektral ikiye bölme</a>). Diğer özvektörler koordinat ekler.</p>
+
+<h2>Rastgele yürüyüş gömmeleri</h2>
+<p>DeepWalk (Perozzi, Al-Rfou ve Skiena 2014) ve node2vec (Grover ve Leskovec 2016) kısa rastgele yürüyüşleri cümle, düğümleri kelime gibi ele alır ve ardından word2vec çalıştırır: yürüyüşlerde birlikte görülen düğümler benzer vektörler alır. node2vec'in iki parametresi yürüyüşleri yerel (genişlik öncelikli) ile keşfedici (derinlik öncelikli) arasında ayarlar.</p>
+<div data-fig id="fig-embed"></div>
+<div class="callout look">
+  <p>Kulüp Mr. Hi (0 numaralı düğüm) ile yönetici (33 numaralı düğüm) arasında bölündü. İki gömme de bunu yalnızca bağlantılardan geri kazanır: tek bir koordinatın işareti neredeyse herkesi doğru yere koyar; istisnalar ağda da iki grubun arasında durur.</p>
+</div>
+<div data-fig id="fig-walk"></div>
+
+<h2>Çizge sinir ağları</h2>
+<p>Bir GNN katmanı <em>mesaj</em> iletir: her düğüm kendi vektörünü komşularınınkilerle birleştirir (çizge evrişimli ağ, Kipf ve Welling 2017):</p>
+<div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\Big).$$</div>
+<dl class="symbols">
+  <dt>$h_v^{(l)}$</dt><dd>$l$. katmandan sonra $v$ düğümünün vektörü</dd>
+  <dt>$N(v)$</dt><dd>$v$'nin komşuları</dd>
+  <dt>$W^{(l)}$</dt><dd>öğrenilen ağırlık matrisi</dd>
+  <dt>$\sigma$</dt><dd>doğrusal olmayan fonksiyon (ör. ReLU)</dd>
+</dl>
+<p>$l$ katmandan sonra bir düğüm $l$ uzaklığa kadarki düğümleri görür. Şekil, yalnızca ortalama almayı göstermek için $W$ ve $\sigma$'yı çıkarır.</p>
+<div data-fig id="fig-gnn"></div>
+
+<h2>Bağlantı tahmini</h2>
+<p>Ağlar eksik ölçülür (sınanmamış protein çiftleri, bildirilmemiş arkadaşlıklar). Bağlı olmayan $u, v$ çiftlerini bir puana göre sıralayın:</p>
+<ul>
+  <li><strong>Ortak komşular</strong> $|N(u) \cap N(v)|$; <strong>Jaccard</strong> bunu $|N(u) \cup N(v)|$'ye böler.</li>
+  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$: düşük dereceli ortak komşular daha çok sayılır.</li>
+  <li><strong>Tercihli bağlanma</strong> $k_u k_v$, <a href="ch5-preview.html">BA modelinden</a>.</li>
+</ul>
+<p>Bağlantıları gizleyerek değerlendirin: <strong>AUC</strong> = gizlenmiş bir bağlantının rastgele bir bağlantı olmayan çiftten yüksek puan alma olasılığı (eşitlik ½ sayılır). 0.5 tahmin etmek, 1 kusursuz demektir.</p>
+<div data-fig id="fig-links"></div>
+
+<div class="callout connect">
+  <ul>
+    <li><a href="communities.html">Spektral ikiye bölmeyi</a> <strong>genelleştirir</strong>: tek bir özvektör böler, birkaçı gömer.</li>
+    <li><strong>Ortak komşular</strong> <a href="ch2-clustering.html">kümelenmeye</a> <strong>dayanır</strong>: yalnızca üçgenlerin kapandığı yerde işe yarar.</li>
+    <li><strong>Tercihli bağlanma puanı</strong> <a href="ch5-preview.html">BA kuralını</a> tahmine uygular.</li>
+    <li><strong>Aşırı düzleşme</strong>, DeepWalk'un örneklediği aynı rastgele yürüyüşün dengeye ulaşmasıdır.</li>
+  </ul>
+</div>
+
+<div class="callout discuss" data-beyond="Kitapta yok: Kovács ve ark. 2019">
+  <p>Ortak komşu puanları, arkadaşların arkadaşlarının arkadaş olduğunu varsayar. Bu nerede başarısız olmalı?</p>
+  <div class="hint">Kümelenmiş sosyal ağlara (iş birliği, telefon aramaları) uyar. Bir eşi paylaşan proteinler çoğu zaman aynı bağlanma bölgesi için yarışır ve birbirine bağlanmaz; Kovács ve ark. (Nat. Commun. 2019) bunun yerine üç uzunluklu yolları sayar. Elektrik şebekesinde neredeyse hiç üçgen yoktur.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Basit bir çizge sinir ağının her katmanı bir düğümün değerini komşularınınkiyle ortalar. Çok sayıda katmandan sonra her düğümün değeri neredeyse aynıdır. Bu etkinin adı nedir?</p>
+  <ol>
+    <li data-why="Aşırı uyum eğitim verisiyle ilgilidir, ortalamanın derinliğiyle değil.">Aşırı uyum</li>
+    <li>Aşırı düzleşme</li>
+    <li data-why="Perkolasyon silme altında bağlılıkla ilgilidir.">Perkolasyon</li>
+    <li data-why="Asortatiflik bir derece korelasyonudur.">Asortatiflik</li>
+  </ol>
+  <div class="explain">Tekrarlanan ortalama bir sabite yakınsar; başlangıç etiketleri kaybolur. Artık bağlantılar ve dikkat (attention) buna karşı koyar.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Bir bağlantı tahmincisinin AUC'si 0.5. Bu ne anlama gelir?</p>
+  <ol>
+    <li data-why="AUC bulunan bağlantıları saymaz; gizlenmiş bağlantıların ve bağlantı olmayan çiftlerin puanlarını karşılaştırır.">Gizlenmiş bağlantıların yarısını bulur</li>
+    <li data-why="Bu AUC = 1 olurdu.">Kusursuz sıralar</li>
+    <li>Tahmin etmekten daha iyi değildir</li>
+    <li data-why="Bu, 0'a yakın bir AUC olurdu.">Ters sıralar</li>
+  </ol>
+  <div class="explain">Gizlenmiş bir bağlantı, bağlantı olmayan bir çiftten yalnızca zamanın yarısında yüksek puan alır.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>İki katmanlı bir çizge sinir ağında hangi düğümler $v$ düğümünün çıktısını etkileyebilir?</p>
+  <ol>
+    <li>2 uzaklık içindeki düğümler</li>
+    <li data-why="Her katman bir adım daha uzağa ulaşır.">Yalnızca komşular</li>
+    <li data-why="İki katman iki adıma ulaşır.">Tüm düğümler</li>
+    <li data-why="Her katman komşuları karıştırır.">Yalnızca $v$</li>
+  </ol>
+  <div class="explain">Her katman komşuluğa bir adım ekler.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Adamic–Adar puanında derecesi 2 olan bir ortak komşu hangi ağırlığı alır, derecesi 100 olan hangisini?</p>
+  <ol>
+    <li data-why="Ağırlık dereceyle azalır.">Eşit</li>
+    <li data-why="1/k değil, 1/ln k.">0.5 ve 0.01</li>
+    <li data-why="Merkez düğümlerin ağırlığı düşürülür.">Merkez düğüm daha ağır basar</li>
+    <li>1.44 ve 0.22</li>
+  </ol>
+  <div class="explain">$1/\ln 2 = 1.44$, $1/\ln 100 = 0.22$: bir merkez düğümü paylaşmak zayıf bir kanıttır.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Ortak komşular iş birliğinde AUC 0.96, proteinlerde ise yaklaşık 0.56 alıyor. Neden?</p>
+  <ol>
+    <li data-why="İkisinin de bağlantı listeleri benzer kalitededir.">Protein verisi yanlıştır</li>
+    <li>İş birliği çok kümelenmiştir; bir eşi paylaşan proteinler ise nadiren birbirine bağlanır</li>
+    <li data-why="Boyut AUC'yi belirlemez.">Proteinler daha küçük bir ağ oluşturur</li>
+    <li data-why="Burada ikisi de yönsüzdür.">Proteinler yönlüdür</li>
+  </ol>
+  <div class="explain">Bir kişinin ortak yazarları çoğu zaman birlikte de yazar (üçgenler); proteinler üçlü kapanmaya uymaz.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>$u$ düğümünün komşuları $\{a, b, c\}$, $v$ düğümününkiler $\{b, c, d, e\}$. Jaccard puanları nedir?</p>
+  <ol>
+    <li data-why="Bu, ortak komşu sayısıdır.">2</li>
+    <li data-why="Bu yalnızca |N(u)|'ya böler.">0.67</li>
+    <li>0.4</li>
+    <li data-why="Bu yalnızca |N(v)|'ye böler.">0.5</li>
+  </ol>
+  <div class="explain">$|\{b, c\}| / |\{a, b, c, d, e\}| = 2/5$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Ortak komşusu olmayan bir çifte hangi puan sıfırdan büyük bir değer verebilir?</p>
+  <ol>
+    <li>Tercihli bağlanma $k_u k_v$</li>
+    <li data-why="Ortak komşu yoksa 0'dır.">Ortak komşular</li>
+    <li data-why="Ortak komşu yoksa 0'dır.">Jaccard</li>
+    <li data-why="Yalnızca ortak komşular üzerinden toplar.">Adamic–Adar</li>
+  </ol>
+  <div class="explain">Yalnızca dereceleri kullanır: <a href="ch5-preview.html">BA kuralı</a> merkez düğümlerin bağlantı kazandığını söyler.</div>
+</div>
+</div></body></html>

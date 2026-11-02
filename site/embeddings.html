@@ -65,7 +65,7 @@
   <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$: shared low-degree neighbours count more.</li>
   <li><strong>Preferential attachment</strong> $k_u k_v$, from the <a href="ch5-preview.html">BA model</a>.</li>
 </ul>
-<p>Evaluate by hiding links: <strong>AUC</strong> = probability that a hidden link outscores a random non-link (ties ½). 0.5 is guessing, 1 perfect.</p>
+<p>Evaluate by hiding links: <strong>AUC</strong> = probability that a hidden link outscores a random non-link (a tie counts as ½). 0.5 is guessing, 1 perfect.</p>
 <div data-fig id="fig-links"></div>
 
 <div class="callout connect">
@@ -83,27 +83,27 @@
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>After many plain-averaging layers, every node has almost the same value. This is</p>
+  <p>Each layer of a simple graph neural network averages a node's value with its neighbours'. After many layers every node has almost the same value. What is this effect called?</p>
   <ol>
-    <li data-why="Overfitting is about training data, not depth of averaging.">overfitting</li>
-    <li>over-smoothing</li>
-    <li data-why="Percolation concerns connectivity under removal.">percolation</li>
-    <li data-why="Assortativity is a degree correlation.">assortativity</li>
+    <li data-why="Overfitting is about training data, not depth of averaging.">Overfitting</li>
+    <li>Over-smoothing</li>
+    <li data-why="Percolation concerns connectivity under removal.">Percolation</li>
+    <li data-why="Assortativity is a degree correlation.">Assortativity</li>
   </ol>
   <div class="explain">Repeated averaging converges to a constant; the starting labels are lost. Residual connections and attention counter it.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>A link predictor has AUC = 0.5. It</p>
+  <p>A link predictor has AUC = 0.5. What does that mean?</p>
   <ol>
-    <li data-why="Half right is not the meaning; AUC compares pairs.">finds half the hidden links</li>
-    <li data-why="That would be AUC = 1.">ranks perfectly</li>
-    <li>does no better than guessing</li>
-    <li data-why="That would be AUC near 0.">ranks backwards</li>
+    <li data-why="AUC does not count links found; it compares the scores of hidden links and non-links.">It finds half the hidden links</li>
+    <li data-why="That would be AUC = 1.">It ranks perfectly</li>
+    <li>It does no better than guessing</li>
+    <li data-why="That would be AUC near 0.">It ranks backwards</li>
   </ol>
   <div class="explain">A hidden link outscores a non-link only half the time.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>Two-layer GNN. Which nodes can affect node $v$'s output?</p>
+  <p>In a two-layer graph neural network, which nodes can affect node $v$'s output?</p>
   <ol>
     <li>Nodes within distance 2</li>
     <li data-why="Each layer reaches one step further.">Only neighbours</li>
@@ -113,12 +113,12 @@
   <div class="explain">Each layer adds one hop of neighbourhood.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>Adamic–Adar weights of a shared neighbour with degree 2 vs 100?</p>
+  <p>In the Adamic–Adar score, what weight does a shared neighbour of degree 2 get, and one of degree 100?</p>
   <ol>
     <li data-why="The weight falls with degree.">Equal</li>
-    <li data-why="1/ln k, not 1/k.">0.5 vs 0.01</li>
-    <li data-why="Hubs are down-weighted.">Hub weighs more</li>
-    <li>1.44 vs 0.22</li>
+    <li data-why="1/ln k, not 1/k.">0.5 and 0.01</li>
+    <li data-why="Hubs are down-weighted.">The hub weighs more</li>
+    <li>1.44 and 0.22</li>
   </ol>
   <div class="explain">$1/\ln 2 = 1.44$, $1/\ln 100 = 0.22$: sharing a hub is weak evidence.</div>
 </div>
@@ -134,7 +134,7 @@
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>$N(u) = \{a, b, c\}$, $N(v) = \{b, c, d, e\}$. Jaccard score?</p>
+  <p>Node $u$ has neighbours $\{a, b, c\}$ and node $v$ has $\{b, c, d, e\}$. What is their Jaccard score?</p>
   <ol>
     <li data-why="That is the common-neighbour count.">2</li>
     <li data-why="That divides by |N(u)| only.">0.67</li>
