@@ -1,0 +1,156 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Derece korelasyonları · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Asortatif ve disasortatif ağlar: derece korelasyon fonksiyonu k_nn(k), asortatiflik katsayısı r, yapısal kesmeler ve kitabın sekiz ağı."></head><body>
+<div class="content">
+
+<h1>Derece korelasyonları</h1>
+<p class="lead">Derece dağılımı merkez düğümleri sayar; kime bağlandıklarını söylemez. Merkez düğümler merkez düğümlere mi, küçük düğümlere mi bağlanır? Dereceleri aynı olan ağlar bu konuda farklılaşabilir ve farklı davranabilir (7. Bölüm).</p>
+
+<div class="callout why">
+  <ul>
+    <li>Önceki sayfalar yalnızca derece dizisini kullandı; korelasyonlar onun ötesindeki ilk özelliktir.</li>
+    <li>Bir ağın nasıl kurulduğunu ortaya çıkarırlar: benzerin benzere katılması ya da merkez düğümlerin birçok küçük düğüme hizmet etmesi.</li>
+    <li>Dayanıklılığı etkilerler: asortatif ağlar merkez düğümlerin silinmesine daha iyi dayanır (Newman 2002).</li>
+  </ul>
+</div>
+
+<h2>Üç tür ağ</h2>
+<ul>
+  <li><strong>Asortatif:</strong> merkez düğümler merkez düğümlere bağlanır.</li>
+  <li><strong>Disasortatif:</strong> merkez düğümler küçük düğümlere bağlanır.</li>
+  <li><strong>Nötr:</strong> dereceler verildiğinde rastgele.</li>
+</ul>
+<div data-fig id="fig-rewire"></div>
+
+<h2>Derece korelasyon fonksiyonu</h2>
+<div class="eq">$$k_{nn}(k) = \sum_{k'} k'\, P(k' \mid k).$$</div>
+<dl class="symbols">
+  <dt>$k_{nn}(k)$</dt><dd>derecesi $k$ olan düğümlerin komşularının ortalama derecesi</dd>
+  <dt>$P(k' \mid k)$</dt><dd>derecesi $k$ olan bir düğümün bir komşusunun derecesinin $k'$ olma olasılığı</dd>
+</dl>
+<p>Nötr ağ: bir bağlantı derecesi $k'$ olan bir düğüme $k$'den bağımsız olarak $\propto k' p_{k'}$ olasılıkla ulaşır; bu yüzden</p>
+<div class="eq">$$k_{nn}(k) = \frac{\langle k^2\rangle}{\langle k\rangle}.$$</div>
+<dl class="symbols">
+  <dt>$\langle k\rangle, \langle k^2\rangle$</dt><dd>ortalama derece, derece karesinin ortalaması</dd>
+</dl>
+<p>Artan $k_{nn}$: asortatif; azalan: disasortatif; düz: nötr. $k_{nn} \approx a k^{\mu}$ uydurması eğilimi tek bir sayıda özetler: $\mu &gt; 0$ asortatif, $\mu &lt; 0$ disasortatif.</p>
+<div class="callout example">
+  <p>İş birliği: $178.2/8.08 = 22.1$. Bir bilim insanının 8 ortak yazarı vardır; bir ortak yazarın ise 22. Bu, <a href="epidemics.html">tanıdık aşılamasının</a> kullandığı <strong>arkadaşlık paradoksudur</strong>.</p>
+</div>
+
+<h2>Asortatiflik katsayısı $r$</h2>
+<p>$r$, her bağlantının iki ucundaki derecelerin Pearson korelasyonudur (Newman 2002) ve $[-1, 1]$ aralığındadır: pozitif asortatif, negatif disasortatif, sıfır nötr.</p>
+<div class="callout fix" data-book="B13"></div>
+<div class="callout example">
+  <p>Dört yapraklı yıldız: her bağlantı (4, 1) çiftini birleştirir, yani $r = -1$. Ayrık üçgenler: tüm dereceler 2, $r$ tanımsız.</p>
+</div>
+
+<h2>Kitabın ağları</h2>
+<div data-fig id="fig-knn"></div>
+<div id="tbl-r"></div>
+<div class="callout look">
+  <ul>
+    <li>Sosyal ağlar asortatiftir: iş birliği $r = 0.13$, telefon aramaları $0.21$.</li>
+    <li>Metabolizma ($-0.25$), proteinler ($-0.08$), e-posta ve WWW disasortatiftir; elektrik şebekesi ve İnternet nötre yakındır.</li>
+    <li>Rastgeleleştirildiğinde iş birliği nötr olur, ama metabolizma $-0.17$'de kalır: o kısım <em>yapısaldır</em>.</li>
+  </ul>
+</div>
+
+<h2>Yapısal disasortatiflik (Bölüm 7.4)</h2>
+<p>Rastgele bağlantı, dereceleri $k$ ve $k'$ olan düğümler arasında şu kadar bağlantı bekler:</p>
+<div class="eq">$$\frac{k\,k'}{\langle k\rangle N}.$$</div>
+<dl class="symbols">
+  <dt>$\langle k\rangle N$</dt><dd>toplam bağlantı ucu, $2L$</dd>
+</dl>
+<p>Bu 1'in üstündeyse merkez düğümlerin birkaç bağlantıyı paylaşması “gerekir”; basit bir ağ bir taneye izin verir, bu yüzden fazlası küçük düğümlere gider. $k = k'$ için bunu 1'e eşitlemek <strong>yapısal kesmeyi</strong> verir:</p>
+<div class="eq">$$k_s \approx \sqrt{\langle k\rangle N}.$$</div>
+<dl class="symbols"><dt>$k_s$</dt><dd>üstünde merkez düğümlerin şansın gerektirdiği kadar sık bağlanamadığı derece</dd></dl>
+<div class="callout example">
+  <p>Metabolizma: $k_s = \sqrt{9.13 \times 1{,}039} \approx 97$. En büyük merkez düğümler, 638 ve 460 bağlantılı: aralarında beklenen $638 \times 460/9{,}482 \approx 31$ bağlantı; izin verilen en fazla 1.</p>
+</div>
+<p>Bir ağın nasıl kurulduğunu yalnızca dereceyi koruyan rastgeleleştirmeden sağ çıkan korelasyonlar, iş birliğindeki gibi, söyler.</p>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Sıfır modeli:</strong> <a href="ch4-generating.html">dereceyi koruyan rastgeleleştirme</a> dereceleri korur, korelasyonları siler.</li>
+    <li><strong>Aynı oran</strong> $\langle k^2\rangle/\langle k\rangle$: nötr $k_{nn}$, Molloy–Reed $\kappa$ (<a href="robustness.html">Dayanıklılık</a>), salgın eşiği (<a href="epidemics.html">Yayılma</a>).</li>
+    <li><strong>Modeller:</strong> rastgele, konfigürasyon ve büyük BA ağları nötrdür ($r \to 0$); asortatiflik <a href="communities.html">topluluklar</a> gibi ek bileşenler gerektirir.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Sosyal ağlar neden asortatif, teknolojik ya da biyolojik ağlar neden disasortatiftir?</p>
+  <div class="hint">Homofili (benzerin benzerle bağlanması) ve grup üyeliği benzer insanları bağlar. Teknolojik merkez düğümler (yönlendiriciler, havalimanları, merkezi metabolitler) birçok küçük düğüme hizmet etmek için vardır ve yapısal kesme disasortatiflik ekler.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir ağın $k_{nn}(k)$'si nötr değer olan $\langle k^2\rangle/\langle k\rangle = 25$'te düzdür. Asortatifliği $r$ yaklaşık nedir?</p>
+  <ol>
+    <li data-why="Bu, k_nn'nin dik biçimde artmasını gerektirir.">$1$</li>
+    <li>$0$</li>
+    <li data-why="Bu, k_nn'nin azalmasını gerektirir.">$-1$</li>
+    <li data-why="r, [−1, 1] aralığındadır.">$25$</li>
+  </ol>
+  <div class="explain">Nötr değerde düz: bir ucun derecesi diğerininki hakkında hiçbir şey söylemez.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>On yapraklı bir yıldızın asortatifliği $r$ nedir?</p>
+  <ol>
+    <li data-why="Yüksek her zaman düşükle buluşuyor: bu bir korelasyondur.">$0$</li>
+    <li data-why="Benzer dereceler hiç bağlı değil.">$+1$</li>
+    <li>$-1$</li>
+    <li data-why="Her bağlantı iki yönde de sayılır, (10, 1) ve (1, 10); bu yüzden uç dereceleri değişir ve r tanımlıdır.">Tanımsız</li>
+  </ol>
+  <div class="explain">Her bağlantı 10'u 1'e bağlar: kusursuz negatif korelasyon.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>İş birliği ağında $r = 0.13$; dereceyi koruyan rastgeleleştirmeden sonra $r \approx 0$. Bu neyi gösterir?</p>
+  <ol>
+    <li>Asortatiflik derecelerden değil, bilim insanlarının iş birlikçilerini nasıl seçtiğinden gelir</li>
+    <li data-why="Değiş tokuşlar her dereceyi korur.">Rastgeleleştirme $p_k$'yı değiştirdi</li>
+    <li data-why="Kesme disasortatifliğe yol açar ve rastgeleleştirmeden sağ çıkar.">Yapısaldır</li>
+    <li data-why="Gerçek ağda r = 0.13'tür; yalnızca rastgeleleştirilmiş kopyası nötrdür.">Ağ nötrdür</li>
+  </ol>
+  <div class="explain">Rastgeleleştirmenin yok ettiği şey derecelerden kaynaklanmaz. Metabolizmanınki sağ çıkar ($-0.25 \to -0.17$): büyük ölçüde yapısaldır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Bir ağda $N = 10{,}000$ düğüm ve $\langle k\rangle = 4$ var. İki merkez düğümün her birinin 1,000 bağlantısı var. Rastgele bağlantı aralarında kaç bağlantı bekler?</p>
+  <ol>
+    <li data-why="Bu, beklenen değer değil, basit ağ sınırıdır.">En fazla 1</li>
+    <li data-why="N'ye değil, ⟨k⟩N'ye bölün.">100</li>
+    <li data-why="Bu 2⟨k⟩N'ye böler, ama ⟨k⟩N zaten 2L'ye eşittir.">12.5</li>
+    <li>25</li>
+  </ol>
+  <div class="explain">$kk'/(\langle k\rangle N) = 10^6/(4 \times 10^4) = 25$. Basit bir ağ bir taneye izin verir; bu yüzden $k_s = \sqrt{40{,}000} = 200$'ün çok üstündeki iki merkez düğüm küçük düğümlere bağlanmaya itilir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir ağda $\langle k\rangle = 3$ ve $\langle k^2\rangle = 30$. Rastgele bir bağlantı seçip izleyin: ulaştığınız düğümün ortalama derecesi nedir?</p>
+  <ol>
+    <li data-why="Bu, düğümler üzerinden ortalamadır; bir bağlantıyı izlemek merkez düğümleri kayırır.">3</li>
+    <li>10</li>
+    <li data-why="Bu ⟨k²⟩'dir; ⟨k⟩'ya bölün.">30</li>
+    <li data-why="Komşular daha düşük değil, daha yüksek dereceye kayar.">1</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle/\langle k\rangle = 10$: arkadaşlık paradoksu.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Bir ağda $N = 2{,}500$ ve $\langle k\rangle = 4$. Yapısal kesmesi $k_s$ nedir?</p>
+  <ol>
+    <li data-why="Bu √N'dir; ⟨k⟩'yı da katın.">50</li>
+    <li data-why="Bu N'dir.">2,500</li>
+    <li data-why="Bu, karekökten önceki ⟨k⟩N'dir.">10,000</li>
+    <li>100</li>
+  </ol>
+  <div class="explain">$k_s = \sqrt{\langle k\rangle N} = \sqrt{10{,}000} = 100$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>“Arkadaşlarınızın ortalamada sizden çok arkadaşı vardır” ifadesi ne zaman geçerlidir?</p>
+  <ol>
+    <li>Dereceleri hepsi eşit olmayan her ağda</li>
+    <li data-why="Hiç korelasyon gerektirmez.">Yalnızca asortatif ağlarda</li>
+    <li data-why="Hiç korelasyon gerektirmez.">Yalnızca disasortatif ağlarda</li>
+    <li data-why="Derecelerde herhangi bir yayılım yeterlidir.">Yalnızca ölçekten bağımsız ağlarda</li>
+  </ol>
+  <div class="explain">Bir bağlantı ucu bir düğüme $\propto k$ olasılıkla düşer; bu yüzden komşuların ortalaması $\langle k^2\rangle/\langle k\rangle \ge \langle k\rangle$ olur; eşitlik yalnızca tüm dereceler eşitken sağlanır.</div>
+</div>
+</div></body></html>
