@@ -808,7 +808,7 @@
     <li data-why="The exponent 1/(γ − 1) shrinks as γ grows, so larger γ means smaller hubs.">$\gamma = 3$ gives the larger hub.</li>
     <li data-why="k_max is far below N − 1 for both exponents.">Both give a hub linked to the whole network.</li>
   </ol>
-  <div class="explain">$10^{6/1.5} = 10^4$ and $10^{6/2} = 10^3$. A random network of the same size would have its largest degree within a few tens of $\langle k\rangle$.</div>
+  <div class="explain">$10^{6/1.5} = 10^4$ and $10^{6/2} = 10^3$. A random network of the same size would have its largest degree only a few times $\langle k\rangle$.</div>
 </div>
 <div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="1">
   <p>The second moment is $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2$, and $\kappa = \langle k^2\rangle / \langle k\rangle$ is the average degree of the node you reach by following a random link. The email network has $\langle k\rangle = 3.23$ and $\sigma_k = 35.5$. What is $\kappa$, and what does it mean?</p>
@@ -836,7 +836,7 @@
     <li data-why="1.5 is the slope of the CCDF; the exponent of p_k is one more.">1.5</li>
     <li>2.5</li>
     <li data-why="That would need a drop of 10⁻² per decade.">3.0</li>
-    <li data-why="The ratio of the values is 0.0315, whose logarithm is −1.5.">0.5</li>
+    <li data-why="That subtracts 1 from the slope instead of adding it: γ − 1 = 1.5 means γ = 2.5.">0.5</li>
   </ol>
   <div class="explain">The slope is $\log_{10}(0.0063/0.2) / \log_{10}(50/5) = -1.5$, so $\gamma - 1 = 1.5$ and $\gamma = 2.5$. Remember the "+1" when reading exponents off a CCDF.</div>
 </div>
@@ -916,7 +916,7 @@
   <ol>
     <li data-why="That would be the share of nodes with k = 3: 12/60 = 0.2.">0.2</li>
     <li>0.5: half of all nodes have only the links they arrived with, while a few hubs collect many.</li>
-    <li data-why="The minimum degree is m = 2, so k = 1 has probability 0.">0.75</li>
+    <li data-why="That adds p₃ = 0.2 to p₂ = 0.5: it is the share of nodes with k ≤ 3.">0.7</li>
     <li data-why="p_k is a probability, at most 1, and other degrees occur too.">1.0</li>
   </ol>
   <div class="explain">$p_2 = 2\cdot2\cdot3 / (2\cdot3\cdot4) = 12/24 = 0.5$. Most nodes are small; the heavy tail is a small minority.</div>

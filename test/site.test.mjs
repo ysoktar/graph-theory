@@ -97,7 +97,9 @@ const hooks = (html) => {
     local: (body.match(/<div class="quiz"[^>]*data-local/g) || []).length,
     fixes: [...body.matchAll(/data-(errata|book|software)="([^"]+)"/g)].map((m) => m[1] + ":" + m[2]),
     beyond: (body.match(/data-beyond=/g) || []).length,
-    bank: [...body.matchAll(/data-(pages|optional)="([^"]*)"/g)].map((m) => m[1] + "=" + m[2]),
+        bank: [...body.matchAll(/data-(pages|optional)="([^"]*)"/g)].map((m) => m[1] + "=" + m[2]),
+    // practice-bank topics are translated, so compare how many questions each topic has, in order
+    topics: [...body.matchAll(/data-topic="([^"]*)"/g)].map((m) => m[1]).reduce((a, x, i, all) => (i && all[i - 1] === x ? (a[a.length - 1]++, a) : [...a, 1]), []),
   };
 };
 
