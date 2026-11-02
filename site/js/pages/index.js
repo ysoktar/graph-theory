@@ -13,8 +13,11 @@ const QUESTIONS = {
   "Part I · Graph theory": "How do we describe a network?",
   "Part II · Random networks": "What would a network look like if it were wired at random?",
   "Part III · Scale-free networks": "What do real networks have that random ones lack?",
-  "Part IV · Synthesis": "What did we learn, and can you apply it?",
-  "Part V · The rest of the course": "Where do hubs come from, and what do they do?",
+    "Part IV · Where hubs come from": "Which process creates hubs?",
+  "Part V · What the wiring does": "Whom do hubs link to, and what happens when nodes fail?",
+  "Part VI · Learning on networks": "How can a machine learn from a network?",
+  "Beyond the course": "Communities and spreading, for the curious.",
+  "Review & exam prep": "What did we learn, and can you apply it?",
   "Tools": "Experiment freely.",
 };
 const parts = $("#parts");
@@ -103,7 +106,7 @@ refresh(seed);
     box("pl", A, 320, "III", "ch4-power-laws", "Power laws", "Part III"),
     box("hub", A, 390, "III", "ch4-hubs", "Hubs", "Part III"),
     box("rob", A, 460, "V", "robustness", "Robustness", "Part V"),
-    box("epi", A, 530, "V", "epidemics", "Epidemics", "Part V"),
+    box("epi", A, 530, "V", "epidemics", "Epidemics", "Beyond the course"),
     box("path", B, 40, "I", "ch2-paths", "Paths & distances", "Part I"),
     box("sw", B, 110, "II", "ch3-small-world", "Small worlds", "Part II · ⟨d⟩ ~ ln N"),
     box("usw", B, 180, "III", "ch4-ultra-small", "Ultra-small worlds", "Part III · via hubs"),

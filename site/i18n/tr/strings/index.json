@@ -4,7 +4,6 @@
  "What would a network look like if it were wired at random?": "Rastgele bağlansaydı bir ağ neye benzerdi?",
  "What do real networks have that random ones lack?": "Gerçek ağlarda olup rastgele ağlarda olmayan ne?",
  "What did we learn, and can you apply it?": "Ne öğrendik ve bunu uygulayabilir misiniz?",
- "Where do hubs come from, and what do they do?": "Merkez düğümler nereden gelir ve ne işe yarar?",
  "Experiment freely.": "Özgürce deneyin.",
  "Random network": "Rastgele ağ",
  "Scale-free network": "Ölçekten bağımsız ağ",
@@ -36,7 +35,6 @@
  "Part II · random model": "Kısım II · rastgele model",
  "Part II · real data": "Kısım II · gerçek veri",
  "Part III": "Kısım III",
- "Part V": "Kısım V",
  "Part II · ⟨d⟩ ~ ln N": "Kısım II · ⟨d⟩ ~ ln N",
  "Part III · via hubs": "Kısım III · merkez düğümler sayesinde",
  "Part II · adds clustering": "Kısım II · kümelenme ekler",
@@ -47,5 +45,11 @@
  "Degrees": "Dereceler",
  "Distances and clustering": "Uzaklıklar ve kümelenme",
  "Null models (random baselines)": "Sıfır modelleri (rastgele karşılaştırma ağları)",
- "Concept map: degree leads to the degree distribution, Poisson, heavy tails, power laws, hubs, robustness and epidemics; paths lead to small and ultra-small worlds; clustering leads to the Watts–Strogatz model; null models are compared with all of them.": "Kavram haritası: derece; derece dağılımına, Poisson'a, ağır kuyruklara, kuvvet yasalarına, merkez düğümlere, dayanıklılığa ve salgınlara götürür. Yollar küçük ve ultra küçük dünyalara, kümelenme Watts–Strogatz modeline götürür. Sıfır modelleri hepsiyle karşılaştırılır."
+ "Concept map: degree leads to the degree distribution, Poisson, heavy tails, power laws, hubs, robustness and epidemics; paths lead to small and ultra-small worlds; clustering leads to the Watts–Strogatz model; null models are compared with all of them.": "Kavram haritası: derece; derece dağılımına, Poisson'a, ağır kuyruklara, kuvvet yasalarına, merkez düğümlere, dayanıklılığa ve salgınlara götürür. Yollar küçük ve ultra küçük dünyalara, kümelenme Watts–Strogatz modeline götürür. Sıfır modelleri hepsiyle karşılaştırılır.",
+ "Which process creates hubs?": "Merkez düğümleri hangi süreç yaratır?",
+ "Whom do hubs link to, and what happens when nodes fail?": "Merkez düğümler kime bağlanır ve düğümler bozulduğunda ne olur?",
+ "How can a machine learn from a network?": "Bir makine bir ağdan nasıl öğrenebilir?",
+ "Communities and spreading, for the curious.": "Meraklısına topluluklar ve yayılma.",
+ "Part V": "Kısım V",
+ "Beyond the course": "Ders kapsamı dışında"
 }
