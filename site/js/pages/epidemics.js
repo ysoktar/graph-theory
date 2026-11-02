@@ -73,7 +73,7 @@ const toPairs = (g) => { const e = g.edges(), p = new Int32Array(2 * e.length); 
 (async () => {
   const { networks } = await loadNetworks();
   let name = "synthetic", cover = 0.1, job = null;
-  const f = figure("#fig-vacc", { title: "Outbreak size and vaccination strategies", sub: "Average share of nodes ever infected, from a random starting node, 20 outbreaks per point (background thread)." });
+  const f = figure("#fig-vacc", { title: "Outbreak size and vaccination strategies", sub: "Average share of nodes ever infected, from a random starting node, 20 outbreaks per point." });
   const t = stats(f.body, [{ key: "tc", label: "threshold T_c = ⟨k⟩/(⟨k²⟩ − ⟨k⟩)" }, { key: "er", label: "same-density random network" }]);
   const status = h("div", { class: "status-line" });
   const plot = new Plot(f.body, { height: 320, x: { label: "transmissibility T", min: 0, max: 0.5 }, y: { label: "share ever infected", min: 0 } });
