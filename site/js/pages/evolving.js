@@ -9,7 +9,7 @@ const PLANTED = [{ t: 10, eta: 0.3 }, { t: 100, eta: 0.6 }, { t: 1000, eta: 1 }]
 
 (async () => {
   const N = 50000, m = 2;
-  const f = figure("#fig-race", { title: "Late but fit: the race for links", sub: `N = ${fmt.int(N)}, m = 2, fitness η drawn uniformly from [0, 1]; three nodes have their fitness fixed. Built in a background thread.`, cols: "cols-2" });
+  const f = figure("#fig-race", { title: "Late but fit: the race for links", sub: `N = ${fmt.int(N)}, m = 2, fitness η drawn uniformly from [0, 1]; three nodes have their fitness fixed.`, cols: "cols-2" });
   const pa = f.panel("Degree of three planted nodes"), pb = f.panel("P(K ≥ k): fitness model against BA (equal fitness)");
   const t = stats(f.body, [{ key: "g", label: "fitted γ̂, fitness model" }, { key: "gb", label: "fitted γ̂, equal fitness (BA)" }, { key: "hub", label: "the largest hub" }]);
   t.el.style.gridColumn = "1 / -1";

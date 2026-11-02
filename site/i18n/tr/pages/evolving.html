@@ -1,0 +1,151 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Evrilen ağlar: uygunluk · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bianconi–Barabási uygunluk modeli: geç gelen ama uygunluğu yüksek bir düğüm eski merkez düğümleri nasıl geçer ve uygunluk derece üstelini nasıl değiştirir."></head><body>
+<div class="content">
+
+<h1>Evrilen ağlar: uygunluk</h1>
+<p class="lead">BA modelinde en eski düğüm her zaman en zengindir. Oysa geç gelenler de kazanır: Google, AltaVista'dan sonra geldi ve onu geçti. Eksik bileşen: bazı düğümler diğerlerinden daha çekicidir.</p>
+
+<div class="callout why">
+  <ul>
+    <li>BA başarıyı yalnızca yaşa bağlar; bu yüzden en eski sayfaların en çok bağlantıya sahip olduğunu ve her zaman $\gamma = 3$ olduğunu öngörür. İkisi de yanlıştır.</li>
+    <li>Uygunluk, büyümeyi ve tercihli bağlanmayı koruyarak her düğüme tek bir sayı ekler.</li>
+    <li>Geç kazananları, 3'ten farklı üstelleri ve kazananın her şeyi aldığı ağları açıklar.</li>
+  </ul>
+</div>
+
+<h2>Bianconi–Barabási modeli (Bölüm 6.2)</h2>
+<p>Her düğüm doğduğunda $\rho(\eta)$'dan çekilen sabit bir <strong>uygunluk</strong> $\eta_i$ alır. Yeni bir bağlantı $i$ düğümüne şu olasılıkla bağlanır:</p>
+<div class="eq">$$\Pi_i = \frac{\eta_i k_i}{\sum_j \eta_j k_j}.$$</div>
+<dl class="symbols">
+  <dt>$\eta_i$</dt><dd>$i$ düğümünün uygunluğu (“eta”): içsel çekiciliği, burada [0, 1] aralığında</dd>
+  <dt>$k_i$</dt><dd>$i$ düğümünün derecesi</dd>
+  <dt>$\sum_j \eta_j k_j$</dt><dd>toplam çekicilik (normalleştirme)</dd>
+  <dt>$\rho(\eta)$</dt><dd>uygunluk dağılımı (burada düzgün)</dd>
+</dl>
+<p>Eşit uygunluklar sadeleşir ve BA modelini geri verir.</p>
+
+<h2>Her düğüm kendi hızıyla büyür</h2>
+<p>BA süreklilik hesabı (<a href="ch5-preview.html">önceki sayfa</a>) şimdi şunu verir:</p>
+<div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{\beta(\eta_i)}, \qquad \beta(\eta) = \frac{\eta}{C},$$</div>
+<p>burada $C$, toplam derecenin $2mt$ gibi büyümesi şartıyla belirlenir (Denklem 6.7):</p>
+<div class="eq">$$\int \rho(\eta)\,\frac{\eta}{C - \eta}\,d\eta = 1 .$$</div>
+<dl class="symbols">
+  <dt>$t_i$</dt><dd>$i$ düğümünün geliş zamanı</dd>
+  <dt>$\beta(\eta)$</dt><dd>$\eta$ uygunluğunun dinamik üsteli (BA: ½)</dd>
+  <dt>$C$</dt><dd>$\rho(\eta)$'nın belirlediği sabit</dd>
+</dl>
+<div class="callout example">
+  <ul>
+    <li>Düzgün uygunluk: $C \ln\frac{C}{C-1} = 2$ → $C = 1.255$; $\beta(1) = 0.80$, $\beta(0.3) = 0.24$.</li>
+    <li>Eşit uygunluk $\eta = 1$: $\frac{1}{C-1} = 1$ → $C = 2$, $\beta = \frac12$ (BA).</li>
+    <li>A: $t_A = 10$, $\eta = 0.3$; B: $t_B = 1{,}000$, $\eta = 1$. $0.239\ln(t/10) = 0.797\ln(t/1000)$ olduğunda eşitlenirler → $t \approx 7{,}200$; ondan sonra B öndedir.</li>
+  </ul>
+</div>
+
+<div data-fig id="fig-race"></div>
+
+<h2>Derece dağılımı</h2>
+<p>Her uygunluk için bir tane olmak üzere kuvvet yasalarının bir karışımı. Düzgün uygunluk için:</p>
+<div class="eq">$$p_k \sim \frac{k^{-(1+C)}}{\ln k} .$$</div>
+<dl class="symbols">
+  <dt>$1 + C$</dt><dd>derece üsteli: burada 2.255, BA'nın 3'ünün altında</dd>
+  <dt>$\ln k$</dt><dd>yavaş bir düzeltme; uydurulan üsteller daha yüksek çıkar</dd>
+</dl>
+
+<div class="callout key">
+  <p>Bir merkez düğüm ya erkendir (BA) ya da uygundur. Üsteli uygunluk dağılımı belirler; veriden ölçülen büyüme hızları uygunluğu kestirir (Bölüm 6.3).</p>
+</div>
+
+<h2>Bose–Einstein yoğuşması (Bölüm 6.4)</h2>
+<p>Model bir Bose gazına eşlenir: $i$ düğümü ↔ $\varepsilon_i = -\frac{1}{\beta}\ln\eta_i$ enerji düzeyi, bağlantı ucu ↔ parçacık. (Buradaki $\beta$ büyüme üsteli değil, ters sıcaklıktır.) İki rejim:</p>
+<div class="callout fix" data-book="B11"></div>
+<ul>
+  <li><strong>Uygun olan zenginleşir:</strong> en uygun düğümler en büyük merkez düğümler olur, her birinin bağlantı payı sıfıra gider.</li>
+  <li><strong>Kazanan her şeyi alır</strong> (yoğuşma, bazı $\rho(\eta)$'lar için): $N \to \infty$ iken tek bir düğüm tüm bağlantıların sabit bir payını korur; ağ yıldız benzeri olur.</li>
+</ul>
+
+<div class="callout connect">
+  <ul>
+    <li><a href="ch5-preview.html">BA modelini</a> <strong>genelleştirir</strong>: eşit $\eta$, $\beta = \frac12$ ve $\gamma = 3$ verir.</li>
+    <li>3'ten farklı üstelleri <strong>açıklar</strong> (<a href="ch4-universality.html">Evrensellik</a>).</li>
+    <li>Merkez düğümlerin sırasını <strong>öngörür</strong>: yalnızca yaş değil, yaş ve nitelik.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>En eski web sayfaları neden en çok bağlantıya sahip değil? 6. Bölüm'den başka neler önemlidir?</p>
+  <div class="hint">Uygunluk, düğüm ve bağlantı silme, eski düğümler arasındaki iç bağlantılar, yaşlanma. Her biri üsteli kaydırır; güçlü yaşlanma kuvvet yasasını yok eder.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Uygunluk [0, 1] üzerinde düzgündür, yani $C = 1.255$. $\eta = 1$ olan bir düğüm $t = 1{,}000$'de geliyor. Derecesi nasıl büyür?</p>
+  <ol>
+    <li>$(t/1000)^{0.8}$ gibi</li>
+    <li data-why="½ yalnızca tüm uygunluklar eşitken geçerlidir.">$(t/1000)^{0.5}$ gibi</li>
+    <li data-why="Her düğüm için β = η/C &lt; 1'dir.">Doğrusal olarak</li>
+    <li data-why="Her düğüm bağlantı almaya devam eder.">Hiç büyümez</li>
+  </ol>
+  <div class="explain">$\beta = \eta/C = 1/1.255 \approx 0.8$: BA modelindeki her düğümden hızlı.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Tüm düğümlerin uygunluğu aynı olduğunda uygunluk modeli ne öngörür?</p>
+  <ol>
+    <li data-why="C = 1.255 düzgün uygunluk içindir.">$\gamma = 2.255$</li>
+    <li>BA modelini: $\beta = \frac12$, $\gamma = 3$</li>
+    <li data-why="Bağlanma yine yüksek dereceyi kayırır; bu yüzden kuyruk kuvvet yasası olarak kalır.">Üstel bir $p_k$</li>
+    <li data-why="Düğümleri yaştan başka hiçbir şey ayırmaz.">Kazanan her şeyi alır</li>
+  </ol>
+  <div class="explain">Eşit $\eta$'lar $\Pi_i$'den sadeleşir; $C = 2$, yani $\beta = \frac12$ ve $\gamma = 1 + 1/\beta = 3$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>A düğümü $t = 10$'da $\eta = 0.3$ ile, B düğümü $t = 1{,}000$'de $\eta = 1$ ile geliyor (düzgün uygunluk, $C = 1.255$). Ne olur?</p>
+  <ol>
+    <li data-why="Bu yalnızca BA'da doğrudur; burada B daha hızlı büyür.">A önde kalır</li>
+    <li data-why="B yalnızca m bağlantıyla başlar.">B hemen öne geçer</li>
+    <li>B, $t \approx 7{,}000$ civarında A'yı geçer</li>
+    <li data-why="Büyüme üstelleri farklıdır; bu yüzden dereceleri bir kez kesişir, sonra ayrılır.">Aynı dereceye yakınsarlar</li>
+  </ol>
+  <div class="explain">İkisi de $m$ bağlantıyla başlar. $(t/10)^{0.239} = (t/1000)^{0.797}$ eşitliği $t \approx 7{,}200$'de sağlanır; ondan sonra B'nin daha hızlı büyümesi onu önde tutar.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>$10^6$ düğümlü, kazananın her şeyi aldığı bir ağ için hangisi doğrudur?</p>
+  <ol>
+    <li data-why="Bu, uygun olanın zenginleştiği rejimdir.">En büyük merkez düğümün bağlantı payı sıfıra gider</li>
+    <li>Tek bir düğüm tüm bağlantıların sabit bir payını korur</li>
+    <li data-why="Mesele kimin kime bağlandığı değil, bağlantıların nasıl paylaşıldığıdır.">Merkez düğümler yalnızca merkez düğümlere bağlanır</li>
+    <li data-why="Yoğuşma bağlantıları yoğunlaştırır.">Dereceler eşittir</li>
+  </ol>
+  <div class="explain">Bose–Einstein yoğuşmasının karşılığı: parçacıkların sabit bir kesri en düşük düzeyde toplanır.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Uygunluk düzgündür ($C = 1.255$). $\eta = 0.5$ olan bir düğümün büyüme üsteli $\beta$ nedir?</p>
+  <ol>
+    <li data-why="Bu, tüm uygunlukların eşit olduğu BA'dır.">0.5</li>
+    <li data-why="Bu, η'yı C'ye bölmek yerine C ile çarpar.">0.63</li>
+    <li data-why="Bu, eşit uygunluk değeri olan C = 2'yi kullanır.">0.25</li>
+    <li>0.40</li>
+  </ol>
+  <div class="explain">$\beta = \eta/C = 0.5/1.255 = 0.40$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Düzgün uygunluk $\gamma \approx 1 + C = 2.26$ verir. BA modeline kıyasla ağ büyüdükçe $\langle k^2\rangle$ nasıl davranır?</p>
+  <ol>
+    <li>$\gamma &lt; 3$ olduğundan $N$'nin bir kuvveti gibi ıraksar</li>
+    <li data-why="Sonlu ⟨k²⟩ için γ &gt; 3 gerekir.">Sonlu kalır</li>
+    <li data-why="Bu, γ = 3 durumudur.">BA'daki gibi $\ln N$ gibi büyür</li>
+    <li data-why="Her zaman ⟨k²⟩ ≥ ⟨k⟩² &gt; 0'dır.">Sıfıra gider</li>
+  </ol>
+  <div class="explain">$\gamma &lt; 3$ onu ölçekten bağımsız rejime koyar: rastgele bozulmalara daha dayanıklıdır (<a href="robustness.html">8. Bölüm</a>) ve salgın eşiği daha düşüktür (<a href="epidemics.html">10. Bölüm</a>).</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Uygunluk modelinde hangi düğümün en büyük merkez düğüm olacağına ne karar verir?</p>
+  <ol>
+    <li data-why="Bu, BA modelidir.">Yalnızca geliş zamanı</li>
+    <li data-why="Çok geç gelen uygun bir düğüm zamanında yetişemeyebilir.">Yalnızca uygunluk</li>
+    <li>Geliş zamanı ve uygunluk birlikte</li>
+    <li data-why="Her düğüm m bağlantıyla gelir.">Geldiğindeki derecesi</li>
+  </ol>
+  <div class="explain">$k_i = m(t/t_i)^{\eta_i/C}$ hem $t_i$'ye hem $\eta_i$'ye bağlıdır.</div>
+</div>
+</div></body></html>

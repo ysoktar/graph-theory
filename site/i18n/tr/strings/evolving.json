@@ -1,0 +1,21 @@
+{
+  "Late but fit: the race for links": "Geç ama uygun: bağlantı yarışı",
+  "N = 20,000, m = 2, fitness η drawn uniformly from [0, 1]; three nodes have their fitness fixed.": "N = {0}, m = {1}, uygunluk η [{2}, {3}] aralığından düzgün çekiliyor; üç düğümün uygunluğu sabitlendi.",
+  "Degree of three planted nodes": "Yerleştirilen üç düğümün derecesi",
+  "P(K ≥ k): fitness model against BA (equal fitness)": "P(K ≥ k): uygunluk modeli ve BA (eşit uygunluk)",
+  "fitted γ̂, fitness model": "uydurulan γ̂, uygunluk modeli",
+  "fitted γ̂, equal fitness (BA)": "uydurulan γ̂, eşit uygunluk (BA)",
+  "the largest hub": "en büyük merkez düğüm",
+  "Building…": "Kuruluyor…",
+  "time t (number of nodes)": "zaman t (düğüm sayısı)",
+  "degree kᵢ(t)": "derece kᵢ(t)",
+  "degree k": "derece k",
+  "Building the equal-fitness network…": "Eşit uygunluklu ağ kuruluyor…",
+  "theory ≈ 1 + C = 2.26 (with a log correction)": "kuram ≈ {0} + C = {1} (logaritmik düzeltmeyle)",
+  "theory 3": "kuram {0}",
+  "node t = 5, fitness η = 0.97": "düğüm t = {0}, uygunluk η = {1}",
+  "arrived at t = 10, η = 0.3": "t = {0} anında geldi, η = {1}",
+  "fitness model": "uygunluk modeli",
+  "equal fitness (BA)": "eşit uygunluk (BA)",
+  "Each node's degree grows as a power of time whose exponent β = η/C is set by its fitness, so the fittest node eventually overtakes nodes that arrived much earlier. Single trajectories are noisy; the dashed lines are the averages predicted by the continuum theory. The spread of growth rates broadens the degree distribution: its tail is heavier than BA's.": "Her düğümün derecesi, üsteli β = η/C uygunluğuyla belirlenen bir zaman kuvveti olarak büyür; bu yüzden en uygun düğüm sonunda çok daha önce gelen düğümleri geçer. Tek tek yörüngeler gürültülüdür; kesikli çizgiler süreklilik kuramının öngördüğü ortalamalardır. Büyüme hızlarının yayılması derece dağılımını genişletir: kuyruğu BA'nınkinden ağırdır."
+}
