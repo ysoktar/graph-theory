@@ -4,6 +4,13 @@
 
 <h1>Kuvvet yasaları ve merkez düğümler</h1>
 <p class="lead">Rastgele ağ modeli en açık biçimde tek bir özellikte başarısız oldu: gerçek ağlarda <strong>merkez düğümler</strong> (hub) vardır, yani bir Poisson dağılımının izin verdiğinden çok daha fazla bağlantısı olan düğümler. 4. bölüm Poisson dağılımının yerine onlara izin veren bir <strong>kuvvet yasası</strong> koyar.</p>
+<div class="callout why">
+  <ul>
+    <li>Poisson modeli yalnızca $\langle k\rangle$ ile belirlenir ve merkez düğüm üretemez.</li>
+    <li>Kuvvet yasası kuyruğu denetleyen bir parametre, $\gamma$, ekler.</li>
+    <li>$\gamma$'dan en büyük merkez düğümü, derece varyansını, yol uzunluklarını, dayanıklılığı ve salgın yayılmasını öngörebiliriz.</li>
+  </ul>
+</div>
 
 <h2>Ölçekten bağımsız ağlar (Bölüm 4.2)</h2>
 <p><strong>Derece dağılımı</strong> $p_k$ (<a href="ch2-degree.html">Kısım I</a>), bir kuvvet yasasına uyuyorsa <strong>ölçekten bağımsız</strong> diye adlandırılır:</p>
@@ -58,14 +65,6 @@
 </div>
 
 <div data-fig id="fig-look"></div>
-
-<div class="callout why">
-  <ul>
-    <li>Poisson modeli yalnızca $\langle k\rangle$ ile belirlenir ve merkez düğüm üretemez.</li>
-    <li>Kuvvet yasası kuyruğu denetleyen bir parametre, $\gamma$, ekler.</li>
-    <li>$\gamma$'dan en büyük merkez düğümü, derece varyansını, yol uzunluklarını, dayanıklılığı ve salgın yayılmasını öngörebiliriz.</li>
-  </ul>
-</div>
 
 <div class="callout discuss">
   <p>Rastgele bir ağda $\langle k\rangle$ "tipik" bir derecedir: düğümlerin çoğunun yaklaşık o kadar bağlantısı vardır. Bu, $\gamma = 2.5$ olan bir kuvvet yasası için de doğru mu?</p>

@@ -19,6 +19,13 @@
 
 <h1>No typical degree: what "scale-free" means</h1>
 <p class="lead">In a random network the average degree is a natural scale: almost every node has about $\langle k\rangle$ links. A power law has no such scale, because its second moment grows without bound (Section 4.4).</p>
+<div class="callout why">
+  <ul>
+    <li>"Scale-free" means exactly this: no finite variance, so no typical degree.</li>
+    <li>The random model sets $\sigma_k = \sqrt{\langle k\rangle}$; real networks break that by factors up to 20.</li>
+    <li>$\langle k^2\rangle$, not $\langle k\rangle$, controls robustness and spreading.</li>
+  </ul>
+</div>
 
 <h2>Moments of a power law</h2>
 <p>The $n$-th <strong>moment</strong> of the degree distribution is $\langle k^n\rangle = \sum_k k^n p_k$. For a continuous power law between $k_{\min}$ and $k_{\max}$:</p>
@@ -62,13 +69,6 @@
   <p>$\langle k^2\rangle$ is the quantity that matters in the chapters ahead: the giant component of the configuration model ($\langle k^2\rangle &gt; 2\langle k\rangle$, the Molloy–Reed criterion), robustness to random failures (Ch 8) and the epidemic threshold (Ch 10). With a divergent $\langle k^2\rangle$, removing random nodes hardly destroys the giant component.</p>
 </div>
 
-<div class="callout why">
-  <ul>
-    <li>"Scale-free" means exactly this: no finite variance, so no typical degree.</li>
-    <li>The random model sets $\sigma_k = \sqrt{\langle k\rangle}$; real networks break that by factors up to 20.</li>
-    <li>$\langle k^2\rangle$, not $\langle k\rangle$, controls robustness and spreading.</li>
-  </ul>
-</div>
 <div class="callout connect">
   <ul>
     <li><strong>Follows from</strong> the growing <a href="ch4-hubs.html">largest hub</a>.</li>

@@ -19,6 +19,13 @@
 
 <h1>Paths and distances</h1>
 <p class="lead">In a network, physical distance rarely matters; what matters is how many links separate two nodes. Distance sets how fast news, viruses or failures can travel, and it is the basis of the <em>small-world</em> effect.</p>
+<div class="callout why">
+  <ul>
+    <li>Distance measures how quickly anything can spread between two nodes.</li>
+    <li>How $\langle d\rangle$ grows with $N$ tests models: random networks predict $\ln N/\ln\langle k\rangle$.</li>
+    <li>BFS costs time proportional to $N + L$, which makes distances computable on large sparse networks.</li>
+  </ul>
+</div>
 
 <p>A <strong>path</strong> is a sequence of nodes, each linked to the next, that never revisits a node; its <strong>length</strong> is its number of links. A <strong>shortest path</strong> has the fewest links; its length is the <strong>distance</strong> $d_{ij}$. A pair of nodes can have several shortest paths. Two numbers summarise the whole network:</p>
 <div class="eq">$$d_{\max} = \max_{i,j} d_{ij}, \qquad \langle d\rangle = \frac{1}{N(N-1)}\sum_{i \ne j} d_{ij}.$$</div>
@@ -58,14 +65,6 @@
   <p>Among 23,133 scientists, most pairs are 4 to 6 steps apart, and 84% of pairs are within six steps. The power grid's average distance is about 19: its links join neighbouring places, so it has no long shortcuts. <a href="ch3-small-world.html">Small worlds</a> explains the short distances.</p>
 </div>
 <div class="callout fix" data-errata="N5"></div>
-
-<div class="callout why">
-  <ul>
-    <li>Distance measures how quickly anything can spread between two nodes.</li>
-    <li>How $\langle d\rangle$ grows with $N$ tests models: random networks predict $\ln N/\ln\langle k\rangle$.</li>
-    <li>BFS costs time proportional to $N + L$, which makes distances computable on large sparse networks.</li>
-  </ul>
-</div>
 
 <div class="callout connect">
   <ul>

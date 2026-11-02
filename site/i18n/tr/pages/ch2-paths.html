@@ -4,6 +4,13 @@
 
 <h1>Yollar ve uzaklıklar</h1>
 <p class="lead">Bir ağda fiziksel uzaklık nadiren önemlidir; önemli olan iki düğümü kaç bağlantının ayırdığıdır. Uzaklık, haberin, virüslerin ya da arızaların ne kadar hızlı ilerleyebileceğini belirler ve <em>küçük dünya</em> etkisinin temelidir.</p>
+<div class="callout why">
+  <ul>
+    <li>Uzaklık, herhangi bir şeyin iki düğüm arasında ne kadar hızlı yayılabileceğini ölçer.</li>
+    <li>$\langle d\rangle$'nın $N$ ile nasıl büyüdüğü modelleri sınar: rastgele ağlar $\ln N/\ln\langle k\rangle$ öngörür.</li>
+    <li>BFS'nin maliyeti $N + L$ ile orantılıdır; bu da büyük seyrek ağlarda uzaklıkları hesaplanabilir kılar.</li>
+  </ul>
+</div>
 
 <p>Bir <strong>yol</strong>, her biri bir sonrakine bağlı olan ve hiçbir düğümü yeniden ziyaret etmeyen bir düğüm dizisidir; <strong>uzunluğu</strong> bağlantılarının sayısıdır. Bir <strong>en kısa yol</strong> en az bağlantıya sahiptir; uzunluğu <strong>uzaklık</strong> $d_{ij}$'dir. Bir düğüm çiftinin birden çok en kısa yolu olabilir. İki sayı tüm ağı özetler:</p>
 <div class="eq">$$d_{\max} = \max_{i,j} d_{ij}, \qquad \langle d\rangle = \frac{1}{N(N-1)}\sum_{i \ne j} d_{ij}.$$</div>
@@ -43,14 +50,6 @@
   <p>23,133 bilim insanı arasında çiftlerin çoğu 4 ile 6 adım uzaktadır ve çiftlerin %84'ü altı adım içindedir. Elektrik şebekesinin ortalama uzaklığı yaklaşık 19'dur: bağlantıları komşu yerleri birleştirir, bu yüzden uzun kısayolları yoktur. Kısa uzaklıkları <a href="ch3-small-world.html">Küçük dünyalar</a> sayfası açıklar.</p>
 </div>
 <div class="callout fix" data-errata="N5"></div>
-
-<div class="callout why">
-  <ul>
-    <li>Uzaklık, herhangi bir şeyin iki düğüm arasında ne kadar hızlı yayılabileceğini ölçer.</li>
-    <li>$\langle d\rangle$'nın $N$ ile nasıl büyüdüğü modelleri sınar: rastgele ağlar $\ln N/\ln\langle k\rangle$ öngörür.</li>
-    <li>BFS'nin maliyeti $N + L$ ile orantılıdır; bu da büyük seyrek ağlarda uzaklıkları hesaplanabilir kılar.</li>
-  </ul>
-</div>
 
 <div class="callout connect">
   <ul>

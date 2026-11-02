@@ -4,6 +4,12 @@
 
 <h1>Ağırlıklı ve iki parçalı ağlar</h1>
 <p class="lead">Bağlantıların gücü farklıdır ve birçok veri kümesi iki tür düğümü, örneğin insanları ve katıldıkları etkinlikleri birbirine bağlar. <strong>Ağırlıklı</strong> ve <strong>iki parçalı</strong> ağlar bunu kaydeder. İki parçalı bir ağı tek bir düğüm türüne izdüşürmek bu bilginin bir kısmını kaybettirir.</p>
+<div class="callout why">
+  <ul>
+    <li>Ağırlıklar, 0/1 bir ağın attığı bilgiyi korur: bir bağın ne kadar güçlü ya da yoğun olduğunu.</li>
+    <li>Hangi bağların bir grubu bir arada tuttuğunu ya da yükün çoğunu hangi hatların taşıdığını sormamızı sağlar.</li>
+  </ul>
+</div>
 
 <h2>Ağırlıklı ağlar (Bölüm 2.6)</h2>
 <p><strong>Ağırlıklı bir ağda</strong> her bağlantı bir sayı, yani <strong>ağırlığını</strong> taşır: telefon görüşmesi dakikaları, bir elektrik hattındaki akım, ortak makale sayısı. Matris ağırlığı saklar, $A_{ij} = w_{ij}$, ve derece <strong>güce</strong> genelleşir:</p>
@@ -22,12 +28,6 @@
   <ul>
     <li>Güç dereceyle büyür, ama orantılı olarak değil: bazı üyelerin hepsi güçlü olan az sayıda bağlantısı vardır.</li>
     <li>Eşiği yükseltin. Taraflar arasındaki bağlantılar zayıftır: 78 bağlantının 11'i taraflar arasıdır, ama $w \ge 3$ olan 48 bağlantının yalnızca 4'ü ve $w \ge 5$ olanların hiçbiri. Eşiklenmiş ağ keyfî bir kesme değerine bağlıdır.</li>
-  </ul>
-</div>
-<div class="callout why">
-  <ul>
-    <li>Ağırlıklar, 0/1 bir ağın attığı bilgiyi korur: bir bağın ne kadar güçlü ya da yoğun olduğunu.</li>
-    <li>Hangi bağların bir grubu bir arada tuttuğunu ya da yükün çoğunu hangi hatların taşıdığını sormamızı sağlar.</li>
   </ul>
 </div>
 

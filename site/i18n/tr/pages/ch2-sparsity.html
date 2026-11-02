@@ -4,6 +4,13 @@
 
 <h1>Gerçek ağlar seyrektir</h1>
 <p class="lead">Var olabilecek tüm bağlantılardan gerçek bir ağ yalnızca çok küçük bir kısmını içerir; bu kısma ağın <strong>yoğunluğu</strong> denir ve ağlar büyüdükçe küçülür. Yoğunluk, ağların nasıl saklanabileceğini ve onlarla nasıl hesap yapılabileceğini belirler; bir ağın karşılaştırılması gereken rastgele modeli de o belirler.</p>
+<div class="callout why">
+  <ul>
+    <li>Seyrek saklama, milyonlarca düğümlü ağların belleğe sığmasını sağlar.</li>
+    <li>Her bağlantıya yalnızca birkaç kez dokunan algoritmalar (genişlik öncelikli arama, bileşenler, üçgen sayımı) hızlı kalır.</li>
+    <li>Karşılaştırma için adil rastgele ağ, her çifti yoğunluğa eşit bir $p$ olasılığıyla bağlar.</li>
+  </ul>
+</div>
 
 <h2>Olası bağlantılar ve yoğunluk</h2>
 <div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}, \qquad \text{yoğunluk} = \frac{L}{L_{\max}} = \frac{\langle k\rangle}{N-1}.$$</div>
@@ -32,14 +39,6 @@
 <h2>Bir ağı saklamak</h2>
 <p>Yoğun bir matris $N^2$ öğe gerektirir. Bir <strong>kenar listesi</strong> (her bağlantı için bir düğüm kimliği çifti) ya da bir <strong>seyrek matris</strong> için $L$ ile orantılı bellek yeter. Yaygın seyrek biçim olan CSR, tüm komşu listelerini art arda ($2L$ kimlik) ve her düğümün listesinin nerede başladığını söyleyen $N+1$ konumu saklar.</p>
 <div data-fig id="fig-memory"></div>
-
-<div class="callout why">
-  <ul>
-    <li>Seyrek saklama, milyonlarca düğümlü ağların belleğe sığmasını sağlar.</li>
-    <li>Her bağlantıya yalnızca birkaç kez dokunan algoritmalar (genişlik öncelikli arama, bileşenler, üçgen sayımı) hızlı kalır.</li>
-    <li>Karşılaştırma için adil rastgele ağ, her çifti yoğunluğa eşit bir $p$ olasılığıyla bağlar.</li>
-  </ul>
-</div>
 
 <div class="callout discuss">
   <p>Ağları neden <strong>kenar listeleri</strong> ya da <strong>seyrek matrisler</strong> olarak saklarız? WWW örneği ($N \approx 3\times10^5$) ya da Facebook ($N \approx 3\times10^9$) için yoğun bir matris ne kadar bellek gerektirirdi? <span class="muted">(Not defteri I.3.)</span></p>

@@ -19,6 +19,14 @@
 
 <h1>The adjacency matrix</h1>
 <p class="lead">To compute anything about a network, we must record which pairs of nodes are linked. The <strong>adjacency matrix</strong> does this in a table of 0s and 1s, and turns network questions (degrees, common neighbours, triangles) into arithmetic.</p>
+<div class="callout why">
+  <ul>
+    <li>Network questions become linear algebra, which computers do fast.</li>
+    <li>$A^2$ counts common neighbours, the basis of friend recommendation and link prediction.</li>
+    <li>$A^3$ counts triangles, which give the clustering coefficient.</li>
+    <li data-beyond="Not in chapters 1–7: spectral methods">The eigenvectors of $A$ rank nodes by importance and find communities.</li>
+  </ul>
+</div>
 
 <h2>Definition</h2>
 <p>For a network of $N$ nodes, $A$ is an $N \times N$ table:</p>
@@ -76,15 +84,6 @@
 
 <div class="callout fix" data-errata="N4"></div>
 <div class="callout fix" data-book="B2"></div>
-
-<div class="callout why">
-  <ul>
-    <li>Network questions become linear algebra, which computers do fast.</li>
-    <li>$A^2$ counts common neighbours, the basis of friend recommendation and link prediction.</li>
-    <li>$A^3$ counts triangles, which give the clustering coefficient.</li>
-    <li data-beyond="Not in chapters 1–7: spectral methods">The eigenvectors of $A$ rank nodes by importance and find communities.</li>
-  </ul>
-</div>
 
 <div class="callout discuss">
   <p>The adjacency matrix of the karate club has $34^2 = 1{,}156$ entries, of which 156 are non-zero. What fraction would be non-zero for the collaboration network, with $N = 23{,}133$ and $L = 93{,}439$? What does that suggest about how to store large networks?</p>

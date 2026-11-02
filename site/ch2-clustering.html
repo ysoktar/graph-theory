@@ -19,6 +19,13 @@
 
 <h1>Clustering</h1>
 <p class="lead">Your friends tend to know each other. The <strong>clustering coefficient</strong> measures how much, and it is the property that random networks most clearly fail to reproduce.</p>
+<div class="callout why">
+  <ul>
+    <li>Clustering measures local cohesion: friends of friends tend to become friends.</li>
+    <li>It is the clearest test of a model: a random network has $C \approx \langle k\rangle/N$, near 0 for large $N$.</li>
+    <li>Plotting $C(k)$ against $k$ reveals hierarchy: hubs connect separate groups.</li>
+  </ul>
+</div>
 
 <p>The $k_i$ neighbours of node $i$ can have at most $k_i(k_i-1)/2$ links among themselves. If $L_i$ of these links exist, the <strong>local clustering coefficient</strong> is the fraction that is present:</p>
 <div class="eq">$$C_i = \frac{2L_i}{k_i(k_i-1)}.$$</div>
@@ -65,14 +72,6 @@
 <div class="callout discuss">
   <p>Why is $\langle C\rangle$ larger than $C_\Delta$ in the collaboration network ($0.633$ against $0.264$)? <span class="muted">(Notebook I.7.)</span></p>
   <div class="hint">Most scientists have few co-authors, often from a single paper, which closes all their triangles ($C_i \approx 1$); $\langle C\rangle$ counts them equally. $C_\Delta$ counts triples, $k(k-1)/2$ per scientist, so the few prolific authors, whose co-authors mostly do not know each other, dominate it. The windmill graph is the extreme case.</div>
-</div>
-
-<div class="callout why">
-  <ul>
-    <li>Clustering measures local cohesion: friends of friends tend to become friends.</li>
-    <li>It is the clearest test of a model: a random network has $C \approx \langle k\rangle/N$, near 0 for large $N$.</li>
-    <li>Plotting $C(k)$ against $k$ reveals hierarchy: hubs connect separate groups.</li>
-  </ul>
 </div>
 
 <div class="callout connect">

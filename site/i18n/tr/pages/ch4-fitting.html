@@ -4,6 +4,13 @@
 
 <h1>Derece üstelini kestirmek</h1>
 <p class="lead">Log-log bir grafiğe düz bir doğru uydurmak $\gamma$'yı kestirmenin en yaygın ve en az güvenilir yollarından biridir. Bu sayfa beş kestiriciyi üsteli bildiğimiz veride sınar, sonra istatistiksel olarak sağlam yöntemi kitabın ağlarına uygular.</p>
+<div class="callout why">
+  <ul>
+    <li>Ölçekten bağımsız modelin her öngörüsünü $\gamma$ yönlendirir; bu yüzden yanlı bir $\hat\gamma$ yanlış öngörüler verir.</li>
+    <li>En çok olabilirlik, hata payıyla birlikte yansız bir $\hat\gamma$ verir.</li>
+    <li>Bootstrap testi, hiçbir uydurmanın söyleyemeyeceğini söyler: bir kuvvet yasası makul mü, değil mi.</li>
+  </ul>
+</div>
 
 <h2>Denetimli bir deney</h2>
 <p>Bir kestiriciyi değerlendirmek için yanıtı bilinen veriye ihtiyacımız var. Üsteli $\gamma$ ve $k_{\min} = 1$ olan kesikli bir kuvvet yasasından $n$ derece çekiyor ve $\gamma$'yı beş yolla kestiriyoruz (not defteri III.3):</p>
@@ -90,13 +97,6 @@
   <div class="hint">Broido ve Clauset (<em>Nat. Commun.</em> 10, 1017, 2019) yaklaşık 1,000 ağı sınadı ve "ölçekten bağımsız ağların nadir olduğu" sonucuna vardı. Holme (<em>Nat. Commun.</em> 10, 1016, 2019) ve Voitalov, van der Hoorn, van der Hofstad ve Krioukov (<em>Phys. Rev. Research</em> 1, 033034, 2019), merkez düğümler, uzaklıklar, dayanıklılık ve yayılma için önemli olanın kuyruğun ağır olup olmadığı, yani $\langle k^2\rangle \gg \langle k\rangle^2$ olup olmadığı olduğunu söyleyerek yanıt verdi. Burada $\langle k^2\rangle/\langle k\rangle^2$, 1.45 (elektrik şebekesi) ile 121 (e-posta) arasındadır. İki taraf da log-log bir grafikteki düz bir doğrunun hiçbir şey kanıtlamadığında hemfikirdir.</div>
 </div>
 
-<div class="callout why">
-  <ul>
-    <li>Ölçekten bağımsız modelin her öngörüsünü $\gamma$ yönlendirir; bu yüzden yanlı bir $\hat\gamma$ yanlış öngörüler verir.</li>
-    <li>En çok olabilirlik, hata payıyla birlikte yansız bir $\hat\gamma$ verir.</li>
-    <li>Bootstrap testi, hiçbir uydurmanın söyleyemeyeceğini söyler: bir kuvvet yasası makul mü, değil mi.</li>
-  </ul>
-</div>
 <div class="callout connect">
   <ul>
     <li><strong>Üzerine kurulduğu konu:</strong> <a href="ch4-plotting.html">çizim</a>; grafik öneride bulunur, karar uydurmanındır.</li>

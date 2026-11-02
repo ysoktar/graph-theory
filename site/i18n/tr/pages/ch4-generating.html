@@ -4,6 +4,13 @@
 
 <h1>Verilen bir derece dağılımıyla ağ üretmek</h1>
 <p class="lead">Gerçek bir ağın hangi özelliklerinin yalnızca derecelerinden kaynaklandığını sormak için, o dereceleri paylaşan ama başka hiçbir şeyi paylaşmayan rastgele ağlara ihtiyacımız var: bir <strong>sıfır modeli</strong>. Bölüm 4.8 bunları kurmanın iki yolunu verir.</p>
+<div class="callout why">
+  <ul>
+    <li>Bir sıfır modeli, derecelere bakıldığında bir özelliğin şaşırtıcı olup olmadığını söyler.</li>
+    <li>Ağır kuyruklu ağlar için $G(N, L)$ yanlış karşılaştırma ölçütüdür: merkez düğümleri yok eder.</li>
+    <li>Bu bölümün öngörülerini sınamak için her boyutta ölçekten bağımsız ağ üretmemizi sağlar.</li>
+  </ul>
+</div>
 
 <h2>Konfigürasyon modeli</h2>
 <p>$i$ düğümüne tam olarak $k_i$ <em>yarım bağlantı</em> (koçan) verin, sonra tüm yarım bağlantıları düzgün rastgele eşleştirin. Böylece verilen derece dizisine sahip her ağ eşit olasılıklı olur, ama kendine döngüler ve tekrarlanan bağlantılar ortaya çıkabilir. $i$ ile $j$'nin bağlı olma olasılığı yaklaşık olarak</p>
@@ -52,13 +59,6 @@
   <p>Bir ağı dereceyi koruyan rastgeleleştirmesiyle karşılaştırın: ayakta kalan her şeyi dereceler açıklar; kaybolan her şeyin başka bir açıklamaya ihtiyacı vardır.</p>
 </div>
 
-<div class="callout why">
-  <ul>
-    <li>Bir sıfır modeli, derecelere bakıldığında bir özelliğin şaşırtıcı olup olmadığını söyler.</li>
-    <li>Ağır kuyruklu ağlar için $G(N, L)$ yanlış karşılaştırma ölçütüdür: merkez düğümleri yok eder.</li>
-    <li>Bu bölümün öngörülerini sınamak için her boyutta ölçekten bağımsız ağ üretmemizi sağlar.</li>
-  </ul>
-</div>
 <div class="callout connect">
   <ul>
     <li><a href="ch3-model.html">Rastgele ağı</a> <strong>genelleştirir</strong>: $G(N, L)$ yalnızca $L$'yi, konfigürasyon modeli her $k_i$'yi sabitler.</li>

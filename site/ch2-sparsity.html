@@ -19,6 +19,13 @@
 
 <h1>Real networks are sparse</h1>
 <p class="lead">Of all the links that could exist, a real network contains only a tiny fraction, called its <strong>density</strong>, and this fraction shrinks as networks grow. Density decides how networks can be stored and computed with, and it sets the random model that a network should be compared with.</p>
+<div class="callout why">
+  <ul>
+    <li>Sparse storage lets networks with millions of nodes fit in memory.</li>
+    <li>Algorithms that touch each link only a few times (breadth-first search, components, triangle counts) stay fast.</li>
+    <li>The fair random network to compare with links each pair with probability $p$ equal to the density.</li>
+  </ul>
+</div>
 
 <h2>Possible links and density</h2>
 <div class="eq">$$L_{\max} = \binom{N}{2} = \frac{N(N-1)}{2}, \qquad \text{density} = \frac{L}{L_{\max}} = \frac{\langle k\rangle}{N-1}.$$</div>
@@ -47,14 +54,6 @@
 <h2>Storing a network</h2>
 <p>A dense matrix needs $N^2$ entries. Memory proportional to $L$ is enough for an <strong>edge list</strong> (one pair of node ids per link) or a <strong>sparse matrix</strong>. The common sparse format, CSR, stores all neighbour lists one after another ($2L$ ids) plus $N+1$ offsets that say where each node's list starts.</p>
 <div data-fig id="fig-memory"></div>
-
-<div class="callout why">
-  <ul>
-    <li>Sparse storage lets networks with millions of nodes fit in memory.</li>
-    <li>Algorithms that touch each link only a few times (breadth-first search, components, triangle counts) stay fast.</li>
-    <li>The fair random network to compare with links each pair with probability $p$ equal to the density.</li>
-  </ul>
-</div>
 
 <div class="callout discuss">
   <p>Why do we store networks as <strong>edge lists</strong> or <strong>sparse matrices</strong>? How much memory would a dense matrix need for the WWW sample ($N \approx 3\times10^5$), or for Facebook ($N \approx 3\times10^9$)? <span class="muted">(Notebook I.3.)</span></p>

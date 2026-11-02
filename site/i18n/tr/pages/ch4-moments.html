@@ -4,6 +4,13 @@
 
 <h1>Tipik derece yok: "ölçekten bağımsız" ne demek</h1>
 <p class="lead">Rastgele bir ağda ortalama derece doğal bir ölçektir: neredeyse her düğümün yaklaşık $\langle k\rangle$ bağlantısı vardır. Bir kuvvet yasasının böyle bir ölçeği yoktur, çünkü ikinci momenti sınırsız büyür (Bölüm 4.4).</p>
+<div class="callout why">
+  <ul>
+    <li>"Ölçekten bağımsız" tam olarak şu demektir: sonlu varyans yok, dolayısıyla tipik derece yok.</li>
+    <li>Rastgele model $\sigma_k = \sqrt{\langle k\rangle}$ öngörür; gerçek ağlar bunu 20 kata kadar bozar.</li>
+    <li>Dayanıklılığı ve yayılmayı $\langle k\rangle$ değil, $\langle k^2\rangle$ denetler.</li>
+  </ul>
+</div>
 
 <h2>Bir kuvvet yasasının momentleri</h2>
 <p>Derece dağılımının $n$. <strong>momenti</strong> $\langle k^n\rangle = \sum_k k^n p_k$'dır. $k_{\min}$ ile $k_{\max}$ arasında sürekli bir kuvvet yasası için:</p>
@@ -47,13 +54,6 @@
   <p>İlerideki bölümlerde önemli olan nicelik $\langle k^2\rangle$'dir: konfigürasyon modelinin dev bileşeni ($\langle k^2\rangle &gt; 2\langle k\rangle$, Molloy–Reed ölçütü), rastgele arızalara dayanıklılık (Bölüm 8) ve salgın eşiği (Bölüm 10). Iraksak bir $\langle k^2\rangle$ ile rastgele düğümleri kaldırmak dev bileşeni neredeyse hiç yok etmez.</p>
 </div>
 
-<div class="callout why">
-  <ul>
-    <li>"Ölçekten bağımsız" tam olarak şu demektir: sonlu varyans yok, dolayısıyla tipik derece yok.</li>
-    <li>Rastgele model $\sigma_k = \sqrt{\langle k\rangle}$ öngörür; gerçek ağlar bunu 20 kata kadar bozar.</li>
-    <li>Dayanıklılığı ve yayılmayı $\langle k\rangle$ değil, $\langle k^2\rangle$ denetler.</li>
-  </ul>
-</div>
 <div class="callout connect">
   <ul>
     <li><strong>Kaynağı:</strong> büyüyen <a href="ch4-hubs.html">en büyük merkez düğüm</a>.</li>

@@ -4,6 +4,13 @@
 
 <h1>Derece, ortalama derece ve derece dağılımı</h1>
 <p class="lead">Bir düğümün kaç bağlantısı var ve bağlantılar düğümler arasında ne kadar eşitsiz paylaşılmış? Birinci soruyu düğümün <strong>derecesi</strong>, ikincisini ağın <strong>derece dağılımı</strong> yanıtlar. Rastgele ve ölçekten bağımsız ağlar (Kısım II ve III) her şeyden önce bu dağılımda ayrışır; bir ağın ne kadar dayanıklı olduğunu ve üzerinde bir şeyin nasıl yayıldığını da bu dağılım belirler.</p>
+<div class="callout why">
+  <ul>
+    <li>Ortalama derece için yalnızca iki sayı gerekir: $N$ ve $L$.</li>
+    <li>Yalnızca $p_k$'dan, tüm bağlantı yapısını bilmeden, en büyük merkez düğümü, ağın dayanıklılığını ve salgın eşiğini öngörebiliriz.</li>
+    <li>Gerçek bir $p_k$'yı rastgele bir ağınkiyle karşılaştırmak, gerçek ağların rastgele olmadığını gösterir.</li>
+  </ul>
+</div>
 
 <h2>Derece ve ortalama derece</h2>
 <p>$i$ düğümünün <strong>derecesi</strong> $k_i$, bağlantılarının sayısıdır. Tüm dereceleri toplamak her bağlantıyı iki kez, her ucunda bir kez sayar (<a href="ch2-konigsberg.html">el sıkışma özdeşliği</a>); bu yüzden</p>
@@ -27,13 +34,6 @@
   <dt>$p_k$</dt><dd>derecesi $k$ olan düğümlerin payı; bu aynı zamanda rastgele seçilen bir düğümün derecesinin $k$ olma olasılığıdır</dd>
   <dt>$\sum_k k\,p_k$</dt><dd>dağılımdan hesaplanan ortalama derece</dd>
 </dl>
-<div class="callout why">
-  <ul>
-    <li>Ortalama derece için yalnızca iki sayı gerekir: $N$ ve $L$.</li>
-    <li>Yalnızca $p_k$'dan, tüm bağlantı yapısını bilmeden, en büyük merkez düğümü, ağın dayanıklılığını ve salgın eşiğini öngörebiliriz.</li>
-    <li>Gerçek bir $p_k$'yı rastgele bir ağınkiyle karşılaştırmak, gerçek ağların rastgele olmadığını gösterir.</li>
-  </ul>
-</div>
 
 <h2>Bir ağ kurun</h2>
 <div data-fig id="fig-editor"></div>

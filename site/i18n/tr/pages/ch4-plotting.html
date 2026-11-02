@@ -4,6 +4,13 @@
 
 <h1>Bir derece dağılımı nasıl çizilir (ve nasıl çizilmez)</h1>
 <p class="lead">Bir kuvvet yasası log-log eksenlerde düz bir doğrudur; bu yüzden ham histogramı çizip bir doğru uydurmak cazip gelir. Ham histogram kuyruğu örnekleme gürültüsünün ardına gizler. İleri Konu 4.B iki çare sunar: logaritmik gruplar ve birikimli dağılım.</p>
+<div class="callout why">
+  <ul>
+    <li>Bir grafik, kuvvet yasasının makul olup olmadığının ilk sınavıdır.</li>
+    <li>Logaritmik gruplar ve CCDF, ham histogramın gizlediği kuyruğu gösterir.</li>
+    <li>İkisi de güvenilir bir $\gamma$ vermez: bunun için en çok olabilirlik gerekir (<a href="ch4-fitting.html">sonraki sayfa</a>).</li>
+  </ul>
+</div>
 
 <h2>Dört grafik, tek bir dağılım</h2>
 <div data-fig id="fig-four"></div>
@@ -52,13 +59,6 @@
   <p><strong>Doğrusal gruplanmış bir log-log histograma asla bir doğru uydurmayın.</strong> Düzlük eğimi sıfıra doğru çeker ve sonuç uydurmanın kuyrukta ne kadar ileri gittiğine bağlıdır. <a href="ch4-fitting.html">Sonraki sayfada</a> $\gamma = 2.5$ olan bir örneklem için $\hat\gamma \approx 1.6$ verir.</p>
 </div>
 
-<div class="callout why">
-  <ul>
-    <li>Bir grafik, kuvvet yasasının makul olup olmadığının ilk sınavıdır.</li>
-    <li>Logaritmik gruplar ve CCDF, ham histogramın gizlediği kuyruğu gösterir.</li>
-    <li>İkisi de güvenilir bir $\gamma$ vermez: bunun için en çok olabilirlik gerekir (<a href="ch4-fitting.html">sonraki sayfa</a>).</li>
-  </ul>
-</div>
 <div class="callout connect">
   <ul>
     <li><a href="ch4-power-laws.html">Kuvvet yasaları ve merkez düğümler</a> sayfasının modelini görsel olarak <strong>sınar</strong>.</li>

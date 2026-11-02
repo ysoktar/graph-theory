@@ -19,6 +19,13 @@
 
 <h1>Generating networks with a given degree distribution</h1>
 <p class="lead">To ask which properties of a real network follow from its degrees alone, we need random networks that share those degrees and nothing else: a <strong>null model</strong>. Section 4.8 gives two ways to build them.</p>
+<div class="callout why">
+  <ul>
+    <li>A null model tells whether a property is surprising given the degrees.</li>
+    <li>$G(N, L)$ is the wrong baseline for heavy-tailed networks: it destroys the hubs.</li>
+    <li>Lets us generate scale-free networks of any size to test the predictions of this chapter.</li>
+  </ul>
+</div>
 
 <h2>The configuration model</h2>
 <p>Give node $i$ exactly $k_i$ <em>stubs</em> (half-links), then pair all stubs uniformly at random. Every network with the given degree sequence is then equally likely, but self-loops and repeated links can appear. The probability that $i$ and $j$ are linked is approximately</p>
@@ -67,13 +74,6 @@
   <p>Compare a network with its degree-preserving randomization: whatever survives is explained by the degrees; whatever disappears needs another explanation.</p>
 </div>
 
-<div class="callout why">
-  <ul>
-    <li>A null model tells whether a property is surprising given the degrees.</li>
-    <li>$G(N, L)$ is the wrong baseline for heavy-tailed networks: it destroys the hubs.</li>
-    <li>Lets us generate scale-free networks of any size to test the predictions of this chapter.</li>
-  </ul>
-</div>
 <div class="callout connect">
   <ul>
     <li><strong>Generalises</strong> the <a href="ch3-model.html">random network</a>: $G(N, L)$ fixes only $L$, the configuration model every $k_i$.</li>

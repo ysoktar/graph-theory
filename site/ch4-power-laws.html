@@ -19,6 +19,13 @@
 
 <h1>Power laws &amp; hubs</h1>
 <p class="lead">The random network model failed most clearly on one property: real networks have <strong>hubs</strong>, nodes with far more links than a Poisson distribution allows. Chapter 4 replaces the Poisson distribution with a <strong>power law</strong>, which allows them.</p>
+<div class="callout why">
+  <ul>
+    <li>The Poisson model is fixed by $\langle k\rangle$ alone and cannot produce hubs.</li>
+    <li>The power law adds one parameter, $\gamma$, that controls the tail.</li>
+    <li>From $\gamma$ we can predict the largest hub, the degree variance, path lengths, robustness and epidemic spreading.</li>
+  </ul>
+</div>
 
 <h2>Scale-free networks (Section 4.2)</h2>
 <p>The <strong>degree distribution</strong> $p_k$ (<a href="ch2-degree.html">Part I</a>) is called <strong>scale-free</strong> if it follows a power law:</p>
@@ -73,14 +80,6 @@
 </div>
 
 <div data-fig id="fig-look"></div>
-
-<div class="callout why">
-  <ul>
-    <li>The Poisson model is fixed by $\langle k\rangle$ alone and cannot produce hubs.</li>
-    <li>The power law adds one parameter, $\gamma$, that controls the tail.</li>
-    <li>From $\gamma$ we can predict the largest hub, the degree variance, path lengths, robustness and epidemic spreading.</li>
-  </ul>
-</div>
 
 <div class="callout discuss">
   <p>In a random network $\langle k\rangle$ is a "typical" degree: most nodes have about that many links. Is that also true for a power law with $\gamma = 2.5$?</p>
