@@ -332,6 +332,22 @@ export const BOOK = [
     correction: "P_i(t) = 1/(√(2π) σ_i t) · e^(−(ln t − μ_i)²/(2σ_i²)).",
     evidence: "LaTeX source of the online Chapter 6: \\frac{1}{{\\sqrt {2\\pi t\\sigma _i } }}; D. Wang, C. Song and A.-L. Barabási, “Quantifying long-term scientific impact”, Science 342, 127 (2013).",
     page: "evolving.html",
+    },
+  {
+    id: "B19", severity: "format", location: "Chapter 7, Section 7.3, Eq. (7.9) (degree correlation function of a neutral network)",
+    quote: "k_nn(k) = Σ_k' k' q_k' = Σ_k' k' k' p(k')/⟨k⟩ = ⟨k²⟩/k   (7.9)",
+    issue: "The last denominator lacks its angle brackets. The sum Σ k'² p(k')/⟨k⟩ is ⟨k²⟩/⟨k⟩, a constant; with k in the denominator k_nn(k) would fall as 1/k, the opposite of the point of the equation (a neutral network has a flat k_nn). The text right after it says “a horizontal line at ⟨k²⟩/⟨k⟩”.",
+    correction: "k_nn(k) = ⟨k²⟩/⟨k⟩.",
+    evidence: "LaTeX source of the online Chapter 7: \\frac{{\\left\\langle {k^2 } \\right\\rangle }}{k}; the sentence after (7.9) and Box 7.1.",
+    page: "correlations.html",
+  },
+  {
+    id: "B20", severity: "error", location: "Chapter 7, Section 7.6, Eq. (7.18) (initial attractiveness model, −m < A < 0)",
+    quote: "k_nn(k) ∼ k^(|A|/m)   (7.18)",
+    issue: "The minus sign is missing. In this regime A is negative, so Eq. (7.17) has k^(A/m) = k^(−|A|/m), which decreases with k, and the text calls the network disassortative. A positive exponent |A|/m would make k_nn rise with k, which is assortative.",
+    correction: "k_nn(k) ∼ k^(−|A|/m).",
+    evidence: "LaTeX source of the online Chapter 7: k^{\\frac{{|A|}}{m}} in (7.18) against k^{\\frac{A}{m}} in (7.17); the surrounding text (“the resulting network is disassortative, k_nn(k) decaying”).",
+    page: "correlations.html",
   },
 ];
 

@@ -256,5 +256,17 @@
     "issue": "Log-normal yoğunluğun normalleştirmesi yanlış basılmış: t ve σ_i karekökün dışında olmalıdır. Basıldığı haliyle yoğunluğun integrali 1 olmaz ve bu çarpan, doğru log-normalden türetilen (6.13) çözümünü değiştirirdi.",
     "correction": "P_i(t) = 1/(√(2π) σ_i t) · e^(−(ln t − μ_i)²/(2σ_i²)).",
     "evidence": "Çevrimiçi 6. Bölüm'ün LaTeX kaynağı: \\frac{1}{{\\sqrt {2\\pi t\\sigma _i } }}; D. Wang, C. Song ve A.-L. Barabási, “Quantifying long-term scientific impact”, Science 342, 127 (2013)."
+  },
+  "B19": {
+    "location": "7. Bölüm, Bölüm 7.3, Denklem (7.9) (nötr bir ağın derece korelasyon fonksiyonu)",
+    "issue": "Son paydada açılı parantezler eksik. Σ k'² p(k')/⟨k⟩ toplamı sabit olan ⟨k²⟩/⟨k⟩'dır; paydada k olsaydı k_nn(k), 1/k gibi düşerdi, bu da denklemin amacının tersidir (nötr bir ağın k_nn'i düzdür). Denklemden hemen sonraki metin “⟨k²⟩/⟨k⟩ düzeyinde yatay bir çizgi” der.",
+    "correction": "k_nn(k) = ⟨k²⟩/⟨k⟩.",
+    "evidence": "Çevrimiçi 7. Bölüm'ün LaTeX kaynağı: \\frac{{\\left\\langle {k^2 } \\right\\rangle }}{k}; (7.9)'dan sonraki cümle ve Kutu 7.1."
+  },
+  "B20": {
+    "location": "7. Bölüm, Bölüm 7.6, Denklem (7.18) (başlangıç çekiciliği modeli, −m < A < 0)",
+    "issue": "Eksi işareti eksik. Bu rejimde A negatiftir; bu yüzden Denklem (7.17)'deki k^(A/m) = k^(−|A|/m) terimi k ile azalır ve metin ağı disasortatif olarak niteler. Pozitif bir |A|/m üsteli k_nn'i k ile artırırdı; bu asortatif olurdu.",
+    "correction": "k_nn(k) ∼ k^(−|A|/m).",
+    "evidence": "Çevrimiçi 7. Bölüm'ün LaTeX kaynağı: (7.18)'de k^{\\frac{{|A|}}{m}}, (7.17)'de k^{\\frac{A}{m}}; çevredeki metin (“ortaya çıkan ağ disasortatiftir, k_nn(k) azalır”)."
   }
 }
