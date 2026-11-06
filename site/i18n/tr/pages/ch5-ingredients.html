@@ -1,0 +1,76 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Tercihli bağlanmayı sınamak · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Model A ve B, gerçek ağlarda tercihli bağlanmanın ölçülmesi ve doğrusal olmayan bağlanmanın etkisi."></head><body>
+<div class="content">
+
+<h1>Tercihli bağlanmayı sınamak</h1>
+<p class="lead">BA modelinin iki bileşeni var. İkisi de gerekli mi? Gerçek ağlar gerçekten tercihli mi bağlanır ve bunun tam olarak doğrusal olması mı gerekir? Bölüm 5.6–5.8 modeli parça parça sınar.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Bileşenleri birer birer çıkarmak her birinin ne yaptığını gösterir.</li>
+    <li>Gerçek verilerde bağlanmayı ölçmek modelin temel varsayımını sınar.</li>
+    <li>Doğrusal olmayan bağlanma doğrusal durumun ne kadar özel olduğunu gösterir: yalnızca o kuvvet yasası verir.</li>
+  </ul>
+</div>
+
+<h2>İki bileşen de gereklidir (Bölüm 5.6)</h2>
+<p>Kuvvet yasasının nedeni büyüme mi, tercihli bağlanma mı, yoksa ikisi birden mi? Her seferinde birini çıkarın.</p>
+<ul>
+  <li><strong>A Modeli</strong>, tercihsiz büyüme: $\Pi(k_i) = 1/(m_0 + t - 1)$. $dk_i/dt = m/(m_0 + t - 1)$ hızı, yalnızca logaritmik bir büyüme olan $k_i(t) = m\ln\big(e\,\frac{m_0 + t - 1}{m_0 + t_i - 1}\big) \approx m \ln(e\,t/t_i)$'yi ve üstel bir dağılımı verir:
+  $$p_k = \frac{e}{m}\exp\Big(-\frac{k}{m}\Big).$$</li>
+  <li><strong>B Modeli</strong>, büyümesiz tercih: $N$ sabittir ve her adım rastgele bir düğüm ile $\Pi(k)$ ile seçilen bir düğüm arasına bir bağlantı ekler. Her derece doğrusal büyür, $k_i(t) \approx 2t/N$; dağılım değişmeye devam eder ve $p_k = \delta(k - N + 1)$ olan bir tam çizge olarak biter.</li>
+</ul>
+<div data-fig id="fig-models"></div>
+<div class="callout key">
+  <p>İki bileşen de gereklidir: tercihli bağlanma olmadan kuyruk üsteldir ve merkez düğüm oluşmaz; büyüme olmadan durağan bir dağılım hiç yoktur. Birlikte, $\gamma = 3$ olan ölçekten bağımsız bir ağ için yeterlidirler.</p>
+</div>
+
+<h2>Tercihli bağlanmayı ölçmek (Bölüm 5.7)</h2>
+<p>Tercihli bağlanma iki iddiada bulunur: bağlantı kazanma şansı $k$'ye bağlıdır (1. hipotez) ve bu bağımlılık doğrusaldır (2. hipotez). İkisi de aynı ağın kısa bir $\Delta t$ süresi arayla çekilmiş iki haritasıyla sınanabilir. Her düğüm için kazandığı bağlantılar $\Pi(k)$'yı kestirir:</p>
+<div class="eq">$$\Pi(k) \sim \frac{\Delta k_i}{\Delta t}, \qquad \pi(k) = \sum_{k_i = 0}^{k} \Pi(k_i).$$</div>
+<dl class="symbols">
+  <dt>$\Delta k_i$</dt><dd>$i$ düğümünün iki harita arasında kazandığı bağlantılar, ilk haritadaki derecesi $k_i$'ye göre gruplanmış</dd>
+  <dt>$\pi(k)$</dt><dd>birikimli bağlanma fonksiyonu: toplamak tek tek derecelerin gürültüsünü yumuşatır</dd>
+</dl>
+<p>$\Pi(k) \sim k^\alpha$ ise $\pi(k) \sim k^{\alpha + 1}$'dir: tercih yoksa eğim 1, doğrusal tercihte eğim 2. İnternet ve atıf ağları $\alpha \approx 1$ verir; ortak yazarlık ve aktörler $\alpha = 0.9 \pm 0.1$, biraz doğrusal altı.</p>
+<h2>Doğrusal olmayan tercihli bağlanma (Bölüm 5.8)</h2>
+<p>$\alpha \ne 1$ olmak üzere $\Pi(k) \sim k^\alpha$ olsaydı ne olurdu?</p>
+<ul>
+  <li>$\alpha = 0$: tercih yok, A Modeli: üstel $p_k$.</li>
+  <li>$0 &lt; \alpha &lt; 1$, <strong>doğrusal altı</strong>: gerilmiş üstel, $p_k \sim k^{-\alpha}\exp\!\big(-\frac{2\mu(\alpha)}{\langle k\rangle(1-\alpha)}k^{1-\alpha}\big)$; daha az ve daha küçük merkez düğümler; en büyüğü yalnızca $k_{\max} \sim (\ln t)^{1/(1-\alpha)}$ gibi büyür.</li>
+  <li>$\alpha = 1$: BA kuvvet yasası, $k_{\max} \sim t^{1/2}$.</li>
+  <li>$\alpha &gt; 1$, <strong>doğrusal üstü</strong>: kazanan her şeyi alır. En erken düğümler tüm bağlantıların sabit bir payını tutan süper merkez düğümler olur, $k_{\max} \sim t$, ve ağ merkez ve kollar biçimini alır.</li>
+</ul>
+<p>Yalnızca tam doğrusal bağlanma saf bir kuvvet yasası verir; iş birliklerinde ölçülen biraz doğrusal altı $\Pi(k)$, gerçek kuyrukların aşağı bükülmesinin bir nedenidir.</p>
+<div data-fig id="fig-alpha"></div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek: veriden α okumak.</strong></p>
+  <ol>
+    <li>Verilen: log–log eksenlerde bir ağın ölçülen $\pi(k)$'sı $k = 2$'de 0.01'den $k = 20$'de 0.79'a çıkıyor.</li>
+    <li>Eğim $= \log_{10}(0.79/0.01)/\log_{10}(20/2) = \log_{10} 79 = 1.9$.</li>
+    <li>$\pi(k) \sim k^{\alpha+1}$; yani $\alpha = 1.9 - 1 = 0.9$: doğrusal altı.</li>
+    <li>Anlamı: biraz bükülmüş bir kuyruk (gerilmiş üstel) ve BA modelinin öngördüğünden küçük merkez düğümler beklenir.</li>
+  </ol>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Yeni düğümler gelmeye devam ediyor, ama her bağlantı düzgün rastgele seçilen var olan bir düğüme bağlanıyor. Hangi derece dağılımı ortaya çıkar?</p>
+  <ol>
+    <li data-why="Büyüme tek başına merkez düğüm yaratmaz; kuvvet yasası tercih gerektirir.">$\gamma = 3$ olan bir kuvvet yasası</li>
+    <li data-why="Tercihli bağlanma olmadan hiç kuvvet yasası yoktur.">$\gamma &lt; 3$ olan bir kuvvet yasası</li>
+    <li>Üstel bir dağılım</li>
+    <li data-why="Tam çizge, büyüme olmadan tercihten doğar.">Tam çizge</li>
+  </ol>
+  <div class="explain">Tercih olmadan eski düğümler yalnızca erken başlamalarından kazanç sağlar ve $p_k$ üstel olarak azalır (Bölüm 5.6).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>İki anlık görüntü arasında ölçülen birikimli bağlanma fonksiyonu $\pi(k) \sim k^{2.4}$ gibi büyüyor. $\pi(k) \sim k^{\alpha + 1}$ ile hangi tür bir ağ büyümelidir?</p>
+  <ol>
+    <li data-why="α = 2.4 − 1 = 1.4'tür, 2.4 değil; her durumda doğrusal değildir.">$\gamma = 3$ olan bir BA ağı</li>
+    <li>$\alpha = 1.4$, doğrusal üstü: birkaç erken süper merkez düğüm tüm bağlantıların sabit bir payını alır, merkez ve kollar biçiminde bir ağ</li>
+    <li data-why="Doğrusal altı α &lt; 1 demektir; burada α = 1.4.">$\alpha = 1.4$, doğrusal altı: küçük merkez düğümlü gerilmiş üstel</li>
+    <li data-why="Üstel bir dağılım α = 0, yani π(k) ~ k gerektirir.">Üstel bir derece dağılımı</li>
+  </ol>
+  <div class="explain">$\alpha = 2.4 - 1 = 1.4 &gt; 1$: zengin daha da zenginleşir etkisi kazanan her şeyi alır'a dönüşür ve $k_{\max}$ zamanla doğrusal büyür.</div>
+</div>
+</div></body></html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Evolving networks · From Graphs to Hubs</title>
-<meta name="description" content="Chapter 6: the Bianconi–Barabási fitness model, measuring fitness, Bose–Einstein condensation, and the elementary processes (initial attractiveness, internal links, node deletion, accelerated growth, aging) that set the degree exponent.">
+<title>Evolving networks: fitness · From Graphs to Hubs</title>
+<meta name="description" content="What the BA model gets wrong, and the Bianconi–Barabási fitness model: how late but fit nodes overtake old hubs.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -17,7 +17,7 @@
 <body data-page="evolving">
 <main><div class="content">
 
-<h1>Evolving networks</h1>
+<h1>Evolving networks: fitness</h1>
 <p class="lead">In the BA model the oldest node is always the richest, every network has $\gamma = 3$, and nothing ever disappears. Real networks break all three rules. Chapter 6 adds the missing processes one at a time and shows what each one does to $p_k$.</p>
 
 <div class="callout why">
@@ -108,155 +108,6 @@
   <p>A hub is either early (BA) or fit. The fitness distribution $\rho(\eta)$ alone fixes $C$, the growth exponents and $\gamma$.</p>
 </div>
 
-<h2>Measuring fitness (Section 6.3)</h2>
-<p>Fitness is not assigned by anyone: it is the network's collective judgement, visible in how fast a node grows. Take the logarithm of $k_i(t) = m(t/t_i)^{\beta(\eta_i)}$:</p>
-<div class="eq">$$\ln k_i(t) = \beta(\eta_i)\,\ln t + B_i, \qquad B_i = \ln\big(m / t_i^{\beta(\eta_i)}\big). \qquad (6.9)$$</div>
-<p>On a log-log plot each node's degree history is a straight line whose slope is $\beta(\eta_i) = \eta_i / C$. Tracking many nodes gives the distribution of slopes, which is $\rho(\eta)$ up to the factor $C$.</p>
-<div class="callout example">
-  <p><strong>Worked example 5: fitness from two snapshots.</strong> A page has 12 links when the network has 1,000 nodes and 48 links at 16,000 nodes.</p>
-  <ol>
-    <li>Slope: $\beta = \frac{\ln(48/12)}{\ln(16000/1000)} = \frac{\ln 4}{\ln 16} = 0.5$.</li>
-    <li>With uniform fitness ($C = 1.255$): $\eta = \beta C = 0.63$.</li>
-    <li>Without $C$ only ratios are known: a page with slope 0.25 has half this fitness. Ranking pages needs no more.</li>
-  </ol>
-</div>
-<p><strong>The Web.</strong> About 22 million documents were crawled monthly for 13 months. Most did not change their degree; the 6.5% that did gave $\rho(\eta)$, which turned out to be <em>exponential</em>: high fitness is rare and fitness varies over a narrow range. The huge differences in degree are made by the dynamics. Two nodes that arrive together with $\eta_2 > \eta_1$ drift apart as</p>
-<div class="eq">$$\frac{k_2 - k_1}{k_1} \sim t^{(\eta_2 - \eta_1)/C}. \qquad (6.10)$$</div>
-<div class="callout example">
-  <p><strong>Worked example 6: small differences, large effects.</strong> $\eta_2 - \eta_1 = 0.1$ and $C = 1.255$ give an exponent of 0.08. While the network grows a million-fold, the fitter node's degree pulls ahead by a factor $10^{6 \times 0.08} \approx 3$.</p>
-</div>
-<p><strong>Citations.</strong> Papers also age: their novelty fades. The probability that paper $i$ is cited at time $t$ after publication is</p>
-<div class="eq">$$\Pi_i \sim \eta_i\, c_i^t\, P_i(t), \qquad P_i(t) = \frac{1}{\sqrt{2\pi}\,\sigma_i t}\, e^{-\frac{(\ln t - \mu_i)^2}{2\sigma_i^2}}, \qquad (6.11\text{–}6.12)$$</div>
-<p>with $c_i^t$ the citations so far (preferential attachment) and $P_i(t)$ a log-normal aging factor. Solving gives</p>
-<div class="eq">$$c_i^t = m\left(e^{\eta_i' \,\Phi\left(\frac{\ln t - \mu_i}{\sigma_i}\right)} - 1\right), \qquad c_i^\infty = m\left(e^{\eta_i'} - 1\right), \qquad (6.13)$$</div>
-<dl class="symbols">
-  <dt>$\Phi(x)$</dt><dd>cumulative normal distribution (6.14); it rises from 0 to 1</dd>
-  <dt>$\mu_i$</dt><dd>immediacy: when the paper reaches its citation peak</dd>
-  <dt>$\sigma_i$</dt><dd>longevity: how slowly its attention decays</dd>
-  <dt>$\eta_i' = \eta_i\beta/A$</dt><dd>relative fitness; alone it fixes the ultimate impact $c_i^\infty$</dd>
-  <dt>$m, \beta, A$</dt><dd>global constants, the same for all papers</dd>
-</dl>
-<div class="callout fix" data-book="B18"></div>
-<div data-fig id="fig-cite"></div>
-<p>Fitting (6.13) to each paper of a journal gives the journal's fitness distribution: <em>Cell</em> papers sit to the right (high fitness), <em>Physical Review B</em> to the left. Fitness can even be inherited: in a study of 1,110 twins, genes explained 46% of the variation in how many classmates named a student as a friend (in-degree), but not out-degree (Box 6.1).</p>
-
-<h2>Bose–Einstein condensation (Section 6.4)</h2>
-<p>The fitness model maps exactly onto a Bose gas:</p>
-<table class="simple">
-  <thead><tr><th>Network</th><th>Bose gas</th></tr></thead>
-  <tbody>
-    <tr><td>node $i$ with fitness $\eta_i$</td><td>energy level $\varepsilon_i = -\frac{1}{\beta_T}\ln\eta_i$ (fitter = lower)</td></tr>
-    <tr><td>a link pointing to node $i$</td><td>a particle on level $\varepsilon_i$</td></tr>
-    <tr><td>a new node with $m$ links</td><td>a new level, and $m$ new particles</td></tr>
-  </tbody>
-</table>
-<div class="callout fix" data-book="B11"></div>
-<p>Then $k_i = m(t/t_i)^{f(\varepsilon_i)}$ with $f(\varepsilon) = e^{-\beta_T(\varepsilon - \mu)}$, and the self-consistency condition (6.5) becomes the equation for the chemical potential $\mu$ of a Bose gas:</p>
-<div class="eq">$$\int g(\varepsilon)\,\frac{1}{e^{\beta_T(\varepsilon - \mu)} - 1}\,d\varepsilon = 1 .$$</div>
-<p>$g(\varepsilon)$ is the density of levels (set by $\rho(\eta)$) and the fraction is the Bose occupation number. The "temperature" $1/\beta_T$ is a dummy: it cancels, and only $\rho(\eta)$ decides the phase.</p>
-<ul>
-  <li><strong>Fit-get-rich</strong> (the equation for $C$ has a solution with $C > \eta_{\max}$): the fittest nodes become the largest hubs, closely trailed by the next fittest. Each holds a vanishing share of the links; the network is scale-free.</li>
-  <li><strong>Bose–Einstein condensation</strong> (no such solution): $C$ sticks at $\eta_{\max}$ and the nodes of finite fitness absorb only part of the new links. The rest, a finite fraction, condenses on the fittest nodes: winner-takes-all, a hub-and-spoke network that is no longer scale-free.</li>
-</ul>
-<p>With $\eta_{\max} = 1$, condensation happens when even $C = 1$ leaves the integral short of 1:</p>
-<div class="eq">$$I = \int \frac{\eta\,\rho(\eta)}{1 - \eta}\,d\eta < 1, \qquad \text{condensate share} = 1 - I .$$</div>
-<div class="callout example">
-  <p><strong>Worked example 7: when does a network condense?</strong> Take $\rho(\eta) = (1 + \zeta)(1 - \eta)^{\zeta}$, which puts less weight near $\eta = 1$ as $\zeta$ grows.</p>
-  <ol>
-    <li>$I = (1+\zeta)\int_0^1 \eta (1-\eta)^{\zeta - 1} d\eta = (1 + \zeta)\,\frac{1}{\zeta(\zeta+1)} = \frac{1}{\zeta}$.</li>
-    <li>$I &lt; 1$ exactly when $\zeta > 1$. So $\zeta = 0.1$ is fit-get-rich and $\zeta = 10$ condenses, with share $1 - 1/10 = 90\%$.</li>
-    <li>Uniform fitness ($\zeta = 0$): $\int_0^1 \frac{\eta}{1-\eta}\,d\eta$ diverges at $\eta = 1$, so $I = \infty$: no condensation.</li>
-  </ol>
-  <p>Paradox: fewer very fit nodes means condensation. When fit nodes are rare, the one that does arrive has no competitors.</p>
-</div>
-<div class="callout fix" data-book="B15"></div>
-<div data-fig id="fig-fitness"></div>
-<p data-beyond="Dereich, Mailler and Mörters, Ann. Appl. Probab. 27, 2539 (2017)"><strong>Who holds the condensate?</strong> The book, following the 2001 physics paper, says the fittest node keeps a finite fraction of all links. For the tree version of the model ($m = 1$) this was later proved false: the condensation is <em>non-extensive</em>. The condensed share is spread over a succession of ever fitter latecomers, each of which is eventually overtaken, so the largest hub's share still vanishes, very slowly. The condition $I &lt; 1$ and the share $1 - I$ are unaffected; only "one node takes it all" is. The simulations in the figure above show it: even at $10^6$ nodes the top hub of a $\zeta = 10$ network holds a few percent, not 90%.</p>
-<div class="callout fix" data-book="B17"></div>
-
-<h2>Other elementary processes (Section 6.5)</h2>
-<p>Each process below is added to the BA model ($m$ links per new node, $\Pi \propto k$) and changes the exponent in a predictable direction: extra advantage for the large lowers $\gamma$, anything random raises it.</p>
-
-<h3>Initial attractiveness</h3>
-<p>In BA a node with $k = 0$ can never get a link. In reality a new paper does get its first citation. Add a constant:</p>
-<div class="eq">$$\Pi(k) \sim A + k \quad (6.23) \qquad\Rightarrow\qquad \gamma = 3 + \frac{A}{m} \quad (6.24), \qquad p_k = C\,(k + A)^{-\gamma}. \quad (6.25)$$</div>
-<p>Two effects: $\gamma$ rises (the random part $A$ dilutes the preference), and $p_k$ flattens for $k \ll A$ (<em>small-degree saturation</em>). Citations have $A \approx 7$: a new paper is about as likely to be cited as one with seven citations.</p>
-
-<h3>Internal links</h3>
-<p>On the Web most new links join two existing pages. Let each step add a node with $m$ links plus $n$ links between existing nodes, with $\Pi(k, k') \sim (A + Bk)(A + Bk')$ (6.26):</p>
-<div class="eq">$$\text{double preferential } (A = 0):\ \gamma = 2 + \frac{m}{m + 2n} \quad (6.27) \qquad\quad \text{random } (B = 0):\ \gamma = 3 + \frac{2n}{m} \quad (6.28)$$</div>
-<div class="callout example">
-  <p><strong>Worked example 8: one model, two answers.</strong> $m = 1$, $n = 2$.</p>
-  <ol>
-    <li>Double preferential: $\gamma = 2 + \frac{1}{1 + 4} = 2.2$. Internal links feed the hubs at both ends.</li>
-    <li>Random: $\gamma = 3 + \frac{4}{1} = 7$. Internal links spread evenly and wash the hubs out.</li>
-    <li>Why: in the double case every degree grows as $t^{\beta}$ with $\beta = \frac{m + 2n}{2(m+n)} = \frac56$, and $\gamma = 1 + 1/\beta = 2.2$.</li>
-  </ol>
-</div>
-
-<h3>Node deletion</h3>
-<p>Each step add a BA node, and remove a random node with rate $r$:</p>
-<ul>
-  <li>$r &lt; 1$: the network still grows and stays scale-free, with $\gamma = 3 + \dfrac{2r}{1-r}$ (6.29, corrected).</li>
-  <li>$r = 1$: fixed size; $\gamma \to \infty$, the distribution becomes exponential.</li>
-  <li>$r > 1$: a <em>declining</em> network (Box 6.5). The New York garment industry's largest component shrank from 3,249 firms in 1985 to 190 in 2003, while its degree distribution stayed the same. Newcomers still attached superlinearly ($\alpha = 1.20$), and firms lost links with probability $\sim k^{-0.41}$: the weak got weaker.</li>
-</ul>
-<div class="callout fix" data-book="B12"></div>
-<p>Combined with initial attractiveness, deletion has a critical rate $r^*(A)$: below it scale-free, at it a stretched exponential, above it exponential (Figure 6.12).</p>
-
-<h3>Accelerated growth</h3>
-<p>Average degrees grow: the Internet from $\langle k\rangle = 3.42$ (November 1997) to 3.96 (December 1998), the WWW from 7.22 to 7.86 in five months. Let each node bring more links than the last:</p>
-<div class="eq">$$m(t) = m_0\, t^{\theta} \quad (6.30) \qquad\Rightarrow\qquad \gamma = 3 + \frac{2\theta}{1 - \theta}. \quad (6.31)$$</div>
-<p>Why: $L \approx m_0 t^{1+\theta}/(1+\theta)$, so every degree grows as $t^{(1+\theta)/2}$, but late nodes also start bigger, at $m_0 t_i^{\theta}$. The net degree of a node born at $t_i$ scales as $t_i^{-(1-\theta)/2}$, giving $\gamma = 1 + \frac{2}{1-\theta}$, the same as (6.31). At $\theta = 1$ the exponent diverges.</p>
-
-<h3>Aging</h3>
-<p>Actors and scientists retire; old papers stop being cited. Let attractiveness fade with age:</p>
-<div class="eq">$$\Pi(k_i, t - t_i) \sim k_i\,(t - t_i)^{-\nu}. \qquad (6.32)$$</div>
-<ul>
-  <li>$\nu &lt; 0$: old nodes are favoured even more; still scale-free with $\gamma &lt; 3$. As $\nu \to -\infty$ every node links to the oldest one: a star.</li>
-  <li>$0 &lt; \nu &lt; 1$: still scale-free, $\gamma > 3$, growing without bound as $\nu \to 1$.</li>
-  <li>$\nu > 1$: aging wins and the power law is lost. As $\nu \to \infty$ every node links to the newest one: a chain.</li>
-</ul>
-<div data-fig id="fig-process"></div>
-
-<h2>Summary (Section 6.6)</h2>
-<p>The shape of $p_k$ is a fingerprint of the processes that built the network:</p>
-<table class="simple">
-  <thead><tr><th>What you see in $p_k$</th><th>A process that produces it</th></tr></thead>
-  <tbody>
-    <tr><td>pure power law</td><td>growth with linear preferential attachment only (rare)</td></tr>
-    <tr><td>stretched exponential</td><td>sublinear preferential attachment; critical node deletion</td></tr>
-    <tr><td>flattened at small $k$</td><td>initial attractiveness $A$</td></tr>
-    <tr><td>cut off at large $k$</td><td>node deletion, aging, limited capacity</td></tr>
-    <tr><td>power law with log corrections, $\gamma \ne 3$</td><td>fitness</td></tr>
-  </tbody>
-</table>
-<p>Book Table 6.1 sorts all models of the course into three classes:</p>
-<table class="simple">
-  <thead><tr><th>Class</th><th>Examples</th><th>Degree distribution</th></tr></thead>
-  <tbody>
-    <tr><td>static</td><td>Erdős–Rényi, Watts–Strogatz</td><td>fixed $N$; Poisson-like</td></tr>
-    <tr><td>generative</td><td>configuration model, hidden parameters</td><td>put in by hand: any $p_k$</td></tr>
-    <tr><td>evolving</td><td>BA, Bianconi–Barabási, the processes above</td><td>explained by the dynamics</td></tr>
-  </tbody>
-</table>
-<div class="callout key">
-  <p>To understand a network's structure, first get its dynamics right; the topology is the bonus. Fitness explains <em>who</em> becomes a hub, the other processes explain <em>which</em> exponent and shape appear.</p>
-</div>
-
-<div class="callout connect">
-  <ul>
-    <li><strong>Generalizes</strong> the <a href="ch5-preview.html">BA model</a>: equal $\eta$ gives $\beta = \frac12$, $\gamma = 3$; $A = n = r = \theta = \nu = 0$ gives it back too.</li>
-    <li><strong>Explains</strong> exponents other than 3 (<a href="ch4-universality.html">Universality</a>) and the deviations a fit must handle (<a href="ch4-fitting.html">Fitting a power law</a>).</li>
-    <li><strong>Matters later:</strong> $\gamma &lt; 3$ makes networks robust to failures (<a href="robustness.html">Ch 8</a>) and lowers the epidemic threshold (<a href="epidemics.html">Ch 10</a>).</li>
-  </ul>
-</div>
-
-<div class="callout discuss">
-  <p>Why do the oldest web pages not have the most links? Which processes of Chapter 6 would you include in a model of the Web, and which way would each push $\gamma$?</p>
-  <div class="hint">Fitness (latecomers win, $\gamma$ falls), double-preferential internal links (most new links, $\gamma$ falls toward 2), page deletion and aging ($\gamma$ rises, cut-offs). The measured in-degree exponent, 2.00 (Table 4.1), says the processes that favour hubs win.</div>
-</div>
-
 <div class="quiz" data-answer="1">
   <p>Fitness is uniform on [0, 1], so $C = 1.255$. A node with $\eta = 1$ arrives at $t = 1{,}000$. How does its degree grow?</p>
   <ol>
@@ -287,17 +138,6 @@
   </ol>
   <div class="explain">Both start with $m$ links. $(t/10)^{0.239} = (t/1000)^{0.797}$ at $t \approx 7{,}200$; after that B's faster growth keeps it ahead.</div>
 </div>
-<div class="quiz" data-answer="2">
-  <p>According to the book, what is true of a winner-takes-all (condensed) network of $10^6$ nodes?</p>
-  <ol>
-    <li data-why="That is fit-get-rich.">The top hub's share of links vanishes</li>
-    <li>A finite fraction of all links goes to the fittest nodes</li>
-    <li data-why="It is about how links are shared, not who links to whom.">Hubs link only to hubs</li>
-    <li data-why="Condensation concentrates links.">Degrees are equal</li>
-  </ol>
-  <div class="explain">The analogue of Bose–Einstein condensation: a finite fraction $1 - I$ of the particles sits in the lowest levels. (Later mathematics showed that no single node keeps that fraction forever; it passes to ever fitter latecomers.)</div>
-</div>
-
 <div class="quiz" data-answer="4">
   <p>Fitness is uniform ($C = 1.255$). What is the growth exponent $\beta$ of a node with $\eta = 0.5$?</p>
   <ol>
@@ -327,46 +167,6 @@
     <li data-why="Every node arrives with m links.">Its degree on arrival</li>
   </ol>
   <div class="explain">$k_i = m(t/t_i)^{\eta_i/C}$ depends on both $t_i$ and $\eta_i$.</div>
-</div>
-<div class="quiz" data-answer="2">
-  <p>The fitness distribution is $\rho(\eta) = 4(1 - \eta)^3$, i.e. $\zeta = 3$. Which phase is the network in?</p>
-  <ol>
-    <li data-why="Fit-get-rich needs I = 1/ζ ≥ 1, that is ζ ≤ 1.">Fit-get-rich: scale-free, no dominant share</li>
-    <li>Condensed: the fittest nodes take a finite share, $1 - 1/3 = 67\%$, of new links</li>
-    <li data-why="Fitness alone never removes growth or preference; the BA limit needs equal fitness.">The BA model, $\gamma = 3$</li>
-    <li data-why="Every node has fitness at most 1 and still attracts links.">No giant hub can form</li>
-  </ol>
-  <div class="explain">$I = \int \eta\rho/(1-\eta)\,d\eta = 1/\zeta = 1/3 &lt; 1$: condensation, with share $1 - I = 2/3$.</div>
-</div>
-<div class="quiz" data-answer="1">
-  <p>Each step adds a node with $m = 1$ link and $n = 1$ internal link between existing nodes, chosen with double preferential attachment. What is $\gamma$?</p>
-  <ol>
-    <li>$2 + \frac{1}{3} \approx 2.33$</li>
-    <li data-why="That is the random-internal-link formula 3 + 2n/m.">5</li>
-    <li data-why="Internal links change the exponent; 3 is BA without them.">3</li>
-    <li data-why="γ = 2 needs n → ∞ (only internal links).">2</li>
-  </ol>
-  <div class="explain">$\gamma = 2 + \frac{m}{m + 2n} = 2 + \frac13$. Double preference feeds the hubs, so $\gamma$ drops below 3.</div>
-</div>
-<div class="quiz" data-answer="3">
-  <p>A BA network loses a random node at rate $r = 0.5$ per added node. What happens to $\gamma$ for large networks?</p>
-  <ol>
-    <li data-why="That is the book's misprint 3 + 2/(1 − r), which gives 5 even at r = 0.">It becomes 7</li>
-    <li data-why="Random deletion removes old nodes, including hubs, and lowers the share of links they keep.">It stays 3</li>
-    <li>It rises to $3 + 2r/(1-r) = 5$</li>
-    <li data-why="Only r = 1 (constant size) destroys the power law.">The power law is lost</li>
-  </ol>
-  <div class="explain">Deletion is a random ingredient, so $\gamma$ rises. In networks of realistic size the measured slope stays well below 5, because $p_k$ approaches its asymptotic exponent only slowly.</div>
-</div>
-<div class="quiz" data-answer="4">
-  <p>Two pages arrived at the same time. On a log-log plot of degree against time, page X has slope 0.3 and page Y slope 0.6. What do you conclude?</p>
-  <ol>
-    <li data-why="The slope is β = η/C, which is independent of arrival time.">X arrived earlier</li>
-    <li data-why="Equal arrival times do not mean equal fitness; the slopes differ.">They have the same fitness</li>
-    <li data-why="Y's degree grows faster, so the gap widens.">X will catch up</li>
-    <li>Y has twice X's fitness, whatever $C$ is</li>
-  </ol>
-  <div class="explain">Slope $= \beta = \eta/C$, so $\eta_Y/\eta_X = 0.6/0.3 = 2$. Absolute values need $C$; ratios do not.</div>
 </div>
 </div></main>
 </body>

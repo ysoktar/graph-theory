@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testing preferential attachment · From Graphs to Hubs</title>
+<meta name="description" content="Models A and B, measuring preferential attachment in real networks, and what nonlinear attachment does.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch5-preview.js"></script>
+</head>
+<body data-page="ch5-ingredients">
+<main><div class="content">
+
+<h1>Testing preferential attachment</h1>
+<p class="lead">The BA model has two ingredients. Are both needed? Do real networks actually attach preferentially, and does it have to be exactly linear? Sections 5.6–5.8 test the model piece by piece.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Removing one ingredient at a time shows what each one does.</li>
+    <li>Measuring attachment in real data checks the model's central assumption.</li>
+    <li>Nonlinear attachment shows how special the linear case is: only it gives a power law.</li>
+  </ul>
+</div>
+
+<h2>Both ingredients are needed (Section 5.6)</h2>
+<p>Is the power law caused by growth, by preferential attachment, or by both? Remove one at a time.</p>
+<ul>
+  <li><strong>Model A</strong>, growth without preference: $\Pi(k_i) = 1/(m_0 + t - 1)$. The rate $dk_i/dt = m/(m_0 + t - 1)$ gives $k_i(t) = m\ln\big(e\,\frac{m_0 + t - 1}{m_0 + t_i - 1}\big) \approx m \ln(e\,t/t_i)$, only logarithmic growth, and an exponential distribution
+  $$p_k = \frac{e}{m}\exp\Big(-\frac{k}{m}\Big).$$</li>
+  <li><strong>Model B</strong>, preference without growth: $N$ is fixed and each step adds one link between a random node and a node chosen with $\Pi(k)$. Every degree grows linearly, $k_i(t) \approx 2t/N$; the distribution keeps changing and ends as a complete graph with $p_k = \delta(k - N + 1)$.</li>
+</ul>
+<div data-fig id="fig-models"></div>
+<div class="callout key">
+  <p>Both ingredients are needed: without preferential attachment the tail is exponential and no hubs form; without growth there is no stationary distribution at all. Together they are sufficient for a scale-free network with $\gamma = 3$.</p>
+</div>
+
+<h2>Measuring preferential attachment (Section 5.7)</h2>
+<p>Preferential attachment makes two claims: the chance of gaining a link depends on $k$ (hypothesis 1), and the dependence is linear (hypothesis 2). Both can be tested with two maps of the same network taken a short time $\Delta t$ apart. For each node, the links it gained estimate $\Pi(k)$:</p>
+<div class="eq">$$\Pi(k) \sim \frac{\Delta k_i}{\Delta t}, \qquad \pi(k) = \sum_{k_i = 0}^{k} \Pi(k_i).$$</div>
+<dl class="symbols">
+  <dt>$\Delta k_i$</dt><dd>links node $i$ gained between the two maps, grouped by its degree $k_i$ in the first map</dd>
+  <dt>$\pi(k)$</dt><dd>cumulative attachment function: summing smooths the noise of single degrees</dd>
+</dl>
+<p>If $\Pi(k) \sim k^\alpha$, then $\pi(k) \sim k^{\alpha + 1}$: no preference gives slope 1, linear preference slope 2. The Internet and citation networks give $\alpha \approx 1$; co-authorship and actors $\alpha = 0.9 \pm 0.1$, slightly sublinear.</p>
+<h2>Nonlinear preferential attachment (Section 5.8)</h2>
+<p>What if $\Pi(k) \sim k^\alpha$ with $\alpha \ne 1$?</p>
+<ul>
+  <li>$\alpha = 0$: no preference, Model A: exponential $p_k$.</li>
+  <li>$0 &lt; \alpha &lt; 1$, <strong>sublinear</strong>: a stretched exponential, $p_k \sim k^{-\alpha}\exp\!\big(-\frac{2\mu(\alpha)}{\langle k\rangle(1-\alpha)}k^{1-\alpha}\big)$, with fewer and smaller hubs; the largest grows only like $k_{\max} \sim (\ln t)^{1/(1-\alpha)}$.</li>
+  <li>$\alpha = 1$: the BA power law, $k_{\max} \sim t^{1/2}$.</li>
+  <li>$\alpha &gt; 1$, <strong>superlinear</strong>: winner takes all. The earliest nodes become super-hubs holding a finite share of all links, $k_{\max} \sim t$, and the network turns hub-and-spoke.</li>
+</ul>
+<p>Only exactly linear attachment gives a pure power law; a slightly sublinear $\Pi(k)$, as measured for collaborations, is one reason real tails bend down.</p>
+<div data-fig id="fig-alpha"></div>
+<div class="callout example">
+  <p><strong>Worked example: reading α from data.</strong></p>
+  <ol>
+    <li>Given: on log–log axes the measured $\pi(k)$ of a network rises from 0.01 at $k = 2$ to 0.79 at $k = 20$.</li>
+    <li>Slope $= \log_{10}(0.79/0.01)/\log_{10}(20/2) = \log_{10} 79 = 1.9$.</li>
+    <li>$\pi(k) \sim k^{\alpha+1}$, so $\alpha = 1.9 - 1 = 0.9$: sublinear.</li>
+    <li>Meaning: expect a slightly curved tail (stretched exponential) and smaller hubs than the BA model predicts.</li>
+  </ol>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>New nodes keep arriving, but each link attaches to an existing node chosen uniformly at random. What degree distribution results?</p>
+  <ol>
+    <li data-why="Growth alone does not create hubs; the power law needs preference.">A power law with $\gamma = 3$</li>
+    <li data-why="Without preferential attachment there is no power law at all.">A power law with $\gamma &lt; 3$</li>
+    <li>An exponential distribution</li>
+    <li data-why="A complete graph results from preference without growth.">A complete graph</li>
+  </ol>
+  <div class="explain">Without preference, old nodes gain only from their head start, and $p_k$ decays exponentially (Section 5.6).</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Measured between two snapshots, a network's cumulative attachment function grows as $\pi(k) \sim k^{2.4}$. With $\pi(k) \sim k^{\alpha + 1}$, what kind of network should grow?</p>
+  <ol>
+    <li data-why="α = 2.4 − 1 = 1.4, not 2.4, and either way it is not linear.">A BA network with $\gamma = 3$</li>
+    <li>$\alpha = 1.4$, superlinear: a few early super-hubs take a finite share of all links, a hub-and-spoke network</li>
+    <li data-why="Sublinear means α &lt; 1; here α = 1.4.">$\alpha = 1.4$, sublinear: a stretched exponential with small hubs</li>
+    <li data-why="An exponential distribution needs α = 0, that is π(k) ~ k.">An exponential degree distribution</li>
+  </ol>
+  <div class="explain">$\alpha = 2.4 - 1 = 1.4 &gt; 1$: the rich-get-richer effect is amplified into winner takes all, and $k_{\max}$ grows linearly in time.</div>
+</div>
+</div></main>
+</body>
+</html>

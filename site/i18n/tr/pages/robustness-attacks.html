@@ -1,0 +1,57 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Saldırılar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Önce merkez düğümleri kaldırmak: ölçekten bağımsız ağların saldırı eşiği, dayanıklı ama kırılgan olmak ve derece üsteline göre eşikler."></head><body>
+<div class="content">
+
+<h1>Saldırılar: dayanıklı ama kırılgan</h1>
+<p class="lead">Bir saldırgan düğümleri rastgele seçmez, merkez düğümleri hedefler. Ağı koruyan özellik, merkez düğümleri, zayıflığına dönüşür: doğru düğümlerin yüzde birkaçı onu kırmaya yeter (Bölüm 8.4).</p>
+
+<div class="callout why">
+  <ul>
+    <li>En yüksek dereceli düğümleri kaldırmak $\langle k^2\rangle$'yi çok hızlı düşürür.</li>
+    <li>Ölçekten bağımsız ağlar bozulmalara en dayanıklı, saldırılara karşı en kırılganlar arasındadır.</li>
+    <li>Aynı hesap savunanlara hangi düğümleri koruyacaklarını söyler.</li>
+  </ul>
+</div>
+
+<h2>Saldırılar</h2>
+<p>Bir saldırı önce merkez düğümleri siler. Bu ağı iki biçimde değiştirir: en büyük derece $k_{\max}$'tan daha küçük bir $k'_{\max}$'a düşer ve silinen merkez düğümlere bağlı düğümler o bağlantıları kaybeder. Kalanların gözünden bu bağlantıların kaybı rastgele bağlantı silmeye benzer; bu yüzden saldırı rastgele bozulma hesabına geri eşlenebilir. Bir kuvvet yasası için eşik şu denklemi çözer (Denklem 8.12, Cohen ve ark. 2001):</p>
+<div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big).$$</div>
+<dl class="symbols">
+  <dt>$f_c$</dt><dd>burada silinen en yüksek dereceli düğümlerin oranı; yüzde birkaç ile yüzde birkaç on arası</dd>
+</dl>
+<div class="callout fix" data-book="B14"></div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek: $\gamma = 2.5$, $k_{\min} = 2$.</strong></p>
+  <ol>
+    <li>Üsteller $\frac{2-\gamma}{1-\gamma} = \frac13$ ve $\frac{3-\gamma}{1-\gamma} = -\frac13$'tür; katsayı $\frac{2-\gamma}{3-\gamma} = -1$'dir.</li>
+    <li>$x = f_c^{1/3}$ ile denklem $x = 2 - 2\,(1/x - 1)$, yani $x^2 - 4x + 2 = 0$ olur.</li>
+    <li>1'in altındaki kök $x = 2 - \sqrt2 = 0.586$'dır; yani $f_c = x^3 = 0.20$.</li>
+    <li>Anlamı: düğümlerinin neredeyse tamamının rastgele kaybına dayanan aynı ağ, en üstteki %20'si silinince dağılır (tam değer: %14; aşağıdaki şekle bakın).</li>
+  </ol>
+</div>
+<div data-fig id="fig-gamma"></div>
+<div class="callout key">
+  <p><em>Dayanıklı ama kırılgan</em>: rastgele bir bozulma neredeyse hiçbir zaman bir merkez düğüme denk gelmez; bir saldırı ise her şeyi bir arada tutan merkez düğümleri siler. Ağı koruyan özellik, merkez düğümleri, aynı zamanda onun Aşil topuğudur.</p>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Merkez düğümlerin en üst %1'ini silmek neden rastgele %1'den çok daha fazla zarar verir?</p>
+  <ol>
+    <li data-why="İkisi de aynı sayıda düğüm siler.">Daha çok düğüm silinir</li>
+    <li data-why="Merkez düğümler nadirdir; bu yüzden rastgele bozulmalar onları ıskalar.">Merkez düğümler daha sık bozulur</li>
+    <li data-why="Küçük düğümler ⟨k²⟩'ye çok az katkı yapar.">Ağı küçük düğümler bir arada tutar</li>
+    <li>$\langle k^2\rangle$'ye merkez düğümler hâkimdir; bu yüzden $\kappa$ çöker</li>
+  </ol>
+  <div class="explain">Merkez düğümleri silmek $\kappa$'yı yüzde birkaç içinde 2'ye indirir; rastgele silme onu neredeyse hiç değiştirmez.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Hedefli bir saldırı altında (önce en büyük derece) hangisi önce dağılır: ölçekten bağımsız bir ağ mı, yoksa aynı $N$ ve $\langle k\rangle$'ya sahip rastgele bir ağ mı?</p>
+  <ol>
+    <li data-why="Ölçekten bağımsız ağlar saldırılara değil, rastgele bozulmalara dayanıklıdır.">Rastgele ağ</li>
+    <li data-why="Derece dağılımları farklıdır; bu yüzden eşikleri de farklıdır.">İkisi aynı noktada</li>
+    <li>Ölçekten bağımsız ağ</li>
+    <li data-why="Yeterince düğüm silmek her ağı böler.">Hiçbiri dağılmaz</li>
+  </ol>
+  <div class="explain">Az sayıdaki merkez düğümü $\langle k^2\rangle$'nin çoğunu taşır; onları silmek $\kappa$'yı çökertir (Bölüm 8.4).</div>
+</div>
+</div></body></html>

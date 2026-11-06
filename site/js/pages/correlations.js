@@ -9,7 +9,8 @@ import { logLogFit, fmt } from "../lib/stats.js";
 import { loadNetworks, NETWORK_ORDER } from "../lib/data.js";
 
 // ------------------------------------------------------------------ 1. rewire towards (dis)assortativity
-{
+fig_rewire: {
+  if (!document.getElementById("fig-rewire")) break fig_rewire; // only on the page that shows it
   let g, edges, rng, mode = "assortative";
   const f = figure("#fig-rewire", { title: "Same degrees, different correlations", sub: "A scale-free network (N = 300, γ = 2.5). Degree-preserving swaps are accepted only when they make hubs link more (or less) to hubs.", cols: "split" });
   const pn = f.panel(null), pr = f.panel(null);
@@ -62,6 +63,7 @@ import { loadNetworks, NETWORK_ORDER } from "../lib/data.js";
 
 // ------------------------------------------------------------------ 2. real networks
 (async () => {
+  if (!document.getElementById("fig-knn")) return; // only on the page that shows it
   const { networks } = await loadNetworks();
   let name = "collaboration";
   const f = figure("#fig-knn", { title: "Degree correlation function k_nn(k)", sub: "Average degree of the neighbours of nodes with degree k, against the neutral expectation ⟨k²⟩/⟨k⟩." });
@@ -146,7 +148,8 @@ const hexRgb = (c) => { const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i.
 const mix = (c0, c1, t) => { const a = hexRgb(c0), b = hexRgb(c1); return `rgb(${a.map((x, i) => Math.round(x + (b[i] - x) * t)).join(",")})`; };
 
 // ================================================================== the degree correlation matrix
-{
+fig_matrix: {
+  if (!document.getElementById("fig-matrix")) break fig_matrix; // only on the page that shows it
   const N = 1000, L = 5000;
   const f = figure("#fig-matrix", { title: "The degree correlation matrix e_jk", sub: `A random network with Poisson degrees (N = ${fmt.int(N)}, ⟨k⟩ = 10), rewired with the Xalvi-Brunet–Sokolov algorithm. Every node keeps its degree.`, cols: "cols-2" });
   const left = f.panel("e_jk: degree j (rows, small at the top) against degree k (columns)"), right = f.panel("Degree correlation function");
@@ -202,7 +205,8 @@ const mix = (c0, c1, t) => { const a = hexRgb(c0), b = hexRgb(c1); return `rgb($
 }
 
 // ================================================================== structural cutoff
-{
+fig_cutoff: {
+  if (!document.getElementById("fig-cutoff")) break fig_cutoff; // only on the page that shows it
   const N = 10000, kmin = 2;
   const f = figure("#fig-cutoff", { title: "Natural and structural cutoffs", sub: `Configuration-model networks with N = ${fmt.int(N)} and k_min = ${kmin}: with multi-links allowed, made simple, and simple with every degree above k_s removed.`, cols: "cols-2" });
   const left = f.panel("Degree distribution and the two cutoffs"), right = f.panel("Degree correlation function k_nn(k)");
@@ -242,7 +246,8 @@ const mix = (c0, c1, t) => { const a = hexRgb(c0), b = hexRgb(c1); return `rgb($
 }
 
 // ================================================================== giant component and distances under correlations
-{
+fig_giant: {
+  if (!document.getElementById("fig-giant")) break fig_giant; // only on the page that shows it
   const N = 3000, grid = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3];
   const f = figure("#fig-giant", { title: "Correlations change the giant component", sub: `Random networks (N = ${fmt.int(N)}) rewired with the Xalvi-Brunet–Sokolov algorithm. Each point averages 3 networks.`, cols: "cols-2" });
   const left = f.panel("Giant component against ⟨k⟩"), right = f.panel("Distances at ⟨k⟩ = 3");

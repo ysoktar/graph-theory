@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intro to graph ML · From Graphs to Hubs</title>
+<meta name="description" content="Graph machine learning tasks and hand-made features: centralities and PageRank for nodes, overlap scores and the Katz index for pairs, Weisfeiler–Lehman for whole graphs.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/embeddings.js"></script>
+</head>
+<body data-page="graphml">
+<main><div class="content">
+
+<h1>Intro to graph machine learning</h1>
+<p class="lead">Network science summarises a whole network in a few numbers. Machine learning needs a description of every node, pair or graph, as a vector a classifier can use. This page builds that description by hand, from what the course already measures; the <a href="embeddings.html">next page</a> learns it.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Earlier chapters describe networks with a few numbers ($\langle k\rangle$, $C$, $\gamma$); prediction needs a description of every node.</li>
+    <li>Hand-made features reuse what the course already measures: degree, clustering, paths, random walks.</li>
+    <li>Embeddings learn the features instead; graph neural networks learn them for the task at hand.</li>
+  </ul>
+</div>
+
+<h2>What graph machine learning predicts</h2>
+<table class="simple">
+  <thead><tr><th>Task</th><th>Predict</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>node classification</td><td>a label for each node</td><td>which faction a karate club member joins; a protein's function; a bot account</td></tr>
+    <tr><td>link prediction</td><td>whether two nodes are (or will be) linked</td><td>untested protein interactions; "people you may know"; recommendations</td></tr>
+    <tr><td>graph classification</td><td>a label for a whole network</td><td>whether a molecule is toxic</td></tr>
+    <tr><td>clustering</td><td>groups of nodes</td><td><a href="communities.html">communities</a></td></tr>
+  </tbody>
+</table>
+<p>Every task needs a vector per node (or pair, or graph). The classic pipeline computes it by hand and feeds it to a standard model such as logistic regression or a random forest.</p>
+
+<h2>Hand-made features: nodes</h2>
+<p>How important is a node? Each centrality answers a different version of the question.</p>
+<table class="simple">
+  <thead><tr><th>Measure</th><th>Formula</th><th>High for a node that…</th></tr></thead>
+  <tbody>
+    <tr><td>degree</td><td>$k_v$</td><td>has many neighbours (counts them all as equal)</td></tr>
+    <tr><td>eigenvector</td><td>$c_v = \frac1\lambda\sum_u A_{vu}c_u$, i.e. $A\mathbf c = \lambda\mathbf c$</td><td>has important neighbours</td></tr>
+    <tr><td>PageRank</td><td>$r_v = \frac{1-d}{N} + d\sum_{u \to v}\frac{r_u}{k_u^{\text{out}}}$</td><td>is reached often by a random surfer who sometimes jumps</td></tr>
+    <tr><td>betweenness</td><td>$b_v = \sum_{s \ne v \ne t}\frac{\sigma_{st}(v)}{\sigma_{st}}$</td><td>lies on many shortest paths: a broker or bridge</td></tr>
+    <tr><td>closeness</td><td>$c_v = \frac{N-1}{\sum_u d_{uv}}$</td><td>is near everyone</td></tr>
+    <tr><td>clustering</td><td>$C_v = \frac{2L_v}{k_v(k_v-1)}$</td><td>has neighbours that know each other (<a href="ch2-clustering.html">Ch 2</a>)</td></tr>
+    <tr><td>$k$-core number</td><td>largest $k$ with $v$ in a subgraph of minimum degree $k$</td><td>sits in the dense core</td></tr>
+  </tbody>
+</table>
+<dl class="symbols">
+  <dt>$\lambda$</dt><dd>largest eigenvalue of $A$ (its eigenvector has all entries positive)</dd>
+  <dt>$d$</dt><dd>damping factor, usually 0.85: the probability of following a link rather than jumping to a random node</dd>
+  <dt>$\sigma_{st}$, $\sigma_{st}(v)$</dt><dd>number of shortest paths from $s$ to $t$, and how many of them pass through $v$</dd>
+  <dt>$d_{uv}$</dt><dd>distance between $u$ and $v$</dd>
+</dl>
+<div data-fig id="fig-central"></div>
+<div class="callout example">
+  <p><strong>Worked example 1: eigenvector centrality of a star.</strong> A hub with $n$ leaves.</p>
+  <ol>
+    <li>Each leaf's only neighbour is the hub: $\lambda c_{\text{leaf}} = c_{\text{hub}}$. The hub has $n$ leaf neighbours: $\lambda c_{\text{hub}} = n\,c_{\text{leaf}}$.</li>
+    <li>Multiply: $\lambda^2 = n$, so $\lambda = \sqrt n$ and $c_{\text{leaf}} = c_{\text{hub}}/\sqrt n$.</li>
+    <li>With 4 leaves: $\lambda = 2$, leaves score half the hub. Degree would say a quarter: a leaf gains from its one important neighbour.</li>
+  </ol>
+</div>
+<div class="callout example">
+  <p><strong>Worked example 2: PageRank by hand.</strong> Directed links $A \to B$, $A \to C$, $B \to C$, $C \to A$, $D \to C$; start from $r = \frac14$ each.</p>
+  <ol>
+    <li>Simplified PageRank ($d = 1$): each node splits its score equally over its out-links. Iteration 1: $A$ receives all of $C$'s $0.25$; $B$ half of $A$'s, $0.125$; $C$ half of $A$'s plus all of $B$'s and $D$'s, $0.625$; $D$ receives nothing, $0$.</li>
+    <li>Iteration 2: $A = 0.625$, $B = 0.125$, $C = 0.250$, $D = 0$. It converges to $A = 0.4$, $B = 0.2$, $C = 0.4$, $D = 0$.</li>
+    <li>With $d = 0.85$ every node first gets $0.15/4 = 0.0375$: $D$ keeps $0.038$ instead of 0, and the result is $A = 0.373$, $B = 0.196$, $C = 0.394$. Teleporting stops scores from draining into dead ends and keeps the walk from getting trapped.</li>
+  </ol>
+</div>
+<div data-fig id="fig-pagerank"></div>
+
+<h2>Hand-made features: pairs of nodes</h2>
+<p>For link prediction, score each unlinked pair $u, v$:</p>
+<ul>
+  <li><strong>Distance</strong> $d_{uv}$: short is likely, but it ignores how many paths there are.</li>
+  <li><strong>Common neighbours</strong> $|N(u) \cap N(v)|$; <strong>Jaccard</strong> divides by $|N(u) \cup N(v)|$.</li>
+  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$ and <strong>resource allocation</strong> $\sum_w 1/k_w$: a shared low-degree neighbour says more than a shared hub.</li>
+  <li><strong>Preferential attachment</strong> $k_u k_v$, from the <a href="ch5-preview.html">BA model</a>.</li>
+  <li><strong>Katz index</strong>: count all walks between $u$ and $v$, damping long ones:
+  <div class="eq">$$S_{uv} = \sum_{\ell \ge 1}\beta^\ell (A^\ell)_{uv}, \qquad S = (I - \beta A)^{-1} - I, \qquad \beta &lt; 1/\lambda_{\max}.$$</div></li>
+</ul>
+<p>The first scores are <em>local</em> (they see only shared neighbours, so they give 0 to pairs at distance 3 or more); Katz is <em>global</em>.</p>
+<div class="callout example">
+  <p><strong>Worked example 3: Katz on a square.</strong> Nodes $A, B, C, D$ in a 4-cycle; $\lambda_{\max} = 2$, so $\beta &lt; 0.5$.</p>
+  <ol>
+    <li>Opposite corners $A, C$ share 2 neighbours but are not linked. Walks from $A$ to $C$: 2 of length 2, 8 of length 4, and so on (none of odd length).</li>
+    <li>$\beta = 0.1$: $S_{AC} = 2(0.01) + 8(0.0001) + \dots = 0.021$. Adjacent corners: $S_{AB} = 0.104$.</li>
+    <li>$\beta = 0.4$: $S_{AC} = 0.89$, $S_{AB} = 1.11$. Close to $1/\lambda_{\max}$ long walks dominate and the scores blow up; at $\beta \ge 0.5$ the sum diverges.</li>
+  </ol>
+</div>
+<p>Evaluate by hiding links: <strong>AUC</strong> = probability that a hidden link outscores a random non-link (a tie counts as ½). 0.5 is guessing, 1 perfect.</p>
+<div data-fig id="fig-links"></div>
+
+<h2>Hand-made features: whole graphs</h2>
+<p>To classify graphs we need to compare them. Counting small subgraphs (<em>graphlets</em>) works but is expensive. The <strong>Weisfeiler–Lehman</strong> (WL) method is cheap: give every node the same colour, then repeatedly recolour each node by its own colour and the multiset of its neighbours' colours:</p>
+<div class="eq">$$c^{(t+1)}(v) = \operatorname{hash}\Big(c^{(t)}(v),\ \{\!\{c^{(t)}(u) : u \in N(v)\}\!\}\Big).$$</div>
+<p>After $t$ rounds a node's colour summarises its neighbourhood up to distance $t$. Two graphs whose colour counts differ are certainly different (not isomorphic); the counts, as a vector, are the WL graph features. If the counts never differ, WL cannot tell the graphs apart, even when they are different.</p>
+<div class="callout example">
+  <p><strong>Worked example 4: WL by hand.</strong> Graph 1 is a path of 5 nodes, $a{-}b{-}c{-}d{-}e$; graph 2 is a triangle plus a separate link. Both have degrees $\{1, 1, 2, 2, 2\}$.</p>
+  <ol>
+    <li>Round 1 (colour = degree): both graphs have two nodes of colour 1 and three of colour 2. Not yet distinguished.</li>
+    <li>Round 2 (own colour + neighbours' colours): path: $a, e \to (1; 2)$, $b, d \to (2; 1, 2)$, $c \to (2; 2, 2)$. Triangle plus link: link ends $\to (1; 1)$, triangle nodes $\to (2; 2, 2)$.</li>
+    <li>The colour counts now differ, so the graphs are different. But a 6-cycle and two triangles stay identical forever: every node has degree 2 and two degree-2 neighbours in both.</li>
+  </ol>
+</div>
+<div data-fig id="fig-wl"></div>
+
+<div class="quiz" data-answer="3">
+  <p>A link predictor has AUC = 0.5. What does that mean?</p>
+  <ol>
+    <li data-why="AUC does not count links found; it compares the scores of hidden links and non-links.">It finds half the hidden links</li>
+    <li data-why="That would be AUC = 1.">It ranks perfectly</li>
+    <li>It does no better than guessing</li>
+    <li data-why="That would be AUC near 0.">It ranks backwards</li>
+  </ol>
+  <div class="explain">A hidden link outscores a non-link only half the time.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>In the Adamic–Adar score, what weight does a shared neighbour of degree 2 get, and one of degree 100?</p>
+  <ol>
+    <li data-why="The weight falls with degree.">Equal</li>
+    <li data-why="1/ln k, not 1/k.">0.5 and 0.01</li>
+    <li data-why="Hubs are down-weighted.">The hub weighs more</li>
+    <li>1.44 and 0.22</li>
+  </ol>
+  <div class="explain">$1/\ln 2 = 1.44$, $1/\ln 100 = 0.22$: sharing a hub is weak evidence.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Common neighbours score AUC 0.96 on collaboration but about 0.56 on proteins. Why?</p>
+  <ol>
+    <li data-why="Both have edge lists of similar quality.">Protein data are wrong</li>
+    <li>Collaboration is highly clustered; proteins sharing a partner rarely bind</li>
+    <li data-why="Size does not set AUC.">Proteins form a smaller network</li>
+    <li data-why="Both are undirected here.">Proteins are directed</li>
+  </ol>
+  <div class="explain">Co-authors of one person often co-author together (triangles); proteins do not follow triadic closure.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Node $u$ has neighbours $\{a, b, c\}$ and node $v$ has $\{b, c, d, e\}$. What is their Jaccard score?</p>
+  <ol>
+    <li data-why="That is the common-neighbour count.">2</li>
+    <li data-why="That divides by |N(u)| only.">0.67</li>
+    <li>0.4</li>
+    <li data-why="That divides by |N(v)| only.">0.5</li>
+  </ol>
+  <div class="explain">$|\{b, c\}| / |\{a, b, c, d, e\}| = 2/5$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Which score can rank a pair with no shared neighbours above zero?</p>
+  <ol>
+    <li>Preferential attachment $k_u k_v$</li>
+    <li data-why="It is 0 without shared neighbours.">Common neighbours</li>
+    <li data-why="It is 0 without shared neighbours.">Jaccard</li>
+    <li data-why="It sums over shared neighbours only.">Adamic–Adar</li>
+  </ol>
+  <div class="explain">It uses degrees only: the <a href="ch5-preview.html">BA rule</a> says hubs gain links.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>In simplified PageRank (no teleporting, $d = 1$), node $D$ has out-links but no in-links. What is its score after the first iteration, and why does real PageRank use $d &lt; 1$?</p>
+  <ol>
+    <li data-why="Scores move along links; with no in-links nothing flows into D.">It keeps its starting score, because it has out-links</li>
+    <li data-why="D's score flows to the nodes it links to; that does not make D's own score largest.">It becomes the largest, because it gives score to others</li>
+    <li>It drops to 0; teleporting gives every node a floor of $(1-d)/N$ and stops the walk from getting trapped</li>
+    <li data-why="The damping factor is not about speed of convergence alone; it changes the stationary scores.">It is undefined; $d &lt; 1$ only makes the computation faster</li>
+  </ol>
+  <div class="explain">A node's new score is what flows in along links. Without teleporting, nodes without in-links drop to 0 and dead ends or closed loops can trap the walk; $d = 0.85$ fixes both.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>The largest eigenvalue of a network's adjacency matrix is $\lambda_{\max} = 4$. For which damping $\beta$ is the Katz index $\sum_{\ell} \beta^\ell (A^\ell)_{uv}$ defined?</p>
+  <ol>
+    <li data-why="That is too large: the number of walks grows like 4^ℓ, so β must beat it.">$\beta &lt; 1$</li>
+    <li>$\beta &lt; 0.25$</li>
+    <li data-why="β > 1/λ_max makes the series diverge.">$\beta > 0.25$</li>
+    <li data-why="The walk counts grow geometrically, so some limit on β is needed.">Any $\beta > 0$</li>
+  </ol>
+  <div class="explain">Walk counts grow like $\lambda_{\max}^\ell$, so $\beta^\ell\lambda_{\max}^\ell$ must shrink: $\beta &lt; 1/\lambda_{\max} = 0.25$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>The Weisfeiler–Lehman test is run on a 6-cycle and on two separate triangles. What does it report?</p>
+  <ol>
+    <li>No difference, in any round: every node has degree 2 and two degree-2 neighbours in both graphs</li>
+    <li data-why="Round 1 colours by degree, and both graphs have six nodes of degree 2.">A difference in round 1</li>
+    <li data-why="WL never sees triangles directly; it sees only neighbour colours, which are identical here.">A difference in round 2, when the triangles appear</li>
+    <li data-why="WL compares colour counts, and they are always equal here.">That the graphs are isomorphic</li>
+  </ol>
+  <div class="explain">WL can only prove two graphs different. Here it never can, although they differ (one is connected, the other has triangles), and neither can any message-passing GNN.</div>
+</div>
+</div></main>
+</body>
+</html>

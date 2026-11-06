@@ -78,19 +78,43 @@ export const NAV = [
       next: "The configuration model copies hubs but cannot say where they come from. Which process creates them?" },
   ] },
   { part: "Part IV · Where hubs come from", short: "Ch 5–6", items: [
-    { id: "ch5-preview", title: "The Barabási–Albert model", book: "Ch 5", desc: "Growth + preferential attachment gives γ = 3.", needs: ["ch4-power-laws", "ch4-hubs"],
+        { id: "ch5-preview", title: "The Barabási–Albert model", book: "5.1–5.5", desc: "Growth + preferential attachment gives γ = 3.", needs: ["ch4-power-laws", "ch4-hubs"],
+      next: "The model has two ingredients. Are both needed, and do real networks really attach preferentially?" },
+    { id: "ch5-ingredients", title: "Testing preferential attachment", book: "5.6–5.8", desc: "Models A and B, measuring attachment, nonlinear attachment.", needs: ["ch5-preview"],
+      next: "Real networks do attach preferentially. But how can a new node prefer hubs without knowing anyone's degree?" },
+    { id: "ch5-origins", title: "Origins and properties of BA networks", book: "5.9–5.10", desc: "Link selection and copying; distances and clustering of BA networks.", needs: ["ch5-ingredients"],
       next: "In the BA model the oldest node always wins and γ is always 3. Real networks disagree: what is missing?" },
-    { id: "evolving", title: "Evolving networks", book: "Ch 6", desc: "Latecomers can win: fitness, condensation, and the processes that set γ.", needs: ["ch5-preview"],
+    { id: "evolving", title: "Evolving networks: fitness", book: "6.1–6.2", desc: "Latecomers can win: the Bianconi–Barabási model.", needs: ["ch5-preview"],
+      next: "Fitness is invisible. Can we measure it from how fast nodes grow?" },
+    { id: "evolving-measure", title: "Measuring fitness", book: "6.3", desc: "Fitness from growth rates; the citation model.", needs: ["evolving"],
+      next: "Some fitness distributions let one group of nodes grab a finite share of all links. When, and why?" },
+    { id: "evolving-bec", title: "Bose–Einstein condensation", book: "6.4", desc: "Fit-get-rich or winner-takes-all, decided by ρ(η).", needs: ["evolving"],
+      next: "Fitness is one missing process. Real networks also add internal links, lose nodes, grow denser and age." },
+    { id: "evolving-processes", title: "Elementary processes", book: "6.5–6.6", desc: "Attractiveness, internal links, deletion, acceleration, aging: what each does to γ.", needs: ["evolving"],
       next: "We know where hubs come from. Next question: whom do they link to?" },
   ] },
   { part: "Part V · What the wiring does", short: "Ch 7–8", items: [
-    { id: "correlations", title: "Degree correlations", book: "Ch 7", desc: "Assortativity r and k_nn(k): who links to whom.", needs: ["ch4-moments", "ch4-generating"],
+        { id: "correlations", title: "Degree correlations", book: "7.1–7.2", desc: "Do hubs link to hubs? Three kinds of network and the matrix e_jk.", needs: ["ch4-moments", "ch4-generating"],
+      next: "The matrix holds everything but is hard to read. How do we measure correlations with a curve or a single number?" },
+    { id: "correlations-measure", title: "Measuring correlations", book: "7.3", desc: "k_nn(k), the exponent μ, the friendship paradox and r.", needs: ["correlations"],
+      next: "Some correlations are forced on a network by its hubs. How do we tell them from real ones?" },
+    { id: "correlations-cutoffs", title: "Structural cutoffs and real networks", book: "7.4–7.5", desc: "Structural disassortativity, k_s and the book's networks.", needs: ["correlations-measure"],
+      next: "Which models produce correlations, and do correlations change how a network behaves?" },
+    { id: "correlations-models", title: "Correlated models and their impact", book: "7.6–7.8", desc: "Correlations of every model; the Xalvi-Brunet–Sokolov algorithm; impact.", needs: ["correlations-cutoffs"],
       next: "Hubs and how they connect decide what happens when nodes fail. How much damage can a network take?" },
-    { id: "robustness", title: "Robustness & attacks", book: "Ch 8", scope: "syllabus", desc: "Random failures vs. targeted attacks on hubs.", needs: ["ch3-evolution", "ch4-moments"],
+    { id: "robustness", title: "Robustness and percolation", book: "8.1–8.2", scope: "syllabus", desc: "How many nodes can a network lose? Percolation theory.", needs: ["ch3-evolution", "ch4-moments"],
+      next: "Percolation on a lattice has a critical point. Where is the critical point of a network that loses nodes at random?" },
+    { id: "robustness-failures", title: "Random failures", book: "8.3", scope: "syllabus", desc: "Molloy–Reed and why scale-free networks survive random failures.", needs: ["robustness"],
+      next: "Failures rarely hit hubs. What if someone aims for them?" },
+    { id: "robustness-attacks", title: "Attacks", book: "8.4", scope: "syllabus", desc: "Removing hubs first: robust yet fragile.", needs: ["robustness-failures"],
+      next: "Removed nodes are only the start: in real systems one failure can trigger the next." },
+    { id: "robustness-cascades", title: "Cascades and building robustness", book: "8.5–8.8", scope: "syllabus", desc: "Cascading failures and networks designed to resist failures and attacks.", needs: ["robustness-attacks"],
       next: "So far a network is described by a few numbers. Machine learning needs a description of every single node." },
   ] },
   { part: "Part VI · Learning on networks", short: "Graph ML", items: [
-    { id: "embeddings", title: "Graph ML & node embeddings", scope: "syllabus", desc: "Spectral and random-walk embeddings, link prediction.", needs: ["ch2-adjacency", "ch2-clustering"],
+        { id: "graphml", title: "Intro to graph ML", scope: "syllabus", desc: "Tasks and hand-made features: centralities, PageRank, Katz, Weisfeiler–Lehman.", needs: ["ch2-adjacency", "ch2-clustering"],
+      next: "Hand-made features must be designed for each task. Can the features be learned instead?" },
+    { id: "embeddings", title: "Node embeddings", scope: "syllabus", desc: "Spectral and random-walk embeddings, graph neural networks.", needs: ["graphml"],
       next: "Beyond the course: the spectral split you just saw finds groups. How do you tell a real community from chance?" },
   ] },
   { part: "Beyond the course", short: "Ch 9–10", items: [
@@ -222,6 +246,56 @@ function buildNextUp(info) {
   return h("aside", { class: "next-up", "aria-label": t("Up next") },
     h("div", { class: "next-up-label" }, t("Up next")),
     h("p", {}, h("a", { href: href(next.id) }, next.title), ": ", h("span", {}, info.next)));
+}
+
+/**
+ * "On this page": the page's sections, as a sticky column on the right of wide landscape screens and as a
+ * collapsible box under the lead elsewhere (CSS shows one of the two). The section being read is highlighted.
+ */
+function buildToc(content) {
+  const heads = $$(":scope > h2, :scope > h3, :scope > section > h2, :scope > section > h3", content).filter((x) => x.textContent.trim());
+  if (heads.length < 3) return null;
+  const withH3 = heads.length <= 32; // long guides list only their main sections
+  const items = heads.filter((x) => withH3 || x.tagName === "H2");
+  items.forEach((x, i) => { if (!x.id) x.id = `sec-${i + 1}`; });
+  const firstQuiz = $(":scope > .quiz, :scope > section > .quiz", content);
+  if (firstQuiz && !firstQuiz.id) firstQuiz.id = "check";
+  const list = () => {
+    const ol = h("ol");
+    for (const x of items) ol.append(h("li", { class: x.tagName === "H3" ? "toc-sub" : "" }, h("a", { href: `#${x.id}`, "data-target": x.id }, x.textContent)));
+    if (firstQuiz) ol.append(h("li", { class: "toc-check" }, h("a", { href: `#${firstQuiz.id}`, "data-target": firstQuiz.id }, t("Check yourself"))));
+    return ol;
+  };
+  const side = h("nav", { class: "toc toc-side", "aria-label": t("On this page") }, h("div", { class: "toc-title" }, t("On this page")), list());
+  const inline = h("details", { class: "toc toc-inline" }, h("summary", {}, `${t("On this page")} · ${items.length}`), list());
+  inline.addEventListener("click", (e) => { if (e.target.closest("a")) inline.open = false; });
+  // highlight the section being read: the last target whose top is above 35% of the viewport height
+  const targets = [...items, ...(firstQuiz ? [firstQuiz] : [])];
+  let ticking = false;
+  const spy = () => {
+    ticking = false;
+    const line = window.innerHeight * 0.35;
+    let cur = null;
+    for (const x of targets) if (x.getBoundingClientRect().top <= line) cur = x.id;
+    for (const a of $$(".toc a[data-target]")) a.classList.toggle("active", a.dataset.target === cur);
+    const act = $(".toc-side a.active");
+    if (act && side.scrollHeight > side.clientHeight) {
+      const r = act.offsetTop - side.scrollTop;
+      if (r < 40 || r > side.clientHeight - 40) side.scrollTop = act.offsetTop - side.clientHeight / 2;
+    }
+  };
+  window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
+  requestAnimationFrame(spy);
+  return { side, inline };
+}
+
+/** Shrink display equations that are wider than their column (down to 72%), so narrow screens see them whole. */
+function fitEquations(root = document) {
+  for (const el of $$(".eq", root)) {
+    el.style.fontSize = "";
+    const sw = el.scrollWidth, cw = el.clientWidth;
+    if (cw && sw > cw + 1) el.style.fontSize = `${Math.max(0.72, (cw - 2) / sw) * 100}%`;
+  }
 }
 
 function buildFooter() {
@@ -371,6 +445,13 @@ function init() {
   const layout = h("div", { class: "layout" }, buildSidebar(id));
   main.replaceWith(layout);
   layout.append(main);
+  const toc = buildToc(content);
+  if (toc) {
+    layout.classList.add("has-toc");
+    layout.append(toc.side);
+    const lead = $(":scope > .lead", content);
+    (lead || prereq || h1)?.after(toc.inline);
+  }
   const scrim = h("div", { class: "scrim", onclick: () => document.body.classList.remove("nav-open") });
   document.body.prepend(h("a", { class: "skip-link", href: "#content" }, "Skip to content"), buildHeader(info), scrim);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.body.classList.remove("nav-open"); });
@@ -379,6 +460,12 @@ function init() {
   markBeyond(content);
   enhanceQuizzes(content);
   renderMath(content);
+  fitEquations(content);
+  // widths change once the KaTeX fonts arrive, so measure again then
+  document.fonts?.ready.then(() => fitEquations(content));
+  window.addEventListener("load", () => fitEquations(content));
+  let fitTimer = 0;
+  window.addEventListener("resize", () => { clearTimeout(fitTimer); fitTimer = setTimeout(() => fitEquations(content), 150); });
   annotateGlossary(content, id);
   installTermPopover();
   const cur = $(".sidebar [aria-current]"), side = $(".sidebar");

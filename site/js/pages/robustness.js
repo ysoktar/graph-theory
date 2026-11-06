@@ -15,7 +15,8 @@ const degreeOrder = (g) => { const d = g.degrees(); return Int32Array.from({ len
 const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
 
 // ------------------------------------------------------------------ 1. watch a network break
-{
+fig_break: {
+  if (!document.getElementById("fig-break")) break fig_break; // only on the page that shows it
   const N = 250;
   let f0 = 0, mode = "attack", seed = 2;
   const fig = figure("#fig-break", { title: "Removing nodes from a random and a scale-free network", sub: "Both have N = 250 and about the same ⟨k⟩. Largest remaining component in colour; removed nodes vanish.", cols: "cols-2" });
@@ -70,6 +71,7 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
 
 // ------------------------------------------------------------------ 2. real networks
 (async () => {
+  if (!document.getElementById("fig-real")) return; // only on the page that shows it
   const { networks } = await loadNetworks();
   let name = "email";
   const f = figure("#fig-real", { title: "Random failures and attacks on a real network", sub: "Share of nodes in the largest component as nodes are removed, against a random network G(N, L) of the same size." });
@@ -111,7 +113,8 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
 })();
 
 // ================================================================== percolation on a square lattice
-{
+fig_lattice: {
+  if (!document.getElementById("fig-lattice")) break fig_lattice; // only on the page that shows it
   const L = 70;
   const f = figure("#fig-lattice", { title: "Percolation on a square lattice", sub: `A ${L}×${L} lattice. Each site is occupied with probability p; neighbouring occupied sites form clusters. The largest cluster is coloured.`, cols: "split" });
   const left = f.panel(null), right = f.panel(null);
@@ -161,7 +164,8 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
 }
 
 // ================================================================== choose a degree distribution
-{
+fig_calc: {
+  if (!document.getElementById("fig-calc")) break fig_calc; // only on the page that shows it
   const f = figure("#fig-calc", { title: "Choose a degree distribution", sub: "A randomly wired network (configuration model) with the chosen pₖ. Left: the distribution. Right: the giant component after random failures and after an attack, solved exactly with generating functions.", cols: "cols-2" });
   const left = f.panel("Degree distribution pₖ"), right = f.panel("Giant component S after removing a fraction f");
   const formula = h("div", { class: "small", style: { margin: "0 0 .4rem" } });
@@ -204,7 +208,8 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
 }
 
 // ================================================================== f_c versus γ
-{
+fig_gamma: {
+  if (!document.getElementById("fig-gamma")) break fig_gamma; // only on the page that shows it
   const f = figure("#fig-gamma", { title: "Thresholds against the degree exponent", sub: "Random failures and attacks on scale-free networks. Solid: the book's continuum formulas (8.9) and (8.12). Dashed: exact values for integer degrees." });
   const plot = new Plot(f.body, { height: 300, x: { label: "degree exponent γ", min: 2, max: 4.5 }, y: { label: "critical fraction f_c", min: 0, max: 1 } });
   let kmin = 2, logN = 4;
@@ -232,7 +237,8 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
 }
 
 // ================================================================== cascades: the failure propagation model
-{
+fig_cascade: {
+  if (!document.getElementById("fig-cascade")) break fig_cascade; // only on the page that shows it
   const N = 2000;
   const f = figure("#fig-cascade", { title: "Cascading failures: the failure propagation model", sub: `A random network of ${fmt.int(N)} nodes. A node fails once at least a fraction φ of its neighbours have failed. Each run starts from one randomly failed node.`, cols: "split" });
   const left = f.panel(null), right = f.panel(null);
@@ -282,7 +288,8 @@ const molloyReed = (k1, k2) => 1 - 1 / (k2 / k1 - 1);
 }
 
 // ================================================================== the branching model
-{
+fig_branch: {
+  if (!document.getElementById("fig-branch")) break fig_branch; // only on the page that shows it
   const f = figure("#fig-branch", { title: "The branching model of an avalanche", sub: "Each failed node triggers k new failures, k drawn from pₖ with mean 1 (the critical point). 20,000 avalanches; the sizes of very large ones are capped at 10⁵." });
   const plot = new Plot(f.body, { height: 280, x: { type: "log", label: "avalanche size s" }, y: { type: "log", label: "p(s)" } });
   const t = stats(f.body, [{ key: "alpha", tex: "\\alpha", label: "predicted", hl: true }, { key: "fit", tex: "\\hat\\alpha", label: "fitted slope" }]);

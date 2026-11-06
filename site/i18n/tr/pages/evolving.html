@@ -1,8 +1,8 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Evrilen ağlar · Çizgelerden Merkez Düğümlere</title>
-<meta name="description" content="6. Bölüm: Bianconi–Barabási uygunluk modeli, uygunluğun ölçülmesi, Bose–Einstein yoğuşması ve derece üstelini belirleyen temel süreçler (başlangıç çekiciliği, iç bağlantılar, düğüm silme, hızlanan büyüme, yaşlanma)."></head><body>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Evrilen ağlar: uygunluk · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="BA modelinin yanıldığı yerler ve Bianconi–Barabási uygunluk modeli: geç gelen ama uygun düğümlerin eski merkez düğümleri nasıl geçtiği."></head><body>
 <div class="content">
 
-<h1>Evrilen ağlar</h1>
+<h1>Evrilen ağlar: uygunluk</h1>
 <p class="lead">BA modelinde en eski düğüm her zaman en zengindir, her ağda $\gamma = 3$'tür ve hiçbir şey yok olmaz. Gerçek ağlar bu üç kuralı da çiğner. 6. Bölüm eksik süreçleri birer birer ekler ve her birinin $p_k$'ye ne yaptığını gösterir.</p>
 
 <div class="callout why">
@@ -93,155 +93,6 @@
   <p>Bir merkez düğüm ya erkendir (BA) ya da uygundur. $C$'yi, büyüme üstellerini ve $\gamma$'yı yalnızca uygunluk dağılımı $\rho(\eta)$ belirler.</p>
 </div>
 
-<h2>Uygunluğu ölçmek (Bölüm 6.3)</h2>
-<p>Uygunluğu kimse atamaz: o, ağın ortak yargısıdır ve bir düğümün ne hızla büyüdüğünde görünür. $k_i(t) = m(t/t_i)^{\beta(\eta_i)}$'nin logaritmasını alın:</p>
-<div class="eq">$$\ln k_i(t) = \beta(\eta_i)\,\ln t + B_i, \qquad B_i = \ln\big(m / t_i^{\beta(\eta_i)}\big). \qquad (6.9)$$</div>
-<p>Log-log grafikte her düğümün derece geçmişi, eğimi $\beta(\eta_i) = \eta_i / C$ olan bir doğrudur. Çok sayıda düğümü izlemek eğimlerin dağılımını verir; bu da $C$ çarpanı dışında $\rho(\eta)$'dır.</p>
-<div class="callout example">
-  <p><strong>Çözümlü örnek 5: iki anlık görüntüden uygunluk.</strong> Bir sayfanın, ağ 1.000 düğümlüyken 12, 16.000 düğümlüyken 48 bağlantısı var.</p>
-  <ol>
-    <li>Eğim: $\beta = \frac{\ln(48/12)}{\ln(16000/1000)} = \frac{\ln 4}{\ln 16} = 0.5$.</li>
-    <li>Tekdüze uygunlukla ($C = 1.255$): $\eta = \beta C = 0.63$.</li>
-    <li>$C$ bilinmeden yalnızca oranlar bilinir: eğimi 0.25 olan bir sayfanın uygunluğu bunun yarısıdır. Sayfaları sıralamak için fazlası gerekmez.</li>
-  </ol>
-</div>
-<p><strong>Web.</strong> Yaklaşık 22 milyon belge 13 ay boyunca her ay tarandı. Çoğunun derecesi değişmedi; değişen %6.5'lik kısım $\rho(\eta)$'yı verdi ve bu dağılım <em>üstel</em> çıktı: yüksek uygunluk nadirdir ve uygunluk dar bir aralıkta değişir. Derecelerdeki büyük farkları dinamik üretir. Aynı anda gelen ve $\eta_2 > \eta_1$ olan iki düğüm şöyle ayrışır:</p>
-<div class="eq">$$\frac{k_2 - k_1}{k_1} \sim t^{(\eta_2 - \eta_1)/C}. \qquad (6.10)$$</div>
-<div class="callout example">
-  <p><strong>Çözümlü örnek 6: küçük farklar, büyük sonuçlar.</strong> $\eta_2 - \eta_1 = 0.1$ ve $C = 1.255$, 0.08'lik bir üstel verir. Ağ bir milyon kat büyürken daha uygun düğümün derecesi $10^{6 \times 0.08} \approx 3$ kat öne geçer.</p>
-</div>
-<p><strong>Atıflar.</strong> Makaleler de yaşlanır: yenilikleri solar. $i$ makalesinin yayımlandıktan $t$ süre sonra atıf alma olasılığı</p>
-<div class="eq">$$\Pi_i \sim \eta_i\, c_i^t\, P_i(t), \qquad P_i(t) = \frac{1}{\sqrt{2\pi}\,\sigma_i t}\, e^{-\frac{(\ln t - \mu_i)^2}{2\sigma_i^2}}, \qquad (6.11\text{–}6.12)$$</div>
-<p>olup $c_i^t$ şimdiye kadarki atıflar (tercihli bağlanma), $P_i(t)$ ise log-normal bir yaşlanma çarpanıdır. Çözüm:</p>
-<div class="eq">$$c_i^t = m\left(e^{\eta_i' \,\Phi\left(\frac{\ln t - \mu_i}{\sigma_i}\right)} - 1\right), \qquad c_i^\infty = m\left(e^{\eta_i'} - 1\right), \qquad (6.13)$$</div>
-<dl class="symbols">
-  <dt>$\Phi(x)$</dt><dd>birikimli normal dağılım (6.14); 0'dan 1'e yükselir</dd>
-  <dt>$\mu_i$</dt><dd>anlıklık: makalenin atıf zirvesine ne zaman ulaştığı</dd>
-  <dt>$\sigma_i$</dt><dd>kalıcılık: ilginin ne kadar yavaş söndüğü</dd>
-  <dt>$\eta_i' = \eta_i\beta/A$</dt><dd>göreli uygunluk; nihai etkiyi $c_i^\infty$ tek başına belirler</dd>
-  <dt>$m, \beta, A$</dt><dd>tüm makaleler için aynı olan genel sabitler</dd>
-</dl>
-<div class="callout fix" data-book="B18"></div>
-<div data-fig id="fig-cite"></div>
-<p>(6.13)'ü bir derginin her makalesine uydurmak derginin uygunluk dağılımını verir: <em>Cell</em> makaleleri sağda (yüksek uygunluk), <em>Physical Review B</em> solda durur. Uygunluk kalıtsal bile olabilir: 1.110 ikiz üzerinde yapılan bir çalışmada, bir öğrenciyi kaç sınıf arkadaşının arkadaş olarak gösterdiğindeki (iç derece) değişimin %46'sını genler açıkladı, dış derecedekini açıklamadı (Kutu 6.1).</p>
-
-<h2>Bose–Einstein yoğuşması (Bölüm 6.4)</h2>
-<p>Uygunluk modeli bir Bose gazına tam olarak eşlenir:</p>
-<table class="simple">
-  <thead><tr><th>Ağ</th><th>Bose gazı</th></tr></thead>
-  <tbody>
-    <tr><td>uygunluğu $\eta_i$ olan $i$ düğümü</td><td>enerji düzeyi $\varepsilon_i = -\frac{1}{\beta_T}\ln\eta_i$ (daha uygun = daha düşük)</td></tr>
-    <tr><td>$i$ düğümüne yönelen bir bağlantı</td><td>$\varepsilon_i$ düzeyinde bir parçacık</td></tr>
-    <tr><td>$m$ bağlantılı yeni bir düğüm</td><td>yeni bir düzey ve $m$ yeni parçacık</td></tr>
-  </tbody>
-</table>
-<div class="callout fix" data-book="B11"></div>
-<p>O zaman $f(\varepsilon) = e^{-\beta_T(\varepsilon - \mu)}$ ile $k_i = m(t/t_i)^{f(\varepsilon_i)}$ olur ve öz tutarlılık koşulu (6.5), bir Bose gazının kimyasal potansiyeli $\mu$ için denkleme dönüşür:</p>
-<div class="eq">$$\int g(\varepsilon)\,\frac{1}{e^{\beta_T(\varepsilon - \mu)} - 1}\,d\varepsilon = 1 .$$</div>
-<p>$g(\varepsilon)$ düzeylerin yoğunluğudur ($\rho(\eta)$ belirler), kesir ise Bose doluluk sayısıdır. “Sıcaklık” $1/\beta_T$ yapay bir değişkendir: sadeleşir ve evreye yalnızca $\rho(\eta)$ karar verir.</p>
-<ul>
-  <li><strong>Uygun olan zenginleşir</strong> ($C$ denkleminin $C > \eta_{\max}$ olan bir çözümü varsa): en uygun düğümler en büyük merkez düğümler olur ve bir sonraki en uygunlar onları yakından izler. Her birinin bağlantı payı sıfıra gider; ağ ölçekten bağımsızdır.</li>
-  <li><strong>Bose–Einstein yoğuşması</strong> (böyle bir çözüm yoksa): $C$, $\eta_{\max}$'ta takılır ve sonlu uygunluklu düğümler yeni bağlantıların yalnızca bir kısmını alır. Geri kalan sonlu bir pay en uygun düğümlerde yoğuşur: kazanan her şeyi alır; ağ merkez ve kollar yapısındadır, artık ölçekten bağımsız değildir.</li>
-</ul>
-<p>$\eta_{\max} = 1$ iken yoğuşma, $C = 1$ bile integrali 1'e ulaştıramadığında olur:</p>
-<div class="eq">$$I = \int \frac{\eta\,\rho(\eta)}{1 - \eta}\,d\eta < 1, \qquad \text{yoğuşan pay} = 1 - I .$$</div>
-<div class="callout example">
-  <p><strong>Çözümlü örnek 7: bir ağ ne zaman yoğuşur?</strong> $\zeta$ büyüdükçe $\eta = 1$ yakınına daha az ağırlık veren $\rho(\eta) = (1 + \zeta)(1 - \eta)^{\zeta}$'yı alın.</p>
-  <ol>
-    <li>$I = (1+\zeta)\int_0^1 \eta (1-\eta)^{\zeta - 1} d\eta = (1 + \zeta)\,\frac{1}{\zeta(\zeta+1)} = \frac{1}{\zeta}$.</li>
-    <li>$I &lt; 1$ tam olarak $\zeta > 1$ iken sağlanır. Yani $\zeta = 0.1$'de uygun olan zenginleşir, $\zeta = 10$'da ağ $1 - 1/10 = \%90$ payla yoğuşur.</li>
-    <li>Tekdüze uygunluk ($\zeta = 0$): $\int_0^1 \frac{\eta}{1-\eta}\,d\eta$, $\eta = 1$'de ıraksar; bu yüzden $I = \infty$: yoğuşma yok.</li>
-  </ol>
-  <p>Paradoks: çok uygun düğümlerin azlığı yoğuşma demektir. Uygun düğümler nadirse, gelen tek uygun düğümün rakibi olmaz.</p>
-</div>
-<div class="callout fix" data-book="B15"></div>
-<div data-fig id="fig-fitness"></div>
-<p data-beyond="Dereich, Mailler ve Mörters, Ann. Appl. Probab. 27, 2539 (2017)"><strong>Yoğuşan payı kim tutar?</strong> Kitap, 2001 tarihli fizik makalesini izleyerek en uygun düğümün tüm bağlantıların sonlu bir payını koruduğunu söyler. Modelin ağaç sürümü ($m = 1$) için bunun yanlış olduğu sonradan kanıtlandı: yoğuşma <em>kapsamsızdır</em> (non-extensive). Yoğuşan pay, her biri sonunda geçilen ve giderek daha uygun olan geç gelenlerin ardışık dizisine yayılır; bu yüzden en büyük merkez düğümün payı yine de, çok yavaş biçimde, sıfıra gider. $I &lt; 1$ koşulu ve $1 - I$ payı etkilenmez; yalnızca “tek düğüm hepsini alır” ifadesi etkilenir. Yukarıdaki şekildeki benzetimler bunu gösterir: $10^6$ düğümde bile $\zeta = 10$ ağının en büyük merkez düğümü %90 değil, yüzde birkaç tutar.</p>
-<div class="callout fix" data-book="B17"></div>
-
-<h2>Diğer temel süreçler (Bölüm 6.5)</h2>
-<p>Aşağıdaki her süreç BA modeline (yeni düğüm başına $m$ bağlantı, $\Pi \propto k$) eklenir ve üsteli öngörülebilir bir yöne iter: büyüklere ek avantaj $\gamma$'yı düşürür, rastgele olan her şey yükseltir.</p>
-
-<h3>Başlangıç çekiciliği</h3>
-<p>BA'da $k = 0$ olan bir düğüm hiç bağlantı alamaz. Gerçekte ise yeni bir makale ilk atıfını alır. Bir sabit ekleyin:</p>
-<div class="eq">$$\Pi(k) \sim A + k \quad (6.23) \qquad\Rightarrow\qquad \gamma = 3 + \frac{A}{m} \quad (6.24), \qquad p_k = C\,(k + A)^{-\gamma}. \quad (6.25)$$</div>
-<p>İki etki: $\gamma$ yükselir (rastgele kısım $A$ tercihi seyreltir) ve $p_k$, $k \ll A$ için düzleşir (<em>küçük derece doygunluğu</em>). Atıflarda $A \approx 7$'dir: yeni bir makalenin atıf alma olasılığı yedi atıflı bir makaleninkiyle yaklaşık aynıdır.</p>
-
-<h3>İç bağlantılar</h3>
-<p>Web'de yeni bağlantıların çoğu var olan iki sayfayı birleştirir. Her adımda $m$ bağlantılı bir düğüm ve var olan düğümler arasında $n$ bağlantı eklensin; $\Pi(k, k') \sim (A + Bk)(A + Bk')$ (6.26):</p>
-<div class="eq">$$\text{çift tercihli } (A = 0):\ \gamma = 2 + \frac{m}{m + 2n} \quad (6.27) \qquad\quad \text{rastgele } (B = 0):\ \gamma = 3 + \frac{2n}{m} \quad (6.28)$$</div>
-<div class="callout example">
-  <p><strong>Çözümlü örnek 8: bir model, iki yanıt.</strong> $m = 1$, $n = 2$.</p>
-  <ol>
-    <li>Çift tercihli: $\gamma = 2 + \frac{1}{1 + 4} = 2.2$. İç bağlantılar merkez düğümleri iki uçtan da besler.</li>
-    <li>Rastgele: $\gamma = 3 + \frac{4}{1} = 7$. İç bağlantılar eşit yayılır ve merkez düğümleri silikleştirir.</li>
-    <li>Neden: çift tercihli durumda her derece $\beta = \frac{m + 2n}{2(m+n)} = \frac56$ ile $t^{\beta}$ gibi büyür ve $\gamma = 1 + 1/\beta = 2.2$ olur.</li>
-  </ol>
-</div>
-
-<h3>Düğüm silme</h3>
-<p>Her adımda bir BA düğümü ekleyin ve $r$ hızıyla rastgele bir düğüm silin:</p>
-<ul>
-  <li>$r &lt; 1$: ağ yine büyür ve ölçekten bağımsız kalır; $\gamma = 3 + \dfrac{2r}{1-r}$ (6.29, düzeltilmiş).</li>
-  <li>$r = 1$: boyut sabittir; $\gamma \to \infty$, dağılım üstel olur.</li>
-  <li>$r > 1$: <em>küçülen</em> bir ağ (Kutu 6.5). New York hazır giyim sektörünün en büyük bileşeni 1985'te 3.249 firmadan 2003'te 190 firmaya küçüldü, derece dağılımı ise aynı kaldı. Yeni gelenler yine doğrusal üstü bağlandı ($\alpha = 1.20$) ve firmalar $\sim k^{-0.41}$ olasılıkla bağlantı kaybetti: zayıf daha da zayıfladı.</li>
-</ul>
-<div class="callout fix" data-book="B12"></div>
-<p>Başlangıç çekiciliğiyle birleşince silmenin kritik bir hızı $r^*(A)$ vardır: altında ölçekten bağımsız, tam üstünde gerilmiş üstel, daha yukarıda üstel (Şekil 6.12).</p>
-
-<h3>Hızlanan büyüme</h3>
-<p>Ortalama dereceler büyür: İnternet $\langle k\rangle = 3.42$'den (Kasım 1997) 3.96'ya (Aralık 1998), WWW beş ayda 7.22'den 7.86'ya. Her düğüm bir öncekinden fazla bağlantı getirsin:</p>
-<div class="eq">$$m(t) = m_0\, t^{\theta} \quad (6.30) \qquad\Rightarrow\qquad \gamma = 3 + \frac{2\theta}{1 - \theta}. \quad (6.31)$$</div>
-<p>Neden: $L \approx m_0 t^{1+\theta}/(1+\theta)$ olduğundan her derece $t^{(1+\theta)/2}$ gibi büyür, ama geç gelen düğümler de $m_0 t_i^{\theta}$ ile daha büyük başlar. $t_i$ anında doğan bir düğümün net derecesi $t_i^{-(1-\theta)/2}$ gibi ölçeklenir; bu da $\gamma = 1 + \frac{2}{1-\theta}$ verir, (6.31) ile aynı. $\theta = 1$'de üstel ıraksar.</p>
-
-<h3>Yaşlanma</h3>
-<p>Oyuncular ve bilim insanları emekli olur; eski makaleler atıf almaz olur. Çekicilik yaşla solsun:</p>
-<div class="eq">$$\Pi(k_i, t - t_i) \sim k_i\,(t - t_i)^{-\nu}. \qquad (6.32)$$</div>
-<ul>
-  <li>$\nu &lt; 0$: eski düğümler daha da kayrılır; ağ $\gamma &lt; 3$ ile yine ölçekten bağımsızdır. $\nu \to -\infty$ iken her düğüm en eskiye bağlanır: bir yıldız.</li>
-  <li>$0 &lt; \nu &lt; 1$: yine ölçekten bağımsız, $\gamma > 3$; $\nu \to 1$ iken sınırsız büyür.</li>
-  <li>$\nu > 1$: yaşlanma kazanır ve kuvvet yasası kaybolur. $\nu \to \infty$ iken her düğüm en yeniye bağlanır: bir zincir.</li>
-</ul>
-<div data-fig id="fig-process"></div>
-
-<h2>Özet (Bölüm 6.6)</h2>
-<p>$p_k$'nin biçimi, ağı kuran süreçlerin parmak izidir:</p>
-<table class="simple">
-  <thead><tr><th>$p_k$'de görülen</th><th>Onu üreten bir süreç</th></tr></thead>
-  <tbody>
-    <tr><td>saf kuvvet yasası</td><td>yalnızca doğrusal tercihli bağlanmayla büyüme (nadir)</td></tr>
-    <tr><td>gerilmiş üstel</td><td>doğrusal altı tercihli bağlanma; kritik düğüm silme</td></tr>
-    <tr><td>küçük $k$'de düzleşme</td><td>başlangıç çekiciliği $A$</td></tr>
-    <tr><td>büyük $k$'de kesilme</td><td>düğüm silme, yaşlanma, sınırlı kapasite</td></tr>
-    <tr><td>logaritmik düzeltmeli kuvvet yasası, $\gamma \ne 3$</td><td>uygunluk</td></tr>
-  </tbody>
-</table>
-<p>Kitabın Tablo 6.1'i dersin tüm modellerini üç sınıfa ayırır:</p>
-<table class="simple">
-  <thead><tr><th>Sınıf</th><th>Örnekler</th><th>Derece dağılımı</th></tr></thead>
-  <tbody>
-    <tr><td>durağan</td><td>Erdős–Rényi, Watts–Strogatz</td><td>sabit $N$; Poisson benzeri</td></tr>
-    <tr><td>üretici</td><td>konfigürasyon modeli, gizli parametreler</td><td>elle verilir: herhangi bir $p_k$</td></tr>
-    <tr><td>evrilen</td><td>BA, Bianconi–Barabási, yukarıdaki süreçler</td><td>dinamikle açıklanır</td></tr>
-  </tbody>
-</table>
-<div class="callout key">
-  <p>Bir ağın yapısını anlamak için önce dinamiğini doğru kurun; topoloji bunun ödülüdür. Uygunluk <em>kimin</em> merkez düğüm olacağını, diğer süreçler <em>hangi</em> üstel ve biçimin ortaya çıkacağını açıklar.</p>
-</div>
-
-<div class="callout connect">
-  <ul>
-    <li><strong>Genelleştirir:</strong> <a href="ch5-preview.html">BA modelini</a>; eşit $\eta$, $\beta = \frac12$ ve $\gamma = 3$ verir; $A = n = r = \theta = \nu = 0$ da onu geri verir.</li>
-    <li><strong>Açıklar:</strong> 3'ten farklı üstelleri (<a href="ch4-universality.html">Evrensellik</a>) ve bir uydurmanın hesaba katması gereken sapmaları (<a href="ch4-fitting.html">Kuvvet yasası uydurmak</a>).</li>
-    <li><strong>Sonra önemli olur:</strong> $\gamma &lt; 3$ ağları bozulmalara dayanıklı yapar (<a href="robustness.html">8. Bölüm</a>) ve salgın eşiğini düşürür (<a href="epidemics.html">10. Bölüm</a>).</li>
-  </ul>
-</div>
-
-<div class="callout discuss">
-  <p>Neden en eski web sayfaları en çok bağlantıya sahip değil? Web için bir modele 6. Bölüm'ün hangi süreçlerini koyardınız ve her biri $\gamma$'yı hangi yöne iterdi?</p>
-  <div class="hint">Uygunluk (geç gelenler kazanır, $\gamma$ düşer), çift tercihli iç bağlantılar (yeni bağlantıların çoğu, $\gamma$ 2'ye doğru düşer), sayfa silme ve yaşlanma ($\gamma$ yükselir, kesilmeler). Ölçülen iç derece üsteli 2.00 (Tablo 4.1), merkez düğümleri kayıran süreçlerin kazandığını söyler.</div>
-</div>
-
 <div class="quiz" data-answer="1">
   <p>Uygunluk [0, 1] üzerinde tekdüze, yani $C = 1.255$. $\eta = 1$ olan bir düğüm $t = 1{,}000$ anında geliyor. Derecesi nasıl büyür?</p>
   <ol>
@@ -272,17 +123,6 @@
   </ol>
   <div class="explain">İkisi de $m$ bağlantıyla başlar. $(t/10)^{0.239} = (t/1000)^{0.797}$ eşitliği $t \approx 7{,}200$'de sağlanır; sonrasında B'nin daha hızlı büyümesi onu önde tutar.</div>
 </div>
-<div class="quiz" data-answer="2">
-  <p>Kitaba göre $10^6$ düğümlü, kazananın her şeyi aldığı (yoğuşmuş) bir ağ için hangisi doğrudur?</p>
-  <ol>
-    <li data-why="Bu, uygun olanın zenginleştiği evredir.">En büyük merkez düğümün bağlantı payı sıfıra gider</li>
-    <li>Tüm bağlantıların sonlu bir payı en uygun düğümlere gider</li>
-    <li data-why="Bu, kimin kime bağlandığıyla değil, bağlantıların nasıl paylaşıldığıyla ilgilidir.">Merkez düğümler yalnızca merkez düğümlere bağlanır</li>
-    <li data-why="Yoğuşma bağlantıları yoğunlaştırır.">Dereceler eşittir</li>
-  </ol>
-  <div class="explain">Bose–Einstein yoğuşmasının karşılığı: parçacıkların sonlu bir payı $1 - I$ en düşük düzeylerde toplanır. (Sonraki matematik, bu payı hiçbir tek düğümün sonsuza dek tutmadığını gösterdi; pay giderek daha uygun geç gelenlere geçer.)</div>
-</div>
-
 <div class="quiz" data-answer="4">
   <p>Uygunluk tekdüze ($C = 1.255$). $\eta = 0.5$ olan bir düğümün büyüme üsteli $\beta$ nedir?</p>
   <ol>
@@ -312,45 +152,5 @@
     <li data-why="Her düğüm m bağlantıyla gelir.">Geldiğindeki derecesi</li>
   </ol>
   <div class="explain">$k_i = m(t/t_i)^{\eta_i/C}$ hem $t_i$'ye hem $\eta_i$'ye bağlıdır.</div>
-</div>
-<div class="quiz" data-answer="2">
-  <p>Uygunluk dağılımı $\rho(\eta) = 4(1 - \eta)^3$, yani $\zeta = 3$. Ağ hangi evrededir?</p>
-  <ol>
-    <li data-why="Uygun olanın zenginleşmesi için I = 1/ζ ≥ 1, yani ζ ≤ 1 gerekir.">Uygun olan zenginleşir: ölçekten bağımsız, baskın pay yok</li>
-    <li>Yoğuşmuş: en uygun düğümler yeni bağlantıların sonlu bir payını, $1 - 1/3 = \%67$, alır</li>
-    <li data-why="Uygunluk tek başına büyümeyi ya da tercihi kaldırmaz; BA sınırı eşit uygunluk ister.">BA modeli, $\gamma = 3$</li>
-    <li data-why="Her düğümün uygunluğu en fazla 1'dir ve yine de bağlantı çeker.">Büyük bir merkez düğüm oluşamaz</li>
-  </ol>
-  <div class="explain">$I = \int \eta\rho/(1-\eta)\,d\eta = 1/\zeta = 1/3 &lt; 1$: yoğuşma, payı $1 - I = 2/3$.</div>
-</div>
-<div class="quiz" data-answer="1">
-  <p>Her adımda $m = 1$ bağlantılı bir düğüm ve var olan düğümler arasında çift tercihli bağlanmayla seçilen $n = 1$ iç bağlantı ekleniyor. $\gamma$ nedir?</p>
-  <ol>
-    <li>$2 + \frac{1}{3} \approx 2.33$</li>
-    <li data-why="Bu, rastgele iç bağlantı formülü 3 + 2n/m'dir.">5</li>
-    <li data-why="İç bağlantılar üsteli değiştirir; 3, onlarsız BA'dır.">3</li>
-    <li data-why="γ = 2 için n → ∞ (yalnızca iç bağlantılar) gerekir.">2</li>
-  </ol>
-  <div class="explain">$\gamma = 2 + \frac{m}{m + 2n} = 2 + \frac13$. Çift tercih merkez düğümleri besler; bu yüzden $\gamma$ 3'ün altına düşer.</div>
-</div>
-<div class="quiz" data-answer="3">
-  <p>Bir BA ağı, eklenen her düğüm başına $r = 0.5$ hızıyla rastgele bir düğüm kaybediyor. Büyük ağlarda $\gamma$'ya ne olur?</p>
-  <ol>
-    <li data-why="Bu, kitaptaki baskı hatası 3 + 2/(1 − r)'dir; r = 0'da bile 5 verir.">7 olur</li>
-    <li data-why="Rastgele silme, merkez düğümler dahil eski düğümleri kaldırır ve onların tuttuğu bağlantı payını düşürür.">3 kalır</li>
-    <li>$3 + 2r/(1-r) = 5$'e yükselir</li>
-    <li data-why="Kuvvet yasasını yalnızca r = 1 (sabit boyut) yok eder.">Kuvvet yasası kaybolur</li>
-  </ol>
-  <div class="explain">Silme rastgele bir bileşendir, bu yüzden $\gamma$ yükselir. Gerçekçi boyuttaki ağlarda ölçülen eğim 5'in epey altında kalır, çünkü $p_k$ asimptotik üsteline ancak yavaşça yaklaşır.</div>
-</div>
-<div class="quiz" data-answer="4">
-  <p>İki sayfa aynı anda geldi. Derecenin zamana karşı log-log grafiğinde X sayfasının eğimi 0.3, Y sayfasınınki 0.6. Ne sonucuna varırsınız?</p>
-  <ol>
-    <li data-why="Eğim β = η/C'dir ve geliş zamanından bağımsızdır.">X daha önce geldi</li>
-    <li data-why="Aynı geliş zamanı aynı uygunluk demek değildir; eğimler farklı.">Uygunlukları aynı</li>
-    <li data-why="Y'nin derecesi daha hızlı büyür, bu yüzden fark açılır.">X yetişecek</li>
-    <li>$C$ ne olursa olsun, Y'nin uygunluğu X'inkinin iki katıdır</li>
-  </ol>
-  <div class="explain">Eğim $= \beta = \eta/C$; bu yüzden $\eta_Y/\eta_X = 0.6/0.3 = 2$. Mutlak değerler için $C$ gerekir; oranlar için gerekmez.</div>
 </div>
 </div></body></html>

@@ -1,0 +1,95 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Korelasyonlu modeller ve etkileri · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Dersin her modelinin korelasyonları, Xalvi-Brunet–Sokolov algoritması ve korelasyonların dev bileşeni, uzaklıkları ve dayanıklılığı nasıl değiştirdiği."></head><body>
+<div class="content">
+
+<h1>Korelasyonlu ağlar: modeller ve etkileri</h1>
+<p class="lead">Hangi modeller korelasyon üretir ve istediğimiz korelasyonlara sahip bir ağı nasıl kurabiliriz? Bölüm 7.6 ikisini de yanıtlar; Bölüm 7.7 bunun neden önemli olduğunu sorar ve korelasyonların dev bileşen geçişinin kendisini kaydırdığını bulur.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Dersin her modelinin bilinen bir korelasyon deseni vardır; çoğu nötr ya da yapısal olarak disasortatiftir.</li>
+    <li>Xalvi-Brunet–Sokolov algoritması her dereceyi koruyarak korelasyonları ayarlar.</li>
+    <li>Dereceleri aynı olan asortatif ve disasortatif ağlar farklı bağlanır, farklı yayar ve farklı kırılır.</li>
+  </ul>
+</div>
+
+<h2>Korelasyonlu ağlar üretmek (Bölüm 7.6)</h2>
+<table class="simple">
+  <thead><tr><th>Model</th><th>Korelasyonlar</th></tr></thead>
+  <tbody>
+    <tr><td>Erdős–Rényi</td><td>nötr: $k_{nn} = 1 + \langle k\rangle$; merkez düğüm yok, yapısal etki yok</td></tr>
+    <tr><td>konfigürasyon modeli</td><td>çoklu bağlantılarla nötr; basit yapıldığında yapısal olarak disasortatif</td></tr>
+    <tr><td>gizli parametreler (basit)</td><td>$k_{nn}(k) \sim k^{-1}$, $\mu = -1$ (7.16)</td></tr>
+    <tr><td>BA ($A = 0$)</td><td>büyük $N$ için nötr: $k_{nn} \approx \frac m2 \ln N$, $k$'den bağımsız (7.19)</td></tr>
+    <tr><td>başlangıç çekiciliği, $-m &lt; A &lt; 0$ ($\gamma &lt; 3$)</td><td>disasortatif: $k_{nn}(k) \sim N^{A/(2m+A)} k^{A/m} = N^{A/(2m+A)} k^{-|A|/m}$ (7.17–7.18)</td></tr>
+    <tr><td>başlangıç çekiciliği, $A > 0$ ($\gamma > 3$)</td><td>zayıf asortatif: $k_{nn}(k) \approx (m + A)\ln\frac{k}{m+A}$ (7.20)</td></tr>
+    <tr><td>Bianconi–Barabási, tekdüze uygunluk</td><td>disasortatif, $\mu \approx -0.5$, çoğunlukla yapısal</td></tr>
+  </tbody>
+</table>
+<div class="callout fix" data-book="B20"></div>
+<p data-beyond="kendi benzetimlerimiz">BA satırı bir süreklilik sonucudur. Kesin kesikli derecelerle $\langle k^2\rangle/\langle k\rangle$, $\frac{m+1}{2}\ln N$ gibi büyür ve sonlu BA ağları hafifçe disasortatiftir, nötre doğru kayar: $m = 2$ için $N = 10^3$'te $r = -0.09$, $10^4$'te $-0.04$, $10^5$'te $-0.02$.</p>
+
+<h3>Korelasyonları ayarlamak: Xalvi-Brunet–Sokolov algoritması</h3>
+<ol>
+  <li><strong>Bağlantı seçimi.</strong> Rastgele iki bağlantı seçin. Dört uç düğümü $k_a \ge k_b \ge k_c \ge k_d$ olacak şekilde adlandırın.</li>
+  <li><strong>Yeniden bağlama.</strong> $p$ olasılıkla: asortatiflik için $a$–$b$ ve $c$–$d$'yi bağlayın (benzer dereceler bir arada); disasortatiflik için $a$–$d$ ve $b$–$c$'yi bağlayın (büyük ile küçük). Aksi halde rastgele eşleyin.</li>
+  <li><strong>Basitlik.</strong> Çoklu bağlantı yaratacak bir yeniden bağlamayı reddedin ve tekrarlayın.</li>
+</ol>
+<p>Her düğüm derecesini korur. $p = 1$ ağı, derecelerinin izin verdiği en güçlü korelasyonlara götürür; daha küçük $p$ gücü ayarlar. Asortatiflik disasortatiflikten zordur: basit bir ölçekten bağımsız ağda merkez düğümlerin $k_s$'nin üstünde merkez düğüm ortağı kalmaz; bu yüzden en asortatif ağda $k_{nn}$ küçük $k$ için artar, büyük $k$ için düşer, tıpkı atıf ağı gibi.</p>
+
+<h2>Korelasyonlar neden önemli (Bölüm 7.7)</h2>
+<div data-fig id="fig-giant"></div>
+<ul>
+  <li><strong>Dev bileşen:</strong> asortatif ağlar onu daha küçük bir $\langle k\rangle$'de oluşturur, çünkü merkez düğümler birbirini bulur; daha büyük $\langle k\rangle$'de dev bileşenleri daha küçüktür, çünkü merkez düğümler birbirleriyle meşguldür ve çok sayıdaki küçük düğümü içeri çekemez. Disasortatif ağlar tersini yapar.</li>
+  <li><strong>Uzaklıklar:</strong> asortatiflik ortalama yolu biraz kısaltır ama çapı uzatır: küçük düğümler küçük düğümlere bağlanır ve uzun zincirler oluşturur. Disasortatif ağların çapı en küçüktür.</li>
+  <li><strong>Salgınlar:</strong> asortatif bir merkez düğüm çekirdeği, ağ bütün olarak çok seyrek olsa bile bir hastalığı canlı tutan bir hazne gibi davranır (<a href="epidemics.html">10. Bölüm</a>).</li>
+  <li><strong>Dayanıklılık:</strong> merkez düğümleri kaldırmak, merkez düğümlerin birbirini yedeklediği asortatif ağlarda daha az, her merkez düğümün kendi kollarını tuttuğu disasortatif ağlarda daha çok zarar verir (<a href="robustness.html">8. Bölüm</a>).</li>
+  <li>Korelasyonlar eşzamanlamayı, en küçük köşe örtüsünü (Kutu 7.4) ve bir ağı denetlemek için gereken girdi sayısını da değiştirir.</li>
+</ul>
+
+<h2>Özet (Bölüm 7.8)</h2>
+<table class="simple">
+  <thead><tr><th></th><th>Asortatif</th><th>Nötr</th><th>Disasortatif</th></tr></thead>
+  <tbody>
+    <tr><td>$e_{jk}$</td><td>ağır köşegen</td><td>$q_j q_k$</td><td>ağır ters köşegen</td></tr>
+    <tr><td>$k_{nn}(k)$</td><td>artar</td><td>$\langle k^2\rangle/\langle k\rangle$'de düz</td><td>azalır</td></tr>
+    <tr><td>$\mu$, $r$</td><td>$> 0$</td><td>$0$</td><td>$&lt; 0$</td></tr>
+    <tr><td>örnekler</td><td>sosyal ağlar, İnternet (küçük $k$)</td><td>elektrik şebekesi</td><td>e-posta, proteinler, metabolizma, WWW</td></tr>
+  </tbody>
+</table>
+<p>Korelasyonlar iki noktalı bilgidir: dereceye göre kimin kime bağlı olduğu. Dereceye göre kümelenme, $C(k)$, üç noktalı bilgidir ve ilke olarak bu hiyerarşinin sonu yoktur (Kutu 7.6).</p>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Sıfır modeli:</strong> <a href="ch4-generating.html">dereceyi koruyan rastgeleleştirme</a> dereceleri korur, korelasyonları siler.</li>
+    <li><strong>Aynı oran</strong> $\langle k^2\rangle/\langle k\rangle$: nötr $k_{nn}$, Molloy–Reed $\kappa$ (<a href="robustness.html">Dayanıklılık</a>), salgın eşiği (<a href="epidemics.html">Yayılma</a>).</li>
+    <li><strong>Modeller:</strong> rastgele, konfigürasyon ve büyük BA ağları nötrdür ($r \to 0$); asortatiflik <a href="communities.html">topluluklar</a> gibi ek bileşenler gerektirir.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Sosyal ağlar neden asortatif, teknolojik ya da biyolojik ağlar neden disasortatiftir?</p>
+  <div class="hint">Homofili (benzerin benzerle bağlanması) ve grup üyeliği benzer insanları bağlar. Teknolojik merkez düğümler (yönlendiriciler, havalimanları, merkezi metabolitler) birçok küçük düğüme hizmet etmek için vardır ve yapısal kesme disasortatiflik ekler.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>İki ağın aynı Poisson dereceleri var, $\langle k\rangle = 1$; biri asortatif, diğeri disasortatif olacak şekilde yeniden bağlanmış. Hangisinin dev bileşeni daha büyüktür?</p>
+  <ol>
+    <li data-why="Küçük düğümlere bağlı merkez düğümler dağılır ve geç bağlanır.">Disasortatif olanın</li>
+    <li data-why="Korelasyonlar geçişi kaydırır, bu yüzden boyutlar farklıdır.">Dereceler aynı olduğundan eşittir</li>
+    <li data-why="⟨k⟩ = 1'de asortatif merkez düğüm çekirdeği zaten süzülür.">Hiçbirinde yoktur</li>
+    <li>Asortatif olanın: merkez düğümleri erkenden bir çekirdek oluşturur</li>
+  </ol>
+  <div class="explain">Asortatiflik geçişi daha küçük bir $\langle k\rangle$'ye kaydırır (yukarıdaki şekilde $\langle k\rangle = 1$'de yaklaşık %22'ye karşı %1). Büyük $\langle k\rangle$'de sıra tersine döner.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Başlangıç çekiciliği modelinde $\Pi(k) \sim A + k$ ve $-m &lt; A &lt; 0$ (yani $\gamma &lt; 3$). Büyüyen ağın derece korelasyonları nasıldır?</p>
+  <ol>
+    <li>Disasortatif: $k_{nn}(k) \sim k^{-|A|/m}$, $k$ ile düşer</li>
+    <li data-why="Bu, kitabın Denklem (7.18) baskı hatasıdır; A &lt; 0, A/m üstelini negatif yapar.">Asortatif: $k_{nn}(k) \sim k^{|A|/m}$, $k$ ile artar</li>
+    <li data-why="Nötr olan A = 0 durumu, yani BA modelidir.">Nötr: $k_{nn} \approx \frac m2 \ln N$</li>
+    <li data-why="Bu, γ > 3 olan A > 0 rejimidir.">Zayıf asortatif: $k_{nn} \approx (m + A)\ln\frac{k}{m+A}$</li>
+  </ol>
+  <div class="explain">Denklem (7.17) $k^{A/m}$ içerir ve $A &lt; 0$ onu $k^{-|A|/m}$ yapar: merkez düğümler küçük düğümlere bağlanır.</div>
+</div>
+</div></body></html>

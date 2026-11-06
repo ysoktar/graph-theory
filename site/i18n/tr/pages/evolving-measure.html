@@ -1,0 +1,68 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Uygunluğu ölçmek · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Büyüme hızlarından uygunluğu okumak: WWW'nin üstel uygunluk dağılımı ve anlıklık, kalıcılık ve nihai etkiyle atıf modeli."></head><body>
+<div class="content">
+
+<h1>Uygunluğu ölçmek</h1>
+<p class="lead">Uygunluğu kimse dağıtmaz: o, ağın ortak yargısıdır ve bir düğümün ne hızla büyüdüğünde görünür. Bölüm 6.3 derece geçmişlerini uygunluk değerlerine çevirir, web sayfaları ve bilimsel makaleler için.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Bir düğümün derecesinin log-log grafikteki eğimi büyüme üstelidir; bu, bir sabit dışında uygunluğudur.</li>
+    <li>Web'de uygunluk dar bir aralıkta değişir; dinamik küçük farkları devasa farklara büyütür.</li>
+    <li>Makaleler için üç parametre bütün bir atıf geçmişini betimler ve nihai etkisini öngörür.</li>
+  </ul>
+</div>
+
+<h2>Uygunluğu ölçmek (Bölüm 6.3)</h2>
+<p>Uygunluğu kimse atamaz: o, ağın ortak yargısıdır ve bir düğümün ne hızla büyüdüğünde görünür. $k_i(t) = m(t/t_i)^{\beta(\eta_i)}$'nin logaritmasını alın:</p>
+<div class="eq">$$\ln k_i(t) = \beta(\eta_i)\,\ln t + B_i, \qquad B_i = \ln\big(m / t_i^{\beta(\eta_i)}\big). \qquad (6.9)$$</div>
+<p>Log-log grafikte her düğümün derece geçmişi, eğimi $\beta(\eta_i) = \eta_i / C$ olan bir doğrudur. Çok sayıda düğümü izlemek eğimlerin dağılımını verir; bu da $C$ çarpanı dışında $\rho(\eta)$'dır.</p>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 5: iki anlık görüntüden uygunluk.</strong> Bir sayfanın, ağ 1.000 düğümlüyken 12, 16.000 düğümlüyken 48 bağlantısı var.</p>
+  <ol>
+    <li>Eğim: $\beta = \frac{\ln(48/12)}{\ln(16000/1000)} = \frac{\ln 4}{\ln 16} = 0.5$.</li>
+    <li>Tekdüze uygunlukla ($C = 1.255$): $\eta = \beta C = 0.63$.</li>
+    <li>$C$ bilinmeden yalnızca oranlar bilinir: eğimi 0.25 olan bir sayfanın uygunluğu bunun yarısıdır. Sayfaları sıralamak için fazlası gerekmez.</li>
+  </ol>
+</div>
+<p><strong>Web.</strong> Yaklaşık 22 milyon belge 13 ay boyunca her ay tarandı. Çoğunun derecesi değişmedi; değişen %6.5'lik kısım $\rho(\eta)$'yı verdi ve bu dağılım <em>üstel</em> çıktı: yüksek uygunluk nadirdir ve uygunluk dar bir aralıkta değişir. Derecelerdeki büyük farkları dinamik üretir. Aynı anda gelen ve $\eta_2 > \eta_1$ olan iki düğüm şöyle ayrışır:</p>
+<div class="eq">$$\frac{k_2 - k_1}{k_1} \sim t^{(\eta_2 - \eta_1)/C}. \qquad (6.10)$$</div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 6: küçük farklar, büyük sonuçlar.</strong> $\eta_2 - \eta_1 = 0.1$ ve $C = 1.255$, 0.08'lik bir üstel verir. Ağ bir milyon kat büyürken daha uygun düğümün derecesi $10^{6 \times 0.08} \approx 3$ kat öne geçer.</p>
+</div>
+<p><strong>Atıflar.</strong> Makaleler de yaşlanır: yenilikleri solar. $i$ makalesinin yayımlandıktan $t$ süre sonra atıf alma olasılığı</p>
+<div class="eq">$$\Pi_i \sim \eta_i\, c_i^t\, P_i(t), \qquad P_i(t) = \frac{1}{\sqrt{2\pi}\,\sigma_i t}\, e^{-\frac{(\ln t - \mu_i)^2}{2\sigma_i^2}}, \qquad (6.11\text{–}6.12)$$</div>
+<p>olup $c_i^t$ şimdiye kadarki atıflar (tercihli bağlanma), $P_i(t)$ ise log-normal bir yaşlanma çarpanıdır. Çözüm:</p>
+<div class="eq">$$c_i^t = m\left(e^{\eta_i' \,\Phi\left(\frac{\ln t - \mu_i}{\sigma_i}\right)} - 1\right), \qquad c_i^\infty = m\left(e^{\eta_i'} - 1\right), \qquad (6.13)$$</div>
+<dl class="symbols">
+  <dt>$\Phi(x)$</dt><dd>birikimli normal dağılım (6.14); 0'dan 1'e yükselir</dd>
+  <dt>$\mu_i$</dt><dd>anlıklık: makalenin atıf zirvesine ne zaman ulaştığı</dd>
+  <dt>$\sigma_i$</dt><dd>kalıcılık: ilginin ne kadar yavaş söndüğü</dd>
+  <dt>$\eta_i' = \eta_i\beta/A$</dt><dd>göreli uygunluk; nihai etkiyi $c_i^\infty$ tek başına belirler</dd>
+  <dt>$m, \beta, A$</dt><dd>tüm makaleler için aynı olan genel sabitler</dd>
+</dl>
+<div class="callout fix" data-book="B18"></div>
+<div data-fig id="fig-cite"></div>
+<p>(6.13)'ü bir derginin her makalesine uydurmak derginin uygunluk dağılımını verir: <em>Cell</em> makaleleri sağda (yüksek uygunluk), <em>Physical Review B</em> solda durur. Uygunluk kalıtsal bile olabilir: 1.110 ikiz üzerinde yapılan bir çalışmada, bir öğrenciyi kaç sınıf arkadaşının arkadaş olarak gösterdiğindeki (iç derece) değişimin %46'sını genler açıkladı, dış derecedekini açıklamadı (Kutu 6.1).</p>
+
+<div class="quiz" data-answer="4">
+  <p>İki sayfa aynı anda geldi. Derecenin zamana karşı log-log grafiğinde X sayfasının eğimi 0.3, Y sayfasınınki 0.6. Ne sonucuna varırsınız?</p>
+  <ol>
+    <li data-why="Eğim β = η/C'dir ve geliş zamanından bağımsızdır.">X daha önce geldi</li>
+    <li data-why="Aynı geliş zamanı aynı uygunluk demek değildir; eğimler farklı.">Uygunlukları aynı</li>
+    <li data-why="Y'nin derecesi daha hızlı büyür, bu yüzden fark açılır.">X yetişecek</li>
+    <li>$C$ ne olursa olsun, Y'nin uygunluğu X'inkinin iki katıdır</li>
+  </ol>
+  <div class="explain">Eğim $= \beta = \eta/C$; bu yüzden $\eta_Y/\eta_X = 0.6/0.3 = 2$. Mutlak değerler için $C$ gerekir; oranlar için gerekmez.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>$m = 30$ ile bir makalenin göreli uygunluğu $\eta' = 2$. Nihai etkisi $c^\infty = m(e^{\eta'} - 1)$ nedir ve parametrelerinden hangileri bu sayıyı değiştirir?</p>
+  <ol>
+    <li data-why="μ ve σ yalnızca atıfların ne zaman geldiğini belirler; ayrıca η' = 2 ile m(e^{η'} − 1) yaklaşık 192'dir.">Yaklaşık 60; anlıklık $\mu$ ve kalıcılık $\sigma$ onu değiştirir</li>
+    <li data-why="Büyük t için Φ → 1, bu yüzden μ ve σ, c^∞'dan düşer.">Yaklaşık 192; üç parametre de onu değiştirir</li>
+    <li>Yaklaşık 192; onu yalnızca göreli uygunluk $\eta'$ değiştirir</li>
+    <li data-why="Log-normal yaşlanma çarpanı atıf hızını söndürür, bu yüzden toplam yakınsar.">Sınırsız büyür; eski makaleler atıf almaya devam eder</li>
+  </ol>
+  <div class="explain">$c^\infty = 30(e^2 - 1) = 30 \times 6.39 \approx 192$. Anlıklık ve kalıcılık eğrinin oraya ne hızla varacağına karar verir, nerede biteceğine değil.</div>
+</div>
+</div></body></html>

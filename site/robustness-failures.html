@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random failures · From Graphs to Hubs</title>
+<meta name="description" content="The Molloy–Reed criterion, the critical fraction of random failures, why scale-free networks are so robust, and failures of the book's networks.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/robustness.js"></script>
+</head>
+<body data-page="robustness-failures">
+<main><div class="content">
+
+<h1>Random failures and the Molloy–Reed criterion</h1>
+<p class="lead">When nodes fail at random, when does the giant component vanish? The Molloy–Reed criterion answers from two numbers, $\langle k\rangle$ and $\langle k^2\rangle$, and shows why scale-free networks survive the loss of almost all their nodes (Section 8.3).</p>
+
+<div class="callout why">
+  <ul>
+    <li>One inequality, $\kappa = \langle k^2\rangle/\langle k\rangle > 2$, decides whether a giant component exists.</li>
+    <li>Removing nodes lowers $\kappa$; the critical fraction is where it reaches 2.</li>
+    <li>A diverging $\langle k^2\rangle$ pushes that fraction towards 1: robustness comes from the hubs.</li>
+  </ul>
+</div>
+
+<h2>The Molloy–Reed criterion</h2>
+<p>When does a network with a given degree distribution have a giant component? Follow a path into the network: it continues only if the node it reaches has at least one more link.</p>
+<ol>
+  <li>A random link leads to a node of degree $k$ with probability $q_k = k\,p_k/\langle k\rangle$: high-degree nodes are reached more often.</li>
+  <li>The average degree of the node reached is therefore $\sum_k k\,q_k = \langle k^2\rangle/\langle k\rangle$ (the <a href="correlations.html">friendship paradox</a>).</li>
+  <li>One of its links is the one we arrived on. For the path to go on, at least one more is needed on average: the node must have degree 2 or more.</li>
+</ol>
+<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 .$$</div>
+<dl class="symbols">
+  <dt>$\kappa$</dt><dd>mean degree of a node reached along a random link</dd>
+  <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>mean degree and mean squared degree; $\langle k^2\rangle$ is large when there are hubs (<a href="ch4-moments.html">Ch 4</a>)</dd>
+  <dt>$2$</dt><dd>one link in, at least one out</dd>
+</dl>
+<p>It assumes random wiring given the degrees (the configuration model). For a random network $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, so $\kappa = 1 + \langle k\rangle$ and the criterion becomes $\langle k\rangle > 1$, the giant-component threshold of <a href="ch3-evolution.html">Chapter 3</a>.</p>
+<div class="callout fix" data-book="B10"></div>
+
+<h2>The critical fraction</h2>
+<p>Remove a fraction $f$ of the nodes at random. A surviving node of degree $k$ keeps each of its links with probability $1 - f$, so its degree becomes binomial. The moments of the new distribution are (Advanced Topic 8.C)</p>
+<div class="eq">$$\begin{gathered} \langle k\rangle_f = (1-f)\langle k\rangle, \\ \langle k^2\rangle_f = (1-f)^2\langle k^2\rangle + f(1-f)\langle k\rangle, \\ \kappa_f = (1-f)\,\kappa + f . \end{gathered}$$</div>
+<p data-beyond="Book Advanced Topic 8.C">The giant component disappears when $\kappa_f = 2$. Solving for $f$:</p>
+<div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}, \qquad f_c^{ER} = 1 - \frac{1}{\langle k\rangle}\ \text{(random network)}.$$</div>
+<dl class="symbols"><dt>$f_c$</dt><dd>fraction of random failures that destroys the giant component; it depends only on $\langle k\rangle$ and $\langle k^2\rangle$</dd></dl>
+<p>For a power law $p_k \sim k^{-\gamma}$ starting at $k_{\min}$ (continuum approximation, Eq. 8.9):</p>
+<div class="eq">$$f_c = \begin{cases} 1 - \dfrac{1}{\frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma} - 1} & 2 < \gamma < 3\\[3mm] 1 - \dfrac{1}{\frac{\gamma-2}{\gamma-3}\,k_{\min} - 1} & \gamma > 3 \end{cases}$$</div>
+<div class="eq">$$\Rightarrow\quad f_c \approx 1 - \frac{C}{N^{(3-\gamma)/(\gamma-1)}}\ \ (2 < \gamma < 3).$$</div>
+<dl class="symbols">
+  <dt>$k_{\max}$</dt><dd>the natural cutoff $k_{\min}N^{1/(\gamma-1)}$; it grows with $N$, so $\kappa \to \infty$ and $f_c \to 1$</dd>
+  <dt>$C$</dt><dd>a constant that collects everything independent of $N$ (Eq. 8.10)</dd>
+</dl>
+<div class="callout example">
+  <p><strong>Worked example: the Internet.</strong></p>
+  <ol>
+    <li>Given: $\langle k\rangle = 6.34$ and $\langle k^2\rangle = 240.1$ for the router map ($N = 192{,}244$).</li>
+    <li>$\kappa = 240.1/6.34 = 37.9$, far above 2.</li>
+    <li>$f_c = 1 - 1/(37.9 - 1) = 1 - 1/36.9 = 0.973$.</li>
+    <li>A random network with the same $\langle k\rangle$: $f_c^{ER} = 1 - 1/6.34 = 0.842$.</li>
+    <li>Meaning: 97% of the routers, about 187,000, must fail at random to fragment it. The hubs supply the extra robustness.</li>
+  </ol>
+</div>
+<div class="callout example">
+  <p><strong>Worked example: when the network stops being special.</strong> For $\gamma = 4$ and $k_{\min} = 2$, the continuum formula gives $\kappa = \frac{2}{1}\cdot 2 = 4$ and $f_c = 1 - 1/3 = 2/3$, independent of $N$: above $\gamma = 3$ a scale-free network breaks after a finite fraction of failures, like a random one.</p>
+</div>
+<div class="callout fix" data-book="B16"></div>
+<div id="tbl-fc"></div>
+
+<h2>Choose a degree distribution</h2>
+<p>Everything above follows from two numbers, $\langle k\rangle$ and $\langle k^2\rangle$, so the shape of $p_k$ decides robustness. Compare distributions with the same average degree:</p>
+<div data-fig id="fig-calc"></div>
+
+<h2>The book's networks</h2>
+<div data-fig id="fig-real"></div>
+<div class="callout look">
+  <ul>
+    <li>Random failures: heavy-tailed networks keep a giant component far beyond the random network's threshold.</li>
+    <li>Attacks: the same networks collapse after a few per cent.</li>
+    <li>The power grid has no hubs and is fragile to both.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>A random network has $\langle k\rangle = 4$. What fraction of random failures destroys its giant component?</p>
+  <ol>
+    <li data-why="That leaves ⟨k⟩ = 3.">25%</li>
+    <li data-why="That leaves ⟨k⟩ = 2, still above 1.">50%</li>
+    <li>75%</li>
+    <li data-why="It breaks once ⟨k⟩ reaches 1.">100%</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/4 = 75\%$; the survivors have $\langle k\rangle = 1$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>A randomly wired network has $\langle k\rangle = 5$ and $\langle k^2\rangle = 255$. What fraction $f_c$ of random failures destroys its giant component?</p>
+  <ol>
+    <li data-why="That is 1 − 1/⟨k⟩, ignoring hubs.">80%</li>
+    <li>98%</li>
+    <li data-why="κ = 51 is a ratio, not a percentage.">51%</li>
+    <li data-why="A large ⟨k²⟩ makes the network robust, not fragile.">2%</li>
+  </ol>
+  <div class="explain">$\kappa = 255/5 = 51$, so $f_c = 1 - 1/(51 - 1) = 98\%$. The hubs keep the network together until almost every node has failed.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>The power grid ($\kappa = 3.9$) breaks well before the Molloy–Reed $f_c = 65\%$. Why?</p>
+  <ol>
+    <li>It is spatial, not randomly wired: long chains, few alternative paths</li>
+    <li data-why="The formula fits random networks of this size well.">It is too small</li>
+    <li data-why="It has no large hubs.">Its hubs fail first</li>
+    <li data-why="⟨k⟩ and ⟨k²⟩ are exact from the data.">Degrees are mismeasured</li>
+  </ol>
+  <div class="explain">Molloy–Reed assumes random wiring. The grid is stretched ($\langle d\rangle = 18.8$) and splits after about a third of its nodes fail.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>A randomly wired network has $\kappa = 3$. What is its critical fraction $f_c$ for random failures?</p>
+  <ol>
+    <li>50%</li>
+    <li data-why="That is 1 − 1/κ; use κ − 1.">67%</li>
+    <li data-why="That is 1/κ.">33%</li>
+    <li data-why="κ &gt; 2, so a giant component exists.">0%</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/(3 - 1) = 50\%$.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Half the nodes have degree 1 and half have degree 2, so $\langle k\rangle = 1.5$ and $\langle k^2\rangle = 2.5$. Does a randomly wired network with these degrees have a giant component?</p>
+  <ol>
+    <li data-why="⟨k⟩ &gt; 1 is the criterion for Poisson degrees only.">Yes, since $\langle k\rangle > 1$</li>
+    <li data-why="The threshold is κ = 2.">Yes, since $\kappa > 1$</li>
+    <li data-why="Molloy–Reed decides from these two moments.">Cannot tell</li>
+    <li>No: $\kappa = 1.67 &lt; 2$</li>
+  </ol>
+  <div class="explain">With no node of degree 3 or more, paths never branch: only chains form.</div>
+</div>
+</div></main>
+</body>
+</html>
