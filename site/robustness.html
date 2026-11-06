@@ -40,11 +40,33 @@
   <dt>$\gamma_p, \beta_p, \nu$</dt><dd>critical exponents; in two dimensions $43/18$, $5/36$ and $4/3$. They are universal (the same on any 2-D lattice), while $p_c$ is not</dd>
 </dl>
 <div data-fig id="fig-lattice"></div>
+<div class="callout example">
+  <p><strong>Worked example 1: what the exponents say.</strong> Take the square lattice, $p_c = 0.593$.</p>
+  <ol>
+    <li>Just above the threshold, at $p - p_c = 0.01$, doubling the distance to $0.02$ raises $P_\infty$ only by $2^{5/36} = 1.10$: the spanning cluster appears abruptly, then grows slowly.</li>
+    <li>At $|p - p_c| = 0.01$ the finite clusters are $0.01^{-43/18} \approx 6 \times 10^4$ times larger (in units of the constant in front) than far from the threshold, and the correlation length is $0.01^{-4/3} \approx 460$ times larger.</li>
+    <li>Meaning: near $p_c$ everything depends sensitively on $p$. A network close to its breaking point gives no warning in its size; the warning is in its cluster sizes.</li>
+  </ol>
+</div>
+
 <p>Removing a fraction $f$ of the nodes is the same process run backwards, with $p = 1 - f$: at a <strong>critical fraction</strong> $f_c = 1 - p_c$ the giant component breaks up.</p>
 <ul>
   <li><strong>Random failures:</strong> every node is equally likely to fail.</li>
   <li><strong>Targeted attacks:</strong> nodes are removed in order of degree, largest first.</li>
 </ul>
+
+<h3>From lattices to networks</h3>
+<p data-beyond="Book Advanced Topic 8.B (the idea behind it)">Networks have no lattice, but the same reasoning works on a tree. Suppose every node has $z$ neighbours and each node is kept with probability $p$. Follow a path from a kept node: the next node has $z - 1$ onward neighbours, each kept with probability $p$. The cluster can grow without end only if, on average, at least one of them is kept:</p>
+<div class="eq">$$p\,(z - 1) = 1 \quad\Rightarrow\quad p_c = \frac{1}{z - 1}.$$</div>
+<p>In a network the node at the end of a link has, on average, $\kappa - 1 = \langle k^2\rangle/\langle k\rangle - 1$ onward links (high-degree nodes are reached more often). Replacing $z - 1$ by $\kappa - 1$ gives $p_c = 1/(\kappa - 1)$, that is $f_c = 1 - 1/(\kappa - 1)$: the Molloy–Reed result of the <a href="robustness-failures.html">next page</a>.</p>
+<div class="callout example">
+  <p><strong>Worked example 2: tree, lattice and random network.</strong></p>
+  <ol>
+    <li>A tree with $z = 4$: $p_c = 1/3$. The square lattice also has 4 neighbours per site but $p_c = 0.593$: its loops make paths overlap, so more sites are needed.</li>
+    <li>A random network with $\langle k\rangle = 4$: $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle) = 20$, so $\kappa - 1 = 4$, $p_c = 1/4$ and $f_c = 3/4$, the same as $1 - 1/\langle k\rangle$.</li>
+  </ol>
+</div>
+
 
 <div class="quiz" data-answer="4">
   <p>Each site of a large square lattice is occupied with probability $p = 0.55$ ($p_c \approx 0.593$). What do you see?</p>
