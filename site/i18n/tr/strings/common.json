@@ -178,9 +178,6 @@
   "Phone calls": "Telefon aramaları",
   "Internet": "İnternet",
   "WWW": "WWW",
-  "Part IV · Where hubs come from": "Kısım IV · Merkez düğümler nereden gelir",
-  "Part V · What the wiring does": "Kısım V · Bağlantı düzeni ne yapar",
-  "Part VI · Learning on networks": "Kısım VI · Ağlardan öğrenmek",
   "Review & exam prep": "Tekrar ve sınava hazırlık",
   "Graph ML": "Çizge ML",
   "Builds on:": "Şunlara dayanır:",
@@ -267,5 +264,12 @@
   "Hand-made features must be designed for each task. Can the features be learned instead?": "Elle öznitelikler her görev için ayrıca tasarlanmalıdır. Öznitelikler bunun yerine öğrenilebilir mi?",
   "Node embeddings": "Düğüm gömmeleri",
   "Spectral and random-walk embeddings, graph neural networks.": "Spektral ve rastgele yürüyüş gömmeleri, çizge sinir ağları.",
-  "On this page": "Bu sayfada"
+  "On this page": "Bu sayfada",
+  "Part IV · The Barabási–Albert model": "Kısım IV · Barabási–Albert modeli",
+  "Part V · Evolving networks": "Kısım V · Evrilen ağlar",
+  "Part VI · Degree correlations": "Kısım VI · Derece korelasyonları",
+  "Part VII · Network robustness": "Kısım VII · Ağ dayanıklılığı",
+  "Part VIII · Intro to graph ML": "Kısım VIII · Çizge ML'ye giriş",
+  "Part IX · Node embeddings": "Kısım IX · Düğüm gömmeleri",
+  "Embeddings": "Gömmeler"
 }

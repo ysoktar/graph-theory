@@ -77,13 +77,15 @@ export const NAV = [
     { id: "ch4-generating", title: "Generating networks", book: "4.8", nb: "III.9", desc: "Configuration model and degree-preserving randomization.", needs: ["ch2-degree", "ch3-model"],
       next: "The configuration model copies hubs but cannot say where they come from. Which process creates them?" },
   ] },
-  { part: "Part IV · Where hubs come from", short: "Ch 5–6", items: [
+  { part: "Part IV · The Barabási–Albert model", short: "Ch 5", items: [
         { id: "ch5-preview", title: "The Barabási–Albert model", book: "5.1–5.5", desc: "Growth + preferential attachment gives γ = 3.", needs: ["ch4-power-laws", "ch4-hubs"],
       next: "The model has two ingredients. Are both needed, and do real networks really attach preferentially?" },
     { id: "ch5-ingredients", title: "Testing preferential attachment", book: "5.6–5.8", desc: "Models A and B, measuring attachment, nonlinear attachment.", needs: ["ch5-preview"],
       next: "Real networks do attach preferentially. But how can a new node prefer hubs without knowing anyone's degree?" },
     { id: "ch5-origins", title: "Origins and properties of BA networks", book: "5.9–5.10", desc: "Link selection and copying; distances and clustering of BA networks.", needs: ["ch5-ingredients"],
       next: "In the BA model the oldest node always wins and γ is always 3. Real networks disagree: what is missing?" },
+  ] },
+  { part: "Part V · Evolving networks", short: "Ch 6", items: [
     { id: "evolving", title: "Evolving networks: fitness", book: "6.1–6.2", desc: "Latecomers can win: the Bianconi–Barabási model.", needs: ["ch5-preview"],
       next: "Fitness is invisible. Can we measure it from how fast nodes grow?" },
     { id: "evolving-measure", title: "Measuring fitness", book: "6.3", desc: "Fitness from growth rates; the citation model.", needs: ["evolving"],
@@ -93,7 +95,7 @@ export const NAV = [
     { id: "evolving-processes", title: "Elementary processes", book: "6.5–6.6", desc: "Attractiveness, internal links, deletion, acceleration, aging: what each does to γ.", needs: ["evolving"],
       next: "We know where hubs come from. Next question: whom do they link to?" },
   ] },
-  { part: "Part V · What the wiring does", short: "Ch 7–8", items: [
+  { part: "Part VI · Degree correlations", short: "Ch 7", items: [
         { id: "correlations", title: "Degree correlations", book: "7.1–7.2", desc: "Do hubs link to hubs? Three kinds of network and the matrix e_jk.", needs: ["ch4-moments", "ch4-generating"],
       next: "The matrix holds everything but is hard to read. How do we measure correlations with a curve or a single number?" },
     { id: "correlations-measure", title: "Measuring correlations", book: "7.3", desc: "k_nn(k), the exponent μ, the friendship paradox and r.", needs: ["correlations"],
@@ -102,6 +104,8 @@ export const NAV = [
       next: "Which models produce correlations, and do correlations change how a network behaves?" },
     { id: "correlations-models", title: "Correlated models and their impact", book: "7.6–7.8", desc: "Correlations of every model; the Xalvi-Brunet–Sokolov algorithm; impact.", needs: ["correlations-cutoffs"],
       next: "Hubs and how they connect decide what happens when nodes fail. How much damage can a network take?" },
+  ] },
+  { part: "Part VII · Network robustness", short: "Ch 8", items: [
     { id: "robustness", title: "Robustness and percolation", book: "8.1–8.2", scope: "syllabus", desc: "How many nodes can a network lose? Percolation theory.", needs: ["ch3-evolution", "ch4-moments"],
       next: "Percolation on a lattice has a critical point. Where is the critical point of a network that loses nodes at random?" },
     { id: "robustness-failures", title: "Random failures", book: "8.3", scope: "syllabus", desc: "Molloy–Reed and why scale-free networks survive random failures.", needs: ["robustness"],
@@ -111,9 +115,11 @@ export const NAV = [
     { id: "robustness-cascades", title: "Cascades and building robustness", book: "8.5–8.8", scope: "syllabus", desc: "Cascading failures and networks designed to resist failures and attacks.", needs: ["robustness-attacks"],
       next: "So far a network is described by a few numbers. Machine learning needs a description of every single node." },
   ] },
-  { part: "Part VI · Learning on networks", short: "Graph ML", items: [
+  { part: "Part VIII · Intro to graph ML", short: "Graph ML", items: [
         { id: "graphml", title: "Intro to graph ML", scope: "syllabus", desc: "Tasks and hand-made features: centralities, PageRank, Katz, Weisfeiler–Lehman.", needs: ["ch2-adjacency", "ch2-clustering"],
       next: "Hand-made features must be designed for each task. Can the features be learned instead?" },
+  ] },
+  { part: "Part IX · Node embeddings", short: "Embeddings", items: [
     { id: "embeddings", title: "Node embeddings", scope: "syllabus", desc: "Spectral and random-walk embeddings, graph neural networks.", needs: ["graphml"],
       next: "Beyond the course: the spectral split you just saw finds groups. How do you tell a real community from chance?" },
   ] },
@@ -152,8 +158,8 @@ const href = (id) => (id === "index" ? "index.html" : `${id}.html`);
 
 const LOGO = `<svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
   <g stroke="var(--axis)" stroke-width="1.6"><line x1="14" y1="14" x2="5" y2="6"/><line x1="14" y1="14" x2="23" y2="5"/><line x1="14" y1="14" x2="24" y2="19"/><line x1="14" y1="14" x2="6" y2="22"/><line x1="14" y1="14" x2="15" y2="25"/><line x1="5" y1="6" x2="23" y2="5"/></g>
-  <circle cx="14" cy="14" r="5.2" fill="var(--s1)"/><circle cx="5" cy="6" r="2.6" fill="var(--s2)"/><circle cx="23" cy="5" r="2.6" fill="var(--s3)"/>
-  <circle cx="24" cy="19" r="2.3" fill="var(--s1)"/><circle cx="6" cy="22" r="2.3" fill="var(--s1)"/><circle cx="15" cy="25" r="2" fill="var(--s1)"/></svg>`;
+  <circle cx="14" cy="14" r="5.2" fill="var(--accent)"/><circle cx="5" cy="6" r="2.6" fill="var(--s2)"/><circle cx="23" cy="5" r="2.6" fill="var(--s1)"/>
+  <circle cx="24" cy="19" r="2.3" fill="var(--accent)"/><circle cx="6" cy="22" r="2.3" fill="var(--accent)"/><circle cx="15" cy="25" r="2" fill="var(--accent)"/></svg>`;
 
 const THEME_ICONS = {
   auto: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2a6 6 0 0 0 0 12z" fill="currentColor"/></svg>',
