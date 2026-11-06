@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bose–Einstein condensation · From Graphs to Hubs</title>
+<meta name="description" content="The fitness model as a Bose gas: fit-get-rich and condensed phases, the condensation condition, and what later mathematics showed about the condensate.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/evolving.js"></script>
+</head>
+<body data-page="evolving-bec">
+<main><div class="content">
+
+<h1>Bose–Einstein condensation</h1>
+<p class="lead">The fitness model maps exactly onto a gas of quantum particles. The mapping predicts two phases: one where the fittest nodes lead, and one where a finite share of all links piles onto the fittest. Which one occurs depends only on the fitness distribution (Section 6.4).</p>
+
+<div class="callout why">
+  <ul>
+    <li>It explains winner-takes-all networks, which no earlier model produces.</li>
+    <li>One integral of the fitness distribution decides the phase.</li>
+    <li>It is also a case where the book's claim was later corrected: who exactly holds the condensate.</li>
+  </ul>
+</div>
+
+<h2>Bose–Einstein condensation (Section 6.4)</h2>
+<p>The fitness model maps exactly onto a Bose gas:</p>
+<table class="simple">
+  <thead><tr><th>Network</th><th>Bose gas</th></tr></thead>
+  <tbody>
+    <tr><td>node $i$ with fitness $\eta_i$</td><td>energy level $\varepsilon_i = -\frac{1}{\beta_T}\ln\eta_i$ (fitter = lower)</td></tr>
+    <tr><td>a link pointing to node $i$</td><td>a particle on level $\varepsilon_i$</td></tr>
+    <tr><td>a new node with $m$ links</td><td>a new level, and $m$ new particles</td></tr>
+  </tbody>
+</table>
+<div class="callout fix" data-book="B11"></div>
+<p>Then $k_i = m(t/t_i)^{f(\varepsilon_i)}$ with $f(\varepsilon) = e^{-\beta_T(\varepsilon - \mu)}$, and the self-consistency condition (6.5) becomes the equation for the chemical potential $\mu$ of a Bose gas:</p>
+<div class="eq">$$\int g(\varepsilon)\,\frac{1}{e^{\beta_T(\varepsilon - \mu)} - 1}\,d\varepsilon = 1 .$$</div>
+<p>$g(\varepsilon)$ is the density of levels (set by $\rho(\eta)$) and the fraction is the Bose occupation number. The "temperature" $1/\beta_T$ is a dummy: it cancels, and only $\rho(\eta)$ decides the phase.</p>
+<ul>
+  <li><strong>Fit-get-rich</strong> (the equation for $C$ has a solution with $C > \eta_{\max}$): the fittest nodes become the largest hubs, closely trailed by the next fittest. Each holds a vanishing share of the links; the network is scale-free.</li>
+  <li><strong>Bose–Einstein condensation</strong> (no such solution): $C$ sticks at $\eta_{\max}$ and the nodes of finite fitness absorb only part of the new links. The rest, a finite fraction, condenses on the fittest nodes: winner-takes-all, a hub-and-spoke network that is no longer scale-free.</li>
+</ul>
+<p>With $\eta_{\max} = 1$, condensation happens when even $C = 1$ leaves the integral short of 1:</p>
+<div class="eq">$$I = \int \frac{\eta\,\rho(\eta)}{1 - \eta}\,d\eta < 1, \qquad \text{condensate share} = 1 - I .$$</div>
+<div class="callout example">
+  <p><strong>Worked example 7: when does a network condense?</strong> Take $\rho(\eta) = (1 + \zeta)(1 - \eta)^{\zeta}$, which puts less weight near $\eta = 1$ as $\zeta$ grows.</p>
+  <ol>
+    <li>$I = (1+\zeta)\int_0^1 \eta (1-\eta)^{\zeta - 1} d\eta = (1 + \zeta)\,\frac{1}{\zeta(\zeta+1)} = \frac{1}{\zeta}$.</li>
+    <li>$I &lt; 1$ exactly when $\zeta > 1$. So $\zeta = 0.1$ is fit-get-rich and $\zeta = 10$ condenses, with share $1 - 1/10 = 90\%$.</li>
+    <li>Uniform fitness ($\zeta = 0$): $\int_0^1 \frac{\eta}{1-\eta}\,d\eta$ diverges at $\eta = 1$, so $I = \infty$: no condensation.</li>
+  </ol>
+  <p>Paradox: fewer very fit nodes means condensation. When fit nodes are rare, the one that does arrive has no competitors.</p>
+</div>
+<div class="callout fix" data-book="B15"></div>
+<div data-fig id="fig-fitness"></div>
+<p data-beyond="Dereich, Mailler and Mörters, Ann. Appl. Probab. 27, 2539 (2017)"><strong>Who holds the condensate?</strong> The book, following the 2001 physics paper, says the fittest node keeps a finite fraction of all links. For the tree version of the model ($m = 1$) this was later proved false: the condensation is <em>non-extensive</em>. The condensed share is spread over a succession of ever fitter latecomers, each of which is eventually overtaken, so the largest hub's share still vanishes, very slowly. The condition $I &lt; 1$ and the share $1 - I$ are unaffected; only "one node takes it all" is. The simulations in the figure above show it: even at $10^6$ nodes the top hub of a $\zeta = 10$ network holds a few percent, not 90%.</p>
+<div class="callout fix" data-book="B17"></div>
+
+<div class="quiz" data-answer="2">
+  <p>According to the book, what is true of a winner-takes-all (condensed) network of $10^6$ nodes?</p>
+  <ol>
+    <li data-why="That is fit-get-rich.">The top hub's share of links vanishes</li>
+    <li>A finite fraction of all links goes to the fittest nodes</li>
+    <li data-why="It is about how links are shared, not who links to whom.">Hubs link only to hubs</li>
+    <li data-why="Condensation concentrates links.">Degrees are equal</li>
+  </ol>
+  <div class="explain">The analogue of Bose–Einstein condensation: a finite fraction $1 - I$ of the particles sits in the lowest levels. (Later mathematics showed that no single node keeps that fraction forever; it passes to ever fitter latecomers.)</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>The fitness distribution is $\rho(\eta) = 4(1 - \eta)^3$, i.e. $\zeta = 3$. Which phase is the network in?</p>
+  <ol>
+    <li data-why="Fit-get-rich needs I = 1/ζ ≥ 1, that is ζ ≤ 1.">Fit-get-rich: scale-free, no dominant share</li>
+    <li>Condensed: the fittest nodes take a finite share, $1 - 1/3 = 67\%$, of new links</li>
+    <li data-why="Fitness alone never removes growth or preference; the BA limit needs equal fitness.">The BA model, $\gamma = 3$</li>
+    <li data-why="Every node has fitness at most 1 and still attracts links.">No giant hub can form</li>
+  </ol>
+  <div class="explain">$I = \int \eta\rho/(1-\eta)\,d\eta = 1/\zeta = 1/3 &lt; 1$: condensation, with share $1 - I = 2/3$.</div>
+</div>
+</div></main>
+</body>
+</html>

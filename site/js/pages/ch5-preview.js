@@ -12,7 +12,8 @@ const baPk = (k, m) => (2 * m * (m + 1)) / (k * (k + 1) * (k + 2));
 const baSf = (k, m) => (m * (m + 1)) / (k * (k + 1)); // P(K ≥ k)
 
 // ------------------------------------------------------------------ 1. watch it grow
-{
+fig_grow: {
+  if (!document.getElementById("fig-grow")) break fig_grow; // only on the page that shows it
   const m = 2, Nmax = 300;
   let attach = "preferential", g, repeated, rng, timer = null, lastTargets = [];
   const f = figure("#fig-grow", { title: "Growth with preferential attachment", sub: "Each new node brings m = 2 links. It links to an existing node with probability proportional to that node's degree (or uniformly, for comparison).", cols: "split" });
@@ -68,6 +69,7 @@ const baSf = (k, m) => (m * (m + 1)) / (k * (k + 1)); // P(K ≥ k)
 
 // ------------------------------------------------------------------ 2. large networks (worker)
 (async () => {
+  if (!document.getElementById("fig-pk")) return; // only on the page that shows it
   let m = 2, job = null;
   const f = figure("#fig-pk", { title: "Degree distribution of a large network", sub: "N = 100,000 nodes.", cols: "cols-2" });
   const pa = f.panel("P(K ≥ k)"), pb = f.panel("Degree of three nodes as the network grows");
@@ -160,7 +162,8 @@ function modelB(N, steps, rng, snaps, track) {
 const binnedPk = (deg) => pkLogBinned(histogram(Array.from(deg).filter((k) => k > 0)), 6);
 
 // ================================================================== Models A and B against BA
-{
+fig_models: {
+  if (!document.getElementById("fig-models")) break fig_models; // only on the page that shows it
   const f = figure("#fig-models", { title: "Remove one ingredient", sub: "The BA model, Model A (growth, no preferential attachment) and Model B (preferential attachment, no growth).", cols: "cols-2" });
   const left = f.panel("Degree distribution"), right = f.panel("Degree of three nodes over time");
   const pk = new Plot(left, { height: 250, x: { type: "log", label: "degree k" }, y: { type: "log", label: "pₖ" } });
@@ -191,7 +194,8 @@ const binnedPk = (deg) => pkLogBinned(histogram(Array.from(deg).filter((k) => k 
 }
 
 // ================================================================== nonlinear preferential attachment and how to measure it
-{
+fig_alpha: {
+  if (!document.getElementById("fig-alpha")) break fig_alpha; // only on the page that shows it
   const N = 6000, m = 2, T1 = 4800;
   const f = figure("#fig-alpha", { title: "Nonlinear preferential attachment, Π(k) ∝ k^α", sub: `Networks of ${fmt.int(N)} nodes, m = 2. Right: the attachment measured from two snapshots of the same network (t = ${fmt.int(T1)} and t = ${fmt.int(N)}), as for real data.`, cols: "cols-2" });
   const left = f.panel("Degree distribution and the largest hub"), right = f.panel("Measured cumulative attachment π(k)");
@@ -232,7 +236,8 @@ const binnedPk = (deg) => pkLogBinned(histogram(Array.from(deg).filter((k) => k 
 }
 
 // ================================================================== preferential attachment without a rule
-{
+fig_origins: {
+  if (!document.getElementById("fig-origins")) break fig_origins; // only on the page that shows it
   const N = 20000;
   const f = figure("#fig-origins", { title: "Preferential attachment without a rule", sub: `${fmt.int(N)} nodes. Neither model knows any degree, yet both attach in proportion to degree.` });
   const plot = new Plot(f.body, { height: 280, x: { type: "log", label: "degree k" }, y: { type: "log", label: "P(K ≥ k)" } });
@@ -266,7 +271,8 @@ const binnedPk = (deg) => pkLogBinned(histogram(Array.from(deg).filter((k) => k 
 }
 
 // ================================================================== distances and clustering against N
-{
+fig_dc: {
+  if (!document.getElementById("fig-dc")) break fig_dc; // only on the page that shows it
   const f = figure("#fig-dc", { title: "Distances and clustering of BA networks", sub: "BA networks (m = 2) against random networks with the same N and L. Distances from 40 random start nodes.", cols: "cols-2" });
   const left = f.panel("Average distance ⟨d⟩"), right = f.panel("Average clustering ⟨C⟩");
   const dp = new Plot(left, { height: 250, x: { type: "log", label: "number of nodes N" }, y: { label: "⟨d⟩", min: 0 } });

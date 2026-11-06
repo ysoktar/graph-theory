@@ -1,8 +1,8 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Dayanıklılık ve saldırılar · Çizgelerden Merkez Düğümlere</title>
-<meta name="description" content="Rastgele bozulmalara karşı hedefli saldırılar: perkolasyon, Molloy–Reed ölçütü, ölçekten bağımsız ağların neden aynı anda hem dayanıklı hem kırılgan olduğu, kitabın ağları üzerinde sınanmış hâliyle."></head><body>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Dayanıklılık ve süzülme · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bir ağ kaç düğüm kaybedebilir? Rastgele bozulmalar ve saldırılar ile süzülme kuramı: kritik nokta ve evrensel üstelleri."></head><body>
 <div class="content">
 
-<h1>Dayanıklılık ve saldırılar</h1>
+<h1>Dayanıklılık ve süzülme</h1>
 <p class="lead">Bir ağ dağılmadan önce kaç düğüm kaybedebilir? Bu, <em>hangi</em> düğümlerin kaybedildiğine bağlıdır: ölçekten bağımsız ağları kazara bozmak çok zor, bilerek bozmak ise çok kolaydır (8. Bölüm).</p>
 <div class="callout why">
   <ul>
@@ -31,229 +31,24 @@
   <li><strong>Hedefli saldırılar:</strong> düğümler dereceye göre, en büyükten başlayarak silinir.</li>
 </ul>
 
-<h2>Molloy–Reed ölçütü</h2>
-<p>Verilen derece dağılımına sahip bir ağın ne zaman dev bileşeni vardır? Ağın içine doğru bir yol izleyin: yol yalnızca ulaştığı düğümün en az bir bağlantısı daha varsa sürer.</p>
-<ol>
-  <li>Rastgele bir bağlantı, derecesi $k$ olan bir düğüme $q_k = k\,p_k/\langle k\rangle$ olasılıkla götürür: yüksek dereceli düğümlere daha sık ulaşılır.</li>
-  <li>Ulaşılan düğümün ortalama derecesi bu yüzden $\sum_k k\,q_k = \langle k^2\rangle/\langle k\rangle$'dır (<a href="correlations.html">arkadaşlık paradoksu</a>).</li>
-  <li>Bağlantılarından biri geldiğimiz bağlantıdır. Yolun sürmesi için ortalamada en az bir bağlantı daha gerekir: düğümün derecesi 2 ya da daha fazla olmalıdır.</li>
-</ol>
-<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 .$$</div>
-<dl class="symbols">
-  <dt>$\kappa$</dt><dd>rastgele bir bağlantı boyunca ulaşılan düğümün ortalama derecesi</dd>
-  <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>ortalama derece ve derece karesinin ortalaması; merkez düğümler varken $\langle k^2\rangle$ büyüktür (<a href="ch4-moments.html">4. Bölüm</a>)</dd>
-  <dt>$2$</dt><dd>bir bağlantı giriş, en az bir bağlantı çıkış</dd>
-</dl>
-<p>Dereceler verildiğinde rastgele bağlantı (konfigürasyon modeli) varsayar. Rastgele bir ağ için $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$; yani $\kappa = 1 + \langle k\rangle$ ve ölçüt $\langle k\rangle > 1$ olur: <a href="ch3-evolution.html">3. Bölüm</a>'ün dev bileşen eşiği.</p>
-<div class="callout fix" data-book="B10"></div>
-
-<h2>Kritik oran</h2>
-<p>Düğümlerin bir $f$ oranını rastgele silin. Ayakta kalan derecesi $k$ olan bir düğüm her bağlantısını $1 - f$ olasılıkla korur; bu yüzden derecesi binom dağılımlı olur. Yeni dağılımın momentleri şunlardır (İleri Konu 8.C):</p>
-<div class="eq">$$\langle k\rangle_f = (1-f)\langle k\rangle, \qquad \langle k^2\rangle_f = (1-f)^2\langle k^2\rangle + f(1-f)\langle k\rangle, \qquad \kappa_f = (1-f)\,\kappa + f .$$</div>
-<p data-beyond="Kitabın İleri Konu 8.C'si">Dev bileşen $\kappa_f = 2$ olduğunda kaybolur. $f$ için çözülünce:</p>
-<div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}, \qquad f_c^{ER} = 1 - \frac{1}{\langle k\rangle}\ \text{(rastgele ağ)}.$$</div>
-<dl class="symbols"><dt>$f_c$</dt><dd>dev bileşeni yok eden rastgele bozulma oranı; yalnızca $\langle k\rangle$ ve $\langle k^2\rangle$'ye bağlıdır</dd></dl>
-<p>$k_{\min}$'den başlayan bir kuvvet yasası $p_k \sim k^{-\gamma}$ için (süreklilik yaklaşımı, Denklem 8.9):</p>
-<div class="eq">$$f_c = \begin{cases} 1 - \dfrac{1}{\frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma} - 1} & 2 < \gamma < 3\\[3mm] 1 - \dfrac{1}{\frac{\gamma-2}{\gamma-3}\,k_{\min} - 1} & \gamma > 3 \end{cases} \qquad\Rightarrow\qquad f_c \approx 1 - \frac{C}{N^{(3-\gamma)/(\gamma-1)}}\ \ (2 < \gamma < 3).$$</div>
-<dl class="symbols">
-  <dt>$k_{\max}$</dt><dd>doğal kesme $k_{\min}N^{1/(\gamma-1)}$; $N$ ile büyür, bu yüzden $\kappa \to \infty$ ve $f_c \to 1$</dd>
-  <dt>$C$</dt><dd>$N$'den bağımsız her şeyi toplayan bir sabit (Denklem 8.10)</dd>
-</dl>
-<div class="callout example">
-  <p><strong>Çözümlü örnek: İnternet.</strong></p>
+<div class="quiz" data-answer="4">
+  <p>Büyük bir kare örgünün her bölgesi $p = 0.55$ olasılıkla dolu ($p_c \approx 0.593$). Ne görürsünüz?</p>
   <ol>
-    <li>Verilen: yönlendirici haritası için $\langle k\rangle = 6.34$ ve $\langle k^2\rangle = 240.1$ ($N = 192{,}244$).</li>
-    <li>$\kappa = 240.1/6.34 = 37.9$, 2'nin çok üstünde.</li>
-    <li>$f_c = 1 - 1/(37.9 - 1) = 1 - 1/36.9 = 0.973$.</li>
-    <li>Aynı $\langle k\rangle$'ya sahip rastgele bir ağ: $f_c^{ER} = 1 - 1/6.34 = 0.842$.</li>
-    <li>Anlamı: onu parçalamak için yönlendiricilerin %97'sinin, yaklaşık 187,000'inin rastgele bozulması gerekir. Ek dayanıklılığı merkez düğümler sağlar.</li>
+    <li data-why="Boydan boya bir küme ancak p ≥ p_c iken belirir.">Örgüyü boydan boya geçen tek bir küme</li>
+    <li data-why="p_c'nin üstünde bile bazı dolu bölgeler küçük yalıtık kümelerdedir.">Tüm dolu bölgeler tek bir kümede</li>
+    <li data-why="Bölgelerin yarısından fazlası dolu, bu yüzden komşu dolu bölgeler küme oluşturur.">Hiç küme yok</li>
+    <li>Yalnızca sonlu kümeler; $p$, ortalama küme boyutunun ıraksadığı $p_c$'ye yakın olduğu için büyükler</li>
   </ol>
-</div>
-<div class="callout example">
-  <p><strong>Çözümlü örnek: ağın özel olmaktan çıktığı yer.</strong> $\gamma = 4$ ve $k_{\min} = 2$ için süreklilik formülü $\kappa = \frac{2}{1}\cdot 2 = 4$ ve $N$'den bağımsız olarak $f_c = 1 - 1/3 = 2/3$ verir: $\gamma = 3$'ün üstünde ölçekten bağımsız bir ağ, rastgele bir ağ gibi, sonlu bir bozulma oranından sonra dağılır.</p>
-</div>
-<div class="callout fix" data-book="B16"></div>
-<div id="tbl-fc"></div>
-
-<h2>Bir derece dağılımı seçin</h2>
-<p>Yukarıdaki her şey iki sayıdan, $\langle k\rangle$ ve $\langle k^2\rangle$'den çıkar; yani dayanıklılığa $p_k$'nın biçimi karar verir. Ortalama derecesi aynı olan dağılımları karşılaştırın:</p>
-<div data-fig id="fig-calc"></div>
-
-<h2>Kitabın ağları</h2>
-<div data-fig id="fig-real"></div>
-<div class="callout look">
-  <ul>
-    <li>Rastgele bozulmalar: ağır kuyruklu ağlar, rastgele ağın eşiğinin çok ötesinde bile bir dev bileşen korur.</li>
-    <li>Saldırılar: aynı ağlar yüzde birkaçlık kayıptan sonra çöker.</li>
-    <li>Elektrik şebekesinde merkez düğüm yoktur ve ikisine karşı da kırılgandır.</li>
-  </ul>
-</div>
-
-<h2>Saldırılar</h2>
-<p>Bir saldırı önce merkez düğümleri siler. Bu ağı iki biçimde değiştirir: en büyük derece $k_{\max}$'tan daha küçük bir $k'_{\max}$'a düşer ve silinen merkez düğümlere bağlı düğümler o bağlantıları kaybeder. Kalanların gözünden bu bağlantıların kaybı rastgele bağlantı silmeye benzer; bu yüzden saldırı rastgele bozulma hesabına geri eşlenebilir. Bir kuvvet yasası için eşik şu denklemi çözer (Denklem 8.12, Cohen ve ark. 2001):</p>
-<div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big).$$</div>
-<dl class="symbols">
-  <dt>$f_c$</dt><dd>burada silinen en yüksek dereceli düğümlerin oranı; yüzde birkaç ile yüzde birkaç on arası</dd>
-</dl>
-<div class="callout fix" data-book="B14"></div>
-<div class="callout example">
-  <p><strong>Çözümlü örnek: $\gamma = 2.5$, $k_{\min} = 2$.</strong></p>
-  <ol>
-    <li>Üsteller $\frac{2-\gamma}{1-\gamma} = \frac13$ ve $\frac{3-\gamma}{1-\gamma} = -\frac13$'tür; katsayı $\frac{2-\gamma}{3-\gamma} = -1$'dir.</li>
-    <li>$x = f_c^{1/3}$ ile denklem $x = 2 - 2\,(1/x - 1)$, yani $x^2 - 4x + 2 = 0$ olur.</li>
-    <li>1'in altındaki kök $x = 2 - \sqrt2 = 0.586$'dır; yani $f_c = x^3 = 0.20$.</li>
-    <li>Anlamı: düğümlerinin neredeyse tamamının rastgele kaybına dayanan aynı ağ, en üstteki %20'si silinince dağılır (tam değer: %14; aşağıdaki şekle bakın).</li>
-  </ol>
-</div>
-<div data-fig id="fig-gamma"></div>
-<div class="callout key">
-  <p><em>Dayanıklı ama kırılgan</em>: rastgele bir bozulma neredeyse hiçbir zaman bir merkez düğüme denk gelmez; bir saldırı ise her şeyi bir arada tutan merkez düğümleri siler. Ağı koruyan özellik, merkez düğümleri, aynı zamanda onun Aşil topuğudur.</p>
-</div>
-
-<h2>Kademeli çöküşler</h2>
-<p>Şimdiye kadar düğümler birbirinden bağımsız bozuldu. Gerçek sistemlerde bir arıza yükü komşulara kaydırır ve onlar da bozulabilir: 2003 elektrik kesintisi, havayolu merkezleri üzerinden yayılan uçuş gecikmeleri, retweet kademeleri. Büyüklüklerinin tipik bir ölçeği yoktur: $s$ büyüklüğünde bir kademenin olasılığı bir kuvvet yasasıdır:</p>
-<div class="eq">$$p(s) \sim s^{-\alpha},$$</div>
-<p>ve elektrik kesintileri, Twitter kademeleri ve depremler için ölçülen üsteller 1.5 ile 2 arasındadır. Kademeler üç bileşen gerektirir: ağ üzerinde bir <strong>akış</strong>, yerel bir <strong>çökme kuralı</strong> ve bir şey bozulduğunda yükün <strong>yeniden dağıtılması</strong>.</p>
-<p><strong>Arıza yayılım modeli</strong> (Watts 2002). Her düğümün eşiği aynı $\varphi$'dir: sağlam bir düğüm, komşularının $\varphi$ oranı bozulur bozulmaz bozulur. Bozuk bir düğümle başlayın ve arızanın yayılmasına izin verin.</p>
-<div data-fig id="fig-cascade"></div>
-<p><strong>Dallanma modeli.</strong> Üstelin nereden geldiğini görmek için bir kademeyi ağaç gibi ele alın: ilk arıza köktür ve her bozulan düğüm $p_k$ olasılıkla $k$ yeni arızayı tetikler. Her arıza ortalamada birden az yeni arızaya yol açarsa çığlar söner (kritik altı); birden fazlaysa sonsuza dek büyür (kritik üstü); tam birse her ölçekte büyüklükler görülür (kritik). Kritik noktada:</p>
-<div class="eq">$$\alpha = \begin{cases} 3/2 & p_k \text{ dar ya da } \gamma \ge 3 \text{ olan bir kuvvet yasası}\\ \gamma/(\gamma-1) & p_k \sim k^{-\gamma},\ 2 < \gamma < 3 \end{cases}$$</div>
-<dl class="symbols">
-  <dt>$\alpha$</dt><dd>çığ üsteli; $3/2$, etkin arızaları sayan bir rastgele yürüyüşün ilk dönüş zamanıdır</dd>
-  <dt>$\gamma$</dt><dd>kademenin üzerinde ilerlediği ağın derece üsteli</dd>
-</dl>
-<div data-fig id="fig-branch"></div>
-
-<h2>Dayanıklılık kurmak</h2>
-<p>Bağlantıların bir maliyeti olduğunu, yani ortalama derece $\langle k\rangle$'nın sabit olduğunu varsayın. Rastgele bozulmalara en iyi en büyük $\langle k^2\rangle$ ile, saldırılara ise hiç merkez düğüm olmamasıyla dayanılır. İkisine birden dayanmak için iki eşiğin toplamını en büyük yapın (Denklem 8.16):</p>
-<div class="eq">$$f_c^{tot} = f_c^{rand} + f_c^{targ}.$$</div>
-<p>En iyisi iki tepeli bir derece dağılımıdır (Denklem 8.17–8.18): düğümlerin $r$ oranı $k_{\max}$, geri kalanı $k_{\min}$ derecelidir:</p>
-<div class="eq">$$p_k = (1-r)\,\delta(k - k_{\min}) + r\,\delta(k - k_{\max}), \qquad r = \frac1N, \qquad k_{\max} \approx A\,N^{2/3}.$$</div>
-<dl class="symbols">
-  <dt>$r$</dt><dd>merkez düğümlerin payı; en iyi durumda tek bir merkez düğüm</dd>
-  <dt>$k_{\max}$</dt><dd>merkez düğümün derecesi; $A$ bir sabittir</dd>
-</dl>
-<div class="callout example">
-  <p><strong>Çözümlü örnek: yedeklemenin maliyeti.</strong> Bir merkez ve 6 koldan oluşan bir yıldızda 7 düğüm arasında 6 bağlantı vardır: maliyet $\langle k\rangle = 12/7$. Merkeze tek bir saldırı her kolu yalıtır. Kolları bir halkaya bağlamak 6 bağlantı ekler, $\langle k\rangle = 24/7$: maliyet iki katına çıkar, ama ağ merkezinin kaybına dayanır. <a href="#fig-calc">Bir derece dağılımı seçin</a>'deki iki tepeli seçeneği deneyin: $r = 1/N$ ve yeterince büyük bir $k_{\min}$ ile bozulma ve saldırı eğrileri neredeyse çakışır.</p>
-</div>
-<p><strong>Kademeleri durdurmak</strong> (Kutu 8.4). Yeni hatlar yıllarda kurulur; bir kademe saniyeler sürer. Benzetimler, ilk arızadan hemen sonra iyi seçilmiş birkaç bileşeni (az yüklü düğümler, arızanın yakınındaki fazla yüklü bağlantılar) çıkarmanın kademeyi durdurabildiğini gösterir; tıpkı itfaiyecilerin bir yangın şeridi yakması gibi.</p>
-<div class="callout note">
-  <p><strong>Dayanıklı, esnek, yedekli</strong> (Kutu 8.5). Bir sistem bileşenleri bozulduğunda çalışmaya devam ediyorsa <em>dayanıklı</em>, çalışmayı sürdürmek için işleyiş biçimini uyarlıyorsa <em>esnek</em> (resilient), eksik bileşenlerin yerini paralel bileşenler tutabiliyorsa <em>yedeklidir</em>. Düğüm çiftleri arasındaki çok sayıda bağımsız yol ağları yedekli yapar.</p>
-</div>
-
-<div class="callout connect">
-  <ul>
-    <li><a href="ch3-evolution.html">Dev bileşen geçişinin</a> <strong>tersidir</strong>: rastgele bir ağ için $\kappa = 2$, $\langle k\rangle = 1$ demektir.</li>
-    <li>$\gamma &lt; 3$ için <a href="ch4-moments.html">ıraksayan $\langle k^2\rangle$</a> <strong>üzerine kurulur</strong>.</li>
-    <li><a href="epidemics.html">Salgın eşiğiyle</a> <strong>aynı formül</strong>: $T_c = 1 - f_c$.</li>
-    <li><a href="correlations.html">Derece korelasyonları</a> <strong>tarafından değiştirilir</strong>: birbirine bağlı merkez düğümler birbirini yedekler.</li>
-  </ul>
-</div>
-
-<div class="callout discuss">
-  <p>Bağlantı ekleyebilirsiniz ama merkez düğümleri silemezsiniz. Bozulmalara karşı kırılgan hâle gelmeden saldırılara nasıl direnirdiniz?</p>
-  <div class="hint">Bölüm 8.7: iki tepeli bir derece dağılımı (birkaç merkez düğüm, birçok eşit düğüm) birleşik eşiği en büyük yapar. Orta dereceli düğümler arasındaki bağlantılar merkez düğümleri atlayan yollar ekler.</div>
-</div>
-
-<div class="quiz" data-answer="3">
-  <p>Bir rastgele ağda $\langle k\rangle = 4$. Rastgele bozulmaların hangi oranı dev bileşenini yok eder?</p>
-  <ol>
-    <li data-why="Bu, ⟨k⟩ = 3 bırakır.">%25</li>
-    <li data-why="Bu, ⟨k⟩ = 2 bırakır; hâlâ 1'in üstünde.">%50</li>
-    <li>%75</li>
-    <li data-why="⟨k⟩ 1'e ulaştığında dağılır.">%100</li>
-  </ol>
-  <div class="explain">$f_c = 1 - 1/4 = \%75$; kalanların $\langle k\rangle$'sı 1'dir.</div>
+  <div class="explain">$p_c$'nin altında boydan boya küme yoktur. $p_c$ yakınında sonlu kümeler $|p - p_c|^{-\gamma_p}$ gibi büyür: geçiş kendini önceden haber verir.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>Rastgele bağlanmış bir ağda $\langle k\rangle = 5$ ve $\langle k^2\rangle = 255$. Rastgele bozulmaların hangi oranı $f_c$ dev bileşenini yok eder?</p>
+  <p>Üçgen örgüde bölge süzülmesi için $p_c = 0.5$, kare örgüdeki $0.593$ değil. $P_\infty \sim (p - p_c)^{\beta_p}$ içindeki $\beta_p$ üsteli nedir?</p>
   <ol>
-    <li data-why="Bu, merkez düğümleri yok sayan 1 − 1/⟨k⟩'dır.">%80</li>
-    <li>%98</li>
-    <li data-why="κ = 51 bir yüzde değil, bir orandır.">%51</li>
-    <li data-why="Büyük bir ⟨k²⟩ ağı kırılgan değil, dayanıklı yapar.">%2</li>
+    <li data-why="Üsteller p_c'yi izlemez; yalnızca boyuta bağlıdır.">$p_c$ daha küçük olduğu için daha büyük</li>
+    <li>Aynı $5/36$: kritik üsteller iki boyutta evrenseldir, $p_c$ ise örgüye bağlıdır</li>
+    <li data-why="Evrensellik: iki boyutlu her örgü aynı γ_p, β_p ve ν'ye sahiptir.">$p_c$ gibi örgüye bağlıdır</li>
+    <li data-why="Her örgü kendi p_c'sinde süzülür.">Üsteli yoktur: üçgen örgüler süzülmez</li>
   </ol>
-  <div class="explain">$\kappa = 255/5 = 51$; yani $f_c = 1 - 1/(51 - 1) = \%98$. Merkez düğümler, düğümlerin neredeyse tamamı bozulana kadar ağı bir arada tutar.</div>
-</div>
-<div class="quiz" data-answer="4">
-  <p>Merkez düğümlerin en üst %1'ini silmek neden rastgele %1'den çok daha fazla zarar verir?</p>
-  <ol>
-    <li data-why="İkisi de aynı sayıda düğüm siler.">Daha çok düğüm silinir</li>
-    <li data-why="Merkez düğümler nadirdir; bu yüzden rastgele bozulmalar onları ıskalar.">Merkez düğümler daha sık bozulur</li>
-    <li data-why="Küçük düğümler ⟨k²⟩'ye çok az katkı yapar.">Ağı küçük düğümler bir arada tutar</li>
-    <li>$\langle k^2\rangle$'ye merkez düğümler hâkimdir; bu yüzden $\kappa$ çöker</li>
-  </ol>
-  <div class="explain">Merkez düğümleri silmek $\kappa$'yı yüzde birkaç içinde 2'ye indirir; rastgele silme onu neredeyse hiç değiştirmez.</div>
-</div>
-<div class="quiz" data-answer="1">
-  <p>Elektrik şebekesi ($\kappa = 3.9$), Molloy–Reed'in $f_c = \%65$ değerinden çok önce dağılır. Neden?</p>
-  <ol>
-    <li>Rastgele bağlanmamış, mekânsaldır: uzun zincirler, az sayıda alternatif yol</li>
-    <li data-why="Formül bu boyuttaki rastgele ağlara iyi uyar.">Çok küçüktür</li>
-    <li data-why="Büyük merkez düğümleri yoktur.">Önce merkez düğümleri bozulur</li>
-    <li data-why="⟨k⟩ ve ⟨k²⟩ veriden kesin olarak bilinir.">Dereceler yanlış ölçülmüştür</li>
-  </ol>
-  <div class="explain">Molloy–Reed rastgele bağlantı varsayar. Şebeke uzamıştır ($\langle d\rangle = 18.8$) ve düğümlerinin yaklaşık üçte biri bozulduktan sonra bölünür.</div>
-</div>
-
-<div class="quiz" data-answer="1">
-  <p>Rastgele bağlanmış bir ağda $\kappa = 3$. Rastgele bozulmalar için kritik oranı $f_c$ nedir?</p>
-  <ol>
-    <li>%50</li>
-    <li data-why="Bu 1 − 1/κ'dır; κ − 1 kullanın.">%67</li>
-    <li data-why="Bu 1/κ'dır.">%33</li>
-    <li data-why="κ &gt; 2; yani bir dev bileşen vardır.">%0</li>
-  </ol>
-  <div class="explain">$f_c = 1 - 1/(3 - 1) = \%50$.</div>
-</div>
-<div class="quiz" data-answer="4">
-  <p>Düğümlerin yarısının derecesi 1, yarısının 2; yani $\langle k\rangle = 1.5$ ve $\langle k^2\rangle = 2.5$. Bu derecelerle rastgele bağlanmış bir ağın dev bileşeni var mıdır?</p>
-  <ol>
-    <li data-why="⟨k⟩ &gt; 1 ölçütü yalnızca Poisson dereceler içindir.">Evet, çünkü $\langle k\rangle > 1$</li>
-    <li data-why="Eşik κ = 2'dir.">Evet, çünkü $\kappa > 1$</li>
-    <li data-why="Molloy–Reed bu iki momentten karar verir.">Söylenemez</li>
-    <li>Hayır: $\kappa = 1.67 &lt; 2$</li>
-  </ol>
-  <div class="explain">Derecesi 3 ya da daha fazla olan düğüm olmadığından yollar hiç dallanmaz: yalnızca zincirler oluşur.</div>
-</div>
-<div class="quiz" data-answer="3">
-  <p>Hedefli bir saldırı altında (önce en büyük derece) hangisi önce dağılır: ölçekten bağımsız bir ağ mı, yoksa aynı $N$ ve $\langle k\rangle$'ya sahip rastgele bir ağ mı?</p>
-  <ol>
-    <li data-why="Ölçekten bağımsız ağlar saldırılara değil, rastgele bozulmalara dayanıklıdır.">Rastgele ağ</li>
-    <li data-why="Derece dağılımları farklıdır; bu yüzden eşikleri de farklıdır.">İkisi aynı noktada</li>
-    <li>Ölçekten bağımsız ağ</li>
-    <li data-why="Yeterince düğüm silmek her ağı böler.">Hiçbiri dağılmaz</li>
-  </ol>
-  <div class="explain">Az sayıdaki merkez düğümü $\langle k^2\rangle$'nin çoğunu taşır; onları silmek $\kappa$'yı çökertir (Bölüm 8.4).</div>
-</div>
-<div class="quiz" data-answer="2">
-  <p>Arıza yayılım modelinde her düğüm, komşularının $\varphi = 0.2$ oranı bozulunca bozulur. 3 komşulu bir düğümün bir komşusu bozuk. 10 komşulu bir düğümün de bir komşusu bozuk. Hangisi bozulur?</p>
-  <ol>
-    <li data-why="10 komşulu düğümün komşularının yalnızca 1/10 = 0.1'i bozuk, 0.2'nin altında.">İkisi de</li>
-    <li>Yalnızca 3 komşulu düğüm: $1/3 \ge 0.2$, oysa $1/10 &lt; 0.2$</li>
-    <li data-why="1/3 = 0.33, 0.2 eşiğinin üstündedir.">Yalnızca 10 komşulu düğüm</li>
-    <li data-why="1/3, 0.2'nin üstündedir; yani küçük düğüm bozulur.">Hiçbiri</li>
-  </ol>
-  <div class="explain">Kırılgan olanlar düşük dereceli düğümlerdir: tek bir bozuk komşu, bağlantılarının büyük bir payıdır. Yoğun ağlar düğümlerini korur; $\langle k\rangle$ büyükken kademelerin sönmesinin nedeni budur.</div>
-</div>
-<div class="quiz" data-answer="3">
-  <p>Derece üsteli $\gamma = 2.2$ olan bir ağdaki kademeler kritik noktasındaki dallanma modeline uyuyor; yani $\alpha = \gamma/(\gamma - 1)$ ile $p(s) \sim s^{-\alpha}$. $\alpha$ nedir ve rastgele bir ağa kıyasla ne anlama gelir?</p>
-  <ol>
-    <li data-why="Bu, yalnızca γ ≥ 3 için geçerli olan rastgele ağ değeridir.">$\alpha = 1.5$, rastgele bir ağdakiyle aynı</li>
-    <li data-why="γ/(γ − 1) = 2.2/1.2 ≈ 1.83'tür, 2.2 değil.">$\alpha = 2.2$: kademeler dereceler kadar geniştir</li>
-    <li>$\alpha \approx 1.83$: kuyruk rastgele bir ağdakinden ($1.5$) hızlı düşer, ama yine de tipik bir kademe büyüklüğü yoktur</li>
-    <li data-why="Herhangi bir üstelli kuvvet yasasının tipik bir ölçeği yoktur; büyük kademeler mümkün kalır.">$\alpha \approx 1.83$: büyük kademeler imkânsız hâle gelir</li>
-  </ol>
-  <div class="explain">$2.2/1.2 = 1.83$. Elektrik kesintileri, retweetler ve depremler için ölçülen üsteller, dallanma modelinin öngördüğü 1.5 ile 2 aralığındadır.</div>
-</div>
-<div class="quiz" data-answer="1">
-  <p>Bir ağ hem rastgele bozulmalar hem saldırılar altında bağlı kalmalı ve maliyeti $\langle k\rangle$ sabit. Hangi derece dağılımı $f_c^{rand} + f_c^{targ}$'yi en büyük yapar?</p>
-  <ol>
-    <li>İki tepeli: derecesi $\sim N^{2/3}$ olan tek bir merkez düğüm, diğer her düğüm aynı küçük dereceli</li>
-    <li data-why="Poisson ağında merkez düğüm yoktur; bu yüzden rastgele bozulma eşiği düşük kalır.">Poisson</li>
-    <li data-why="γ &lt; 3 olan saf bir kuvvet yasası bozulmalara dayanır ama saldırı altında çöker.">$\gamma = 2.1$ olan bir kuvvet yasası</li>
-    <li data-why="Her düğüm eşitken ⟨k²⟩ o maliyet için olabilecek en küçük değerdedir.">Her düğümün tam $\langle k\rangle$ bağlantısı olması</li>
-  </ol>
-  <div class="explain">Sabit $\langle k\rangle$'da rastgele bozulma dayanıklılığı büyük bir $\langle k^2\rangle$ (bir merkez düğüm) gerektirir; saldırı dayanıklılığı ise ağın o merkez düğüme bağımlı olmamasını. Tek bir merkez düğüm artı eşit dereceli düğümler ikisini dengeler (Bölüm 8.7).</div>
+  <div class="explain">Evrensellik, süzülme kuramının ağlara taşınabilmesinin nedenidir: ayrıntılar geçişin nerede olduğunu değiştirir, nasıl olduğunu değil.</div>
 </div>
 </div></body></html>

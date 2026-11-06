@@ -1,0 +1,103 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Yapısal kesmeler ve gerçek ağlar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Basit ölçekten bağımsız ağların neden zorunlu olarak disasortatif olduğu, yapısal kesme k_s, R-S rastgeleleştirme ve kitabın ağlarının korelasyonları."></head><body>
+<div class="content">
+
+<h1>Yapısal kesmeler ve gerçek ağlar</h1>
+<p class="lead">Bazı korelasyonlar bir ağa dayatılır: basit bir ağ en büyük merkez düğümlerine şansın gerektirdiği karşılıklı bağlantıları veremez. Bölüm 7.4 bunun ne zaman olduğunu gösterir; Bölüm 7.5 gerçek ağlarda zorunlu korelasyonları gerçek olanlardan ayırır.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Yapısal kesme $k_s$'nin üstünde ölçekten bağımsız ağlar hiçbir neden olmadan disasortatif olur.</li>
+    <li>Dereceyi koruyan rastgeleleştirme yapısal korelasyonları gerçeklerinden ayırır.</li>
+    <li>Bir ağın nasıl kurulduğunu yalnızca sosyal ağların asortatifliği gibi gerçek korelasyonlar söyler.</li>
+  </ul>
+</div>
+
+<h2>Yapısal kesmeler (Bölüm 7.4)</h2>
+<p>Kitabın tüm ağları <em>basittir</em>: iki düğüm arasında en fazla bir bağlantı. Bu, en büyük merkez düğümler için (7.1) ile çatışır. Dereceleri $k$ ve $k'$ olan düğümler arasındaki beklenen bağlantı sayısı:</p>
+<div class="eq">$$E_{kk'} = e_{kk'}\,\langle k\rangle N \quad (7.13) \qquad\xrightarrow{\text{nötr}}\qquad E_{kk'} = \frac{k\,k'}{\langle k\rangle N}. \quad (7.14)$$</div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 4: üç bağlantıya ihtiyaç duyan iki merkez düğüm.</strong> $N = 300$, $L = 450$ ($\langle k\rangle = 3$) olan ölçekten bağımsız bir ağda dereceleri 55 ve 46 olan merkez düğümler var.</p>
+  <ol>
+    <li>$E = \frac{55 \times 46}{3 \times 300} = \frac{2530}{900} = 2.8$: nötr bağlantı aralarında yaklaşık üç bağlantı gerektirir.</li>
+    <li>Basit bir ağ bir taneye izin verir. Eksik bağlantılar başka yere, yani daha küçük düğümlere gitmek zorundadır.</li>
+    <li>Yarım bağlantı tablosu: toplam 28 yarım bağlantı arasında 8 ve 7 yarım bağlantılı düğümler $8 \times 7/28 = 2$ bağlantı bekler. İkincisini yasaklayın; ağ, kimse istemeden disasortatif olur: <strong>yapısal disasortatiflik</strong>.</li>
+  </ol>
+</div>
+<p>Çatışma $E_{kk} = 1$ olduğu yerde, <strong>yapısal kesmede</strong> başlar:</p>
+<div class="eq">$$k_s(N) \sim (\langle k\rangle N)^{1/2}. \qquad (7.15)$$</div>
+<p>Bunu en büyük dereceyle, doğal kesme $k_{\max} \sim k_{\min} N^{1/(\gamma-1)}$ ile karşılaştırın:</p>
+<ul>
+  <li>Rastgele ağlar ve $\gamma \ge 3$: $1/(\gamma - 1) \le 1/2$, bu yüzden $k_{\max}$, $k_s$'nin altında kalır. Çatışma yok.</li>
+  <li>$2 &lt; \gamma &lt; 3$: $1/(\gamma - 1) > 1/2$, bu yüzden büyük $N$ için en büyük merkez düğümler $k_s$'yi aşar. Basit ölçekten bağımsız ağlar yapısal olarak disasortatiftir.</li>
+</ul>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 5: ne zaman etkili olur?</strong> $\gamma = 2.5$, $k_{\min} = 2$; yani $\langle k\rangle \approx \frac{\gamma-1}{\gamma-2}k_{\min} = 6$.</p>
+  <ol>
+    <li>$N = 10^4$: $k_s = \sqrt{6 \times 10^4} = 245$, $k_{\max} = 2 \times 10^{4/1.5} = 928$.</li>
+    <li>$N = 10^6$: $k_s = 2{,}449$, $k_{\max} = 2 \times 10^{4} = 20{,}000$. Çatışan merkez düğümlerin aralığı $N$ ile genişler.</li>
+    <li>Metabolizma: $k_s = \sqrt{9.13 \times 1{,}039} \approx 97$. En büyük merkez düğümlerinin 638 ve 460 bağlantısı var: aralarında beklenen $638 \times 460/9{,}482 \approx 31$ bağlantı, izin verilen en fazla 1.</li>
+  </ol>
+</div>
+<div data-fig id="fig-cutoff"></div>
+<p>İki çıkış yolu var: çoklu bağlantılara izin vermek (ağ nötr olur) ya da $k_s$'nin üstündeki merkez düğümleri kaldırmak. Gerçek bir ağın korelasyonlarının yapısal olup olmadığına karar vermek için onu derecelerini koruyarak rastgeleleştirin:</p>
+<ul>
+  <li><strong>R-S</strong> (ağı basit tutan rastgeleleştirme): $k_{nn}^{R\text{-}S}(k)$ gerçek $k_{nn}(k)$ ile örtüşüyorsa korelasyonların hepsi yapısaldır, derecelerle açıklanır.</li>
+  <li><strong>R-M</strong> (çoklu bağlantılara izin verilir): her zaman nötrdür; bir tutarlılık sınaması.</li>
+</ul>
+<p>Yapısal etkiler yalnızca disasortatiflik üretebilir. Asortatiflik her zaman gerçek bir neden ister.</p>
+
+<h2>Gerçek ağlarda korelasyonlar (Bölüm 7.5)</h2>
+<div data-fig id="fig-knn"></div>
+<div id="tbl-r"></div>
+<div class="callout look">
+  <ul>
+    <li><strong>Elektrik şebekesi:</strong> gerçekten nötr olan tek ağ; düzdür ve rastgeleleştirilmiş sürümüne eşittir.</li>
+    <li><strong>Sosyal ağlar</strong> (telefon aramaları, iş birliği, oyuncular) asortatiftir ve rastgeleleştirme bunu siler: gerçek bir sosyal mekanizma. İş birliği $r = 0.13$, telefon aramaları $0.21$.</li>
+    <li><strong>E-posta, proteinler, metabolizma</strong> disasortatiftir, ama R-S sürümleri de azalır: yapısal. Metabolizma rastgeleleştirmeden sonra $r = -0.17$'de kalır.</li>
+    <li><strong>WWW:</strong> disasortatif, dereceleriyle ancak kısmen açıklanır. <strong>İnternet:</strong> $k \approx 30$'a kadar asortatif, sonra kesme yüzünden düzleşir. <strong>Atıflar:</strong> $k \le 20$ için asortatif, üstünde disasortatif.</li>
+  </ul>
+</div>
+<p>Sosyal ağlar neden asortatiftir? İnsanlar topluluklar oluşturur (<a href="communities.html">9. Bölüm</a>), toplum merkez düğümleri bir araya getirir (komiteler, yönetim kurulları, televizyon programları) ve <em>homofili</em> benzer insanların, benzer biçimde bağlantılı olanlar da dahil, bir araya gelmesini sağlar. Yönlü ağlar dört fonksiyon gerektirir: $k_{nn}^{\text{in,in}}$, $k_{nn}^{\text{in,out}}$, $k_{nn}^{\text{out,in}}$, $k_{nn}^{\text{out,out}}$ (Kutu 7.3).</p>
+
+<div class="quiz" data-answer="1">
+  <p>İş birliği ağında $r = 0.13$; dereceyi koruyan rastgeleleştirmeden sonra $r \approx 0$. Bu neyi gösterir?</p>
+  <ol>
+    <li>Asortatiflik derecelerden değil, bilim insanlarının iş birlikçilerini nasıl seçtiğinden gelir</li>
+    <li data-why="Değiş tokuşlar her dereceyi korur.">Rastgeleleştirme $p_k$'yı değiştirdi</li>
+    <li data-why="Kesme disasortatifliğe yol açar ve rastgeleleştirmeden sağ çıkar.">Yapısaldır</li>
+    <li data-why="Gerçek ağda r = 0.13'tür; yalnızca rastgeleleştirilmiş kopyası nötrdür.">Ağ nötrdür</li>
+  </ol>
+  <div class="explain">Rastgeleleştirmenin yok ettiği şey derecelerden kaynaklanmaz. Metabolizmanınki sağ çıkar ($-0.25 \to -0.17$): büyük ölçüde yapısaldır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Bir ağda $N = 10{,}000$ düğüm ve $\langle k\rangle = 4$ var. İki merkez düğümün her birinin 1,000 bağlantısı var. Rastgele bağlantı aralarında kaç bağlantı bekler?</p>
+  <ol>
+    <li data-why="Bu, beklenen değer değil, basit ağ sınırıdır.">En fazla 1</li>
+    <li data-why="N'ye değil, ⟨k⟩N'ye bölün.">100</li>
+    <li data-why="Bu 2⟨k⟩N'ye böler, ama ⟨k⟩N zaten 2L'ye eşittir.">12.5</li>
+    <li>25</li>
+  </ol>
+  <div class="explain">$kk'/(\langle k\rangle N) = 10^6/(4 \times 10^4) = 25$. Basit bir ağ bir taneye izin verir; bu yüzden $k_s = \sqrt{40{,}000} = 200$'ün çok üstündeki iki merkez düğüm küçük düğümlere bağlanmaya itilir.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Bir ağda $N = 2{,}500$ ve $\langle k\rangle = 4$. Yapısal kesmesi $k_s$ nedir?</p>
+  <ol>
+    <li data-why="Bu √N'dir; ⟨k⟩'yı da katın.">50</li>
+    <li data-why="Bu N'dir.">2,500</li>
+    <li data-why="Bu, karekökten önceki ⟨k⟩N'dir.">10,000</li>
+    <li>100</li>
+  </ol>
+  <div class="explain">$k_s = \sqrt{\langle k\rangle N} = \sqrt{10{,}000} = 100$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>$\gamma = 2.3$ olan basit bir ölçekten bağımsız ağ rastgele bağlanıyor (onu basit tutan, dereceyi koruyan rastgeleleştirme). $k_{nn}(k)$'si büyük $k$'de düşüyor. Neden?</p>
+  <ol>
+    <li>En büyük merkez düğümleri yapısal kesmeyi aşar ve basit bir ağ onlara şansın gerektirdiği karşılıklı bağlantıları veremez</li>
+    <li data-why="Rastgele bağlantı tercih dayatmaz; etki çoklu bağlantıların yasaklanmasından gelir.">Rastgeleleştirme onu bilerek disasortatif yaptı</li>
+    <li data-why="Yapısal etkiler yalnızca disasortatiflik üretebilir.">Aslında gizlice asortatiftir</li>
+    <li data-why="γ &lt; 3, tam da k_max'ın k_s'yi geçtiği durumdur.">γ &lt; 3 için bu olamaz</li>
+  </ol>
+  <div class="explain">$\gamma &lt; 3$ için $k_{\max} \sim N^{1/(\gamma-1)}$, $k_s \sim N^{1/2}$'yi geçer: yapısal disasortatiflik.</div>
+</div>
+</div></body></html>

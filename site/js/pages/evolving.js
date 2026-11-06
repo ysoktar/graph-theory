@@ -9,6 +9,7 @@ const C = 1.255; // Bianconi–Barabási constant for uniform fitness on [0, 1] 
 const PLANTED = [{ t: 10, eta: 0.3 }, { t: 100, eta: 0.6 }, { t: 1000, eta: 1 }];
 
 (async () => {
+  if (!document.getElementById("fig-race")) return; // only on the page that shows it
   const N = 50000, m = 2;
   const f = figure("#fig-race", { title: "Late but fit: the race for links", sub: `N = ${fmt.int(N)}, m = 2, fitness η drawn uniformly from [0, 1]; three nodes have their fitness fixed.`, cols: "cols-2" });
   const pa = f.panel("Degree of three planted nodes"), pb = f.panel("P(K ≥ k): fitness model against BA (equal fitness)");
@@ -98,7 +99,8 @@ function selfConsistency(d, p, C) {
   return v;
 }
 
-{
+fig_fitness: {
+  if (!document.getElementById("fig-fitness")) break fig_fitness; // only on the page that shows it
   const f = figure("#fig-fitness", { title: "Choose a fitness distribution", sub: "Solve the self-consistency equation for C, read off the growth exponents and the phase, and grow a network with that ρ(η).", cols: "cols-2" });
   const left = f.panel("Fitness distribution ρ(η)"), right = f.panel("Solving for C: where the curve crosses 1");
   const formula = h("div", { class: "small", style: { margin: "0 0 .4rem" } });
@@ -176,7 +178,8 @@ function selfConsistency(d, p, C) {
 }
 
 // ================================================================== citation histories (Eq. 6.13)
-{
+fig_cite: {
+  if (!document.getElementById("fig-cite")) break fig_cite; // only on the page that shows it
   const erf = (x) => { const s = Math.sign(x), a = Math.abs(x), t = 1 / (1 + 0.3275911 * a); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-a * a)); };
   const Phi = (x) => 0.5 * (1 + erf(x / Math.SQRT2));
   const M = 30;
@@ -260,7 +263,8 @@ function simulateProcess(kind, x, rng) {
   return { deg: live.map((i) => deg[i]), N: live.length };
 }
 
-{
+fig_process: {
+  if (!document.getElementById("fig-process")) break fig_process; // only on the page that shows it
   const f = figure("#fig-process", { title: "Add one process to the BA model", sub: "Each run grows a network with m = 2 and one extra process, and compares it with plain BA grown the same way.", cols: "split" });
   const left = f.panel(null), right = f.panel(null);
   const plot = new Plot(left, { height: 290, x: { type: "log", label: "degree k" }, y: { type: "log", label: "P(K ≥ k)" } });

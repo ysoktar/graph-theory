@@ -1,0 +1,70 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Bose–Einstein yoğuşması · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Bir Bose gazı olarak uygunluk modeli: uygun olanın zenginleştiği ve yoğuşmuş evreler, yoğuşma koşulu ve sonraki matematiğin yoğuşma hakkında gösterdikleri."></head><body>
+<div class="content">
+
+<h1>Bose–Einstein yoğuşması</h1>
+<p class="lead">Uygunluk modeli kuantum parçacıklarından oluşan bir gaza tam olarak eşlenir. Eşleme iki evre öngörür: en uygun düğümlerin önde olduğu bir evre ve tüm bağlantıların sonlu bir payının en uygunlarda biriktiği bir evre. Hangisinin oluşacağına yalnızca uygunluk dağılımı karar verir (Bölüm 6.4).</p>
+
+<div class="callout why">
+  <ul>
+    <li>Önceki hiçbir modelin üretmediği, kazananın her şeyi aldığı ağları açıklar.</li>
+    <li>Uygunluk dağılımının tek bir integrali evreye karar verir.</li>
+    <li>Kitabın iddiasının sonradan düzeltildiği bir durumdur da: yoğuşan payı tam olarak kimin tuttuğu.</li>
+  </ul>
+</div>
+
+<h2>Bose–Einstein yoğuşması (Bölüm 6.4)</h2>
+<p>Uygunluk modeli bir Bose gazına tam olarak eşlenir:</p>
+<table class="simple">
+  <thead><tr><th>Ağ</th><th>Bose gazı</th></tr></thead>
+  <tbody>
+    <tr><td>uygunluğu $\eta_i$ olan $i$ düğümü</td><td>enerji düzeyi $\varepsilon_i = -\frac{1}{\beta_T}\ln\eta_i$ (daha uygun = daha düşük)</td></tr>
+    <tr><td>$i$ düğümüne yönelen bir bağlantı</td><td>$\varepsilon_i$ düzeyinde bir parçacık</td></tr>
+    <tr><td>$m$ bağlantılı yeni bir düğüm</td><td>yeni bir düzey ve $m$ yeni parçacık</td></tr>
+  </tbody>
+</table>
+<div class="callout fix" data-book="B11"></div>
+<p>O zaman $f(\varepsilon) = e^{-\beta_T(\varepsilon - \mu)}$ ile $k_i = m(t/t_i)^{f(\varepsilon_i)}$ olur ve öz tutarlılık koşulu (6.5), bir Bose gazının kimyasal potansiyeli $\mu$ için denkleme dönüşür:</p>
+<div class="eq">$$\int g(\varepsilon)\,\frac{1}{e^{\beta_T(\varepsilon - \mu)} - 1}\,d\varepsilon = 1 .$$</div>
+<p>$g(\varepsilon)$ düzeylerin yoğunluğudur ($\rho(\eta)$ belirler), kesir ise Bose doluluk sayısıdır. “Sıcaklık” $1/\beta_T$ yapay bir değişkendir: sadeleşir ve evreye yalnızca $\rho(\eta)$ karar verir.</p>
+<ul>
+  <li><strong>Uygun olan zenginleşir</strong> ($C$ denkleminin $C > \eta_{\max}$ olan bir çözümü varsa): en uygun düğümler en büyük merkez düğümler olur ve bir sonraki en uygunlar onları yakından izler. Her birinin bağlantı payı sıfıra gider; ağ ölçekten bağımsızdır.</li>
+  <li><strong>Bose–Einstein yoğuşması</strong> (böyle bir çözüm yoksa): $C$, $\eta_{\max}$'ta takılır ve sonlu uygunluklu düğümler yeni bağlantıların yalnızca bir kısmını alır. Geri kalan sonlu bir pay en uygun düğümlerde yoğuşur: kazanan her şeyi alır; ağ merkez ve kollar yapısındadır, artık ölçekten bağımsız değildir.</li>
+</ul>
+<p>$\eta_{\max} = 1$ iken yoğuşma, $C = 1$ bile integrali 1'e ulaştıramadığında olur:</p>
+<div class="eq">$$I = \int \frac{\eta\,\rho(\eta)}{1 - \eta}\,d\eta < 1, \qquad \text{yoğuşan pay} = 1 - I .$$</div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 7: bir ağ ne zaman yoğuşur?</strong> $\zeta$ büyüdükçe $\eta = 1$ yakınına daha az ağırlık veren $\rho(\eta) = (1 + \zeta)(1 - \eta)^{\zeta}$'yı alın.</p>
+  <ol>
+    <li>$I = (1+\zeta)\int_0^1 \eta (1-\eta)^{\zeta - 1} d\eta = (1 + \zeta)\,\frac{1}{\zeta(\zeta+1)} = \frac{1}{\zeta}$.</li>
+    <li>$I &lt; 1$ tam olarak $\zeta > 1$ iken sağlanır. Yani $\zeta = 0.1$'de uygun olan zenginleşir, $\zeta = 10$'da ağ $1 - 1/10 = \%90$ payla yoğuşur.</li>
+    <li>Tekdüze uygunluk ($\zeta = 0$): $\int_0^1 \frac{\eta}{1-\eta}\,d\eta$, $\eta = 1$'de ıraksar; bu yüzden $I = \infty$: yoğuşma yok.</li>
+  </ol>
+  <p>Paradoks: çok uygun düğümlerin azlığı yoğuşma demektir. Uygun düğümler nadirse, gelen tek uygun düğümün rakibi olmaz.</p>
+</div>
+<div class="callout fix" data-book="B15"></div>
+<div data-fig id="fig-fitness"></div>
+<p data-beyond="Dereich, Mailler ve Mörters, Ann. Appl. Probab. 27, 2539 (2017)"><strong>Yoğuşan payı kim tutar?</strong> Kitap, 2001 tarihli fizik makalesini izleyerek en uygun düğümün tüm bağlantıların sonlu bir payını koruduğunu söyler. Modelin ağaç sürümü ($m = 1$) için bunun yanlış olduğu sonradan kanıtlandı: yoğuşma <em>kapsamsızdır</em> (non-extensive). Yoğuşan pay, her biri sonunda geçilen ve giderek daha uygun olan geç gelenlerin ardışık dizisine yayılır; bu yüzden en büyük merkez düğümün payı yine de, çok yavaş biçimde, sıfıra gider. $I &lt; 1$ koşulu ve $1 - I$ payı etkilenmez; yalnızca “tek düğüm hepsini alır” ifadesi etkilenir. Yukarıdaki şekildeki benzetimler bunu gösterir: $10^6$ düğümde bile $\zeta = 10$ ağının en büyük merkez düğümü %90 değil, yüzde birkaç tutar.</p>
+<div class="callout fix" data-book="B17"></div>
+
+<div class="quiz" data-answer="2">
+  <p>Kitaba göre $10^6$ düğümlü, kazananın her şeyi aldığı (yoğuşmuş) bir ağ için hangisi doğrudur?</p>
+  <ol>
+    <li data-why="Bu, uygun olanın zenginleştiği evredir.">En büyük merkez düğümün bağlantı payı sıfıra gider</li>
+    <li>Tüm bağlantıların sonlu bir payı en uygun düğümlere gider</li>
+    <li data-why="Bu, kimin kime bağlandığıyla değil, bağlantıların nasıl paylaşıldığıyla ilgilidir.">Merkez düğümler yalnızca merkez düğümlere bağlanır</li>
+    <li data-why="Yoğuşma bağlantıları yoğunlaştırır.">Dereceler eşittir</li>
+  </ol>
+  <div class="explain">Bose–Einstein yoğuşmasının karşılığı: parçacıkların sonlu bir payı $1 - I$ en düşük düzeylerde toplanır. (Sonraki matematik, bu payı hiçbir tek düğümün sonsuza dek tutmadığını gösterdi; pay giderek daha uygun geç gelenlere geçer.)</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Uygunluk dağılımı $\rho(\eta) = 4(1 - \eta)^3$, yani $\zeta = 3$. Ağ hangi evrededir?</p>
+  <ol>
+    <li data-why="Uygun olanın zenginleşmesi için I = 1/ζ ≥ 1, yani ζ ≤ 1 gerekir.">Uygun olan zenginleşir: ölçekten bağımsız, baskın pay yok</li>
+    <li>Yoğuşmuş: en uygun düğümler yeni bağlantıların sonlu bir payını, $1 - 1/3 = \%67$, alır</li>
+    <li data-why="Uygunluk tek başına büyümeyi ya da tercihi kaldırmaz; BA sınırı eşit uygunluk ister.">BA modeli, $\gamma = 3$</li>
+    <li data-why="Her düğümün uygunluğu en fazla 1'dir ve yine de bağlantı çeker.">Büyük bir merkez düğüm oluşamaz</li>
+  </ol>
+  <div class="explain">$I = \int \eta\rho/(1-\eta)\,d\eta = 1/\zeta = 1/3 &lt; 1$: yoğuşma, payı $1 - I = 2/3$.</div>
+</div>
+</div></body></html>

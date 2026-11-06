@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attacks · From Graphs to Hubs</title>
+<meta name="description" content="Removing the hubs first: the attack threshold of scale-free networks, robust yet fragile, and thresholds against the degree exponent.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/robustness.js"></script>
+</head>
+<body data-page="robustness-attacks">
+<main><div class="content">
+
+<h1>Attacks: robust yet fragile</h1>
+<p class="lead">An attacker does not pick nodes at random but goes for the hubs. The property that protected the network, its hubs, becomes its weakness: a few per cent of the right nodes are enough to break it (Section 8.4).</p>
+
+<div class="callout why">
+  <ul>
+    <li>Removing the highest-degree nodes lowers $\langle k^2\rangle$ very fast.</li>
+    <li>Scale-free networks are the most robust to failures and among the most fragile to attacks.</li>
+    <li>The same calculation tells defenders which nodes to protect.</li>
+  </ul>
+</div>
+
+<h2>Attacks</h2>
+<p>An attack removes the hubs first. That changes the network in two ways: the largest degree drops from $k_{\max}$ to a smaller $k'_{\max}$, and the nodes that were linked to the removed hubs lose those links. Seen from the survivors, losing these links is like random link removal, so the attack can be mapped back onto the random-failure calculation. For a power law the threshold solves (Eq. 8.12, Cohen et al. 2001)</p>
+<div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big).$$</div>
+<dl class="symbols">
+  <dt>$f_c$</dt><dd>here the fraction of highest-degree nodes removed; a few per cent to some tens of per cent</dd>
+</dl>
+<div class="callout fix" data-book="B14"></div>
+<div class="callout example">
+  <p><strong>Worked example: $\gamma = 2.5$, $k_{\min} = 2$.</strong></p>
+  <ol>
+    <li>The exponents are $\frac{2-\gamma}{1-\gamma} = \frac13$ and $\frac{3-\gamma}{1-\gamma} = -\frac13$; the coefficient is $\frac{2-\gamma}{3-\gamma} = -1$.</li>
+    <li>With $x = f_c^{1/3}$ the equation reads $x = 2 - 2\,(1/x - 1)$, that is $x^2 - 4x + 2 = 0$.</li>
+    <li>The root below 1 is $x = 2 - \sqrt2 = 0.586$, so $f_c = x^3 = 0.20$.</li>
+    <li>Meaning: the same network that survives the random loss of almost all its nodes falls apart once its top 20% are removed (exactly: 14%, as the figure below shows).</li>
+  </ol>
+</div>
+<div data-fig id="fig-gamma"></div>
+<div class="callout key">
+  <p><em>Robust yet fragile</em>: a random failure almost never hits a hub; an attack removes the hubs that hold everything together. The property that protects the network, its hubs, is also its Achilles' heel.</p>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Why does removing the top 1% of hubs do far more damage than a random 1%?</p>
+  <ol>
+    <li data-why="Both remove the same number.">More nodes are removed</li>
+    <li data-why="Hubs are rare, so random failures miss them.">Hubs fail more often</li>
+    <li data-why="Small nodes contribute little to ⟨k²⟩.">Small nodes hold it together</li>
+    <li>Hubs dominate $\langle k^2\rangle$, so $\kappa$ collapses</li>
+  </ol>
+  <div class="explain">Removing hubs drives $\kappa$ to 2 within a few per cent; random removal barely changes it.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Under a targeted attack (largest degree first), which breaks apart first: a scale-free network or a random network with the same $N$ and $\langle k\rangle$?</p>
+  <ol>
+    <li data-why="Scale-free networks are robust to random failures, not to attacks.">The random network</li>
+    <li data-why="Their degree distributions differ, so their thresholds differ.">Both at the same point</li>
+    <li>The scale-free network</li>
+    <li data-why="Removing enough nodes breaks any network.">Neither breaks</li>
+  </ol>
+  <div class="explain">Its few hubs carry most of $\langle k^2\rangle$; removing them collapses $\kappa$ (Section 8.4).</div>
+</div>
+</div></main>
+</body>
+</html>

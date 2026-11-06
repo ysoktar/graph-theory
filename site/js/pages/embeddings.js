@@ -31,6 +31,7 @@ function embed(g, method, T) {
 
 // ------------------------------------------------------------------ 1. embedding the karate club
 (async () => {
+  if (!document.getElementById("fig-embed")) return; // only on the page that shows it
   const { graph: K, club } = await ready;
   let method = "spectral", T = 5;
   const f = figure("#fig-embed", { title: "Embedding the karate club in two dimensions", sub: "Each member becomes a point; colour shows the faction it actually joined after the split.", cols: "cols-2" });
@@ -73,6 +74,7 @@ function embed(g, method, T) {
 
 // ------------------------------------------------------------------ 2. random walks are sentences
 (async () => {
+  if (!document.getElementById("fig-walk")) return; // only on the page that shows it
   const { graph: K, club } = await ready;
   let rng = new RNG(3), walk = [], timer = null;
   const L = 12;
@@ -116,6 +118,7 @@ function embed(g, method, T) {
 
 // ------------------------------------------------------------------ 3. message passing (the idea behind graph neural networks)
 (async () => {
+  if (!document.getElementById("fig-gnn")) return; // only on the page that shows it
   const { graph: K, club } = await ready;
   let layers = 0;
   const f = figure("#fig-gnn", { title: "Message passing: what a graph neural network layer does", sub: "Start with a feature known only for two members (+1 for Mr. Hi, node 0; −1 for the Officer, node 33; 0 elsewhere). Each layer replaces every node's value by the average over itself and its neighbours.", cols: "split" });
@@ -152,6 +155,7 @@ function embed(g, method, T) {
 
 // ------------------------------------------------------------------ 4. link prediction on a real network
 (async () => {
+  if (!document.getElementById("fig-links")) return; // only on the page that shows it
   const { networks } = await loadNetworks();
   let name = "protein";
   const f = figure("#fig-links", { title: "Link prediction: which missing links are real?", sub: "Hide 10% of the links, score node pairs with four classic heuristics, and check how well each score ranks the hidden links above random non-links (AUC)." });
@@ -222,6 +226,7 @@ function spearman(a, b) {
 
 // ------------------------------------------------------------------ centralities of the karate club
 (async () => {
+  if (!document.getElementById("fig-central")) return; // only on the page that shows it
   const { graph: K, club } = await ready;
   const deg = K.degrees ? Array.from(K.degrees()) : Array.from({ length: K.n }, (_, i) => K.degree(i));
   const MEASURES = {
@@ -267,7 +272,8 @@ function spearman(a, b) {
 })();
 
 // ------------------------------------------------------------------ PageRank step by step
-{
+fig_pagerank: {
+  if (!document.getElementById("fig-pagerank")) break fig_pagerank; // only on the page that shows it
   const NAMES = ["A", "B", "C", "D", "E"];
   const GRAPHS = {
     worked: { label: "the worked example", n: 4, edges: [[0, 1], [0, 2], [1, 2], [2, 0], [3, 2]], pos: [[0, 0], [1, -0.9], [1.6, 0.4], [2.4, 1.3]] },
@@ -315,7 +321,8 @@ function spearman(a, b) {
 }
 
 // ------------------------------------------------------------------ Weisfeiler–Lehman colour refinement
-{
+fig_wl: {
+  if (!document.getElementById("fig-wl")) break fig_wl; // only on the page that shows it
   const PAIRS = {
     path: { label: "path of 5 vs triangle + link", a: { n: 5, edges: [[0, 1], [1, 2], [2, 3], [3, 4]] }, b: { n: 5, edges: [[0, 1], [1, 2], [2, 0], [3, 4]] } },
     cycle: { label: "6-cycle vs two triangles", a: { n: 6, edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0]] }, b: { n: 6, edges: [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 3]] } },

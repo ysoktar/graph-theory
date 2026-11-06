@@ -267,7 +267,7 @@ export const BOOK = [
     issue: "The denominator lacks its angle brackets: κ is the ratio of the second moment to the average degree ⟨k⟩, not to a degree k. The same typo is in the first step of (8.5); later equations of the chapter (Advanced Topics 8.B–8.C) write ⟨k⟩ correctly.",
     correction: "κ = ⟨k²⟩/⟨k⟩ > 2.",
     evidence: "LaTeX source of the online Chapter 8: \\frac{\\langle k^2\\rangle}{k} in (8.4) and (8.5), \\frac{\\langle k^2\\rangle}{\\langle k\\rangle} elsewhere.",
-    page: "robustness.html",
+    page: "robustness-failures.html",
   },
   {
     id: "B11", severity: "error", location: "Chapter 6, Section 6.4, Box 6.3, Eq. (6.16) (from fitness to a Bose gas)",
@@ -275,7 +275,7 @@ export const BOOK = [
     issue: "The minus sign is missing. The mapping must give fitter nodes lower energies, so that the fittest node is the ground state that can condense; with a plus sign the fittest node would have the highest energy. Bianconi and Barabási (2001) write ε = −(1/β) log η.",
     correction: "ε_i = −(1/β_T) log η_i.",
     evidence: "LaTeX source of the online Chapter 6: \\varepsilon _i = \\frac{1}{{\\beta _T }}\\log \\eta _i; G. Bianconi and A.-L. Barabási, Phys. Rev. Lett. 86, 5632 (2001).",
-    page: "evolving.html",
+    page: "evolving-bec.html",
   },
   {
     id: "B12", severity: "error", location: "Chapter 6, Section 6.5, Node Deletion, Eq. (6.29)",
@@ -291,7 +291,7 @@ export const BOOK = [
     issue: "The two signs are swapped. The same paragraph calls collaboration (r = 0.13) assortative and proteins (r = −0.04) disassortative, and Box 7.5 says r > 0: assortative.",
     correction: "For r > 0 the network is assortative, for r = 0 neutral, for r < 0 disassortative.",
     evidence: "Online Chapter 7: the same paragraph's examples, and Box 7.5 (At a Glance: Degree Correlations), which lists r > 0: assortative.",
-    page: "correlations.html",
+    page: "correlations-measure.html",
   },
   {
     id: "B14", severity: "error", location: "Chapter 8, Box 8.8 (At a Glance: Network Robustness), attack threshold",
@@ -299,7 +299,7 @@ export const BOOK = [
     issue: "The coefficient in front of k_min is printed as (2−γ)/(1−γ). The chapter's own Eq. (8.12) and the source it cites (Cohen, Erez, ben-Avraham and Havlin, Phys. Rev. Lett. 86, 3682, 2001) have (2−γ)/(3−γ). With the box's version, γ = 2.5 and k_min = 2 have no solution with 0 < f_c < 1; Eq. (8.12) gives f_c ≈ 0.20.",
     correction: "f_c^((2−γ)/(1−γ)) = 2 + (2−γ)/(3−γ) k_min (f_c^((3−γ)/(1−γ)) − 1), as in Eq. (8.12).",
     evidence: "Online Chapter 8: Eq. (8.12) against Box 8.8; Cohen et al. (2001), Eq. (3). Solved numerically on the Robustness page.",
-    page: "robustness.html",
+    page: "robustness-attacks.html",
   },
   {
     id: "B15", severity: "error", location: "Chapter 6, Section 6.4, Eq. (6.22) (a fitness distribution that condenses)",
@@ -307,7 +307,7 @@ export const BOOK = [
     issue: "The normalisation constant is wrong. ∫₀¹ (1 − η)^ζ dη = 1/(1 + ζ), so the prefactor must be 1 + ζ. With 1 − ζ the distribution does not integrate to 1, and for the book's own example ζ = 10 (Figure 6.9f) it is negative everywhere.",
     correction: "ρ(η) = (1 + ζ)(1 − η)^ζ. Then ∫ η ρ(η)/(1 − η) dη = 1/ζ, so the condensation condition (integral below 1) holds exactly for ζ > 1: ζ = 0.1 stays scale-free and ζ = 10 condenses, as Figure 6.9 shows.",
     evidence: "Direct integration; LaTeX source of the online Chapter 6: \\rho (\\eta ) = (1 - \\zeta )(1 - \\eta )^\\zeta.",
-    page: "evolving.html",
+    page: "evolving-bec.html",
   },
   {
     id: "B16", severity: "imprecise", location: "Chapter 8, Section 8.3, Eq. (8.9) and the caption of Figure 8.9",
@@ -315,7 +315,7 @@ export const BOOK = [
     issue: "Equation (8.9) is a continuum approximation: it replaces the sums over integer degrees by integrals starting at k_min. For small k_min this overestimates ⟨k²⟩/⟨k⟩. For a discrete power law with γ = 4 and k_min = 2, κ = 3.08 and f_c = 0.52, not κ = 4 and 2/3; simulations of 10⁵-node configuration-model networks give 0.515. The same approximation in Eq. (8.12) gives an attack threshold of 0.20 for γ = 2.5, k_min = 2, where the exact value is 0.14 (simulation 0.147).",
     correction: "Treat (8.9) and (8.12) as continuum estimates that trend correctly with γ. For integer degrees use f_c = 1 − 1/(κ − 1) with κ computed from the discrete p_k; it agrees with simulation.",
     evidence: "Exact generating-function solution and simulations on the Robustness page (Thresholds against the degree exponent).",
-    page: "robustness.html",
+    page: "robustness-failures.html",
     },
   {
     id: "B17", severity: "imprecise", location: "Chapter 6, Section 6.4 (Bose–Einstein condensation)",
@@ -323,7 +323,7 @@ export const BOOK = [
     issue: "This follows the original physics paper (Bianconi and Barabási 2001), but it was later proved false for the preferential attachment tree with fitness: the condensation is non-extensive. The condensed share of links is spread over a succession of ever fitter latecomers, each eventually overtaken, so the largest node's share tends to zero. Simulations agree: with ρ(η) = 11(1 − η)^10, where the condensate should hold 90% of new links, the largest hub of a 10⁶-node network holds about 7% and the 100 fittest nodes together hold almost none.",
     correction: "In the condensed phase (∫ η ρ(η)/(1 − η) dη < 1) a finite fraction of new links goes to nodes of fitness ever closer to the maximum, but no single node keeps a finite fraction.",
     evidence: "S. Dereich, C. Mailler and P. Mörters, “Nonextensive condensation in reinforced branching processes”, Ann. Appl. Probab. 27, 2539 (2017), arXiv:1601.08128; simulations on the Evolving networks page.",
-    page: "evolving.html",
+    page: "evolving-bec.html",
   },
   {
     id: "B18", severity: "error", location: "Chapter 6, Section 6.3, Eq. (6.12) (aging of a paper's novelty)",
@@ -331,7 +331,7 @@ export const BOOK = [
     issue: "The normalisation of the log-normal density is misprinted: t and σ_i must stand outside the square root. As printed, the density does not integrate to 1, and the factor would change the solution (6.13), which is derived from the correct log-normal.",
     correction: "P_i(t) = 1/(√(2π) σ_i t) · e^(−(ln t − μ_i)²/(2σ_i²)).",
     evidence: "LaTeX source of the online Chapter 6: \\frac{1}{{\\sqrt {2\\pi t\\sigma _i } }}; D. Wang, C. Song and A.-L. Barabási, “Quantifying long-term scientific impact”, Science 342, 127 (2013).",
-    page: "evolving.html",
+    page: "evolving-measure.html",
     },
   {
     id: "B19", severity: "format", location: "Chapter 7, Section 7.3, Eq. (7.9) (degree correlation function of a neutral network)",
@@ -339,7 +339,7 @@ export const BOOK = [
     issue: "The last denominator lacks its angle brackets. The sum Σ k'² p(k')/⟨k⟩ is ⟨k²⟩/⟨k⟩, a constant; with k in the denominator k_nn(k) would fall as 1/k, the opposite of the point of the equation (a neutral network has a flat k_nn). The text right after it says “a horizontal line at ⟨k²⟩/⟨k⟩”.",
     correction: "k_nn(k) = ⟨k²⟩/⟨k⟩.",
     evidence: "LaTeX source of the online Chapter 7: \\frac{{\\left\\langle {k^2 } \\right\\rangle }}{k}; the sentence after (7.9) and Box 7.1.",
-    page: "correlations.html",
+    page: "correlations-measure.html",
   },
   {
     id: "B20", severity: "error", location: "Chapter 7, Section 7.6, Eq. (7.18) (initial attractiveness model, −m < A < 0)",
@@ -347,7 +347,7 @@ export const BOOK = [
     issue: "The minus sign is missing. In this regime A is negative, so Eq. (7.17) has k^(A/m) = k^(−|A|/m), which decreases with k, and the text calls the network disassortative. A positive exponent |A|/m would make k_nn rise with k, which is assortative.",
     correction: "k_nn(k) ∼ k^(−|A|/m).",
     evidence: "LaTeX source of the online Chapter 7: k^{\\frac{{|A|}}{m}} in (7.18) against k^{\\frac{A}{m}} in (7.17); the surrounding text (“the resulting network is disassortative, k_nn(k) decaying”).",
-    page: "correlations.html",
+    page: "correlations-models.html",
   },
 ];
 

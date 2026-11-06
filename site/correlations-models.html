@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correlated models and their impact · From Graphs to Hubs</title>
+<meta name="description" content="The correlations of every model of the course, the Xalvi-Brunet–Sokolov algorithm, and how correlations change the giant component, distances and robustness.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/correlations.js"></script>
+</head>
+<body data-page="correlations-models">
+<main><div class="content">
+
+<h1>Correlated networks: models and impact</h1>
+<p class="lead">Which models produce correlations, and how can we build a network with the correlations we want? Section 7.6 answers both; Section 7.7 asks why it matters, and finds that correlations move the giant-component transition itself.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Every model of the course has a known correlation pattern; most are neutral or structurally disassortative.</li>
+    <li>The Xalvi-Brunet–Sokolov algorithm tunes correlations while keeping every degree.</li>
+    <li>Assortative and disassortative networks with identical degrees connect, spread and break differently.</li>
+  </ul>
+</div>
+
+<h2>Generating correlated networks (Section 7.6)</h2>
+<table class="simple">
+  <thead><tr><th>Model</th><th>Correlations</th></tr></thead>
+  <tbody>
+    <tr><td>Erdős–Rényi</td><td>neutral: $k_{nn} = 1 + \langle k\rangle$; no hubs, no structural effect</td></tr>
+    <tr><td>configuration model</td><td>neutral with multi-links; structurally disassortative when made simple</td></tr>
+    <tr><td>hidden parameters (simple)</td><td>$k_{nn}(k) \sim k^{-1}$, $\mu = -1$ (7.16)</td></tr>
+    <tr><td>BA ($A = 0$)</td><td>neutral for large $N$: $k_{nn} \approx \frac m2 \ln N$, independent of $k$ (7.19)</td></tr>
+    <tr><td>initial attractiveness, $-m &lt; A &lt; 0$ ($\gamma &lt; 3$)</td><td>disassortative: $k_{nn}(k) \sim N^{A/(2m+A)} k^{A/m} = N^{A/(2m+A)} k^{-|A|/m}$ (7.17–7.18)</td></tr>
+    <tr><td>initial attractiveness, $A > 0$ ($\gamma > 3$)</td><td>weakly assortative: $k_{nn}(k) \approx (m + A)\ln\frac{k}{m+A}$ (7.20)</td></tr>
+    <tr><td>Bianconi–Barabási, uniform fitness</td><td>disassortative, $\mu \approx -0.5$, mostly structural</td></tr>
+  </tbody>
+</table>
+<div class="callout fix" data-book="B20"></div>
+<p data-beyond="our simulations">The BA entry is a continuum result. With the exact discrete degrees, $\langle k^2\rangle/\langle k\rangle$ grows as $\frac{m+1}{2}\ln N$, and finite BA networks are slightly disassortative, drifting to neutral: for $m = 2$, $r = -0.09$ at $N = 10^3$, $-0.04$ at $10^4$ and $-0.02$ at $10^5$.</p>
+
+<h3>Tuning correlations: the Xalvi-Brunet–Sokolov algorithm</h3>
+<ol>
+  <li><strong>Link selection.</strong> Pick two links at random. Label their four end nodes so that $k_a \ge k_b \ge k_c \ge k_d$.</li>
+  <li><strong>Rewiring.</strong> With probability $p$: for assortativity link $a$–$b$ and $c$–$d$ (similar degrees together); for disassortativity link $a$–$d$ and $b$–$c$ (big with small). Otherwise pair them at random.</li>
+  <li><strong>Simplicity.</strong> Reject a rewiring that would create a multi-link, and repeat.</li>
+</ol>
+<p>Every node keeps its degree. $p = 1$ drives the network to the strongest correlations its degrees allow; smaller $p$ tunes the strength. Assortativity is harder than disassortativity: in a simple scale-free network the hubs run out of hub partners above $k_s$, so a maximally assortative network has $k_{nn}$ rising for small $k$ and falling for large $k$, like the citation network.</p>
+
+<h2>Why correlations matter (Section 7.7)</h2>
+<div data-fig id="fig-giant"></div>
+<ul>
+  <li><strong>Giant component:</strong> assortative networks form it at a smaller $\langle k\rangle$, because the hubs find each other; at larger $\langle k\rangle$ their giant component is smaller, because the hubs are busy with each other and fail to pull in the many small nodes. Disassortative networks do the opposite.</li>
+  <li><strong>Distances:</strong> assortativity shortens the average path a little but stretches the diameter: small nodes link to small nodes and form long chains. Disassortative networks have the smallest diameter.</li>
+  <li><strong>Epidemics:</strong> an assortative hub core is a reservoir that keeps a disease alive even when the network as a whole is too sparse (<a href="epidemics.html">Chapter 10</a>).</li>
+  <li><strong>Robustness:</strong> removing hubs does less damage in assortative networks, where the hubs back each other up, and more in disassortative ones, where each hub holds its own spokes (<a href="robustness.html">Chapter 8</a>).</li>
+  <li>Correlations also change synchronization, the minimum vertex cover (Box 7.4) and how many inputs are needed to control a network.</li>
+</ul>
+
+<h2>Summary (Section 7.8)</h2>
+<table class="simple">
+  <thead><tr><th></th><th>Assortative</th><th>Neutral</th><th>Disassortative</th></tr></thead>
+  <tbody>
+    <tr><td>$e_{jk}$</td><td>heavy diagonal</td><td>$q_j q_k$</td><td>heavy anti-diagonal</td></tr>
+    <tr><td>$k_{nn}(k)$</td><td>rises</td><td>flat at $\langle k^2\rangle/\langle k\rangle$</td><td>falls</td></tr>
+    <tr><td>$\mu$, $r$</td><td>$> 0$</td><td>$0$</td><td>$&lt; 0$</td></tr>
+    <tr><td>examples</td><td>social networks, Internet (small $k$)</td><td>power grid</td><td>email, proteins, metabolism, WWW</td></tr>
+  </tbody>
+</table>
+<p>Correlations are two-point information: who is linked to whom by degree. Clustering by degree, $C(k)$, is three-point information, and in principle there is no end to the hierarchy (Box 7.6).</p>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Null model:</strong> <a href="ch4-generating.html">degree-preserving randomization</a> keeps degrees, erases correlations.</li>
+    <li><strong>Same ratio</strong> $\langle k^2\rangle/\langle k\rangle$: neutral $k_{nn}$, Molloy–Reed $\kappa$ (<a href="robustness.html">Robustness</a>), epidemic threshold (<a href="epidemics.html">Spreading</a>).</li>
+    <li><strong>Models:</strong> random, configuration and large BA networks are neutral ($r \to 0$); assortativity needs extra ingredients such as <a href="communities.html">communities</a>.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Why are social networks assortative and technological or biological ones disassortative?</p>
+  <div class="hint">Homophily and group membership link similar people. Technological hubs (routers, airports, central metabolites) exist to serve many small nodes, and the structural cutoff adds disassortativity.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Two networks have the same Poisson degrees with $\langle k\rangle = 1$, one rewired to be assortative, the other disassortative. Which has the larger giant component?</p>
+  <ol>
+    <li data-why="Hubs linked to small nodes spread out and connect late.">The disassortative one</li>
+    <li data-why="Correlations move the transition, so sizes differ.">They are equal, since the degrees are equal</li>
+    <li data-why="At ⟨k⟩ = 1 the assortative hub core already percolates.">Neither has one</li>
+    <li>The assortative one: its hubs link up into a core early</li>
+  </ol>
+  <div class="explain">Assortativity moves the transition to a lower $\langle k\rangle$ (in the figure above, about 22% against 1% at $\langle k\rangle = 1$). At large $\langle k\rangle$ the order reverses.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>In the initial attractiveness model, $\Pi(k) \sim A + k$ with $-m &lt; A &lt; 0$ (so $\gamma &lt; 3$). What degree correlations does the grown network have?</p>
+  <ol>
+    <li>Disassortative: $k_{nn}(k) \sim k^{-|A|/m}$ falls with $k$</li>
+    <li data-why="That is the book's misprint of Eq. (7.18); A &lt; 0 makes the exponent A/m negative.">Assortative: $k_{nn}(k) \sim k^{|A|/m}$ rises with $k$</li>
+    <li data-why="Neutral is the case A = 0, the BA model.">Neutral: $k_{nn} \approx \frac m2 \ln N$</li>
+    <li data-why="That is the regime A > 0, where γ > 3.">Weakly assortative: $k_{nn} \approx (m + A)\ln\frac{k}{m+A}$</li>
+  </ol>
+  <div class="explain">Eq. (7.17) has $k^{A/m}$, and $A &lt; 0$ makes it $k^{-|A|/m}$: hubs link to small nodes.</div>
+</div>
+</div></main>
+</body>
+</html>

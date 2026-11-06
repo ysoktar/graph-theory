@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Robustness &amp; attacks · From Graphs to Hubs</title>
-<meta name="description" content="Random failures against targeted attacks: percolation, the Molloy–Reed criterion, why scale-free networks are robust and fragile at once, tested on the book's networks.">
+<title>Robustness and percolation · From Graphs to Hubs</title>
+<meta name="description" content="How many nodes can a network lose? Random failures against attacks, and percolation theory: the critical point and its universal exponents.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -17,7 +17,7 @@
 <body data-page="robustness">
 <main><div class="content">
 
-<h1>Robustness &amp; attacks</h1>
+<h1>Robustness and percolation</h1>
 <p class="lead">How many nodes can a network lose before it falls apart? It depends on <em>which</em> nodes: scale-free networks are very hard to break by accident and very easy to break on purpose (Chapter 8).</p>
 <div class="callout why">
   <ul>
@@ -46,230 +46,25 @@
   <li><strong>Targeted attacks:</strong> nodes are removed in order of degree, largest first.</li>
 </ul>
 
-<h2>The Molloy–Reed criterion</h2>
-<p>When does a network with a given degree distribution have a giant component? Follow a path into the network: it continues only if the node it reaches has at least one more link.</p>
-<ol>
-  <li>A random link leads to a node of degree $k$ with probability $q_k = k\,p_k/\langle k\rangle$: high-degree nodes are reached more often.</li>
-  <li>The average degree of the node reached is therefore $\sum_k k\,q_k = \langle k^2\rangle/\langle k\rangle$ (the <a href="correlations.html">friendship paradox</a>).</li>
-  <li>One of its links is the one we arrived on. For the path to go on, at least one more is needed on average: the node must have degree 2 or more.</li>
-</ol>
-<div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 .$$</div>
-<dl class="symbols">
-  <dt>$\kappa$</dt><dd>mean degree of a node reached along a random link</dd>
-  <dt>$\langle k\rangle$, $\langle k^2\rangle$</dt><dd>mean degree and mean squared degree; $\langle k^2\rangle$ is large when there are hubs (<a href="ch4-moments.html">Ch 4</a>)</dd>
-  <dt>$2$</dt><dd>one link in, at least one out</dd>
-</dl>
-<p>It assumes random wiring given the degrees (the configuration model). For a random network $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, so $\kappa = 1 + \langle k\rangle$ and the criterion becomes $\langle k\rangle > 1$, the giant-component threshold of <a href="ch3-evolution.html">Chapter 3</a>.</p>
-<div class="callout fix" data-book="B10"></div>
-
-<h2>The critical fraction</h2>
-<p>Remove a fraction $f$ of the nodes at random. A surviving node of degree $k$ keeps each of its links with probability $1 - f$, so its degree becomes binomial. The moments of the new distribution are (Advanced Topic 8.C)</p>
-<div class="eq">$$\langle k\rangle_f = (1-f)\langle k\rangle, \qquad \langle k^2\rangle_f = (1-f)^2\langle k^2\rangle + f(1-f)\langle k\rangle, \qquad \kappa_f = (1-f)\,\kappa + f .$$</div>
-<p data-beyond="Book Advanced Topic 8.C">The giant component disappears when $\kappa_f = 2$. Solving for $f$:</p>
-<div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}, \qquad f_c^{ER} = 1 - \frac{1}{\langle k\rangle}\ \text{(random network)}.$$</div>
-<dl class="symbols"><dt>$f_c$</dt><dd>fraction of random failures that destroys the giant component; it depends only on $\langle k\rangle$ and $\langle k^2\rangle$</dd></dl>
-<p>For a power law $p_k \sim k^{-\gamma}$ starting at $k_{\min}$ (continuum approximation, Eq. 8.9):</p>
-<div class="eq">$$f_c = \begin{cases} 1 - \dfrac{1}{\frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma} - 1} & 2 < \gamma < 3\\[3mm] 1 - \dfrac{1}{\frac{\gamma-2}{\gamma-3}\,k_{\min} - 1} & \gamma > 3 \end{cases} \qquad\Rightarrow\qquad f_c \approx 1 - \frac{C}{N^{(3-\gamma)/(\gamma-1)}}\ \ (2 < \gamma < 3).$$</div>
-<dl class="symbols">
-  <dt>$k_{\max}$</dt><dd>the natural cutoff $k_{\min}N^{1/(\gamma-1)}$; it grows with $N$, so $\kappa \to \infty$ and $f_c \to 1$</dd>
-  <dt>$C$</dt><dd>a constant that collects everything independent of $N$ (Eq. 8.10)</dd>
-</dl>
-<div class="callout example">
-  <p><strong>Worked example: the Internet.</strong></p>
+<div class="quiz" data-answer="4">
+  <p>Each site of a large square lattice is occupied with probability $p = 0.55$ ($p_c \approx 0.593$). What do you see?</p>
   <ol>
-    <li>Given: $\langle k\rangle = 6.34$ and $\langle k^2\rangle = 240.1$ for the router map ($N = 192{,}244$).</li>
-    <li>$\kappa = 240.1/6.34 = 37.9$, far above 2.</li>
-    <li>$f_c = 1 - 1/(37.9 - 1) = 1 - 1/36.9 = 0.973$.</li>
-    <li>A random network with the same $\langle k\rangle$: $f_c^{ER} = 1 - 1/6.34 = 0.842$.</li>
-    <li>Meaning: 97% of the routers, about 187,000, must fail at random to fragment it. The hubs supply the extra robustness.</li>
+    <li data-why="A spanning cluster appears only at p ≥ p_c.">One cluster spanning the lattice</li>
+    <li data-why="Even above p_c, some occupied sites sit in small isolated clusters.">Every occupied site in one cluster</li>
+    <li data-why="More than half the sites are occupied, so neighbouring occupied sites do form clusters.">No clusters at all</li>
+    <li>Only finite clusters; they are large, because $p$ is close to $p_c$, where the average cluster size diverges</li>
   </ol>
-</div>
-<div class="callout example">
-  <p><strong>Worked example: when the network stops being special.</strong> For $\gamma = 4$ and $k_{\min} = 2$, the continuum formula gives $\kappa = \frac{2}{1}\cdot 2 = 4$ and $f_c = 1 - 1/3 = 2/3$, independent of $N$: above $\gamma = 3$ a scale-free network breaks after a finite fraction of failures, like a random one.</p>
-</div>
-<div class="callout fix" data-book="B16"></div>
-<div id="tbl-fc"></div>
-
-<h2>Choose a degree distribution</h2>
-<p>Everything above follows from two numbers, $\langle k\rangle$ and $\langle k^2\rangle$, so the shape of $p_k$ decides robustness. Compare distributions with the same average degree:</p>
-<div data-fig id="fig-calc"></div>
-
-<h2>The book's networks</h2>
-<div data-fig id="fig-real"></div>
-<div class="callout look">
-  <ul>
-    <li>Random failures: heavy-tailed networks keep a giant component far beyond the random network's threshold.</li>
-    <li>Attacks: the same networks collapse after a few per cent.</li>
-    <li>The power grid has no hubs and is fragile to both.</li>
-  </ul>
-</div>
-
-<h2>Attacks</h2>
-<p>An attack removes the hubs first. That changes the network in two ways: the largest degree drops from $k_{\max}$ to a smaller $k'_{\max}$, and the nodes that were linked to the removed hubs lose those links. Seen from the survivors, losing these links is like random link removal, so the attack can be mapped back onto the random-failure calculation. For a power law the threshold solves (Eq. 8.12, Cohen et al. 2001)</p>
-<div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big).$$</div>
-<dl class="symbols">
-  <dt>$f_c$</dt><dd>here the fraction of highest-degree nodes removed; a few per cent to some tens of per cent</dd>
-</dl>
-<div class="callout fix" data-book="B14"></div>
-<div class="callout example">
-  <p><strong>Worked example: $\gamma = 2.5$, $k_{\min} = 2$.</strong></p>
-  <ol>
-    <li>The exponents are $\frac{2-\gamma}{1-\gamma} = \frac13$ and $\frac{3-\gamma}{1-\gamma} = -\frac13$; the coefficient is $\frac{2-\gamma}{3-\gamma} = -1$.</li>
-    <li>With $x = f_c^{1/3}$ the equation reads $x = 2 - 2\,(1/x - 1)$, that is $x^2 - 4x + 2 = 0$.</li>
-    <li>The root below 1 is $x = 2 - \sqrt2 = 0.586$, so $f_c = x^3 = 0.20$.</li>
-    <li>Meaning: the same network that survives the random loss of almost all its nodes falls apart once its top 20% are removed (exactly: 14%, as the figure below shows).</li>
-  </ol>
-</div>
-<div data-fig id="fig-gamma"></div>
-<div class="callout key">
-  <p><em>Robust yet fragile</em>: a random failure almost never hits a hub; an attack removes the hubs that hold everything together. The property that protects the network, its hubs, is also its Achilles' heel.</p>
-</div>
-
-<h2>Cascading failures</h2>
-<p>So far nodes failed independently. In real systems a failure moves load onto neighbours, which may then fail too: the 2003 blackout, flight delays spreading through airline hubs, retweet cascades. Their sizes have no typical scale: the probability of a cascade of size $s$ is a power law</p>
-<div class="eq">$$p(s) \sim s^{-\alpha},$$</div>
-<p>with measured exponents between 1.5 and 2 for blackouts, Twitter cascades and earthquakes. Cascades need three ingredients: a <strong>flow</strong> on the network, a <strong>local breakdown rule</strong>, and a <strong>redistribution</strong> of the load when something fails.</p>
-<p><strong>Failure propagation model</strong> (Watts 2002). Every node has the same threshold $\varphi$: a healthy node fails as soon as a fraction $\varphi$ of its neighbours have failed. Start with one failed node and let the failure spread.</p>
-<div data-fig id="fig-cascade"></div>
-<p><strong>Branching model.</strong> To see where the exponent comes from, treat a cascade as a tree: the first failure is the root, and each failed node triggers $k$ new failures with probability $p_k$. If on average each failure causes fewer than one new failure, avalanches die out (subcritical); more than one, they grow forever (supercritical); exactly one, they have sizes of every scale (critical). At the critical point</p>
-<div class="eq">$$\alpha = \begin{cases} 3/2 & p_k \text{ narrow, or a power law with } \gamma \ge 3\\ \gamma/(\gamma-1) & p_k \sim k^{-\gamma},\ 2 < \gamma < 3 \end{cases}$$</div>
-<dl class="symbols">
-  <dt>$\alpha$</dt><dd>avalanche exponent; $3/2$ is the first-return time of a random walk, which counts active failures</dd>
-  <dt>$\gamma$</dt><dd>degree exponent of the network the cascade runs on</dd>
-</dl>
-<div data-fig id="fig-branch"></div>
-
-<h2>Building robustness</h2>
-<p>Suppose links cost money, so the average degree $\langle k\rangle$ is fixed. Random failures are best resisted by the largest $\langle k^2\rangle$, attacks by having no hubs at all. To resist both, maximise the sum of the two thresholds (Eq. 8.16)</p>
-<div class="eq">$$f_c^{tot} = f_c^{rand} + f_c^{targ}.$$</div>
-<p>The optimum is a bimodal degree distribution (Eq. 8.17–8.18): a fraction $r$ of nodes with degree $k_{\max}$ and the rest with degree $k_{\min}$,</p>
-<div class="eq">$$p_k = (1-r)\,\delta(k - k_{\min}) + r\,\delta(k - k_{\max}), \qquad r = \frac1N, \qquad k_{\max} \approx A\,N^{2/3}.$$</div>
-<dl class="symbols">
-  <dt>$r$</dt><dd>share of hub nodes; at the optimum a single hub</dd>
-  <dt>$k_{\max}$</dt><dd>degree of the hub; $A$ is a constant</dd>
-</dl>
-<div class="callout example">
-  <p><strong>Worked example: the cost of a backup.</strong> A star with a hub and 6 spokes has 6 links among 7 nodes: cost $\langle k\rangle = 12/7$. One attack on the hub isolates every spoke. Linking the spokes into a ring adds 6 links, $\langle k\rangle = 24/7$: the cost doubles, but the network survives the loss of its hub. Try the bimodal option in <a href="#fig-calc">Choose a degree distribution</a>: with $r = 1/N$ and a large enough $k_{\min}$, failure and attack curves nearly coincide.</p>
-</div>
-<p><strong>Halting cascades</strong> (Box 8.4). New lines take years to build; a cascade takes seconds. Simulations show that removing a few well-chosen components right after the first failure (lightly loaded nodes, links with large excess load near the failure) can stop the cascade, as firefighters burn a firebreak.</p>
-<div class="callout note">
-  <p><strong>Robust, resilient, redundant</strong> (Box 8.5). A system is <em>robust</em> if it keeps working when components fail, <em>resilient</em> if it adapts its mode of operation to keep working, and <em>redundant</em> if parallel components can stand in for missing ones. Many independent paths between node pairs make networks redundant.</p>
-</div>
-
-<div class="callout connect">
-  <ul>
-    <li><strong>Reverse of</strong> the <a href="ch3-evolution.html">giant-component transition</a>: for a random network $\kappa = 2$ is $\langle k\rangle = 1$.</li>
-    <li><strong>Builds on</strong> the <a href="ch4-moments.html">divergent $\langle k^2\rangle$</a> for $\gamma &lt; 3$.</li>
-    <li><strong>Same formula as</strong> the <a href="epidemics.html">epidemic threshold</a>: $T_c = 1 - f_c$.</li>
-    <li><strong>Modified by</strong> <a href="correlations.html">degree correlations</a>: linked hubs back each other up.</li>
-  </ul>
-</div>
-
-<div class="callout discuss">
-  <p>You can add links but not remove hubs. How would you resist attacks without becoming fragile to failures?</p>
-  <div class="hint">Section 8.7: a bimodal degree distribution (a few hubs, many equal nodes) maximises the combined threshold. Links between medium-degree nodes add paths that bypass hubs.</div>
-</div>
-
-<div class="quiz" data-answer="3">
-  <p>A random network has $\langle k\rangle = 4$. What fraction of random failures destroys its giant component?</p>
-  <ol>
-    <li data-why="That leaves ⟨k⟩ = 3.">25%</li>
-    <li data-why="That leaves ⟨k⟩ = 2, still above 1.">50%</li>
-    <li>75%</li>
-    <li data-why="It breaks once ⟨k⟩ reaches 1.">100%</li>
-  </ol>
-  <div class="explain">$f_c = 1 - 1/4 = 75\%$; the survivors have $\langle k\rangle = 1$.</div>
+  <div class="explain">Below $p_c$ there is no spanning cluster. Near $p_c$ the finite clusters grow like $|p - p_c|^{-\gamma_p}$: the transition announces itself.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>A randomly wired network has $\langle k\rangle = 5$ and $\langle k^2\rangle = 255$. What fraction $f_c$ of random failures destroys its giant component?</p>
+  <p>Site percolation on a triangular lattice has $p_c = 0.5$, not the square lattice's $0.593$. What is its exponent $\beta_p$ in $P_\infty \sim (p - p_c)^{\beta_p}$?</p>
   <ol>
-    <li data-why="That is 1 − 1/⟨k⟩, ignoring hubs.">80%</li>
-    <li>98%</li>
-    <li data-why="κ = 51 is a ratio, not a percentage.">51%</li>
-    <li data-why="A large ⟨k²⟩ makes the network robust, not fragile.">2%</li>
+    <li data-why="Exponents do not follow p_c; they depend only on the dimension.">Larger, because $p_c$ is smaller</li>
+    <li>The same $5/36$: critical exponents are universal in two dimensions, while $p_c$ depends on the lattice</li>
+    <li data-why="Universality: every two-dimensional lattice shares γ_p, β_p and ν.">It depends on the lattice, like $p_c$</li>
+    <li data-why="Every lattice percolates at its own p_c.">It has no exponent: triangular lattices do not percolate</li>
   </ol>
-  <div class="explain">$\kappa = 255/5 = 51$, so $f_c = 1 - 1/(51 - 1) = 98\%$. The hubs keep the network together until almost every node has failed.</div>
-</div>
-<div class="quiz" data-answer="4">
-  <p>Why does removing the top 1% of hubs do far more damage than a random 1%?</p>
-  <ol>
-    <li data-why="Both remove the same number.">More nodes are removed</li>
-    <li data-why="Hubs are rare, so random failures miss them.">Hubs fail more often</li>
-    <li data-why="Small nodes contribute little to ⟨k²⟩.">Small nodes hold it together</li>
-    <li>Hubs dominate $\langle k^2\rangle$, so $\kappa$ collapses</li>
-  </ol>
-  <div class="explain">Removing hubs drives $\kappa$ to 2 within a few per cent; random removal barely changes it.</div>
-</div>
-<div class="quiz" data-answer="1">
-  <p>The power grid ($\kappa = 3.9$) breaks well before the Molloy–Reed $f_c = 65\%$. Why?</p>
-  <ol>
-    <li>It is spatial, not randomly wired: long chains, few alternative paths</li>
-    <li data-why="The formula fits random networks of this size well.">It is too small</li>
-    <li data-why="It has no large hubs.">Its hubs fail first</li>
-    <li data-why="⟨k⟩ and ⟨k²⟩ are exact from the data.">Degrees are mismeasured</li>
-  </ol>
-  <div class="explain">Molloy–Reed assumes random wiring. The grid is stretched ($\langle d\rangle = 18.8$) and splits after about a third of its nodes fail.</div>
-</div>
-
-<div class="quiz" data-answer="1">
-  <p>A randomly wired network has $\kappa = 3$. What is its critical fraction $f_c$ for random failures?</p>
-  <ol>
-    <li>50%</li>
-    <li data-why="That is 1 − 1/κ; use κ − 1.">67%</li>
-    <li data-why="That is 1/κ.">33%</li>
-    <li data-why="κ &gt; 2, so a giant component exists.">0%</li>
-  </ol>
-  <div class="explain">$f_c = 1 - 1/(3 - 1) = 50\%$.</div>
-</div>
-<div class="quiz" data-answer="4">
-  <p>Half the nodes have degree 1 and half have degree 2, so $\langle k\rangle = 1.5$ and $\langle k^2\rangle = 2.5$. Does a randomly wired network with these degrees have a giant component?</p>
-  <ol>
-    <li data-why="⟨k⟩ &gt; 1 is the criterion for Poisson degrees only.">Yes, since $\langle k\rangle > 1$</li>
-    <li data-why="The threshold is κ = 2.">Yes, since $\kappa > 1$</li>
-    <li data-why="Molloy–Reed decides from these two moments.">Cannot tell</li>
-    <li>No: $\kappa = 1.67 &lt; 2$</li>
-  </ol>
-  <div class="explain">With no node of degree 3 or more, paths never branch: only chains form.</div>
-</div>
-<div class="quiz" data-answer="3">
-  <p>Under a targeted attack (largest degree first), which breaks apart first: a scale-free network or a random network with the same $N$ and $\langle k\rangle$?</p>
-  <ol>
-    <li data-why="Scale-free networks are robust to random failures, not to attacks.">The random network</li>
-    <li data-why="Their degree distributions differ, so their thresholds differ.">Both at the same point</li>
-    <li>The scale-free network</li>
-    <li data-why="Removing enough nodes breaks any network.">Neither breaks</li>
-  </ol>
-  <div class="explain">Its few hubs carry most of $\langle k^2\rangle$; removing them collapses $\kappa$ (Section 8.4).</div>
-</div>
-<div class="quiz" data-answer="2">
-  <p>In the failure propagation model every node fails once a fraction $\varphi = 0.2$ of its neighbours have failed. A node with 3 neighbours has one failed neighbour. A node with 10 neighbours has one failed neighbour. Which of them fails?</p>
-  <ol>
-    <li data-why="The 10-neighbour node has only 1/10 = 0.1 of its neighbours failed, below 0.2.">Both</li>
-    <li>Only the node with 3 neighbours: $1/3 \ge 0.2$, while $1/10 &lt; 0.2$</li>
-    <li data-why="1/3 = 0.33 is above the threshold 0.2.">Only the node with 10 neighbours</li>
-    <li data-why="1/3 is above 0.2, so the small node fails.">Neither</li>
-  </ol>
-  <div class="explain">Low-degree nodes are the vulnerable ones: a single failed neighbour is a large share of their links. Dense networks protect their nodes, which is why cascades die out when $\langle k\rangle$ is large.</div>
-</div>
-<div class="quiz" data-answer="3">
-  <p>Cascades on a network with degree exponent $\gamma = 2.2$ follow the branching model at its critical point, so $p(s) \sim s^{-\alpha}$ with $\alpha = \gamma/(\gamma - 1)$. What is $\alpha$, and what does it mean compared with a random network?</p>
-  <ol>
-    <li data-why="That is the random-network value, which holds only for γ ≥ 3.">$\alpha = 1.5$, the same as for a random network</li>
-    <li data-why="γ/(γ − 1) = 2.2/1.2 ≈ 1.83, not 2.2.">$\alpha = 2.2$: cascades are as broad as the degrees</li>
-    <li>$\alpha \approx 1.83$: the tail falls faster than for a random network ($1.5$), but there is still no typical cascade size</li>
-    <li data-why="A power law with any exponent has no typical scale; large cascades stay possible.">$\alpha \approx 1.83$: large cascades become impossible</li>
-  </ol>
-  <div class="explain">$2.2/1.2 = 1.83$. Measured exponents for blackouts, retweets and earthquakes lie between 1.5 and 2, the range the branching model predicts.</div>
-</div>
-<div class="quiz" data-answer="1">
-  <p>A network must stay connected under random failures and under attacks, and its cost $\langle k\rangle$ is fixed. Which degree distribution maximises $f_c^{rand} + f_c^{targ}$?</p>
-  <ol>
-    <li>Bimodal: one hub of degree $\sim N^{2/3}$, every other node with the same small degree</li>
-    <li data-why="A Poisson network has no hubs, so its random-failure threshold stays low.">Poisson</li>
-    <li data-why="A pure power law with γ &lt; 3 survives failures but collapses under attack.">A power law with $\gamma = 2.1$</li>
-    <li data-why="With every node equal, ⟨k²⟩ is as small as possible for that cost.">Every node with exactly $\langle k\rangle$ links</li>
-  </ol>
-  <div class="explain">At fixed $\langle k\rangle$, random-failure robustness needs a large $\langle k^2\rangle$ (a hub), while attack robustness needs the network not to depend on that hub. One hub plus equal-degree nodes balances both (Section 8.7).</div>
+  <div class="explain">Universality is why percolation theory carries over to networks: the details change where the transition happens, not how.</div>
 </div>
 </div></main>
 </body>

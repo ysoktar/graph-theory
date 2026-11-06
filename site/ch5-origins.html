@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Origins and properties of BA networks · From Graphs to Hubs</title>
+<meta name="description" content="Where preferential attachment comes from (link selection, copying, optimization), and the distances and clustering of BA networks.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/ch5-preview.js"></script>
+</head>
+<body data-page="ch5-origins">
+<main><div class="content">
+
+<h1>Where preferential attachment comes from</h1>
+<p class="lead">A new web page does not know every page's degree, yet links behave as if it did. Section 5.9 shows how preferential attachment arises from simple local rules; Section 5.10 checks the BA model's distances and clustering against real networks.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Preferential attachment is not a rule nodes follow; it emerges from random or local choices.</li>
+    <li>The model's distances match real networks, its clustering does not.</li>
+    <li>Knowing what the model gets right and wrong is what Chapter 6 builds on.</li>
+  </ul>
+</div>
+
+<h2>Where does preferential attachment come from? (Section 5.9)</h2>
+<p>Nobody computes $\Pi(k)$ before linking. Two kinds of mechanism produce it anyway.</p>
+<ul>
+  <li><strong>Link selection</strong> (local, random): a new node picks a random link and attaches to one of its two ends. The end of a random link is a degree-$k$ node with probability
+  $$q_k = \frac{k\,p_k}{\langle k\rangle},$$
+  linear in $k$: preferential attachment without knowing any degree.</li>
+  <li><strong>Copying</strong> (local, random): a new web page picks a random page $u$; with probability $p$ it links to $u$, otherwise it copies one of $u$'s links. A node is reached with probability
+  $$\Pi(k) = \frac{p}{N} + (1-p)\frac{k}{2L},$$
+  again linear. Friends of friends, copied references and duplicated genes work this way.</li>
+  <li><strong>Optimization</strong> (global, rational): a new node at a random point of a unit square links to the node $j$ that minimises a cost $C_j = \delta\,d_{ij} + h_j$, trading the distance $d_{ij}$ against the network distance $h_j$ of $j$ from a central node. Small $\delta$ gives a star, large $\delta$ ($\ge \sqrt N$) a network without hubs, and in between ($4 \le \delta \le \sqrt N$) a scale-free network: each node attracts the newcomers that land in its basin, and bigger nodes have bigger basins.</li>
+</ul>
+<div data-fig id="fig-origins"></div>
+<p class="small">Luck or reason: in the 1960s Herbert Simon (random, preferential growth) and Benoit Mandelbrot (optimization) fought over the origin of power laws in word frequencies. Both mechanisms turn out to produce linear preferential attachment.</p>
+
+<h2>Distances and clustering (Section 5.10)</h2>
+<div class="eq">$$d_{\max} \sim \frac{\ln N}{\ln\ln N}\ (m &gt; 1), \qquad \langle C\rangle \sim \frac{(\ln N)^2}{N}.$$</div>
+<dl class="symbols">
+  <dt>$d_{\max}$</dt><dd>diameter; the average distance scales the same way, slower than the random network's $\ln N$</dd>
+  <dt>$\langle C\rangle$</dt><dd>average clustering; above the random $\langle k\rangle/N$ but still vanishing for large $N$</dd>
+</dl>
+<div data-fig id="fig-dc"></div>
+<div class="callout key">
+  <p>The BA model's lesson is that structure and evolution are inseparable. Random, small-world and configuration models are like a photograph of a painting: they reproduce what a network looks like. The BA model repaints it with the original brush strokes: to explain a network's topology, model how it came to be.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li>The BA model <strong>explains</strong> the <a href="ch4-power-laws.html">power law</a> of Chapter 4. Its exponent $\gamma = 3$ lies on the border of the <a href="ch4-exponent.html">scale-free regime</a>, where $\langle k^2\rangle$ grows only like $\ln N$.</li>
+    <li>It <strong>generates</strong> the degree sequence that the <a href="ch4-generating.html">configuration model</a> takes as input; its old nodes are also linked to each other in a non-random way.</li>
+    <li>The <a href="evolving.html">fitness model</a> <strong>generalizes</strong> it: nodes grow at different rates, so latecomers can win.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>The BA model always gives $\gamma = 3$, yet the book's networks have exponents from 1.9 to 4.8 and much higher clustering. What is the model missing?</p>
+  <div class="hint">Possible ingredients are fitness (<a href="evolving.html">Ch 6</a>), links that are added or removed between existing nodes, nonlinear attachment $\Pi \sim k^\alpha$ (with $\alpha \ne 1$ the power law breaks down) and ageing. The clustering of the BA model vanishes as $(\ln N)^2/N$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>In the link selection model a new node picks a random link and attaches to one of its ends. The end of a random link is a degree-$k$ node with probability $q_k = k\,p_k/\langle k\rangle$. Why does this model produce a scale-free network?</p>
+  <ol>
+    <li data-why="The new node never looks at degrees; it only picks a link.">The new node chooses the node with the most links</li>
+    <li data-why="Growth alone gives an exponential distribution (Model A).">Because the network grows</li>
+    <li data-why="Links are picked uniformly at random; nothing is optimised.">It minimises the distance to the centre</li>
+    <li>Hubs sit at the end of many links, so a random link reaches a node with probability proportional to its degree: preferential attachment without any rule</li>
+  </ol>
+  <div class="explain">$q_k \propto k$ is linear preferential attachment in disguise. Together with growth it reproduces the BA model and $\gamma = 3$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>The BA model gives $\langle C\rangle \sim (\ln N)^2/N$. What happens to its clustering when the network grows from $10^4$ to $10^6$ nodes, and what does that say about the model?</p>
+  <ol>
+    <li data-why="A factor N in the denominator makes it fall; only (ln N)² grows, slowly.">It stays about the same, like real networks</li>
+    <li>It falls about 40-fold, from $8.5\times10^{-3}$ to $1.9\times10^{-4}$, while real networks keep $\langle C\rangle$ roughly constant: the model does not explain clustering</li>
+    <li data-why="The numerator grows like (ln N)², far slower than the denominator N.">It grows, because $(\ln N)^2$ grows</li>
+    <li data-why="The (ln N)² factor keeps BA a little above a random network of the same size.">It falls exactly like a random network, $\propto 1/N$</li>
+  </ol>
+  <div class="explain">$(\ln 10^4)^2/10^4 = 84.8/10^4$ and $(\ln 10^6)^2/10^6 = 191/10^6$. BA reproduces hubs and small distances but not the clustering of real networks.</div>
+</div>
+</div></main>
+</body>
+</html>

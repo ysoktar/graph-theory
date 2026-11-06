@@ -521,7 +521,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** LaTeX source of the online Chapter 8: \frac{\langle k^2\rangle}{k} in (8.4) and (8.5), \frac{\langle k^2\rangle}{\langle k\rangle} elsewhere.
 
-**On the website:** [robustness](https://ysoktar.github.io/graph-theory/robustness.html)
+**On the website:** [robustness-failures](https://ysoktar.github.io/graph-theory/robustness-failures.html)
 
 ### B11
 
@@ -535,7 +535,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** LaTeX source of the online Chapter 6: \varepsilon _i = \frac{1}{{\beta _T }}\log \eta _i; G. Bianconi and A.-L. Barabási, Phys. Rev. Lett. 86, 5632 (2001).
 
-**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+**On the website:** [evolving-bec](https://ysoktar.github.io/graph-theory/evolving-bec.html)
 
 ### B12
 
@@ -563,7 +563,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** Online Chapter 7: the same paragraph's examples, and Box 7.5 (At a Glance: Degree Correlations), which lists r > 0: assortative.
 
-**On the website:** [correlations](https://ysoktar.github.io/graph-theory/correlations.html)
+**On the website:** [correlations-measure](https://ysoktar.github.io/graph-theory/correlations-measure.html)
 
 ### B14
 
@@ -577,7 +577,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** Online Chapter 8: Eq. (8.12) against Box 8.8; Cohen et al. (2001), Eq. (3). Solved numerically on the Robustness page.
 
-**On the website:** [robustness](https://ysoktar.github.io/graph-theory/robustness.html)
+**On the website:** [robustness-attacks](https://ysoktar.github.io/graph-theory/robustness-attacks.html)
 
 ### B15
 
@@ -591,7 +591,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** Direct integration; LaTeX source of the online Chapter 6: \rho (\eta ) = (1 - \zeta )(1 - \eta )^\zeta.
 
-**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+**On the website:** [evolving-bec](https://ysoktar.github.io/graph-theory/evolving-bec.html)
 
 ### B16
 
@@ -605,7 +605,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** Exact generating-function solution and simulations on the Robustness page (Thresholds against the degree exponent).
 
-**On the website:** [robustness](https://ysoktar.github.io/graph-theory/robustness.html)
+**On the website:** [robustness-failures](https://ysoktar.github.io/graph-theory/robustness-failures.html)
 
 ### B17
 
@@ -619,7 +619,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** S. Dereich, C. Mailler and P. Mörters, “Nonextensive condensation in reinforced branching processes”, Ann. Appl. Probab. 27, 2539 (2017), arXiv:1601.08128; simulations on the Evolving networks page.
 
-**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+**On the website:** [evolving-bec](https://ysoktar.github.io/graph-theory/evolving-bec.html)
 
 ### B18
 
@@ -633,7 +633,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** LaTeX source of the online Chapter 6: \frac{1}{{\sqrt {2\pi t\sigma _i } }}; D. Wang, C. Song and A.-L. Barabási, “Quantifying long-term scientific impact”, Science 342, 127 (2013).
 
-**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+**On the website:** [evolving-measure](https://ysoktar.github.io/graph-theory/evolving-measure.html)
 
 ### B19
 
@@ -647,7 +647,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** LaTeX source of the online Chapter 7: \frac{{\left\langle {k^2 } \right\rangle }}{k}; the sentence after (7.9) and Box 7.1.
 
-**On the website:** [correlations](https://ysoktar.github.io/graph-theory/correlations.html)
+**On the website:** [correlations-measure](https://ysoktar.github.io/graph-theory/correlations-measure.html)
 
 ### B20
 
@@ -661,7 +661,7 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 
 **Evidence.** LaTeX source of the online Chapter 7: k^{\frac{{|A|}}{m}} in (7.18) against k^{\frac{A}{m}} in (7.17); the surrounding text (“the resulting network is disassortative, k_nn(k) decaying”).
 
-**On the website:** [correlations](https://ysoktar.github.io/graph-theory/correlations.html)
+**On the website:** [correlations-models](https://ysoktar.github.io/graph-theory/correlations-models.html)
 
 ## Problems found in the software
 

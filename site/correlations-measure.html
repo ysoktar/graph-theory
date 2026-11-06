@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measuring correlations · From Graphs to Hubs</title>
+<meta name="description" content="The degree correlation function k_nn(k), the correlation exponent μ, the friendship paradox and the degree correlation coefficient r.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/correlations.js"></script>
+</head>
+<body data-page="correlations-measure">
+<main><div class="content">
+
+<h1>Measuring degree correlations</h1>
+<p class="lead">The correlation matrix holds everything but is hard to read. Section 7.3 compresses it: first into a function, the average neighbour degree $k_{nn}(k)$, then into single numbers, the exponent $\mu$ and the coefficient $r$.</p>
+
+<div class="callout why">
+  <ul>
+    <li>A rising, flat or falling $k_{nn}(k)$ tells the type of network at a glance.</li>
+    <li>The neutral value $\langle k^2\rangle/\langle k\rangle$ is also the friendship paradox.</li>
+    <li>$\mu$ and $r$ let us compare networks, as long as we know what each assumes.</li>
+  </ul>
+</div>
+
+<h2>The degree correlation function (Section 7.3)</h2>
+<p>For each node, average its neighbours' degrees; then average over all nodes of degree $k$:</p>
+<div class="eq">$$k_{nn}(k_i) = \frac{1}{k_i}\sum_{j} A_{ij}\, k_j \quad (7.6), \qquad k_{nn}(k) = \sum_{k'} k'\, P(k' \mid k) \quad (7.7).$$</div>
+<dl class="symbols">
+  <dt>$k_{nn}(k)$</dt><dd>mean neighbour degree of degree-$k$ nodes</dd>
+  <dt>$P(k' \mid k)$</dt><dd>probability that a neighbour of a degree-$k$ node has degree $k'$</dd>
+</dl>
+<p>For a neutral network, (7.4) and (7.5) give $P(k' \mid k) = e_{kk'}/q_k = q_{k'}$ (7.8): the neighbour does not care about $k$. Then</p>
+<div class="eq">$$k_{nn}(k) = \sum_{k'} k'\,\frac{k' p_{k'}}{\langle k\rangle} = \frac{\langle k^2\rangle}{\langle k\rangle}, \qquad (7.9)$$</div>
+<p>a horizontal line. Rising $k_{nn}$: assortative; falling: disassortative. The book fits</p>
+<div class="eq">$$k_{nn}(k) = a\,k^{\mu} \qquad (7.10)$$</div>
+<p>and reads the type from the sign of the <strong>correlation exponent</strong> $\mu$: collaboration $\mu = 0.37 \pm 0.11$ (assortative), power grid $0.04 \pm 0.05$ (neutral), metabolism $-0.76 \pm 0.04$ (disassortative).</p>
+<div class="callout fix" data-book="B19"></div>
+<div class="callout example">
+  <p><strong>Worked example 3: the friendship paradox</strong> (Box 7.1). On average your friends have more friends than you do.</p>
+  <ol>
+    <li>Random network: $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, so $k_{nn} = 1 + \langle k\rangle$: always one more than the average node.</li>
+    <li>Collaboration: $178.2/8.08 = 22.1$. A scientist has 8 co-authors on average; a co-author has 22.</li>
+    <li>Actors: $\langle k^2\rangle/\langle k\rangle = 565$. The reason is (7.3): you are $k$ times more likely to know a hub than a degree-1 node. <a href="epidemics.html">Acquaintance vaccination</a> uses exactly this.</li>
+  </ol>
+</div>
+
+<h3>The degree correlation coefficient $r$ (Box 7.2)</h3>
+<p>Newman's single number is the Pearson correlation between the degrees at the two ends of a link:</p>
+<div class="eq">$$\begin{gathered} r = \sum_{jk} \frac{jk\,(e_{jk} - q_j q_k)}{\sigma^2} \quad (7.11), \\ \sigma^2 = \sum_k k^2 q_k - \Big[\sum_k k\, q_k\Big]^2 \quad (7.12). \end{gathered}$$</div>
+<p>$-1 \le r \le 1$: positive assortative, zero neutral, negative disassortative. Collaboration $r = 0.13$, proteins $r = -0.04$, power grid $r = 0$. $r$ assumes $k_{nn}(k)$ is linear in $k$, $\mu$ that it is a power law; both cannot hold exactly, but they usually agree in sign.</p>
+<div class="callout fix" data-book="B13"></div>
+
+<div class="quiz" data-answer="2">
+  <p>A network's $k_{nn}(k)$ is flat, at the neutral value $\langle k^2\rangle/\langle k\rangle = 25$. What is its assortativity $r$, approximately?</p>
+  <ol>
+    <li data-why="That needs k_nn rising steeply.">$1$</li>
+    <li>$0$</li>
+    <li data-why="That needs k_nn falling.">$-1$</li>
+    <li data-why="r lies in [−1, 1].">$25$</li>
+  </ol>
+  <div class="explain">Flat at the neutral value: one end's degree says nothing about the other's.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>A network has $\langle k\rangle = 3$ and $\langle k^2\rangle = 30$. Pick a random link and follow it: what is the average degree of the node you reach?</p>
+  <ol>
+    <li data-why="That is the average over nodes; following a link favours hubs.">3</li>
+    <li>10</li>
+    <li data-why="That is ⟨k²⟩; divide it by ⟨k⟩.">30</li>
+    <li data-why="Neighbours are biased toward higher degree, not lower.">1</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle/\langle k\rangle = 10$: the friendship paradox.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>When does “your friends have more friends than you”, on average, hold?</p>
+  <ol>
+    <li>In every network whose degrees are not all equal</li>
+    <li data-why="It needs no correlations at all.">Only in assortative networks</li>
+    <li data-why="It needs no correlations at all.">Only in disassortative networks</li>
+    <li data-why="Any spread in degrees suffices.">Only in scale-free networks</li>
+  </ol>
+  <div class="explain">A link end lands on a node with probability $\propto k$, so neighbours average $\langle k^2\rangle/\langle k\rangle \ge \langle k\rangle$, equal only if all degrees are equal.</div>
+</div>
+</div></main>
+</body>
+</html>

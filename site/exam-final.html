@@ -255,7 +255,7 @@
   <dt>$e_{jk}$</dt><dd>probability that a random link joins degrees $j$ and $k$ (degree correlation matrix)</dd>
 </dl>
 <p><strong>Degree correlation function.</strong></p>
-<div class="eq">$$k_{nn}(k_i) = \frac{1}{k_i}\sum_j A_{ij}k_j, \qquad k_{nn}(k) = \sum_{k'}k'P(k'\mid k), \qquad \text{neutral: } k_{nn}(k) = \frac{\langle k^2\rangle}{\langle k\rangle}$$</div>
+<div class="eq">$$\begin{gathered} k_{nn}(k_i) = \frac{1}{k_i}\sum_j A_{ij}k_j, \\ k_{nn}(k) = \sum_{k'}k'P(k'\mid k), \\ \text{neutral: } k_{nn}(k) = \frac{\langle k^2\rangle}{\langle k\rangle} \end{gathered}$$</div>
 <dl class="symbols">
   <dt>$k_{nn}(k_i)$</dt><dd>average degree of node $i$'s neighbours</dd>
   <dt>$k_{nn}(k)$</dt><dd>its average over all nodes of degree $k$</dd>
@@ -478,7 +478,7 @@
   <li><strong>Transductive</strong> methods embed only the nodes seen in training; <strong>inductive</strong> ones (GNNs) apply to new nodes.</li>
 </ul>
 <p><strong>Link prediction scores</strong> for an unlinked pair $u, v$:</p>
-<div class="eq">$$\text{CN} = |N(u)\cap N(v)|, \quad \text{J} = \frac{|N(u)\cap N(v)|}{|N(u)\cup N(v)|}, \quad \text{AA} = \sum_{w \in N(u)\cap N(v)}\frac{1}{\ln k_w}, \quad \text{PA} = k_uk_v$$</div>
+<div class="eq">$$\begin{gathered} \text{CN} = |N(u)\cap N(v)|, \\ \text{J} = \frac{|N(u)\cap N(v)|}{|N(u)\cup N(v)|}, \\ \text{AA} = \sum_{w \in N(u)\cap N(v)}\frac{1}{\ln k_w}, \\ \text{PA} = k_uk_v \end{gathered}$$</div>
 <dl class="symbols">
   <dt>$N(u)$</dt><dd>set of neighbours of $u$</dd>
   <dt>CN, J</dt><dd>common neighbours; Jaccard normalises by the union</dd>
@@ -648,7 +648,7 @@
 </section>
 
 <h2 id="practice">Practice set</h2>
-<div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview, evolving, correlations, robustness, embeddings, communities, epidemics" data-optional="data, communities, epidemics"></div>
+<div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview, ch5-ingredients, ch5-origins, evolving, evolving-measure, evolving-bec, evolving-processes, correlations, correlations-measure, correlations-cutoffs, correlations-models, robustness, robustness-failures, robustness-attacks, robustness-cascades, graphml, embeddings, communities, epidemics" data-optional="data, communities, epidemics"></div>
 <p class="small muted">These questions are new: none repeats the midterm guide's or the chapter pages'. Each gives the formulas it needs and asks you to use them. Tick "Add review questions from the pages" to mix in the pages' own quizzes.</p>
 <template id="exam-questions">
 <div class="quiz" data-topic="Recap · Ch 2–5" data-answer="3">

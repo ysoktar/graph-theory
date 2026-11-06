@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measuring fitness · From Graphs to Hubs</title>
+<meta name="description" content="Reading fitness from growth rates: the WWW's exponential fitness distribution and the citation model with immediacy, longevity and ultimate impact.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/theme-init.js"></script>
+<script defer src="vendor/d3.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/auto-render.min.js"></script>
+<script type="module" src="js/pages/evolving.js"></script>
+</head>
+<body data-page="evolving-measure">
+<main><div class="content">
+
+<h1>Measuring fitness</h1>
+<p class="lead">Fitness is not handed out by anyone: it is the network's collective verdict, visible in how fast a node grows. Section 6.3 turns degree histories into fitness values, for web pages and for scientific papers.</p>
+
+<div class="callout why">
+  <ul>
+    <li>The slope of a node's degree on a log-log plot is its growth exponent, which is its fitness up to a constant.</li>
+    <li>On the Web, fitness varies over a narrow range; the dynamics amplify small differences into huge ones.</li>
+    <li>For papers, three parameters describe a whole citation history and predict its final impact.</li>
+  </ul>
+</div>
+
+<h2>Measuring fitness (Section 6.3)</h2>
+<p>Fitness is not assigned by anyone: it is the network's collective judgement, visible in how fast a node grows. Take the logarithm of $k_i(t) = m(t/t_i)^{\beta(\eta_i)}$:</p>
+<div class="eq">$$\ln k_i(t) = \beta(\eta_i)\,\ln t + B_i, \qquad B_i = \ln\big(m / t_i^{\beta(\eta_i)}\big). \qquad (6.9)$$</div>
+<p>On a log-log plot each node's degree history is a straight line whose slope is $\beta(\eta_i) = \eta_i / C$. Tracking many nodes gives the distribution of slopes, which is $\rho(\eta)$ up to the factor $C$.</p>
+<div class="callout example">
+  <p><strong>Worked example 5: fitness from two snapshots.</strong> A page has 12 links when the network has 1,000 nodes and 48 links at 16,000 nodes.</p>
+  <ol>
+    <li>Slope: $\beta = \frac{\ln(48/12)}{\ln(16000/1000)} = \frac{\ln 4}{\ln 16} = 0.5$.</li>
+    <li>With uniform fitness ($C = 1.255$): $\eta = \beta C = 0.63$.</li>
+    <li>Without $C$ only ratios are known: a page with slope 0.25 has half this fitness. Ranking pages needs no more.</li>
+  </ol>
+</div>
+<p><strong>The Web.</strong> About 22 million documents were crawled monthly for 13 months. Most did not change their degree; the 6.5% that did gave $\rho(\eta)$, which turned out to be <em>exponential</em>: high fitness is rare and fitness varies over a narrow range. The huge differences in degree are made by the dynamics. Two nodes that arrive together with $\eta_2 > \eta_1$ drift apart as</p>
+<div class="eq">$$\frac{k_2 - k_1}{k_1} \sim t^{(\eta_2 - \eta_1)/C}. \qquad (6.10)$$</div>
+<div class="callout example">
+  <p><strong>Worked example 6: small differences, large effects.</strong> $\eta_2 - \eta_1 = 0.1$ and $C = 1.255$ give an exponent of 0.08. While the network grows a million-fold, the fitter node's degree pulls ahead by a factor $10^{6 \times 0.08} \approx 3$.</p>
+</div>
+<p><strong>Citations.</strong> Papers also age: their novelty fades. The probability that paper $i$ is cited at time $t$ after publication is</p>
+<div class="eq">$$\Pi_i \sim \eta_i\, c_i^t\, P_i(t), \qquad P_i(t) = \frac{1}{\sqrt{2\pi}\,\sigma_i t}\, e^{-\frac{(\ln t - \mu_i)^2}{2\sigma_i^2}}, \qquad (6.11\text{–}6.12)$$</div>
+<p>with $c_i^t$ the citations so far (preferential attachment) and $P_i(t)$ a log-normal aging factor. Solving gives</p>
+<div class="eq">$$c_i^t = m\left(e^{\eta_i' \,\Phi\left(\frac{\ln t - \mu_i}{\sigma_i}\right)} - 1\right), \qquad c_i^\infty = m\left(e^{\eta_i'} - 1\right), \qquad (6.13)$$</div>
+<dl class="symbols">
+  <dt>$\Phi(x)$</dt><dd>cumulative normal distribution (6.14); it rises from 0 to 1</dd>
+  <dt>$\mu_i$</dt><dd>immediacy: when the paper reaches its citation peak</dd>
+  <dt>$\sigma_i$</dt><dd>longevity: how slowly its attention decays</dd>
+  <dt>$\eta_i' = \eta_i\beta/A$</dt><dd>relative fitness; alone it fixes the ultimate impact $c_i^\infty$</dd>
+  <dt>$m, \beta, A$</dt><dd>global constants, the same for all papers</dd>
+</dl>
+<div class="callout fix" data-book="B18"></div>
+<div data-fig id="fig-cite"></div>
+<p>Fitting (6.13) to each paper of a journal gives the journal's fitness distribution: <em>Cell</em> papers sit to the right (high fitness), <em>Physical Review B</em> to the left. Fitness can even be inherited: in a study of 1,110 twins, genes explained 46% of the variation in how many classmates named a student as a friend (in-degree), but not out-degree (Box 6.1).</p>
+
+<div class="quiz" data-answer="4">
+  <p>Two pages arrived at the same time. On a log-log plot of degree against time, page X has slope 0.3 and page Y slope 0.6. What do you conclude?</p>
+  <ol>
+    <li data-why="The slope is β = η/C, which is independent of arrival time.">X arrived earlier</li>
+    <li data-why="Equal arrival times do not mean equal fitness; the slopes differ.">They have the same fitness</li>
+    <li data-why="Y's degree grows faster, so the gap widens.">X will catch up</li>
+    <li>Y has twice X's fitness, whatever $C$ is</li>
+  </ol>
+  <div class="explain">Slope $= \beta = \eta/C$, so $\eta_Y/\eta_X = 0.6/0.3 = 2$. Absolute values need $C$; ratios do not.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>With $m = 30$, a paper has relative fitness $\eta' = 2$. What is its ultimate impact $c^\infty = m(e^{\eta'} - 1)$, and which of its parameters change that number?</p>
+  <ol>
+    <li data-why="μ and σ only set when the citations come; and m e^{η'} − m with η' = 2 is about 192.">About 60; immediacy $\mu$ and longevity $\sigma$ change it</li>
+    <li data-why="Φ → 1 for large t, so μ and σ drop out of c^∞.">About 192; all three parameters change it</li>
+    <li>About 192; only the relative fitness $\eta'$ changes it</li>
+    <li data-why="The log-normal aging factor makes the citation rate fade, so the total converges.">It grows without limit; old papers keep being cited</li>
+  </ol>
+  <div class="explain">$c^\infty = 30(e^2 - 1) = 30 \times 6.39 \approx 192$. Immediacy and longevity decide how fast the curve gets there, not where it ends.</div>
+</div>
+</div></main>
+</body>
+</html>

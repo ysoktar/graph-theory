@@ -1,0 +1,74 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Korelasyonları ölçmek · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Derece korelasyon fonksiyonu k_nn(k), korelasyon üsteli μ, arkadaşlık paradoksu ve derece korelasyon katsayısı r."></head><body>
+<div class="content">
+
+<h1>Derece korelasyonlarını ölçmek</h1>
+<p class="lead">Korelasyon matrisi her şeyi içerir ama okunması zordur. Bölüm 7.3 onu sıkıştırır: önce bir fonksiyona, ortalama komşu derecesi $k_{nn}(k)$'ye, sonra tek sayılara, üstel $\mu$'ye ve katsayı $r$'ye.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Artan, düz ya da azalan bir $k_{nn}(k)$ ağın türünü bir bakışta söyler.</li>
+    <li>Nötr değer $\langle k^2\rangle/\langle k\rangle$ aynı zamanda arkadaşlık paradoksudur.</li>
+    <li>$\mu$ ve $r$, her birinin neyi varsaydığını bildiğimiz sürece ağları karşılaştırmamızı sağlar.</li>
+  </ul>
+</div>
+
+<h2>Derece korelasyon fonksiyonu (Bölüm 7.3)</h2>
+<p>Her düğüm için komşularının derecelerinin ortalamasını alın; sonra derecesi $k$ olan tüm düğümler üzerinden ortalayın:</p>
+<div class="eq">$$k_{nn}(k_i) = \frac{1}{k_i}\sum_{j} A_{ij}\, k_j \quad (7.6), \qquad k_{nn}(k) = \sum_{k'} k'\, P(k' \mid k) \quad (7.7).$$</div>
+<dl class="symbols">
+  <dt>$k_{nn}(k)$</dt><dd>derecesi $k$ olan düğümlerin komşularının ortalama derecesi</dd>
+  <dt>$P(k' \mid k)$</dt><dd>derecesi $k$ olan bir düğümün bir komşusunun derecesinin $k'$ olma olasılığı</dd>
+</dl>
+<p>Nötr bir ağ için (7.4) ve (7.5), $P(k' \mid k) = e_{kk'}/q_k = q_{k'}$ verir (7.8): komşu $k$'yi umursamaz. O zaman</p>
+<div class="eq">$$k_{nn}(k) = \sum_{k'} k'\,\frac{k' p_{k'}}{\langle k\rangle} = \frac{\langle k^2\rangle}{\langle k\rangle}, \qquad (7.9)$$</div>
+<p>yatay bir çizgi. Artan $k_{nn}$: asortatif; azalan: disasortatif. Kitap şunu uydurur:</p>
+<div class="eq">$$k_{nn}(k) = a\,k^{\mu} \qquad (7.10)$$</div>
+<p>ve türü <strong>korelasyon üstelinin</strong> $\mu$ işaretinden okur: iş birliği $\mu = 0.37 \pm 0.11$ (asortatif), elektrik şebekesi $0.04 \pm 0.05$ (nötr), metabolizma $-0.76 \pm 0.04$ (disasortatif).</p>
+<div class="callout fix" data-book="B19"></div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 3: arkadaşlık paradoksu</strong> (Kutu 7.1). Arkadaşlarınızın ortalamada sizden çok arkadaşı vardır.</p>
+  <ol>
+    <li>Rastgele ağ: $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, yani $k_{nn} = 1 + \langle k\rangle$: ortalama düğümden her zaman bir fazla.</li>
+    <li>İş birliği: $178.2/8.08 = 22.1$. Bir bilim insanının ortalama 8 ortak yazarı vardır; bir ortak yazarın ise 22.</li>
+    <li>Oyuncular: $\langle k^2\rangle/\langle k\rangle = 565$. Nedeni (7.3)'tür: bir merkez düğümü tanıma olasılığınız, derecesi 1 olan bir düğümü tanımanızdan $k$ kat fazladır. <a href="epidemics.html">Tanıdık aşılaması</a> tam olarak bunu kullanır.</li>
+  </ol>
+</div>
+
+<h3>Derece korelasyon katsayısı $r$ (Kutu 7.2)</h3>
+<p>Newman'ın tek sayısı, bir bağlantının iki ucundaki derecelerin Pearson korelasyonudur:</p>
+<div class="eq">$$\begin{gathered} r = \sum_{jk} \frac{jk\,(e_{jk} - q_j q_k)}{\sigma^2} \quad (7.11), \\ \sigma^2 = \sum_k k^2 q_k - \Big[\sum_k k\, q_k\Big]^2 \quad (7.12). \end{gathered}$$</div>
+<p>$-1 \le r \le 1$: pozitif asortatif, sıfır nötr, negatif disasortatif. İş birliği $r = 0.13$, proteinler $r = -0.04$, elektrik şebekesi $r = 0$. $r$, $k_{nn}(k)$'nin $k$ ile doğrusal olduğunu, $\mu$ ise bir kuvvet yasası olduğunu varsayar; ikisi birden tam olarak geçerli olamaz, ama genellikle işaret bakımından uyuşurlar.</p>
+<div class="callout fix" data-book="B13"></div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir ağın $k_{nn}(k)$'si nötr değer olan $\langle k^2\rangle/\langle k\rangle = 25$'te düzdür. Asortatifliği $r$ yaklaşık nedir?</p>
+  <ol>
+    <li data-why="Bu, k_nn'nin dik biçimde artmasını gerektirir.">$1$</li>
+    <li>$0$</li>
+    <li data-why="Bu, k_nn'nin azalmasını gerektirir.">$-1$</li>
+    <li data-why="r, [−1, 1] aralığındadır.">$25$</li>
+  </ol>
+  <div class="explain">Nötr değerde düz: bir ucun derecesi diğerininki hakkında hiçbir şey söylemez.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir ağda $\langle k\rangle = 3$ ve $\langle k^2\rangle = 30$. Rastgele bir bağlantı seçip izleyin: ulaştığınız düğümün ortalama derecesi nedir?</p>
+  <ol>
+    <li data-why="Bu, düğümler üzerinden ortalamadır; bir bağlantıyı izlemek merkez düğümleri kayırır.">3</li>
+    <li>10</li>
+    <li data-why="Bu ⟨k²⟩'dir; ⟨k⟩'ya bölün.">30</li>
+    <li data-why="Komşular daha düşük değil, daha yüksek dereceye kayar.">1</li>
+  </ol>
+  <div class="explain">$\langle k^2\rangle/\langle k\rangle = 10$: arkadaşlık paradoksu.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>“Arkadaşlarınızın ortalamada sizden çok arkadaşı vardır” ifadesi ne zaman geçerlidir?</p>
+  <ol>
+    <li>Dereceleri hepsi eşit olmayan her ağda</li>
+    <li data-why="Hiç korelasyon gerektirmez.">Yalnızca asortatif ağlarda</li>
+    <li data-why="Hiç korelasyon gerektirmez.">Yalnızca disasortatif ağlarda</li>
+    <li data-why="Derecelerde herhangi bir yayılım yeterlidir.">Yalnızca ölçekten bağımsız ağlarda</li>
+  </ol>
+  <div class="explain">Bir bağlantı ucu bir düğüme $\propto k$ olasılıkla düşer; bu yüzden komşuların ortalaması $\langle k^2\rangle/\langle k\rangle \ge \langle k\rangle$ olur; eşitlik yalnızca tüm dereceler eşitken sağlanır.</div>
+</div>
+</div></body></html>

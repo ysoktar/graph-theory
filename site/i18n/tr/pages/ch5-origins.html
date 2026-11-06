@@ -1,0 +1,74 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>BA ağlarının kökenleri ve özellikleri · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Tercihli bağlanmanın nereden geldiği (bağlantı seçimi, kopyalama, optimizasyon) ile BA ağlarının uzaklıkları ve kümelenmesi."></head><body>
+<div class="content">
+
+<h1>Tercihli bağlanma nereden gelir</h1>
+<p class="lead">Yeni bir web sayfası her sayfanın derecesini bilmez, yine de bağlantılar biliyormuş gibi davranır. Bölüm 5.9 tercihli bağlanmanın basit yerel kurallardan nasıl doğduğunu gösterir; Bölüm 5.10 BA modelinin uzaklıklarını ve kümelenmesini gerçek ağlarla karşılaştırır.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Tercihli bağlanma düğümlerin uyduğu bir kural değildir; rastgele ya da yerel seçimlerden doğar.</li>
+    <li>Modelin uzaklıkları gerçek ağlarla uyuşur, kümelenmesi uyuşmaz.</li>
+    <li>Modelin neyi doğru neyi yanlış yaptığını bilmek, 6. Bölüm'ün üzerine kurulduğu şeydir.</li>
+  </ul>
+</div>
+
+<h2>Tercihli bağlanma nereden gelir? (Bölüm 5.9)</h2>
+<p>Kimse bağlanmadan önce $\Pi(k)$'yı hesaplamaz. İki tür mekanizma onu yine de üretir.</p>
+<ul>
+  <li><strong>Bağlantı seçimi</strong> (yerel, rastgele): yeni bir düğüm rastgele bir bağlantı seçer ve iki ucundan birine bağlanır. Rastgele bir bağlantının ucu, derecesi $k$ olan bir düğüme şu olasılıkla denk gelir:
+  $$q_k = \frac{k\,p_k}{\langle k\rangle},$$
+  yani $k$ ile doğrusal: hiçbir dereceyi bilmeden tercihli bağlanma.</li>
+  <li><strong>Kopyalama</strong> (yerel, rastgele): yeni bir web sayfası rastgele bir $u$ sayfası seçer; $p$ olasılıkla $u$'ya bağlanır, aksi hâlde $u$'nun bağlantılarından birini kopyalar. Bir düğüme ulaşma olasılığı
+  $$\Pi(k) = \frac{p}{N} + (1-p)\frac{k}{2L}$$
+  olur; yine doğrusal. Arkadaşların arkadaşları, kopyalanan kaynaklar ve çoğalan genler böyle işler.</li>
+  <li><strong>Eniyileme</strong> (küresel, akılcı): birim karenin rastgele bir noktasındaki yeni bir düğüm, $d_{ij}$ uzaklığını $j$'nin merkezi bir düğüme ağ uzaklığı $h_j$ ile dengeleyen $C_j = \delta\,d_{ij} + h_j$ maliyetini en küçük yapan $j$ düğümüne bağlanır. Küçük $\delta$ bir yıldız, büyük $\delta$ ($\ge \sqrt N$) merkez düğümsüz bir ağ, arada ($4 \le \delta \le \sqrt N$) ise ölçekten bağımsız bir ağ verir: her düğüm kendi havzasına düşen yeni gelenleri çeker ve büyük düğümlerin havzaları büyüktür.</li>
+</ul>
+<div data-fig id="fig-origins"></div>
+<p class="small">Şans mı akıl mı: 1960'larda Herbert Simon (rastgele, tercihli büyüme) ve Benoit Mandelbrot (eniyileme) kelime sıklıklarındaki kuvvet yasalarının kökeni üzerine tartıştı. İki mekanizma da doğrusal tercihli bağlanma üretir.</p>
+
+<h2>Uzaklıklar ve kümelenme (Bölüm 5.10)</h2>
+<div class="eq">$$d_{\max} \sim \frac{\ln N}{\ln\ln N}\ (m &gt; 1), \qquad \langle C\rangle \sim \frac{(\ln N)^2}{N}.$$</div>
+<dl class="symbols">
+  <dt>$d_{\max}$</dt><dd>çap; ortalama uzaklık da aynı biçimde, rastgele ağın $\ln N$'sinden yavaş ölçeklenir</dd>
+  <dt>$\langle C\rangle$</dt><dd>ortalama kümelenme; rastgele $\langle k\rangle/N$'nin üstünde ama büyük $N$ için yine sıfıra gider</dd>
+</dl>
+<div data-fig id="fig-dc"></div>
+<div class="callout key">
+  <p>BA modelinin dersi, yapı ile evrimin ayrılmaz olduğudur. Rastgele, küçük dünya ve konfigürasyon modelleri bir tablonun fotoğrafı gibidir: bir ağın neye benzediğini yeniden üretirler. BA modeli tabloyu özgün fırça darbeleriyle yeniden çizer: bir ağın topolojisini açıklamak için nasıl oluştuğunu modelleyin.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li>BA modeli 4. Bölüm'ün <a href="ch4-power-laws.html">kuvvet yasasını</a> <strong>açıklar</strong>. Üsteli $\gamma = 3$, <a href="ch4-exponent.html">ölçekten bağımsız rejimin</a> sınırındadır; orada $\langle k^2\rangle$ yalnızca $\ln N$ gibi büyür.</li>
+    <li><a href="ch4-generating.html">Konfigürasyon modelinin</a> girdi olarak aldığı derece dizisini <strong>üretir</strong>; ayrıca eski düğümleri birbirine rastgele olmayan bir biçimde bağlıdır.</li>
+    <li><a href="evolving.html">Uygunluk modeli</a> onu <strong>genelleştirir</strong>: düğümler farklı hızlarla büyür, bu yüzden geç gelenler kazanabilir.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>BA modeli her zaman $\gamma = 3$ verir, oysa kitabın ağlarının üstelleri 1.9 ile 4.8 arasındadır ve kümelenmeleri çok daha yüksektir. Modelde eksik olan nedir?</p>
+  <div class="hint">Olası bileşenler: uygunluk (<a href="evolving.html">6. Bölüm</a>), var olan düğümler arasında eklenen ya da silinen bağlantılar, doğrusal olmayan bağlanma $\Pi \sim k^\alpha$ ($\alpha \ne 1$ iken kuvvet yasası bozulur) ve yaşlanma. BA modelinin kümelenmesi $(\ln N)^2/N$ gibi sıfıra gider.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Bağlantı seçimi modelinde yeni bir düğüm rastgele bir bağlantı seçer ve uçlarından birine bağlanır. Rastgele bir bağlantının ucu, derecesi $k$ olan bir düğüme $q_k = k\,p_k/\langle k\rangle$ olasılıkla denk gelir. Bu model neden ölçekten bağımsız bir ağ üretir?</p>
+  <ol>
+    <li data-why="Yeni düğüm derecelere hiç bakmaz; yalnızca bir bağlantı seçer.">Yeni düğüm en çok bağlantısı olan düğümü seçer</li>
+    <li data-why="Büyüme tek başına üstel bir dağılım verir (A Modeli).">Çünkü ağ büyür</li>
+    <li data-why="Bağlantılar düzgün rastgele seçilir; hiçbir şey eniyilenmez.">Merkeze uzaklığı en küçük yapar</li>
+    <li>Merkez düğümler birçok bağlantının ucundadır; bu yüzden rastgele bir bağlantı bir düğüme derecesiyle orantılı olasılıkla ulaşır: hiçbir kural olmadan tercihli bağlanma</li>
+  </ol>
+  <div class="explain">$q_k \propto k$, kılık değiştirmiş doğrusal tercihli bağlanmadır. Büyümeyle birlikte BA modelini ve $\gamma = 3$'ü yeniden üretir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>BA modeli $\langle C\rangle \sim (\ln N)^2/N$ verir. Ağ $10^4$ düğümden $10^6$ düğüme büyüdüğünde kümelenmesine ne olur ve bu model hakkında ne söyler?</p>
+  <ol>
+    <li data-why="Paydadaki N çarpanı onu düşürür; yalnızca (ln N)² yavaşça büyür.">Gerçek ağlardaki gibi aşağı yukarı aynı kalır</li>
+    <li>Yaklaşık 40 kat düşer, $8.5\times10^{-3}$'ten $1.9\times10^{-4}$'e; gerçek ağlarda ise $\langle C\rangle$ kabaca sabit kalır: model kümelenmeyi açıklamaz</li>
+    <li data-why="Pay (ln N)² gibi, paydadaki N'den çok daha yavaş büyür.">$(\ln N)^2$ büyüdüğü için büyür</li>
+    <li data-why="(ln N)² çarpanı BA'yı aynı boyuttaki rastgele bir ağın biraz üstünde tutar.">Rastgele bir ağ gibi tam olarak $\propto 1/N$ düşer</li>
+  </ol>
+  <div class="explain">$(\ln 10^4)^2/10^4 = 84.8/10^4$ ve $(\ln 10^6)^2/10^6 = 191/10^6$. BA merkez düğümleri ve küçük uzaklıkları üretir ama gerçek ağların kümelenmesini üretmez.</div>
+</div>
+</div></body></html>
