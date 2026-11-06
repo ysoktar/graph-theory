@@ -260,7 +260,13 @@ function buildNextUp(info) {
  */
 function buildToc(content) {
   const top = (sel) => sel.split(",").map((s) => `:scope > ${s.trim()}, :scope > section > ${s.trim()}`).join(", ");
-  const firstQuiz = $(top(".quiz"), content);
+  let firstQuiz = $(top(".quiz"), content);
+  // no extra "Check yourself" entry when the page already has a heading right before its quizzes
+  if (firstQuiz) {
+    let prev = firstQuiz.previousElementSibling;
+    while (prev && !prev.matches("h2, h3") && prev.matches("p, .callout.note, .small, .muted")) prev = prev.previousElementSibling;
+    if (prev && prev.matches("h2, h3")) firstQuiz = null;
+  }
   if (firstQuiz && !firstQuiz.id) firstQuiz.id = "check";
   // entries: section headings, plus figures and worked examples as sub-entries (figures exist only once the
   // page script has built them, so the list is rebuilt after load)
@@ -272,7 +278,11 @@ function buildToc(content) {
   };
   let items = [];
   const collect = () => {
-    const all = $$(top("h2, h3, .fig, .callout.example"), content).filter((x) => label(x));
+    let all = $$(top("h2, h3, .fig, .callout.example"), content).filter((x) => label(x));
+    // subheadings repeated in every section (the guides' "Must know", "Common mistakes") would only add noise
+    const count = new Map();
+    for (const x of all) if (x.tagName === "H3") count.set(label(x), (count.get(label(x)) || 0) + 1);
+    all = all.filter((x) => x.tagName !== "H3" || count.get(label(x)) === 1);
     const heads = all.filter((x) => x.matches("h2, h3"));
     // long guides list only their main sections; short pages also list figures and worked examples
     items = all.length <= 40 ? all : heads.length <= 32 ? heads : heads.filter((x) => x.tagName === "H2");
