@@ -67,6 +67,97 @@
 </div>
 
 <!-- ============================== RECAP ============================== -->
+<h2 id="sketches">Bir denklemi okuyun, grafiğini çizin</h2>
+<p>Ara sınavdaki gibi: 6–8. Bölümlerin ve çizge ML'nin her merkezi denklemi için arkasındaki mekanizma, çizilecek grafik ve yapılacak yorum. 2–5. Bölümler için <a href="exam-midterm.html#sketches">ara sınav rehberinin çizimlerini</a> kullanın. Grafiği kapatın, kendiniz çizin, sonra karşılaştırın.</p>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>1. Uygunlukla büyüme</strong> (6. Bölüm)</p>
+  <div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{\eta_i/C}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Uygunlukla ağırlıklandırılmış tercihli bağlanma, $\Pi_i \propto \eta_i k_i$: daha uygun düğümler ömür boyu sabit kalan daha yüksek bir hızla büyür.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: eğimleri $\eta/C$ olan, artık paralel olmayan düz çizgiler. Geç ama uygun bir düğüm daha aşağıdan başlar ve daha eski, daha az uygun düğümleri keser.</p>
+  <p><strong>Yorum.</strong> En büyüğe artık yalnızca yaş karar vermez; uygunluk erken başlamayı yenebilir. Eşit uygunluk eğimi ½ olan paralel çizgileri (BA) geri verir.</p>
+</div><div class="sketch" data-sketch="fitness"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>2. Öz tutarlılık denklemi ve yoğuşma</strong> (6. Bölüm)</p>
+  <div class="eq">$$\int \rho(\eta)\,\frac{\eta}{C - \eta}\,d\eta = 1, \qquad \text{yoğuşma} \iff \int\frac{\eta\rho(\eta)}{1-\eta}d\eta < 1$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Toplam çekicilik $Cmt$ gibi büyümelidir. $\eta_{\max} = 1$'in üstündeki hiçbir $C$ bunu sağlayamazsa eksik bağlantı payı en uygun düğümlerde birikir.</p>
+  <p><strong>Ne çizilir.</strong> Sol tarafı $C$'ye karşı: düşen bir eğri. Tekdüze uygunluk 1'i $C = 1.255$'te keser; çok uygun düğümleri az olan bir dağılım $C = 1$'de bile 1'in altında kalır.</p>
+  <p><strong>Yorum.</strong> Kesişme: uygun olan zenginleşir, ölçekten bağımsız. Kesişme yok: Bose–Einstein yoğuşması, kazanan her şeyi alır, pay $1 - I$.</p>
+</div><div class="sketch" data-sketch="condense"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>3. Temel süreçler ve γ</strong> (6. Bölüm)</p>
+  <div class="eq">$$\gamma = 3 + \frac{A}{m}, \qquad 2 + \frac{m}{m+2n}, \qquad 3 + \frac{2r}{1-r}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Rastgele olan her şey (sabit bir çekicilik $A$, rastgele düğümleri silmek) tercihli bağlanmayı seyreltir ve $\gamma$'yı yükseltir; merkez düğümlere ek tercih (çift tercihli iç bağlantılar) onu düşürür.</p>
+  <p><strong>Ne çizilir.</strong> Her parametreye karşı $\gamma$: çekicilik 3'ten doğrusal yükselir, silme yukarı bükülür ve $r = 1$'de ıraksar, iç bağlantılar 3'ten 2'ye doğru düşer.</p>
+  <p><strong>Yorum.</strong> 2 ile yaklaşık 5 arasında ölçülen üsteller yeni bir mekanizma gerektirmez, yalnızca bu süreçlerin bir karışımını.</p>
+</div><div class="sketch" data-sketch="gammas"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>4. Derece korelasyon fonksiyonu</strong> (7. Bölüm)</p>
+  <div class="eq">$$k_{nn}(k) = a\,k^{\mu}, \qquad \text{nötr: } k_{nn} = \frac{\langle k^2\rangle}{\langle k\rangle}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Merkez düğümlerin merkez düğümlere (homofili, topluluklar) ya da küçük düğümlere (merkez ve kollar hizmeti, yapısal kesmeler) bağlanıp bağlanmadığı.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: artan bir çizgi ($\mu > 0$), $\langle k^2\rangle/\langle k\rangle$'de düz bir çizgi, azalan bir çizgi ($\mu &lt; 0$).</p>
+  <p><strong>Yorum.</strong> Artan: asortatif (sosyal ağlar). Azalan: disasortatif (metabolizma, proteinler, WWW). Bir mekanizmayı suçlamadan önce her zaman dereceyi koruyan bir rastgeleleştirmeyle karşılaştırın.</p>
+</div><div class="sketch" data-sketch="knn"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>5. Yapısal kesme ve doğal kesme</strong> (7. Bölüm)</p>
+  <div class="eq">$$k_s \sim (\langle k\rangle N)^{1/2} \qquad\text{ve}\qquad k_{\max} \sim N^{1/(\gamma - 1)}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Şans bağlantısı iki düğüm arasında $kk'/(\langle k\rangle N)$ bağlantı bekler; $k_s$'nin üstünde bu 1'i aşar ve basit bir ağ bunu sağlayamaz.</p>
+  <p><strong>Ne çizilir.</strong> $N$'ye karşı log-log: eğimi ½ olan $k_s$; $k_{\max}$, $\gamma &lt; 3$ için daha dik ($k_s$'yi geçer), $\gamma > 3$ için daha yatık.</p>
+  <p><strong>Yorum.</strong> $\gamma &lt; 3$ için en büyük merkez düğümler yapısal olarak disasortatiftir: hiçbir nedeni olmayan korelasyonlar.</p>
+</div><div class="sketch" data-sketch="cutoff"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>6. Korelasyonlar ve dev bileşen</strong> (7. Bölüm)</p>
+  <div class="eq">$$\text{aynı } p_k, \text{ farklı } e_{jk} \;\Rightarrow\; \text{farklı } S(\langle k\rangle)$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Asortatif ağlarda merkez düğümler birbirini erken bulur; disasortatif ağlarda her merkez düğüm kendi küçük düğümlerini içeri çeker.</p>
+  <p><strong>Ne çizilir.</strong> $\langle k\rangle$'ye karşı $S$: asortatif önce yükselir ama büyük $\langle k\rangle$'de en düşük kalır; disasortatif en son başlar ve en yüksekte biter; nötr arada (benzetim değerleri).</p>
+  <p><strong>Yorum.</strong> Korelasyonlar faz geçişinin kendisini kaydırır; bu salgınlar (asortatif bir merkez düğüm çekirdeği bir hastalığı sürdürür) ve dayanıklılık için önemlidir.</p>
+</div><div class="sketch" data-sketch="corrgiant"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>7. Rastgele bozulmalar ve saldırılar</strong> (8. Bölüm)</p>
+  <div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 \;\Leftrightarrow\; \text{dev bileşen}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Düğümleri kaldırmak $\kappa$'yı düşürür. Rastgele bozulmalar çoğunlukla küçük düğümlere denk gelir ve $\langle k^2\rangle$'ye pek dokunmaz; saldırılar $\langle k^2\rangle$'yi taşıyan merkez düğümleri kaldırır.</p>
+  <p><strong>Ne çizilir.</strong> Kaldırılan orana karşı $S$: bozulmalar altındaki ölçekten bağımsız ağ $f = 1$'e yakın bir yere kadar yavaşça düşer; saldırı altında yüzde birkaç içinde çöker; rastgele bir ağ iki durumda da $1 - 1/\langle k\rangle$'de bozulur (kesin eğriler, $\gamma = 2.5$).</p>
+  <p><strong>Yorum.</strong> Dayanıklı ama kırılgan: merkez düğümler hem koruma hem zayıf noktadır.</p>
+</div><div class="sketch" data-sketch="robust"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>8. γ'ya göre kritik oran</strong> (8. Bölüm)</p>
+  <div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> $\kappa$ merkez düğümlerin boyutuyla, yani daha küçük $\gamma$ ile büyür.</p>
+  <p><strong>Ne çizilir.</strong> $\gamma$'ya karşı $f_c$: bozulmalar $2 &lt; \gamma &lt; 3$ için 1'e yakın ve 3'ün üstünde düşüyor; saldırılar her yerde düşük, en fazla $\gamma = 2.5$ civarında yaklaşık %14 (kesin değerler, $k_{\min} = 2$, $N = 10^5$).</p>
+  <p><strong>Yorum.</strong> $\gamma = 3$'ün altında ağı yalnızca bir saldırı kırabilir; üstünde ağ rastgele bir ağ gibi davranır.</p>
+</div><div class="sketch" data-sketch="fcgamma"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>9. Çığ boyutları</strong> (8. Bölüm)</p>
+  <div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases} 3/2 & \gamma > 3 \\ \gamma/(\gamma - 1) & 2 &lt; \gamma &lt; 3 \end{cases}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Her bozulma ortalamada bir bozulma daha tetikler (kritik bir dallanma süreci); merkez düğümler uzun dalları daha olası kılar.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: düz çizgiler; eğim $-3/2$, $\gamma = 2.5$ için daha dik ($-5/3$).</p>
+  <p><strong>Yorum.</strong> Tipik bir kesinti boyutu yoktur: dev çığlar nadir ama beklenendir, gerçek kesinti verilerindeki gibi.</p>
+</div><div class="sketch" data-sketch="cascade"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>10. Katz indeksi</strong> (çizge ML)</p>
+  <div class="eq">$$S = \sum_{\ell \ge 1}\beta^\ell A^\ell = (I - \beta A)^{-1} - I, \qquad \beta &lt; 1/\lambda_{\max}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> İki düğüm arasındaki tüm yürüyüşleri sayar, her uzunluğu $\beta^\ell$ ile sönümleyerek. Yürüyüş sayısı $\lambda_{\max}^\ell$ gibi büyür.</p>
+  <p><strong>Ne çizilir.</strong> Bir karede ($\lambda_{\max} = 2$) $\beta$'ya karşı $S_{uv}$: başta küçük ve neredeyse doğrusal, sonra $\beta \to 0.5$ iken şişer.</p>
+  <p><strong>Yorum.</strong> Küçük $\beta$ ortak komşular gibi sıralar (kısa yürüyüşler); $1/\lambda_{\max}$ yakınında uzun yürüyüşler baskındır. Yerel puanlardan farklı olarak ortak komşusu olmayan çiftleri de sıralayabilir.</p>
+</div><div class="sketch" data-sketch="katz"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>11. Mesaj iletimi</strong> (çizge ML)</p>
+  <div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\Big)$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Her katman her düğümü komşularıyla ortalar: bilgi katman başına bir adım ilerler.</p>
+  <p><strong>Ne çizilir.</strong> Katman sayısına karşı düğüm değerleri: iki sinyal önce katman başına bir adım komşularına ulaşır, sonra her değer aynı sayıya yakınsar.</p>
+  <p><strong>Yorum.</strong> Küçük dünya ağlarında birkaç katman yeter; çok katman aşırı düzleştirir. <a href="embeddings.html#fig-gnn">Düğüm gömmeleri sayfasındaki</a> mesaj iletimi şekline bakın.</p>
+</div><div class="sketch" data-sketch="smooth"></div></div>
+
 <section id="recap">
 <h2>1–5. Bölümler · Kısa özet</h2>
 <p>Problemlerle tam anlatım: <a href="exam-midterm.html">ara sınav rehberi</a>. Sonraki bölümlerin üzerine kurulduğu sonuçlar:</p>

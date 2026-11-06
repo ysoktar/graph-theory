@@ -82,6 +82,97 @@
 </div>
 
 <!-- ============================== RECAP ============================== -->
+<h2 id="sketches">Read an equation, sketch its graph</h2>
+<p>As for the midterm: for each central equation of Chapters 6–8 and graph ML, the mechanism behind it, the graph to draw and the comment to make. For Chapters 2–5, use the <a href="exam-midterm.html#sketches">midterm guide's sketches</a>. Cover the plot, draw your own, then compare.</p>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>1. Growth with fitness</strong> (Ch 6)</p>
+  <div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{\eta_i/C}$$</div>
+  <p><strong>What drives it.</strong> Preferential attachment weighted by fitness, $\Pi_i \propto \eta_i k_i$: fitter nodes grow faster, at a rate fixed for life.</p>
+  <p><strong>What to draw.</strong> Log-log: straight lines with slopes $\eta/C$, no longer parallel. A late but fit node starts lower and crosses older, less fit ones.</p>
+  <p><strong>Comment.</strong> Age alone no longer decides who is largest; fitness can beat a head start. Equal fitness gives back parallel lines of slope ½ (BA).</p>
+</div><div class="sketch" data-sketch="fitness"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>2. The self-consistency equation and condensation</strong> (Ch 6)</p>
+  <div class="eq">$$\int \rho(\eta)\,\frac{\eta}{C - \eta}\,d\eta = 1, \qquad \text{condensation iff } \int\frac{\eta\rho(\eta)}{1-\eta}d\eta < 1$$</div>
+  <p><strong>What drives it.</strong> The total attractiveness must grow like $Cmt$. If no $C$ above $\eta_{\max} = 1$ achieves that, the missing share of links piles onto the fittest nodes.</p>
+  <p><strong>What to draw.</strong> The left side against $C$: a falling curve. Uniform fitness crosses 1 at $C = 1.255$; a distribution with few very fit nodes stays below 1 even at $C = 1$.</p>
+  <p><strong>Comment.</strong> Crossing: fit-get-rich, scale-free. No crossing: Bose–Einstein condensation, winner-takes-all, share $1 - I$.</p>
+</div><div class="sketch" data-sketch="condense"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>3. Elementary processes and γ</strong> (Ch 6)</p>
+  <div class="eq">$$\gamma = 3 + \frac{A}{m}, \qquad 2 + \frac{m}{m+2n}, \qquad 3 + \frac{2r}{1-r}$$</div>
+  <p><strong>What drives it.</strong> Anything random (a constant attraction $A$, deleting random nodes) dilutes preferential attachment and raises $\gamma$; extra preference for hubs (double-preferential internal links) lowers it.</p>
+  <p><strong>What to draw.</strong> $\gamma$ against each parameter: attractiveness rises linearly from 3, deletion curves up and diverges at $r = 1$, internal links fall from 3 towards 2.</p>
+  <p><strong>Comment.</strong> Measured exponents between 2 and about 5 need no new mechanism, only a mix of these processes.</p>
+</div><div class="sketch" data-sketch="gammas"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>4. The degree correlation function</strong> (Ch 7)</p>
+  <div class="eq">$$k_{nn}(k) = a\,k^{\mu}, \qquad \text{neutral: } k_{nn} = \frac{\langle k^2\rangle}{\langle k\rangle}$$</div>
+  <p><strong>What drives it.</strong> Whether hubs link to hubs (homophily, communities) or to small nodes (hub-and-spoke service, structural cutoffs).</p>
+  <p><strong>What to draw.</strong> Log-log: a rising line ($\mu > 0$), a flat line at $\langle k^2\rangle/\langle k\rangle$, a falling line ($\mu &lt; 0$).</p>
+  <p><strong>Comment.</strong> Rising: assortative (social networks). Falling: disassortative (metabolism, proteins, WWW). Always compare with a degree-preserving randomization before blaming a mechanism.</p>
+</div><div class="sketch" data-sketch="knn"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>5. Structural cutoff against natural cutoff</strong> (Ch 7)</p>
+  <div class="eq">$$k_s \sim (\langle k\rangle N)^{1/2} \qquad\text{vs}\qquad k_{\max} \sim N^{1/(\gamma - 1)}$$</div>
+  <p><strong>What drives it.</strong> Chance wiring expects $kk'/(\langle k\rangle N)$ links between two nodes; above $k_s$ that exceeds 1, which a simple network cannot provide.</p>
+  <p><strong>What to draw.</strong> Log-log against $N$: $k_s$ with slope ½; $k_{\max}$ steeper for $\gamma &lt; 3$ (it overtakes $k_s$), flatter for $\gamma > 3$.</p>
+  <p><strong>Comment.</strong> For $\gamma &lt; 3$ the largest hubs are structurally disassortative: correlations without any cause.</p>
+</div><div class="sketch" data-sketch="cutoff"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>6. Correlations and the giant component</strong> (Ch 7)</p>
+  <div class="eq">$$\text{same } p_k, \text{ different } e_{jk} \;\Rightarrow\; \text{different } S(\langle k\rangle)$$</div>
+  <p><strong>What drives it.</strong> In assortative networks the hubs find each other early; in disassortative ones each hub pulls in its own small nodes.</p>
+  <p><strong>What to draw.</strong> $S$ against $\langle k\rangle$: assortative rises first but stays lowest at large $\langle k\rangle$; disassortative starts last and ends highest; neutral in between (simulated values).</p>
+  <p><strong>Comment.</strong> Correlations move the phase transition itself, which matters for epidemics (an assortative hub core sustains a disease) and robustness.</p>
+</div><div class="sketch" data-sketch="corrgiant"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>7. Random failures and attacks</strong> (Ch 8)</p>
+  <div class="eq">$$\kappa = \frac{\langle k^2\rangle}{\langle k\rangle} > 2 \;\Leftrightarrow\; \text{giant component}$$</div>
+  <p><strong>What drives it.</strong> Removing nodes lowers $\kappa$. Random failures hit mostly small nodes and barely touch $\langle k^2\rangle$; attacks remove the hubs, which carry $\langle k^2\rangle$.</p>
+  <p><strong>What to draw.</strong> $S$ against the fraction removed: the scale-free network under failures declines slowly to near $f = 1$; under attack it collapses within a few per cent; a random network fails at $1 - 1/\langle k\rangle$ either way (exact curves, $\gamma = 2.5$).</p>
+  <p><strong>Comment.</strong> Robust yet fragile: the hubs are both the protection and the weak point.</p>
+</div><div class="sketch" data-sketch="robust"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>8. The critical fraction against γ</strong> (Ch 8)</p>
+  <div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}$$</div>
+  <p><strong>What drives it.</strong> $\kappa$ grows with the size of the hubs, so with smaller $\gamma$.</p>
+  <p><strong>What to draw.</strong> $f_c$ against $\gamma$: failures near 1 for $2 &lt; \gamma &lt; 3$ and falling above 3; attacks low everywhere, at most about 14% near $\gamma = 2.5$ (exact values, $k_{\min} = 2$, $N = 10^5$).</p>
+  <p><strong>Comment.</strong> Below $\gamma = 3$ only an attack can break the network; above it, the network behaves like a random one.</p>
+</div><div class="sketch" data-sketch="fcgamma"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>9. Cascade sizes</strong> (Ch 8)</p>
+  <div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases} 3/2 & \gamma > 3 \\ \gamma/(\gamma - 1) & 2 &lt; \gamma &lt; 3 \end{cases}$$</div>
+  <p><strong>What drives it.</strong> Each failure triggers on average one more (a critical branching process); hubs make long branches more likely.</p>
+  <p><strong>What to draw.</strong> Log-log: straight lines; slope $-3/2$, steeper ($-5/3$) for $\gamma = 2.5$.</p>
+  <p><strong>Comment.</strong> No typical blackout size: huge cascades are rare but expected, as in real outage data.</p>
+</div><div class="sketch" data-sketch="cascade"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>10. The Katz index</strong> (graph ML)</p>
+  <div class="eq">$$S = \sum_{\ell \ge 1}\beta^\ell A^\ell = (I - \beta A)^{-1} - I, \qquad \beta &lt; 1/\lambda_{\max}$$</div>
+  <p><strong>What drives it.</strong> It counts all walks between two nodes, each length damped by $\beta^\ell$. The number of walks grows like $\lambda_{\max}^\ell$.</p>
+  <p><strong>What to draw.</strong> $S_{uv}$ against $\beta$ on a square ($\lambda_{\max} = 2$): small and nearly linear at first, then blowing up as $\beta \to 0.5$.</p>
+  <p><strong>Comment.</strong> Small $\beta$ ranks like common neighbours (short walks); near $1/\lambda_{\max}$ long walks dominate. Unlike local scores it can rank pairs with no shared neighbour.</p>
+</div><div class="sketch" data-sketch="katz"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>11. Message passing</strong> (graph ML)</p>
+  <div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\Big)$$</div>
+  <p><strong>What drives it.</strong> Every layer averages each node with its neighbours: information travels one step per layer.</p>
+  <p><strong>What to draw.</strong> Node values against the number of layers: the two signals first reach their neighbours, one step per layer, then every value converges to the same number.</p>
+  <p><strong>Comment.</strong> A few layers suffice in small-world networks; many layers over-smooth. See the message-passing figure on the <a href="embeddings.html#fig-gnn">node embeddings page</a>.</p>
+</div><div class="sketch" data-sketch="smooth"></div></div>
+
 <section id="recap">
 <h2>Ch 1–5 · Compact recap</h2>
 <p>Full treatment with problems: <a href="exam-midterm.html">midterm guide</a>. The results the later chapters build on:</p>
