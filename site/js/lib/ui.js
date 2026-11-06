@@ -170,7 +170,8 @@ export function figure(host, { title, sub, cols, caption, id } = {}) {
   const body = h("div", { class: "fig-body" + (cols ? " " + cols : "") });
   const cap = h("p", { class: "fig-caption" });
   if (caption) { cap.innerHTML = caption; renderMath(cap); }
-  const el = h("div", { class: "fig", id }, title || sub ? head : null, controls, body, cap);
+    // keep the placeholder's id so that links to #fig-… still land on the figure
+  const el = h("div", { class: "fig", id: id || (root && root.id) || undefined }, title || sub ? head : null, controls, body, cap);
   if (root) {
     // a placeholder <div data-fig> is replaced; anything else gets the figure appended
     if (root.hasAttribute && root.hasAttribute("data-fig")) {

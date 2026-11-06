@@ -26,9 +26,9 @@
   <tbody>
     <tr><td>Degree distribution</td><td>Poisson, narrow</td><td>power law, heavy-tailed</td><td>heavy-tailed except the power grid; strict power law plausible for half</td></tr>
     <tr><td>Largest hub</td><td>slower than $\ln N$</td><td>$\sim k_{\min} N^{1/(\gamma-1)}$</td><td>hundreds to thousands of links, mostly below the natural cutoff</td></tr>
-    <tr><td>$\langle k^2\rangle$</td><td>$\langle k\rangle(\langle k\rangle + 1)$</td><td>grows with $N$ for $\gamma &lt; 3$</td><td>$\sigma_k \gg \sqrt{\langle k\rangle}$ except power grid, (mildly) phone calls</td></tr>
+    <tr><td>$\langle k^2\rangle$</td><td>$\langle k\rangle(\langle k\rangle + 1)$</td><td>grows with $N$ for $\gamma &lt; 3$</td><td>$\sigma_k \gg \sqrt{\langle k\rangle}$ except in the power grid and, mildly, phone calls</td></tr>
     <tr><td>Distances</td><td>$\ln N/\ln\langle k\rangle$</td><td>$\ln\ln N$ for $2 &lt; \gamma &lt; 3$</td><td>small worlds except the power grid</td></tr>
-    <tr><td>Clustering</td><td>$\langle k\rangle/N$, flat in $k$</td><td>configuration model: low unless $\langle k^2\rangle$ is huge</td><td>40 to 10,000 × random; $C(k)$ falls with $k$</td></tr>
+    <tr><td>Clustering</td><td>$\langle k\rangle/N$, flat in $k$</td><td>configuration model: low unless $\langle k^2\rangle$ is huge</td><td>40 to 10,000 times the random value; $C(k)$ falls with $k$</td></tr>
     <tr><td>Giant component</td><td>$\langle k\rangle > 1$</td><td>$\langle k^2\rangle > 2\langle k\rangle$: almost always for $\gamma &lt; 3$</td><td>all eight supercritical</td></tr>
   </tbody>
 </table>
@@ -72,12 +72,12 @@
   <li>Real degree distributions are <strong>heavy-tailed</strong>. Plot with log bins or the CCDF; fit by maximum likelihood with a goodness-of-fit test.</li>
   <li>Heavy tails mean large $\langle k^2\rangle$: this, not the exact tail shape, drives robustness (Ch 8) and spreading (Ch 10).</li>
   <li><strong>Degree-preserving randomization</strong> separates what the degrees explain from what they do not.</li>
-  <li><strong>Check everything</strong>: software defaults (powerlaw's $\gamma \le 3$), approximations, and generalisations from one network.</li>
+  <li><strong>Check everything</strong>: software defaults (powerlaw 2.0 searches only $\gamma \le 3$ unless told otherwise), approximations, and conclusions drawn from a single network.</li>
 </ol>
 
 <h2>Self-test</h2>
 <div class="quiz" data-answer="3">
-  <p>Random network, $N = 10^4$, $\langle k\rangle = 2$. Most likely?</p>
+  <p>A random network has $N = 10^4$ nodes and $\langle k\rangle = 2$. Which description fits it best?</p>
   <ol>
     <li data-why="⟨k⟩ = 2 &gt; 1 is supercritical.">No giant component</li>
     <li data-why="Connectedness needs ⟨k⟩ &gt; ln N ≈ 9.2.">Connected</li>
@@ -87,44 +87,44 @@
   <div class="explain">$S = 1 - e^{-2S}$ gives $S \approx 0.80$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>A linearly binned log-log $p_k$ flattens into a horizontal tail. Why?</p>
+  <p>A log-log plot of $p_k$ with linear bins ends in a flat, horizontal tail. Why?</p>
   <ol>
     <li data-why="A cutoff bends the tail down, not flat.">A cutoff</li>
     <li>Tail degrees are held by single nodes: $p_k = 1/N$</li>
     <li data-why="Correlations do not change p_k.">Assortativity</li>
     <li data-why="γ sets the slope, not a plateau.">$\gamma \approx 2$</li>
   </ol>
-  <div class="explain">Sampling noise; log-binning or the CCDF removes it.</div>
+  <div class="explain">It is sampling noise: each large degree is seen once, at height $1/N$. Log-binning or the CCDF removes it.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>With $\gamma \le 3$ imposed: $\hat\gamma = 2.95$, $k_{\min} = 36$. Unrestricted: $\hat\gamma = 3.40$, $k_{\min} = 70$. Report?</p>
+  <p>A fit restricted to $\gamma \le 3$ gives $\hat\gamma = 2.94$ with $k_{\min} = 36$. The unrestricted fit gives $\hat\gamma = 3.40$ with $k_{\min} = 70$. Which exponent do you report?</p>
   <ol>
-    <li data-why="That assumes the answer.">2.95, since scale-free means $\gamma &lt; 3$</li>
-    <li data-why="Averaging two fits has no meaning.">3.18</li>
-    <li data-why="Least squares is biased.">Neither; use least squares</li>
+    <li data-why="That decides the answer before looking at the data.">2.94, since scale-free means $\gamma &lt; 3$</li>
+    <li data-why="Averaging two fits has no meaning.">3.17</li>
+    <li data-why="Least-squares fits on log-log plots are biased; maximum likelihood is the right method.">Neither; use least squares</li>
     <li>3.40</li>
   </ol>
-  <div class="explain">The restriction excluded the best fit; the unrestricted one has smaller KS distance.</div>
+  <div class="explain">The restriction excluded the best fit. The unrestricted fit has the smaller KS distance, so the data prefer it.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>Randomized: clustering 0.6 → 0.002, distance 5.3 → 4.4. Conclusion?</p>
+  <p>After degree-preserving randomization, a network's clustering falls from 0.6 to 0.002 and its average distance from 5.3 to 4.4. What do you conclude?</p>
   <ol>
     <li>Clustering is not explained by degrees; triangles lengthen paths</li>
     <li data-why="Degree-preserving swaps keep degrees by construction.">The swaps changed degrees</li>
     <li data-why="A random network would not lose clustering.">The network is random</li>
     <li data-why="Distances depend mainly on degrees.">Clustering alone sets distances</li>
   </ol>
-  <div class="explain">Links that formed triangles become shortcuts after randomization.</div>
+  <div class="explain">The degrees did not change, so they cannot explain the triangles. Links that closed triangles become shortcuts after randomization, so paths get shorter.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>Which survives 50% random failures best (same $\langle k\rangle = 1.5$)?</p>
+  <p>Four networks have the same $\langle k\rangle = 1.5$. Which one best survives the random failure of half its nodes?</p>
   <ol>
-    <li data-why="f_c = 1 − 1/1.5 = 33%.">Random network</li>
+    <li data-why="Its κ = ⟨k⟩ + 1 = 2.5, so f_c = 1 − 1/1.5 = 33%: it breaks apart well before half the nodes fail.">Random network</li>
     <li data-why="Lattices have no hubs.">Square lattice</li>
     <li>Scale-free, $\gamma = 2.3$</li>
     <li data-why="One failure cuts a ring.">Ring</li>
   </ol>
-  <div class="explain">Large $\langle k^2\rangle$ gives $\kappa \gg 2$, so $f_c$ is near 1.</div>
+  <div class="explain">A large $\langle k^2\rangle$ gives $\kappa \gg 2$, so $f_c = 1 - 1/(\kappa - 1)$ is close to 1.</div>
 </div>
 <div class="quiz" data-answer="2">
   <p>Which quantity sets the Molloy–Reed criterion, the epidemic threshold and the neutral $k_{nn}$?</p>
@@ -134,7 +134,7 @@
     <li data-why="Clustering enters none of the three.">$C$</li>
     <li data-why="γ matters only through ⟨k²⟩.">$\gamma$</li>
   </ol>
-  <div class="explain">All three follow a link: the node at its end has mean degree $\kappa$.</div>
+  <div class="explain">All three follow a link to its end, and the node reached that way has on average $\kappa$ links, not $\langle k\rangle$.</div>
 </div>
 <div class="quiz" data-answer="4">
   <p>Why is a scale-free network both robust to failures and vulnerable to epidemics?</p>
@@ -144,10 +144,10 @@
     <li data-why="Distances do not appear in f_c or T_c.">Short distances</li>
     <li>One large $\kappa$: $f_c = 1 - 1/(\kappa-1)$ and $T_c = 1/(\kappa-1)$</li>
   </ol>
-  <div class="explain">Both are percolation thresholds: $T_c = 1 - f_c$.</div>
+  <div class="explain">Both are percolation thresholds set by the same $\kappa$, and $T_c = 1 - f_c$: a large $\kappa$ pushes $f_c$ up to 1 and $T_c$ down to 0.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>Modularity, assortativity and degree-preserving randomization share what?</p>
+  <p>What do modularity, assortativity and degree-preserving randomization have in common?</p>
   <ol>
     <li>The configuration model as null model</li>
     <li data-why="G(N, p) ignores the real degrees.">The random network $G(N, p)$</li>
@@ -167,7 +167,7 @@
   <div class="explain">Equal $\eta$ cancel in $\Pi_i = \eta_i k_i/\sum_j \eta_j k_j$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>BA explains the power law. What does it still miss?</p>
+  <p>The BA model explains the power law. What does it still miss?</p>
   <ol>
     <li data-why="BA has a giant component.">A giant component</li>
     <li>High clustering and $\gamma \ne 3$</li>
@@ -182,7 +182,7 @@
   <ol>
     <li>What constraints prevent hubs in the power grid?</li>
     <li>You can vaccinate 1% of a scale-free population: whom, and why does $\langle k^2\rangle$ matter? (<a href="epidemics.html">Spreading</a>)</li>
-    <li>The collaboration fit covers only part of the nodes and the bootstrap rejects it. Is it "scale-free"? Does it matter in practice?</li>
+    <li>The collaboration fit covers only part of the nodes and the bootstrap test rejects it. Is the network “scale-free”? Does the label matter in practice?</li>
   </ol>
 </div>
 

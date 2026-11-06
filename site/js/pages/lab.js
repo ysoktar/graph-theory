@@ -6,6 +6,7 @@ import { RNG } from "../lib/rng.js";
 import * as G from "../lib/graph.js";
 import { histogram, ccdf, fitPowerLaw, fmt } from "../lib/stats.js";
 import { loadClassic, loadNetworks, loadRealGraph, WITH_EDGES } from "../lib/data.js";
+import { t as tl, LANG } from "../i18n.js";
 
 const GENERATORS = {
   er: { label: "Random network G(N, p)", params: { N: [500, 10, 20000], k: [4, 0.5, 30, "⟨k⟩"] }, make: (p, r) => G.gnp(p.N, p.k / (p.N - 1), r) },
@@ -37,7 +38,7 @@ let current = null; // {graph, name}
       if (params[key] < lo || params[key] > hi) params[key] = val;
       slider(genCtl, { label: label || "N", min: lo, max: hi, step: Number.isInteger(val) && hi > 50 ? 1 : (hi - lo) / 200, log: key === "N", value: params[key], format: (v) => (Number.isInteger(val) ? fmt.int(v) : v.toFixed(2)), onInput: (v) => { params[key] = Number.isInteger(val) ? Math.round(v) : v; } });
     }
-    button(genCtl, { label: "Generate", icon: "dice", kind: "primary", onClick: () => { const r = new RNG(seed++); const p = {}; for (const k of Object.keys(GENERATORS[gen].params)) p[k] = params[k]; setGraph(GENERATORS[gen].make(p, r), `${GENERATORS[gen].label} (${Object.entries(p).map(([k, v]) => `${k} = ${+(+v).toFixed(3)}`).join(", ")})`); } });
+    button(genCtl, { label: "Generate", icon: "dice", kind: "primary", onClick: () => { const r = new RNG(seed++); const p = {}; for (const k of Object.keys(GENERATORS[gen].params)) p[k] = params[k]; setGraph(GENERATORS[gen].make(p, r), `${tl(GENERATORS[gen].label)} (${Object.entries(p).map(([k, v]) => `${k} = ${+(+v).toFixed(3)}`).join(", ")})`); } });
   }
   genControls();
   const opts = [
@@ -52,7 +53,7 @@ let current = null; // {graph, name}
     if (t === "c") { const c = classic[name]; setGraph(G.Graph.fromEdges((c.nodes || c.names).length, c.edges.map((e) => [e[0], e[1]])), c.description, c.names); }
     else setGraph(await loadRealGraph(name), networks[name].description);
   } });
-  const ta = h("textarea", { rows: 5, style: { width: "100%", fontFamily: "var(--mono)", fontSize: "0.85rem" }, placeholder: "One link per line: two node names separated by a space, comma or tab.\nA B\nB C\nC A\nC D" });
+  const ta = h("textarea", { rows: 5, style: { width: "100%", fontFamily: "var(--mono)", fontSize: "0.85rem" }, placeholder: (LANG === "tr" ? "Her satıra bir bağlantı: boşluk, virgül ya da sekmeyle ayrılmış iki düğüm adı.\n" : "One link per line: two node names separated by a space, comma or tab.\n") + "A B\nB C\nC A\nC D" });
   pasteCtl.append(ta);
   button(pasteCtl, { label: "Use this edge list", kind: "primary", onClick: () => {
     const ids = new Map(), edges = [];
@@ -66,12 +67,12 @@ let current = null; // {graph, name}
     setGraph(G.Graph.fromEdges(ids.size, edges), `your network (${edges.length} lines)`, [...ids.keys()]);
   } });
   show();
-  function setGraph(g, name, names = null) { current = { graph: g, name, names }; status.textContent = `Loaded: ${name}.`; analyse(); }
+  function setGraph(g, name, names = null) { current = { graph: g, name, names }; status.textContent = `${tl("Loaded:")} ${tl(name)}.`; analyse(); }
   setGraph(GENERATORS.ba.make({ N: 500, m: 2 }, new RNG(0)), "Barabási–Albert (N = 500, m = 2)");
 })();
 
 // ------------------------------------------------------------------ analysis
-const out = figure("#fig-analysis", { title: "2. Measure it", sub: "Everything is computed in your browser. Distances use 200 BFS sources for networks with more than 2,000 nodes." });
+const out = figure("#fig-analysis", { title: "2. Measure it", sub: "Everything is computed in your browser. For networks with more than 2,000 nodes, distances are averaged from 200 random start nodes." });
 const tiles = stats(out.body, [
   { key: "N", label: "nodes N" }, { key: "L", label: "links L" }, { key: "k", label: "⟨k⟩" }, { key: "k2", label: "⟨k²⟩" }, { key: "kmax", label: "k_max" },
   { key: "giant", label: "largest component" }, { key: "d", label: "⟨d⟩" }, { key: "diam", label: "diameter" }, { key: "C", label: "⟨C⟩" }, { key: "Ct", label: "C_Δ (global)" },
@@ -97,8 +98,8 @@ function analyse() {
   const fit = hist.k.length > 3 ? fitPowerLaw(hist, { maxCandidates: 150 }) : null;
   tiles.set("N", fmt.int(n)); tiles.set("L", fmt.int(s.m)); tiles.set("k", fmt.fix(s.avg, 2)); tiles.set("k2", fmt.sig(s.k2, 4)); tiles.set("kmax", fmt.int(s.max));
   tiles.set("giant", fmt.pct(comp.giantSize / n, 1), `${fmt.int(comp.count)} component${comp.count === 1 ? "" : "s"}`);
-  tiles.set("d", fmt.fix(dist ? dist.avg : dsamp.mean, 2), dist ? "exact, largest component" : "200 sources"); tiles.set("diam", dist ? dist.diameter : `≥ ${dsamp.max}`);
-  tiles.set("C", fmt.sig(cs.avg, 3), `random: ${fmt.sig(s.avg / n, 2)}`); tiles.set("Ct", fmt.sig(cs.transitivity, 3)); tiles.set("r", fmt.fix(G.assortativity(g), 3));
+  tiles.set("d", fmt.fix(dist ? dist.avg : dsamp.mean, 2), dist ? "exact, largest component" : "from 200 random start nodes"); tiles.set("diam", dist ? dist.diameter : `≥ ${dsamp.max}`);
+  tiles.set("C", fmt.sig(cs.avg, 3), `${tl("random:")} ${fmt.sig(s.avg / n, 2)}`); tiles.set("Ct", fmt.sig(cs.transitivity, 3)); tiles.set("r", fmt.fix(G.assortativity(g), 3));
   tiles.set("pl", fit ? `γ̂ = ${fit.gamma.toFixed(2)}` : "–", fit ? `k_min = ${fit.kmin}, ${fmt.pct(fit.tailShare, 0)} of nodes` : "");
   P1.update({ series: [{ type: "scatter", data: ccdf(hist), color: 1, label: "data", r: 2.8 }], xName: "k", yFormat: (v) => fmt.sig(v, 3) });
   P2.update({ series: [{ type: "scatter", data: G.clusteringByDegree(g, cs.local).filter((p) => p[1] > 0), color: 1, label: "C(k)", r: 2.8 }], xName: "k", yFormat: (v) => fmt.sig(v, 3) });

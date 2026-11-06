@@ -375,6 +375,13 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 | [B11](#b11) | Error | Chapter 6, Section 6.4, Box 6.3, Eq. (6.16) (from fitness to a Bose gas) | The minus sign is missing. |
 | [B12](#b12) | Error | Chapter 6, Section 6.5, Node Deletion, Eq. (6.29) | At r = 0 (no removal) the formula gives γ = 5, but a growing network without removal is the BA model, γ = 3. |
 | [B13](#b13) | Error | Chapter 7, Section 7.3, Box 7.2, text after Eq. (7.12) (degree correlation coefficient) | The two signs are swapped. |
+| [B14](#b14) | Error | Chapter 8, Box 8.8 (At a Glance: Network Robustness), attack threshold | The coefficient in front of k_min is printed as (2−γ)/(1−γ). |
+| [B15](#b15) | Error | Chapter 6, Section 6.4, Eq. (6.22) (a fitness distribution that condenses) | The normalisation constant is wrong. ∫₀¹ (1 − η)^ζ dη = 1/(1 + ζ), so the prefactor must be 1 + ζ. |
+| [B16](#b16) | Imprecise | Chapter 8, Section 8.3, Eq. (8.9) and the caption of Figure 8.9 | Equation (8.9) is a continuum approximation: it replaces the sums over integer degrees by integrals starting at k_min. |
+| [B17](#b17) | Imprecise | Chapter 6, Section 6.4 (Bose–Einstein condensation) | This follows the original physics paper (Bianconi and Barabási 2001), but it was later proved false for the preferential attachment tree with fitness: the condensation is non-extensive. |
+| [B18](#b18) | Error | Chapter 6, Section 6.3, Eq. (6.12) (aging of a paper's novelty) | The normalisation of the log-normal density is misprinted: t and σ_i must stand outside the square root. |
+| [B19](#b19) | Format | Chapter 7, Section 7.3, Eq. (7.9) (degree correlation function of a neutral network) | The last denominator lacks its angle brackets. |
+| [B20](#b20) | Error | Chapter 7, Section 7.6, Eq. (7.18) (initial attractiveness model, −m < A < 0) | The minus sign is missing. |
 
 ### B1
 
@@ -555,6 +562,104 @@ wrong, inconsistent, or does not match its own published data, each backed by a 
 **Correction.** For r > 0 the network is assortative, for r = 0 neutral, for r < 0 disassortative.
 
 **Evidence.** Online Chapter 7: the same paragraph's examples, and Box 7.5 (At a Glance: Degree Correlations), which lists r > 0: assortative.
+
+**On the website:** [correlations](https://ysoktar.github.io/graph-theory/correlations.html)
+
+### B14
+
+**Error** · Chapter 8, Box 8.8 (At a Glance: Network Robustness), attack threshold
+
+> `Attacks: f_c^((2−γ)/(1−γ)) = 2 + (2−γ)/(1−γ) k_min (f_c^((3−γ)/(1−γ)) − 1)`
+
+**Problem.** The coefficient in front of k_min is printed as (2−γ)/(1−γ). The chapter's own Eq. (8.12) and the source it cites (Cohen, Erez, ben-Avraham and Havlin, Phys. Rev. Lett. 86, 3682, 2001) have (2−γ)/(3−γ). With the box's version, γ = 2.5 and k_min = 2 have no solution with 0 < f_c < 1; Eq. (8.12) gives f_c ≈ 0.20.
+
+**Correction.** f_c^((2−γ)/(1−γ)) = 2 + (2−γ)/(3−γ) k_min (f_c^((3−γ)/(1−γ)) − 1), as in Eq. (8.12).
+
+**Evidence.** Online Chapter 8: Eq. (8.12) against Box 8.8; Cohen et al. (2001), Eq. (3). Solved numerically on the Robustness page.
+
+**On the website:** [robustness](https://ysoktar.github.io/graph-theory/robustness.html)
+
+### B15
+
+**Error** · Chapter 6, Section 6.4, Eq. (6.22) (a fitness distribution that condenses)
+
+> `ρ(η) = (1 − ζ)(1 − η)^ζ   (6.22)`
+
+**Problem.** The normalisation constant is wrong. ∫₀¹ (1 − η)^ζ dη = 1/(1 + ζ), so the prefactor must be 1 + ζ. With 1 − ζ the distribution does not integrate to 1, and for the book's own example ζ = 10 (Figure 6.9f) it is negative everywhere.
+
+**Correction.** ρ(η) = (1 + ζ)(1 − η)^ζ. Then ∫ η ρ(η)/(1 − η) dη = 1/ζ, so the condensation condition (integral below 1) holds exactly for ζ > 1: ζ = 0.1 stays scale-free and ζ = 10 condenses, as Figure 6.9 shows.
+
+**Evidence.** Direct integration; LaTeX source of the online Chapter 6: \rho (\eta ) = (1 - \zeta )(1 - \eta )^\zeta.
+
+**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+
+### B16
+
+**Imprecise** · Chapter 8, Section 8.3, Eq. (8.9) and the caption of Figure 8.9
+
+> `For γ = 4 we observe a finite critical point f_c ≃ 2/3, as predicted by (8.9). … k_min = 2 and N = 10,000.`
+
+**Problem.** Equation (8.9) is a continuum approximation: it replaces the sums over integer degrees by integrals starting at k_min. For small k_min this overestimates ⟨k²⟩/⟨k⟩. For a discrete power law with γ = 4 and k_min = 2, κ = 3.08 and f_c = 0.52, not κ = 4 and 2/3; simulations of 10⁵-node configuration-model networks give 0.515. The same approximation in Eq. (8.12) gives an attack threshold of 0.20 for γ = 2.5, k_min = 2, where the exact value is 0.14 (simulation 0.147).
+
+**Correction.** Treat (8.9) and (8.12) as continuum estimates that trend correctly with γ. For integer degrees use f_c = 1 − 1/(κ − 1) with κ computed from the discrete p_k; it agrees with simulation.
+
+**Evidence.** Exact generating-function solution and simulations on the Robustness page (Thresholds against the degree exponent).
+
+**On the website:** [robustness](https://ysoktar.github.io/graph-theory/robustness.html)
+
+### B17
+
+**Imprecise** · Chapter 6, Section 6.4 (Bose–Einstein condensation)
+
+> `In a network Bose-Einstein condensation means that the fittest node grabs a finite fraction of the links, turning into a super-hub.`
+
+**Problem.** This follows the original physics paper (Bianconi and Barabási 2001), but it was later proved false for the preferential attachment tree with fitness: the condensation is non-extensive. The condensed share of links is spread over a succession of ever fitter latecomers, each eventually overtaken, so the largest node's share tends to zero. Simulations agree: with ρ(η) = 11(1 − η)^10, where the condensate should hold 90% of new links, the largest hub of a 10⁶-node network holds about 7% and the 100 fittest nodes together hold almost none.
+
+**Correction.** In the condensed phase (∫ η ρ(η)/(1 − η) dη < 1) a finite fraction of new links goes to nodes of fitness ever closer to the maximum, but no single node keeps a finite fraction.
+
+**Evidence.** S. Dereich, C. Mailler and P. Mörters, “Nonextensive condensation in reinforced branching processes”, Ann. Appl. Probab. 27, 2539 (2017), arXiv:1601.08128; simulations on the Evolving networks page.
+
+**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+
+### B18
+
+**Error** · Chapter 6, Section 6.3, Eq. (6.12) (aging of a paper's novelty)
+
+> `P_i(t) = 1/√(2π t σ_i) · e^(−(ln t − μ_i)²/(2σ_i²))   (6.12)`
+
+**Problem.** The normalisation of the log-normal density is misprinted: t and σ_i must stand outside the square root. As printed, the density does not integrate to 1, and the factor would change the solution (6.13), which is derived from the correct log-normal.
+
+**Correction.** P_i(t) = 1/(√(2π) σ_i t) · e^(−(ln t − μ_i)²/(2σ_i²)).
+
+**Evidence.** LaTeX source of the online Chapter 6: \frac{1}{{\sqrt {2\pi t\sigma _i } }}; D. Wang, C. Song and A.-L. Barabási, “Quantifying long-term scientific impact”, Science 342, 127 (2013).
+
+**On the website:** [evolving](https://ysoktar.github.io/graph-theory/evolving.html)
+
+### B19
+
+**Format** · Chapter 7, Section 7.3, Eq. (7.9) (degree correlation function of a neutral network)
+
+> `k_nn(k) = Σ_k' k' q_k' = Σ_k' k' k' p(k')/⟨k⟩ = ⟨k²⟩/k   (7.9)`
+
+**Problem.** The last denominator lacks its angle brackets. The sum Σ k'² p(k')/⟨k⟩ is ⟨k²⟩/⟨k⟩, a constant; with k in the denominator k_nn(k) would fall as 1/k, the opposite of the point of the equation (a neutral network has a flat k_nn). The text right after it says “a horizontal line at ⟨k²⟩/⟨k⟩”.
+
+**Correction.** k_nn(k) = ⟨k²⟩/⟨k⟩.
+
+**Evidence.** LaTeX source of the online Chapter 7: \frac{{\left\langle {k^2 } \right\rangle }}{k}; the sentence after (7.9) and Box 7.1.
+
+**On the website:** [correlations](https://ysoktar.github.io/graph-theory/correlations.html)
+
+### B20
+
+**Error** · Chapter 7, Section 7.6, Eq. (7.18) (initial attractiveness model, −m < A < 0)
+
+> `k_nn(k) ∼ k^(|A|/m)   (7.18)`
+
+**Problem.** The minus sign is missing. In this regime A is negative, so Eq. (7.17) has k^(A/m) = k^(−|A|/m), which decreases with k, and the text calls the network disassortative. A positive exponent |A|/m would make k_nn rise with k, which is assortative.
+
+**Correction.** k_nn(k) ∼ k^(−|A|/m).
+
+**Evidence.** LaTeX source of the online Chapter 7: k^{\frac{{|A|}}{m}} in (7.18) against k^{\frac{A}{m}} in (7.17); the surrounding text (“the resulting network is disassortative, k_nn(k) decaying”).
 
 **On the website:** [correlations](https://ysoktar.github.io/graph-theory/correlations.html)
 

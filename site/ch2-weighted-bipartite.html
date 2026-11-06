@@ -19,6 +19,12 @@
 
 <h1>Weighted and bipartite networks</h1>
 <p class="lead">Links differ in strength, and many data sets link two kinds of node, such as people and the events they attend. <strong>Weighted</strong> and <strong>bipartite</strong> networks record this. Projecting a bipartite network onto one kind of node loses some of that information.</p>
+<div class="callout why">
+  <ul>
+    <li>Weights keep what a 0/1 network throws away: how strong or busy a tie is.</li>
+    <li>They let us ask which ties hold a group together, or which lines carry most of the load.</li>
+  </ul>
+</div>
 
 <h2>Weighted networks (Section 2.6)</h2>
 <p>In a <strong>weighted network</strong> each link carries a number, its <strong>weight</strong>: minutes of phone calls, the current on a power line, the number of joint papers. The matrix stores the weight, $A_{ij} = w_{ij}$, and the degree generalises to the <strong>strength</strong>:</p>
@@ -37,12 +43,6 @@
   <ul>
     <li>Strength grows with degree, but not in proportion: some members have few links that are all strong.</li>
     <li>Raise the threshold. Links between the factions are weak: 11 of the 78 links cross, but only 4 of the 48 links with $w \ge 3$ and none with $w \ge 5$. The thresholded network depends on an arbitrary cut-off.</li>
-  </ul>
-</div>
-<div class="callout why">
-  <ul>
-    <li>Weights keep what a 0/1 network throws away: how strong or busy a tie is.</li>
-    <li>They let us ask which ties hold a group together, or which lines carry most of the load.</li>
   </ul>
 </div>
 

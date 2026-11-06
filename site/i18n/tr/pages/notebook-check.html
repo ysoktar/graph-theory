@@ -1,0 +1,36 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Not defteri denetimi · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Ders not defterinin her iddiası yeniden denetlendi: düzeltmeler, uyarılar, kitaptaki ve yazılımdaki sorunlar ve doğru bulunanlar."></head><body>
+<div class="content">
+
+<h1>Not defteri denetimi</h1>
+<p class="lead">Bu site ders not defteri <em>From Graphs to Hubs</em>'tan (<code>Ch2_4_Applied_Tutorial.ipynb</code>) kuruldu. Kodu ve iddiaları tek tek yeniden denetlendi. Bu sayfa, düzeltme ya da uyarı gerektiren her şeyi not defterindeki tam yeriyle listeler.</p>
+
+<h2>Nasıl denetlendi</h2>
+<ol>
+  <li><strong>Yeniden çalıştırma.</strong> Her kod hücresi kitabın verisi üzerinde sırayla yeniden çalıştırıldı ve yazdırılan her sayı ve tablo not defterinde kaydedilen çıktıyla karşılaştırıldı. Hepsi tam olarak yeniden üretilir; kod söylediğini yapar.</li>
+  <li><strong>Bağımsız yeniden hesaplama.</strong> Her nicelik, NetworkX, igraph, SciPy ve powerlaw'a karşı sınanmış olan bu sitenin kendi JavaScript çizge ve istatistik kütüphanesiyle yeniden hesaplandı.</li>
+  <li><strong>Akıl yürütmenin gözden geçirilmesi.</strong> Her ifade bir türetime, bir benzetime ya da veriye karşı denetlendi. Kitapla (<a href="https://networksciencebook.com/">Network Science</a>'ın 2–8. Bölümleri) ve standart yöntemle (Clauset, Shalizi ve Newman 2009) karşılaştırmalar kanıt olarak değil, çapraz denetim olarak kullanıldı. Kitabın da aşağıda listelenen kendi hataları vardır.</li>
+</ol>
+<p>Sonuç: hesaplar doğru, metnin çoğu da öyle. Sorunlar şunlardır: küçük $k_{\min}$'de yanlı olan bir örnekleme kestirmesi, kuvvet yasası çözümlemesinde eksik bir uyum iyiliği adımı, karıştırıcı etkenli bir deney ve tek bir ağdan genelleme yapan ya da bir kayıt gerektiren bir dizi ifade. Sitenin sayfaları düzeltilmiş sürümleri sunar; her biri bir <em>Not defterine düzeltme</em> kutusuyla işaretlenmiştir.</p>
+
+<p><strong>Yerler:</strong> <em>hücre</em>, hücreleri not defterinin başından sayar (1. hücre başlıktır). <em>In [n]</em>, bir kod hücresiyle kaydedilmiş çalıştırma sayısıdır.</p>
+<div id="summary"></div>
+
+<h2>Liste</h2>
+<div id="filters" class="btn-row" style="margin-bottom:1rem"></div>
+<div id="errata"></div>
+
+<h2>Kitapta bulunan sorunlar</h2>
+<p>Kitap da kesin doğru olarak alınmadı. Sonuçları yeniden türetildi ya da benzetimle sınandı ve tabloları dağıttığı veri dosyalarından yeniden hesaplandı. Kitabın yanlış, tutarsız olduğu ya da kendi verisiyle uyuşmadığı yerler şunlardır.</p>
+<div id="book"></div>
+
+<h2>Yazılımda bulunan sorunlar</h2>
+<p>Not defteri Python paketi <code>powerlaw</code>'a (sürüm 2.0.0) dayanır. Bu sitenin uyum iyiliği testinin çapraz denetimi, paketin rastgele sayı üreteçlerinde üç kusur ortaya çıkardı. Bunlar not defterinin hiçbir çıktısını değiştirmez, ama not defterinin atladığı bootstrap testini (N14) powerlaw'ın kendi üreteciyle ekleyen herkes için o testi yanlı yapar.</p>
+<div id="software"></div>
+
+<h2>Denetlenen ve doğru bulunanlar</h2>
+<ul id="verified"></ul>
+
+<p class="small muted">Bu liste depoda, aynı kaynaktan üretilmiş <a id="md-link" href="#">notebook/ERRATA.md</a> olarak da bulunur.</p>
+
+</div></body></html>

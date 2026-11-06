@@ -97,7 +97,9 @@ const hooks = (html) => {
     local: (body.match(/<div class="quiz"[^>]*data-local/g) || []).length,
     fixes: [...body.matchAll(/data-(errata|book|software)="([^"]+)"/g)].map((m) => m[1] + ":" + m[2]),
     beyond: (body.match(/data-beyond=/g) || []).length,
-    bank: [...body.matchAll(/data-(pages|optional)="([^"]*)"/g)].map((m) => m[1] + "=" + m[2]),
+        bank: [...body.matchAll(/data-(pages|optional)="([^"]*)"/g)].map((m) => m[1] + "=" + m[2]),
+    // practice-bank topics are translated, so compare how many questions each topic has, in order
+    topics: [...body.matchAll(/data-topic="([^"]*)"/g)].map((m) => m[1]).reduce((a, x, i, all) => (i && all[i - 1] === x ? (a[a.length - 1]++, a) : [...a, 1]), []),
   };
 };
 
@@ -124,5 +126,15 @@ test("pages and scripts use no em dashes (house style)", () => {
   for (const f of walk(site)) {
     if (f.endsWith("errata.js")) continue; // quotes the notebook and the book verbatim
     assert.ok(!readFileSync(f, "utf8").includes("—"), `${f} contains an em dash`);
+  }
+});
+
+test("no TeX command was mangled by an escape sequence (\\r, \\n, \\t, \\f, \\b)", () => {
+  const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? (e.name === "vendor" ? [] : walk(join(d, e.name))) : /\.(html|json)$/.test(e.name) ? [join(d, e.name)] : []));
+  for (const f of walk(site)) {
+    const s = readFileSync(f, "utf8");
+    assert.ok(!s.includes("\r"), `${f} contains a carriage return (a mangled \\rangle?)`);
+    assert.ok(!/\$[^$\n]*\n(?:angle|ight|rac|ext|imes|eta|au|heta|abla)\b/.test(s), `${f}: a TeX command broken across a line`);
+    if (f.endsWith(".html")) assert.ok(!s.includes('\\"'), `${f}: a backslash-escaped quote shows as \\" on the page`);
   }
 });

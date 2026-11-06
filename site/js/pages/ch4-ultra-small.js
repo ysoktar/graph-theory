@@ -10,7 +10,7 @@ const GAMMAS = [2.1, 2.5, 3.5];
 // ------------------------------------------------------------------ 1. ⟨d⟩ versus N (worker, notebook cell 66)
 (async () => {
   let baseline = "matched", rows = [];
-  const f = figure("#fig-dn", { title: "Average distance versus network size", sub: "Configuration-model networks with power-law degrees (k_min = 2) against random networks. 3 networks per point, 60 BFS sources each, in a background thread." });
+  const f = figure("#fig-dn", { title: "Average distance versus network size", sub: "Configuration-model networks with power-law degrees (k_min = 2) against random networks. Each point averages 3 networks, with distances measured from 60 random start nodes." });
   const status = h("div", { class: "status-line" }, "Simulating…");
   const plot = new Plot(f.body, { height: 340, x: { type: "log", label: "number of nodes N" }, y: { label: "average distance ⟨d⟩", min: 0 } });
   const tbl = h("div");

@@ -4,6 +4,14 @@
 
 <h1>Komşuluk matrisi</h1>
 <p class="lead">Bir ağ hakkında herhangi bir şey hesaplamak için hangi düğüm çiftlerinin bağlı olduğunu kaydetmemiz gerekir. <strong>Komşuluk matrisi</strong> bunu 0'lar ve 1'lerden oluşan bir tabloyla yapar ve ağ sorularını (dereceler, ortak komşular, üçgenler) aritmetiğe dönüştürür.</p>
+<div class="callout why">
+  <ul>
+    <li>Ağ soruları, bilgisayarların hızlı yaptığı doğrusal cebire dönüşür.</li>
+    <li>$A^2$ ortak komşuları sayar; arkadaş önerisinin ve bağlantı tahmininin temeli budur.</li>
+    <li>$A^3$ üçgenleri sayar; üçgenler kümelenme katsayısını verir.</li>
+    <li data-beyond="1–7. bölümlerde yok: spektral yöntemler">$A$'nın özvektörleri düğümleri önemlerine göre sıralar ve toplulukları bulur.</li>
+  </ul>
+</div>
 
 <h2>Tanım</h2>
 <p>$N$ düğümlü bir ağ için $A$, $N \times N$ boyutlu bir tablodur:</p>
@@ -61,15 +69,6 @@
 
 <div class="callout fix" data-errata="N4"></div>
 <div class="callout fix" data-book="B2"></div>
-
-<div class="callout why">
-  <ul>
-    <li>Ağ soruları, bilgisayarların hızlı yaptığı doğrusal cebire dönüşür.</li>
-    <li>$A^2$ ortak komşuları sayar; arkadaş önerisinin ve bağlantı tahmininin temeli budur.</li>
-    <li>$A^3$ üçgenleri sayar; üçgenler kümelenme katsayısını verir.</li>
-    <li data-beyond="1–7. bölümlerde yok: spektral yöntemler">$A$'nın özvektörleri düğümleri önemlerine göre sıralar ve toplulukları bulur.</li>
-  </ul>
-</div>
 
 <div class="callout discuss">
   <p>Karate kulübünün komşuluk matrisinin $34^2 = 1{,}156$ öğesi vardır ve bunların 156'sı sıfırdan farklıdır. $N = 23{,}133$ ve $L = 93{,}439$ olan iş birliği ağı için sıfırdan farklı öğelerin oranı ne olurdu? Bu, büyük ağların nasıl saklanması gerektiği konusunda ne düşündürür?</p>

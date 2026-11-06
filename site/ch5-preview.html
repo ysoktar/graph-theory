@@ -42,15 +42,22 @@
   <dt>$m$</dt><dd>number of links each new node brings</dd>
 </dl>
 <div class="callout example">
-  <p>After $t = 1{,}000$ steps with $m = 2$, the degrees add up to about 4,000. A node with 40 links then receives each new link with probability $\Pi = 1\%$, and a node with 2 links with probability $0.05\%$. The hub grows twenty times faster.</p>
+  <p><strong>Worked example: who gets the next link?</strong></p>
+  <ol>
+    <li>Given: $m = 2$, after $t = 1{,}000$ steps.</li>
+    <li>Each step adds $m$ links and each link adds 2 to the total degree, so $\sum_j k_j \approx 2mt = 4{,}000$.</li>
+    <li>A node with 40 links: $\Pi = 40/4{,}000 = 1\%$ per new link. A node with 2 links: $2/4{,}000 = 0.05\%$.</li>
+    <li>Meaning: the hub is twenty times more likely to win each link, so it pulls further ahead: the rich get richer.</li>
+  </ol>
 </div>
+<p class="small"><strong>Time in networks</strong> (Box 5.2). The WWW added a page about every millisecond; the cell added a gene about every 200,000 years. To compare them we count <em>event time</em>: $t$ advances by one each time a node arrives, so $t = N$ in the BA model.</p>
 <div data-fig id="fig-grow"></div>
 
 <h2>Why the result is a power law (Sections 5.4–5.5)</h2>
 <p>Treat time $t$ and degree $k$ as continuous numbers (the continuum approximation). Then:</p>
 <ol>
-  <li>Each step brings $m$ links, so node $i$ grows at the rate $\dfrac{dk_i}{dt} = m\,\Pi(k_i) = \dfrac{m\,k_i}{2mt} = \dfrac{k_i}{2t}$.</li>
-  <li>Node $i$ arrives at time $t_i$ with $m$ links; solving the rate equation gives $k_i(t) = m\,(t/t_i)^{1/2}$.</li>
+    <li>Each step brings $m$ links, each landing on $i$ with probability $\Pi(k_i)$, and the degrees add up to $\sum_j k_j = 2mt - m \approx 2mt$. So node $i$ grows at the rate $\dfrac{dk_i}{dt} = m\,\Pi(k_i) = \dfrac{m\,k_i}{2mt} = \dfrac{k_i}{2t}$.</li>
+  <li>Separate the variables, $\dfrac{dk_i}{k_i} = \dfrac{dt}{2t}$, and integrate from the arrival time $t_i$, when $k_i = m$: $\ln\dfrac{k_i}{m} = \tfrac12\ln\dfrac{t}{t_i}$, that is $k_i(t) = m\,(t/t_i)^{1/2}$. Its growth rate $dk_i/dt = m/(2\sqrt{t\,t_i})$ falls with time: fewer and fewer new links go to any one node.</li>
   <li>A node has fewer than $k$ links if it arrived after $t_i = m^2 t/k^2$. Nodes arrive at a steady rate, so $P(K &lt; k) = 1 - m^2/k^2$.</li>
   <li>Differentiating this with respect to $k$ gives $p_k \approx 2m^2 k^{-3}$.</li>
 </ol>
@@ -72,8 +79,71 @@
 </div>
 <div data-fig id="fig-pk"></div>
 
+<p>Two more properties follow. The distribution is <strong>stationary</strong>: it does not depend on $t$ or $N$, which is why networks of very different age and size can share it. And its prefactor grows like $m(m+1) \approx m^2$, so $p_k/2m^2$ falls on a single curve for every $m$.</p>
+
+<h2>Both ingredients are needed (Section 5.6)</h2>
+<p>Is the power law caused by growth, by preferential attachment, or by both? Remove one at a time.</p>
+<ul>
+  <li><strong>Model A</strong>, growth without preference: $\Pi(k_i) = 1/(m_0 + t - 1)$. The rate $dk_i/dt = m/(m_0 + t - 1)$ gives $k_i(t) = m\ln\big(e\,\frac{m_0 + t - 1}{m_0 + t_i - 1}\big) \approx m \ln(e\,t/t_i)$, only logarithmic growth, and an exponential distribution
+  $$p_k = \frac{e}{m}\exp\Big(-\frac{k}{m}\Big).$$</li>
+  <li><strong>Model B</strong>, preference without growth: $N$ is fixed and each step adds one link between a random node and a node chosen with $\Pi(k)$. Every degree grows linearly, $k_i(t) \approx 2t/N$; the distribution keeps changing and ends as a complete graph with $p_k = \delta(k - N + 1)$.</li>
+</ul>
+<div data-fig id="fig-models"></div>
 <div class="callout key">
-  <p>Both ingredients are needed (Section 5.6). Growth without preference gives an exponential degree distribution (the "uniform attachment" curve above). Preference without growth never settles into a power law: links keep being added until the network is complete.</p>
+  <p>Both ingredients are needed: without preferential attachment the tail is exponential and no hubs form; without growth there is no stationary distribution at all. Together they are sufficient for a scale-free network with $\gamma = 3$.</p>
+</div>
+
+<h2>Measuring preferential attachment (Section 5.7)</h2>
+<p>Preferential attachment makes two claims: the chance of gaining a link depends on $k$ (hypothesis 1), and the dependence is linear (hypothesis 2). Both can be tested with two maps of the same network taken a short time $\Delta t$ apart. For each node, the links it gained estimate $\Pi(k)$:</p>
+<div class="eq">$$\Pi(k) \sim \frac{\Delta k_i}{\Delta t}, \qquad \pi(k) = \sum_{k_i = 0}^{k} \Pi(k_i).$$</div>
+<dl class="symbols">
+  <dt>$\Delta k_i$</dt><dd>links node $i$ gained between the two maps, grouped by its degree $k_i$ in the first map</dd>
+  <dt>$\pi(k)$</dt><dd>cumulative attachment function: summing smooths the noise of single degrees</dd>
+</dl>
+<p>If $\Pi(k) \sim k^\alpha$, then $\pi(k) \sim k^{\alpha + 1}$: no preference gives slope 1, linear preference slope 2. The Internet and citation networks give $\alpha \approx 1$; co-authorship and actors $\alpha = 0.9 \pm 0.1$, slightly sublinear.</p>
+<h2>Nonlinear preferential attachment (Section 5.8)</h2>
+<p>What if $\Pi(k) \sim k^\alpha$ with $\alpha \ne 1$?</p>
+<ul>
+  <li>$\alpha = 0$: no preference, Model A: exponential $p_k$.</li>
+  <li>$0 &lt; \alpha &lt; 1$, <strong>sublinear</strong>: a stretched exponential, $p_k \sim k^{-\alpha}\exp\!\big(-\frac{2\mu(\alpha)}{\langle k\rangle(1-\alpha)}k^{1-\alpha}\big)$, with fewer and smaller hubs; the largest grows only like $k_{\max} \sim (\ln t)^{1/(1-\alpha)}$.</li>
+  <li>$\alpha = 1$: the BA power law, $k_{\max} \sim t^{1/2}$.</li>
+  <li>$\alpha &gt; 1$, <strong>superlinear</strong>: winner takes all. The earliest nodes become super-hubs holding a finite share of all links, $k_{\max} \sim t$, and the network turns hub-and-spoke.</li>
+</ul>
+<p>Only exactly linear attachment gives a pure power law; a slightly sublinear $\Pi(k)$, as measured for collaborations, is one reason real tails bend down.</p>
+<div data-fig id="fig-alpha"></div>
+<div class="callout example">
+  <p><strong>Worked example: reading α from data.</strong></p>
+  <ol>
+    <li>Given: on log–log axes the measured $\pi(k)$ of a network rises from 0.01 at $k = 2$ to 0.79 at $k = 20$.</li>
+    <li>Slope $= \log_{10}(0.79/0.01)/\log_{10}(20/2) = \log_{10} 79 = 1.9$.</li>
+    <li>$\pi(k) \sim k^{\alpha+1}$, so $\alpha = 1.9 - 1 = 0.9$: sublinear.</li>
+    <li>Meaning: expect a slightly curved tail (stretched exponential) and smaller hubs than the BA model predicts.</li>
+  </ol>
+</div>
+
+<h2>Where does preferential attachment come from? (Section 5.9)</h2>
+<p>Nobody computes $\Pi(k)$ before linking. Two kinds of mechanism produce it anyway.</p>
+<ul>
+  <li><strong>Link selection</strong> (local, random): a new node picks a random link and attaches to one of its two ends. The end of a random link is a degree-$k$ node with probability
+  $$q_k = \frac{k\,p_k}{\langle k\rangle},$$
+  linear in $k$: preferential attachment without knowing any degree.</li>
+  <li><strong>Copying</strong> (local, random): a new web page picks a random page $u$; with probability $p$ it links to $u$, otherwise it copies one of $u$'s links. A node is reached with probability
+  $$\Pi(k) = \frac{p}{N} + (1-p)\frac{k}{2L},$$
+  again linear. Friends of friends, copied references and duplicated genes work this way.</li>
+  <li><strong>Optimization</strong> (global, rational): a new node at a random point of a unit square links to the node $j$ that minimises a cost $C_j = \delta\,d_{ij} + h_j$, trading the distance $d_{ij}$ against the network distance $h_j$ of $j$ from a central node. Small $\delta$ gives a star, large $\delta$ ($\ge \sqrt N$) a network without hubs, and in between ($4 \le \delta \le \sqrt N$) a scale-free network: each node attracts the newcomers that land in its basin, and bigger nodes have bigger basins.</li>
+</ul>
+<div data-fig id="fig-origins"></div>
+<p class="small">Luck or reason: in the 1960s Herbert Simon (random, preferential growth) and Benoit Mandelbrot (optimization) fought over the origin of power laws in word frequencies. Both mechanisms turn out to produce linear preferential attachment.</p>
+
+<h2>Distances and clustering (Section 5.10)</h2>
+<div class="eq">$$d_{\max} \sim \frac{\ln N}{\ln\ln N}\ (m &gt; 1), \qquad \langle C\rangle \sim \frac{(\ln N)^2}{N}.$$</div>
+<dl class="symbols">
+  <dt>$d_{\max}$</dt><dd>diameter; the average distance scales the same way, slower than the random network's $\ln N$</dd>
+  <dt>$\langle C\rangle$</dt><dd>average clustering; above the random $\langle k\rangle/N$ but still vanishing for large $N$</dd>
+</dl>
+<div data-fig id="fig-dc"></div>
+<div class="callout key">
+  <p>The BA model's lesson is that structure and evolution are inseparable. Random, small-world and configuration models are like a photograph of a painting: they reproduce what a network looks like. The BA model repaints it with the original brush strokes: to explain a network's topology, model how it came to be.</p>
 </div>
 
 <div class="callout connect">
@@ -170,6 +240,26 @@
   <div class="explain">The largest hub grows like $k_{\max} \sim m N^{1/2} = 2 \times 1{,}000$.</div>
 </div>
 
+<div class="quiz" data-answer="4">
+  <p>In the link selection model a new node picks a random link and attaches to one of its ends. The end of a random link is a degree-$k$ node with probability $q_k = k\,p_k/\langle k\rangle$. Why does this model produce a scale-free network?</p>
+  <ol>
+    <li data-why="The new node never looks at degrees; it only picks a link.">The new node chooses the node with the most links</li>
+    <li data-why="Growth alone gives an exponential distribution (Model A).">Because the network grows</li>
+    <li data-why="Links are picked uniformly at random; nothing is optimised.">It minimises the distance to the centre</li>
+    <li>Hubs sit at the end of many links, so a random link reaches a node with probability proportional to its degree: preferential attachment without any rule</li>
+  </ol>
+  <div class="explain">$q_k \propto k$ is linear preferential attachment in disguise. Together with growth it reproduces the BA model and $\gamma = 3$.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Measured between two snapshots, a network's cumulative attachment function grows as $\pi(k) \sim k^{2.4}$. With $\pi(k) \sim k^{\alpha + 1}$, what kind of network should grow?</p>
+  <ol>
+    <li data-why="α = 2.4 − 1 = 1.4, not 2.4, and either way it is not linear.">A BA network with $\gamma = 3$</li>
+    <li>$\alpha = 1.4$, superlinear: a few early super-hubs take a finite share of all links, a hub-and-spoke network</li>
+    <li data-why="Sublinear means α &lt; 1; here α = 1.4.">$\alpha = 1.4$, sublinear: a stretched exponential with small hubs</li>
+    <li data-why="An exponential distribution needs α = 0, that is π(k) ~ k.">An exponential degree distribution</li>
+  </ol>
+  <div class="explain">$\alpha = 2.4 - 1 = 1.4 &gt; 1$: the rich-get-richer effect is amplified into winner takes all, and $k_{\max}$ grows linearly in time.</div>
+</div>
 </div>
 </main>
 </body>

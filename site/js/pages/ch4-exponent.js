@@ -38,7 +38,7 @@ const regime = (g) => (g < 2 ? "anomalous (γ < 2)" : g < 3 ? "scale-free (2 < �
 
 // ------------------------------------------------------------------ 2. multi-links as γ → 2 (worker)
 (async () => {
-  const f = figure("#fig-multi", { title: "Why γ < 2 is hard to realise in a simple network", sub: "Share of stub pairs that the configuration model turns into self-loops or repeated links, N = 10,000, k_min = 1, degrees uncapped (3 networks per γ)." });
+  const f = figure("#fig-multi", { title: "Why γ < 2 is hard to realise in a simple network", sub: "Share of stub pairs (half-links joined at random) that the configuration model turns into self-loops or repeated links, N = 10,000, k_min = 1, degrees uncapped (3 networks per γ)." });
   const status = h("div", { class: "status-line" }, "Simulating…");
   f.controls.append(status);
   const plot = new Plot(f.body, { height: 260, x: { label: "degree exponent γ", min: 1.5, max: 3.5 }, y: { type: "log", label: "share of stub pairs lost" } });

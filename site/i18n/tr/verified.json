@@ -1,0 +1,15 @@
+[
+ "Kitabın verisi üzerinde 37 kod hücresinin tamamını yeniden çalıştırmak, kaydedilmiş not defterinin her yazdırılan sayısını ve her tablosunu tam olarak yeniden üretir (yalnızca kütüphane sürümleri ve indirme mesajları farklıdır).",
+ "Karate kulübü: N = 34, L = 78, ⟨k⟩ = 4.59, 45 üçgen, (A²)₀,₃₃ = 4, çap 5, ⟨d⟩ = 2.41, 14 ile 16 arasında 14 en kısa yol, C₀ = 0.150, C₃₃ = 0.110, ⟨C⟩ = 0.571, C_Δ = 0.256 (JavaScript'te ve NetworkX'te bağımsız olarak yeniden hesaplandı).",
+ "İş birliği ağı: 567 bileşen, dev bileşen %92.3, ⟨C⟩ = 0.633, C_Δ = 0.264, ⟨d⟩ = 5.35, r = 0.134, k_max = 279, k ≥ 100 olan 28 düğüm.",
+ "Poisson karşılaştırmaları: k_max ≈ 21, beklenen 6.5×10⁻¹⁹'a karşı k ≥ 50 olan 244 düğüm ve k ≥ 279 için 10⁻³⁰⁹.",
+ "Tüm Clauset–Shalizi–Newman uydurmaları (k_min, γ̂, σ, kuyruk payı) ve olabilirlik oranı tabloları. Bu sitenin bağımsız JavaScript uygulaması sekiz ağın hepsi için aynı k_min'i ve 0.01 içinde aynı γ̂'yı bulur.",
+ "powerlaw ≥ 2.0 “tuzağı” gerçektir: Power_Law.DEFAULT_PARAMETER_RANGES = {'alpha': [0, 3]}; bu, İnternet için k_min = 36'da γ̂ = 2.94 verir.",
+ "powerlaw, kuvvet yasasını kesilmiş kuvvet yasasına karşı sınarken iç içe olabilirlik oranı testini kendiliğinden kullanır; bu yüzden tablonun o satırı geçerlidir.",
+ "54. hücre, kontrollü deney örneğini powerlaw'ın generate_random fonksiyonuyla k_min = 1'de çeker; bu, o üretecin kesin olduğu k_min değerlerinden biridir (bkz. S1); yani deney geçerlidir.",
+ "k_min = 1 ile uygulanan kapalı biçimli en çok olabilirlik kestirimi, 55. hücredeki notun söylediği gibi γ = 2.5 için ≈ 2.0 (2.02) verir.",
+ "2L değiş tokuşlu dereceyi koruyan rastgeleleştirme (71. hücre) yeterlidir: ⟨C⟩ zaten oturmuştur (2L değiş tokuştan sonra 0.0022, 4L–12L'den sonra 0.0019–0.0024).",
+ "Kümelenme kuralı: kitap da kᵢ ≤ 1 için Cᵢ = 0 alır (Şekil 2.16'nın alt yazısı); bu nx.average_clustering ile tutarlıdır. Bunu kullanmak bir hata değil, bir kuraldır; Kümelenme sayfası bunun ne kadar önemli olduğunu gösterir.",
+ "Bu sitedeki kitap atıfları, çevrimiçi bölümlerle karşılaştırıldı: Bölüm, İleri Konu, Kutu, Tablo ve Şekil numaraları; Facebook (Mayıs 2011, 721 milyon kullanıcı, 68 milyar bağlantı, ⟨d⟩ = 4.74); Milgram (296 mektuptan 64'ü); Karinthy 1929; kesin BA pₖ = 2m(m+1)/(k(k+1)(k+2)) (Denklem 5.11) ve kᵢ ∝ (t/tᵢ)^{1/2}; C* = 1.255, β = η/C* ve pₖ ∼ k^{−(1+C*)}/ln k (Denklem 6.7–6.8); k_nn ∼ k^μ ve k_s ∼ (⟨k⟩N)^{1/2} (Denklem 7.10, 7.15); f_c = 1 − 1/(κ − 1) ve iki tepeli en iyi dağılım (Denklem 8.7, 8.17, Bölüm 8.7); k ≤ √(2L) ve WWW örneği k_C ≲ 1,730 (Denklem 9.14); λ_c = ⟨k⟩/⟨k²⟩ (SIS) ve 1/(κ − 1) (SIR) (10. Bölüm).",
+ "Not defterinin kullandığı kitap sonuçları, güvenilmek yerine yeniden türetildi ya da benzetimle sınandı: doğal kesme k_max ≈ k_min N^{1/(γ−1)}, γ < 3 için ⟨k²⟩'nin ıraksaması, ⟨d⟩ ≈ ln N/ln⟨k⟩, S = 1 − e^{−⟨k⟩S}, C = ⟨k⟩/N (ilgili sayfalardaki benzetimler); İnternet γ ≈ 3.4 (bizim uydurmamız k_min = 70'te 3.40; kitabınki k_min = 72'de 3.42)."
+]

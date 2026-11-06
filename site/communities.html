@@ -29,7 +29,7 @@
 </div>
 
 <h2>Modularity (Section 9.4)</h2>
-<p>A community has more internal links than random wiring with the same degrees (the <a href="ch4-moments.html">configuration model</a>) would give it. Modularity scores a partition by that excess:</p>
+<p>A community has more internal links than random wiring with the same degrees (the <a href="ch4-generating.html">configuration model</a>) would give it. Modularity scores a partition by that excess:</p>
 <div class="eq">$$Q = \sum_{c} \left[\frac{L_c}{L} - \left(\frac{k_c}{2L}\right)^2\right].$$</div>
 <dl class="symbols">
   <dt>$c$</dt><dd>a community of the partition</dd>
@@ -45,7 +45,7 @@
 
 <div data-fig id="fig-karate"></div>
 <div class="callout look">
-  <p>Spectral bisection misplaces only members 2 and 8. Louvain finds four groups with $Q = 0.420$, above the real split: maximising $Q$ is not the same as predicting the split.</p>
+  <p>Spectral bisection misplaces only two members. Louvain finds four groups with $Q$ between 0.39 and 0.42, depending on the run (no partition of this network beats 0.420). All are above the real split's 0.358: maximising $Q$ is not the same as predicting the split.</p>
 </div>
 
 <h2>Algorithms</h2>
@@ -82,7 +82,7 @@
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>Every node is its own community. What is $Q$?</p>
+  <p>Put every node in its own community. What is the modularity $Q$ of this partition?</p>
   <ol>
     <li>Slightly negative</li>
     <li data-why="Singletons have no internal links.">Exactly 1</li>
@@ -93,7 +93,7 @@
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>$L = 10$, two groups, each with 4 internal links and total degree 10. What is $Q$?</p>
+  <p>A network with $L = 10$ links is split into two groups. Each has 4 internal links and total degree 10. What is $Q$?</p>
   <ol>
     <li data-why="That is 8/10 without the chance term.">0.8</li>
     <li data-why="That is one group only.">0.15</li>
@@ -104,9 +104,9 @@
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>Why subtract $(k_c/2L)^2$?</p>
+  <p>Why does modularity subtract $(k_c/2L)^2$ from each group's share of internal links?</p>
   <ol>
-    <li data-why="Q would be bounded without it.">To keep $Q$ in $[-1, 1]$.</li>
+    <li data-why="Without it, L_c/L summed over groups would still lie between 0 and 1; the term is not about bounds.">To keep $Q$ in $[-1, 1]$.</li>
     <li>Otherwise one big group would score best.</li>
     <li data-why="Small groups get small penalties, not bonuses.">To favour small groups.</li>
     <li data-why="It uses degrees, not triangles.">To count triangles.</li>
@@ -115,7 +115,7 @@
 </div>
 
 <div class="quiz" data-answer="4">
-  <p>$L = 5{,}000$. Two separate groups, total degree 50 each, share one link. Does maximising $Q$ merge them?</p>
+  <p>A network has $L = 5{,}000$ links. Two otherwise separate groups, each with total degree 50, share one link. Does maximising $Q$ merge them?</p>
   <ol>
     <li data-why="The gain depends on size relative to the network.">No: one link is too few.</li>
     <li data-why="Q is a definite number for each partition.">It cannot decide.</li>
@@ -126,7 +126,7 @@
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>Louvain finds $Q = 0.3$. What to check before claiming communities?</p>
+  <p>Louvain finds $Q = 0.3$ in a network. What should you check before claiming it has communities?</p>
   <ol>
     <li data-why="Agreement between algorithms says nothing about chance.">A second algorithm's $Q$.</li>
     <li>$Q$ of a random network with the same $N$ and $L$.</li>
@@ -137,7 +137,7 @@
 </div>
 
 <div class="quiz" data-answer="3">
-  <p>Why does the sign of the Fiedler vector cut few links?</p>
+  <p>Why does splitting nodes by the sign of the Fiedler vector cut few links?</p>
   <ol>
     <li data-why="It belongs to the second-smallest.">It is the eigenvector of the largest eigenvalue</li>
     <li data-why="It uses links, not triangles.">It counts triangles</li>
@@ -147,7 +147,7 @@
   <div class="explain">Nodes on opposite sides of the cut have different signs; few links can join them cheaply.</div>
 </div>
 <div class="quiz" data-answer="4">
-  <p>$L = 20{,}000$. Below what total degree are two groups joined by one link merged?</p>
+  <p>A network has $L = 20{,}000$ links. Two groups joined by a single link are merged by modularity if their total degrees are below what value?</p>
   <ol>
     <li data-why="That is √L.">141</li>
     <li data-why="That is L.">20,000</li>

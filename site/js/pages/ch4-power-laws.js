@@ -6,6 +6,7 @@ import { RNG } from "../lib/rng.js";
 import { gnp, powerlawSequence, configurationGraph, giantComponent, degreeStats } from "../lib/graph.js";
 import { hurwitzZeta, poissonPmf, poissonLogPmf, poissonLogSfGe, pkLinear, pkLogBinned, fmt, superscript } from "../lib/stats.js";
 import { loadNetworks } from "../lib/data.js";
+import { LANG } from "../i18n.js";
 
 const plPmf = (k, g, kmin) => Math.pow(k, -g) / hurwitzZeta(g, kmin);
 const plSf = (k, g, kmin) => hurwitzZeta(g, k) / hurwitzZeta(g, kmin);
@@ -88,7 +89,7 @@ const expected = (logP, N) => {
   const lo = Math.floor(d.avgk - Math.sqrt(d.avgk)), hi = Math.ceil(d.avgk + Math.sqrt(d.avgk));
   let poMid = 0;
   for (let k = lo; k <= hi; k++) poMid += poissonPmf(k, d.avgk);
-  f.setCaption(`Nodes with ${lo} ≤ k ≤ ${hi} (around ⟨k⟩): ${fmt.pct(share((k) => k >= lo && k <= hi))} in the data, against ${fmt.pct(poMid)} for Poisson. Nodes with k ≤ 2: ${fmt.pct(share((k) => k <= 2))} against ${fmt.pct(poissonPmf(0, d.avgk) + poissonPmf(1, d.avgk) + poissonPmf(2, d.avgk))}. Nodes with k ≥ 50: ${fmt.int(share((k) => k >= 50) * d.N)} against an expected ${expected(poissonLogSfGe(50, d.avgk), d.N)}.`);
+  f.setCaption((LANG === "tr" ? `${lo} ≤ k ≤ ${hi} olan düğümler (⟨k⟩ civarı): veride ${fmt.pct(share((k) => k >= lo && k <= hi))}, Poisson'da ${fmt.pct(poMid)}. k ≤ 2 olan düğümler: veride ${fmt.pct(share((k) => k <= 2))}, Poisson'da ${fmt.pct(poissonPmf(0, d.avgk) + poissonPmf(1, d.avgk) + poissonPmf(2, d.avgk))}. k ≥ 50 olan düğümler: veride ${fmt.int(share((k) => k >= 50) * d.N)}, Poisson'da beklenen ${expected(poissonLogSfGe(50, d.avgk), d.N)}.` : `Nodes with ${lo} ≤ k ≤ ${hi} (around ⟨k⟩): ${fmt.pct(share((k) => k >= lo && k <= hi))} in the data, against ${fmt.pct(poMid)} for Poisson. Nodes with k ≤ 2: ${fmt.pct(share((k) => k <= 2))} against ${fmt.pct(poissonPmf(0, d.avgk) + poissonPmf(1, d.avgk) + poissonPmf(2, d.avgk))}. Nodes with k ≥ 50: ${fmt.int(share((k) => k >= 50) * d.N)} against an expected ${expected(poissonLogSfGe(50, d.avgk), d.N)}.`));
 })();
 
 // ------------------------------------------------------------------ 3. what the networks look like

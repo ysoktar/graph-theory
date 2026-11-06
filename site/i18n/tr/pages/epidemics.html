@@ -1,0 +1,156 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Yayılma ve aşılama · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Rastgele ve ölçekten bağımsız ağlarda SIR salgınları, salgın eşiğini neden ⟨k²⟩'nin belirlediği ve rastgele, hedefli ve tanıdık aşılamasının karşılaştırması."></head><body>
+<div class="content">
+
+<h1>Yayılma ve aşılama</h1>
+<p class="lead">Enfeksiyonlar bağlantılar boyunca ilerler. Ölçekten bağımsız bir ağda onu bir arada tutan merkez düğümler salgınları da her yere taşır; bu da salgınların nasıl davrandığını ve nasıl durdurulacağını değiştirir (10. Bölüm).</p>
+
+<div class="callout why">
+  <ul>
+    <li>Klasik epidemiyoloji herkesin herkesle karşılaştığını varsayar; bu durumda bir salgın için $R_0 > 1$, yani vaka başına birden fazla yeni vaka gerekir.</li>
+    <li>Ağ modeli bunun yerine “komşularınızla karşılaşırsınız” der.</li>
+    <li>Karışım modellerinin öngöremediğini öngörür: merkez düğümler varken zayıf hastalıklar bile yayılır ve rastgele aşılama pek işe yaramaz.</li>
+    <li>Bunun yerine kimin aşılanacağını söyler.</li>
+  </ul>
+</div>
+
+<h2>Ağ üzerinde SIR</h2>
+<p>Düğümler <strong>S</strong> (duyarlı), <strong>I</strong> (enfekte) ya da <strong>R</strong> (iyileşmiş) durumundadır. Enfekte bir düğüm her duyarlı komşusunu bir kez enfekte etmeyi dener, $T$ olasılıkla başarır ve sonra iyileşir.</p>
+<dl class="symbols">
+  <dt>$T$</dt><dd>bulaşma olasılığı: enfeksiyonun tek bir bağlantı boyunca geçme şansı</dd>
+  <dt>$\beta, \tau$</dt><dd>bağlantı başına enfeksiyon hızı, iyileşme süresi; $T = 1 - e^{-\beta\tau}$ (İleri Konu 10.D)</dd>
+</dl>
+<div data-fig id="fig-outbreak"></div>
+
+<h2>Salgın eşiği</h2>
+<ol>
+  <li>Enfeksiyon bir bağlantı boyunca gelir; bu yüzden derecesi $k$ olan bir düğüme $k\,p_k/\langle k\rangle$ olasılıkla ulaşır.</li>
+  <li>Bir bağlantı enfekte edene geri döner; $k-1$ tanesi kalır. Ortalama: $(\langle k^2\rangle - \langle k\rangle)/\langle k\rangle = \kappa - 1$.</li>
+  <li>Her biri $T$ olasılıkla bulaştırır: vaka başına yeni enfeksiyon $R = T(\kappa - 1)$.</li>
+  <li>$R > 1$ ise salgın büyür. $R = 1$ alınırsa:</li>
+</ol>
+<div class="eq">$$T_c = \frac{1}{\kappa - 1} = \frac{\langle k\rangle}{\langle k^2\rangle - \langle k\rangle}.$$</div>
+<dl class="symbols">
+  <dt>$T_c$</dt><dd>kritik bulaşma olasılığı</dd>
+  <dt>$p_k$</dt><dd>derece dağılımı</dd>
+  <dt>$\langle k\rangle, \langle k^2\rangle$</dt><dd>ortalama derece, derece karesinin ortalaması</dd>
+  <dt>$\kappa$</dt><dd>$\langle k^2\rangle/\langle k\rangle$, bir bağlantı boyunca ulaşılan düğümün ortalama derecesi (<a href="robustness.html">Molloy–Reed</a>'deki gibi)</dd>
+  <dt>$R$</dt><dd>bir vakanın yol açtığı yeni enfeksiyonlar</dd>
+</dl>
+<ul>
+  <li>Rastgele ağ: $\langle k^2\rangle - \langle k\rangle = \langle k\rangle^2$; yani $T_c = 1/\langle k\rangle$, iyi karışmış modelin cevabı.</li>
+  <li>Ölçekten bağımsız, $\gamma < 3$: $\langle k^2\rangle \to \infty$; yani $T_c \to 0$ (Pastor-Satorras ve Vespignani 2001).</li>
+  <li>Ortalama alan SIS, $\langle k\rangle/\langle k^2\rangle$ verir: aynı davranış.</li>
+</ul>
+<div class="callout example">
+  <p>E-posta ağı: $\langle k\rangle = 3.23$, $\langle k^2\rangle = 1269$ → $\kappa = 392.6$, $T_c = 1/391.6 = 0.0026$. Aynı $\langle k\rangle$'ya sahip rastgele ağ: $T_c = 0.31$.</p>
+</div>
+
+<div data-fig id="fig-vacc"></div>
+
+<h2>Kimi aşılamalı?</h2>
+<p>Aşılanmış bir düğüm salgın için silinmiş bir düğümdür: aşılama tersine çevrilmiş <a href="robustness.html">dayanıklılıktır</a>.</p>
+<ul>
+  <li><strong>Rastgele:</strong> $g$ oranı $R$'yi $(1-g)\,T(\kappa-1)$'e indirir; yani $g_c = 1 - \dfrac{1}{T(\kappa - 1)}$, $\kappa$ büyükken 1'e yakındır.</li>
+  <li><strong>Merkez düğümler:</strong> $\langle k^2\rangle$'yi $\langle k\rangle$'dan çok daha fazla düşürür ve $T_c$'yi yükseltir. Tüm ağı bilmeyi gerektirir.</li>
+  <li><strong>Tanıdık</strong> (Cohen, Havlin ve ben-Avraham 2003): rastgele bir kişinin rastgele bir tanıdığını aşılayın. Tanıdıkların ortalama $\kappa$ bağlantısı vardır; bu yüzden bu yöntem merkez düğümleri körlemesine bulur.</li>
+</ul>
+<dl class="symbols"><dt>$g_c$</dt><dd>salgını durduran rastgele aşılama kapsamı</dd></dl>
+<div class="callout example">
+  <p>İnternet, $\kappa = 37.9$, $T = 0.1$ olan bir solucan: $R = 3.7$, $g_c = 1 - 1/3.7 = \%73$. Aynı $\langle k\rangle = 6.34$'e sahip rastgele ağ: $R = 0.63$, salgın yok.</p>
+</div>
+
+<div class="callout key">
+  <p>Ağır kuyruklu ağları bozulmalara karşı dayanıklı yapan $\kappa$ (<a href="robustness.html">8. Bölüm</a>) onları salgınlara karşı savunmasız yapar; çare saldırının aynasıdır: merkez düğümleri aşılayın.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Perkolasyonun özel durumu:</strong> her bağlantıyı $T$ olasılıkla tutun; salgın, başlangıç düğümünün kümesidir. $T_c = 1 - f_c$ (<a href="robustness.html">Dayanıklılık</a>).</li>
+    <li><strong>Arkadaşlık paradoksuyla açıklanır:</strong> hem enfeksiyon hem tanıdık aşılaması merkez düğümleri bulur (<a href="correlations.html">Korelasyonlar</a>).</li>
+    <li><a href="ch5-preview.html">Tercihli bağlanmanın</a> ürettiği ıraksayan $\langle k^2\rangle$ (<a href="ch4-moments.html">4. Bölüm</a>) <strong>üzerine kurulur</strong>.</li>
+    <li><a href="communities.html">Topluluklar</a> <strong>tarafından yavaşlatılır</strong>: gruplar arasında az bağlantı vardır.</li>
+  </ul>
+</div>
+
+<div class="callout discuss">
+  <p>Ölçekten bağımsız bir nüfusun %1'ini aşılayabilirsiniz. Kimi aşılarsınız ve $\langle k^2\rangle$ neden önemlidir?</p>
+  <div class="hint">Biliniyorsa merkez düğümleri: onları çıkarmak $\langle k^2\rangle$'yi düşürür ve $T_c$'yi yükseltir. Aksi hâlde tanıdık aşılaması, çünkü rastgele bir tanıdığın ortalama $\langle k^2\rangle/\langle k\rangle$ tanıdığı vardır.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir temas ağında $\langle k\rangle = 4$ ve $\langle k^2\rangle = 84$. Salgın eşiği $T_c$ nedir?</p>
+  <ol>
+    <li data-why="Bu, rastgele ağ değeri olan 1/⟨k⟩'dır.">0.25</li>
+    <li>0.05</li>
+    <li data-why="Bu, ⟨k²⟩ − ⟨k⟩ = 8 gerektirir.">0.5</li>
+    <li data-why="Bu 1/⟨k²⟩'dir; ⟨k⟩'yı ⟨k²⟩ − ⟨k⟩'ya bölün.">0.012</li>
+  </ol>
+  <div class="explain">$T_c = 4/(84 - 4) = 0.05$, rastgele ağın $1/4$'ünün beşte biri.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Yeni enfekte olmuş bir düğüm enfeksiyonu neden yalnızca $k - 1$ bağlantı boyunca aktarabilir?</p>
+  <ol>
+    <li data-why="Tüm bağlantılar aynı T ile bulaştırır.">Bir bağlantı her zaman çok zayıftır.</li>
+    <li data-why="İyileşmeden önce tüm komşularını dener.">Çok erken iyileşir.</li>
+    <li>Bir bağlantı onu enfekte edene geri döner.</li>
+    <li data-why="−1 her düğüm için geçerlidir.">Merkez düğümler bir bağlantı kaybeder.</li>
+  </ol>
+  <div class="explain">Enfekte eden zaten enfektedir. Aynı −1, Molloy–Reed'de de görülür.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>İnternet, rastgele bozulmaların $f_c = \%97.3$'ünden sonra dev bileşenini kaybediyor. Orada bir solucanın $T_c$'si nedir?</p>
+  <ol>
+    <li>$1 - f_c = \%2.7$</li>
+    <li data-why="İki eşik zıt şeyleri ölçer.">$f_c = \%97.3$</li>
+    <li data-why="İkisi de aynı κ'dan çıkar.">$f_c$ ile ilgisizdir</li>
+    <li data-why="Bu, rastgele ağ değeri olan 1/⟨k⟩'dır.">Yaklaşık %16</li>
+  </ol>
+  <div class="explain">$f_c = 1 - 1/(\kappa - 1)$ ve $T_c = 1/(\kappa - 1)$; yani $T_c = 1 - f_c$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Bir hastalığın $\kappa = 21$ olan bir ağda $T = 0.1$'i var. Durdurmak için insanların hangi oranı rastgele aşılanmalıdır?</p>
+  <ol>
+    <li data-why="R = 0.9 × 2 = 1.8, hâlâ 1'in üstünde.">%10</li>
+    <li>%50</li>
+    <li data-why="Bu, R = 10 gerektirir.">%90</li>
+    <li data-why="Yalnızca sonsuz κ herkesi gerektirir.">Herkes</li>
+  </ol>
+  <div class="explain">$R = 0.1 \times 20 = 2$; yani $g_c = 1 - 1/2 = \%50$.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Tanıdık aşılamasında rastgele insanlardan bir tanıdıklarını söylemelerini ister ve o tanıdığı aşılarsınız. Bu, sorduğunuz insanları aşılamaktan neden daha iyidir?</p>
+  <ol>
+    <li data-why="Sağlık üzerinden değil, derece üzerinden işler.">Tanıdıklar daha sağlıklıdır.</li>
+    <li data-why="İkisi de sorulan kişi başına bir doz kullanır.">Daha az doz kullanır.</li>
+    <li data-why="Ağ hakkında bilgi gerektirmez; avantajı da budur.">Temas ağını gerektirir.</li>
+    <li>Rastgele bir tanıdığın ortalama $\langle k^2\rangle/\langle k\rangle$ bağlantısı vardır.</li>
+  </ol>
+  <div class="explain">Merkez düğümler birçok tanıdık listesinde görünür. E-posta ağı: bir kişinin 3.2 tanıdığı, bir tanıdığın ise 393 tanıdığı vardır.</div>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Bir rastgele ağda $\langle k\rangle = 5$. Salgın eşiği $T_c$ nedir?</p>
+  <ol>
+    <li>0.2</li>
+    <li data-why="Bu 1/(⟨k⟩ − 1)'dir; Poisson derecelerde ⟨k²⟩ − ⟨k⟩ = ⟨k⟩²'dir.">0.25</li>
+    <li data-why="Bu 1/⟨k⟩²'dir.">0.04</li>
+    <li data-why="Bir olasılık 1'i aşamaz.">5</li>
+  </ol>
+  <div class="explain">$T_c = \langle k\rangle/\langle k\rangle^2 = 1/5$.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Ölçekten bağımsız bir temas ağı ($\gamma = 2.5$) $10^4$'ten $10^7$ kişiye büyüyor. Salgın eşiği $T_c$ nasıl değişir?</p>
+  <ol>
+    <li data-why="Bu, ⟨k⟩'sı sabit rastgele ağlar için geçerlidir.">Sabit kalır</li>
+    <li data-why="Daha büyük merkez düğümler yayılmayı kolaylaştırır; yani eşik düşer.">Yükselir</li>
+    <li>0'a doğru düşer</li>
+    <li data-why="Merkez düğümler eşiği düşürür.">1'e sıçrar</li>
+  </ol>
+  <div class="explain">$\gamma &lt; 3$ için $\langle k^2\rangle$, $N$ ile büyür; yani $T_c = \langle k\rangle/(\langle k^2\rangle - \langle k\rangle) \to 0$.</div>
+</div>
+</div></body></html>

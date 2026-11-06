@@ -1,0 +1,144 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Topluluklar · Çizgelerden Merkez Düğümlere</title>
+<meta name="description" content="Modülerlik, karate kulübünün bölünmesi, spektral ikiye bölme, etiket yayılımı ve Louvain; rastgele ağların da neden yüksek modülerliğe sahip olduğu."></head><body>
+<div class="content">
+
+<h1>Topluluklar</h1>
+<p class="lead">Gerçek ağlar, içeride yoğun, birbirleriyle seyrek bağlı gruplardan oluşur: araştırma alanları, arkadaş çevreleri, hücre modülleri. 9. Bölüm bunları yalnızca bağlantılardan bulur.</p>
+
+<div class="callout why">
+  <ul>
+    <li>Dereceler kaç bağlantı olduğunu söyler; topluluklar daha büyük ölçekte kimin kime bağlı olduğunu söyler.</li>
+    <li>İşlevi ortaya çıkarırlar: birlikte çalışan proteinler, bir grubun nereden bölünebileceği.</li>
+    <li>3–5. Bölümlerin rastgele modellerinde topluluk yoktur; bu yüzden gerçek grupları şans eseri oluşan kümelerden ayıran bir teste ihtiyacımız var.</li>
+  </ul>
+</div>
+
+<h2>Modülerlik (Bölüm 9.4)</h2>
+<p>Bir topluluğun içinde, aynı derecelerle rastgele bağlantının (<a href="ch4-generating.html">konfigürasyon modeli</a>) vereceğinden daha çok bağlantı vardır. Modülerlik bir bölümlemeyi bu fazlalığa göre puanlar:</p>
+<div class="eq">$$Q = \sum_{c} \left[\frac{L_c}{L} - \left(\frac{k_c}{2L}\right)^2\right].$$</div>
+<dl class="symbols">
+  <dt>$c$</dt><dd>bölümlemenin bir topluluğu</dd>
+  <dt>$L$</dt><dd>toplam bağlantı sayısı</dd>
+  <dt>$L_c$</dt><dd>$c$'nin içindeki bağlantılar</dd>
+  <dt>$k_c$</dt><dd>$c$'deki düğümlerin toplam derecesi</dd>
+  <dt>$(k_c/2L)^2$</dt><dd>rastgele bağlantıda $c$'nin içinde kalması beklenen bağlantıların oranı (iki ucun da $c$'ye düşmesi)</dd>
+</dl>
+<p>Gözlenen eksi beklenen: her şeyi içeren tek bir grup için $Q = 0$, şanstan az iç bağlantı için $Q &lt; 0$ ve her zaman $Q &lt; 1$.</p>
+<div class="callout example">
+  <p>Karate kulübü, $L = 78$: $(L_c, k_c) = (35, 81)$ ve $(32, 75)$ olan iki grup. $Q = (0.449 - 0.270) + (0.410 - 0.231) = 0.358$.</p>
+</div>
+
+<div data-fig id="fig-karate"></div>
+<div class="callout look">
+  <p>Spektral ikiye bölme yalnızca iki üyeyi yanlış yere koyar. Louvain, çalıştırmaya bağlı olarak $Q$'su 0.39 ile 0.42 arasında olan dört grup bulur (bu ağın hiçbir bölümlemesi 0.420'yi geçmez). Hepsi gerçek bölünmenin 0.358'inin üstündedir: $Q$'yu en büyük yapmak, bölünmeyi öngörmekle aynı şey değildir.</p>
+</div>
+
+<h2>Algoritmalar</h2>
+<ul>
+  <li data-beyond="Kitapta yok: spektral bölümleme"><strong>Spektral ikiye bölme:</strong> $\sum_{\text{bağlantılar}} (x_i - x_j)^2$'yi en küçük yapan düğüm değerleri $x_i$'yi seçin; çözüm Laplace matrisinin Fiedler vektörüdür (<a href="embeddings.html">Gömmeler</a>). İşareti düğümleri ikiye böler.</li>
+  <li data-beyond="Kitapta yok: Raghavan ve ark. 2007"><strong>Etiket yayılımı</strong> (Raghavan, Albert ve Kumara 2007): her düğüm, kararlı hâle gelene kadar komşularının en yaygın etiketini benimser. Hızlıdır; rastgeledir.</li>
+  <li><strong>Louvain</strong> (Blondel ve ark. 2008): $Q$'yu artırmak için düğümleri taşıyın, toplulukları süper düğümlerde birleştirin, tekrarlayın. Büyük ağlar için standarttır.</li>
+</ul>
+<div data-fig id="fig-real"></div>
+
+<h2>Modülerliğin sınırları</h2>
+<p><strong>Çözünürlük sınırı</strong> (Fortunato ve Barthélemy 2007). $l_{AB}$ bağlantıyla birleşmiş $A$ ve $B$ topluluklarını birleştirmek $Q$'yu şu kadar değiştirir:</p>
+<div class="eq">$$\Delta Q = \frac{l_{AB}}{L} - \frac{k_A\,k_B}{2L^2}.$$</div>
+<dl class="symbols">
+  <dt>$l_{AB}$</dt><dd>$A$ ile $B$ arasındaki bağlantılar</dd>
+  <dt>$k_A, k_B$</dt><dd>toplam dereceleri</dd>
+</dl>
+<p>$l_{AB} = 1$ iken, $k_A k_B &lt; 2L$, yani $k &lt; \sqrt{2L}$ olduğunda birleştirme $Q$'yu artırır: küçük gruplar ne kadar ayrı olurlarsa olsunlar birleştirilir.</p>
+<div class="callout example">
+  <p>İş birliği ağı: $L = 93{,}439$, $\sqrt{2L} \approx 432$. Her biri 8 bağlantılı 40 bilim insanından oluşan bir grup ($k = 320$) bunun altında kalır.</p>
+</div>
+<p><strong>Rastgele ağlar da yüksek puan alır</strong> (Guimerà, Sales-Pardo ve Amaral 2004): yukarıdaki tabloya bakın.</p>
+<div class="callout gotcha">
+  <p>Yüksek bir $Q$ tek başına toplulukların kanıtı değildir. Aynı boyut ve yoğunluktaki bir rastgele ağın $Q$'suyla karşılaştırın.</p>
+</div>
+
+<div class="callout connect">
+  <ul>
+    <li><strong>Sıfır modeli:</strong> <a href="correlations.html">derece korelasyonlarında</a> olduğu gibi konfigürasyon modeli.</li>
+    <li>Yüksek <a href="ch3-small-world.html">kümelenmeyi</a> <strong>açıklar</strong>: arkadaşlarınız birbirini tanır, çünkü bir grubu paylaşırlar.</li>
+    <li>Bir <a href="embeddings.html">spektral gömmenin</a> <strong>özel durumudur</strong>: ikiye bölme tek bir özvektör kullanır; daha fazlası koordinat verir.</li>
+    <li><a href="epidemics.html">Yayılmayı</a> <strong>yavaşlatır</strong>: gruplar arasında az bağlantı vardır.</li>
+  </ul>
+</div>
+
+<div class="quiz" data-answer="1">
+  <p>Her düğümü kendi topluluğuna koyun. Bu bölümlemenin modülerliği $Q$ nedir?</p>
+  <ol>
+    <li>Biraz negatif</li>
+    <li data-why="Tek düğümlü toplulukların iç bağlantısı yoktur.">Tam olarak 1</li>
+    <li data-why="Bu, tek grubun değeridir; tek düğümlü topluluklar yine de beklenen terimleri çıkarır.">Tam olarak 0</li>
+    <li data-why="L_c = 0 ile her terim tanımlıdır.">Tanımsız</li>
+  </ol>
+  <div class="explain">$L_c = 0$; yani $Q = -\sum_i (k_i/2L)^2$; karate kulübü için $-0.050$.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>$L = 10$ bağlantılı bir ağ iki gruba bölünüyor. Her birinin 4 iç bağlantısı ve toplam derecesi 10. $Q$ nedir?</p>
+  <ol>
+    <li data-why="Bu, şans terimi olmadan 8/10'dur.">0.8</li>
+    <li data-why="Bu yalnızca bir gruptur.">0.15</li>
+    <li>0.3</li>
+    <li data-why="Şanstan daha çok iç bağlantıları var.">0</li>
+  </ol>
+  <div class="explain">Her grup: $0.4 - (10/20)^2 = 0.15$; $Q = 0.3$.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Modülerlik her grubun iç bağlantı payından neden $(k_c/2L)^2$ çıkarır?</p>
+  <ol>
+    <li data-why="Bu terim olmadan da gruplar üzerinden toplanan L_c/L 0 ile 1 arasında kalırdı; terim sınırlarla ilgili değildir.">$Q$'yu $[-1, 1]$ içinde tutmak için.</li>
+    <li>Aksi hâlde tek büyük bir grup en yüksek puanı alırdı.</li>
+    <li data-why="Küçük gruplar ödül değil, küçük cezalar alır.">Küçük grupları kayırmak için.</li>
+    <li data-why="Üçgenleri değil, dereceleri kullanır.">Üçgenleri saymak için.</li>
+  </ol>
+  <div class="explain">İç bağlantı payı tek başına önemsiz bölümleme için 1'dir. Şans payını çıkarmak yalnızca şaşırtıcı yoğunlaşmayı ödüllendirir.</div>
+</div>
+
+<div class="quiz" data-answer="4">
+  <p>Bir ağda $L = 5{,}000$ bağlantı var. Her birinin toplam derecesi 50 olan, aksi hâlde ayrı iki grup tek bir bağlantıyı paylaşıyor. $Q$'yu en büyük yapmak onları birleştirir mi?</p>
+  <ol>
+    <li data-why="Kazanç, ağa göre büyüklüğe bağlıdır.">Hayır: tek bağlantı çok azdır.</li>
+    <li data-why="Q her bölümleme için kesin bir sayıdır.">Karar veremez.</li>
+    <li data-why="Seçim birleştirmek ya da birleştirmemektir.">Onları tek düğümlü topluluklara böler.</li>
+    <li>Evet: $k_A k_B = 2{,}500 &lt; 2L$.</li>
+  </ol>
+  <div class="explain">$\Delta Q = 0.0002 - 0.00005 > 0$; ikisi de $\sqrt{2L} = 100$'ün altındadır.</div>
+</div>
+
+<div class="quiz" data-answer="2">
+  <p>Louvain bir ağda $Q = 0.3$ buluyor. Toplulukları olduğunu iddia etmeden önce neyi denetlemelisiniz?</p>
+  <ol>
+    <li data-why="Algoritmalar arasındaki uyum şans hakkında bir şey söylemez.">İkinci bir algoritmanın $Q$'sunu.</li>
+    <li>Aynı $N$ ve $L$'ye sahip bir rastgele ağın $Q$'sunu.</li>
+    <li data-why="Dereceler zaten sıfır teriminde var.">$p_k$'nın kuvvet yasası olduğunu.</li>
+    <li data-why="Evrensel bir eşik değeri yoktur.">$Q > 0.5$ olduğunu.</li>
+  </ol>
+  <div class="explain">Seyrek rastgele ağlar eniyileme altında $Q \approx 0.3$ ya da daha fazlasına ulaşır; yalnızca bu taban çizgisinin çok üstündeki bir $Q$ kanıttır.</div>
+</div>
+
+<div class="quiz" data-answer="3">
+  <p>Düğümleri Fiedler vektörünün işaretine göre ayırmak neden az bağlantı keser?</p>
+  <ol>
+    <li data-why="İkinci en küçük özdeğere aittir.">En büyük özdeğerin özvektörüdür</li>
+    <li data-why="Üçgenleri değil, bağlantıları kullanır.">Üçgenleri sayar</li>
+    <li>$\sum_{\text{bağlantılar}} (x_i - x_j)^2$'yi en küçük yapar; bu yüzden bağlı düğümler benzer değerler alır</li>
+    <li data-why="Derece tek başına kimin kime bağlı olduğunu yok sayar.">Düğümleri dereceye göre sıralar</li>
+  </ol>
+  <div class="explain">Kesimin iki yanındaki düğümlerin işaretleri farklıdır; onları ucuza birleştirebilecek bağlantı azdır.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Bir ağda $L = 20{,}000$ bağlantı var. Tek bir bağlantıyla birleşmiş iki grubu modülerlik, toplam dereceleri hangi değerin altındaysa birleştirir?</p>
+  <ol>
+    <li data-why="Bu √L'dir.">141</li>
+    <li data-why="Bu L'dir.">20,000</li>
+    <li data-why="Bu, karekökten önceki 2L'dir.">40,000</li>
+    <li>200</li>
+  </ol>
+  <div class="explain">$\sqrt{2L} = \sqrt{40{,}000} = 200$.</div>
+</div>
+</div></body></html>

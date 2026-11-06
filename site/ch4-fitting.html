@@ -19,6 +19,13 @@
 
 <h1>Estimating the degree exponent</h1>
 <p class="lead">Fitting a straight line to a log-log plot is the most common way to estimate $\gamma$, and one of the least reliable. This page tests five estimators on data whose exponent we know, then applies the statistically sound recipe to the book's networks.</p>
+<div class="callout why">
+  <ul>
+    <li>$\gamma$ drives every prediction of the scale-free model, so a biased $\hat\gamma$ gives wrong predictions.</li>
+    <li>Maximum likelihood gives an unbiased $\hat\gamma$ with an error bar.</li>
+    <li>The bootstrap test says whether a power law is plausible at all, which no fit can.</li>
+  </ul>
+</div>
 
 <h2>A controlled experiment</h2>
 <p>To judge an estimator we need data with a known answer. We draw $n$ degrees from a discrete power law with exponent $\gamma$ and $k_{\min} = 1$, and estimate $\gamma$ five ways (notebook III.3):</p>
@@ -105,13 +112,6 @@
   <div class="hint">Broido and Clauset (<em>Nat. Commun.</em> 10, 1017, 2019) tested almost 1,000 networks and concluded that "scale-free networks are rare". Holme (<em>Nat. Commun.</em> 10, 1016, 2019) and Voitalov, van der Hoorn, van der Hofstad and Krioukov (<em>Phys. Rev. Research</em> 1, 033034, 2019) replied that what matters for hubs, distances, robustness and spreading is whether the tail is heavy, i.e. whether $\langle k^2\rangle \gg \langle k\rangle^2$. Here $\langle k^2\rangle/\langle k\rangle^2$ ranges from 1.45 (power grid) to 121 (email). Both sides agree that a straight line on a log-log plot proves nothing.</div>
 </div>
 
-<div class="callout why">
-  <ul>
-    <li>$\gamma$ drives every prediction of the scale-free model, so a biased $\hat\gamma$ gives wrong predictions.</li>
-    <li>Maximum likelihood gives an unbiased $\hat\gamma$ with an error bar.</li>
-    <li>The bootstrap test says whether a power law is plausible at all, which no fit can.</li>
-  </ul>
-</div>
 <div class="callout connect">
   <ul>
     <li><strong>Builds on</strong> <a href="ch4-plotting.html">plotting</a>: the plot suggests, the fit decides.</li>
@@ -173,9 +173,7 @@
 <div class="quiz" data-answer="1">
   <p>Restricting the Internet fit to $\gamma \le 3$ moves $\hat\gamma$ from 3.40 to 2.94. What does that change in Chapter 4's terms?</p>
   <ol>
-    <li>The predicted regime: from random-like (finite $\langle k^2
-angle$) to scale-free (divergent $\langle k^2
-angle$)</li>
+    <li>The predicted regime: from random-like (finite $\langle k^2\rangle$) to scale-free (divergent $\langle k^2\rangle$)</li>
     <li data-why="Crossing γ = 3 changes whether ⟨k²⟩ diverges.">Nothing: both exponents describe the same network</li>
     <li data-why="The data are unchanged; only the fit differs.">The number of nodes in the network</li>
     <li data-why="The exponent feeds every prediction of the model.">Only the plot colours</li>

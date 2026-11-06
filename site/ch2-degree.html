@@ -19,6 +19,13 @@
 
 <h1>Degree, average degree and degree distribution</h1>
 <p class="lead">How many links does a node have, and how unevenly are the links shared out among the nodes? A node's <strong>degree</strong> answers the first question and the network's <strong>degree distribution</strong> the second. Random and scale-free networks (Parts II and III) differ above all in this distribution, and it decides how robust a network is and how things spread on it.</p>
+<div class="callout why">
+  <ul>
+    <li>The average degree needs only two counts, $N$ and $L$.</li>
+    <li>From $p_k$ alone we can predict the largest hub, the robustness of the network and the epidemic threshold, without knowing the full wiring.</li>
+    <li>Comparing a real $p_k$ with that of a random network shows that real networks are not random.</li>
+  </ul>
+</div>
 
 <h2>Degree and average degree</h2>
 <p>The <strong>degree</strong> $k_i$ of node $i$ is its number of links. Adding up all degrees counts each link twice, once at each end (the <a href="ch2-konigsberg.html">handshaking identity</a>), so</p>
@@ -42,13 +49,6 @@
   <dt>$p_k$</dt><dd>the share of nodes with degree $k$, which is also the probability that a randomly chosen node has degree $k$</dd>
   <dt>$\sum_k k\,p_k$</dt><dd>the average degree, computed from the distribution</dd>
 </dl>
-<div class="callout why">
-  <ul>
-    <li>The average degree needs only two counts, $N$ and $L$.</li>
-    <li>From $p_k$ alone we can predict the largest hub, the robustness of the network and the epidemic threshold, without knowing the full wiring.</li>
-    <li>Comparing a real $p_k$ with that of a random network shows that real networks are not random.</li>
-  </ul>
-</div>
 
 <h2>Build a network</h2>
 <div data-fig id="fig-editor"></div>

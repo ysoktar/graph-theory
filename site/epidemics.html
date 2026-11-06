@@ -22,7 +22,7 @@
 
 <div class="callout why">
   <ul>
-    <li>Classical epidemiology assumes everyone meets everyone; an epidemic needs $R_0 > 1$</li>
+    <li>Classical epidemiology assumes everyone meets everyone; an epidemic then needs $R_0 > 1$, more than one new case per case.</li>
     <li>The network model replaces that with "you meet your neighbours".</li>
     <li>It predicts what mixing models cannot: with hubs, even weak diseases spread and random vaccination barely helps.</li>
     <li>It tells us whom to vaccinate instead.</li>
@@ -94,7 +94,7 @@
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>$\langle k\rangle = 4$, $\langle k^2\rangle = 84$. What is $T_c$?</p>
+  <p>A contact network has $\langle k\rangle = 4$ and $\langle k^2\rangle = 84$. What is its epidemic threshold $T_c$?</p>
   <ol>
     <li data-why="That is 1/⟨k⟩, the random-network value.">0.25</li>
     <li>0.05</li>
@@ -127,7 +127,7 @@
 </div>
 
 <div class="quiz" data-answer="2">
-  <p>$T = 0.1$, $\kappa = 21$. What fraction must be vaccinated at random?</p>
+  <p>A disease has $T = 0.1$ on a network with $\kappa = 21$. What fraction of people must be vaccinated at random to stop it?</p>
   <ol>
     <li data-why="R = 0.9 × 2 = 1.8, still above 1.">10%</li>
     <li>50%</li>
@@ -138,18 +138,18 @@
 </div>
 
 <div class="quiz" data-answer="4">
-  <p>Why does vaccinating a named contact beat vaccinating the person asked?</p>
+  <p>In acquaintance vaccination you ask random people to name a contact and vaccinate the contact. Why does this beat vaccinating the people you asked?</p>
   <ol>
     <li data-why="It works through degree, not health.">Contacts are healthier.</li>
-    <li data-why="Doses are the same.">It uses fewer doses.</li>
-    <li data-why="It needs no network knowledge.">It needs the contact network.</li>
+    <li data-why="Both use one dose per person asked.">It uses fewer doses.</li>
+    <li data-why="It needs no knowledge of the network; that is its advantage.">It needs the contact network.</li>
     <li>A random contact has $\langle k^2\rangle/\langle k\rangle$ links on average.</li>
   </ol>
   <div class="explain">Hubs appear in many contact lists. Email network: a person has 3.2 contacts, a contact 393.</div>
 </div>
 
 <div class="quiz" data-answer="1">
-  <p>Random network, $\langle k\rangle = 5$. $T_c$?</p>
+  <p>A random network has $\langle k\rangle = 5$. What is its epidemic threshold $T_c$?</p>
   <ol>
     <li>0.2</li>
     <li data-why="That is 1/(⟨k⟩ − 1); for Poisson degrees ⟨k²⟩ − ⟨k⟩ = ⟨k⟩².">0.25</li>
@@ -159,12 +159,12 @@
   <div class="explain">$T_c = \langle k\rangle/\langle k\rangle^2 = 1/5$.</div>
 </div>
 <div class="quiz" data-answer="3">
-  <p>A scale-free contact network ($\gamma = 2.5$) grows from $10^4$ to $10^7$ people. Its $T_c$</p>
+  <p>A scale-free contact network ($\gamma = 2.5$) grows from $10^4$ to $10^7$ people. How does its epidemic threshold $T_c$ change?</p>
   <ol>
-    <li data-why="That holds for random networks with fixed ⟨k⟩.">stays fixed</li>
-    <li data-why="Bigger hubs make spreading easier.">rises</li>
-    <li>falls towards 0</li>
-    <li data-why="Hubs lower the threshold.">jumps to 1</li>
+    <li data-why="That holds for random networks with fixed ⟨k⟩.">It stays fixed</li>
+    <li data-why="Bigger hubs make spreading easier, so the threshold drops.">It rises</li>
+    <li>It falls towards 0</li>
+    <li data-why="Hubs lower the threshold.">It jumps to 1</li>
   </ol>
   <div class="explain">$\langle k^2\rangle$ grows with $N$ for $\gamma &lt; 3$, so $T_c = \langle k\rangle/(\langle k^2\rangle - \langle k\rangle) \to 0$.</div>
 </div>

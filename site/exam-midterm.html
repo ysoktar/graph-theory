@@ -25,7 +25,13 @@
 </div>
 
 <div class="callout gotcha">
-  <p><strong>Scope is an assumption.</strong> The syllabus gives no exam scopes or dates. This guide assumes the midterm covers Chapters 1–5 (introduction to the BA model). Confirm with the instructor.</p>
+  <p><strong>What the instructor announced about the midterm.</strong></p>
+  <ul>
+    <li><strong>Scope:</strong> book Chapters 1–5, but only the content of the course slides. Many detailed book sections are not in the slides; on this site they carry the purple "not in the slides" badge.</li>
+    <li><strong>No derivations or proofs.</strong> Questions are in the style used in class.</li>
+    <li><strong>Given an equation, comment on the dynamics that drive it</strong>, and <strong>draw or analyze the related graphs</strong>. The section <a href="#sketches">Read an equation, sketch its graph</a> trains exactly this.</li>
+    <li>For practice, use the book's homework sections, limited to slide content: <a href="#homework">worked solutions below</a>.</li>
+  </ul>
 </div>
 
 <table class="simple">
@@ -42,8 +48,17 @@
   <li>Read a chapter's <strong>Must know</strong> list: the formulas you will be given, with every symbol explained. Learn when each one applies, not the formula itself.</li>
   <li>Solve the <strong>exam-style problems</strong> on paper before opening the solutions, and finish each with one sentence on what the number tells you.</li>
   <li>Read <strong>Common mistakes</strong>; open the linked page for anything unclear.</li>
+  <li>For each equation in <a href="#sketches">Read an equation, sketch its graph</a>, cover the sketch, draw it yourself and say what drives it.</li>
   <li>Take the <a href="#practice">practice set</a> until you score 80% or more on a fresh set.</li>
 </ol>
+
+<p><strong>Further practice the instructor pointed to</strong> (other courses approach the subject differently, so their exams may look quite different from ours):</p>
+<ul>
+  <li><a href="https://faculty.cc.gatech.edu/~dovrolis/Courses/NetSci/">Network Science course of C. Dovrolis (Georgia Tech)</a>: lectures and problems.</li>
+  <li><a href="https://www.distributed-systems.net/index.php/books/gtcn/">M. van Steen, <em>Graph Theory and Complex Networks</em></a>: a free textbook with exercises on Chapters 2–3 material.</li>
+  <li><a href="https://github.com/chatox/networks-science-course/blob/master/exams/README.md">Past exams of C. Castillo's Network Science course</a>. They lean on centrality and PageRank, which are not in our midterm scope; their questions on degrees, adjacency matrices, sparsity, clustering, small worlds and drawing degree distributions are good practice.</li>
+  <li>Syllabus resources: <a href="https://networksciencebook.com/">the book</a>, <a href="https://www.networkatlas.eu/index.htm">The Atlas for the Aspiring Network Scientist</a>, <a href="https://ona-book.org/index.html">Handbook of Graphs and Networks in People Analytics</a>, <a href="https://networkx.org/">NetworkX</a>.</li>
+</ul>
 
 <h2>Formula checklist</h2>
 <p>You do not need to memorize these: exam-style questions give them. You need to know what each line means and when to use it.</p>
@@ -84,6 +99,114 @@
 </div>
 
 <!-- ============================== CH 1 ============================== -->
+<h2 id="sketches">Read an equation, sketch its graph</h2>
+<p>The midterm gives you equations and asks what drives them and what their graphs look like. For each equation of Chapters 2–5 below: the mechanism behind it, the graph to draw (with which axes are logarithmic), and the comment an answer should make. Practise by covering the sketch, drawing your own, then comparing.</p>
+<p class="small muted">How to draw any of these: label both axes, say which are logarithmic, mark the special points (a threshold, a slope, a crossing), and add one sentence on what the shape means.</p>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>1. Poisson degrees of a random network</strong> (Ch 3)</p>
+  <div class="eq">$$p_k = e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}, \qquad \sigma_k = \sqrt{\langle k\rangle}$$</div>
+  <p><strong>What drives it.</strong> Every pair is linked independently with the same $p$, so a node's degree is a sum of many small independent chances. Nobody is special.</p>
+  <p><strong>What to draw.</strong> Linear axes: a bell peaked at $\langle k\rangle$, width $\sqrt{\langle k\rangle}$. Larger $\langle k\rangle$ moves the peak right and makes it relatively narrower.</p>
+  <p><strong>Comment.</strong> Degrees far from the mean are exponentially rare: no hubs. On log-log axes the curve plunges, unlike a real network's straight line.</p>
+</div><div class="sketch" data-sketch="poisson"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>2. The giant component</strong> (Ch 3)</p>
+  <div class="eq">$$S = 1 - e^{-\langle k\rangle S}$$</div>
+  <p><strong>What drives it.</strong> A node is outside the giant component only if none of its neighbours is in it. One link per node on average is the tipping point: below it clusters are small trees, above it they merge.</p>
+  <p><strong>What to draw.</strong> $S$ against $\langle k\rangle$: zero up to $\langle k\rangle = 1$, then a continuous but steep rise, approaching 1. Mark the four regimes: subcritical ($&lt;1$), critical ($=1$), supercritical, connected ($\ge \ln N$).</p>
+  <p><strong>Comment.</strong> A phase transition: a small change in density near 1 changes the global structure. Real networks sit far above 1, so they have a giant component.</p>
+</div><div class="sketch" data-sketch="giant"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>3. Small-world distances</strong> (Ch 3)</p>
+  <div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln\langle k\rangle}$$</div>
+  <p><strong>What drives it.</strong> The number of nodes within $d$ steps grows like $\langle k\rangle^d$. Setting $\langle k\rangle^d = N$ gives the distance that reaches everyone.</p>
+  <p><strong>What to draw.</strong> $\langle d\rangle$ against $N$ with a logarithmic $N$ axis: a straight, slowly rising line, flatter for larger $\langle k\rangle$. A lattice grows like a power of $N$, far faster.</p>
+  <p><strong>Comment.</strong> Multiplying $N$ by 10 adds only $\ln 10/\ln\langle k\rangle$ steps: six degrees of separation.</p>
+</div><div class="sketch" data-sketch="distance"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>4. Clustering of a random network</strong> (Ch 3)</p>
+  <div class="eq">$$C = p = \frac{\langle k\rangle}{N}$$</div>
+  <p><strong>What drives it.</strong> Two neighbours of a node are linked with the same probability $p$ as any pair: links know nothing about triangles.</p>
+  <p><strong>What to draw.</strong> Log-log: a line of slope $-1$ for random networks; real networks of different sizes scatter around a flat line.</p>
+  <p><strong>Comment.</strong> Large random networks have almost no triangles; real ones keep $C$ independent of $N$. The random model fails here.</p>
+</div><div class="sketch" data-sketch="clustering"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>5. The Watts–Strogatz model</strong> (Ch 3)</p>
+  <div class="eq">$$\text{rewire each link with probability } p$$</div>
+  <p><strong>What drives it.</strong> A few random shortcuts collapse distances everywhere, while almost all local triangles survive.</p>
+  <p><strong>What to draw.</strong> Logarithmic $p$ axis, both quantities divided by their $p = 0$ values: $\langle d\rangle$ drops early (around $p \approx 0.01$), $C$ stays high until $p$ is large. The gap between the drops is the small-world regime.</p>
+  <p><strong>Comment.</strong> High clustering and short paths together, which neither a lattice nor a random network has. Its degrees are still nearly equal: no hubs.</p>
+</div><div class="sketch" data-sketch="ws"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>6. The power law</strong> (Ch 4)</p>
+  <div class="eq">$$p_k \sim k^{-\gamma} \quad\Leftrightarrow\quad \log p_k \approx -\gamma \log k + \text{const}$$</div>
+  <p><strong>What drives it.</strong> No typical degree: the ratio $p_{2k}/p_k = 2^{-\gamma}$ is the same at every scale. Hubs are rare but not forbidden.</p>
+  <p><strong>What to draw.</strong> Log-log axes: a straight line of slope $-\gamma$ that keeps going to large $k$; the Poisson curve with the same mean bends down sharply. On linear axes a power law is an unreadable "L".</p>
+  <p><strong>Comment.</strong> Comparing at large $k$: the power law gives orders of magnitude more high-degree nodes, which is why real networks have hubs.</p>
+</div><div class="sketch" data-sketch="powerlaw"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>7. Cumulative distribution</strong> (Ch 4)</p>
+  <div class="eq">$$P(K \ge k) \sim k^{-(\gamma - 1)}$$</div>
+  <p><strong>What drives it.</strong> Summing the tail of $k^{-\gamma}$ raises the exponent by one.</p>
+  <p><strong>What to draw.</strong> Log-log: two parallel-looking lines, the cumulative one flatter (slope $-(\gamma - 1)$) and smooth, without the noisy tail of $p_k$.</p>
+  <p><strong>Comment.</strong> Read $\gamma$ from a CCDF plot by adding 1 to the magnitude of its slope; a common exam trap.</p>
+</div><div class="sketch" data-sketch="ccdf"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>8. The largest hub</strong> (Ch 4)</p>
+  <div class="eq">$$k_{\max} = k_{\min} N^{1/(\gamma - 1)} \qquad\text{vs}\qquad k_{\max} = k_{\min} + \frac{\ln N}{\lambda}$$</div>
+  <p><strong>What drives it.</strong> The largest of $N$ draws: one node is expected above $k_{\max}$. A power-law tail is fat, so that point moves out like a power of $N$; an exponential tail only logarithmically.</p>
+  <p><strong>What to draw.</strong> Log-log, $k_{\max}$ against $N$: straight lines of slope $1/(\gamma - 1)$ for power laws (steeper for smaller $\gamma$), a nearly flat curve for an exponential.</p>
+  <p><strong>Comment.</strong> Hubs grow with the network; in a random network the biggest node is barely above average. For WWW-like sizes the gap is thousands-fold.</p>
+</div><div class="sketch" data-sketch="kmax"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>9. Distances in scale-free networks</strong> (Ch 4)</p>
+  <div class="eq">$$\langle d\rangle \sim \begin{cases} \text{const} & \gamma = 2 \\ \ln\ln N & 2 &lt; \gamma &lt; 3 \\ \ln N / \ln\ln N & \gamma = 3 \\ \ln N & \gamma > 3 \end{cases}$$</div>
+  <p><strong>What drives it.</strong> Hubs act as shortcuts. The smaller $\gamma$, the larger the hubs and the more paths run through them.</p>
+  <p><strong>What to draw.</strong> $\langle d\rangle$ against $N$ on a logarithmic $N$ axis: the $\ln\ln N$ curve nearly flat, the $\ln N$ line steepest, $\gamma = 3$ in between.</p>
+  <p><strong>Comment.</strong> "Ultra small" for $2 &lt; \gamma &lt; 3$, where most real networks are. Above $\gamma = 3$ hubs are too small to matter and the network behaves like a random one.</p>
+</div><div class="sketch" data-sketch="regimes"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>10. Preferential attachment</strong> (Ch 5)</p>
+  <div class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j} \qquad(\text{generally } \Pi \propto k^{\alpha})$$</div>
+  <p><strong>What drives it.</strong> The more links a node has, the more visible it is: rich get richer.</p>
+  <p><strong>What to draw.</strong> Linear axes: a straight line through the origin for $\alpha = 1$, a concave curve for $\alpha &lt; 1$, a convex one for $\alpha > 1$.</p>
+  <p><strong>Comment.</strong> Only $\alpha = 1$ gives a power law. Sublinear gives a stretched exponential (no big hubs); superlinear lets one node take a finite share of all links (winner takes all).</p>
+</div><div class="sketch" data-sketch="pa"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>11. How a node's degree grows</strong> (Ch 5)</p>
+  <div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{1/2}$$</div>
+  <p><strong>What drives it.</strong> Growth plus preferential attachment: $dk_i/dt = k_i/2t$. Every node grows at the same relative rate, so the head start of age never shrinks.</p>
+  <p><strong>What to draw.</strong> Log-log: parallel straight lines of slope ½, one per node, older nodes higher. Without preference (Model A) the growth is only logarithmic.</p>
+  <p><strong>Comment.</strong> First-mover advantage: the oldest nodes become the hubs. Real latecomers that win need something extra (fitness, Ch 6).</p>
+</div><div class="sketch" data-sketch="growth"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>12. The BA degree distribution</strong> (Ch 5)</p>
+  <div class="eq">$$p_k = \frac{2m(m+1)}{k(k+1)(k+2)} \approx 2m^2 k^{-3}$$</div>
+  <p><strong>What drives it.</strong> Growth and preferential attachment together. Remove growth (Model B) and there is no stationary distribution; remove preference (Model A) and $p_k$ is exponential.</p>
+  <p><strong>What to draw.</strong> Log-log: parallel lines of slope $-3$ for every $m$, shifted up for larger $m$, each starting at $k = m$.</p>
+  <p><strong>Comment.</strong> $\gamma = 3$ whatever $m$ and $N$: the model explains hubs but not exponents other than 3.</p>
+</div><div class="sketch" data-sketch="bapk"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>13. Clustering of BA networks</strong> (Ch 5)</p>
+  <div class="eq">$$\langle C\rangle \sim \frac{(\ln N)^2}{N}$$</div>
+  <p><strong>What drives it.</strong> New nodes pick targets by degree, not by shared neighbours, so triangles form only by chance, slightly more often than in a random network because hubs share neighbours.</p>
+  <p><strong>What to draw.</strong> Log-log: BA above the random line but still falling; real networks flat.</p>
+  <p><strong>Comment.</strong> The BA model reproduces hubs and small distances ($\ln N/\ln\ln N$) but not the clustering of real networks.</p>
+</div><div class="sketch" data-sketch="baclust"></div></div>
+
 <section id="ch1">
 <h2>Ch 1 · Why networks?</h2>
 <p>No formulas; expect short-answer questions. The chapter says <em>why</em> the rest matters.</p>
@@ -583,6 +706,117 @@
 <p class="small">Pages: <a href="ch5-preview.html">The Barabási–Albert model</a>; outlook: <a href="evolving.html">Evolving networks</a>.</p>
 </section>
 
+<h2 id="homework">Book homework, solved (slide content only)</h2>
+<p>The instructor suggests the book's homework sections for practice. These are the problems from Chapters 2–5 that need no computer and no derivation, with solutions. Problems that ask you to generate networks with a computer are done by the figures on the chapter pages.</p>
+
+<div class="callout try">
+  <p><strong>Ch 2 · Degree, clustering and components.</strong> (a) Every node of an undirected network has degree $k = 1$. What must $N$ satisfy? What is $p_k$? How many components? (b) Every node has $k = 2$ and $C = 1$. What does the network look like?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>(a) Each link uses two nodes and each node is in exactly one link, so the network is $N/2$ separate pairs: $N$ is even, $p_1 = 1$ (all other $p_k = 0$), and there are $N/2$ components.</li>
+      <li>(b) $C = 1$ means a node's two neighbours are linked to each other: every node sits in a triangle and has no other links. The network is $N/3$ disjoint triangles, so $N$ is a multiple of 3.</li>
+      <li>Comment: identical degrees and perfect clustering, yet no giant component. Local properties do not fix global connectivity.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 2 · Matrix formalism.</strong> With $A$ the adjacency matrix of a simple undirected network and $\mathbf 1$ a column of ones, write without $\sum$: the degree vector $\mathbf k$, the number of links $L$, the number of triangles $T$, and the vector whose element $i$ is the sum of the degrees of $i$'s neighbours.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\mathbf k = A\mathbf 1$: row $i$ of $A$ adds up $i$'s links.</li>
+      <li>$L = \frac12 \mathbf 1^{T} A \mathbf 1$: the sum of all degrees counts each link twice.</li>
+      <li>$T = \frac16 \operatorname{Tr} A^3$: $(A^3)_{ii}$ counts closed walks of length 3 from $i$; each triangle gives 6 of them (3 starting nodes, 2 directions).</li>
+      <li>$A\mathbf k = A^2\mathbf 1$: row $i$ of $A$ picks the neighbours of $i$ and adds their degrees. Dividing element $i$ by $k_i$ gives $k_{nn}$, the friendship-paradox quantity.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 2 · Bipartite networks.</strong> A bipartite network has $N_1$ nodes in one set and $N_2$ in the other. What is $L_{\max}$? If it has $L$ links, what are the average degrees of the two sets?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Links run only between the sets: $L_{\max} = N_1 N_2$ (every pair across), against $N(N-1)/2$ for a general network with $N = N_1 + N_2$.</li>
+      <li>Each link has one end in each set: $\langle k_1\rangle = L/N_1$ and $\langle k_2\rangle = L/N_2$, so $N_1\langle k_1\rangle = N_2\langle k_2\rangle$. The smaller set has the larger average degree.</li>
+      <li>Example: 6 and 5 nodes with 10 links give $\langle k_1\rangle = 1.67$, $\langle k_2\rangle = 2$, and $L_{\max} = 30$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 3 · An Erdős–Rényi network.</strong> $N = 3{,}000$, $p = 10^{-3}$. Find $\langle L\rangle$ and the regime; the critical $p_c$; the $N_{cr}$ at which, with the same $p$, the network becomes connected; and for that network $\langle k\rangle$, $\langle d\rangle$ and $p_k$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\langle L\rangle = p\,N(N-1)/2 = 4{,}498.5$; $\langle k\rangle = p(N-1) = 3.0$.</li>
+      <li>$\ln N = 8.0$, and $1 &lt; 3.0 &lt; 8.0$: supercritical. A giant component, but isolated nodes remain.</li>
+      <li>$p_c = 1/(N-1) = 3.3 \times 10^{-4}$: three times smaller than the actual $p$.</li>
+      <li>Connected when $\langle k\rangle = \ln N$, that is $p(N-1) = \ln N$. Trying values: $N_{cr} \approx 9{,}100$ (then $\langle k\rangle = 9.1 = \ln 9{,}100$).</li>
+      <li>$\langle d\rangle \approx \ln N/\ln\langle k\rangle = 9.12/2.21 = 4.1$.</li>
+      <li>$p_k = e^{-9.1}\,9.1^k/k!$: peaked at 9, width $\sqrt{9.1} = 3$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 3 · The circle network.</strong> $N$ nodes on a circle, each linked to its $m$ nearest neighbours on either side (degree $2m$). Its clustering is $C = \frac{3(m-1)}{2(2m-1)}$ and its average distance $\langle d\rangle \approx \frac{N}{4m}$. Comment on both as $N \gg 1$.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$C$ does not depend on $N$: $m = 2$ gives 0.5, $m = 3$ gives 0.6, and $C \to 3/4$ for large $m$. Neighbours on a circle share most of their neighbours.</li>
+      <li>$\langle d\rangle$ grows linearly with $N$: going round the circle takes about $N/(2 \cdot 2m)$ steps on average.</li>
+      <li>So the circle has the clustering of real networks but not their small distances. This is the starting point ($p = 0$) of the Watts–Strogatz model; sketch 5 above shows what rewiring does.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 3 · The Cayley tree.</strong> A central node of degree $k$; every node at distance $&lt; P$ from it also has degree $k$; nodes at distance $P$ are leaves. How many nodes are at distance $t$? What is $d_{\max}$, and how does it scale with $N$? Is it a small world?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Distance 1: $k$ nodes; each of them has $k - 1$ new neighbours further out, so distance $t$ holds $k(k-1)^{t-1}$ nodes.</li>
+      <li>Total: $N = 1 + k\frac{(k-1)^P - 1}{k - 2}$. For $k = 3$, $P = 5$: $N = 1 + 3 \times 31 = 94$, of which $3 \times 2^4 = 48$ are leaves. So $p_1 = 48/94$, $p_3 = 46/94$.</li>
+      <li>$d_{\max} = 2P$ (leaf to centre to a leaf on another branch). Since $N \approx (k-1)^P$, $P \approx \ln N/\ln(k-1)$ and $d_{\max} \approx 2\ln N/\ln(k-1)$.</li>
+      <li>Distances grow like $\ln N$: a small world, for the same reason as a random network (the number of nodes grows exponentially with distance). But $C = 0$: a tree has no triangles.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 3 · The snobbish network.</strong> $N$ red and $N$ blue nodes. Same-colour pairs link with probability $p$, different-colour pairs with $q$, with $p > q$. Find the average degree of the blue subnetwork and of the whole network. When is there one component? Is it a small world?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Blue subnetwork: $\langle k\rangle_{\text{blue}} = p(N-1)$. Whole network: each node also has $N$ possible other-colour partners, so $\langle k\rangle = p(N-1) + qN$.</li>
+      <li>One component needs each colour to be connected ($p(N-1) \gtrsim \ln N$) and at least one red–blue link: $qN^2 \gtrsim 1$, that is $q \gtrsim 1/N^2$. A tiny $q$ is enough.</li>
+      <li>Small world: from any node, about $\ln N/\ln\langle k\rangle$ steps reach a node with a cross-colour link, one step crosses, and as many again reach the target. Distances stay of order $\ln N$ even if $p \gg q$.</li>
+      <li>Comment: a few bridging links are enough to make a divided society a small world.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 4 · The friendship paradox.</strong> The end of a random link is a degree-$k$ node with probability $q_k = A\,k\,p_k$. Find $A$. What is the average degree of a random node's neighbour? Evaluate for a power law with $\gamma = 2.3$, $k_{\min} = 1$, $k_{\max} = 1{,}000$, and explain the paradox.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>$\sum_k q_k = A\sum_k k\,p_k = A\langle k\rangle = 1$, so $A = 1/\langle k\rangle$.</li>
+      <li>Neighbour's average degree: $\sum_k k\,q_k = \langle k^2\rangle/\langle k\rangle$.</li>
+      <li>Summing $k^{-2.3}$ from 1 to 1,000: $\langle k\rangle = 2.45$, $\langle k^2\rangle/\langle k\rangle = 51$. Your friends have, on average, about 20 times as many friends as you.</li>
+      <li>Why: a hub is a neighbour of many nodes, so it is counted many times when we average over neighbours. Low-degree nodes are under-sampled.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 5 · Growth without preferential attachment (Model A).</strong> New nodes attach their $m$ links to randomly chosen nodes. The result is $p_k = \frac{e}{m}\exp(-k/m)$. Comment on it and sketch it.</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>Exponential: on log-linear axes ($\log p_k$ against $k$) a straight line of slope $-1/m$; on log-log axes it bends down sharply.</li>
+      <li>Each node gains links at rate $m/t$, the same for all: degrees grow only like $m\ln(t/t_i)$, so old nodes are ahead, but not by enough to make hubs.</li>
+      <li>Growth alone is not enough. Preferential attachment is what turns the age advantage into a power law.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>Ch 5 · Directed BA model.</strong> Each new node sends $m$ directed links to existing nodes chosen with probability $\propto k^{\text{in}} + A$. Its in-degree exponent is $\gamma_{\text{in}} = 2 + A/m$. Why is $\gamma_{\text{in}} = 2$ for $A = 0$, not 3 as in the BA model?</p>
+  <div class="hint" data-label="Show solution">
+    <ol>
+      <li>With $A = 0$ a node with no incoming links can never get one: attraction comes only from links already received, and the preference is as strong as it can be. Strong preference means a flat tail: $\gamma = 2$.</li>
+      <li>In the undirected BA model a node's attractiveness is its full degree, $k = k^{\text{in}} + m$: as if $A = m$. Then $\gamma = 2 + m/m = 3$.</li>
+      <li>Comment: adding a constant to the attraction ("initial attractiveness") dilutes the preference and raises $\gamma$.</li>
+    </ol>
+  </div>
+</div>
+
 <h2 id="practice">Practice set</h2>
 <div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview"></div>
 <p class="small muted">These questions are not the ones on the chapter pages: each gives the formulas it needs and asks you to use them. Tick "Add review questions from the pages" to mix in the pages' own quizzes.</p>
@@ -808,7 +1042,7 @@
     <li data-why="The exponent 1/(γ − 1) shrinks as γ grows, so larger γ means smaller hubs.">$\gamma = 3$ gives the larger hub.</li>
     <li data-why="k_max is far below N − 1 for both exponents.">Both give a hub linked to the whole network.</li>
   </ol>
-  <div class="explain">$10^{6/1.5} = 10^4$ and $10^{6/2} = 10^3$. A random network of the same size would have its largest degree within a few tens of $\langle k\rangle$.</div>
+  <div class="explain">$10^{6/1.5} = 10^4$ and $10^{6/2} = 10^3$. A random network of the same size would have its largest degree only a few times $\langle k\rangle$.</div>
 </div>
 <div class="quiz" data-topic="Ch 4 · Scale-free networks" data-answer="1">
   <p>The second moment is $\langle k^2\rangle = \sigma_k^2 + \langle k\rangle^2$, and $\kappa = \langle k^2\rangle / \langle k\rangle$ is the average degree of the node you reach by following a random link. The email network has $\langle k\rangle = 3.23$ and $\sigma_k = 35.5$. What is $\kappa$, and what does it mean?</p>
@@ -836,7 +1070,7 @@
     <li data-why="1.5 is the slope of the CCDF; the exponent of p_k is one more.">1.5</li>
     <li>2.5</li>
     <li data-why="That would need a drop of 10⁻² per decade.">3.0</li>
-    <li data-why="The ratio of the values is 0.0315, whose logarithm is −1.5.">0.5</li>
+    <li data-why="That subtracts 1 from the slope instead of adding it: γ − 1 = 1.5 means γ = 2.5.">0.5</li>
   </ol>
   <div class="explain">The slope is $\log_{10}(0.0063/0.2) / \log_{10}(50/5) = -1.5$, so $\gamma - 1 = 1.5$ and $\gamma = 2.5$. Remember the "+1" when reading exponents off a CCDF.</div>
 </div>
@@ -916,7 +1150,7 @@
   <ol>
     <li data-why="That would be the share of nodes with k = 3: 12/60 = 0.2.">0.2</li>
     <li>0.5: half of all nodes have only the links they arrived with, while a few hubs collect many.</li>
-    <li data-why="The minimum degree is m = 2, so k = 1 has probability 0.">0.75</li>
+    <li data-why="That adds p₃ = 0.2 to p₂ = 0.5: it is the share of nodes with k ≤ 3.">0.7</li>
     <li data-why="p_k is a probability, at most 1, and other degrees occur too.">1.0</li>
   </ol>
   <div class="explain">$p_2 = 2\cdot2\cdot3 / (2\cdot3\cdot4) = 12/24 = 0.5$. Most nodes are small; the heavy tail is a small minority.</div>
@@ -950,6 +1184,66 @@
     <li>A heavy tail that falls faster than a power law: hubs exist but are smaller than in the BA model.</li>
   </ol>
   <div class="explain">Sublinear attachment still favours larger nodes, but less than linearly, so the largest hubs grow more slowly than in the BA model.</div>
+</div>
+<div class="quiz" data-topic="Equations and sketches" data-answer="2">
+  <p>You plot $\langle d\rangle = \ln N/\ln\langle k\rangle$ for a random network with $\langle k\rangle = 5$, using a logarithmic $N$ axis and a linear $\langle d\rangle$ axis. What do you draw?</p>
+  <ol>
+    <li data-why="That is the shape on linear axes for both, where ln N looks concave.">A curve that bends over and flattens</li>
+    <li>A straight line rising by $\ln 10/\ln 5 \approx 1.4$ for every tenfold increase in $N$</li>
+    <li data-why="A power of N, like a lattice's, would rise ever more steeply on this axis.">A curve that rises ever more steeply</li>
+    <li data-why="Distances do grow with N, only slowly.">A horizontal line</li>
+  </ol>
+  <div class="explain">$\langle d\rangle$ is linear in $\ln N$, so a logarithmic $N$ axis makes it straight. Each factor of 10 in $N$ adds $\ln 10/\ln\langle k\rangle$ steps: the small-world effect.</div>
+</div>
+<div class="quiz" data-topic="Equations and sketches" data-answer="4">
+  <p>Given $k_i(t) = m\,(t/t_i)^{1/2}$ in the BA model: what does a log-log plot of the degrees of three nodes born at $t_i = 1, 10, 100$ look like, and what drives it?</p>
+  <ol>
+    <li data-why="That would mean every node grows at a different rate; here the exponent ½ is the same for all.">Lines of different slopes that cross: newer nodes catch up</li>
+    <li data-why="Degrees keep growing as new nodes arrive and attach preferentially.">Three horizontal lines</li>
+    <li data-why="Logarithmic growth is Model A, without preferential attachment.">Curves that flatten, because growth is logarithmic</li>
+    <li>Parallel straight lines of slope ½, the oldest node highest: each node grows at the same relative rate, so age decides who is largest</li>
+  </ol>
+  <div class="explain">$\log k_i = \frac12\log t + \log(m/\sqrt{t_i})$: same slope, intercepts ordered by age. Growth plus preferential attachment gives a first-mover advantage that never disappears.</div>
+</div>
+<div class="quiz" data-topic="Equations and sketches" data-answer="1">
+  <p>For $S = 1 - e^{-\langle k\rangle S}$, how does the size of the giant component behave as $\langle k\rangle$ increases from 0 to 3?</p>
+  <ol>
+    <li>It stays 0 up to $\langle k\rangle = 1$, then rises continuously and steeply (to about 0.94 at $\langle k\rangle = 3$)</li>
+    <li data-why="There is no giant component below ⟨k⟩ = 1: the only solution there is S = 0.">It grows linearly from $\langle k\rangle = 0$</li>
+    <li data-why="The transition is continuous: S starts from 0 at ⟨k⟩ = 1, it does not jump.">It jumps from 0 to 1 at $\langle k\rangle = 1$</li>
+    <li data-why="S = 1 needs every node to be in it, which only happens as ⟨k⟩ grows towards ln N and beyond.">It reaches 1 at $\langle k\rangle = 1$</li>
+  </ol>
+  <div class="explain">A node is outside the giant component only if none of its neighbours is in it, which gives $1 - S = e^{-\langle k\rangle S}$. Above $\langle k\rangle = 1$ a non-zero solution appears: a continuous phase transition.</div>
+</div>
+<div class="quiz" data-topic="Equations and sketches" data-answer="3">
+  <p>A student plots the degree distribution of the WWW, $p_k \sim k^{-2.1}$, on linear axes and says "most pages have tiny degrees, so the distribution is like a random network's". What is the best reply?</p>
+  <ol>
+    <li data-why="Linear axes squash the tail onto the axis; the plot hides hubs rather than showing their absence.">Correct: the linear plot shows no hubs</li>
+    <li data-why="A Poisson distribution is peaked at ⟨k⟩; a power law decreases from k_min.">Correct, because both distributions have a peak</li>
+    <li>Wrong: on log-log axes $p_k$ is a straight line of slope $-2.1$ that extends to huge degrees, while a Poisson distribution falls off a cliff; the linear plot hides the tail</li>
+    <li data-why="Linear axes are allowed; they are just the wrong choice for a distribution spanning several orders of magnitude.">Wrong: degree distributions may never be plotted on linear axes</li>
+  </ol>
+  <div class="explain">A power law has no typical scale, so it needs logarithmic axes. On them the difference from Poisson at large $k$ is many orders of magnitude: the hubs.</div>
+</div>
+<div class="quiz" data-topic="Equations and sketches" data-answer="2">
+  <p>Attachment follows $\Pi(k) \propto k^{\alpha}$. For $\alpha = 2$, what happens to the share of all links held by the largest node as the network grows?</p>
+  <ol>
+    <li data-why="That is the sublinear case, α &lt; 1, which gives a stretched exponential with small hubs.">It shrinks: the degree distribution becomes a stretched exponential</li>
+    <li>It stays finite: superlinear attachment lets one early node take a fixed fraction of all links (winner takes all)</li>
+    <li data-why="Only α = 1 gives the BA power law with γ = 3.">It follows the BA power law with $\gamma = 3$</li>
+    <li data-why="α = 0 would be no preference; α = 2 is the opposite, a very strong preference.">Nothing changes compared with no preference</li>
+  </ol>
+  <div class="explain">For $\alpha > 1$ the rich get richer faster than linearly, and the largest node's degree grows like $t$: a hub-and-spoke network, not scale-free.</div>
+</div>
+<div class="quiz" data-topic="Equations and sketches" data-answer="1">
+  <p>Given $k_{\max} = k_{\min}N^{1/(\gamma-1)}$ for a power law and $k_{\max} = k_{\min} + \ln N/\lambda$ for an exponential distribution: on a log-log plot of $k_{\max}$ against $N$, what do you draw?</p>
+  <ol>
+    <li>A straight line of slope $1/(\gamma - 1)$ for the power law, and a curve that is almost flat for the exponential</li>
+    <li data-why="The power law grows as a power of N, which is a straight line on log-log axes, not a flat one.">Two flat lines</li>
+    <li data-why="The exponential grows only like ln N, far slower than any power.">Two straight lines with the same slope</li>
+    <li data-why="Smaller γ gives a larger exponent 1/(γ − 1), so the line is steeper, not flatter.">A line that is flatter for smaller $\gamma$</li>
+  </ol>
+  <div class="explain">A fat tail pushes the largest expected degree out like a power of $N$; an exponential tail only logarithmically. That is why hubs grow with the network in scale-free networks and not in random ones.</div>
 </div>
 </template>
 

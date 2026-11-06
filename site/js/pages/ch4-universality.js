@@ -1,4 +1,5 @@
 import "../layout.js";
+import { t as tl } from "../i18n.js";
 import { h, figure, segmented, dataTable } from "../lib/ui.js";
 import { Plot } from "../lib/plot.js";
 import { ccdf, hurwitzZeta, poissonLogSfGe, fmt } from "../lib/stats.js";
@@ -10,7 +11,7 @@ import { loadNetworks, loadJSON, NETWORK_ORDER } from "../lib/data.js";
   const f = figure("#fig-multiples", { title: "Eight networks, one procedure", sub: "P(K ≥ k) of each network (blue), a Poisson distribution with the same ⟨k⟩ (grey) and the fitted power-law tail (dashed).", cols: "cols-4" });
   const plots = NETWORK_ORDER.map((n) => {
     const d = networks[n];
-    const p = f.panel(`${d.description}: γ̂ = ${d.powerlaw.gamma.toFixed(2)}, k_min = ${d.powerlaw.kmin}`);
+    const p = f.panel(`${tl(d.description)}: γ̂ = ${d.powerlaw.gamma.toFixed(2)}, k_min = ${d.powerlaw.kmin}`);
     return { d, plot: new Plot(p, { height: 190, legend: false, table: false, margin: { top: 8, right: 8, bottom: 34, left: 44 }, x: { type: "log", label: "k" }, y: { type: "log", label: "P(K ≥ k)", min: 0.5 / d.N, max: 1.5 } }) };
   });
   function draw() {
