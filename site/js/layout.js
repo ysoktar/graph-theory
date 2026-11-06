@@ -259,30 +259,51 @@ function buildNextUp(info) {
  * collapsible box under the lead elsewhere (CSS shows one of the two). The section being read is highlighted.
  */
 function buildToc(content) {
-  const heads = $$(":scope > h2, :scope > h3, :scope > section > h2, :scope > section > h3", content).filter((x) => x.textContent.trim());
-  if (heads.length < 3) return null;
-  const withH3 = heads.length <= 32; // long guides list only their main sections
-  const items = heads.filter((x) => withH3 || x.tagName === "H2");
-  items.forEach((x, i) => { if (!x.id) x.id = `sec-${i + 1}`; });
-  const firstQuiz = $(":scope > .quiz, :scope > section > .quiz", content);
+  const top = (sel) => sel.split(",").map((s) => `:scope > ${s.trim()}, :scope > section > ${s.trim()}`).join(", ");
+  const firstQuiz = $(top(".quiz"), content);
   if (firstQuiz && !firstQuiz.id) firstQuiz.id = "check";
-  const list = () => {
-    const ol = h("ol");
-    for (const x of items) ol.append(h("li", { class: x.tagName === "H3" ? "toc-sub" : "" }, h("a", { href: `#${x.id}`, "data-target": x.id }, x.textContent)));
-    if (firstQuiz) ol.append(h("li", { class: "toc-check" }, h("a", { href: `#${firstQuiz.id}`, "data-target": firstQuiz.id }, t("Check yourself"))));
-    return ol;
+  // entries: section headings, plus figures and worked examples as sub-entries (figures exist only once the
+  // page script has built them, so the list is rebuilt after load)
+  const label = (x) => {
+    if (x.matches("h2, h3")) return x.textContent.trim();
+    if (x.matches(".fig")) return $(".fig-title", x)?.textContent.trim() || "";
+    const s = $("strong", x)?.textContent.trim() || "";
+    return s.replace(/[.:]\s*$/, "");
   };
-  const side = h("nav", { class: "toc toc-side", "aria-label": t("On this page") }, h("div", { class: "toc-title" }, t("On this page")), list());
-  const inline = h("details", { class: "toc toc-inline" }, h("summary", {}, `${t("On this page")} · ${items.length}`), list());
+  let items = [];
+  const collect = () => {
+    const all = $$(top("h2, h3, .fig, .callout.example"), content).filter((x) => label(x));
+    const heads = all.filter((x) => x.matches("h2, h3"));
+    // long guides list only their main sections; short pages also list figures and worked examples
+    items = all.length <= 40 ? all : heads.length <= 32 ? heads : heads.filter((x) => x.tagName === "H2");
+    let n = 0;
+    for (const x of items) if (!x.id) x.id = x.matches("h2, h3") ? `sec-${++n}` : `${x.matches(".fig") ? "fig" : "ex"}-${++n}`;
+  };
+  collect();
+  const pending = $$(top("[data-fig]"), content).length; // figures the page script has not built yet
+  if (items.length + pending + (firstQuiz ? 1 : 0) < 3) return null;
+  const cls = (x) => (x.tagName === "H3" ? "toc-sub" : x.matches(".fig") ? "toc-sub toc-fig" : x.matches(".callout") ? "toc-sub toc-ex" : "");
+  const fill = (ol) => {
+    ol.replaceChildren();
+    for (const x of items) ol.append(h("li", { class: cls(x) }, h("a", { href: `#${x.id}`, "data-target": x.id }, label(x))));
+    if (firstQuiz) ol.append(h("li", { class: "toc-check" }, h("a", { href: `#${firstQuiz.id}`, "data-target": firstQuiz.id }, t("Check yourself"))));
+  };
+  const olSide = h("ol"), olInline = h("ol"), summary = h("summary");
+  const render = () => { fill(olSide); fill(olInline); summary.textContent = `${t("On this page")} · ${items.length}`; };
+  render();
+  const side = h("nav", { class: "toc toc-side", "aria-label": t("On this page") }, h("div", { class: "toc-title" }, t("On this page")), olSide);
+  const inline = h("details", { class: "toc toc-inline" }, summary, olInline);
   inline.addEventListener("click", (e) => { if (e.target.closest("a")) inline.open = false; });
+  const refresh = () => { collect(); render(); spy(); };
+  window.addEventListener("load", () => { refresh(); setTimeout(refresh, 1500); });
   // highlight the section being read: the last target whose top is above 35% of the viewport height
-  const targets = [...items, ...(firstQuiz ? [firstQuiz] : [])];
+  const targets = () => [...items, ...(firstQuiz ? [firstQuiz] : [])];
   let ticking = false;
   const spy = () => {
     ticking = false;
     const line = window.innerHeight * 0.35;
     let cur = null;
-    for (const x of targets) if (x.getBoundingClientRect().top <= line) cur = x.id;
+    for (const x of targets()) if (x.getBoundingClientRect().top <= line) cur = x.id;
     for (const a of $$(".toc a[data-target]")) a.classList.toggle("active", a.dataset.target === cur);
     const act = $(".toc-side a.active");
     if (act && side.scrollHeight > side.clientHeight) {

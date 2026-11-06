@@ -1,5 +1,6 @@
 import "../layout.js";
-import { h, figure, slider, stats, dataTable } from "../lib/ui.js";
+import { h, figure, slider, stats, dataTable, select, tex, renderMath, debounce } from "../lib/ui.js";
+import { DISTRIBUTIONS, pmf, moments } from "../lib/degdist.js";
 import { Plot, fnSeries } from "../lib/plot.js";
 import { fmt } from "../lib/stats.js";
 import { loadNetworks, NETWORK_ORDER, SHORT } from "../lib/data.js";
@@ -96,3 +97,41 @@ function moment(n, g, kmin, kmax) {
   ], nets.map((d) => [d.description, d.avgk, d.sigmak, Math.sqrt(d.avgk), d.sigmak / Math.sqrt(d.avgk), d.sigmak / d.avgk, d.k2 / d.avgk]), { highlight: (r) => r[4] < 2 }));
   f.setCaption("Bars that run below zero are not an error: when σₖ exceeds ⟨k⟩ the interval ⟨k⟩ ± σₖ includes negative degrees, a sign that the average and the standard deviation are a poor summary. Email's interval reaches far off the chart (⟨k⟩ = 3.2, σₖ = 35). Highlighted: the networks whose σₖ is less than twice the random value.");
 })();
+
+// ------------------------------------------------------------------ 4. choose a degree distribution
+fig_dist: {
+  if (!document.getElementById("fig-dist")) break fig_dist; // only on the page that shows it
+  const f = figure("#fig-dist", { title: "Choose a degree distribution", sub: "Its moments computed exactly from pₖ, against a Poisson distribution with the same ⟨k⟩.", cols: "split" });
+  const left = f.panel(null), right = f.panel(null);
+  const formula = h("div", { class: "small", style: { margin: "0 0 .4rem" } });
+  left.append(formula);
+  const plot = new Plot(left, { height: 270, x: { type: "log", label: "degree k" }, y: { type: "log", label: "pₖ" } });
+  const t = stats(right, [{ key: "k1", tex: "\\langle k\\rangle" }, { key: "k2", tex: "\\langle k^2\\rangle" }, { key: "sd", tex: "\\sigma_k" }, { key: "ratio", tex: "\\sigma_k/\\sqrt{\\langle k\\rangle}", label: "(Poisson: 1)", hl: true }, { key: "kappa", tex: "\\kappa = \\langle k^2\\rangle/\\langle k\\rangle" }, { key: "kmax", tex: "k_{\\max}", label: "largest degree with pₖ > 0" }]);
+  const paramHost = h("div", { class: "fig-controls", style: { padding: 0 } });
+  let type = "powerlaw", params = {};
+  const run2 = debounce(update, 100);
+  function paramControls() {
+    paramHost.replaceChildren(); params = {};
+    for (const [key, [val, lo, hi, step, label]] of Object.entries(DISTRIBUTIONS[type].params)) {
+      params[key] = val;
+      slider(paramHost, { label, min: lo, max: hi, step, value: val, format: (v) => (step >= 1 ? String(v) : v.toFixed(step < 0.01 ? 3 : step < 0.1 ? 2 : 1)), onInput: (v) => { params[key] = v; run2(); } });
+    }
+    tex(formula, DISTRIBUTIONS[type].tex);
+  }
+  function update() {
+    const pk = pmf(type, params), m = moments(pk), po = pmf("poisson", { mean: Math.max(0.5, m.m1) });
+    const pts = [], ppts = [];
+    for (let k = 1; k < pk.length; k++) if (pk[k] > 1e-12) pts.push([k, pk[k]]);
+    for (let k = 1; k < po.length; k++) if (po[k] > 1e-12) ppts.push([k, po[k]]);
+    plot.update({ series: [{ type: pts.length > 60 ? "line" : "scatter", markers: pts.length <= 60, data: pts, color: 1, r: 4, label: "chosen pₖ" }, { type: "line", data: ppts, color: "random", dashed: true, label: "Poisson, same ⟨k⟩" }] });
+    t.set("k1", fmt.fix(m.m1, 2)); t.set("k2", fmt.sig(m.m2, 3)); t.set("sd", fmt.sig(m.sigma, 3));
+    const r = m.sigma / Math.sqrt(m.m1);
+    t.set("ratio", fmt.fix(r, 2), r > 2 ? "no typical degree" : r < 0.5 ? "narrower than random" : "comparable to random");
+    t.set("kappa", fmt.sig(m.kappa, 3)); t.set("kmax", fmt.int(m.kmax));
+    renderMath(right);
+  }
+  select(f.controls, { label: "Distribution", value: type, options: Object.entries(DISTRIBUTIONS).map(([k, v]) => ({ value: k, label: v.label })), onChange: (v) => { type = v; paramControls(); update(); } });
+  f.controls.append(paramHost);
+  paramControls(); update();
+  f.setCaption("For the power law, raise log₁₀ N: ⟨k⟩ hardly moves while ⟨k²⟩ and σₖ keep growing when γ < 3. The Poisson, exponential, regular and log-normal distributions have moments that do not depend on N. The bimodal option shows that a single rare hub (small r, large k_max) is enough to make σₖ much larger than √⟨k⟩.");
+}
