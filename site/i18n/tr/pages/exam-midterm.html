@@ -10,7 +10,13 @@
 </div>
 
 <div class="callout gotcha">
-  <p><strong>Kapsam bir varsayımdır.</strong> Ders izlencesi sınav kapsamı ya da tarihi vermiyor. Bu rehber ara sınavın 1–5. Bölümleri (BA modeline girişe kadar) kapsadığını varsayar. Öğretim üyesine danışın.</p>
+  <p><strong>Öğretim üyesinin ara sınav hakkındaki duyurusu.</strong></p>
+  <ul>
+    <li><strong>Kapsam:</strong> kitabın 1–5. Bölümleri, ama yalnızca ders slaytlarındaki içerik. Kitabın birçok ayrıntılı bölümü slaytlarda yoktur; bu sitede onlar mor “slaytlarda yok” rozetini taşır.</li>
+    <li><strong>Denklem türetme ya da ispat yok.</strong> Sorular derste kullanılan tarzdadır.</li>
+    <li><strong>Bir denklem verildiğinde onu yönlendiren dinamik hakkında yorum yapabilmeli</strong>, <strong>ilgili grafikleri çizebilmeli ya da çözümleyebilmelisiniz</strong>. <a href="#sketches">Bir denklemi okuyun, grafiğini çizin</a> bölümü tam olarak bunu çalıştırır.</li>
+    <li>Alıştırma için kitabın ödev bölümlerini, slayt içeriğiyle sınırlı tutarak kullanın: <a href="#homework">çözümleri aşağıda</a>.</li>
+  </ul>
 </div>
 
 <table class="simple">
@@ -27,8 +33,17 @@
   <li>Bir bölümün <strong>Bilinmesi gerekenler</strong> listesini okuyun: size verilecek formüller, her sembolün açıklamasıyla. Formülün kendisini değil, ne zaman uygulandığını öğrenin.</li>
   <li><strong>Sınav tarzı problemleri</strong> çözümleri açmadan önce kâğıt üzerinde çözün ve her birini sayının size ne söylediğine dair tek bir cümleyle bitirin.</li>
   <li><strong>Sık yapılan hataları</strong> okuyun; belirsiz kalan her şey için bağlantılı sayfayı açın.</li>
+  <li><a href="#sketches">Bir denklemi okuyun, grafiğini çizin</a> bölümündeki her denklem için çizimi kapatın, kendiniz çizin ve onu neyin yönlendirdiğini söyleyin.</li>
   <li>Yeni bir sette %80 ya da üstü alana kadar <a href="#practice">alıştırma setini</a> çözün.</li>
 </ol>
+
+<p><strong>Öğretim üyesinin gösterdiği ek alıştırma kaynakları</strong> (başka dersler konuya farklı yaklaşır; sınavları bizimkinden oldukça farklı görünebilir):</p>
+<ul>
+  <li><a href="https://faculty.cc.gatech.edu/~dovrolis/Courses/NetSci/">C. Dovrolis'in Ağ Bilimi dersi (Georgia Tech)</a>: dersler ve problemler.</li>
+  <li><a href="https://www.distributed-systems.net/index.php/books/gtcn/">M. van Steen, <em>Graph Theory and Complex Networks</em></a>: 2–3. Bölüm konularında alıştırmalar içeren ücretsiz bir ders kitabı.</li>
+  <li><a href="https://github.com/chatox/networks-science-course/blob/master/exams/README.md">C. Castillo'nun Ağ Bilimi dersinin geçmiş sınavları</a>. Merkezilik ve PageRank ağırlıklıdırlar; bunlar ara sınav kapsamımızda değildir. Dereceler, komşuluk matrisleri, seyreklik, kümelenme, küçük dünyalar ve derece dağılımı çizimi soruları iyi alıştırmadır.</li>
+  <li>İzlencedeki kaynaklar: <a href="https://networksciencebook.com/">kitap</a>, <a href="https://www.networkatlas.eu/index.htm">The Atlas for the Aspiring Network Scientist</a>, <a href="https://ona-book.org/index.html">Handbook of Graphs and Networks in People Analytics</a>, <a href="https://networkx.org/">NetworkX</a>.</li>
+</ul>
 
 <h2>Formül kontrol listesi</h2>
 <p>Bunları ezberlemeniz gerekmez: sınav tarzı sorular onları verir. Her satırın ne anlama geldiğini ve ne zaman kullanılacağını bilmeniz gerekir.</p>
@@ -69,6 +84,114 @@
 </div>
 
 <!-- ============================== CH 1 ============================== -->
+<h2 id="sketches">Bir denklemi okuyun, grafiğini çizin</h2>
+<p>Ara sınav size denklemler verir ve onları neyin yönlendirdiğini, grafiklerinin neye benzediğini sorar. Aşağıda 2–5. Bölümlerin her denklemi için: arkasındaki mekanizma, çizilecek grafik (hangi eksenlerin logaritmik olduğuyla birlikte) ve bir yanıtın yapması gereken yorum var. Çizimi kapatıp kendiniz çizin, sonra karşılaştırın.</p>
+<p class="small muted">Bunlardan herhangi birini nasıl çizmeli: iki ekseni de adlandırın, hangilerinin logaritmik olduğunu söyleyin, özel noktaları işaretleyin (bir eşik, bir eğim, bir kesişme) ve biçimin ne anlama geldiğini bir cümleyle ekleyin.</p>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>1. Rastgele bir ağın Poisson dereceleri</strong> (3. Bölüm)</p>
+  <div class="eq">$$p_k = e^{-\langle k\rangle}\frac{\langle k\rangle^k}{k!}, \qquad \sigma_k = \sqrt{\langle k\rangle}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Her çift aynı $p$ ile bağımsız olarak bağlanır; bu yüzden bir düğümün derecesi birçok küçük bağımsız şansın toplamıdır. Kimse özel değildir.</p>
+  <p><strong>Ne çizilir.</strong> Doğrusal eksenler: tepesi $\langle k\rangle$'de, genişliği $\sqrt{\langle k\rangle}$ olan bir çan. Daha büyük $\langle k\rangle$ tepeyi sağa kaydırır ve onu göreli olarak daraltır.</p>
+  <p><strong>Yorum.</strong> Ortalamadan uzak dereceler üstel olarak nadirdir: merkez düğüm yok. Log-log eksenlerde eğri, gerçek bir ağın düz çizgisinin aksine dik düşer.</p>
+</div><div class="sketch" data-sketch="poisson"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>2. Dev bileşen</strong> (3. Bölüm)</p>
+  <div class="eq">$$S = 1 - e^{-\langle k\rangle S}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Bir düğüm ancak komşularından hiçbiri dev bileşende değilse onun dışındadır. Düğüm başına ortalama bir bağlantı devrilme noktasıdır: altında kümeler küçük ağaçlardır, üstünde birleşirler.</p>
+  <p><strong>Ne çizilir.</strong> $\langle k\rangle$'ye karşı $S$: $\langle k\rangle = 1$'e kadar sıfır, sonra sürekli ama dik bir yükseliş, 1'e yaklaşır. Dört rejimi işaretleyin: kritik altı ($&lt;1$), kritik ($=1$), kritik üstü, bağlı ($\ge \ln N$).</p>
+  <p><strong>Yorum.</strong> Bir faz geçişi: 1 civarında yoğunluktaki küçük bir değişiklik küresel yapıyı değiştirir. Gerçek ağlar 1'in çok üstündedir, bu yüzden dev bileşenleri vardır.</p>
+</div><div class="sketch" data-sketch="giant"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>3. Küçük dünya uzaklıkları</strong> (3. Bölüm)</p>
+  <div class="eq">$$\langle d\rangle \approx \frac{\ln N}{\ln\langle k\rangle}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> $d$ adım içindeki düğüm sayısı $\langle k\rangle^d$ gibi büyür. $\langle k\rangle^d = N$ demek, herkese ulaşan uzaklığı verir.</p>
+  <p><strong>Ne çizilir.</strong> Logaritmik $N$ ekseniyle $N$'ye karşı $\langle d\rangle$: düz, yavaş yükselen bir çizgi, daha büyük $\langle k\rangle$ için daha yatık. Bir örgü $N$'nin bir kuvveti gibi, çok daha hızlı büyür.</p>
+  <p><strong>Yorum.</strong> $N$'yi 10 ile çarpmak yalnızca $\ln 10/\ln\langle k\rangle$ adım ekler: altı derece ayrılık.</p>
+</div><div class="sketch" data-sketch="distance"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>4. Rastgele bir ağın kümelenmesi</strong> (3. Bölüm)</p>
+  <div class="eq">$$C = p = \frac{\langle k\rangle}{N}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Bir düğümün iki komşusu, herhangi bir çiftle aynı $p$ olasılığıyla bağlanır: bağlantılar üçgenlerden habersizdir.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: rastgele ağlar için eğimi $-1$ olan bir çizgi; farklı boyuttaki gerçek ağlar düz bir çizgi çevresinde dağılır.</p>
+  <p><strong>Yorum.</strong> Büyük rastgele ağlarda neredeyse hiç üçgen yoktur; gerçek ağlarda $C$, $N$'den bağımsız kalır. Rastgele model burada başarısız olur.</p>
+</div><div class="sketch" data-sketch="clustering"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>5. Watts–Strogatz modeli</strong> (3. Bölüm)</p>
+  <div class="eq">$$\text{her bağlantıyı } p \text{ olasılıkla yeniden bağla}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Birkaç rastgele kısayol uzaklıkları her yerde çökertir, yerel üçgenlerin neredeyse hepsi ise sağ kalır.</p>
+  <p><strong>Ne çizilir.</strong> Logaritmik $p$ ekseni, iki nicelik de $p = 0$ değerlerine bölünmüş: $\langle d\rangle$ erken düşer ($p \approx 0.01$ civarında), $C$ ise $p$ büyük olana kadar yüksek kalır. İki düşüş arasındaki aralık küçük dünya rejimidir.</p>
+  <p><strong>Yorum.</strong> Ne bir örgünün ne de rastgele bir ağın sahip olduğu yüksek kümelenme ve kısa yollar bir arada. Dereceleri yine de neredeyse eşittir: merkez düğüm yok.</p>
+</div><div class="sketch" data-sketch="ws"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>6. Kuvvet yasası</strong> (4. Bölüm)</p>
+  <div class="eq">$$p_k \sim k^{-\gamma} \quad\Leftrightarrow\quad \log p_k \approx -\gamma \log k + \text{sabit}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Tipik bir derece yoktur: $p_{2k}/p_k = 2^{-\gamma}$ oranı her ölçekte aynıdır. Merkez düğümler nadirdir ama yasak değildir.</p>
+  <p><strong>Ne çizilir.</strong> Log-log eksenler: eğimi $-\gamma$ olan ve büyük $k$'ye kadar süren düz bir çizgi; aynı ortalamalı Poisson eğrisi keskin biçimde aşağı bükülür. Doğrusal eksenlerde kuvvet yasası okunamaz bir “L”dir.</p>
+  <p><strong>Yorum.</strong> Büyük $k$'de karşılaştırınca kuvvet yasası büyüklük mertebeleri kadar daha fazla yüksek dereceli düğüm verir; gerçek ağlarda merkez düğümlerin olmasının nedeni budur.</p>
+</div><div class="sketch" data-sketch="powerlaw"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>7. Birikimli dağılım</strong> (4. Bölüm)</p>
+  <div class="eq">$$P(K \ge k) \sim k^{-(\gamma - 1)}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> $k^{-\gamma}$'nın kuyruğunu toplamak üsteli bir artırır.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: paralele benzeyen iki çizgi; birikimli olan daha yatık (eğim $-(\gamma - 1)$) ve $p_k$'nin gürültülü kuyruğu olmadan pürüzsüzdür.</p>
+  <p><strong>Yorum.</strong> Bir CCDF grafiğinden $\gamma$'yı eğimin büyüklüğüne 1 ekleyerek okuyun; sık rastlanan bir sınav tuzağı.</p>
+</div><div class="sketch" data-sketch="ccdf"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>8. En büyük merkez düğüm</strong> (4. Bölüm)</p>
+  <div class="eq">$$k_{\max} = k_{\min} N^{1/(\gamma - 1)} \qquad\text{ve}\qquad k_{\max} = k_{\min} + \frac{\ln N}{\lambda}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> $N$ çekilişin en büyüğü: $k_{\max}$'ın üstünde bir düğüm beklenir. Kuvvet yasası kuyruğu kalındır, bu yüzden o nokta $N$'nin bir kuvveti gibi dışa kayar; üstel bir kuyrukta yalnızca logaritmik olarak.</p>
+  <p><strong>Ne çizilir.</strong> Log-log, $N$'ye karşı $k_{\max}$: kuvvet yasaları için eğimi $1/(\gamma - 1)$ olan düz çizgiler (küçük $\gamma$ için daha dik), üstel için neredeyse düz bir eğri.</p>
+  <p><strong>Yorum.</strong> Merkez düğümler ağla birlikte büyür; rastgele bir ağda en büyük düğüm ortalamanın ancak biraz üstündedir. WWW boyutlarında fark binlerce kattır.</p>
+</div><div class="sketch" data-sketch="kmax"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>9. Ölçekten bağımsız ağlarda uzaklıklar</strong> (4. Bölüm)</p>
+  <div class="eq">$$\langle d\rangle \sim \begin{cases} \text{sabit} & \gamma = 2 \\ \ln\ln N & 2 &lt; \gamma &lt; 3 \\ \ln N / \ln\ln N & \gamma = 3 \\ \ln N & \gamma > 3 \end{cases}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Merkez düğümler kısayol işlevi görür. $\gamma$ ne kadar küçükse merkez düğümler o kadar büyük olur ve yolların o kadar çoğu onlardan geçer.</p>
+  <p><strong>Ne çizilir.</strong> Logaritmik $N$ ekseninde $N$'ye karşı $\langle d\rangle$: $\ln\ln N$ eğrisi neredeyse düz, $\ln N$ çizgisi en dik, $\gamma = 3$ arada.</p>
+  <p><strong>Yorum.</strong> Gerçek ağların çoğunun bulunduğu $2 &lt; \gamma &lt; 3$ için “ultra küçük”. $\gamma = 3$'ün üstünde merkez düğümler önemsenmeyecek kadar küçüktür ve ağ rastgele bir ağ gibi davranır.</p>
+</div><div class="sketch" data-sketch="regimes"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>10. Tercihli bağlanma</strong> (5. Bölüm)</p>
+  <div class="eq">$$\Pi(k_i) = \frac{k_i}{\sum_j k_j} \qquad(\text{genel olarak } \Pi \propto k^{\alpha})$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Bir düğümün bağlantısı ne kadar çoksa o kadar görünürdür: zengin daha da zenginleşir.</p>
+  <p><strong>Ne çizilir.</strong> Doğrusal eksenler: $\alpha = 1$ için orijinden geçen düz bir çizgi, $\alpha &lt; 1$ için içbükey, $\alpha > 1$ için dışbükey bir eğri.</p>
+  <p><strong>Yorum.</strong> Yalnızca $\alpha = 1$ kuvvet yasası verir. Doğrusal altı gerilmiş üstel verir (büyük merkez düğüm yok); doğrusal üstü, tek bir düğümün tüm bağlantıların sonlu bir payını almasına izin verir (kazanan her şeyi alır).</p>
+</div><div class="sketch" data-sketch="pa"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>11. Bir düğümün derecesi nasıl büyür</strong> (5. Bölüm)</p>
+  <div class="eq">$$k_i(t) = m\left(\frac{t}{t_i}\right)^{1/2}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Büyüme artı tercihli bağlanma: $dk_i/dt = k_i/2t$. Her düğüm aynı göreli hızla büyür, bu yüzden yaşın getirdiği önce başlama avantajı hiç küçülmez.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: her düğüm için bir tane olmak üzere eğimi ½ olan paralel düz çizgiler, eski düğümler daha yukarıda. Tercih olmadan (Model A) büyüme yalnızca logaritmiktir.</p>
+  <p><strong>Yorum.</strong> İlk gelen avantajı: en eski düğümler merkez düğüm olur. Kazanan gerçek geç gelenler fazladan bir şeye ihtiyaç duyar (uygunluk, 6. Bölüm).</p>
+</div><div class="sketch" data-sketch="growth"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>12. BA derece dağılımı</strong> (5. Bölüm)</p>
+  <div class="eq">$$p_k = \frac{2m(m+1)}{k(k+1)(k+2)} \approx 2m^2 k^{-3}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Büyüme ve tercihli bağlanma birlikte. Büyümeyi kaldırın (Model B), durağan bir dağılım olmaz; tercihi kaldırın (Model A), $p_k$ üstel olur.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: her $m$ için eğimi $-3$ olan paralel çizgiler, büyük $m$ için yukarı kaymış, her biri $k = m$'de başlar.</p>
+  <p><strong>Yorum.</strong> $m$ ve $N$ ne olursa olsun $\gamma = 3$: model merkez düğümleri açıklar ama 3'ten farklı üstelleri açıklamaz.</p>
+</div><div class="sketch" data-sketch="bapk"></div></div>
+
+<div class="eqcard"><div class="eqcard-text">
+  <p><strong>13. BA ağlarının kümelenmesi</strong> (5. Bölüm)</p>
+  <div class="eq">$$\langle C\rangle \sim \frac{(\ln N)^2}{N}$$</div>
+  <p><strong>Onu ne yönlendirir.</strong> Yeni düğümler hedeflerini ortak komşulara göre değil dereceye göre seçer; bu yüzden üçgenler yalnızca şans eseri oluşur, rastgele bir ağdakinden biraz daha sık, çünkü merkez düğümler komşu paylaşır.</p>
+  <p><strong>Ne çizilir.</strong> Log-log: BA rastgele çizginin üstünde ama yine düşüyor; gerçek ağlar düz.</p>
+  <p><strong>Yorum.</strong> BA modeli merkez düğümleri ve küçük uzaklıkları ($\ln N/\ln\ln N$) üretir ama gerçek ağların kümelenmesini üretmez.</p>
+</div><div class="sketch" data-sketch="baclust"></div></div>
+
 <section id="ch1">
 <h2>1. Bölüm · Neden ağlar?</h2>
 <p>Formül yok; kısa cevaplı sorular bekleyin. Bölüm, geri kalanın <em>neden</em> önemli olduğunu söyler.</p>
@@ -568,6 +691,117 @@
 <p class="small">Sayfalar: <a href="ch5-preview.html">Barabási–Albert modeli</a>; ileriye bakış: <a href="evolving.html">Evrilen ağlar</a>.</p>
 </section>
 
+<h2 id="homework">Kitabın ödevleri, çözümlü (yalnızca slayt içeriği)</h2>
+<p>Öğretim üyesi alıştırma için kitabın ödev bölümlerini öneriyor. Bunlar 2–5. Bölümlerden bilgisayar ve türetme gerektirmeyen problemler, çözümleriyle. Bilgisayarla ağ üretmeyi isteyen problemleri bölüm sayfalarındaki şekiller yapar.</p>
+
+<div class="callout try">
+  <p><strong>2. Bölüm · Derece, kümelenme ve bileşenler.</strong> (a) Yönsüz bir ağın her düğümünün derecesi $k = 1$. $N$ neyi sağlamalı? $p_k$ nedir? Kaç bileşen vardır? (b) Her düğümde $k = 2$ ve $C = 1$. Ağ neye benzer?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>(a) Her bağlantı iki düğüm kullanır ve her düğüm tam olarak bir bağlantıdadır; bu yüzden ağ $N/2$ ayrı çifttir: $N$ çifttir, $p_1 = 1$ (diğer tüm $p_k = 0$) ve $N/2$ bileşen vardır.</li>
+      <li>(b) $C = 1$, bir düğümün iki komşusunun birbirine bağlı olduğu demektir: her düğüm bir üçgendedir ve başka bağlantısı yoktur. Ağ $N/3$ ayrık üçgendir, yani $N$ 3'ün katıdır.</li>
+      <li>Yorum: dereceler aynı ve kümelenme kusursuz, yine de dev bileşen yok. Yerel özellikler küresel bağlılığı belirlemez.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>2. Bölüm · Matris biçimciliği.</strong> $A$ basit yönsüz bir ağın komşuluk matrisi ve $\mathbf 1$ birlerden oluşan bir sütun olsun. $\sum$ kullanmadan yazın: derece vektörü $\mathbf k$, bağlantı sayısı $L$, üçgen sayısı $T$ ve $i$. elemanı $i$'nin komşularının derecelerinin toplamı olan vektör.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$\mathbf k = A\mathbf 1$: $A$'nın $i$. satırı $i$'nin bağlantılarını toplar.</li>
+      <li>$L = \frac12 \mathbf 1^{T} A \mathbf 1$: tüm derecelerin toplamı her bağlantıyı iki kez sayar.</li>
+      <li>$T = \frac16 \operatorname{Tr} A^3$: $(A^3)_{ii}$, $i$'den başlayan 3 uzunluklu kapalı yürüyüşleri sayar; her üçgen bunlardan 6 tane verir (3 başlangıç düğümü, 2 yön).</li>
+      <li>$A\mathbf k = A^2\mathbf 1$: $A$'nın $i$. satırı $i$'nin komşularını seçer ve derecelerini toplar. $i$. elemanı $k_i$'ye bölmek arkadaşlık paradoksu niceliği $k_{nn}$'i verir.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>2. Bölüm · İki parçalı ağlar.</strong> İki parçalı bir ağın bir kümesinde $N_1$, diğerinde $N_2$ düğüm var. $L_{\max}$ nedir? $L$ bağlantısı varsa iki kümenin ortalama dereceleri nedir?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Bağlantılar yalnızca kümeler arasında uzanır: $L_{\max} = N_1 N_2$ (karşılıklı her çift); $N = N_1 + N_2$ olan genel bir ağ için ise $N(N-1)/2$.</li>
+      <li>Her bağlantının her kümede bir ucu vardır: $\langle k_1\rangle = L/N_1$ ve $\langle k_2\rangle = L/N_2$, yani $N_1\langle k_1\rangle = N_2\langle k_2\rangle$. Küçük kümenin ortalama derecesi daha büyüktür.</li>
+      <li>Örnek: 10 bağlantılı 6 ve 5 düğüm $\langle k_1\rangle = 1.67$, $\langle k_2\rangle = 2$ ve $L_{\max} = 30$ verir.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>3. Bölüm · Bir Erdős–Rényi ağı.</strong> $N = 3{,}000$, $p = 10^{-3}$. $\langle L\rangle$'yi ve rejimi; kritik $p_c$'yi; aynı $p$ ile ağın bağlı hale geldiği $N_{cr}$'yi; o ağ için $\langle k\rangle$, $\langle d\rangle$ ve $p_k$'yi bulun.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$\langle L\rangle = p\,N(N-1)/2 = 4{,}498.5$; $\langle k\rangle = p(N-1) = 3.0$.</li>
+      <li>$\ln N = 8.0$ ve $1 &lt; 3.0 &lt; 8.0$: kritik üstü. Bir dev bileşen var, ama yalıtık düğümler kalır.</li>
+      <li>$p_c = 1/(N-1) = 3.3 \times 10^{-4}$: gerçek $p$'den üç kat küçük.</li>
+      <li>$\langle k\rangle = \ln N$, yani $p(N-1) = \ln N$ olduğunda bağlı. Değer deneyerek: $N_{cr} \approx 9{,}100$ (o zaman $\langle k\rangle = 9.1 = \ln 9{,}100$).</li>
+      <li>$\langle d\rangle \approx \ln N/\ln\langle k\rangle = 9.12/2.21 = 4.1$.</li>
+      <li>$p_k = e^{-9.1}\,9.1^k/k!$: tepesi 9'da, genişliği $\sqrt{9.1} = 3$.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>3. Bölüm · Çember ağ.</strong> Bir çember üzerinde $N$ düğüm, her biri her iki yandaki en yakın $m$ komşusuna bağlı (derece $2m$). Kümelenmesi $C = \frac{3(m-1)}{2(2m-1)}$, ortalama uzaklığı $\langle d\rangle \approx \frac{N}{4m}$'dir. $N \gg 1$ iken ikisini de yorumlayın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$C$, $N$'ye bağlı değildir: $m = 2$ için 0.5, $m = 3$ için 0.6 ve büyük $m$ için $C \to 3/4$. Çember üzerindeki komşular komşularının çoğunu paylaşır.</li>
+      <li>$\langle d\rangle$, $N$ ile doğrusal büyür: çemberin etrafından dolaşmak ortalama yaklaşık $N/(2 \cdot 2m)$ adım alır.</li>
+      <li>Yani çember gerçek ağların kümelenmesine sahiptir ama küçük uzaklıklarına değil. Bu, Watts–Strogatz modelinin başlangıç noktasıdır ($p = 0$); yukarıdaki 5. çizim yeniden bağlamanın ne yaptığını gösterir.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>3. Bölüm · Cayley ağacı.</strong> Derecesi $k$ olan bir merkez düğüm; ona uzaklığı $&lt; P$ olan her düğümün derecesi de $k$; uzaklığı $P$ olan düğümler yapraktır. $t$ uzaklığında kaç düğüm vardır? $d_{\max}$ nedir ve $N$ ile nasıl ölçeklenir? Küçük bir dünya mıdır?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Uzaklık 1: $k$ düğüm; her birinin daha dışarıda $k - 1$ yeni komşusu vardır, bu yüzden $t$ uzaklığında $k(k-1)^{t-1}$ düğüm bulunur.</li>
+      <li>Toplam: $N = 1 + k\frac{(k-1)^P - 1}{k - 2}$. $k = 3$, $P = 5$ için: $N = 1 + 3 \times 31 = 94$; bunların $3 \times 2^4 = 48$'i yapraktır. Yani $p_1 = 48/94$, $p_3 = 46/94$.</li>
+      <li>$d_{\max} = 2P$ (yapraktan merkeze, oradan başka bir daldaki yaprağa). $N \approx (k-1)^P$ olduğundan $P \approx \ln N/\ln(k-1)$ ve $d_{\max} \approx 2\ln N/\ln(k-1)$.</li>
+      <li>Uzaklıklar $\ln N$ gibi büyür: rastgele bir ağla aynı nedenle küçük bir dünya (düğüm sayısı uzaklıkla üstel büyür). Ama $C = 0$: bir ağaçta üçgen yoktur.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>3. Bölüm · Züppe ağ.</strong> $N$ kırmızı ve $N$ mavi düğüm. Aynı renkli çiftler $p$, farklı renkli çiftler $q$ olasılığıyla bağlanır, $p > q$. Mavi alt ağın ve tüm ağın ortalama derecesini bulun. Ne zaman tek bir bileşen vardır? Küçük bir dünya mıdır?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Mavi alt ağ: $\langle k\rangle_{\text{mavi}} = p(N-1)$. Tüm ağ: her düğümün ayrıca $N$ olası diğer renkli ortağı vardır, yani $\langle k\rangle = p(N-1) + qN$.</li>
+      <li>Tek bileşen için her rengin bağlı olması ($p(N-1) \gtrsim \ln N$) ve en az bir kırmızı–mavi bağlantı gerekir: $qN^2 \gtrsim 1$, yani $q \gtrsim 1/N^2$. Çok küçük bir $q$ yeter.</li>
+      <li>Küçük dünya: herhangi bir düğümden yaklaşık $\ln N/\ln\langle k\rangle$ adım, renkler arası bağlantısı olan bir düğüme ulaşır; bir adım karşıya geçer ve bir o kadar daha hedefe ulaşır. $p \gg q$ olsa bile uzaklıklar $\ln N$ mertebesinde kalır.</li>
+      <li>Yorum: bölünmüş bir toplumu küçük bir dünya yapmak için birkaç köprü bağlantısı yeter.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>4. Bölüm · Arkadaşlık paradoksu.</strong> Rastgele bir bağlantının ucu $q_k = A\,k\,p_k$ olasılıkla derecesi $k$ olan bir düğümdür. $A$'yı bulun. Rastgele bir düğümün bir komşusunun ortalama derecesi nedir? $\gamma = 2.3$, $k_{\min} = 1$, $k_{\max} = 1{,}000$ olan bir kuvvet yasası için hesaplayın ve paradoksu açıklayın.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$\sum_k q_k = A\sum_k k\,p_k = A\langle k\rangle = 1$, yani $A = 1/\langle k\rangle$.</li>
+      <li>Komşunun ortalama derecesi: $\sum_k k\,q_k = \langle k^2\rangle/\langle k\rangle$.</li>
+      <li>$k^{-2.3}$'ü 1'den 1.000'e toplayarak: $\langle k\rangle = 2.45$, $\langle k^2\rangle/\langle k\rangle = 51$. Arkadaşlarınızın ortalamada sizin yaklaşık 20 katınız kadar arkadaşı vardır.</li>
+      <li>Neden: bir merkez düğüm birçok düğümün komşusudur, bu yüzden komşular üzerinden ortalama alırken birçok kez sayılır. Düşük dereceli düğümler az örneklenir.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>5. Bölüm · Tercihli bağlanma olmadan büyüme (Model A).</strong> Yeni düğümler $m$ bağlantılarını rastgele seçilen düğümlere bağlar. Sonuç $p_k = \frac{e}{m}\exp(-k/m)$'dir. Yorumlayın ve çizin.</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>Üstel: log-doğrusal eksenlerde ($k$'ye karşı $\log p_k$) eğimi $-1/m$ olan düz bir çizgi; log-log eksenlerde keskin biçimde aşağı bükülür.</li>
+      <li>Her düğüm herkes için aynı olan $m/t$ hızıyla bağlantı kazanır: dereceler yalnızca $m\ln(t/t_i)$ gibi büyür; bu yüzden eski düğümler öndedir, ama merkez düğüm yapacak kadar değil.</li>
+      <li>Tek başına büyüme yetmez. Yaş avantajını kuvvet yasasına çeviren tercihli bağlanmadır.</li>
+    </ol>
+  </div>
+</div>
+<div class="callout try">
+  <p><strong>5. Bölüm · Yönlü BA modeli.</strong> Her yeni düğüm, $\propto k^{\text{in}} + A$ olasılıkla seçilen var olan düğümlere $m$ yönlü bağlantı gönderir. İç derece üsteli $\gamma_{\text{in}} = 2 + A/m$'dir. $A = 0$ için neden BA modelindeki gibi 3 değil de $\gamma_{\text{in}} = 2$'dir?</p>
+  <div class="hint" data-label="Çözümü göster">
+    <ol>
+      <li>$A = 0$ iken gelen bağlantısı olmayan bir düğüm asla bağlantı alamaz: çekicilik yalnızca zaten alınmış bağlantılardan gelir ve tercih olabildiğince güçlüdür. Güçlü tercih yatık bir kuyruk demektir: $\gamma = 2$.</li>
+      <li>Yönsüz BA modelinde bir düğümün çekiciliği tam derecesi, $k = k^{\text{in}} + m$'dir: sanki $A = m$. O zaman $\gamma = 2 + m/m = 3$.</li>
+      <li>Yorum: çekiciliğe bir sabit eklemek (“başlangıç çekiciliği”) tercihi seyreltir ve $\gamma$'yı yükseltir.</li>
+    </ol>
+  </div>
+</div>
+
 <h2 id="practice">Alıştırma seti</h2>
 <div id="bank" class="bank" data-pages="ch1-intro, data, ch2-konigsberg, ch2-degree, ch2-adjacency, ch2-sparsity, ch2-weighted-bipartite, ch2-paths, ch2-connectedness, ch2-clustering, ch3-model, ch3-degree, ch3-real-degrees, ch3-evolution, ch3-small-world, ch3-clustering, ch3-summary, ch4-power-laws, ch4-plotting, ch4-fitting, ch4-hubs, ch4-moments, ch4-universality, ch4-ultra-small, ch4-exponent, ch4-generating, synthesis, ch5-preview"></div>
 <p class="small muted">Bu sorular bölüm sayfalarındakilerle aynı değildir: her biri gereken formülleri verir ve onları kullanmanızı ister. Sayfaların kendi testlerini de karıştırmak için “Sayfalardaki tekrar sorularını da ekle” kutusunu işaretleyin.</p>
@@ -935,6 +1169,66 @@
     <li>Kuvvet yasasından hızlı düşen ağır bir kuyruk: merkez düğümler vardır ama BA modelindekilerden küçüktür.</li>
   </ol>
   <div class="explain">Doğrusal altı bağlanma yine büyük düğümleri kayırır, ama doğrusaldan az; bu yüzden en büyük merkez düğümler BA modelindekinden yavaş büyür.</div>
+</div>
+<div class="quiz" data-topic="Denklemler ve çizimler" data-answer="2">
+  <p>$\langle k\rangle = 5$ olan rastgele bir ağ için $\langle d\rangle = \ln N/\ln\langle k\rangle$'yi logaritmik bir $N$ ekseni ve doğrusal bir $\langle d\rangle$ ekseniyle çiziyorsunuz. Ne çizersiniz?</p>
+  <ol>
+    <li data-why="Bu, ln N'nin içbükey göründüğü, iki eksenin de doğrusal olduğu durumdaki biçimdir.">Bükülüp yatıklaşan bir eğri</li>
+    <li>$N$'deki her on katlık artış için $\ln 10/\ln 5 \approx 1.4$ yükselen düz bir çizgi</li>
+    <li data-why="Bir örgüdeki gibi N'nin bir kuvveti bu eksende giderek dikleşirdi.">Giderek dikleşen bir eğri</li>
+    <li data-why="Uzaklıklar N ile büyür, yalnızca yavaşça.">Yatay bir çizgi</li>
+  </ol>
+  <div class="explain">$\langle d\rangle$, $\ln N$'de doğrusaldır; bu yüzden logaritmik bir $N$ ekseni onu düzleştirir. $N$'deki her 10 kat $\ln 10/\ln\langle k\rangle$ adım ekler: küçük dünya etkisi.</div>
+</div>
+<div class="quiz" data-topic="Denklemler ve çizimler" data-answer="4">
+  <p>BA modelinde $k_i(t) = m\,(t/t_i)^{1/2}$ veriliyor: $t_i = 1, 10, 100$ anlarında doğan üç düğümün derecelerinin log-log grafiği neye benzer ve onu ne yönlendirir?</p>
+  <ol>
+    <li data-why="Bu, her düğümün farklı hızla büyüdüğü anlamına gelirdi; burada ½ üsteli herkes için aynıdır.">Kesişen farklı eğimli çizgiler: yeni düğümler yetişir</li>
+    <li data-why="Yeni düğümler gelip tercihli bağlandıkça dereceler büyümeye devam eder.">Üç yatay çizgi</li>
+    <li data-why="Logaritmik büyüme, tercihli bağlanmasız Model A'dır.">Büyüme logaritmik olduğu için yatıklaşan eğriler</li>
+    <li>Eğimi ½ olan paralel düz çizgiler, en eski düğüm en üstte: her düğüm aynı göreli hızla büyür, bu yüzden kimin en büyük olacağına yaş karar verir</li>
+  </ol>
+  <div class="explain">$\log k_i = \frac12\log t + \log(m/\sqrt{t_i})$: aynı eğim, yaşa göre sıralı kesişim noktaları. Büyüme artı tercihli bağlanma hiç kaybolmayan bir ilk gelen avantajı verir.</div>
+</div>
+<div class="quiz" data-topic="Denklemler ve çizimler" data-answer="1">
+  <p>$S = 1 - e^{-\langle k\rangle S}$ için, $\langle k\rangle$ 0'dan 3'e artarken dev bileşenin boyutu nasıl davranır?</p>
+  <ol>
+    <li>$\langle k\rangle = 1$'e kadar 0 kalır, sonra sürekli ve dik biçimde yükselir ($\langle k\rangle = 3$'te yaklaşık 0.94'e)</li>
+    <li data-why="⟨k⟩ = 1'in altında dev bileşen yoktur: orada tek çözüm S = 0'dır.">$\langle k\rangle = 0$'dan itibaren doğrusal büyür</li>
+    <li data-why="Geçiş süreklidir: S, ⟨k⟩ = 1'de 0'dan başlar, sıçramaz.">$\langle k\rangle = 1$'de 0'dan 1'e sıçrar</li>
+    <li data-why="S = 1 için her düğümün içinde olması gerekir; bu ancak ⟨k⟩ ln N'ye ve ötesine büyüdükçe olur.">$\langle k\rangle = 1$'de 1'e ulaşır</li>
+  </ol>
+  <div class="explain">Bir düğüm ancak komşularından hiçbiri dev bileşende değilse onun dışındadır; bu $1 - S = e^{-\langle k\rangle S}$ verir. $\langle k\rangle = 1$'in üstünde sıfır olmayan bir çözüm belirir: sürekli bir faz geçişi.</div>
+</div>
+<div class="quiz" data-topic="Denklemler ve çizimler" data-answer="3">
+  <p>Bir öğrenci WWW'nin derece dağılımını, $p_k \sim k^{-2.1}$, doğrusal eksenlerde çiziyor ve “sayfaların çoğunun derecesi çok küçük, yani dağılım rastgele bir ağınki gibi” diyor. En iyi yanıt hangisidir?</p>
+  <ol>
+    <li data-why="Doğrusal eksenler kuyruğu eksene ezer; grafik merkez düğümlerin yokluğunu göstermez, onları gizler.">Doğru: doğrusal grafik merkez düğüm göstermiyor</li>
+    <li data-why="Poisson dağılımının tepesi ⟨k⟩'dadır; kuvvet yasası k_min'den itibaren azalır.">Doğru, çünkü iki dağılımın da bir tepesi var</li>
+    <li>Yanlış: log-log eksenlerde $p_k$, eğimi $-2.1$ olan ve çok büyük derecelere uzanan düz bir çizgidir, Poisson dağılımı ise uçurumdan düşer; doğrusal grafik kuyruğu gizler</li>
+    <li data-why="Doğrusal eksenler yasak değildir; yalnızca birkaç büyüklük mertebesine yayılan bir dağılım için yanlış seçimdir.">Yanlış: derece dağılımları asla doğrusal eksenlerde çizilemez</li>
+  </ol>
+  <div class="explain">Kuvvet yasasının tipik ölçeği yoktur, bu yüzden logaritmik eksenler ister. Onlarda büyük $k$'deki Poisson'dan fark birçok büyüklük mertebesidir: merkez düğümler.</div>
+</div>
+<div class="quiz" data-topic="Denklemler ve çizimler" data-answer="2">
+  <p>Bağlanma $\Pi(k) \propto k^{\alpha}$'yı izliyor. $\alpha = 2$ için ağ büyüdükçe en büyük düğümün tüm bağlantılardaki payına ne olur?</p>
+  <ol>
+    <li data-why="Bu, küçük merkez düğümlü gerilmiş üstel veren doğrusal altı durumdur, α &lt; 1.">Küçülür: derece dağılımı gerilmiş üstel olur</li>
+    <li>Sonlu kalır: doğrusal üstü bağlanma, erken gelen tek bir düğümün tüm bağlantıların sabit bir kesrini almasına izin verir (kazanan her şeyi alır)</li>
+    <li data-why="Yalnızca α = 1, γ = 3 olan BA kuvvet yasasını verir.">$\gamma = 3$ olan BA kuvvet yasasını izler</li>
+    <li data-why="α = 0 tercih yok demektir; α = 2 tam tersi, çok güçlü bir tercihtir.">Tercihsiz duruma göre hiçbir şey değişmez</li>
+  </ol>
+  <div class="explain">$\alpha > 1$ için zengin doğrusaldan hızlı zenginleşir ve en büyük düğümün derecesi $t$ gibi büyür: ölçekten bağımsız değil, merkez ve kollar yapısında bir ağ.</div>
+</div>
+<div class="quiz" data-topic="Denklemler ve çizimler" data-answer="1">
+  <p>Kuvvet yasası için $k_{\max} = k_{\min}N^{1/(\gamma-1)}$, üstel dağılım için $k_{\max} = k_{\min} + \ln N/\lambda$ veriliyor: $N$'ye karşı $k_{\max}$'ın log-log grafiğinde ne çizersiniz?</p>
+  <ol>
+    <li>Kuvvet yasası için eğimi $1/(\gamma - 1)$ olan düz bir çizgi, üstel için neredeyse düz bir eğri</li>
+    <li data-why="Kuvvet yasası N'nin bir kuvveti gibi büyür; bu, log-log eksenlerde yatay değil, eğimli düz bir çizgidir.">İki yatay çizgi</li>
+    <li data-why="Üstel olan yalnızca ln N gibi, herhangi bir kuvvetten çok daha yavaş büyür.">Aynı eğimli iki düz çizgi</li>
+    <li data-why="Küçük γ daha büyük bir 1/(γ − 1) üsteli verir, yani çizgi yatık değil daha diktir.">Küçük $\gamma$ için daha yatık bir çizgi</li>
+  </ol>
+  <div class="explain">Kalın bir kuyruk beklenen en büyük dereceyi $N$'nin bir kuvveti gibi dışa iter; üstel bir kuyruk yalnızca logaritmik olarak. Ölçekten bağımsız ağlarda merkez düğümlerin ağla büyümesinin, rastgele ağlarda büyümemesinin nedeni budur.</div>
 </div>
 </template>
 

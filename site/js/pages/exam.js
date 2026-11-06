@@ -95,3 +95,6 @@ bank.replaceChildren(
   h("p", { class: "muted small" }, t(`${own.length} exam-style questions. Each gives the formulas it needs and asks you to use them and interpret the result. Tick the topics you want; each set is drawn at random.`)),
   topicBox, bar, list);
 deal();
+
+// "Read an equation, sketch its graph": plots drawn from the equations, loaded only where the guide has them
+if (document.querySelector(".sketch[data-sketch]")) import("../lib/sketches.js").then((m) => m.renderSketches());
