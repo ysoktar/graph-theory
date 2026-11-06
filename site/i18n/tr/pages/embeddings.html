@@ -1,64 +1,192 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8"><title>Çizge ML ve düğüm gömmeleri · Çizgelerden Merkez Düğümlere</title>
-<meta name="description" content="Karate kulübünün spektral ve DeepWalk gömmeleri, cümle olarak rastgele yürüyüşler, çizge sinir ağlarında mesaj iletimi ve kitabın ağlarında bağlantı tahmini."></head><body>
+<meta name="description" content="Çizge makine öğrenmesi: düğüm, bağlantı ve çizge öznitelikleri (merkezilikler, PageRank, Katz, Weisfeiler–Lehman), düğüm gömmeleri (kodlayıcı–kod çözücü, Laplasyen öz haritaları, DeepWalk, node2vec, negatif örnekleme), çizge sinir ağları ve bağlantı tahmini."></head><body>
 <div class="content">
 
 <h1>Çizge makine öğrenmesi ve düğüm gömmeleri</h1>
-<p class="lead">Makine öğrenmesi modelleri ağ değil, vektör bekler. Bir <strong>düğüm gömmesi</strong> her düğümü bir vektöre eşler; böylece ağda yakın olan düğümler uzayda da yakın olur.</p>
+<p class="lead">Ağ bilimi bütün bir ağı birkaç sayıyla özetler. Makine öğrenmesi ise her düğümün, çiftin ya da çizgenin bir sınıflandırıcının kullanabileceği bir vektör olarak betimlenmesini ister. Bu sayfa bu betimlemeyi iki kez kurar: önce elle (öznitelikler), sonra öğrenerek (gömmeler ve çizge sinir ağları).</p>
 
 <div class="callout why">
   <ul>
-    <li>Önceki bölümler ağları birkaç sayıyla betimler ($\langle k\rangle$, $C$, $\gamma$); öngörü ise her düğümün bir betimlemesini gerektirir.</li>
-    <li>Gömmeler standart sınıflandırıcıları besler: düğümleri etiketlemek, toplulukları bulmak, eksik bağlantıları tahmin etmek.</li>
-    <li>Çizge sinir ağları betimlemeyi görev için kendileri öğrenir.</li>
+    <li>Önceki bölümler ağları birkaç sayıyla betimler ($\langle k\rangle$, $C$, $\gamma$); tahmin ise her düğümün betimlenmesini gerektirir.</li>
+    <li>Elle yapılan öznitelikler dersin zaten ölçtüğü şeyleri yeniden kullanır: derece, kümelenme, yollar, rastgele yürüyüşler.</li>
+    <li>Gömmeler öznitelikleri öğrenir; çizge sinir ağları onları eldeki görev için öğrenir.</li>
   </ul>
 </div>
 
-<h2>Spektral gömme</h2>
-<p>Normalleştirilmiş Laplace matrisinin özvektörlerini kullanın:</p>
+<h2>Çizge makine öğrenmesi neyi tahmin eder</h2>
+<table class="simple">
+  <thead><tr><th>Görev</th><th>Tahmin</th><th>Örnek</th></tr></thead>
+  <tbody>
+    <tr><td>düğüm sınıflandırma</td><td>her düğüm için bir etiket</td><td>bir karate kulübü üyesinin hangi gruba katılacağı; bir proteinin işlevi; bir bot hesap</td></tr>
+    <tr><td>bağlantı tahmini</td><td>iki düğümün bağlı olup olmadığı (ya da olacağı)</td><td>test edilmemiş protein etkileşimleri; “tanıyor olabileceğiniz kişiler”; öneriler</td></tr>
+    <tr><td>çizge sınıflandırma</td><td>bütün bir ağ için bir etiket</td><td>bir molekülün zehirli olup olmadığı</td></tr>
+    <tr><td>kümeleme</td><td>düğüm grupları</td><td><a href="communities.html">topluluklar</a></td></tr>
+  </tbody>
+</table>
+<p>Her görev düğüm (ya da çift, ya da çizge) başına bir vektör ister. Klasik yol bunu elle hesaplar ve lojistik regresyon ya da rastgele orman gibi standart bir modele verir.</p>
+
+<h2>Elle öznitelikler: düğümler</h2>
+<p>Bir düğüm ne kadar önemli? Her merkezilik sorunun farklı bir biçimini yanıtlar.</p>
+<table class="simple">
+  <thead><tr><th>Ölçü</th><th>Formül</th><th>Yüksek olduğu düğüm…</th></tr></thead>
+  <tbody>
+    <tr><td>derece</td><td>$k_v$</td><td>çok komşusu olan (hepsini eşit sayar)</td></tr>
+    <tr><td>özvektör</td><td>$c_v = \frac1\lambda\sum_u A_{vu}c_u$, yani $A\mathbf c = \lambda\mathbf c$</td><td>önemli komşuları olan</td></tr>
+    <tr><td>PageRank</td><td>$r_v = \frac{1-d}{N} + d\sum_{u \to v}\frac{r_u}{k_u^{\text{out}}}$</td><td>bazen rastgele zıplayan bir sörfçünün sık ulaştığı</td></tr>
+    <tr><td>arasındalık</td><td>$b_v = \sum_{s \ne v \ne t}\frac{\sigma_{st}(v)}{\sigma_{st}}$</td><td>birçok en kısa yol üzerinde bulunan: bir aracı ya da köprü</td></tr>
+    <tr><td>yakınlık</td><td>$c_v = \frac{N-1}{\sum_u d_{uv}}$</td><td>herkese yakın olan</td></tr>
+    <tr><td>kümelenme</td><td>$C_v = \frac{2L_v}{k_v(k_v-1)}$</td><td>komşuları birbirini tanıyan (<a href="ch2-clustering.html">2. Bölüm</a>)</td></tr>
+    <tr><td>$k$-çekirdek numarası</td><td>$v$'nin en küçük derecesi $k$ olan bir alt çizgede bulunduğu en büyük $k$</td><td>yoğun çekirdekte bulunan</td></tr>
+  </tbody>
+</table>
+<dl class="symbols">
+  <dt>$\lambda$</dt><dd>$A$'nın en büyük özdeğeri (özvektörünün tüm elemanları pozitiftir)</dd>
+  <dt>$d$</dt><dd>sönümleme katsayısı, genellikle 0.85: rastgele bir düğüme zıplamak yerine bir bağlantıyı izleme olasılığı</dd>
+  <dt>$\sigma_{st}$, $\sigma_{st}(v)$</dt><dd>$s$'den $t$'ye en kısa yolların sayısı ve bunların kaçının $v$'den geçtiği</dd>
+  <dt>$d_{uv}$</dt><dd>$u$ ile $v$ arasındaki uzaklık</dd>
+</dl>
+<div data-fig id="fig-central"></div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 1: bir yıldızın özvektör merkeziliği.</strong> $n$ yapraklı bir merkez düğüm.</p>
+  <ol>
+    <li>Her yaprağın tek komşusu merkezdir: $\lambda c_{\text{yaprak}} = c_{\text{merkez}}$. Merkezin $n$ yaprak komşusu vardır: $\lambda c_{\text{merkez}} = n\,c_{\text{yaprak}}$.</li>
+    <li>Çarpın: $\lambda^2 = n$, yani $\lambda = \sqrt n$ ve $c_{\text{yaprak}} = c_{\text{merkez}}/\sqrt n$.</li>
+    <li>4 yaprakla: $\lambda = 2$, yapraklar merkezin yarısı kadar puan alır. Derece dörtte bir derdi: bir yaprak tek önemli komşusundan kazanç sağlar.</li>
+  </ol>
+</div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 2: elle PageRank.</strong> Yönlü bağlantılar $A \to B$, $A \to C$, $B \to C$, $C \to A$, $D \to C$; her biri için $r = \frac14$'ten başlayın.</p>
+  <ol>
+    <li>Basitleştirilmiş PageRank ($d = 1$): her düğüm puanını dış bağlantılarına eşit böler. 1. yineleme: $A$, $C$'nin $0.25$'inin hepsini alır; $B$, $A$'nınkinin yarısını, $0.125$; $C$, $A$'nınkinin yarısını artı $B$'nin ve $D$'nin hepsini, $0.625$; $D$ hiçbir şey almaz, $0$.</li>
+    <li>2. yineleme: $A = 0.625$, $B = 0.125$, $C = 0.250$, $D = 0$. $A = 0.4$, $B = 0.2$, $C = 0.4$, $D = 0$'a yakınsar.</li>
+    <li>$d = 0.85$ ile her düğüm önce $0.15/4 = 0.0375$ alır: $D$, 0 yerine $0.038$ tutar ve sonuç $A = 0.373$, $B = 0.196$, $C = 0.394$ olur. Zıplama, puanların çıkmazlara akmasını ve yürüyüşün tuzağa düşmesini önler.</li>
+  </ol>
+</div>
+<div data-fig id="fig-pagerank"></div>
+
+<h2>Elle öznitelikler: düğüm çiftleri</h2>
+<p>Bağlantı tahmini için bağlı olmayan her $u, v$ çiftini puanlayın:</p>
+<ul>
+  <li><strong>Uzaklık</strong> $d_{uv}$: kısa olması olasılığı artırır, ama kaç yol olduğunu görmez.</li>
+  <li><strong>Ortak komşular</strong> $|N(u) \cap N(v)|$; <strong>Jaccard</strong> bunu $|N(u) \cup N(v)|$'ye böler.</li>
+  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$ ve <strong>kaynak paylaştırma</strong> $\sum_w 1/k_w$: paylaşılan düşük dereceli bir komşu, paylaşılan bir merkez düğümden çok şey söyler.</li>
+  <li><strong>Tercihli bağlanma</strong> $k_u k_v$, <a href="ch5-preview.html">BA modelinden</a>.</li>
+  <li><strong>Katz indeksi</strong>: $u$ ile $v$ arasındaki tüm yürüyüşleri, uzunları sönümleyerek sayın:
+  <div class="eq">$$S_{uv} = \sum_{\ell \ge 1}\beta^\ell (A^\ell)_{uv}, \qquad S = (I - \beta A)^{-1} - I, \qquad \beta &lt; 1/\lambda_{\max}.$$</div></li>
+</ul>
+<p>İlk puanlar <em>yereldir</em> (yalnızca ortak komşuları görürler, bu yüzden 3 ya da daha uzak çiftlere 0 verirler); Katz <em>küreseldir</em>.</p>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 3: bir karede Katz.</strong> $A, B, C, D$ düğümleri bir 4-döngüde; $\lambda_{\max} = 2$, yani $\beta &lt; 0.5$.</p>
+  <ol>
+    <li>Karşı köşeler $A, C$ 2 komşu paylaşır ama bağlı değildir. $A$'dan $C$'ye yürüyüşler: 2 tane 2 uzunluklu, 8 tane 4 uzunluklu ve böyle sürer (tek uzunlukta yok).</li>
+    <li>$\beta = 0.1$: $S_{AC} = 2(0.01) + 8(0.0001) + \dots = 0.021$. Komşu köşeler: $S_{AB} = 0.104$.</li>
+    <li>$\beta = 0.4$: $S_{AC} = 0.89$, $S_{AB} = 1.11$. $1/\lambda_{\max}$'a yakın uzun yürüyüşler baskın olur ve puanlar şişer; $\beta \ge 0.5$'te toplam ıraksar.</li>
+  </ol>
+</div>
+<p>Bağlantıları gizleyerek değerlendirin: <strong>AUC</strong> = gizlenmiş bir bağlantının rastgele bir bağlantısız çiftten yüksek puan alma olasılığı (eşitlik ½ sayılır). 0.5 tahmin etmek, 1 kusursuzdur.</p>
+<div data-fig id="fig-links"></div>
+
+<h2>Elle öznitelikler: bütün çizgeler</h2>
+<p>Çizgeleri sınıflandırmak için onları karşılaştırmamız gerekir. Küçük alt çizgeleri (<em>graphlet</em>) saymak işe yarar ama pahalıdır. <strong>Weisfeiler–Lehman</strong> (WL) yöntemi ucuzdur: her düğüme aynı rengi verin, sonra her düğümü kendi rengine ve komşularının renklerinin çoklu kümesine göre tekrar tekrar yeniden boyayın:</p>
+<div class="eq">$$c^{(t+1)}(v) = \operatorname{hash}\Big(c^{(t)}(v),\ \{\!\{c^{(t)}(u) : u \in N(v)\}\!\}\Big).$$</div>
+<p>$t$ turdan sonra bir düğümün rengi, $t$ uzaklığına kadarki komşuluğunu özetler. Renk sayıları farklı olan iki çizge kesinlikle farklıdır (eşyapılı değildir); bir vektör olarak bu sayılar WL çizge öznitelikleridir. Sayılar hiç farklılaşmazsa WL çizgeleri, farklı olsalar bile, ayırt edemez.</p>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 4: elle WL.</strong> 1. çizge 5 düğümlü bir yol, $a{-}b{-}c{-}d{-}e$; 2. çizge bir üçgen artı ayrı bir bağlantı. İkisinin de dereceleri $\{1, 1, 2, 2, 2\}$.</p>
+  <ol>
+    <li>1. tur (renk = derece): iki çizgede de iki düğüm 1 renginde, üçü 2 renginde. Henüz ayrılmadılar.</li>
+    <li>2. tur (kendi rengi + komşuların renkleri): yol: $a, e \to (1; 2)$, $b, d \to (2; 1, 2)$, $c \to (2; 2, 2)$. Üçgen artı bağlantı: bağlantı uçları $\to (1; 1)$, üçgen düğümleri $\to (2; 2, 2)$.</li>
+    <li>Renk sayıları artık farklı, yani çizgeler farklı. Ama bir 6-döngü ile iki üçgen sonsuza dek aynı kalır: ikisinde de her düğümün derecesi 2'dir ve derecesi 2 olan iki komşusu vardır.</li>
+  </ol>
+</div>
+<div data-fig id="fig-wl"></div>
+
+<h2>Düğüm gömmeleri: öznitelikleri öğrenmek</h2>
+<p>Elle yapılan öznitelikler her görev için ayrıca tasarlanmalıdır. Bir <strong>düğüm gömmesi</strong> her düğüm için küçük bir $d$ (2'den birkaç yüze) ile bir $\mathbf z_v \in \mathbb R^d$ vektörü öğrenir; öyle ki benzer düğümler benzer vektörler alır. Her yöntemin aynı üç parçası vardır:</p>
+<ol>
+  <li><strong>Kodlayıcı</strong> $\text{ENC}(v) = \mathbf z_v$. “Sığ” gömmeler için bu, öğrenilmiş bir tabloda bakmadır: $\mathbf z_v = Z\mathbf e_v$; $Z$'nin her düğüm için bir sütunu vardır.</li>
+  <li><strong>Kod çözücü</strong> $\text{DEC}(\mathbf z_u, \mathbf z_v)$, genellikle iç çarpım $\mathbf z_u^{T}\mathbf z_v$.</li>
+  <li><strong>Ağda bir benzerlik kavramı</strong>, kod çözücünün yeniden üretmesi gereken: $\mathbf z_u^{T}\mathbf z_v \approx \text{benzerlik}(u, v)$. Yöntemleri ayıran, benzerliğin seçimidir.</li>
+</ol>
+
+<h3>Spektral gömme: benzerlik = bağlı olmak</h3>
+<p>Bağlı düğümleri yakına koyun: bağlantılar üzerinden $\sum_{(u,v)} \lVert\mathbf z_u - \mathbf z_v\rVert^2$'yi, tüm vektörlerin tek noktaya çökmesini önleyen bir kısıtla küçültün. Çözümü, normalleştirilmiş Laplasyenin en küçük özdeğerli özvektörleri verir (<em>Laplasyen öz haritaları</em>):</p>
 <div class="eq">$$\mathcal L = I - D^{-1/2} A D^{-1/2}.$$</div>
 <dl class="symbols">
   <dt>$A$</dt><dd>komşuluk matrisi (<a href="ch2-adjacency.html">2. Bölüm</a>)</dd>
-  <dt>$D$</dt><dd>derecelerden oluşan köşegen matris</dd>
+  <dt>$D$</dt><dd>derecelerin köşegen matrisi</dd>
   <dt>$I$</dt><dd>birim matris</dd>
 </dl>
-<p>Özdeğerleri küçük olan özvektörler bağlantılar boyunca az değişir. İkincisi (<em>Fiedler vektörü</em>), gerçel değerlere gevşetilmiş en iyi iki gruplu kesimdir; işareti ağı ikiye böler (<a href="communities.html">spektral ikiye bölme</a>). Diğer özvektörler koordinat ekler.</p>
+<p>İlk özvektör önemsizdir (yeniden ölçeklemeden sonra sabit). İkincisi, <em>Fiedler vektörü</em>, gerçel değerlere gevşetilmiş en iyi iki gruplu kesimdir: işareti ağı böler (<a href="communities.html">spektral ikiye bölme</a>). Sonraki özvektörler koordinat ekler.</p>
 
-<h2>Rastgele yürüyüş gömmeleri</h2>
-<p>DeepWalk (Perozzi, Al-Rfou ve Skiena 2014) ve node2vec (Grover ve Leskovec 2016) kısa rastgele yürüyüşleri cümle, düğümleri kelime gibi ele alır ve ardından word2vec çalıştırır: yürüyüşlerde birlikte görülen düğümler benzer vektörler alır. node2vec'in iki parametresi yürüyüşleri yerel (genişlik öncelikli) ile keşfedici (derinlik öncelikli) arasında ayarlar.</p>
+<h3>Rastgele yürüyüş gömmeleri: benzerlik = aynı yürüyüşlerde görünmek</h3>
+<p>DeepWalk (Perozzi, Al-Rfou ve Skiena 2014) ve node2vec (Grover ve Leskovec 2016) her düğümden kısa rastgele yürüyüşler başlatır ve bir yürüyüşte $u$'nun bir penceresi içinde görünen $v$'ye $u$'nun <em>bağlamı</em> der. Sonra gözlenen bağlamların olasılığını en büyütürler:</p>
+<div class="eq">$$\max_Z \sum_u \sum_{v \in N_R(u)} \log P(v \mid \mathbf z_u), \qquad P(v \mid \mathbf z_u) = \frac{e^{\mathbf z_u^{T}\mathbf z_v}}{\sum_{n} e^{\mathbf z_u^{T}\mathbf z_n}}.$$</div>
+<dl class="symbols">
+  <dt>$N_R(u)$</dt><dd>yürüyüşlerden toplanan $u$'nun bağlamları (tekrarlarla)</dd>
+  <dt>softmax</dt><dd>iç çarpımları olasılıklara çevirir; paydası tüm $N$ düğüm üzerinden toplar</dd>
+</dl>
+<p>Payda her çift için $O(N)$ tutar, çok yavaş. <strong>Negatif örnekleme</strong> onun yerine geçer: gerçek bağlamı ödüllendirin ve $k$ rastgele düğümü cezalandırın (genellikle 5 ile 20 arası, yüksek dereceliler daha sık çekilir):</p>
+<div class="eq">$$\log \sigma(\mathbf z_u^{T}\mathbf z_v) + \sum_{i=1}^{k}\log \sigma(-\mathbf z_u^{T}\mathbf z_{n_i}), \qquad \sigma(x) = \frac{1}{1 + e^{-x}}.$$</div>
+<p>Bu, cümle olarak yürüyüşler ve sözcük olarak düğümlerle word2vec'tir.</p>
 <div data-fig id="fig-embed"></div>
 <div class="callout look">
-  <p>Kulüp Mr. Hi (0 numaralı düğüm) ile yönetici (33 numaralı düğüm) arasında bölündü. İki gömme de bunu yalnızca bağlantılardan geri kazanır: tek bir koordinatın işareti neredeyse herkesi doğru yere koyar; istisnalar ağda da iki grubun arasında durur.</p>
+  <p>Kulüp Mr. Hi (düğüm 0) ile yönetici (düğüm 33) arasında bölündü. İki gömme de bunu yalnızca bağlantılardan bulur: bir koordinatın işareti neredeyse herkesi doğru yere koyar; istisnalar ağda da iki grubun arasında durur.</p>
 </div>
 <div data-fig id="fig-walk"></div>
+<p><strong>node2vec'in yanlı yürüyüşü.</strong> $t$'den $v$'ye yeni geçmiş bir yürüyüş, bir sonraki $x$ düğümünü şu ağırlıkla seçer:</p>
+<div class="eq">$$\alpha_{pq}(t, x) = \begin{cases} 1/p & d_{tx} = 0 \ (t\text{'ye geri}) \\ 1 & d_{tx} = 1 \ (t \text{ ile } v\text{'nin ortak komşusu}) \\ 1/q & d_{tx} = 2 \ (\text{daha uzağa}) \end{cases}$$</div>
+<p>Küçük $q$ yürüyüşü dışa iter (derinlik öncelikli): gömmeler toplulukları yakalar. Büyük $q$ onu yerel tutar (genişlik öncelikli): gömmeler nerede olurlarsa olsunlar “bir merkez düğüm” ya da “bir köprü” gibi yapısal rolleri yakalar. Küçük $p$ geri dönmesini sağlar. $p = q = 1$ DeepWalk'tur.</p>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 5: tek bir node2vec adımı.</strong> Yürüyüş $t$'den $v$'ye geldi. $v$'nin komşuları $t$, $x_1$ ($t$'ye de bağlı) ile $x_2$, $x_3$ ($t$'ye bağlı değil). $p = 2$, $q = 0.5$ alın.</p>
+  <ol>
+    <li>Ağırlıklar: $t$: $1/p = 0.5$; $x_1$: 1; $x_2$, $x_3$: her biri $1/q = 2$. Toplam 5.5.</li>
+    <li>Olasılıklar: $t$'ye geri %9, $x_1$'e %18, $x_2$'ye ya da $x_3$'e her biri %36. Yürüyüş geldiği yerden uzaklaşır: derinlik öncelikli.</li>
+  </ol>
+</div>
+
+<h3>Gömmeleri kullanmak ve sınırları</h3>
+<ul>
+  <li><strong>Düğüm sınıflandırma:</strong> etiketli düğümlerin $\mathbf z_v$'si üzerinde bir sınıflandırıcı eğitin, gerisini tahmin edin.</li>
+  <li><strong>Bağlantı tahmini:</strong> bir çifti $\mathbf z_u^{T}\mathbf z_v$ ile puanlayın ya da $\mathbf z_u \odot \mathbf z_v$ (eleman eleman çarpım) veya uç uca eklenmiş iki vektör üzerinde bir sınıflandırıcı eğitin.</li>
+  <li><strong>Çizge sınıflandırma:</strong> düğüm vektörlerini toplayın ya da ortalayın.</li>
+</ul>
+<p>Sığ gömmelerin üç sınırı vardır: düğüm başına öğrenilen bir vektör ($O(Nd)$ parametre, düğümler arasında hiçbir şey paylaşılmaz); <em>dönüştürücüdürler</em> (yeni bir düğümün, her şey yeniden eğitilene kadar vektörü olmaz); düğüm özniteliklerini yok sayarlar. Çizge sinir ağları üçünü de giderir.</p>
 
 <h2>Çizge sinir ağları</h2>
-<p>Bir GNN katmanı <em>mesaj</em> iletir: her düğüm kendi vektörünü komşularınınkilerle birleştirir (çizge evrişimli ağ, Kipf ve Welling 2017):</p>
+<p>Bir ÇSA katmanı <em>mesaj</em> iletir: her düğüm kendi vektörünü komşularınınkiyle birleştirir (çizge evrişimli ağ, Kipf ve Welling 2017):</p>
 <div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\Big).$$</div>
 <dl class="symbols">
-  <dt>$h_v^{(l)}$</dt><dd>$l$. katmandan sonra $v$ düğümünün vektörü</dd>
+  <dt>$h_v^{(l)}$</dt><dd>$l$. katmandan sonra $v$ düğümünün vektörü; $h_v^{(0)}$ düğümün öznitelikleridir</dd>
   <dt>$N(v)$</dt><dd>$v$'nin komşuları</dd>
-  <dt>$W^{(l)}$</dt><dd>öğrenilen ağırlık matrisi</dd>
+  <dt>$W^{(l)}$</dt><dd>öğrenilen, tüm düğümlerce paylaşılan ağırlık matrisi</dd>
   <dt>$\sigma$</dt><dd>doğrusal olmayan fonksiyon (ör. ReLU)</dd>
 </dl>
-<p>$l$ katmandan sonra bir düğüm $l$ uzaklığa kadarki düğümleri görür. Şekil, yalnızca ortalama almayı göstermek için $W$ ve $\sigma$'yı çıkarır.</p>
+<ul>
+  <li><strong>Paylaşılan ağırlıklar:</strong> her düğüm için aynı $W^{(l)}$; bu yüzden model <em>tümevarımlıdır</em>: hiç görmediği bir düğüm için de vektör hesaplar.</li>
+  <li><strong>Derinlik = erişim:</strong> $l$ katmandan sonra bir düğüm $l$ uzaklığına kadarki düğümleri görür. 3. Bölüm'ün küçük dünya uzaklıklarıyla birkaç katman ağın çoğunu kapsar.</li>
+  <li><strong>Aşırı düzleşme:</strong> çok sayıda katman her şeyi aynı vektöre ortalar (aşağıdaki şekil).</li>
+  <li><strong>İfade gücü:</strong> mesaj ileten bir ÇSA, WL testinin ayıramadığı iki çizgeyi ayıramaz; GIN mimarisi WL'ye tam olarak denktir (Xu ve ark. 2019).</li>
+</ul>
+<p>Şekil, yalnızca ortalamayı göstermek için $W$ ve $\sigma$'yı atar.</p>
 <div data-fig id="fig-gnn"></div>
 
-<h2>Bağlantı tahmini</h2>
-<p>Ağlar eksik ölçülür (sınanmamış protein çiftleri, bildirilmemiş arkadaşlıklar). Bağlı olmayan $u, v$ çiftlerini bir puana göre sıralayın:</p>
-<ul>
-  <li><strong>Ortak komşular</strong> $|N(u) \cap N(v)|$; <strong>Jaccard</strong> bunu $|N(u) \cup N(v)|$'ye böler.</li>
-  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$: düşük dereceli ortak komşular daha çok sayılır.</li>
-  <li><strong>Tercihli bağlanma</strong> $k_u k_v$, <a href="ch5-preview.html">BA modelinden</a>.</li>
-</ul>
-<p>Bağlantıları gizleyerek değerlendirin: <strong>AUC</strong> = gizlenmiş bir bağlantının rastgele bir bağlantı olmayan çiftten yüksek puan alma olasılığı (eşitlik ½ sayılır). 0.5 tahmin etmek, 1 kusursuz demektir.</p>
-<div data-fig id="fig-links"></div>
+<h2>Özet</h2>
+<table class="simple">
+  <thead><tr><th>Yöntem</th><th>Yakaladığı benzerlik</th><th>Düğüm özniteliklerini kullanır</th><th>Yeni düğümler</th></tr></thead>
+  <tbody>
+    <tr><td>merkezilikler, OK, Katz, WL</td><td>elle tasarlanır</td><td>elle, mümkün</td><td>evet</td></tr>
+    <tr><td>spektral (Laplasyen öz haritaları)</td><td>bağlı düğümler</td><td>hayır</td><td>hayır</td></tr>
+    <tr><td>DeepWalk, node2vec</td><td>rastgele yürüyüşlerde birlikte görünme</td><td>hayır</td><td>hayır</td></tr>
+    <tr><td>çizge sinir ağları</td><td>görev için öğrenilir</td><td>evet</td><td>evet</td></tr>
+  </tbody>
+</table>
 
 <div class="callout connect">
   <ul>
-    <li><a href="communities.html">Spektral ikiye bölmeyi</a> <strong>genelleştirir</strong>: tek bir özvektör böler, birkaçı gömer.</li>
-    <li><strong>Ortak komşular</strong> <a href="ch2-clustering.html">kümelenmeye</a> <strong>dayanır</strong>: yalnızca üçgenlerin kapandığı yerde işe yarar.</li>
-    <li><strong>Tercihli bağlanma puanı</strong> <a href="ch5-preview.html">BA kuralını</a> tahmine uygular.</li>
-    <li><strong>Aşırı düzleşme</strong>, DeepWalk'un örneklediği aynı rastgele yürüyüşün dengeye ulaşmasıdır.</li>
+    <li><strong>Genelleştirir:</strong> <a href="communities.html">spektral ikiye bölmeyi</a>; bir özvektör böler, birkaçı gömer.</li>
+    <li><strong>Ortak komşular</strong> <a href="ch2-clustering.html">kümelenmeye</a> dayanır: yalnızca üçgenlerin kapandığı yerde işe yarar.</li>
+    <li><strong>Tercihli bağlanma puanı</strong> <a href="ch5-preview.html">BA kuralını</a> tahmine uygular; <strong>PageRank</strong>, DeepWalk'unki gibi bir rastgele yürüyüştür.</li>
+    <li><strong>Aşırı düzleşme</strong>, DeepWalk'un örneklediği aynı yürüyüşün dengeye ulaşmasıdır.</li>
   </ul>
 </div>
 
@@ -137,5 +265,45 @@
     <li data-why="Yalnızca ortak komşular üzerinden toplar.">Adamic–Adar</li>
   </ol>
   <div class="explain">Yalnızca dereceleri kullanır: <a href="ch5-preview.html">BA kuralı</a> merkez düğümlerin bağlantı kazandığını söyler.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>Basitleştirilmiş PageRank'te (zıplama yok, $d = 1$) $D$ düğümünün dış bağlantıları var ama iç bağlantısı yok. 1. yinelemeden sonra puanı nedir ve gerçek PageRank neden $d &lt; 1$ kullanır?</p>
+  <ol>
+    <li data-why="Puanlar bağlantılar boyunca akar; iç bağlantı olmadan D'ye hiçbir şey akmaz.">Dış bağlantıları olduğu için başlangıç puanını korur</li>
+    <li data-why="D'nin puanı bağlandığı düğümlere akar; bu, D'nin kendi puanını en büyük yapmaz.">Başkalarına puan verdiği için en büyük olur</li>
+    <li>0'a düşer; zıplama her düğüme $(1-d)/N$'lik bir taban verir ve yürüyüşün tuzağa düşmesini önler</li>
+    <li data-why="Sönümleme katsayısı yalnızca yakınsama hızıyla ilgili değildir; durağan puanları değiştirir.">Tanımsızdır; $d &lt; 1$ yalnızca hesabı hızlandırır</li>
+  </ol>
+  <div class="explain">Bir düğümün yeni puanı bağlantılar boyunca içeri akan puandır. Zıplama olmadan iç bağlantısı olmayan düğümler 0'a düşer ve çıkmazlar ya da kapalı döngüler yürüyüşü tuzağa düşürebilir; $d = 0.85$ ikisini de düzeltir.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>Bir ağın komşuluk matrisinin en büyük özdeğeri $\lambda_{\max} = 4$. Katz indeksi $\sum_{\ell} \beta^\ell (A^\ell)_{uv}$ hangi sönümleme $\beta$ için tanımlıdır?</p>
+  <ol>
+    <li data-why="Bu çok büyük: yürüyüş sayısı 4^ℓ gibi büyür, bu yüzden β onu yenmelidir.">$\beta &lt; 1$</li>
+    <li>$\beta &lt; 0.25$</li>
+    <li data-why="β > 1/λ_max serinin ıraksamasına yol açar.">$\beta > 0.25$</li>
+    <li data-why="Yürüyüş sayıları geometrik büyür, bu yüzden β için bir sınır gerekir.">Her $\beta > 0$</li>
+  </ol>
+  <div class="explain">Yürüyüş sayıları $\lambda_{\max}^\ell$ gibi büyür, bu yüzden $\beta^\ell\lambda_{\max}^\ell$ küçülmelidir: $\beta &lt; 1/\lambda_{\max} = 0.25$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>Weisfeiler–Lehman testi bir 6-döngü ve iki ayrı üçgen üzerinde çalıştırılıyor. Ne bildirir?</p>
+  <ol>
+    <li>Hiçbir turda fark yok: iki çizgede de her düğümün derecesi 2'dir ve derecesi 2 olan iki komşusu vardır</li>
+    <li data-why="1. tur dereceye göre boyar ve iki çizgede de derecesi 2 olan altı düğüm vardır.">1. turda bir fark</li>
+    <li data-why="WL üçgenleri doğrudan görmez; yalnızca burada aynı olan komşu renklerini görür.">Üçgenler ortaya çıktığında, 2. turda bir fark</li>
+    <li data-why="WL renk sayılarını karşılaştırır ve burada bunlar hep eşittir.">Çizgelerin eşyapılı olduğunu</li>
+  </ol>
+  <div class="explain">WL yalnızca iki çizgenin farklı olduğunu kanıtlayabilir. Burada asla kanıtlayamaz, oysa farklıdırlar (biri bağlı, diğerinde üçgen var); mesaj ileten hiçbir ÇSA da kanıtlayamaz.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>Ağın farklı bölgelerindeki iki merkez düğümün benzer vektörler aldığı (yapısal roller), aynı topluluktaki düğümlerin değil, node2vec gömmeleri istiyorsunuz. Geri dönüş ve iç-dış parametrelerini nasıl ayarlarsınız?</p>
+  <ol>
+    <li data-why="Küçük q yürüyüşü dışa gönderir (derinlik öncelikli); bu toplulukları yakalar.">Küçük $q$</li>
+    <li data-why="p geri dönmeyi denetler, yürüyüşün yerel kalıp kalmadığını değil; p = q = 1 sade DeepWalk'tur.">$p = q = 1$</li>
+    <li data-why="Büyük p yalnızca geri dönmeyi caydırır; dışa çekişi q belirler.">Büyük $p$ ve küçük $q$</li>
+    <li>Büyük $q$, böylece yürüyüşler başladıkları yere yakın kalır (genişlik öncelikli) ve her düğümün yerel yapısını betimler</li>
+  </ol>
+  <div class="explain">Genişlik öncelikli yürüyüşler bir düğümün yakın komşuluğunu örnekler; bu yüzden yerel yapısı benzer düğümler, nerede olurlarsa olsunlar, benzer bağlamlar alır. Derinlik öncelikli yürüyüşler bir bölgeyi örnekler; bu toplulukları yakalar.</div>
 </div>
 </div></body></html>

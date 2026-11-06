@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Graph ML &amp; node embeddings · From Graphs to Hubs</title>
-<meta name="description" content="Spectral and DeepWalk embeddings of the karate club, random walks as sentences, message passing in graph neural networks, and link prediction on the book's networks.">
+<meta name="description" content="Graph machine learning: node, link and graph features (centralities, PageRank, Katz, Weisfeiler–Lehman), node embeddings (encoder–decoder, Laplacian eigenmaps, DeepWalk, node2vec, negative sampling), graph neural networks and link prediction.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 <link rel="stylesheet" href="css/style.css">
@@ -18,61 +18,189 @@
 <main><div class="content">
 
 <h1>Graph machine learning &amp; node embeddings</h1>
-<p class="lead">Machine-learning models expect vectors, not networks. A <strong>node embedding</strong> maps each node to a vector so that nodes close in the network are close in space.</p>
+<p class="lead">Network science summarises a whole network in a few numbers. Machine learning needs a description of every node, pair or graph, as a vector a classifier can use. This page builds that description twice: first by hand (features), then by learning it (embeddings and graph neural networks).</p>
 
 <div class="callout why">
   <ul>
     <li>Earlier chapters describe networks with a few numbers ($\langle k\rangle$, $C$, $\gamma$); prediction needs a description of every node.</li>
-    <li>Embeddings feed standard classifiers: label nodes, find communities, predict missing links.</li>
-    <li>Graph neural networks learn the description for the task.</li>
+    <li>Hand-made features reuse what the course already measures: degree, clustering, paths, random walks.</li>
+    <li>Embeddings learn the features instead; graph neural networks learn them for the task at hand.</li>
   </ul>
 </div>
 
-<h2>Spectral embedding</h2>
-<p>Use eigenvectors of the normalised Laplacian</p>
+<h2>What graph machine learning predicts</h2>
+<table class="simple">
+  <thead><tr><th>Task</th><th>Predict</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td>node classification</td><td>a label for each node</td><td>which faction a karate club member joins; a protein's function; a bot account</td></tr>
+    <tr><td>link prediction</td><td>whether two nodes are (or will be) linked</td><td>untested protein interactions; "people you may know"; recommendations</td></tr>
+    <tr><td>graph classification</td><td>a label for a whole network</td><td>whether a molecule is toxic</td></tr>
+    <tr><td>clustering</td><td>groups of nodes</td><td><a href="communities.html">communities</a></td></tr>
+  </tbody>
+</table>
+<p>Every task needs a vector per node (or pair, or graph). The classic pipeline computes it by hand and feeds it to a standard model such as logistic regression or a random forest.</p>
+
+<h2>Hand-made features: nodes</h2>
+<p>How important is a node? Each centrality answers a different version of the question.</p>
+<table class="simple">
+  <thead><tr><th>Measure</th><th>Formula</th><th>High for a node that…</th></tr></thead>
+  <tbody>
+    <tr><td>degree</td><td>$k_v$</td><td>has many neighbours (counts them all as equal)</td></tr>
+    <tr><td>eigenvector</td><td>$c_v = \frac1\lambda\sum_u A_{vu}c_u$, i.e. $A\mathbf c = \lambda\mathbf c$</td><td>has important neighbours</td></tr>
+    <tr><td>PageRank</td><td>$r_v = \frac{1-d}{N} + d\sum_{u \to v}\frac{r_u}{k_u^{\text{out}}}$</td><td>is reached often by a random surfer who sometimes jumps</td></tr>
+    <tr><td>betweenness</td><td>$b_v = \sum_{s \ne v \ne t}\frac{\sigma_{st}(v)}{\sigma_{st}}$</td><td>lies on many shortest paths: a broker or bridge</td></tr>
+    <tr><td>closeness</td><td>$c_v = \frac{N-1}{\sum_u d_{uv}}$</td><td>is near everyone</td></tr>
+    <tr><td>clustering</td><td>$C_v = \frac{2L_v}{k_v(k_v-1)}$</td><td>has neighbours that know each other (<a href="ch2-clustering.html">Ch 2</a>)</td></tr>
+    <tr><td>$k$-core number</td><td>largest $k$ with $v$ in a subgraph of minimum degree $k$</td><td>sits in the dense core</td></tr>
+  </tbody>
+</table>
+<dl class="symbols">
+  <dt>$\lambda$</dt><dd>largest eigenvalue of $A$ (its eigenvector has all entries positive)</dd>
+  <dt>$d$</dt><dd>damping factor, usually 0.85: the probability of following a link rather than jumping to a random node</dd>
+  <dt>$\sigma_{st}$, $\sigma_{st}(v)$</dt><dd>number of shortest paths from $s$ to $t$, and how many of them pass through $v$</dd>
+  <dt>$d_{uv}$</dt><dd>distance between $u$ and $v$</dd>
+</dl>
+<div data-fig id="fig-central"></div>
+<div class="callout example">
+  <p><strong>Worked example 1: eigenvector centrality of a star.</strong> A hub with $n$ leaves.</p>
+  <ol>
+    <li>Each leaf's only neighbour is the hub: $\lambda c_{\text{leaf}} = c_{\text{hub}}$. The hub has $n$ leaf neighbours: $\lambda c_{\text{hub}} = n\,c_{\text{leaf}}$.</li>
+    <li>Multiply: $\lambda^2 = n$, so $\lambda = \sqrt n$ and $c_{\text{leaf}} = c_{\text{hub}}/\sqrt n$.</li>
+    <li>With 4 leaves: $\lambda = 2$, leaves score half the hub. Degree would say a quarter: a leaf gains from its one important neighbour.</li>
+  </ol>
+</div>
+<div class="callout example">
+  <p><strong>Worked example 2: PageRank by hand.</strong> Directed links $A \to B$, $A \to C$, $B \to C$, $C \to A$, $D \to C$; start from $r = \frac14$ each.</p>
+  <ol>
+    <li>Simplified PageRank ($d = 1$): each node splits its score equally over its out-links. Iteration 1: $A$ receives all of $C$'s $0.25$; $B$ half of $A$'s, $0.125$; $C$ half of $A$'s plus all of $B$'s and $D$'s, $0.625$; $D$ receives nothing, $0$.</li>
+    <li>Iteration 2: $A = 0.625$, $B = 0.125$, $C = 0.250$, $D = 0$. It converges to $A = 0.4$, $B = 0.2$, $C = 0.4$, $D = 0$.</li>
+    <li>With $d = 0.85$ every node first gets $0.15/4 = 0.0375$: $D$ keeps $0.038$ instead of 0, and the result is $A = 0.373$, $B = 0.196$, $C = 0.394$. Teleporting stops scores from draining into dead ends and keeps the walk from getting trapped.</li>
+  </ol>
+</div>
+<div data-fig id="fig-pagerank"></div>
+
+<h2>Hand-made features: pairs of nodes</h2>
+<p>For link prediction, score each unlinked pair $u, v$:</p>
+<ul>
+  <li><strong>Distance</strong> $d_{uv}$: short is likely, but it ignores how many paths there are.</li>
+  <li><strong>Common neighbours</strong> $|N(u) \cap N(v)|$; <strong>Jaccard</strong> divides by $|N(u) \cup N(v)|$.</li>
+  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$ and <strong>resource allocation</strong> $\sum_w 1/k_w$: a shared low-degree neighbour says more than a shared hub.</li>
+  <li><strong>Preferential attachment</strong> $k_u k_v$, from the <a href="ch5-preview.html">BA model</a>.</li>
+  <li><strong>Katz index</strong>: count all walks between $u$ and $v$, damping long ones:
+  <div class="eq">$$S_{uv} = \sum_{\ell \ge 1}\beta^\ell (A^\ell)_{uv}, \qquad S = (I - \beta A)^{-1} - I, \qquad \beta &lt; 1/\lambda_{\max}.$$</div></li>
+</ul>
+<p>The first scores are <em>local</em> (they see only shared neighbours, so they give 0 to pairs at distance 3 or more); Katz is <em>global</em>.</p>
+<div class="callout example">
+  <p><strong>Worked example 3: Katz on a square.</strong> Nodes $A, B, C, D$ in a 4-cycle; $\lambda_{\max} = 2$, so $\beta &lt; 0.5$.</p>
+  <ol>
+    <li>Opposite corners $A, C$ share 2 neighbours but are not linked. Walks from $A$ to $C$: 2 of length 2, 8 of length 4, and so on (none of odd length).</li>
+    <li>$\beta = 0.1$: $S_{AC} = 2(0.01) + 8(0.0001) + \dots = 0.021$. Adjacent corners: $S_{AB} = 0.104$.</li>
+    <li>$\beta = 0.4$: $S_{AC} = 0.89$, $S_{AB} = 1.11$. Close to $1/\lambda_{\max}$ long walks dominate and the scores blow up; at $\beta \ge 0.5$ the sum diverges.</li>
+  </ol>
+</div>
+<p>Evaluate by hiding links: <strong>AUC</strong> = probability that a hidden link outscores a random non-link (a tie counts as ½). 0.5 is guessing, 1 perfect.</p>
+<div data-fig id="fig-links"></div>
+
+<h2>Hand-made features: whole graphs</h2>
+<p>To classify graphs we need to compare them. Counting small subgraphs (<em>graphlets</em>) works but is expensive. The <strong>Weisfeiler–Lehman</strong> (WL) method is cheap: give every node the same colour, then repeatedly recolour each node by its own colour and the multiset of its neighbours' colours:</p>
+<div class="eq">$$c^{(t+1)}(v) = \operatorname{hash}\Big(c^{(t)}(v),\ \{\!\{c^{(t)}(u) : u \in N(v)\}\!\}\Big).$$</div>
+<p>After $t$ rounds a node's colour summarises its neighbourhood up to distance $t$. Two graphs whose colour counts differ are certainly different (not isomorphic); the counts, as a vector, are the WL graph features. If the counts never differ, WL cannot tell the graphs apart, even when they are different.</p>
+<div class="callout example">
+  <p><strong>Worked example 4: WL by hand.</strong> Graph 1 is a path of 5 nodes, $a{-}b{-}c{-}d{-}e$; graph 2 is a triangle plus a separate link. Both have degrees $\{1, 1, 2, 2, 2\}$.</p>
+  <ol>
+    <li>Round 1 (colour = degree): both graphs have two nodes of colour 1 and three of colour 2. Not yet distinguished.</li>
+    <li>Round 2 (own colour + neighbours' colours): path: $a, e \to (1; 2)$, $b, d \to (2; 1, 2)$, $c \to (2; 2, 2)$. Triangle plus link: link ends $\to (1; 1)$, triangle nodes $\to (2; 2, 2)$.</li>
+    <li>The colour counts now differ, so the graphs are different. But a 6-cycle and two triangles stay identical forever: every node has degree 2 and two degree-2 neighbours in both.</li>
+  </ol>
+</div>
+<div data-fig id="fig-wl"></div>
+
+<h2>Node embeddings: learning the features</h2>
+<p>Hand-made features must be designed for each task. A <strong>node embedding</strong> learns a vector $\mathbf z_v \in \mathbb R^d$ for every node, with $d$ small (2 to a few hundred), so that similar nodes get similar vectors. Every method has the same three parts:</p>
+<ol>
+  <li><strong>Encoder</strong> $\text{ENC}(v) = \mathbf z_v$. For "shallow" embeddings it is a lookup in a learned table: $\mathbf z_v = Z\mathbf e_v$, with one column of $Z$ per node.</li>
+  <li><strong>Decoder</strong> $\text{DEC}(\mathbf z_u, \mathbf z_v)$, usually the dot product $\mathbf z_u^{T}\mathbf z_v$.</li>
+  <li><strong>A notion of similarity in the network</strong>, which the decoder should reproduce: $\mathbf z_u^{T}\mathbf z_v \approx \text{similarity}(u, v)$. The choice of similarity is what distinguishes the methods.</li>
+</ol>
+
+<h3>Spectral embedding: similarity = being linked</h3>
+<p>Place linked nodes close: minimise $\sum_{(u,v)} \lVert\mathbf z_u - \mathbf z_v\rVert^2$ over the links, with a constraint that stops all vectors collapsing to one point. The solution is given by eigenvectors of the normalised Laplacian with the smallest eigenvalues (<em>Laplacian eigenmaps</em>):</p>
 <div class="eq">$$\mathcal L = I - D^{-1/2} A D^{-1/2}.$$</div>
 <dl class="symbols">
   <dt>$A$</dt><dd>adjacency matrix (<a href="ch2-adjacency.html">Ch 2</a>)</dd>
   <dt>$D$</dt><dd>diagonal matrix of degrees</dd>
   <dt>$I$</dt><dd>identity matrix</dd>
 </dl>
-<p>Eigenvectors with small eigenvalues vary little across links. The second (the <em>Fiedler vector</em>) is the best two-group cut, relaxed to real values; its sign splits the network (<a href="communities.html">spectral bisection</a>). Further eigenvectors add coordinates.</p>
+<p>The first eigenvector is trivial (constant after rescaling). The second, the <em>Fiedler vector</em>, is the best two-group cut relaxed to real values: its sign splits the network (<a href="communities.html">spectral bisection</a>). Further eigenvectors add coordinates.</p>
 
-<h2>Random-walk embeddings</h2>
-<p>DeepWalk (Perozzi, Al-Rfou and Skiena 2014) and node2vec (Grover and Leskovec 2016) treat short random walks as sentences and nodes as words, then run word2vec: nodes that co-occur in walks get similar vectors. node2vec's two parameters tune walks between local (breadth-first) and exploratory (depth-first).</p>
+<h3>Random-walk embeddings: similarity = appearing on the same walks</h3>
+<p>DeepWalk (Perozzi, Al-Rfou and Skiena 2014) and node2vec (Grover and Leskovec 2016) run short random walks from every node and call $v$ a <em>context</em> of $u$ if it appears within a window of $u$ on a walk. Then they maximise the probability of the observed contexts:</p>
+<div class="eq">$$\max_Z \sum_u \sum_{v \in N_R(u)} \log P(v \mid \mathbf z_u), \qquad P(v \mid \mathbf z_u) = \frac{e^{\mathbf z_u^{T}\mathbf z_v}}{\sum_{n} e^{\mathbf z_u^{T}\mathbf z_n}}.$$</div>
+<dl class="symbols">
+  <dt>$N_R(u)$</dt><dd>the contexts of $u$ collected from the walks (with repetitions)</dd>
+  <dt>softmax</dt><dd>turns dot products into probabilities; its denominator sums over all $N$ nodes</dd>
+</dl>
+<p>The denominator costs $O(N)$ for every pair, too slow. <strong>Negative sampling</strong> replaces it: reward the true context and penalise $k$ random nodes (typically 5 to 20, drawn more often for high degree):</p>
+<div class="eq">$$\log \sigma(\mathbf z_u^{T}\mathbf z_v) + \sum_{i=1}^{k}\log \sigma(-\mathbf z_u^{T}\mathbf z_{n_i}), \qquad \sigma(x) = \frac{1}{1 + e^{-x}}.$$</div>
+<p>This is word2vec with walks as sentences and nodes as words.</p>
 <div data-fig id="fig-embed"></div>
 <div class="callout look">
   <p>The club split between Mr. Hi (node 0) and the officer (node 33). Both embeddings recover it from the links alone: one coordinate's sign places nearly everyone; the exceptions sit between the groups in the network too.</p>
 </div>
 <div data-fig id="fig-walk"></div>
+<p><strong>node2vec's biased walk.</strong> A walk that just moved from $t$ to $v$ picks the next node $x$ with weight</p>
+<div class="eq">$$\alpha_{pq}(t, x) = \begin{cases} 1/p & d_{tx} = 0 \ (\text{back to } t) \\ 1 & d_{tx} = 1 \ (\text{a common neighbour of } t \text{ and } v) \\ 1/q & d_{tx} = 2 \ (\text{further away}) \end{cases}$$</div>
+<p>Small $q$ pushes the walk outward (depth-first): embeddings capture communities. Large $q$ keeps it local (breadth-first): embeddings capture structural roles, such as "a hub" or "a bridge", wherever they are. Small $p$ makes it backtrack. $p = q = 1$ is DeepWalk.</p>
+<div class="callout example">
+  <p><strong>Worked example 5: one node2vec step.</strong> The walk came from $t$ to $v$. $v$'s neighbours are $t$, $x_1$ (also linked to $t$) and $x_2$, $x_3$ (not linked to $t$). Take $p = 2$, $q = 0.5$.</p>
+  <ol>
+    <li>Weights: $t$: $1/p = 0.5$; $x_1$: 1; $x_2$, $x_3$: $1/q = 2$ each. Total 5.5.</li>
+    <li>Probabilities: back to $t$ 9%, to $x_1$ 18%, to $x_2$ or $x_3$ 36% each. The walk heads away from where it came: depth-first.</li>
+  </ol>
+</div>
+
+<h3>Using embeddings, and their limits</h3>
+<ul>
+  <li><strong>Node classification:</strong> train a classifier on $\mathbf z_v$ for the labelled nodes, predict the rest.</li>
+  <li><strong>Link prediction:</strong> score a pair by $\mathbf z_u^{T}\mathbf z_v$, or train a classifier on $\mathbf z_u \odot \mathbf z_v$ (element-wise product) or on the two vectors concatenated.</li>
+  <li><strong>Graph classification:</strong> sum or average the node vectors.</li>
+</ul>
+<p>Shallow embeddings have three limits: one learned vector per node ($O(Nd)$ parameters, nothing shared between nodes); they are <em>transductive</em> (a new node has no vector until everything is retrained); and they ignore node attributes. Graph neural networks fix all three.</p>
 
 <h2>Graph neural networks</h2>
 <p>A GNN layer passes <em>messages</em>: each node combines its vector with its neighbours' (graph convolutional network, Kipf and Welling 2017):</p>
 <div class="eq">$$h_v^{(l+1)} = \sigma\Big(W^{(l)} \cdot \operatorname{mean}\{h_u^{(l)} : u \in \{v\} \cup N(v)\}\Big).$$</div>
 <dl class="symbols">
-  <dt>$h_v^{(l)}$</dt><dd>vector of node $v$ after layer $l$</dd>
+  <dt>$h_v^{(l)}$</dt><dd>vector of node $v$ after layer $l$; $h_v^{(0)}$ are the node's attributes</dd>
   <dt>$N(v)$</dt><dd>neighbours of $v$</dd>
-  <dt>$W^{(l)}$</dt><dd>learned weight matrix</dd>
+  <dt>$W^{(l)}$</dt><dd>learned weight matrix, shared by all nodes</dd>
   <dt>$\sigma$</dt><dd>non-linearity (e.g. ReLU)</dd>
 </dl>
-<p>After $l$ layers a node sees nodes up to distance $l$. The figure drops $W$ and $\sigma$ to show the averaging alone.</p>
+<ul>
+  <li><strong>Shared weights:</strong> the same $W^{(l)}$ for every node, so the model is <em>inductive</em>: it computes a vector for a node it never saw.</li>
+  <li><strong>Depth = reach:</strong> after $l$ layers a node sees nodes up to distance $l$. With the small-world distances of Ch 3, a few layers already cover most of the network.</li>
+  <li><strong>Over-smoothing:</strong> many layers average everything into the same vector (the figure below).</li>
+  <li><strong>Expressiveness:</strong> a message-passing GNN cannot distinguish two graphs that the WL test cannot; the GIN architecture matches WL exactly (Xu et al. 2019).</li>
+</ul>
+<p>The figure drops $W$ and $\sigma$ to show the averaging alone.</p>
 <div data-fig id="fig-gnn"></div>
 
-<h2>Link prediction</h2>
-<p>Networks are measured incompletely (untested protein pairs, undeclared friendships). Rank unlinked pairs $u, v$ by a score:</p>
-<ul>
-  <li><strong>Common neighbours</strong> $|N(u) \cap N(v)|$; <strong>Jaccard</strong> divides by $|N(u) \cup N(v)|$.</li>
-  <li><strong>Adamic–Adar</strong> $\sum_{w \in N(u)\cap N(v)} 1/\ln k_w$: shared low-degree neighbours count more.</li>
-  <li><strong>Preferential attachment</strong> $k_u k_v$, from the <a href="ch5-preview.html">BA model</a>.</li>
-</ul>
-<p>Evaluate by hiding links: <strong>AUC</strong> = probability that a hidden link outscores a random non-link (a tie counts as ½). 0.5 is guessing, 1 perfect.</p>
-<div data-fig id="fig-links"></div>
+<h2>Summary</h2>
+<table class="simple">
+  <thead><tr><th>Method</th><th>Similarity it captures</th><th>Uses node attributes</th><th>New nodes</th></tr></thead>
+  <tbody>
+    <tr><td>centralities, CN, Katz, WL</td><td>designed by hand</td><td>possible, by hand</td><td>yes</td></tr>
+    <tr><td>spectral (Laplacian eigenmaps)</td><td>linked nodes</td><td>no</td><td>no</td></tr>
+    <tr><td>DeepWalk, node2vec</td><td>co-occurrence on random walks</td><td>no</td><td>no</td></tr>
+    <tr><td>graph neural networks</td><td>learned for the task</td><td>yes</td><td>yes</td></tr>
+  </tbody>
+</table>
 
 <div class="callout connect">
   <ul>
     <li><strong>Generalizes</strong> <a href="communities.html">spectral bisection</a>: one eigenvector splits, several embed.</li>
     <li><strong>Common neighbours rely on</strong> <a href="ch2-clustering.html">clustering</a>: they work only where triangles close.</li>
-    <li><strong>Preferential attachment score</strong> applies the <a href="ch5-preview.html">BA rule</a> to prediction.</li>
+    <li><strong>Preferential attachment score</strong> applies the <a href="ch5-preview.html">BA rule</a> to prediction; <strong>PageRank</strong> is a random walk, like DeepWalk's.</li>
     <li><strong>Over-smoothing is</strong> a random walk reaching equilibrium, the same walk DeepWalk samples.</li>
   </ul>
 </div>
@@ -152,6 +280,46 @@
     <li data-why="It sums over shared neighbours only.">Adamic–Adar</li>
   </ol>
   <div class="explain">It uses degrees only: the <a href="ch5-preview.html">BA rule</a> says hubs gain links.</div>
+</div>
+<div class="quiz" data-answer="3">
+  <p>In simplified PageRank (no teleporting, $d = 1$), node $D$ has out-links but no in-links. What is its score after the first iteration, and why does real PageRank use $d &lt; 1$?</p>
+  <ol>
+    <li data-why="Scores move along links; with no in-links nothing flows into D.">It keeps its starting score, because it has out-links</li>
+    <li data-why="D's score flows to the nodes it links to; that does not make D's own score largest.">It becomes the largest, because it gives score to others</li>
+    <li>It drops to 0; teleporting gives every node a floor of $(1-d)/N$ and stops the walk from getting trapped</li>
+    <li data-why="The damping factor is not about speed of convergence alone; it changes the stationary scores.">It is undefined; $d &lt; 1$ only makes the computation faster</li>
+  </ol>
+  <div class="explain">A node's new score is what flows in along links. Without teleporting, nodes without in-links drop to 0 and dead ends or closed loops can trap the walk; $d = 0.85$ fixes both.</div>
+</div>
+<div class="quiz" data-answer="2">
+  <p>The largest eigenvalue of a network's adjacency matrix is $\lambda_{\max} = 4$. For which damping $\beta$ is the Katz index $\sum_{\ell} \beta^\ell (A^\ell)_{uv}$ defined?</p>
+  <ol>
+    <li data-why="That is too large: the number of walks grows like 4^ℓ, so β must beat it.">$\beta &lt; 1$</li>
+    <li>$\beta &lt; 0.25$</li>
+    <li data-why="β > 1/λ_max makes the series diverge.">$\beta > 0.25$</li>
+    <li data-why="The walk counts grow geometrically, so some limit on β is needed.">Any $\beta > 0$</li>
+  </ol>
+  <div class="explain">Walk counts grow like $\lambda_{\max}^\ell$, so $\beta^\ell\lambda_{\max}^\ell$ must shrink: $\beta &lt; 1/\lambda_{\max} = 0.25$.</div>
+</div>
+<div class="quiz" data-answer="1">
+  <p>The Weisfeiler–Lehman test is run on a 6-cycle and on two separate triangles. What does it report?</p>
+  <ol>
+    <li>No difference, in any round: every node has degree 2 and two degree-2 neighbours in both graphs</li>
+    <li data-why="Round 1 colours by degree, and both graphs have six nodes of degree 2.">A difference in round 1</li>
+    <li data-why="WL never sees triangles directly; it sees only neighbour colours, which are identical here.">A difference in round 2, when the triangles appear</li>
+    <li data-why="WL compares colour counts, and they are always equal here.">That the graphs are isomorphic</li>
+  </ol>
+  <div class="explain">WL can only prove two graphs different. Here it never can, although they differ (one is connected, the other has triangles), and neither can any message-passing GNN.</div>
+</div>
+<div class="quiz" data-answer="4">
+  <p>You want node2vec embeddings in which two hubs in different parts of the network get similar vectors (structural roles), not nodes of the same community. How do you set the return and in-out parameters?</p>
+  <ol>
+    <li data-why="Small q sends the walk outward (depth-first), which captures communities.">Small $q$</li>
+    <li data-why="p controls backtracking, not whether the walk stays local; and p = q = 1 is plain DeepWalk.">$p = q = 1$</li>
+    <li data-why="Large p only discourages going back; the outward pull is set by q.">Large $p$ and small $q$</li>
+    <li>Large $q$, so walks stay close to where they started (breadth-first) and describe each node's local structure</li>
+  </ol>
+  <div class="explain">Breadth-first walks sample a node's immediate neighbourhood, so nodes with similar local structure get similar contexts, wherever they are. Depth-first walks sample a region, which captures communities.</div>
 </div>
 </div></main>
 </body>
