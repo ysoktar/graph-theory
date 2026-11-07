@@ -25,11 +25,33 @@
   <dt>$\gamma_p, \beta_p, \nu$</dt><dd>kritik üsteller; iki boyutta $43/18$, $5/36$ ve $4/3$. Evrenseldirler (iki boyutlu her kafeste aynı), $p_c$ ise değildir</dd>
 </dl>
 <div data-fig id="fig-lattice"></div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 1: üsteller ne söyler.</strong> Kare örgüyü alın, $p_c = 0.593$.</p>
+  <ol>
+    <li>Eşiğin hemen üstünde, $p - p_c = 0.01$'de, uzaklığı $0.02$'ye iki katına çıkarmak $P_\infty$'u yalnızca $2^{5/36} = 1.10$ kat artırır: boydan boya küme aniden belirir, sonra yavaşça büyür.</li>
+    <li>$|p - p_c| = 0.01$'de sonlu kümeler eşikten uzaktakinden $0.01^{-43/18} \approx 6 \times 10^4$ kat (öndeki sabit biriminde) daha büyüktür ve korelasyon uzunluğu $0.01^{-4/3} \approx 460$ kat daha büyüktür.</li>
+    <li>Anlamı: $p_c$ yakınında her şey $p$'ye duyarlı biçimde bağlıdır. Kırılma noktasına yakın bir ağ boyutunda bir uyarı vermez; uyarı küme boyutlarındadır.</li>
+  </ol>
+</div>
+
 <p>Düğümlerin bir $f$ oranını silmek, $p = 1 - f$ ile tersine çalıştırılan aynı süreçtir: bir <strong>kritik oranda</strong> $f_c = 1 - p_c$ dev bileşen dağılır.</p>
 <ul>
   <li><strong>Rastgele bozulmalar:</strong> her düğümün bozulma olasılığı eşittir.</li>
-  <li><strong>Hedefli saldırılar:</strong> düğümler dereceye göre, en büyükten başlayarak silinir.</li>
+    <li><strong>Hedefli saldırılar:</strong> düğümler dereceye göre, en büyükten başlayarak silinir.</li>
 </ul>
+
+<h3>Örgülerden ağlara</h3>
+<p data-beyond="Kitabın İleri Konusu 8.B (arkasındaki fikir)">Ağların örgüsü yoktur, ama aynı akıl yürütme bir ağaçta işler. Her düğümün $z$ komşusu olduğunu ve her düğümün $p$ olasılıkla korunduğunu varsayın. Korunan bir düğümden bir yol izleyin: sonraki düğümün $z - 1$ ileri komşusu vardır ve her biri $p$ olasılıkla korunur. Küme ancak ortalamada bunlardan en az biri korunursa sonsuza dek büyüyebilir:</p>
+<div class="eq">$$p\,(z - 1) = 1 \quad\Rightarrow\quad p_c = \frac{1}{z - 1}.$$</div>
+<p>Bir ağda bir bağlantının ucundaki düğümün ortalamada $\kappa - 1 = \langle k^2\rangle/\langle k\rangle - 1$ ileri bağlantısı vardır (yüksek dereceli düğümlere daha sık ulaşılır). $z - 1$ yerine $\kappa - 1$ koymak $p_c = 1/(\kappa - 1)$, yani $f_c = 1 - 1/(\kappa - 1)$ verir: <a href="robustness-failures.html">sonraki sayfanın</a> Molloy–Reed sonucu.</p>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 2: ağaç, örgü ve rastgele ağ.</strong></p>
+  <ol>
+    <li>$z = 4$ olan bir ağaç: $p_c = 1/3$. Kare örgüde de bölge başına 4 komşu vardır ama $p_c = 0.593$'tür: döngüleri yolların örtüşmesine yol açar, bu yüzden daha fazla bölge gerekir.</li>
+    <li>$\langle k\rangle = 4$ olan rastgele bir ağ: $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle) = 20$, yani $\kappa - 1 = 4$, $p_c = 1/4$ ve $f_c = 3/4$; bu, $1 - 1/\langle k\rangle$ ile aynıdır.</li>
+  </ol>
+</div>
+
 
 <div class="quiz" data-answer="4">
   <p>Büyük bir kare örgünün her bölgesi $p = 0.55$ olasılıkla dolu ($p_c \approx 0.593$). Ne görürsünüz?</p>

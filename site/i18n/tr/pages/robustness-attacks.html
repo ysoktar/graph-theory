@@ -21,7 +21,7 @@
 </dl>
 <div class="callout fix" data-book="B14"></div>
 <div class="callout example">
-  <p><strong>Çözümlü örnek: $\gamma = 2.5$, $k_{\min} = 2$.</strong></p>
+  <p><strong>Çözümlü örnek 1: $\gamma = 2.5$, $k_{\min} = 2$ için eşik.</strong></p>
   <ol>
     <li>Üsteller $\frac{2-\gamma}{1-\gamma} = \frac13$ ve $\frac{3-\gamma}{1-\gamma} = -\frac13$'tür; katsayı $\frac{2-\gamma}{3-\gamma} = -1$'dir.</li>
     <li>$x = f_c^{1/3}$ ile denklem $x = 2 - 2\,(1/x - 1)$, yani $x^2 - 4x + 2 = 0$ olur.</li>
@@ -30,6 +30,16 @@
   </ol>
 </div>
 <div data-fig id="fig-gamma"></div>
+<div class="callout example">
+  <p><strong>Çözümlü örnek 2: merkez düğümlerin %1'i neden bu kadar önemli.</strong> $\gamma = 2.5$, $k_{\min} = 2$, $N = 10^4$.</p>
+  <ol>
+    <li>Saldırıdan önce en büyük derece $k_{\max} = k_{\min}N^{1/(\gamma-1)} = 2 \times 10^{4/1.5} \approx 930$'dur.</li>
+    <li>En üstteki $f$ oranını kaldırmak dereceleri $(k'_{\max}/k_{\min})^{-(\gamma-1)} = f$ olan $k'_{\max}$'ın altında bırakır, yani $k'_{\max} = k_{\min} f^{1/(1-\gamma)}$. $f = 0.01$ için: $k'_{\max} = 2 \times 0.01^{-2/3} \approx 43$.</li>
+    <li>$2 &lt; \gamma &lt; 3$ için $\kappa \approx \frac{\gamma-2}{3-\gamma} k_{\min}^{\gamma-2} k_{\max}^{3-\gamma}$: hayatta kalanların kaybettiği bağlantılar sayılmadan bile $\sqrt2 \times \sqrt{930} \approx 43$'ten $\sqrt2 \times \sqrt{43} \approx 9$'a düşer.</li>
+    <li>Anlamı: düğümlerin %1'i, ağı bir arada tutan nicelik olan $\langle k^2\rangle$'nin çoğunu taşıyordu.</li>
+  </ol>
+</div>
+
 <div class="callout key">
   <p><em>Dayanıklı ama kırılgan</em>: rastgele bir bozulma neredeyse hiçbir zaman bir merkez düğüme denk gelmez; bir saldırı ise her şeyi bir arada tutan merkez düğümleri siler. Ağı koruyan özellik, merkez düğümleri, aynı zamanda onun Aşil topuğudur.</p>
 </div>

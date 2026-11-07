@@ -1,6 +1,7 @@
 import "../layout.js";
 import { h, figure, select, segmented, button, stats, dataTable, slider, debounce, whenVisible, color, onThemeChange } from "../lib/ui.js";
 import { MatrixView } from "../lib/matrixview.js";
+import { pmf, moments } from "../lib/degdist.js";
 import { NetView } from "../lib/netview.js";
 import { Plot, fnSeries } from "../lib/plot.js";
 import { RNG } from "../lib/rng.js";
@@ -309,4 +310,30 @@ fig_giant: {
   f.controls.append(status);
   whenVisible(f.el, runAll);
   f.setCaption("Assortative networks form a giant component earlier: around ⟨k⟩ = 1 their hubs have already linked up while the neutral and disassortative ones are still in pieces. Past ⟨k⟩ ≈ 1.5 the order reverses: in a disassortative network every hub pulls in its small nodes, so its giant component is the largest. On the right, assortativity shifts typical distances down a little, yet its diameter is at least as large as the neutral one (often a step or two larger at this size), because small nodes link into long chains; disassortative networks have clearly the smallest diameter. Distance shares come from 60 random start nodes in the giant component; diameters from repeated double sweeps.");
+}
+
+// ================================================================== the friendship paradox: p_k against q_k
+fig_paradox: {
+  if (!document.getElementById("fig-paradox")) break fig_paradox; // only on the page that shows it
+  const f = figure("#fig-paradox", { title: "The friendship paradox", sub: "The degree of a random node (pₖ) against the degree of the node at the end of a random link (qₖ = k pₖ/⟨k⟩), computed exactly." });
+  const plot = new Plot(f.body, { height: 280, x: { type: "log", label: "degree k" }, y: { type: "log", label: "probability" } });
+  const t = stats(f.body, [{ key: "k", tex: "\\langle k\\rangle", label: "a random node" }, { key: "q", tex: "\\langle k^2\\rangle/\\langle k\\rangle", label: "a random neighbour", hl: true }, { key: "x", label: "ratio" }]);
+  let type = "powerlaw", gamma = 2.3, mean = 4;
+  function draw() {
+    const pk = type === "poisson" ? pmf("poisson", { mean }) : pmf("powerlaw", { gamma, kmin: 1, logN: 4 });
+    const m = moments(pk), p = [], q = [];
+    for (let k = 1; k < pk.length; k++) if (pk[k] > 1e-10) { p.push([k, pk[k]]); q.push([k, (k * pk[k]) / m.m1]); }
+    plot.update({ series: [{ type: "line", data: p, color: "random", label: "pₖ: degree of a random node" }, { type: "line", data: q, color: 1, label: "qₖ: degree of a random neighbour" }], y: { min: 1e-8 } });
+    t.set("k", fmt.fix(m.m1, 2)); t.set("q", fmt.fix(m.kappa, 2)); t.set("x", fmt.fix(m.kappa / m.m1, 1) + "×", "how much more popular your friends are");
+  }
+  const ctl = h("div", { class: "fig-controls", style: { padding: 0 } });
+  segmented(f.controls, { label: "Network", value: type, options: [{ value: "poisson", label: "random (Poisson)" }, { value: "powerlaw", label: "scale-free (power law)" }], onChange: (v) => { type = v; controls(); draw(); } });
+  f.controls.append(ctl);
+  function controls() {
+    ctl.replaceChildren();
+    if (type === "poisson") slider(ctl, { label: "⟨k⟩", min: 1, max: 20, step: 0.5, value: mean, format: (v) => v.toFixed(1), onInput: (v) => { mean = v; draw(); } });
+    else slider(ctl, { label: "degree exponent γ", min: 2.05, max: 4, step: 0.05, value: gamma, format: (v) => v.toFixed(2), onInput: (v) => { gamma = v; draw(); } });
+  }
+  controls(); draw();
+  f.setCaption("Following a link picks a node in proportion to its degree, so qₖ leans towards hubs. In a random network the neighbour has exactly one link more than average, 1 + ⟨k⟩. With a power law (N = 10⁴, k_min = 1) and γ below 3 the gap is many-fold: this is why the neutral k_nn equals ⟨k²⟩/⟨k⟩, and why vaccinating a random friend of a random person finds hubs.");
 }
