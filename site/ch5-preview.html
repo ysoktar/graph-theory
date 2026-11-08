@@ -115,7 +115,7 @@
   <div class="explain">The degrees add up to $2L = 10{,}000$, so $\Pi = 50/10{,}000 = 0.5\%$.</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>In a large BA network with $m = 2$, what share of the nodes have exactly 2 links, the minimum?</p>
+  <p>In a large BA network where each new node brings $m = 2$ links, what share of the nodes have exactly 2 links, the minimum?</p>
   <ol>
     <li>About half</li>
     <li data-why="A power law puts most of its weight on the smallest degrees, not almost none.">Almost none</li>
@@ -145,7 +145,7 @@
   <div class="explain">At $\gamma = 3$, $\langle k^2\rangle \sim \ln k_{\max} \sim \ln N$: the border case (<a href="ch4-exponent.html">The role of γ</a>).</div>
 </div>
 <div class="quiz" data-answer="1">
-  <p>In a large BA network with $m = 3$, what fraction of the nodes have exactly 3 links?</p>
+  <p>In a large BA network where each new node brings $m = 3$ links, what fraction of the nodes have exactly 3 links?</p>
   <ol>
     <li>40%</li>
     <li data-why="That is the share of nodes with more than 3 links.">60%</li>
@@ -155,14 +155,14 @@
   <div class="explain">The exact formula gives $p_m = 2/(m+2) = 2/5$.</div>
 </div>
 <div class="quiz" data-answer="2">
-  <p>A BA network has $N = 10^6$ nodes and $m = 2$. Roughly how many links does its largest hub have?</p>
+  <p>A BA network has $N = 10^6$ nodes, and each new node arrives with $m = 2$ links. Roughly how many links does its largest hub have?</p>
   <ol>
     <li data-why="That is about ln N, the size of hubs in a Poisson-like network.">20</li>
     <li>2,000</li>
     <li data-why="No node is linked to every other node.">1,000,000</li>
     <li data-why="That is the minimum degree, not the maximum.">2</li>
   </ol>
-  <div class="explain">The largest hub grows like $k_{\max} \sim m N^{1/2} = 2 \times 1{,}000$.</div>
+  <div class="explain">Node $i$ grows as $k_i(t) = m\,(t/t_i)^{1/2}$. The largest hub is the oldest node, $t_i \approx 1$, and at $t = N$ it has $k_{\max} \sim m N^{1/2} = 2 \times 1{,}000 = 2{,}000$. Here $m$ is both the number of links a new node brings and the smallest degree in the network.</div>
 </div>
 </div></main>
 </body>

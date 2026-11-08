@@ -1091,7 +1091,7 @@
 </div>
 
 <div class="quiz" data-topic="5. Bölüm · Barabási–Albert modeli" data-answer="2">
-  <p>BA modelinde yeni bir bağlantı $i$ düğümüne $\Pi(k_i) = k_i / \sum_j k_j$ olasılıkla bağlanır ve $\sum_j k_j \approx 2mt$. $t = 1{,}000$'de $m = 3$ iken 60 bağlantılı bir düğümü 3 bağlantılı bir düğümle karşılaştırın.</p>
+  <p>BA modelinde yeni bir bağlantı $i$ düğümüne $\Pi(k_i) = k_i / \sum_j k_j$ olasılıkla bağlanır ve $\sum_j k_j \approx 2mt$; burada her yeni düğüm $m$ bağlantı getirir. $t = 1{,}000$'de $m = 3$ iken 60 bağlantılı bir düğümü 3 bağlantılı bir düğümle karşılaştırın.</p>
   <ol>
     <li data-why="Tercihli bağlanma dereceyle orantılıdır; eşit şans tekdüze bağlanma olurdu.">Bir sonraki bağlantıyı alma olasılıkları eşittir.</li>
     <li>$\Pi = 60/6{,}000 = 0.01$'e karşı $0.0005$: merkez düğümün her yeni bağlantıyı alma olasılığı 20 kat fazladır; zengin daha da zenginleşir.</li>
@@ -1101,7 +1101,7 @@
   <div class="explain">$\sum_j k_j = 2 \cdot 3 \cdot 1{,}000 = 6{,}000$. Her yeni düğüm 3 bağlantı getirir; yani merkez düğüm adım başına yaklaşık 0.03, küçük düğüm 0.0015 yeni bağlantı bekler.</div>
 </div>
 <div class="quiz" data-topic="5. Bölüm · Barabási–Albert modeli" data-answer="3">
-  <p>BA modelinde bir düğümün derecesi $k_i(t) = m\,(t/t_i)^{1/2}$ gibi büyür; $t_i$ geliş zamanıdır. $m = 2$ ile, $t_i = 100$'de gelen bir düğümü $t_i = 10{,}000$'de gelen bir düğümle, ikisini de $t = 10^6$'da ölçerek karşılaştırın.</p>
+  <p>BA modelinde bir düğümün derecesi $k_i(t) = m\,(t/t_i)^{1/2}$ gibi büyür; $t_i$ geliş zamanı, $m$ ise her yeni düğümün getirdiği bağlantı sayısıdır. $m = 2$ ile, $t_i = 100$'de gelen bir düğümü $t_i = 10{,}000$'de gelen bir düğümle, ikisini de $t = 10^6$'da ölçerek karşılaştırın.</p>
   <ol>
     <li data-why="İkisi de büyür, ama erken düğüm daha önce başladı ve mutlak olarak daha hızlı büyür.">Aynı dereceye ulaşırlar.</li>
     <li data-why="Geç gelen her zaman geride kalır: iki derecenin oranı sabittir.">Geç gelen sonunda yetişir.</li>
@@ -1131,7 +1131,7 @@
   <div class="explain">BA modeli en yalın modeldir: büyümeyi ya da tercihli bağlanmayı çıkarın, ölçekten bağımsızlık kaybolur.</div>
 </div>
 <div class="quiz" data-topic="5. Bölüm · Barabási–Albert modeli" data-answer="2">
-  <p>BA modelinin kesin derece dağılımı $k \ge m$ için $p_k = \dfrac{2m(m+1)}{k(k+1)(k+2)}$'dir. $m = 2$ ile düğümlerin hangi oranı en küçük derece olan $k = 2$'ye sahiptir?</p>
+  <p>BA modelinin kesin derece dağılımı $k \ge m$ için $p_k = \dfrac{2m(m+1)}{k(k+1)(k+2)}$'dir; $m$, her yeni düğümün getirdiği bağlantı sayısıdır. $m = 2$ ile düğümlerin hangi oranı en küçük derece olan $k = 2$'ye sahiptir?</p>
   <ol>
     <li data-why="Bu, k = 3 olan düğümlerin payı olurdu: 12/60 = 0.2.">0.2</li>
     <li>0.5: tüm düğümlerin yarısında yalnızca geldikleri bağlantılar vardır, birkaç merkez düğüm ise çok bağlantı toplar.</li>
