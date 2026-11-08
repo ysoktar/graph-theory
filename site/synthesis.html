@@ -26,10 +26,10 @@
   <tbody>
     <tr><td>Degree distribution</td><td>Poisson, narrow</td><td>power law, heavy-tailed</td><td>heavy-tailed except the power grid; strict power law plausible for half</td></tr>
     <tr><td>Largest hub</td><td>slower than $\ln N$</td><td>$\sim k_{\min} N^{1/(\gamma-1)}$</td><td>hundreds to thousands of links, mostly below the natural cutoff</td></tr>
-    <tr><td>$\langle k^2\rangle$</td><td>$\langle k\rangle(\langle k\rangle + 1)$</td><td>grows with $N$ for $\gamma &lt; 3$</td><td>$\sigma_k \gg \sqrt{\langle k\rangle}$ except in the power grid and, mildly, phone calls</td></tr>
+    <tr><td>$\langle k^2\rangle$</td><td>$\langle k\rangle(\langle k\rangle + 1)$</td><td>grows with $N$ for $\gamma \le 3$</td><td>$\sigma_k \gg \sqrt{\langle k\rangle}$ except in the power grid and, mildly, phone calls</td></tr>
     <tr><td>Distances</td><td>$\ln N/\ln\langle k\rangle$</td><td>$\ln\ln N$ for $2 &lt; \gamma &lt; 3$</td><td>small worlds except the power grid</td></tr>
     <tr><td>Clustering</td><td>$\langle k\rangle/N$, flat in $k$</td><td>configuration model: low unless $\langle k^2\rangle$ is huge</td><td>40 to 10,000 times the random value; $C(k)$ falls with $k$</td></tr>
-    <tr><td>Giant component</td><td>$\langle k\rangle > 1$</td><td>$\langle k^2\rangle > 2\langle k\rangle$: almost always for $\gamma &lt; 3$</td><td>all eight supercritical</td></tr>
+    <tr><td>Giant component</td><td>$\langle k\rangle > 1$</td><td>$\langle k^2\rangle > 2\langle k\rangle$: almost always for $\gamma \le 3$</td><td>all eight supercritical</td></tr>
   </tbody>
 </table>
 <div class="callout fix" data-errata="N20"></div>
@@ -55,7 +55,7 @@
   <thead><tr><th>Concept</th><th>Defined</th><th>Predicted by</th><th>Used in</th></tr></thead>
   <tbody>
     <tr><td>$p_k$, $\langle k\rangle$</td><td><a href="ch2-degree.html">Ch 2</a></td><td>all models</td><td>everywhere</td></tr>
-    <tr><td>$\kappa = \langle k^2\rangle/\langle k\rangle$</td><td><a href="ch4-moments.html">Ch 4</a></td><td>diverges for $\gamma &lt; 3$; BA: $\sim \ln N$</td><td>Molloy–Reed, $f_c$, $T_c$, neutral $k_{nn}$, friendship paradox</td></tr>
+    <tr><td>$\kappa = \langle k^2\rangle/\langle k\rangle$</td><td><a href="ch4-moments.html">Ch 4</a></td><td>diverges for $\gamma \le 3$ (BA, $\gamma = 3$: $\sim \ln N$)</td><td>Molloy–Reed, $f_c$, $T_c$, neutral $k_{nn}$, friendship paradox</td></tr>
     <tr><td>Giant component</td><td><a href="ch3-evolution.html">Ch 3</a></td><td>random: $\langle k\rangle > 1$; general: $\kappa > 2$</td><td>robustness, epidemics</td></tr>
     <tr><td>Distances $\langle d\rangle$</td><td><a href="ch2-paths.html">Ch 2</a></td><td>$\ln N/\ln\langle k\rangle$; $\ln\ln N$</td><td><a href="ch4-ultra-small.html">ultra-small worlds</a></td></tr>
     <tr><td>Clustering $C$</td><td><a href="ch2-clustering.html">Ch 2</a></td><td>random: $\langle k\rangle/N$; BA: $(\ln N)^2/N$</td><td>communities, link prediction</td></tr>

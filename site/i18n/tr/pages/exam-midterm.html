@@ -62,7 +62,7 @@
     <tr><td>$C = \langle k\rangle/(N-1)$</td><td>rastgele kümelenme; büyük $N$ için sıfıra gider</td><td><a href="ch3-clustering.html">Kümelenme (3. Bölüm)</a></td></tr>
     <tr><td>$p_k \sim k^{-\gamma}$, $P(K\ge k) \sim k^{-(\gamma-1)}$</td><td>kuvvet yasası ve CCDF'si</td><td><a href="ch4-power-laws.html">Kuvvet yasaları</a>, <a href="ch4-plotting.html">Çizim</a></td></tr>
     <tr><td>$k_{\max} = k_{\min} N^{1/(\gamma-1)}$</td><td>en büyük merkez düğüm</td><td><a href="ch4-hubs.html">En büyük merkez düğüm</a></td></tr>
-    <tr><td>$\gamma &lt; 3$ için $\langle k^2\rangle \to \infty$</td><td>tipik derece yok</td><td><a href="ch4-moments.html">Momentler</a></td></tr>
+    <tr><td>$\gamma \le 3$ için $\langle k^2\rangle \to \infty$</td><td>tipik derece yok</td><td><a href="ch4-moments.html">Momentler</a></td></tr>
     <tr><td>$\langle d\rangle \sim \ln\ln N$ ($2 &lt; \gamma &lt; 3$)</td><td>ultra küçük dünya</td><td><a href="ch4-ultra-small.html">Ultra küçük</a></td></tr>
     <tr><td>$\hat\gamma \approx 1 + n\big[\sum_i \ln\frac{k_i}{k_{\min}-1/2}\big]^{-1}$</td><td>en çok olabilirlik üsteli</td><td><a href="ch4-fitting.html">Uydurma</a></td></tr>
     <tr><td>$p_{ij} \approx k_ik_j/2L$</td><td>konfigürasyon modeli: şansla beklenen bağlantılar</td><td><a href="ch4-generating.html">Ağ üretmek</a></td></tr>
@@ -577,7 +577,7 @@
 <ul>
   <li>CCDF eğimi $-\gamma$ değil, $-(\gamma-1)$'dir.</li>
   <li>Doğrusal kutulanmış log–log bir histograma düz çizgi uydurmak: gürültülü kuyruk sonucu saptırır.</li>
-  <li>“Ölçekten bağımsız”, yalnızca “merkez düğümleri var” değil, $\langle k^2\rangle$'nin ıraksaması ($\gamma &lt; 3$) demektir.</li>
+  <li>“Ölçekten bağımsız”, yalnızca “merkez düğümleri var” değil, $\langle k^2\rangle$'nin ıraksaması ($\gamma \le 3$; $\gamma = 3$ iken yalnızca $\ln N$ gibi) demektir.</li>
   <li>Konfigürasyon modeli merkez düğümleri yeniden üretir ama açıklamaz: dereceleri siz koyarsınız.</li>
 </ul>
 <p class="small">Sayfalar: <a href="ch4-power-laws.html">Kuvvet yasaları</a>, <a href="ch4-plotting.html">Çizim</a>, <a href="ch4-fitting.html">Uydurma</a>, <a href="ch4-hubs.html">En büyük merkez düğüm</a>, <a href="ch4-moments.html">Momentler</a>, <a href="ch4-universality.html">Evrensellik</a>, <a href="ch4-ultra-small.html">Ultra küçük</a>, <a href="ch4-exponent.html">γ'nın rolü</a>, <a href="ch4-generating.html">Ağ üretmek</a>, <a href="synthesis.html">Sentez</a>.</p>

@@ -136,7 +136,7 @@
 
 <div class="eqcard"><div class="eqcard-text">
   <p><strong>9. Çığ boyutları</strong> (8. Bölüm)</p>
-  <div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases} 3/2 & \gamma > 3 \\ \gamma/(\gamma - 1) & 2 &lt; \gamma &lt; 3 \end{cases}$$</div>
+  <div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases} 3/2 & \gamma \ge 3 \\ \gamma/(\gamma - 1) & 2 &lt; \gamma &lt; 3 \end{cases}$$</div>
   <p><strong>Onu ne yönlendirir.</strong> Her bozulma ortalamada bir bozulma daha tetikler (kritik bir dallanma süreci); merkez düğümler uzun dalları daha olası kılar.</p>
   <p><strong>Ne çizilir.</strong> Log-log: düz çizgiler; eğim $-3/2$, $\gamma = 2.5$ için daha dik ($-5/3$).</p>
   <p><strong>Yorum.</strong> Tipik bir kesinti boyutu yoktur: dev çığlar nadir ama beklenendir, gerçek kesinti verilerindeki gibi.</p>
@@ -164,7 +164,7 @@
 <ul>
   <li>$\langle k\rangle = 2L/N$; $p_k$; $C_i = 2L_i/[k_i(k_i-1)]$; $\langle d\rangle$ (<a href="exam-midterm.html#ch2">2. Bölüm</a>).</li>
   <li>Rastgele ağ: Poisson $p_k$, $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, $\langle k\rangle &gt; 1$ için dev bileşen, $\langle d\rangle \approx \ln N/\ln\langle k\rangle$, $C = \langle k\rangle/N$ (<a href="exam-midterm.html#ch3">3. Bölüm</a>).</li>
-  <li>Kuvvet yasası $p_k \sim k^{-\gamma}$; $k_{\max} = k_{\min}N^{1/(\gamma-1)}$; $\gamma &lt; 3$ için $\langle k^2\rangle \to \infty$; konfigürasyon modeli $p_{ij} = k_ik_j/2L$ (<a href="exam-midterm.html#ch4">4. Bölüm</a>).</li>
+  <li>Kuvvet yasası $p_k \sim k^{-\gamma}$; $k_{\max} = k_{\min}N^{1/(\gamma-1)}$; $\gamma \le 3$ için $\langle k^2\rangle \to \infty$; konfigürasyon modeli $p_{ij} = k_ik_j/2L$ (<a href="exam-midterm.html#ch4">4. Bölüm</a>).</li>
   <li>BA: $\Pi(k) = k/\sum_j k_j$, $k_i = m(t/t_i)^{1/2}$, $p_k \approx 2m^2k^{-3}$; hem büyüme hem tercih gerekir (<a href="exam-midterm.html#ch5">5. Bölüm</a>).</li>
 </ul>
 <h3>Sınav tarzı problemler</h3>
@@ -461,7 +461,7 @@
   <dt>$k_{\max}$</dt><dd>$N$ ile büyür; bu yüzden $\kappa \to \infty$ ve $f_c \to 1$: rastgele bozulmalar büyük bir ölçekten bağımsız ağı bölemez</dd>
   <dt>$C$</dt><dd>bir sabit (sonlu boyut formülü)</dd>
 </dl>
-<p>$\gamma &gt; 3$ için: $\kappa = \frac{\gamma-2}{\gamma-3}k_{\min}$, sonlu; $f_c &lt; 1$.</p>
+<p>$\gamma = 3$ için: $\kappa \approx k_{\min}\ln(k_{\max}/k_{\min})$ yavaşça da olsa büyür; yani yine $f_c \to 1$. $\gamma &gt; 3$ için: $\kappa = \frac{\gamma-2}{\gamma-3}k_{\min}$, sonlu; $f_c &lt; 1$.</p>
 <p><strong>Saldırılar</strong> (önce merkez düğümleri silin). Eşik şu denklemi çözer (kitap, Denklem 8.12):</p>
 <div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big)$$</div>
 <dl class="symbols">

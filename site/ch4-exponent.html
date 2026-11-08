@@ -30,7 +30,9 @@
   <thead><tr><th>Regime</th><th>$\langle k\rangle$</th><th>$\langle k^2\rangle$</th><th>$k_{\max}$</th><th>$\langle d\rangle$</th><th>Notes</th></tr></thead>
   <tbody>
     <tr><td>Anomalous, $\gamma &lt; 2$</td><td>diverges</td><td>diverges</td><td>would exceed $N$</td><td>constant</td><td>a large simple network cannot keep $\gamma &lt; 2$ up to its largest degrees</td></tr>
+    <tr><td>Boundary, $\gamma = 2$</td><td>grows like $\ln N$</td><td>diverges</td><td>$\sim N$</td><td>constant</td><td>the hub links to a finite fraction of all nodes</td></tr>
     <tr><td>Scale-free, $2 &lt; \gamma &lt; 3$</td><td>finite</td><td><strong>diverges</strong></td><td>$\sim N^{1/(\gamma-1)}$</td><td>$\ln\ln N$</td><td>hubs dominate; ultra-small</td></tr>
+    <tr><td>Boundary, $\gamma = 3$ (BA model)</td><td>finite</td><td>grows like $\ln N$</td><td>$\sim N^{1/2}$</td><td>$\ln N/\ln\ln N$</td><td>still diverges, but only logarithmically</td></tr>
     <tr><td>Random-like, $\gamma &gt; 3$</td><td>finite</td><td>finite</td><td>$\sim N^{1/(\gamma-1)}$, small</td><td>$\ln N$</td><td>hard to tell from a random network unless $N$ is huge</td></tr>
   </tbody>
 </table>
@@ -135,7 +137,7 @@
     <li data-why="Networks with 2 &lt; γ &lt; 3 are common.">Networks cannot exist below it</li>
     <li>$\langle k^2\rangle$ diverges below it and converges above it</li>
   </ol>
-  <div class="explain">$\langle k^2\rangle \sim \int k^2 k^{-\gamma}\,dk$ grows like $k_{\max}^{3-\gamma}$. As the network grows, $k_{\max}$ grows, so $\langle k^2\rangle$ stays finite only when $3 - \gamma &lt; 0$, i.e. $\gamma &gt; 3$.</div>
+  <div class="explain">$\langle k^2\rangle \sim \int k^2 k^{-\gamma}\,dk$ grows like $k_{\max}^{3-\gamma}$. As the network grows, $k_{\max}$ grows, so $\langle k^2\rangle$ stays finite only when $3 - \gamma &lt; 0$, i.e. $\gamma &gt; 3$. At $\gamma = 3$ exactly the integral is $\ln k_{\max}$: it still diverges, only slowly.</div>
 </div>
 
 </div></main>
