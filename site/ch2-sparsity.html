@@ -40,6 +40,10 @@
   <p>Collaboration network: $L_{\max} = 23{,}133 \times 23{,}132/2 \approx 2.68\times10^8$, but $L = 93{,}439$, so the density is $8.08/23{,}132 \approx 3.5\times10^{-4}$.</p>
 </div>
 
+<div class="callout note">
+  <p><strong>Metcalfe's law</strong> (Box 2.3) says a network's value grows like $N^2$, because $N$ users can form $L_{\max} = N(N-1)/2$ connections: 10 users have 45 possible links, 20 users 190. Since costs grow only like $N$, a large enough service must become profitable, an argument popular in the 1990s Internet boom. Sparsity undercuts it: real networks use only a tiny fraction of the possible links, so the links, and the value, grow roughly like $N$. And links are not equally valuable: a few carry most of the traffic.</p>
+</div>
+
 <h2>The eight reference networks</h2>
 <p>On <strong>log-log axes</strong> each tick multiplies the value by 10, and a relation $L = c\,N^a$ becomes a straight line of slope $a$. $L_{\max}$ has slope 2; a family of networks with the same $\langle k\rangle$ has slope 1.</p>
 <div data-fig id="fig-lvn"></div>

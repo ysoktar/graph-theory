@@ -63,6 +63,19 @@
   </ul>
 </div>
 
+<h2>Çizge türleri</h2>
+<p>Dersteki her ağı aynı birkaç ayrım betimler:</p>
+<table class="simple">
+  <thead><tr><th>Tür</th><th>Neyi kaydeder</th><th>Örnekler</th></tr></thead>
+  <tbody>
+    <tr><td>yönsüz / yönlü</td><td>bir bağlantının yönü olup olmadığı</td><td>oyuncular, protein etkileşimleri / WWW, atıflar</td></tr>
+    <tr><td>ağırlıksız / ağırlıklı</td><td>bir bağlantının gücü olup olmadığı</td><td>protein etkileşimleri, WWW / telefon aramaları, metabolik tepkimeler</td></tr>
+    <tr><td>öz etkileşimler / çoklu çizge</td><td>bir düğümün kendisine bağlanıp bağlanamayacağı / iki düğümün birden çok bağlantıyı paylaşıp paylaşamayacağı</td><td>kendisine bağlanan proteinler, WWW / sosyal ve iş birliği ağları</td></tr>
+    <tr><td>tam çizge</td><td>her çift bağlı, $L = L_{\max}$</td><td>tek bir filmin oyuncuları</td></tr>
+  </tbody>
+</table>
+<p>Gerçek ağlar bunları birleştirir: WWW öz etkileşimleri olan yönlü bir çoklu çizgedir; protein etkileşimleri yönsüz ve ağırlıksızdır, öz etkileşimleri vardır; iş birliği yönsüz bir çoklu çizgedir ya da ağırlıklıdır; telefon aramaları yönlü ve ağırlıklıdır; Facebook arkadaşlıkları yönsüz ve ağırlıksızdır.</p>
+
 <div class="callout discuss">
   <p>Kitaptaki Hollywood oyuncu ağı, oyuncu–film iki parçalı ağının bir izdüşümüdür. Bu ağın hangi özellikleri, oyuncuların birlikte çalışmayı nasıl seçtiğinden değil, izdüşümün kendisinden kaynaklanır?</p>
   <div class="hint">$n$ oyunculu her film $n$ düğümlü tam bir alt çizgeye dönüşür; bu yüzden izdüşüm üçgenlerle (yüksek kümelenme) ve büyük kliklerle doludur. Kalabalık oyuncu kadroları dereceleri şişirir. İzdüşümle elde edilmiş bir ağ için sıfır modeli, aynı biçimde izdüşürülmüş rastgeleleştirilmiş bir <em>iki parçalı</em> ağ olmalıdır.</div>

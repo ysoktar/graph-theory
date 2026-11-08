@@ -78,6 +78,19 @@
   </ul>
 </div>
 
+<h2>Graphology: kinds of network</h2>
+<p>The same few distinctions describe every network in the course:</p>
+<table class="simple">
+  <thead><tr><th>Kind</th><th>What it records</th><th>Examples</th></tr></thead>
+  <tbody>
+    <tr><td>undirected / directed</td><td>whether a link has a direction</td><td>actors, protein interactions / WWW, citations</td></tr>
+    <tr><td>unweighted / weighted</td><td>whether a link has a strength</td><td>protein interactions, WWW / phone calls, metabolic reactions</td></tr>
+    <tr><td>self-interactions / multigraph</td><td>whether a node may link to itself / whether two nodes may share several links</td><td>proteins that bind to themselves, WWW / social and collaboration networks</td></tr>
+    <tr><td>complete graph</td><td>every pair linked, $L = L_{\max}$</td><td>the actors of a single film</td></tr>
+  </tbody>
+</table>
+<p>Real networks combine these: the WWW is a directed multigraph with self-interactions; protein interactions are undirected and unweighted, with self-interactions; collaboration is an undirected multigraph, or weighted; phone calls are directed and weighted; Facebook friendships are undirected and unweighted.</p>
+
 <div class="callout discuss">
   <p>The Hollywood actor network in the book is the projection of an actor–film bipartite network. Which of its properties are produced by the projection itself, rather than by how actors choose to work together?</p>
   <div class="hint">Every film with $n$ actors becomes a complete subgraph of $n$ nodes, so the projection is full of triangles (high clustering) and large cliques. Large casts inflate the degrees. A null model for a projected network should be a randomised <em>bipartite</em> network, projected the same way.</div>
