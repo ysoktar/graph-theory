@@ -34,6 +34,27 @@
 <p>Gerçek ağdan başlayın ve iki rastgele bağlantının uçlarını tekrar tekrar değiştirin ($A$–$B$, $C$–$D$ → $A$–$D$, $C$–$B$). Her değiş tokuş tüm dereceleri tam olarak korur; yeterince değiş tokuştan sonra diğer bütün yapı karışır. Konfigürasyon modelinden farklı olarak hiçbir bağlantı kaybolmaz.</p>
 <div data-fig id="fig-swap"></div>
 
+<h2>Gizli parametre modeli</h2>
+<p>Konfigürasyon modeli öz döngüler ve çoklu bağlantılar yaratır. <strong>Gizli parametre modeli</strong> bunlardan kaçınır. $N$ yalıtık düğümle başlayın, her $i$ düğümüne bir gizli parametre $\eta_i$ verin ve her $i, j$ çiftini bağımsız olarak şu olasılıkla bağlayın:</p>
+<div class="eq">$$p_{ij} = \frac{\eta_i\,\eta_j}{\langle\eta\rangle N}.$$</div>
+<dl class="symbols">
+  <dt>$\eta_i$</dt><dd>$i$ düğümünün gizli parametresi; bir $\rho(\eta)$ dağılımından çekilir ya da bir dizi olarak verilir; $i$ düğümünün beklenen derecesidir</dd>
+  <dt>$\langle\eta\rangle$</dt><dd>ortalama gizli parametre; ağ $\langle k\rangle = \langle\eta\rangle$ ve yaklaşık $L = \langle\eta\rangle N/2$ bağlantı alır</dd>
+</dl>
+<p>Ölçekten bağımsız bir ağ için belirlenimci $\eta_i = c/i^{\alpha}$ ($i = 1, \dots, N$) dizisini alın: derece dağılımı büyük $k$ için $p_k \sim k^{-(1 + 1/\alpha)}$ olur; yani $\alpha$, $\gamma = 1 + 1/\alpha$'yı, $c$ ise $\langle k\rangle$'yi ayarlar. Çoklu bağlantılar olmadan model $\gamma &lt; 3$ için yapısal disasortatiflik gösterir (<a href="correlations-cutoffs.html">7. Bölüm</a>).</p>
+<div class="callout example">
+  <p><strong>Çözümlü örnek: α'yı seçmek.</strong> $\gamma = 2.5$ için $1 + 1/\alpha = 2.5$ gerekir, yani $\alpha = 2/3$; $\gamma = 3$ için $\alpha = 1/2$. Düğüm 1 en büyük $\eta_1 = c$ değerini, düğüm 100 ise $c/100^{2/3} \approx c/21.5$ değerini alır: birkaç erken düğüm merkez düğüm olur.</p>
+</div>
+<h3>Hangi algoritma kullanılmalı?</h3>
+<table class="simple">
+  <thead><tr><th>Başlangıç noktanız</th><th>Öz döngüler ve çoklu bağlantılar kabul edilebilir</th><th>Basit ağ gerekli</th></tr></thead>
+  <tbody>
+    <tr><td>gerçek bir ağ ya da derece dizisi $k_1, \dots, k_N$</td><td>konfigürasyon modeli</td><td>dereceyi koruyan rastgeleleştirme</td></tr>
+    <tr><td>bir derece dağılımı $p_k$</td><td>$p_k$'den çekilmiş bir dizi üzerinde konfigürasyon modeli</td><td>gizli parametre modeli</td></tr>
+  </tbody>
+</table>
+<p>Üçü de bir ağın derecelerinin <em>neden</em> öyle olduğunu söylemez ve üçü de onların ötesindeki yapıyı (kümelenme, korelasyonlar) siler. Onları sıfır modeli olarak yararlı kılan da tam olarak budur.</p>
+
 <h2>Derece dizisi neyi açıklar</h2>
 <div data-fig id="fig-real"></div>
 <div class="callout look">

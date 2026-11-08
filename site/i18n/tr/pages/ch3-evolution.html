@@ -66,6 +66,20 @@
   <p>$N = 10^4$ için $\ln N = 9.21$'dir; bu da $L \approx 46{,}050$ bağlantı gerektirir. $\langle k\rangle = 5$'te hâlâ $10^4 e^{-5} \approx 67$ yalıtılmış düğüm vardır.</p>
 </div>
 
+<h3>Çizge kuramında ağ evrimi (Kutu 3.5)</h3>
+<p>Matematikçiler bağlantı olasılığının boyutla küçülmesine izin verir, $p(N) \sim N^{z}$, ve hemen her büyük çizgenin hangi alt çizgeleri içerdiğini sorar. Her biri kendi eşiğinde aniden belirir:</p>
+<table class="simple">
+  <thead><tr><th>$z$</th><th>Ne belirir</th></tr></thead>
+  <tbody>
+    <tr><td>$z &lt; -3/2$</td><td>yalnızca yalıtık düğümler ve tek bağlantılar</td></tr>
+    <tr><td>$z = -3/2$</td><td>3 düğümlü ağaçlar (iki bağlantılı yollar)</td></tr>
+    <tr><td>$z = -4/3$</td><td>4 düğümlü ağaçlar; genel olarak $k$ düğümlü ağaçlar $z = -k/(k-1)$'de</td></tr>
+    <tr><td>$z = -1$ (yani $\langle k\rangle \sim 1$)</td><td>her boyutta ağaçlar ve döngüler: dev bileşen geçişi</td></tr>
+    <tr><td>$z = -2/3$</td><td>4 düğümlü tam alt çizgeler; genel olarak $k$ düğümlü klikler $z = -2/(k-1)$'de</td></tr>
+  </tbody>
+</table>
+<p>Neden bu değerler: $k$ düğümlük belirli bir küme $k-1$ bağlantılı bir ağaç oluşturur ve yaklaşık $N^k$ böyle küme vardır; bu yüzden ağaçlar $N^k p^{k-1} \sim 1$, yani $p \sim N^{-k/(k-1)}$ olunca belirir. Bir klik $k(k-1)/2$ bağlantının hepsini gerektirir; bu yüzden $N^k p^{k(k-1)/2} \sim 1$, yani $p \sim N^{-2/(k-1)}$ olunca belirir.</p>
+
 <h2>Sonlu ağlar</h2>
 <p>Kuram $N \to \infty$ için kesindir; sonlu ağlarda geçiş bulanıklaşır. Geçişin yerini <em>ikinci</em> en büyük bileşen gösterir: geçişin iki tarafında küçüktür ve kritik noktanın yakınında en büyüktür.</p>
 <div data-fig id="fig-finite"></div>
@@ -81,12 +95,14 @@
   <p>Sekiz ağın hepsinde $\langle k\rangle > 1$'dir ve yedisinde $\langle k\rangle &lt; \ln N$'dir; dolayısıyla rastgele karşılıkları bağlantılı olmazdı. Dev bileşenin dışında kalması beklenen düğümlerin payı elektrik şebekesi ve protein ağı için yaklaşık %9, İnternet için %0.2 ve iş birliği ağı için %0.03'tür.</p>
 </div>
 <div class="callout fix" data-errata="N10"></div>
+<p>Bir sosyal ağ, gerçek ağların eşiklerin ne kadar üstünde olduğunu gösterir. $N \approx 7 \times 10^9$ kişiyle rastgele bir toplum $\langle k\rangle > \ln(7 \times 10^9) \approx 22.7$ olunca bağlıdır; bir kişinin yaklaşık 1.000 tanıdığı vardır. Ama kitabın ağlarının çoğunda $\langle k\rangle &lt; \ln N$'dir (bağlı rejimde yalnızca oyuncu ağı vardır); bu yüzden rastgele ağ kuramı İnternet'te bağlantısız yönlendiriciler, şebekede elektriksiz tüketiciler öngörür. Gerçek ağlar yine de bağlı kalır: rastgele değildirler.</p>
+
 
 <div class="callout connect">
   <ul>
     <li><strong>Üzerine kurulduğu konular:</strong> <a href="ch3-degree.html">Poisson değeri $p_0 = e^{-\langle k\rangle}$</a> ve Kısım I'in <a href="ch2-connectedness.html">bileşenleri</a>.</li>
     <li data-beyond="Kitabın 8. bölümü"><strong>Özel bir durumu olduğu koşul:</strong> Molloy–Reed $\langle k^2\rangle/\langle k\rangle > 2$ (<a href="robustness.html">Dayanıklılık</a>); Poisson dereceler için $1 + \langle k\rangle > 2$, yani $\langle k\rangle > 1$ olur.</li>
-    <li data-beyond="Kitabın 8. bölümü"><strong>Karşıtlık:</strong> $\gamma &lt; 3$ olan ölçekten bağımsız ağlarda $\langle k^2\rangle$ ıraksar; bu yüzden düğümleri rastgele kaldırmak dev bileşeni kıramaz (Bölüm 8).</li>
+    <li data-beyond="Kitabın 8. bölümü"><strong>Karşıtlık:</strong> $\gamma \le 3$ olan ölçekten bağımsız ağlarda $\langle k^2\rangle$ ıraksar; bu yüzden düğümleri rastgele kaldırmak dev bileşeni kıramaz (Bölüm 8).</li>
     <li data-beyond="Kitabın 10. bölümü"><strong>Benzeri:</strong> <a href="epidemics.html">salgın eşiği</a> de $\langle k\rangle$ ve $\langle k^2\rangle$ ile belirlenir.</li>
   </ul>
 </div>

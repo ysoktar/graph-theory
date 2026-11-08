@@ -77,7 +77,7 @@
     <tr><td>$C = \langle k\rangle/(N-1)$</td><td>random clustering, vanishes for large $N$</td><td><a href="ch3-clustering.html">Clustering (Ch 3)</a></td></tr>
     <tr><td>$p_k \sim k^{-\gamma}$, $P(K\ge k) \sim k^{-(\gamma-1)}$</td><td>power law and its CCDF</td><td><a href="ch4-power-laws.html">Power laws</a>, <a href="ch4-plotting.html">Plotting</a></td></tr>
     <tr><td>$k_{\max} = k_{\min} N^{1/(\gamma-1)}$</td><td>largest hub</td><td><a href="ch4-hubs.html">Largest hub</a></td></tr>
-    <tr><td>$\langle k^2\rangle \to \infty$ for $\gamma &lt; 3$</td><td>no typical degree</td><td><a href="ch4-moments.html">Moments</a></td></tr>
+    <tr><td>$\langle k^2\rangle \to \infty$ for $\gamma \le 3$</td><td>no typical degree</td><td><a href="ch4-moments.html">Moments</a></td></tr>
     <tr><td>$\langle d\rangle \sim \ln\ln N$ ($2 &lt; \gamma &lt; 3$)</td><td>ultra-small world</td><td><a href="ch4-ultra-small.html">Ultra-small</a></td></tr>
     <tr><td>$\hat\gamma \approx 1 + n\big[\sum_i \ln\frac{k_i}{k_{\min}-1/2}\big]^{-1}$</td><td>maximum-likelihood exponent</td><td><a href="ch4-fitting.html">Fitting</a></td></tr>
     <tr><td>$p_{ij} \approx k_ik_j/2L$</td><td>configuration model: links expected by chance</td><td><a href="ch4-generating.html">Generating</a></td></tr>
@@ -592,7 +592,7 @@
 <ul>
   <li>CCDF slope is $-(\gamma-1)$, not $-\gamma$.</li>
   <li>Fitting a straight line to a linearly binned log–log histogram: biased by the noisy tail.</li>
-  <li>"Scale-free" means $\langle k^2\rangle$ diverges ($\gamma &lt; 3$), not just "has hubs".</li>
+  <li>"Scale-free" means $\langle k^2\rangle$ diverges ($\gamma \le 3$; at $\gamma = 3$ only like $\ln N$), not just "has hubs".</li>
   <li>The configuration model reproduces hubs but does not explain them: you put the degrees in.</li>
 </ul>
 <p class="small">Pages: <a href="ch4-power-laws.html">Power laws</a>, <a href="ch4-plotting.html">Plotting</a>, <a href="ch4-fitting.html">Fitting</a>, <a href="ch4-hubs.html">Largest hub</a>, <a href="ch4-moments.html">Moments</a>, <a href="ch4-universality.html">Universality</a>, <a href="ch4-ultra-small.html">Ultra-small</a>, <a href="ch4-exponent.html">Role of γ</a>, <a href="ch4-generating.html">Generating</a>, <a href="synthesis.html">Synthesis</a>.</p>

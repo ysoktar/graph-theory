@@ -151,7 +151,7 @@
 
 <div class="eqcard"><div class="eqcard-text">
   <p><strong>9. Cascade sizes</strong> (Ch 8)</p>
-  <div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases} 3/2 & \gamma > 3 \\ \gamma/(\gamma - 1) & 2 &lt; \gamma &lt; 3 \end{cases}$$</div>
+  <div class="eq">$$p(s) \sim s^{-\alpha}, \qquad \alpha = \begin{cases} 3/2 & \gamma \ge 3 \\ \gamma/(\gamma - 1) & 2 &lt; \gamma &lt; 3 \end{cases}$$</div>
   <p><strong>What drives it.</strong> Each failure triggers on average one more (a critical branching process); hubs make long branches more likely.</p>
   <p><strong>What to draw.</strong> Log-log: straight lines; slope $-3/2$, steeper ($-5/3$) for $\gamma = 2.5$.</p>
   <p><strong>Comment.</strong> No typical blackout size: huge cascades are rare but expected, as in real outage data.</p>
@@ -179,7 +179,7 @@
 <ul>
   <li>$\langle k\rangle = 2L/N$; $p_k$; $C_i = 2L_i/[k_i(k_i-1)]$; $\langle d\rangle$ (<a href="exam-midterm.html#ch2">Ch 2</a>).</li>
   <li>Random network: Poisson $p_k$, $\langle k^2\rangle = \langle k\rangle(1 + \langle k\rangle)$, giant component for $\langle k\rangle &gt; 1$, $\langle d\rangle \approx \ln N/\ln\langle k\rangle$, $C = \langle k\rangle/N$ (<a href="exam-midterm.html#ch3">Ch 3</a>).</li>
-  <li>Power law $p_k \sim k^{-\gamma}$; $k_{\max} = k_{\min}N^{1/(\gamma-1)}$; $\langle k^2\rangle \to \infty$ for $\gamma &lt; 3$; configuration model $p_{ij} = k_ik_j/2L$ (<a href="exam-midterm.html#ch4">Ch 4</a>).</li>
+  <li>Power law $p_k \sim k^{-\gamma}$; $k_{\max} = k_{\min}N^{1/(\gamma-1)}$; $\langle k^2\rangle \to \infty$ for $\gamma \le 3$; configuration model $p_{ij} = k_ik_j/2L$ (<a href="exam-midterm.html#ch4">Ch 4</a>).</li>
   <li>BA: $\Pi(k) = k/\sum_j k_j$, $k_i = m(t/t_i)^{1/2}$, $p_k \approx 2m^2k^{-3}$; both growth and preference needed (<a href="exam-midterm.html#ch5">Ch 5</a>).</li>
 </ul>
 <h3>Exam-style problems</h3>
@@ -476,7 +476,7 @@
   <dt>$k_{\max}$</dt><dd>grows with $N$, so $\kappa \to \infty$ and $f_c \to 1$: random failures cannot break a large scale-free network</dd>
   <dt>$C$</dt><dd>a constant (finite-size formula)</dd>
 </dl>
-<p>For $\gamma &gt; 3$: $\kappa = \frac{\gamma-2}{\gamma-3}k_{\min}$, finite; $f_c &lt; 1$.</p>
+<p>For $\gamma = 3$: $\kappa \approx k_{\min}\ln(k_{\max}/k_{\min})$ still grows, slowly, so $f_c \to 1$ as well. For $\gamma &gt; 3$: $\kappa = \frac{\gamma-2}{\gamma-3}k_{\min}$, finite; $f_c &lt; 1$.</p>
 <p><strong>Attacks</strong> (remove hubs first). The threshold solves (book Eq. 8.12)</p>
 <div class="eq">$$f_c^{\frac{2-\gamma}{1-\gamma}} = 2 + \frac{2-\gamma}{3-\gamma}\,k_{\min}\Big(f_c^{\frac{3-\gamma}{1-\gamma}} - 1\Big)$$</div>
 <dl class="symbols">

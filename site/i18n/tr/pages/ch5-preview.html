@@ -37,6 +37,19 @@
 </div>
 <p class="small"><strong>Ağlarda zaman</strong> (Kutu 5.2). WWW yaklaşık her milisaniyede bir sayfa ekledi; hücre ise yaklaşık her 200,000 yılda bir gen ekledi. Bunları karşılaştırmak için <em>olay zamanı</em> sayılır: her düğüm geldiğinde $t$ bir artar; yani BA modelinde $t = N$'dir.</p>
 <div data-fig id="fig-grow"></div>
+<h3>Modeli kesinleştirmek: doğrusallaştırılmış kiriş diyagramı (Kutu 5.1)</h3>
+<p>Yukarıdaki tanım bazı ayrıntıları açık bırakır: ilk $m_0$ düğümün nasıl bağlandığı ve yeni bir düğümün $m$ bağlantısının birlikte mi (o zaman ikisi aynı düğüme düşebilir) yoksa birer birer mi eklendiği. Bollobás ve çalışma arkadaşları bunu <strong>doğrusallaştırılmış kiriş diyagramıyla</strong> (LCD) çözdü. $m = 1$ için boş bir çizgeyle başlayın; $t$. adımda $v_t$ düğümünü ve ondan $v_i$ düğümüne şu olasılıkla bir bağlantı ekleyin:</p>
+<div class="eq">$$P(i) = \begin{cases} \dfrac{k_i}{2t - 1} & 1 \le i \le t - 1 \\[2mm] \dfrac{1}{2t - 1} & i = t \ (\text{öz döngü}) \end{cases}$$</div>
+<p>Yeni bağlantı $v_t$'nin kendi derecesine zaten sayılır, bu yüzden normalleştirme $2t - 1$'dir. Öz döngülere ve çoklu bağlantılara izin verilir, ama payları $t \to \infty$ iken sıfıra gider. $m > 1$ için $m$ bağlantı aynı biçimde birer birer eklenir.</p>
+<div class="callout example">
+  <p><strong>Çözümlü örnek: ilk üç adım</strong> ($m = 1$).</p>
+  <ol>
+    <li>$t = 1$: düğüm 1 yalnızca kendisine bağlanabilir, bir öz döngü; yani $k_1 = 2$.</li>
+    <li>$t = 2$: düğüm 2, düğüm 1'e $k_1/3 = 2/3$ olasılıkla, kendisine $1/3$ olasılıkla bağlanır.</li>
+    <li>$t = 3$, düğüm 2 düğüm 1'i seçtiyse ($k_1 = 3$, $k_2 = 1$): düğüm 3, düğüm 1'e $3/5$, düğüm 2'ye $1/5$, kendisine $1/5$ olasılıkla bağlanır. Merkez düğüm şimdiden üç kat çekicidir.</li>
+  </ol>
+</div>
+
 
 <h2>Sonuç neden bir kuvvet yasasıdır (Bölüm 5.4–5.5)</h2>
 <p>Zaman $t$'yi ve derece $k$'yi sürekli sayılar gibi ele alın (süreklilik yaklaşımı). O zaman:</p>

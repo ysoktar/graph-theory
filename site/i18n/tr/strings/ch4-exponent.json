@@ -31,5 +31,11 @@
   "The book's networks on the γ axis": "Kitabın ağları γ ekseninde",
   "Fitted exponent ± 2σ (this site's undirected fits). Shading marks the three regimes.": "Uydurulan üstel ± {0}σ (bu sitenin yönsüz uydurmaları). Gölgeler üç rejimi gösterir.",
   "fitted degree exponent γ̂": "uydurulan derece üsteli γ̂",
-  "The power grid's interval (7.6 ± 1.8) runs off the chart. Three networks fall inside 2 < γ < 3, four in the random-like regime and one, email, just below 2.": "Elektrik şebekesinin aralığı ({0} ± {1}) grafiğin dışına taşar. Üç ağ {2} < γ < {3} içine, dördü rastgele benzeri rejime ve biri, e-posta, {4}'nin hemen altına düşer."
+  "The power grid's interval (7.6 ± 1.8) runs off the chart. Three networks fall inside 2 < γ < 3, four in the random-like regime and one, email, just below 2.": "Elektrik şebekesinin aralığı ({0} ± {1}) grafiğin dışına taşar. Üç ağ {2} < γ < {3} içine, dördü rastgele benzeri rejime ve biri, e-posta, {4}'nin hemen altına düşer.",
+  "boundary": "sınır",
+  "γ = 2: ⟨k⟩ grows like ln N, ⟨d⟩ constant": "γ = {0}: ⟨k⟩, ln N gibi büyür, ⟨d⟩ sabit",
+  "γ = 3 (BA): ⟨k²⟩ grows like ln N, ⟨d⟩ ~ ln N / ln ln N": "γ = {0} (BA): ⟨k²⟩, ln N gibi büyür, ⟨d⟩ ~ ln N / ln ln N",
+  "natural cutoff 35: the expected largest degree; one sample can exceed it": "doğal kesme {0}: beklenen en büyük derece; tek bir örnek onu aşabilir",
+  "boundary (γ = 2: ⟨k⟩ grows like ln N, ⟨d⟩ constant)": "sınır (γ = {0}: ⟨k⟩, ln N gibi büyür, ⟨d⟩ sabit)",
+  "boundary (γ = 3 (BA): ⟨k²⟩ grows like ln N, ⟨d⟩ ~ ln N / ln ln N)": "sınır (γ = {0} (BA): ⟨k²⟩, ln N gibi büyür, ⟨d⟩ ~ ln N / ln ln N)"
 }

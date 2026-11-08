@@ -52,6 +52,19 @@
 </div>
 <p class="small"><strong>Time in networks</strong> (Box 5.2). The WWW added a page about every millisecond; the cell added a gene about every 200,000 years. To compare them we count <em>event time</em>: $t$ advances by one each time a node arrives, so $t = N$ in the BA model.</p>
 <div data-fig id="fig-grow"></div>
+<h3>Making the model precise: the linearized chord diagram (Box 5.1)</h3>
+<p>The definition above leaves details open: how the first $m_0$ nodes are linked, and whether a new node's $m$ links are added together (then two could land on the same node) or one by one. Bollobás and collaborators fixed this with the <strong>linearized chord diagram</strong> (LCD). For $m = 1$, start from an empty graph; at step $t$ add node $v_t$ and one link from it to node $v_i$ with probability</p>
+<div class="eq">$$P(i) = \begin{cases} \dfrac{k_i}{2t - 1} & 1 \le i \le t - 1 \\[2mm] \dfrac{1}{2t - 1} & i = t \ (\text{a self-loop}) \end{cases}$$</div>
+<p>The new link already counts towards $v_t$'s own degree, so the normalisation is $2t - 1$. Self-loops and multi-links are allowed, but their share vanishes as $t \to \infty$. For $m > 1$ the $m$ links are added one at a time in the same way.</p>
+<div class="callout example">
+  <p><strong>Worked example: the first three steps</strong> ($m = 1$).</p>
+  <ol>
+    <li>$t = 1$: node 1 can only link to itself, a self-loop, so $k_1 = 2$.</li>
+    <li>$t = 2$: node 2 links to node 1 with probability $k_1/3 = 2/3$, or to itself with $1/3$.</li>
+    <li>$t = 3$, if node 2 chose node 1 ($k_1 = 3$, $k_2 = 1$): node 3 links to node 1 with probability $3/5$, to node 2 with $1/5$, to itself with $1/5$. The hub is already three times as attractive.</li>
+  </ol>
+</div>
+
 
 <h2>Why the result is a power law (Sections 5.4–5.5)</h2>
 <p>Treat time $t$ and degree $k$ as continuous numbers (the continuum approximation). Then:</p>

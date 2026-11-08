@@ -40,11 +40,13 @@
   <li>$k_{\max}$ grows with $N$ (<a href="ch4-hubs.html">previous page</a>).</li>
   <li>If $n - \gamma + 1 &lt; 0$, $k_{\max}^{\,n-\gamma+1} \to 0$: the moment converges.</li>
   <li>If $n - \gamma + 1 &gt; 0$, $k_{\max}^{\,n-\gamma+1} \to \infty$: the moment diverges.</li>
+  <li>If $n - \gamma + 1 = 0$, the integral is $\ln k_{\max}$: the moment still diverges, but only logarithmically.</li>
 </ol>
 <p>For the typical range $2 &lt; \gamma &lt; 3$:</p>
 <ul>
   <li>$\langle k\rangle$ is finite;</li>
   <li>$\langle k^2\rangle$, and with it the variance $\sigma_k^2 = \langle k^2\rangle - \langle k\rangle^2$, <strong>diverges</strong> as $N \to \infty$.</li>
+  <li>at the boundaries: for $\gamma = 3$, $\langle k^2\rangle$ grows like $\ln N$; for $\gamma = 2$, $\langle k\rangle$ grows like $\ln N$. So $\langle k\rangle$ diverges for $\gamma \le 2$ and $\langle k^2\rangle$ for $\gamma \le 3$.</li>
 </ul>
 <div class="callout example">
   <p>For $\gamma = 2.5$ and $n = 2$, $n - \gamma + 1 = 0.5$, so $\langle k^2\rangle \propto k_{\max}^{0.5} \propto N^{1/3}$: a network a thousand times larger has a ten times larger $\langle k^2\rangle$.</p>
@@ -56,6 +58,12 @@
 </div>
 <p>The moments come straight from $p_k$, so any distribution can be compared the same way, including the ones that will appear in later chapters:</p>
 <div data-fig id="fig-dist"></div>
+
+<h2>Where the name comes from</h2>
+<p>The term comes from the physics of phase transitions. Near a critical point (water at its critical temperature and pressure, or a magnet at its Curie temperature) fluctuations appear on every length scale, and quantities such as the size of correlated regions follow power laws. A system with no characteristic size is called <em>scale-invariant</em>.</p>
+<p>A power law has the same property. Rescale the degree by a factor $\lambda$:</p>
+<div class="eq">$$p(\lambda k) = C(\lambda k)^{-\gamma} = \lambda^{-\gamma}\,p(k).$$</div>
+<p>The shape is unchanged; only the height changes. An exponential has a scale: $e^{-k/k_0}$ falls by a factor $e$ each time $k$ grows by $k_0$, so $k_0$ sets a typical degree. A power law has no such $k_0$. That, together with the diverging $\langle k^2\rangle$ above, is why networks with a power-law degree distribution are called scale-free.</p>
 
 <h2>The book's networks</h2>
 <p>In a random network $\sigma_k = \sqrt{\langle k\rangle}$ ($\sigma_k$ is the standard deviation of the degrees). If $\sigma_k \gg \sqrt{\langle k\rangle}$, a random node can have one link or a thousand, and $\langle k\rangle$ says little about it.</p>

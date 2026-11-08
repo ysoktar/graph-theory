@@ -75,6 +75,16 @@
 <div class="callout fix" data-errata="N21"></div>
 <div data-fig id="fig-dn"></div>
 
+<div class="callout example">
+  <p><strong>Worked example: 19 degrees of separation.</strong> Measured on samples of growing size, the WWW's average distance follows $\langle d\rangle \approx 0.35 + 0.89\ln N$.</p>
+  <ol>
+    <li>In 1999, $N \approx 8 \times 10^8$ documents: $\langle d\rangle \approx 0.35 + 0.89 \times 20.5 \approx 18.6$, about 19 clicks.</li>
+    <li>A later sample of $2 \times 10^8$ documents predicts about 17 and measured 16.</li>
+    <li>For today's $N \sim 10^{12}$: about 25. The Web is "farther" than six degrees because it is much larger and its average degree is smaller than a social network's.</li>
+  </ol>
+</div>
+<p class="small">The phrase "six degrees of separation" comes from John Guare's 1991 play of that name, inspired by Milgram's experiment. At the critical point $\langle k\rangle = 1$ the true diameter is about three times $\ln N/\ln\langle k\rangle$ (Advanced Topic 3.G): the network is then made of long, tree-like chains.</p>
+
 <h2>Real networks (Section 3.8)</h2>
 <p>Each network is compared with a simulated $G(N, L)$ that has the same $N$ and $L$. (The notebook tests only the collaboration network, and against the formula.)</p>
 <div data-fig id="fig-real"></div>

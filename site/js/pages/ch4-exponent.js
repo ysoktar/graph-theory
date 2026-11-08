@@ -8,7 +8,12 @@ import { fmt } from "../lib/stats.js";
 import { loadNetworks, NETWORK_ORDER, SHORT } from "../lib/data.js";
 import { run } from "../lib/compute.js";
 
-const regime = (g) => (g < 2 ? "anomalous (γ < 2)" : g < 3 ? "scale-free (2 < γ < 3)" : "random-like (γ > 3)");
+// the three regimes, and the two boundaries γ = 2 and γ = 3, where the moments diverge only logarithmically
+const near = (g, b) => Math.abs(g - b) < 1e-6;
+const regimeParts = (g) => (near(g, 2) ? ["boundary", "γ = 2: ⟨k⟩ grows like ln N, ⟨d⟩ constant"]
+  : near(g, 3) ? ["boundary", "γ = 3 (BA): ⟨k²⟩ grows like ln N, ⟨d⟩ ~ ln N / ln ln N"]
+  : g < 2 ? ["anomalous", "γ < 2"] : g < 3 ? ["scale-free", "2 < γ < 3"] : ["random-like", "γ > 3"]);
+const regime = (g) => { const [a, b] = regimeParts(g); return `${a} (${b})`; };
 
 // ------------------------------------------------------------------ 1. a network for each γ (notebook cell 68)
 {
@@ -25,7 +30,7 @@ const regime = (g) => (g < 2 ? "anomalous (γ < 2)" : g < 3 ? "scale-free (2 < �
     const cm = configurationModel(seq, rng);
     g = giantComponent(pairsToGraph(N, cm.pairs)).graph;
     const s = degreeStats(g), d = distanceStats(g);
-    t.set("r", regime(gamma).split(" (")[0], regime(gamma).split(" (")[1].replace(")", "")); t.set("k", fmt.fix(s.avg, 2), `${s.n} nodes in the largest component`); t.set("kmax", fmt.int(s.max), `natural cutoff ${fmt.int(2 * Math.pow(N, 1 / (gamma - 1)))}`);
+    t.set("r", regimeParts(gamma)[0], regimeParts(gamma)[1]); t.set("k", fmt.fix(s.avg, 2), `${s.n} nodes in the largest component`); t.set("kmax", fmt.int(s.max), `natural cutoff ${fmt.int(2 * Math.pow(N, 1 / (gamma - 1)))}: the expected largest degree; one sample can exceed it`);
     t.set("k2", fmt.fix(s.k2 / s.avg, 1)); t.set("d", fmt.fix(d.avg, 2), `diameter ${d.diameter}`);
     t.set("lost", fmt.pct((cm.selfLoops + cm.multiLinks) / (cm.raw.length / 2), 1), "of the stub pairs");
     nv.setGraph(g, { keep: false });

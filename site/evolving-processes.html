@@ -68,8 +68,9 @@
 <div class="eq">$$\Pi(k_i, t - t_i) \sim k_i\,(t - t_i)^{-\nu}. \qquad (6.32)$$</div>
 <ul>
   <li>$\nu &lt; 0$: old nodes are favoured even more; still scale-free with $\gamma &lt; 3$. As $\nu \to -\infty$ every node links to the oldest one: a star.</li>
+  <li>$\nu = 0$: no aging, the BA model, $\gamma = 3$.</li>
   <li>$0 &lt; \nu &lt; 1$: still scale-free, $\gamma > 3$, growing without bound as $\nu \to 1$.</li>
-  <li>$\nu > 1$: aging wins and the power law is lost. As $\nu \to \infty$ every node links to the newest one: a chain.</li>
+  <li>$\nu \ge 1$: aging wins (at $\nu = 1$ the exponent has already grown without bound) and the power law is lost. As $\nu \to \infty$ every node links to the newest one: a chain.</li>
 </ul>
 <div data-fig id="fig-process"></div>
 
@@ -102,7 +103,7 @@
   <ul>
     <li><strong>Generalizes</strong> the <a href="ch5-preview.html">BA model</a>: equal $\eta$ gives $\beta = \frac12$, $\gamma = 3$; $A = n = r = \theta = \nu = 0$ gives it back too.</li>
     <li><strong>Explains</strong> exponents other than 3 (<a href="ch4-universality.html">Universality</a>) and the deviations a fit must handle (<a href="ch4-fitting.html">Fitting a power law</a>).</li>
-    <li><strong>Matters later:</strong> $\gamma &lt; 3$ makes networks robust to failures (<a href="robustness.html">Ch 8</a>) and lowers the epidemic threshold (<a href="epidemics.html">Ch 10</a>).</li>
+    <li><strong>Matters later:</strong> $\gamma \le 3$ makes networks robust to failures (<a href="robustness.html">Ch 8</a>) and lowers the epidemic threshold (<a href="epidemics.html">Ch 10</a>).</li>
   </ul>
 </div>
 

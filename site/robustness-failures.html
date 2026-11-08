@@ -22,7 +22,7 @@
 
 <div class="callout why">
   <ul>
-    <li>One inequality, $\kappa = \langle k^2\rangle/\langle k\rangle > 2$, decides whether a giant component exists.</li>
+    <li>One inequality, $\kappa = \langle k^2\rangle/\langle k\rangle > 2$, decides whether a giant component exists; $\kappa = 2$ exactly is the critical point.</li>
     <li>Removing nodes lowers $\kappa$; the critical fraction is where it reaches 2.</li>
     <li>A diverging $\langle k^2\rangle$ pushes that fraction towards 1: robustness comes from the hubs.</li>
   </ul>
@@ -51,7 +51,7 @@
 <div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}, \qquad f_c^{ER} = 1 - \frac{1}{\langle k\rangle}\ \text{(random network)}.$$</div>
 <dl class="symbols"><dt>$f_c$</dt><dd>fraction of random failures that destroys the giant component; it depends only on $\langle k\rangle$ and $\langle k^2\rangle$</dd></dl>
 <p>For a power law $p_k \sim k^{-\gamma}$ starting at $k_{\min}$ (continuum approximation, Eq. 8.9):</p>
-<div class="eq">$$f_c = \begin{cases} 1 - \dfrac{1}{\frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma} - 1} & 2 < \gamma < 3\\[3mm] 1 - \dfrac{1}{\frac{\gamma-2}{\gamma-3}\,k_{\min} - 1} & \gamma > 3 \end{cases}$$</div>
+<div class="eq">$$f_c = \begin{cases} 1 - \dfrac{1}{\frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma} - 1} & 2 < \gamma < 3\\[3mm] 1 - \dfrac{1}{k_{\min}\ln(k_{\max}/k_{\min}) - 1} & \gamma = 3\\[3mm] 1 - \dfrac{1}{\frac{\gamma-2}{\gamma-3}\,k_{\min} - 1} & \gamma > 3 \end{cases}$$</div>
 <div class="eq">$$\Rightarrow\quad f_c \approx 1 - \frac{C}{N^{(3-\gamma)/(\gamma-1)}}\ \ (2 < \gamma < 3).$$</div>
 <dl class="symbols">
   <dt>$k_{\max}$</dt><dd>the natural cutoff $k_{\min}N^{1/(\gamma-1)}$; it grows with $N$, so $\kappa \to \infty$ and $f_c \to 1$</dd>

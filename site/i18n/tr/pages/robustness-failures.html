@@ -7,7 +7,7 @@
 
 <div class="callout why">
   <ul>
-    <li>Tek bir eşitsizlik, $\kappa = \langle k^2\rangle/\langle k\rangle > 2$, dev bileşenin var olup olmadığına karar verir.</li>
+    <li>Tek bir eşitsizlik, $\kappa = \langle k^2\rangle/\langle k\rangle > 2$, dev bileşenin var olup olmadığına karar verir; tam $\kappa = 2$ kritik noktadır.</li>
     <li>Düğümleri kaldırmak $\kappa$'yı düşürür; kritik oran onun 2'ye ulaştığı yerdir.</li>
     <li>Iraksayan bir $\langle k^2\rangle$ bu oranı 1'e doğru iter: dayanıklılık merkez düğümlerden gelir.</li>
   </ul>
@@ -36,7 +36,7 @@
 <div class="eq">$$f_c = 1 - \frac{1}{\kappa - 1}, \qquad f_c^{ER} = 1 - \frac{1}{\langle k\rangle}\ \text{(rastgele ağ)}.$$</div>
 <dl class="symbols"><dt>$f_c$</dt><dd>dev bileşeni yok eden rastgele bozulma oranı; yalnızca $\langle k\rangle$ ve $\langle k^2\rangle$'ye bağlıdır</dd></dl>
 <p>$k_{\min}$'den başlayan bir kuvvet yasası $p_k \sim k^{-\gamma}$ için (süreklilik yaklaşımı, Denklem 8.9):</p>
-<div class="eq">$$f_c = \begin{cases} 1 - \dfrac{1}{\frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma} - 1} & 2 < \gamma < 3\\[3mm] 1 - \dfrac{1}{\frac{\gamma-2}{\gamma-3}\,k_{\min} - 1} & \gamma > 3 \end{cases}$$</div>
+<div class="eq">$$f_c = \begin{cases} 1 - \dfrac{1}{\frac{\gamma-2}{3-\gamma}\,k_{\min}^{\gamma-2}\,k_{\max}^{3-\gamma} - 1} & 2 < \gamma < 3\\[3mm] 1 - \dfrac{1}{k_{\min}\ln(k_{\max}/k_{\min}) - 1} & \gamma = 3\\[3mm] 1 - \dfrac{1}{\frac{\gamma-2}{\gamma-3}\,k_{\min} - 1} & \gamma > 3 \end{cases}$$</div>
 <div class="eq">$$\Rightarrow\quad f_c \approx 1 - \frac{C}{N^{(3-\gamma)/(\gamma-1)}}\ \ (2 < \gamma < 3).$$</div>
 <dl class="symbols">
   <dt>$k_{\max}$</dt><dd>doğal kesme $k_{\min}N^{1/(\gamma-1)}$; $N$ ile büyür, bu yüzden $\kappa \to \infty$ ve $f_c \to 1$</dd>

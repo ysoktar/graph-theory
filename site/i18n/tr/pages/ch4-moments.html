@@ -25,11 +25,13 @@
   <li>$k_{\max}$, $N$ ile büyür (<a href="ch4-hubs.html">önceki sayfa</a>).</li>
   <li>$n - \gamma + 1 &lt; 0$ ise $k_{\max}^{\,n-\gamma+1} \to 0$: moment yakınsar.</li>
   <li>$n - \gamma + 1 &gt; 0$ ise $k_{\max}^{\,n-\gamma+1} \to \infty$: moment ıraksar.</li>
+  <li>$n - \gamma + 1 = 0$ ise integral $\ln k_{\max}$ olur: moment yine ıraksar, ama yalnızca logaritmik olarak.</li>
 </ol>
 <p>Tipik $2 &lt; \gamma &lt; 3$ aralığı için:</p>
 <ul>
   <li>$\langle k\rangle$ sonludur;</li>
   <li>$\langle k^2\rangle$ ve onunla birlikte varyans $\sigma_k^2 = \langle k^2\rangle - \langle k\rangle^2$, $N \to \infty$ iken <strong>ıraksar</strong>.</li>
+  <li>sınırlarda: $\gamma = 3$ için $\langle k^2\rangle$, $\ln N$ gibi büyür; $\gamma = 2$ için $\langle k\rangle$, $\ln N$ gibi büyür. Yani $\langle k\rangle$, $\gamma \le 2$ için, $\langle k^2\rangle$ ise $\gamma \le 3$ için ıraksar.</li>
 </ul>
 <div class="callout example">
   <p>$\gamma = 2.5$ ve $n = 2$ için $n - \gamma + 1 = 0.5$'tir; dolayısıyla $\langle k^2\rangle \propto k_{\max}^{0.5} \propto N^{1/3}$: bin kat büyük bir ağın $\langle k^2\rangle$'si on kat büyüktür.</p>
@@ -41,6 +43,12 @@
 </div>
 <p>Momentler doğrudan $p_k$'den gelir; bu yüzden sonraki bölümlerde görünecekler de dahil her dağılım aynı biçimde karşılaştırılabilir:</p>
 <div data-fig id="fig-dist"></div>
+
+<h2>Ad nereden geliyor?</h2>
+<p>Terim, faz geçişleri fiziğinden gelir. Bir kritik noktanın yakınında (kritik sıcaklık ve basınçtaki su ya da Curie sıcaklığındaki bir mıknatıs) dalgalanmalar her uzunluk ölçeğinde görülür ve ilişkili bölgelerin boyutu gibi nicelikler kuvvet yasalarına uyar. Karakteristik bir boyutu olmayan sisteme <em>ölçekle değişmez</em> denir.</p>
+<p>Kuvvet yasası da aynı özelliğe sahiptir. Dereceyi bir $\lambda$ çarpanıyla ölçekleyin:</p>
+<div class="eq">$$p(\lambda k) = C(\lambda k)^{-\gamma} = \lambda^{-\gamma}\,p(k).$$</div>
+<p>Biçim değişmez; yalnızca yükseklik değişir. Üstel dağılımın bir ölçeği vardır: $e^{-k/k_0}$, $k$ her $k_0$ kadar büyüdüğünde $e$ kat düşer; yani $k_0$ tipik bir derece belirler. Kuvvet yasasının böyle bir $k_0$'ı yoktur. Bu, yukarıdaki ıraksayan $\langle k^2\rangle$ ile birlikte, kuvvet yasası derece dağılımlı ağlara neden ölçekten bağımsız dendiğini açıklar.</p>
 
 <h2>Kitabın ağları</h2>
 <p>Rastgele bir ağda $\sigma_k = \sqrt{\langle k\rangle}$'dır ($\sigma_k$ derecelerin standart sapmasıdır). $\sigma_k \gg \sqrt{\langle k\rangle}$ ise rastgele bir düğümün bir bağlantısı da olabilir, bin bağlantısı da; ve $\langle k\rangle$ onun hakkında çok az şey söyler.</p>

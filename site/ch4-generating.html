@@ -49,6 +49,27 @@
 <p>Start from the real network and repeatedly swap the ends of two random links ($A$–$B$, $C$–$D$ → $A$–$D$, $C$–$B$). Every swap keeps all degrees exactly; after enough swaps all other structure is scrambled. Unlike the configuration model, no link is ever lost.</p>
 <div data-fig id="fig-swap"></div>
 
+<h2>The hidden parameter model</h2>
+<p>The configuration model creates self-loops and multi-links. The <strong>hidden parameter model</strong> avoids them. Start from $N$ isolated nodes, give each node $i$ a hidden parameter $\eta_i$, and link every pair $i, j$ independently with probability</p>
+<div class="eq">$$p_{ij} = \frac{\eta_i\,\eta_j}{\langle\eta\rangle N}.$$</div>
+<dl class="symbols">
+  <dt>$\eta_i$</dt><dd>hidden parameter of node $i$, drawn from a distribution $\rho(\eta)$ or given as a sequence; it is node $i$'s expected degree</dd>
+  <dt>$\langle\eta\rangle$</dt><dd>average hidden parameter; the network gets $\langle k\rangle = \langle\eta\rangle$ and about $L = \langle\eta\rangle N/2$ links</dd>
+</dl>
+<p>For a scale-free network take the deterministic sequence $\eta_i = c/i^{\alpha}$ ($i = 1, \dots, N$): the degree distribution becomes $p_k \sim k^{-(1 + 1/\alpha)}$ for large $k$, so $\alpha$ tunes $\gamma = 1 + 1/\alpha$ and $c$ tunes $\langle k\rangle$. Without multi-links the model shows structural disassortativity for $\gamma &lt; 3$ (<a href="correlations-cutoffs.html">Ch 7</a>).</p>
+<div class="callout example">
+  <p><strong>Worked example: choosing α.</strong> For $\gamma = 2.5$ we need $1 + 1/\alpha = 2.5$, so $\alpha = 2/3$; for $\gamma = 3$, $\alpha = 1/2$. Node 1 gets the largest $\eta_1 = c$, node 100 gets $c/100^{2/3} \approx c/21.5$: a few early nodes become the hubs.</p>
+</div>
+<h3>Which algorithm to use?</h3>
+<table class="simple">
+  <thead><tr><th>You start from</th><th>Self-loops and multi-links acceptable</th><th>Simple network required</th></tr></thead>
+  <tbody>
+    <tr><td>a real network, or its degree sequence $k_1, \dots, k_N$</td><td>configuration model</td><td>degree-preserving randomization</td></tr>
+    <tr><td>a degree distribution $p_k$</td><td>configuration model on a sequence drawn from $p_k$</td><td>hidden parameter model</td></tr>
+  </tbody>
+</table>
+<p>None of the three says <em>why</em> a network has its degrees, and all three erase the structure beyond them (clustering, correlations). That is exactly what makes them useful as null models.</p>
+
 <h2>What the degree sequence explains</h2>
 <div data-fig id="fig-real"></div>
 <div class="callout look">
